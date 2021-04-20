@@ -94,7 +94,7 @@ describe('Render tasks from Camunda and manage them on task management and detai
 
     cy.get('.pagination--list a').eq(1).click();
 
-    cy.get('.govuk-grid-row a[href="/tasks/92fd7d0f-a1e9-11eb-a5ca-2647970c238c"]')
+    cy.get('.govuk-grid-row a[href="/tasks/aeefd530-a1c3-11eb-a5ca-2647970c238c"]')
       .parentsUntil('.task-list--item').within(() => {
         cy.get('button.link-button')
           .should('have.text', 'Unclaim')
@@ -107,7 +107,7 @@ describe('Render tasks from Camunda and manage them on task management and detai
 
     cy.wait(2000);
 
-    cy.get('.govuk-grid-row a[href="/tasks/92fd7d0f-a1e9-11eb-a5ca-2647970c238c"]')
+   cy.get('.govuk-grid-row a[href="/tasks/aeefd530-a1c3-11eb-a5ca-2647970c238c"]')
       .parentsUntil('.task-list--item').within(() => {
         cy.get('button.link-button')
           .should('have.text', 'Claim')

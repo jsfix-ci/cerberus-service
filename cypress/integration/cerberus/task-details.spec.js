@@ -137,6 +137,37 @@ describe('Render tasks from Camunda and manage them on task management and detai
     cy.wait(2000);
   });
 
+  it('Should complete assessment of a task with a reason as take no further action', () => {
+    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
+
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.getTasksAssignedToMe().then((tasks) => {
+      const taskId = tasks.map(((item) => item.id));
+      expect(taskId.length).to.not.equal(0);
+      cy.visit(`/tasks/${taskId[0]}`);
+      cy.wait('@tasksDetails').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.contains('Assessment complete').click();
+
+    cy.selectCheckBox('reason', 'No further action');
+
+    cy.clickNext();
+
+    cy.selectCheckBox('nfaReason', 'Vessel arrived');
+
+    cy.clickNext();
+
+    cy.typeValueInTextArea('addANote', 'This is for testing');
+
+    cy.clickSubmit();
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.get('#kc-page-title').should('contain.text', 'Log In');
