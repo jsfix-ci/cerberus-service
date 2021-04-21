@@ -8,22 +8,42 @@ import config from '../config';
 import useAxiosInstance from '../utils/axiosInstance';
 import LoadingSpinner from '../forms/LoadingSpinner';
 import { useKeycloak } from '../utils/keycloak';
-import { augmentRequest } from '../utils/formioSupport';
+import { augmentRequest, interpolate } from '../utils/formioSupport';
 import ErrorSummary from '../govuk/ErrorSummary';
 
 Formio.use(gds);
 
-const RenderForm = ({ formName, onSubmit, onCancel, children, alterForm = () => {} }) => {
+const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => {
   const [error, setError] = useState(null);
   const [form, setForm] = useState({});
   const [isLoaderVisible, setLoaderVisibility] = useState(true);
+  const [formattedPreFillData, setFormattedPreFillData] = useState();
   const [submitted, setSubmitted] = useState(false);
   const keycloak = useKeycloak();
   const formApiClient = useAxiosInstance(keycloak, config.formApiUrl);
 
-  alterForm(form);
-
   Formio.plugins = [augmentRequest(keycloak)];
+
+  useEffect(() => {
+    interpolate(form, {
+      keycloakContext: {
+        accessToken: keycloak.token,
+        refreshToken: keycloak.refreshToken,
+        sessionId: keycloak.tokenParsed.session_state,
+        email: keycloak.tokenParsed.email,
+        givenName: keycloak.tokenParsed.given_name,
+        familyName: keycloak.tokenParsed.family_name,
+        subject: keycloak.subject,
+        url: keycloak.authServerUrl,
+        realm: keycloak.realm,
+        roles: keycloak.tokenParsed.realm_access.roles,
+        groups: keycloak.tokenParsed.groups,
+      },
+      environmentContext: {
+        referenceDataUrl: config.refdataApiUrl,
+      },
+    });
+  }, [form]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -40,7 +60,23 @@ const RenderForm = ({ formName, onSubmit, onCancel, children, alterForm = () => 
       }
     };
 
+    const formatPreFillData = () => {
+      if (!preFillData) {
+        setFormattedPreFillData(null);
+      } else {
+        setFormattedPreFillData(
+          { data: {
+            environmentContext: {
+              referenceDataUrl: config.refdataApiUrl,
+            },
+            ...preFillData,
+          } },
+        );
+      }
+    };
+
     loadForm();
+    formatPreFillData();
     return () => {
       source.cancel('Cancelling request');
     };
@@ -64,6 +100,7 @@ const RenderForm = ({ formName, onSubmit, onCancel, children, alterForm = () => 
         {!isEmpty(form) && (
           <Form
             form={form}
+            submission={formattedPreFillData}
             onSubmit={async (data) => {
               setLoaderVisibility(true);
               try {
@@ -74,6 +111,13 @@ const RenderForm = ({ formName, onSubmit, onCancel, children, alterForm = () => 
               } finally {
                 setLoaderVisibility(false);
               }
+            }}
+            onNextPage={() => {
+              window.scrollTo(0, 0);
+            }}
+            onPrevPage={() => {
+              window.scrollTo(0, 0);
+              setError(null);
             }}
             options={{
               noAlerts: true,

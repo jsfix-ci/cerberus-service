@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import * as pluralise from 'pluralise';
 import axios from 'axios';
@@ -358,9 +358,10 @@ const TaskVersions = ({ taskVersions }) => (
   />
 );
 
-const TaskManagementForm = ({ camundaClient, onCancel, taskId, keycloak, ...props }) => (
+const TaskManagementForm = ({ camundaClient, onCancel, taskId, taskData, keycloak, ...props }) => (
   <RenderForm
     onCancel={() => onCancel(false)}
+    preFillData={taskData}
     onSubmit={async (data, form) => {
       const { versionId, id, title, name } = form;
       await camundaClient.post(`/task/${taskId}/submit-form`, {
@@ -385,18 +386,6 @@ const TaskManagementForm = ({ camundaClient, onCancel, taskId, keycloak, ...prop
     }}
     {...props}
   />
-);
-
-const TaskCompletedSuccessMessage = ({ message }) => (
-  <>
-    <Panel title={message} />
-    <p className="govuk-body">We have sent your request to the relevant team.</p>
-    <h2 className="govuk-heading-m">What happens next</h2>
-    <p className="govuk-body">The task is now paused pending a response.</p>
-    <Link to="/tasks" className="govuk-button" data-module="govuk-button">
-      Finish
-    </Link>
-  </>
 );
 
 const NotesForm = ({ camundaClient, taskId }) => (
@@ -424,9 +413,31 @@ const TaskDetailsPage = () => {
   const currentUser = keycloak.tokenParsed.email;
   const assignee = taskVersions?.[0]?.assignee;
   const currentUserIsOwner = assignee === currentUser;
-  const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
+  const [isDismissFormOpen, setDismissFormOpen] = useState();
+  const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const source = axios.CancelToken.source();
+
+  const TaskCompletedSuccessMessage = ({ message }) => {
+    return (
+      <>
+        <Panel title={message} />
+        <p className="govuk-body">We have sent your request to the relevant team.</p>
+        <h2 className="govuk-heading-m">What happens next</h2>
+        <p className="govuk-body">The task is now paused pending a response.</p>
+        <Button
+          className="govuk-button"
+          onClick={() => {
+            setIssueTargetFormOpen(false);
+            setCompleteFormOpen(false);
+            setDismissFormOpen(false);
+          }}
+        >
+          Finish
+        </Button>
+      </>
+    );
+  };
 
   useEffect(() => {
     const loadTask = async () => {
@@ -472,7 +483,7 @@ const TaskDetailsPage = () => {
           ...parsedTaskHistory,
         ].sort((a, b) => -a.date.localeCompare(b.date)));
 
-        const whitelistedCamundaVars = ['taskSummary', 'vehicleHistory', 'orgHistory', 'ruleHistory'];
+        const whitelistedCamundaVars = ['taskSummary', 'vehicleHistory', 'orgHistory', 'ruleHistory', 'targetInformationSheet'];
         const parsedTaskVariables = variableInstanceResponse.data
           .filter((t) => whitelistedCamundaVars.includes(t.name))
           .reduce((acc, camundaVar) => {
@@ -528,18 +539,35 @@ const TaskDetailsPage = () => {
             </div>
 
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              <Button className="govuk-!-margin-right-1">Issue target</Button>
               {currentUserIsOwner && (
                 <>
                   <Button
+                    className="govuk-!-margin-right-1"
+                    onClick={() => {
+                      setIssueTargetFormOpen(true);
+                      setCompleteFormOpen(false);
+                      setDismissFormOpen(false);
+                    }}
+                  >
+                    Issue target
+                  </Button>
+                  <Button
                     className="govuk-button--secondary govuk-!-margin-right-1"
-                    onClick={() => setCompleteFormOpen(true)}
+                    onClick={() => {
+                      setIssueTargetFormOpen(false);
+                      setCompleteFormOpen(true);
+                      setDismissFormOpen(false);
+                    }}
                   >
                     Assessment complete
                   </Button>
                   <Button
                     className="govuk-button--warning"
-                    onClick={() => setDismissFormOpen(true)}
+                    onClick={() => {
+                      setIssueTargetFormOpen(false);
+                      setCompleteFormOpen(false);
+                      setDismissFormOpen(true);
+                    }}
                   >
                     Dismiss
                   </Button>
@@ -550,17 +578,6 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              {isDismissFormOpen && (
-                <TaskManagementForm
-                  formName="dismissTarget"
-                  camundaClient={camundaClient}
-                  onCancel={() => setDismissFormOpen(false)}
-                  taskId={taskVersions[0].id}
-                  keycloak={keycloak}
-                >
-                  <TaskCompletedSuccessMessage message="Task has been dismissed" />
-                </TaskManagementForm>
-              )}
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
@@ -572,7 +589,39 @@ const TaskDetailsPage = () => {
                   <TaskCompletedSuccessMessage message="Task has been completed" />
                 </TaskManagementForm>
               )}
-              {!isDismissFormOpen && !isCompleteFormOpen && (
+              {isDismissFormOpen && (
+                <TaskManagementForm
+                  formName="dismissTarget"
+                  camundaClient={camundaClient}
+                  onCancel={() => setDismissFormOpen(false)}
+                  taskId={taskVersions[0].id}
+                  keycloak={keycloak}
+                >
+                  <TaskCompletedSuccessMessage message="Task has been dismissed" />
+                </TaskManagementForm>
+              )}
+              {isIssueTargetFormOpen && (
+                <>
+                  <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong className="govuk-warning-text__text">
+                      <span className="govuk-warning-text__assistive">Warning</span>
+                      Check the details before issuing target
+                    </strong>
+                  </div>
+                  <TaskManagementForm
+                    formName="targetInformationSheet"
+                    camundaClient={camundaClient}
+                    onCancel={() => setIssueTargetFormOpen(false)}
+                    taskId={taskVersions[0].id}
+                    keycloak={keycloak}
+                    taskData={taskVersions[0].targetInformationSheet}
+                  >
+                    <TaskCompletedSuccessMessage message="Target created successfully" />
+                  </TaskManagementForm>
+                </>
+              )}
+              {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
                 <TaskVersions taskVersions={taskVersions} />
               )}
             </div>
