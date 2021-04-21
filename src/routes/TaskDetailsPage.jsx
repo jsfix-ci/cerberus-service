@@ -522,7 +522,7 @@ const TaskDetailsPage = () => {
           ...parsedTaskVariables,
         }]);
       } catch (e) {
-        setError(e.response.status === 404 ? "Task doesn't exist." : e.message);
+        setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
         setTaskVersions([]);
       } finally {
         setLoading(false);
