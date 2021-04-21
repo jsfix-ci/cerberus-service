@@ -68,7 +68,7 @@ Cypress.Commands.add('getTasksAssignedToOtherUsers', () => {
   };
 
   cy.request(options).then((response) => {
-    return response.body.filter((item) => item.assignee !== 'acceptance-cerberus-user@system.local');
+    return response.body.filter((item) => item.assignee !== 'cypressuser@lodev.xyz');
   });
 });
 
@@ -83,7 +83,7 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
   };
 
   cy.request(options).then((response) => {
-    return response.body.filter((item) => item.assignee === 'acceptance-cerberus-user@system.local');
+    return response.body.filter((item) => item.assignee === 'cypressuser@lodev.xyz');
   });
 });
 
@@ -116,4 +116,10 @@ Cypress.Commands.add('clickSubmit', () => {
   cy.get('button[ref$="submit"]').should('be.enabled');
   cy.wait(1000);
   cy.get('button[ref$="submit"]').click();
+});
+
+Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
+  cy.get('.govuk-panel--confirmation h1')
+      .should('be.visible')
+      .and('have.text', value);
 });

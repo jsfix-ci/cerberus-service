@@ -5,7 +5,7 @@ describe('Render tasks from Camunda and manage them on task management and detai
   const MAX_TASK_PER_PAGE = 10;
 
   beforeEach(() => {
-    cy.fixture('users/cypressuser@lodev.xyz.json').then((user) => {
+    cy.fixture('users/acceptance-cerberus-user.json').then((user) => {
       cy.login(user.username);
     });
   });

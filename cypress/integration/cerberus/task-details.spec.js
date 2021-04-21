@@ -1,12 +1,14 @@
 describe('Render tasks from Camunda and manage them on task management and details Page', () => {
   beforeEach(() => {
-    cy.fixture('users/cypressuser@lodev.xyz.json').then((user) => {
+    cy.fixture('users/acceptance-cerberus-user.json').then((user) => {
       cy.login(user.username);
     });
+
+    cy.waitForTaskManagementPageToLoad();
+
   });
 
   it('Should navigate to task details page', () => {
-    cy.waitForTaskManagementPageToLoad();
     cy.get('.task-heading a').eq(0).invoke('text').then((text) => {
       cy.contains(text).click();
       cy.get('.govuk-caption-xl').should('have.text', text);
@@ -17,8 +19,6 @@ describe('Render tasks from Camunda and manage them on task management and detai
     const taskNotes = 'Add notes for testing & check it stored';
     cy.intercept('POST', '/camunda/task/*/comment/create').as('notes');
     cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
-
-    cy.waitForTaskManagementPageToLoad();
 
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
@@ -57,8 +57,6 @@ describe('Render tasks from Camunda and manage them on task management and detai
   it('Should hide Notes Textarea for the tasks assigned to others', () => {
     cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
@@ -76,8 +74,6 @@ describe('Render tasks from Camunda and manage them on task management and detai
   it('Should Unclaim a task Successfully from task details page', () => {
     cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
-
-    cy.waitForTaskManagementPageToLoad();
 
     cy.getTasksAssignedToMe().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
@@ -106,8 +102,6 @@ describe('Render tasks from Camunda and manage them on task management and detai
   it('Should Claim a task Successfully from task details page', () => {
     cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-
-    cy.waitForTaskManagementPageToLoad();
 
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
@@ -140,8 +134,6 @@ describe('Render tasks from Camunda and manage them on task management and detai
   it('Should complete assessment of a task with a reason as take no further action', () => {
     cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.getTasksAssignedToMe().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
@@ -166,6 +158,8 @@ describe('Render tasks from Camunda and manage them on task management and detai
     cy.typeValueInTextArea('addANote', 'This is for testing');
 
     cy.clickSubmit();
+
+    cy.verifySuccessfulSubmissionHeader('Task has been completed');
   });
 
   after(() => {
