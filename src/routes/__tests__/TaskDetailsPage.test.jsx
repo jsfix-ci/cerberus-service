@@ -38,6 +38,10 @@ describe('TaskDetailsPage', () => {
           name: 'taskSummary',
         },
         {
+          value: '{"mode":"RoRo accompanied freight","businessKey":"CERB-123543","movementStatus":"Pre-Arrival","movementId":"ROROTSV:S=Test Message 1686","matchedSelectors":[{"threatType":"National Security at the Border","priority":"Tier 2"}],"departureTime":1596459900000,"arrivalTime":1596548700000,"people":[{"gender":"M","fullName":"Bob Brown","dateOfBirth":435,"role":"DRIVER"}],"vehicles":[{"registrationNumber":"GB09KLT","description":null},{"registrationNumber":"GB09KLT","description":null}],"trailers":[{"registrationNumber":"NL-234-392","description":null}],"organisations":[{"name":null,"type":"ORGBOOKER"},{"name":"Uni Print","type":"ORGACCOUNT"},{"name":"Matthesons","type":"ORGHAULIER"}],"freight":{"hazardousCargo":"false","descriptionOfCargo":"Printed Paper"},"bookingDateTime":"2020-08-02T09:15:00","aggregateVehicleTrips":null,"aggregateTrailerTrips":null,"voyage":{"departFrom":"DOV","arriveAt":"CAL","description":"DFDS voyage of DOVER SEAWAYS"}}',
+          name: 'targetInformationSheet',
+        },
+        {
           value: '[{"note":"Target received","timeStamp":1619004165579,"userId":"Cerberus - Rules Based Targetting"}]',
           name: 'notes',
         }])

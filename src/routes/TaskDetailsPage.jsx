@@ -358,57 +358,28 @@ const TaskVersions = ({ taskVersions }) => (
   />
 );
 
-const TaskManagementForm = ({ camundaClient, onCancel, taskId, taskData, keycloak, ...props }) => (
-  <RenderForm
-    onCancel={() => onCancel(false)}
-    preFillData={taskData}
-    onSubmit={async (data, form) => {
-      const { versionId, id, title, name } = form;
-      await camundaClient.post(`/task/${taskId}/submit-form`, {
-        variables: {
-          targetInformationSheet: {
-            value: JSON.stringify({
-              actionTarget: false,
-              form: {
-                formVersionId: versionId,
-                formId: id,
-                title,
-                name,
-                submissionDate: new Date(),
-                submittedBy: keycloak.tokenParsed.email,
-              },
-              ...data.data,
-            }),
-            type: 'Json',
-          },
-        },
-      });
-    }}
-    {...props}
-  />
-);
-
-const NotesForm = ({ camundaClient, businessKey, keycloak }) => (
-  <>
-    <h2 className="govuk-heading-m">Notes</h2>
+const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
+  const keycloak = useKeycloak();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  return (
     <RenderForm
-      formName="noteCerberus"
+      onCancel={() => onCancel(false)}
+      preFillData={taskData}
       onSubmit={async (data, form) => {
         const { versionId, id, title, name } = form;
-        await camundaClient.post('/message', {
-          messageName: 'addNotes',
-          businessKey,
-          processVariables: {
-            note: {
+        await camundaClient.post(`/task/${taskId}/submit-form`, {
+          variables: {
+            targetInformationSheet: {
               value: JSON.stringify({
+                actionTarget: false,
                 form: {
                   formVersionId: versionId,
                   formId: id,
                   title,
                   name,
                   submissionDate: new Date(),
+                  submittedBy: keycloak.tokenParsed.email,
                 },
-                submittedBy: keycloak.tokenParsed.email,
                 ...data.data,
               }),
               type: 'Json',
@@ -416,9 +387,46 @@ const NotesForm = ({ camundaClient, businessKey, keycloak }) => (
           },
         });
       }}
+      {...props}
     />
-  </>
-);
+  );
+};
+
+const NotesForm = ({ businessKey }) => {
+  const keycloak = useKeycloak();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  return (
+    <>
+      <h2 className="govuk-heading-m">Notes</h2>
+      <RenderForm
+        formName="noteCerberus"
+        onSubmit={async (data, form) => {
+          const { versionId, id, title, name } = form;
+          await camundaClient.post('/message', {
+            messageName: 'addNotes',
+            businessKey,
+            processVariables: {
+              note: {
+                value: JSON.stringify({
+                  form: {
+                    formVersionId: versionId,
+                    formId: id,
+                    title,
+                    name,
+                    submissionDate: new Date(),
+                  },
+                  submittedBy: keycloak.tokenParsed.email,
+                  ...data.data,
+                }),
+                type: 'Json',
+              },
+            },
+          });
+        }}
+      />
+    </>
+  );
+};
 
 const TaskDetailsPage = () => {
   const { taskId } = useParams();
@@ -608,10 +616,8 @@ const TaskDetailsPage = () => {
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
-                  camundaClient={camundaClient}
                   onCancel={() => setCompleteFormOpen(false)}
                   taskId={taskVersions[0].id}
-                  keycloak={keycloak}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
                 </TaskManagementForm>
@@ -619,10 +625,8 @@ const TaskDetailsPage = () => {
               {isDismissFormOpen && (
                 <TaskManagementForm
                   formName="dismissTarget"
-                  camundaClient={camundaClient}
                   onCancel={() => setDismissFormOpen(false)}
                   taskId={taskVersions[0].id}
-                  keycloak={keycloak}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
                 </TaskManagementForm>
@@ -638,10 +642,8 @@ const TaskDetailsPage = () => {
                   </div>
                   <TaskManagementForm
                     formName="targetInformationSheet"
-                    camundaClient={camundaClient}
                     onCancel={() => setIssueTargetFormOpen(false)}
                     taskId={taskVersions[0].id}
-                    keycloak={keycloak}
                     taskData={taskVersions[0].targetInformationSheet}
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
@@ -656,10 +658,8 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-third">
               {currentUserIsOwner && (
                 <NotesForm
-                  camundaClient={camundaClient}
                   setDismissFormOpen={setDismissFormOpen}
                   businessKey={taskVersions[0].taskSummary?.businessKey}
-                  keycloak={keycloak}
                 />
               )}
 
