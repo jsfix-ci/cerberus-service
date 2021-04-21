@@ -388,14 +388,32 @@ const TaskManagementForm = ({ camundaClient, onCancel, taskId, taskData, keycloa
   />
 );
 
-const NotesForm = ({ camundaClient, taskId }) => (
+const NotesForm = ({ camundaClient, businessKey, keycloak }) => (
   <>
     <h2 className="govuk-heading-m">Notes</h2>
     <RenderForm
       formName="noteCerberus"
-      onSubmit={async ({ data: { note } }) => {
-        await camundaClient.post(`/task/${taskId}/comment/create`, {
-          message: note,
+      onSubmit={async (data, form) => {
+        const { versionId, id, title, name } = form;
+        await camundaClient.post('/message', {
+          messageName: 'addNotes',
+          businessKey,
+          processVariables: {
+            note: {
+              value: JSON.stringify({
+                form: {
+                  formVersionId: versionId,
+                  formId: id,
+                  title,
+                  name,
+                  submissionDate: new Date(),
+                },
+                submittedBy: keycloak.tokenParsed.email,
+                ...data.data,
+              }),
+              type: 'Json',
+            },
+          },
         });
       }}
     />
@@ -460,6 +478,14 @@ const TaskDetailsPage = () => {
           ),
         ]);
 
+        const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
+          return processVar.name === 'notes';
+        }).value).map((note) => ({
+          date: moment(note.timeStamp).format(),
+          user: note.userId,
+          note: note.note,
+        }));
+
         const parsedOperationsHistory = operationsHistoryResponse.data.map((operation) => {
           const getNote = () => {
             if ([OPERATION_TYPE_CLAIM, OPERATION_TYPE_ASSIGN].includes(operation.operationType)) {
@@ -481,6 +507,7 @@ const TaskDetailsPage = () => {
         setActivityLog([
           ...parsedOperationsHistory,
           ...parsedTaskHistory,
+          ...parsedNotes,
         ].sort((a, b) => -a.date.localeCompare(b.date)));
 
         const whitelistedCamundaVars = ['taskSummary', 'vehicleHistory', 'orgHistory', 'ruleHistory', 'targetInformationSheet'];
@@ -495,7 +522,7 @@ const TaskDetailsPage = () => {
           ...parsedTaskVariables,
         }]);
       } catch (e) {
-        setError(e.response.status === 404 ? "Task doesn't exist." : e.message);
+        setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
         setTaskVersions([]);
       } finally {
         setLoading(false);
@@ -631,7 +658,8 @@ const TaskDetailsPage = () => {
                 <NotesForm
                   camundaClient={camundaClient}
                   setDismissFormOpen={setDismissFormOpen}
-                  taskId={taskVersions[0].id}
+                  businessKey={taskVersions[0].taskSummary?.businessKey}
+                  keycloak={keycloak}
                 />
               )}
 

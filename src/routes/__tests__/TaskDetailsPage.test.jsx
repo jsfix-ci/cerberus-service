@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
 describe('TaskDetailsPage', () => {
   const mockAxios = new MockAdapter(axios);
   beforeEach(() => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
   });
 
@@ -36,6 +36,10 @@ describe('TaskDetailsPage', () => {
           value: '{"mode":"RoRo accompanied freight","businessKey":"CERB-123543","movementStatus":"Pre-Arrival","movementId":"ROROTSV:S=Test Message 1686","matchedSelectors":[{"threatType":"National Security at the Border","priority":"Tier 2"}],"departureTime":1596459900000,"arrivalTime":1596548700000,"people":[{"gender":"M","fullName":"Bob Brown","dateOfBirth":435,"role":"DRIVER"}],"vehicles":[{"registrationNumber":"GB09KLT","description":null},{"registrationNumber":"GB09KLT","description":null}],"trailers":[{"registrationNumber":"NL-234-392","description":null}],"organisations":[{"name":null,"type":"ORGBOOKER"},{"name":"Uni Print","type":"ORGACCOUNT"},{"name":"Matthesons","type":"ORGHAULIER"}],"freight":{"hazardousCargo":"false","descriptionOfCargo":"Printed Paper"},"bookingDateTime":"2020-08-02T09:15:00","aggregateVehicleTrips":null,"aggregateTrailerTrips":null,"voyage":{"departFrom":"DOV","arriveAt":"CAL","description":"DFDS voyage of DOVER SEAWAYS"}}',
           id: '04ed2b9c-7b64-11eb-877e-767b03e5e1af',
           name: 'taskSummary',
+        },
+        {
+          value: '[{"note":"Target received","timeStamp":1619004165579,"userId":"Cerberus - Rules Based Targetting"}]',
+          name: 'notes',
         }])
       .onGet('/history/user-operation', { params: { processInstanceId: '123', deserializeValues: false } })
       .reply(200,
