@@ -270,6 +270,12 @@ steps:
       from_secret: NGINX_IMAGE
     NGINX_TAG:
       from_secret: NGINX_TAG
+    FORM_API_URL:
+      from_secret: STAGING_API_FORM_URL
+    REFDATA_API_URL:
+      from_secret: STAGING_REFDATA_API_URL
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: STAGING_CERBERUS_SERVICE_URL
   when:
     branch:
     - main
@@ -277,7 +283,6 @@ steps:
     - promote
     target:
     - staging
-
 
 - name: deploy_to_production
   pull: if-not-exists
@@ -312,6 +317,12 @@ steps:
       from_secret: NGINX_IMAGE
     NGINX_TAG:
       from_secret: NGINX_TAG
+    FORM_API_URL:
+      from_secret: PRODUCTION_API_FORM_URL
+    REFDATA_API_URL:
+      from_secret: PRODUCTION_REFDATA_API_URL
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: PRODUCTION_CERBERUS_SERVICE_URL
   when:
     branch:
     - main
