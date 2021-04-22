@@ -6,7 +6,7 @@ import axios from 'axios';
 import { get } from 'lodash';
 
 import config from '../config';
-import { LONG_DATE_FORMAT } from '../constants';
+import { FORM_NAME_TARGET_INFORMATION_SHEET, LONG_DATE_FORMAT } from '../constants';
 import { useKeycloak } from '../utils/keycloak';
 import useAxiosInstance from '../utils/axiosInstance';
 import Accordion from '../govuk/Accordion';
@@ -371,6 +371,7 @@ const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
           data.data.businessKey,
           form,
           { ...data.data, actionTarget: false },
+          FORM_NAME_TARGET_INFORMATION_SHEET,
         );
       }}
       {...props}

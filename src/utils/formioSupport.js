@@ -100,10 +100,10 @@ export const useFormSubmit = () => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
 
-  return async (url, businessKey, form, submission) => {
+  return async (url, businessKey, form, submission, payloadName = null) => {
     const { versionId, id, title, name } = form;
     const variables = {
-      [name]: {
+      [payloadName || name]: {
         value: JSON.stringify({
           ...submission,
           form: {
