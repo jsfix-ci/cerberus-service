@@ -100,18 +100,20 @@ export const useFormSubmit = () => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
 
-  return async (processKey, businessKey, form, submission) => {
+  return async (url, businessKey, form, submission) => {
     const { versionId, id, title, name } = form;
     const variables = {
       [name]: {
         value: JSON.stringify({
-          ...submission.data,
-          formVersionId: versionId,
-          formId: id,
-          title,
-          name,
-          submissionDate: new Date(),
-          submittedBy: keycloak.tokenParsed.email,
+          ...submission,
+          form: {
+            formVersionId: versionId,
+            formId: id,
+            title,
+            name,
+            submissionDate: new Date(),
+            submittedBy: keycloak.tokenParsed.email,
+          },
         }),
         type: 'json',
       },
@@ -120,7 +122,7 @@ export const useFormSubmit = () => {
         type: 'string',
       },
     };
-    await camundaClient.post(`/process-definition/key/${processKey}/submit-form`, {
+    await camundaClient.post(url, {
       variables,
       businessKey,
     });

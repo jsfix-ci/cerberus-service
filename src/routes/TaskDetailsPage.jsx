@@ -16,6 +16,7 @@ import ErrorSummary from '../govuk/ErrorSummary';
 import ClaimButton from '../components/ClaimTaskButton';
 import RenderForm from '../components/RenderForm';
 import Panel from '../govuk/Panel';
+import { useFormSubmit } from '../utils/formioSupport';
 
 import './__assets__/TaskDetailsPage.scss';
 
@@ -359,69 +360,38 @@ const TaskVersions = ({ taskVersions }) => (
 );
 
 const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const submitForm = useFormSubmit();
   return (
     <RenderForm
       onCancel={() => onCancel(false)}
       preFillData={taskData}
       onSubmit={async (data, form) => {
-        const { versionId, id, title, name } = form;
-        await camundaClient.post(`/task/${taskId}/submit-form`, {
-          variables: {
-            targetInformationSheet: {
-              value: JSON.stringify({
-                actionTarget: false,
-                form: {
-                  formVersionId: versionId,
-                  formId: id,
-                  title,
-                  name,
-                  submissionDate: new Date(),
-                  submittedBy: keycloak.tokenParsed.email,
-                },
-                ...data.data,
-              }),
-              type: 'Json',
-            },
-          },
-        });
+        await submitForm(
+          `/task/${taskId}/submit-form`,
+          data.data.businessKey,
+          form,
+          { ...data.data, actionTarget: false },
+        );
       }}
       {...props}
     />
   );
 };
 
-const NotesForm = ({ businessKey }) => {
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+const NotesForm = ({ businessKey, processInstanceId }) => {
+  const submitForm = useFormSubmit();
   return (
     <>
       <h2 className="govuk-heading-m">Notes</h2>
       <RenderForm
         formName="noteCerberus"
         onSubmit={async (data, form) => {
-          const { versionId, id, title, name } = form;
-          await camundaClient.post('/message', {
-            messageName: 'addNotes',
+          submitForm(
+            '/process-definition/addCerbNote/submit-form',
             businessKey,
-            processVariables: {
-              note: {
-                value: JSON.stringify({
-                  form: {
-                    formVersionId: versionId,
-                    formId: id,
-                    title,
-                    name,
-                    submissionDate: new Date(),
-                  },
-                  submittedBy: keycloak.tokenParsed.email,
-                  ...data.data,
-                }),
-                type: 'Json',
-              },
-            },
-          });
+            form,
+            { ...data.data, processInstanceId },
+          );
         }}
       />
     </>
@@ -658,8 +628,8 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-third">
               {currentUserIsOwner && (
                 <NotesForm
-                  setDismissFormOpen={setDismissFormOpen}
                   businessKey={taskVersions[0].taskSummary?.businessKey}
+                  processInstanceId={taskVersions.find((task) => !!task.processInstanceId).processInstanceId}
                 />
               )}
 

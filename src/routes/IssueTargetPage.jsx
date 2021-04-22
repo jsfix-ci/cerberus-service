@@ -12,10 +12,10 @@ const IssueTargetPage = () => {
       formName="targetInformationSheet"
       onSubmit={async (data, form) => {
         await submitForm(
-          'assignTarget',
+          '/process-definition/key/assignTarget/submit-form',
           data.data.businessKey,
           form,
-          data,
+          data.data,
         );
       }}
     >
