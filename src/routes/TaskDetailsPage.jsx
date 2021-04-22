@@ -379,19 +379,36 @@ const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
 };
 
 const NotesForm = ({ businessKey, processInstanceId }) => {
-  const submitForm = useFormSubmit();
+  const keycloak = useKeycloak();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   return (
     <>
       <h2 className="govuk-heading-m">Notes</h2>
       <RenderForm
         formName="noteCerberus"
         onSubmit={async (data, form) => {
-          submitForm(
-            '/process-definition/addCerbNote/submit-form',
+          const { versionId, id, title, name } = form;
+          await camundaClient.post('/message', {
+            messageName: 'addNotes',
+            processInstanceId,
             businessKey,
-            form,
-            { ...data.data, processInstanceId },
-          );
+            processVariables: {
+              note: {
+                value: JSON.stringify({
+                  form: {
+                    formVersionId: versionId,
+                    formId: id,
+                    title,
+                    name,
+                    submissionDate: new Date(),
+                    submittedBy: keycloak.tokenParsed.email,
+                  },
+                  ...data.data,
+                }),
+                type: 'Json',
+              },
+            },
+          });
         }}
       />
     </>
