@@ -6,7 +6,7 @@ import axios from 'axios';
 import { get } from 'lodash';
 
 import config from '../config';
-import { LONG_DATE_FORMAT } from '../constants';
+import { FORM_NAME_TARGET_INFORMATION_SHEET, LONG_DATE_FORMAT } from '../constants';
 import { useKeycloak } from '../utils/keycloak';
 import useAxiosInstance from '../utils/axiosInstance';
 import Accordion from '../govuk/Accordion';
@@ -16,6 +16,7 @@ import ErrorSummary from '../govuk/ErrorSummary';
 import ClaimButton from '../components/ClaimTaskButton';
 import RenderForm from '../components/RenderForm';
 import Panel from '../govuk/Panel';
+import { useFormSubmit } from '../utils/formioSupport';
 
 import './__assets__/TaskDetailsPage.scss';
 
@@ -359,40 +360,26 @@ const TaskVersions = ({ taskVersions }) => (
 );
 
 const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const submitForm = useFormSubmit();
   return (
     <RenderForm
       onCancel={() => onCancel(false)}
       preFillData={taskData}
       onSubmit={async (data, form) => {
-        const { versionId, id, title, name } = form;
-        await camundaClient.post(`/task/${taskId}/submit-form`, {
-          variables: {
-            targetInformationSheet: {
-              value: JSON.stringify({
-                actionTarget: false,
-                form: {
-                  formVersionId: versionId,
-                  formId: id,
-                  title,
-                  name,
-                  submissionDate: new Date(),
-                  submittedBy: keycloak.tokenParsed.email,
-                },
-                ...data.data,
-              }),
-              type: 'Json',
-            },
-          },
-        });
+        await submitForm(
+          `/task/${taskId}/submit-form`,
+          data.data.businessKey,
+          form,
+          { ...data.data, actionTarget: false },
+          FORM_NAME_TARGET_INFORMATION_SHEET,
+        );
       }}
       {...props}
     />
   );
 };
 
-const NotesForm = ({ businessKey }) => {
+const NotesForm = ({ businessKey, processInstanceId }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   return (
@@ -404,6 +391,7 @@ const NotesForm = ({ businessKey }) => {
           const { versionId, id, title, name } = form;
           await camundaClient.post('/message', {
             messageName: 'addNotes',
+            processInstanceId,
             businessKey,
             processVariables: {
               note: {
@@ -414,8 +402,8 @@ const NotesForm = ({ businessKey }) => {
                     title,
                     name,
                     submissionDate: new Date(),
+                    submittedBy: keycloak.tokenParsed.email,
                   },
-                  submittedBy: keycloak.tokenParsed.email,
                   ...data.data,
                 }),
                 type: 'Json',
@@ -658,8 +646,8 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-third">
               {currentUserIsOwner && (
                 <NotesForm
-                  setDismissFormOpen={setDismissFormOpen}
                   businessKey={taskVersions[0].taskSummary?.businessKey}
+                  processInstanceId={taskVersions.find((task) => !!task.processInstanceId).processInstanceId}
                 />
               )}
 

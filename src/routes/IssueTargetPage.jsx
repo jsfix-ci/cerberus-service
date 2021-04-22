@@ -3,6 +3,7 @@ import React from 'react';
 import { useFormSubmit } from '../utils/formioSupport';
 import RenderForm from '../components/RenderForm';
 import Panel from '../govuk/Panel';
+import { FORM_NAME_TARGET_INFORMATION_SHEET } from '../constants';
 
 const IssueTargetPage = () => {
   const submitForm = useFormSubmit();
@@ -12,10 +13,11 @@ const IssueTargetPage = () => {
       formName="targetInformationSheet"
       onSubmit={async (data, form) => {
         await submitForm(
-          'assignTarget',
+          '/process-definition/key/assignTarget/submit-form',
           data.data.businessKey,
           form,
-          data,
+          data.data,
+          FORM_NAME_TARGET_INFORMATION_SHEET,
         );
       }}
     >
