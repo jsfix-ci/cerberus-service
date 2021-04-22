@@ -1,15 +1,11 @@
 describe('Render tasks from Camunda and manage them on task management and details Page', () => {
   beforeEach(() => {
-    cy.fixture('users/acceptance-cerberus-user.json').then((user) => {
-      cy.login(user.username);
-    });
-
+    cy.login('cypressuser-cerberus@lodev.xyz');
     cy.waitForTaskManagementPageToLoad();
-
   });
 
   it('Should navigate to task details page', () => {
-    cy.get('.task-heading a').eq(0).invoke('text').then((text) => {
+    cy.get('.task-heading a').eq(1).invoke('text').then((text) => {
       cy.contains(text).click();
       cy.get('.govuk-caption-xl').should('have.text', text);
     });

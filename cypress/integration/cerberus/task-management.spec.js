@@ -5,9 +5,7 @@ describe('Render tasks from Camunda and manage them on task management and detai
   const MAX_TASK_PER_PAGE = 10;
 
   beforeEach(() => {
-    cy.fixture('users/acceptance-cerberus-user.json').then((user) => {
-      cy.login(user.username);
-    });
+    cy.login('cypressuser-cerberus@lodev.xyz');
   });
 
   it('Should render all the tabs on task management page', () => {
@@ -92,9 +90,9 @@ describe('Render tasks from Camunda and manage them on task management and detai
 
     cy.waitForTaskManagementPageToLoad();
 
-    cy.get('.pagination--list a').eq(1).click();
+    cy.get('.pagination--list a').eq(2).click();
 
-    cy.get('.govuk-grid-row a[href="/tasks/aeefd530-a1c3-11eb-a5ca-2647970c238c"]')
+    cy.get('.govuk-grid-row a[href="/tasks/fdfa6b19-a36a-11eb-8eda-5e5366739add"]')
       .parentsUntil('.task-list--item').within(() => {
         cy.get('button.link-button')
           .should('have.text', 'Unclaim')
@@ -107,7 +105,7 @@ describe('Render tasks from Camunda and manage them on task management and detai
 
     cy.wait(2000);
 
-   cy.get('.govuk-grid-row a[href="/tasks/aeefd530-a1c3-11eb-a5ca-2647970c238c"]')
+    cy.get('.govuk-grid-row a[href="/tasks/fdfa6b19-a36a-11eb-8eda-5e5366739add"]')
       .parentsUntil('.task-list--item').within(() => {
         cy.get('button.link-button')
           .should('have.text', 'Claim')

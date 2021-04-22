@@ -79,6 +79,8 @@ npm run lint -- <directory>
 
 Setup your environment as described in [Native development](#native-development)
 
+run script ./scripts/env-setup.sh to generate users credentials
+
 There are two ways to run cypress tests, using the cypress test runner or running cypress tests using the command line.
 
 By default tests run against local environment.

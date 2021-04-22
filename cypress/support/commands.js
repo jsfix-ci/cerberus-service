@@ -68,7 +68,7 @@ Cypress.Commands.add('getTasksAssignedToOtherUsers', () => {
   };
 
   cy.request(options).then((response) => {
-    return response.body.filter((item) => item.assignee !== 'cypressuser@lodev.xyz');
+    return response.body.filter((item) => item.assignee !== 'cypressuser-cerberus@lodev.xyz');
   });
 });
 
@@ -83,18 +83,18 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
   };
 
   cy.request(options).then((response) => {
-    return response.body.filter((item) => item.assignee === 'cypressuser@lodev.xyz');
+    return response.body.filter((item) => item.assignee === 'cypressuser-cerberus@lodev.xyz');
   });
 });
 
 Cypress.Commands.add('selectCheckBox', (elementName, value) => {
   if (value !== undefined && value !== '') {
     cy.get(`.formio-component-${elementName}`)
-        .should('be.visible')
-        .contains(new RegExp(`^${value}$`, 'g'))
-        .closest('div')
-        .find('input')
-        .click();
+      .should('be.visible')
+      .contains(new RegExp(`^${value}$`, 'g'))
+      .closest('div')
+      .find('input')
+      .click();
   }
 });
 
@@ -105,11 +105,11 @@ Cypress.Commands.add('clickNext', () => {
 });
 
 Cypress.Commands.add('typeValueInTextArea', (elementName, value) => {
-    if (value !== undefined && value !== '') {
-      cy.get(`.formio-component-${elementName} textarea`)
-          .should('be.visible')
-          .type(value, { force: true });
-    }
+  if (value !== undefined && value !== '') {
+    cy.get(`.formio-component-${elementName} textarea`)
+      .should('be.visible')
+      .type(value, { force: true });
+  }
 });
 
 Cypress.Commands.add('clickSubmit', () => {
@@ -120,6 +120,6 @@ Cypress.Commands.add('clickSubmit', () => {
 
 Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
   cy.get('.govuk-panel--confirmation h1')
-      .should('be.visible')
-      .and('have.text', value);
+    .should('be.visible')
+    .and('have.text', value);
 });

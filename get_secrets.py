@@ -81,8 +81,9 @@ def get_secret():
 for key, value in get_secret().items():
     if key == 'users':
         for user in value:
-            with open('cypress/fixtures/users/' + user['username'] + '.json', 'w+') as json_file:
-              json.dump(user, json_file)
+            if user['username'] == 'cypressuser-cerberus@lodev.xyz':
+                with open('cypress/fixtures/users/' + user['username'] + '.json', 'w+') as json_file:
+                    json.dump(user, json_file)
     else:
         for k2, v2 in flatten(value, reducer='underscore').items():
             env[k2.upper()] = v2

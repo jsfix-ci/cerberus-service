@@ -13,7 +13,7 @@ do
       echo "export $varname=$varvalue" >> .env
   fi
 
-done < <(kubectl --context=$context --namespace=$namespace get secret cerberus -o yaml | awk 'BEGIN {FS=": ";output=0} {  if ($0 ~ /^kind*/) { output=0 }; if (output) { varname=toupper($1); gsub(/\./, "_", varname); printf " %s:%s\n", varname, $2  }; if ($0 == "data:") { output=1} ;  }')
+done < <(kubectl --context=$context --namespace=$namespace get secret formio-integration-test -o yaml | awk 'BEGIN {FS=": ";output=0} {  if ($0 ~ /^kind*/) { output=0 }; if (output) { varname=toupper($1); gsub(/\./, "_", varname); printf " %s:%s\n", varname, $2  }; if ($0 == "data:") { output=1} ;  }')
 
 pip3 install -r requirements.txt
 mkdir -p cypress/fixtures/users
