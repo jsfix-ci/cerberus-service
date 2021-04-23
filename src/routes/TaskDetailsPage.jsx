@@ -24,6 +24,57 @@ import './__assets__/TaskDetailsPage.scss';
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
+const TaskSummary = ({ taskSummaryData }) => {
+  console.log(taskSummaryData.driverName);
+  const vehicleTitle = taskSummaryData?.vehicles.length > 0 ? 'Vehicle' : '';
+  const vehicleRegistration = taskSummaryData?.vehicles[0].registrationNumber;
+  const trailerTitle = taskSummaryData?.trailers.length > 0 ? 'with trailer' : '';
+  const trailerRegistration = taskSummaryData?.trailers[0]?.registrationNumber;
+
+  return (
+    <section className="card">
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-full">
+          <span className="govuk-caption-m">{`${vehicleTitle} ${trailerTitle}`}</span>
+          <h3 className="govuk-heading-m govuk-!-margin-bottom-3">
+            <span>{vehicleRegistration} &nbsp;</span>
+            {taskSummaryData?.trailers.length > 0
+              && (
+              <>
+                <span className="govuk-!-font-weight-regular">with &nbsp;</span>
+                <span>{trailerRegistration} &nbsp;</span>
+              </>
+              )}
+            
+            <span className="govuk-!-font-weight-regular">driven by &nbsp;</span>
+            <span id="driver-name">Phil John Renzulli</span>
+          </h3>
+        </div>
+      </div>
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-one-half">
+          <dl className="mode-details">
+            <dt>Ferry</dt>
+            <dd>Stena Line voyage of Stena Superfast VII</dd>
+            <dt>Departure</dt>
+            <dd>DUN, 15 Mar 2021 at 11:55</dd>
+            <dt>Arrival due</dt>
+            <dd>DOV, 15 Mar 2021 at 13:30</dd>
+          </dl>
+        </div>
+        <div className="govuk-grid-column-one-half">
+          <dl className="mode-details">
+            <dt>Account</dt>
+            <dd>Sauer Incorporated Worldwide Euro Account</dd>
+            <dt>Haulier</dt>
+            <dd>Volkman LLC</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const TaskVersions = ({ taskVersions }) => (
   <Accordion
     className="task-versions"
@@ -551,7 +602,7 @@ const TaskDetailsPage = () => {
 
       {taskVersions.length > 0 && (
         <>
-          <div className="govuk-grid-row">
+          <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
@@ -601,6 +652,7 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
+              <TaskSummary taskSummaryData={taskVersions[0].taskSummary} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"

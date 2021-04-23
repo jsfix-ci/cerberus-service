@@ -4,5 +4,9 @@
 @import "formio";
 
 .govuk-width-container {
-  max-width: 1280px;
+  max-width: 90%;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
 }
+
