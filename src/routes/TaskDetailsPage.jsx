@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import * as pluralise from 'pluralise';
 import axios from 'axios';
-import { get } from 'lodash';
 
 import config from '../config';
 import { FORM_NAME_TARGET_INFORMATION_SHEET, LONG_DATE_FORMAT } from '../constants';
@@ -24,74 +23,23 @@ import './__assets__/TaskDetailsPage.scss';
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskSummary = ({ taskSummaryData }) => {
-  console.log(taskSummaryData.driverName);
-  const vehicleTitle = taskSummaryData?.vehicles.length > 0 ? 'Vehicle' : '';
-  const vehicleRegistration = taskSummaryData?.vehicles[0].registrationNumber;
-  const trailerTitle = taskSummaryData?.trailers.length > 0 ? 'with trailer' : '';
-  const trailerRegistration = taskSummaryData?.trailers[0]?.registrationNumber;
-
-  return (
-    <section className="card">
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-full">
-          <span className="govuk-caption-m">{`${vehicleTitle} ${trailerTitle}`}</span>
-          <h3 className="govuk-heading-m govuk-!-margin-bottom-3">
-            <span>{vehicleRegistration} &nbsp;</span>
-            {taskSummaryData?.trailers.length > 0
-              && (
-              <>
-                <span className="govuk-!-font-weight-regular">with &nbsp;</span>
-                <span>{trailerRegistration} &nbsp;</span>
-              </>
-              )}
-            
-            <span className="govuk-!-font-weight-regular">driven by &nbsp;</span>
-            <span id="driver-name">Phil John Renzulli</span>
-          </h3>
-        </div>
-      </div>
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-half">
-          <dl className="mode-details">
-            <dt>Ferry</dt>
-            <dd>Stena Line voyage of Stena Superfast VII</dd>
-            <dt>Departure</dt>
-            <dd>DUN, 15 Mar 2021 at 11:55</dd>
-            <dt>Arrival due</dt>
-            <dd>DOV, 15 Mar 2021 at 13:30</dd>
-          </dl>
-        </div>
-        <div className="govuk-grid-column-one-half">
-          <dl className="mode-details">
-            <dt>Account</dt>
-            <dd>Sauer Incorporated Worldwide Euro Account</dd>
-            <dt>Haulier</dt>
-            <dd>Volkman LLC</dd>
-          </dl>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const TaskVersions = ({ taskVersions }) => (
   <Accordion
     className="task-versions"
     id="task-versions"
     items={taskVersions.slice(0).reverse().map((task, index) => {
-      const { taskSummary } = task;
       const versionNumber = taskVersions.length - index;
-      const vehicle = get(task, 'vehicleHistory[0][0]vehicle', {});
-      const trailer = get(taskSummary, 'trailers[0]', {});
-      const account = taskSummary?.organisations.find(({ type }) => type === 'ORGACCOUNT') || {};
-      const haulier = taskSummary?.organisations.find(({ type }) => type === 'ORGHAULIER') || {};
-      const driver = taskSummary?.people.find(({ role }) => role === 'DRIVER') || {};
-      const passengers = taskSummary?.people.filter(({ role }) => role === 'PASSENGER') || [];
-      const freight = taskSummary?.freight;
-      const consignee = taskSummary?.consignee;
-      const consignor = taskSummary?.consignor;
-      const matchedRules = get(task, 'ruleHistory[0]', []);
+      const vehicle = 'TODO';
+      const trailer = {};
+      const account = {};
+      const haulier = {};
+      const driver = {};
+      const passengers = [];
+      const freight = 'TODO';
+      const consignee = 'TODO';
+      const consignor = 'TODO';
+      const matchedRules = [];
+      const priority = 'TODO';
       return (
         {
           heading: `Version ${versionNumber}`,
@@ -103,7 +51,7 @@ const TaskVersions = ({ taskVersions }) => (
               <div className="task-versions--right">
                 <ul className="govuk-list">
                   <li>{pluralise.withCount(0, '% change', '% changes', 'No changes')} in this version</li>
-                  <li>Highest threat level is <strong className="govuk-tag govuk-tag--red">{taskSummary?.matchedSelectors[0].priority}</strong> from version {versionNumber}</li>
+                  <li>Highest threat level is <strong className="govuk-tag govuk-tag--red">{priority}</strong> from version {versionNumber}</li>
                 </ul>
               </div>
             </>
@@ -323,7 +271,7 @@ const TaskVersions = ({ taskVersions }) => (
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Date and time</dt>
-                  <dd className="govuk-summary-list__value">{moment(taskSummary?.bookingDateTime).format(LONG_DATE_FORMAT)}</dd>
+                  <dd className="govuk-summary-list__value">{}</dd>
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Country</dt>
