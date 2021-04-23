@@ -16,6 +16,7 @@ import ClaimButton from '../components/ClaimTaskButton';
 import RenderForm from '../components/RenderForm';
 import Panel from '../govuk/Panel';
 import { useFormSubmit } from '../utils/formioSupport';
+import TaskSummary from './TaskDetails/TaskSummary';
 
 import './__assets__/TaskDetailsPage.scss';
 
