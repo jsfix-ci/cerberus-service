@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import formatTaskData from '../../utils/formatTaskData';
+import formatTaskData from '../../utils/formatTaskSummaryData';
 
 import '../__assets__/TaskDetailsPage.scss';
 
@@ -17,16 +17,20 @@ const TaskSummary = ({ taskSummaryData }) => {
     <section className="card">
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
-          <span className="govuk-caption-m">{`${formattedData.vehicle.label} ${formattedData.trailer.label}`}</span>
+          <span className="govuk-caption-m">{
+            (formattedData.vehicle.label && formattedData.trailer.label)
+              ? `${formattedData.vehicle.label} with ${formattedData.trailer.label}`
+              : `${formattedData.vehicle.label}${formattedData.trailer.label}`
+          }
+          </span>
           <h3 className="govuk-heading-m govuk-!-margin-bottom-3">
             <span>{formattedData.vehicle.registration}</span>
-            {taskSummaryData?.trailers.length > 0
-              && (
+            {formattedData?.trailer && (
               <>
-                <span className="govuk-!-font-weight-regular">with &nbsp;</span>
-                <span>{formattedData.trailerRegistration} &nbsp;</span>
+                {(formattedData.vehicle.registration && formattedData.trailer.registration) && <span className="govuk-!-font-weight-regular">&nbsp;with&nbsp;</span>}
+                <span>{formattedData.trailer.registration}HJKLHJKLH</span>
               </>
-              )}
+            )}
             {formattedData.driver.dataExists
             && (
             <>
