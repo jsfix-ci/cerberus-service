@@ -12,7 +12,7 @@ import { SHORT_DATE_FORMAT } from '../constants';
 import Tabs from '../govuk/Tabs';
 import Pagination from '../components/Pagination';
 import useAxiosInstance from '../utils/axiosInstance';
-import formatTaskData from '../utils/formatTaskData';
+import formatTaskData from '../utils/formatTaskSummaryData';
 import LoadingSpinner from '../forms/LoadingSpinner';
 import ErrorSummary from '../govuk/ErrorSummary';
 
