@@ -8,10 +8,11 @@ import axios from 'axios';
 import _ from 'lodash';
 
 import config from '../config';
-import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
+import { SHORT_DATE_FORMAT } from '../constants';
 import Tabs from '../govuk/Tabs';
 import Pagination from '../components/Pagination';
 import useAxiosInstance from '../utils/axiosInstance';
+import formatTaskData from '../utils/formatTaskData';
 import LoadingSpinner from '../forms/LoadingSpinner';
 import ErrorSummary from '../govuk/ErrorSummary';
 
@@ -130,12 +131,8 @@ const TasksTab = ({ taskStatus, setError }) => {
       )}
 
       {!isLoading && tasks.length > 0 && tasks.map((task) => {
-        const driver = task.people?.find(({ role }) => role === 'DRIVER');
+        const formattedData = formatTaskData(task);
         const passengers = task.people?.filter(({ role }) => role === 'PASSENGER') || [];
-        const haulier = task.organisations?.find(({ type }) => type === 'ORGHAULIER');
-        const account = task.organisations?.find(({ type }) => type === 'ORGACCOUNT');
-        const vehicle = task.vehicles?.[0];
-        const trailer = task.trailers?.[0];
 
         return (
           <section className="task-list--item" key={task.processInstanceId}>
@@ -164,13 +161,13 @@ const TasksTab = ({ taskStatus, setError }) => {
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">
                 <p className="govuk-body-s arrival-title">
-                  {task.voyage?.description}, arrival {moment(task.arrivalTime).fromNow()}
+                  {`${formattedData.ferry.description}, arrival ${formattedData.arrival.fromNow}`}
                 </p>
                 <ul className="govuk-list arrival-dates govuk-!-margin-bottom-4">
-                  <li className="govuk-!-font-weight-bold">{task.voyage?.departFrom}</li>
-                  <li>{moment(task.departureTime).format(LONG_DATE_FORMAT)}</li>
-                  <li className="govuk-!-font-weight-bold">{task.voyage?.arriveAt}</li>
-                  <li>{moment(task.arrivalTime).format(LONG_DATE_FORMAT)}</li>
+                  <li className="govuk-!-font-weight-bold">{formattedData.departure.location}</li>
+                  <li>{formattedData.departure.date}</li>
+                  <li className="govuk-!-font-weight-bold">{formattedData.arrival.location}</li>
+                  <li>{formattedData.arrival.date}</li>
                 </ul>
               </div>
             </div>
@@ -180,11 +177,11 @@ const TasksTab = ({ taskStatus, setError }) => {
                   Driver details
                 </h3>
                 <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  {driver ? (
+                  {formattedData.driver.dataExists ? (
                     <>
                       <span className="govuk-!-font-weight-bold">
-                        {driver?.fullName || 'Unknown'}
-                      </span>, DOB: {moment(driver?.dateOfBirth).format(SHORT_DATE_FORMAT)},
+                        {formattedData.driver.name}
+                      </span>, DOB: {formattedData.driver.dateOfBirth},
                       {' '}
                       {pluralise.withCount(task.aggregateDriverTrips || '?', '% trip', '% trips')}
                     </>
@@ -202,11 +199,11 @@ const TasksTab = ({ taskStatus, setError }) => {
                   Vehicle details
                 </h3>
                 <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  {vehicle ? (
+                  {formattedData.vehicle.dataExists ? (
                     <>
                       <span className="govuk-!-font-weight-bold">
-                        {vehicle.registrationNumber || 'Unknown registration number'}
-                      </span>, {vehicle.description || 'No description'},
+                        {formattedData.vehicle.registration}
+                      </span>, {formattedData.vehicle.description},
                       {' '}
                       {pluralise.withCount(task.aggregateVehicleTrips || 0, '% trip', '% trips')}
                     </>
@@ -216,11 +213,11 @@ const TasksTab = ({ taskStatus, setError }) => {
                   Trailer details
                 </h3>
                 <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  {trailer ? (
+                  {formattedData.trailer.dataExists ? (
                     <>
                       <span className="govuk-!-font-weight-bold">
-                        {trailer.registrationNumber || 'Unknown registration number'}
-                      </span>, {trailer.description || 'No description'},
+                        {formattedData.trailerRegistration}
+                      </span>, {formattedData.trailer.description},
                       {' '}
                       {pluralise.withCount(task.aggregateTrailerTrips || 0, '% trip', '% trips')}
                     </>
@@ -232,14 +229,14 @@ const TasksTab = ({ taskStatus, setError }) => {
                   Haulier details
                 </h3>
                 <p className="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-                  {haulier?.name || 'Unknown'}
+                  {formattedData.haulier.name}
                 </p>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Account details
                 </h3>
                 <p className="govuk-body-s govuk-!-margin-bottom-1">
                   <span className="govuk-!-font-weight-bold">
-                    {account?.name || 'Unknown'}
+                    {formattedData.account.name}
                   </span>
                   {task.bookingDateTime && (
                     <>, Booked on {moment(task.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
