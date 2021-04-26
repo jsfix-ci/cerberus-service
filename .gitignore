@@ -52,4 +52,5 @@ cypress/screenshots
 cypress/videos
 cypress/fixtures/users
 axe.csv
+jsconfig.json
 
