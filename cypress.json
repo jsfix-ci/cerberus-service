@@ -3,7 +3,8 @@
   "env": {
     "auth_base_url": "https://sso-dev.notprod.homeoffice.gov.uk/auth",
     "auth_realm":"cop-dev",
-    "auth_client_id":"formbuilder"
+    "auth_client_id":"formbuilder",
+    "userName": "cypressuser-cerberus@lodev.xyz"
   },
   "defaultCommandTimeout": 10000,
   "requestTimeout": 60000,

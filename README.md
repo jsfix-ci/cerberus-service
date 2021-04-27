@@ -77,11 +77,13 @@ npm run lint -- <directory>
 
 ## E2E tests in native development
 
-Setup your environment as described in [Native development](#native-development)
+Set up your environment as described in [Native development](#native-development)
+
+run script ./scripts/env-setup.sh to generate users credentials
 
 There are two ways to run cypress tests, using the cypress test runner or running cypress tests using the command line.
 
-By default tests run against local environment.
+By default, tests run against local environment.
 
 **NOTE:** You will need, the [cerberus-service](https://github.com/UKHomeOffice/cerberus-service) application, to be running before triggering Cypress.
 
