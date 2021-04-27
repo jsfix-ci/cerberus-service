@@ -370,7 +370,7 @@ const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
           `/task/${taskId}/submit-form`,
           data.data.businessKey,
           form,
-          { ...data.data, actionTarget: true },
+          { ...data.data, actionTarget: false },
           FORM_NAME_TARGET_INFORMATION_SHEET,
         );
       }}
