@@ -1,5 +1,5 @@
 import formatTaskData from '../formatTaskSummaryData';
-import { testInputDataFieldsComplete, testInputDataFieldsEmpty, testOutputDataFieldsComplete, testOutputDataFieldsEmpty } from './taskDataTestSummaryFixtures';
+import { testInputDataFieldsComplete, testInputDataFieldsEmpty, testOutputDataFieldsComplete, testOutputDataFieldsEmpty } from './taskSummaryData.fixture';
 
 describe('formatting task summary data', () => {
   it('should return an object of formatted data', () => {
