@@ -9,15 +9,15 @@ const formatTaskData = (taskSummaryData) => {
   const arrival = {
     label: 'Arrival due',
     location: taskSummaryData?.voyage?.arriveAt || '',
-    date: taskSummaryData?.arrivalTime ? moment(taskSummaryData?.arrivalTime).format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskSummaryData?.voyage?.arriveAt ? `${taskSummaryData?.voyage?.arriveAt}` : 'unknown') + (taskSummaryData?.arrivalTime ? `, ${moment(taskSummaryData?.arrivalTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
+    date: taskSummaryData?.arrivalTime ? moment(taskSummaryData?.arrivalTime).utc().format(LONG_DATE_FORMAT) : 'unknown',
+    description: (taskSummaryData?.voyage?.arriveAt ? `${taskSummaryData?.voyage?.arriveAt}` : 'unknown') + (taskSummaryData?.arrivalTime ? `, ${moment(taskSummaryData?.arrivalTime).utc().format(LONG_DATE_FORMAT)}` : ', unknown'),
     fromNow: `${taskSummaryData?.arrivalTime ? `, ${moment(taskSummaryData?.arrivalTime).fromNow()}` : 'unknown'}`,
   };
   const departure = {
     label: 'Departure',
     location: taskSummaryData?.voyage?.departFrom || '',
-    date: taskSummaryData?.departureTime ? moment(taskSummaryData?.departureTime).format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskSummaryData?.voyage?.departFrom ? `${taskSummaryData?.voyage?.departFrom}` : 'unknown') + (taskSummaryData?.departureTime ? `, ${moment(taskSummaryData?.departureTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
+    date: taskSummaryData?.departureTime ? moment(taskSummaryData?.departureTime).utc().format(LONG_DATE_FORMAT) : 'unknown',
+    description: (taskSummaryData?.voyage?.departFrom ? `${taskSummaryData?.voyage?.departFrom}` : 'unknown') + (taskSummaryData?.departureTime ? `, ${moment(taskSummaryData?.departureTime).utc().format(LONG_DATE_FORMAT)}` : ', unknown'),
   };
   const driver = {
     dataExists: !!taskSummaryData?.people?.find(({ role }) => role === 'DRIVER'),
