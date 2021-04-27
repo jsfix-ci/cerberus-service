@@ -7,6 +7,8 @@ const {
 
 const env = process.env;
 
+const cerberusUser = 'cypressuser-cerberus@lodev.xyz';
+
 if (!('AWS_ACCESS_KEY_ID' in env)) {
   console.log("You must set: 'AWS_ACCESS_KEY_ID'");
   process.exit(1);
@@ -29,25 +31,19 @@ async function getSecret() {
   const client = new SecretsManagerClient({
     region: 'eu-west-2',
   });
-  let getSecretValueResponse;
-  let secret;
 
-  getSecretValueResponse = await client.send(
+  const getSecretValueResponse = await client.send(
     new GetSecretValueCommand({ SecretId: env.TEST_SECRET_NAME }),
   );
 
-  if ('SecretString' in getSecretValueResponse) {
-    secret = getSecretValueResponse.SecretString;
-  } else {
-    secret = Buffer.from(getSecretValueResponse.SecretBinary, 'base64');
-  }
+  const secret = 'SecretString' in getSecretValueResponse ? getSecretValueResponse.SecretString : Buffer.from(getSecretValueResponse.SecretBinary, 'base64');
 
   return JSON.parse(secret);
 }
 
 getSecret().then((secret) => {
   if (secret.users) {
-    const testUser = secret.users.find((user) => user.username === 'cypressuser-cerberus@lodev.xyz');
+    const testUser = secret.users.find((user) => user.username === cerberusUser);
 
     fs.writeFileSync(
       `${__dirname}/cypress/fixtures/users/${testUser.username}.json`,
