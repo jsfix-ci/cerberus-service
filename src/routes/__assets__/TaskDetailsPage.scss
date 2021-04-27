@@ -28,3 +28,34 @@
     margin-top: 20pt;
   }
 }
+
+.card {
+  padding: 1em;
+  font-size: 1em;
+  margin-bottom: 2em;
+  background-color: #f3f2f1;
+}
+
+.mode-details {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  font-family: "nta", Arial, sans-serif;
+  font-size: 0.9em;
+  flex-wrap: wrap;
+}
+
+.mode-details dt, .mode-details dd {
+  display: inline-block;
+}
+
+.mode-details dt {
+  width: 20%;
+}
+
+.mode-details dd {
+  width: 80%;
+  font-weight: bold;
+  margin: 0 0 0.5em 0;
+}
+

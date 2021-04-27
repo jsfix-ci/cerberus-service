@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import * as pluralise from 'pluralise';
 import axios from 'axios';
-import { get } from 'lodash';
 
 import config from '../config';
 import { FORM_NAME_TARGET_INFORMATION_SHEET, LONG_DATE_FORMAT } from '../constants';
@@ -17,6 +16,7 @@ import ClaimButton from '../components/ClaimTaskButton';
 import RenderForm from '../components/RenderForm';
 import Panel from '../govuk/Panel';
 import { useFormSubmit } from '../utils/formioSupport';
+import TaskSummary from './TaskDetails/TaskSummary';
 
 import './__assets__/TaskDetailsPage.scss';
 
@@ -29,18 +29,18 @@ const TaskVersions = ({ taskVersions }) => (
     className="task-versions"
     id="task-versions"
     items={taskVersions.slice(0).reverse().map((task, index) => {
-      const { taskSummary } = task;
       const versionNumber = taskVersions.length - index;
-      const vehicle = get(task, 'vehicleHistory[0][0]vehicle', {});
-      const trailer = get(taskSummary, 'trailers[0]', {});
-      const account = taskSummary?.organisations.find(({ type }) => type === 'ORGACCOUNT') || {};
-      const haulier = taskSummary?.organisations.find(({ type }) => type === 'ORGHAULIER') || {};
-      const driver = taskSummary?.people.find(({ role }) => role === 'DRIVER') || {};
-      const passengers = taskSummary?.people.filter(({ role }) => role === 'PASSENGER') || [];
-      const freight = taskSummary?.freight;
-      const consignee = taskSummary?.consignee;
-      const consignor = taskSummary?.consignor;
-      const matchedRules = get(task, 'ruleHistory[0]', []);
+      const vehicle = 'TODO';
+      const trailer = {};
+      const account = {};
+      const haulier = {};
+      const driver = {};
+      const passengers = [];
+      const freight = 'TODO';
+      const consignee = 'TODO';
+      const consignor = 'TODO';
+      const matchedRules = [];
+      const priority = 'TODO';
       return (
         {
           heading: `Version ${versionNumber}`,
@@ -52,7 +52,7 @@ const TaskVersions = ({ taskVersions }) => (
               <div className="task-versions--right">
                 <ul className="govuk-list">
                   <li>{pluralise.withCount(0, '% change', '% changes', 'No changes')} in this version</li>
-                  <li>Highest threat level is <strong className="govuk-tag govuk-tag--red">{taskSummary?.matchedSelectors[0].priority}</strong> from version {versionNumber}</li>
+                  <li>Highest threat level is <strong className="govuk-tag govuk-tag--red">{priority}</strong> from version {versionNumber}</li>
                 </ul>
               </div>
             </>
@@ -272,7 +272,7 @@ const TaskVersions = ({ taskVersions }) => (
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Date and time</dt>
-                  <dd className="govuk-summary-list__value">{moment(taskSummary?.bookingDateTime).format(LONG_DATE_FORMAT)}</dd>
+                  <dd className="govuk-summary-list__value">{}</dd>
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Country</dt>
@@ -551,7 +551,7 @@ const TaskDetailsPage = () => {
 
       {taskVersions.length > 0 && (
         <>
-          <div className="govuk-grid-row">
+          <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
@@ -601,6 +601,7 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
+              <TaskSummary taskSummaryData={taskVersions[0].taskSummary} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
