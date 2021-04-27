@@ -10,3 +10,10 @@
   margin-left: auto;
 }
 
+@media (min-width: 48.0625em) {
+  .govuk-header__content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
