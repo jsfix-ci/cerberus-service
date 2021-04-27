@@ -5,7 +5,7 @@ describe('Render tasks from Camunda and manage them on task management and detai
   const MAX_TASK_PER_PAGE = 10;
 
   beforeEach(() => {
-    cy.login('cypressuser-cerberus@lodev.xyz');
+    cy.login(Cypress.env('userName'));
   });
 
   it('Should render all the tabs on task management page', () => {

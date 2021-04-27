@@ -1,6 +1,6 @@
 describe('Render tasks from Camunda and manage them on task management and details Page', () => {
   beforeEach(() => {
-    cy.login('cypressuser-cerberus@lodev.xyz');
+    cy.login(Cypress.env('userName'));
     cy.waitForTaskManagementPageToLoad();
   });
 

@@ -1,6 +1,6 @@
 describe('Log-in to cerberus UI', () => {
   beforeEach(() => {
-    cy.login('cypressuser-cerberus@lodev.xyz');
+    cy.login(Cypress.env('userName'));
   });
 
   it('Should Log-in Successfully into cerberus UI', () => {
