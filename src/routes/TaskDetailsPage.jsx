@@ -359,7 +359,7 @@ const TaskVersions = ({ taskVersions }) => (
   />
 );
 
-const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
+const TaskManagementForm = ({ onCancel, taskId, taskData, actionTarget, ...props }) => {
   const submitForm = useFormSubmit();
   return (
     <RenderForm
@@ -370,7 +370,7 @@ const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
           `/task/${taskId}/submit-form`,
           data.data.businessKey,
           form,
-          { ...data.data, actionTarget: false },
+          { ...data.data, actionTarget },
           FORM_NAME_TARGET_INFORMATION_SHEET,
         );
       }}
@@ -588,6 +588,7 @@ const TaskDetailsPage = () => {
                   formName="assessmentComplete"
                   onCancel={() => setCompleteFormOpen(false)}
                   taskId={taskVersions[0].id}
+                  actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
                 </TaskManagementForm>
@@ -597,6 +598,7 @@ const TaskDetailsPage = () => {
                   formName="dismissTarget"
                   onCancel={() => setDismissFormOpen(false)}
                   taskId={taskVersions[0].id}
+                  actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
                 </TaskManagementForm>
@@ -615,6 +617,7 @@ const TaskDetailsPage = () => {
                     onCancel={() => setIssueTargetFormOpen(false)}
                     taskId={taskVersions[0].id}
                     taskData={taskVersions[0].targetInformationSheet}
+                    actionTarget
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
                   </TaskManagementForm>
