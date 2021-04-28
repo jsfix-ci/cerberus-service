@@ -379,40 +379,21 @@ const TaskManagementForm = ({ onCancel, taskId, taskData, ...props }) => {
   );
 };
 
-const NotesForm = ({ businessKey, processInstanceId }) => {
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+const NotesForm = ({ businessKey, processInstanceId, ...props }) => {
+  const submitForm = useFormSubmit();
   return (
-    <>
-      <h2 className="govuk-heading-m">Notes</h2>
-      <RenderForm
-        formName="noteCerberus"
-        onSubmit={async (data, form) => {
-          const { versionId, id, title, name } = form;
-          await camundaClient.post('/message', {
-            messageName: 'addNotes',
-            processInstanceId,
-            businessKey,
-            processVariables: {
-              note: {
-                value: JSON.stringify({
-                  form: {
-                    formVersionId: versionId,
-                    formId: id,
-                    title,
-                    name,
-                    submissionDate: new Date(),
-                    submittedBy: keycloak.tokenParsed.email,
-                  },
-                  ...data.data,
-                }),
-                type: 'Json',
-              },
-            },
-          });
-        }}
-      />
-    </>
+    <RenderForm
+      onSubmit={async (data, form) => {
+        await submitForm(
+          '/process-definition/key/noteSubmissionWrapper/submit-form',
+          businessKey,
+          form,
+          { ...data.data, processInstanceId },
+          'noteCerberus',
+        );
+      }}
+      {...props}
+    />
   );
 };
 
@@ -647,6 +628,7 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-third">
               {currentUserIsOwner && (
                 <NotesForm
+                  formName="noteCerberus"
                   businessKey={taskVersions[0].taskSummary?.businessKey}
                   processInstanceId={taskVersions.find((task) => !!task.processInstanceId).processInstanceId}
                 />
