@@ -39,54 +39,94 @@ const TasksTab = ({ taskStatus, setError }) => {
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const source = axios.CancelToken.source();
 
+  const camundaRequest = async (url, params = {}) => {
+    return camundaClient.get(url, { params });
+  };
   const loadTasks = async () => {
     if (camundaClient) {
       try {
         setLoading(true);
-
-        const commonQueryParams = {};
-
-        if (taskStatus === TASK_STATUS_NEW) {
-          commonQueryParams.processVariables = 'processState_neq_Complete';
-          commonQueryParams.unassigned = true;
-        } else if (taskStatus === TASK_STATUS_IN_PROGRESS) {
-          commonQueryParams.processVariables = 'processState_neq_Complete';
-          commonQueryParams.assigned = true;
-        } else if (taskStatus === TASK_STATUS_COMPLETED) {
-          commonQueryParams.processVariables = 'processState_eq_Complete';
-          commonQueryParams.processDefinitionKey = 'assignTarget';
-        }
-
-        const [tasksResponse, taskCountResponse] = await Promise.all([
-          camundaClient.get('/task', {
-            params: {
-              firstResult: offset,
-              maxResults: itemsPerPage,
-              ...commonQueryParams,
-            },
-          }),
-          camundaClient.get('/task/count', {
-            params: commonQueryParams,
-          }),
-        ]);
-
-        const processInstanceIds = _.uniq(tasksResponse.data.map(({ processInstanceId }) => processInstanceId));
-        const variableInstances = await camundaClient.post('/variable-instance', {
-          processInstanceIdIn: processInstanceIds,
-          variableName: 'taskSummary',
-        }, {
+        const tasksRequest = {
+          url: '',
+          params: {
+            firstResult: offset,
+            maxResults: itemsPerPage,
+          },
+        };
+        const taskCountRequest = {
+          url: '',
+          params: {},
+        };
+        const variableInstancesRequest = {
+          url: '',
           params: {
             deserializeValues: false,
           },
-        });
+        };
 
-        const parsedTasks = tasksResponse.data.map((task) => {
-          const taskSummaryVar = variableInstances.data.find((v) => task.processInstanceId === v.processInstanceId);
-          return {
-            ...(taskSummaryVar ? JSON.parse(taskSummaryVar.value) : {}),
-            ...task,
-          };
-        });
+        if (taskStatus === TASK_STATUS_COMPLETED) {
+          tasksRequest.url = '/history/process-instance';
+          tasksRequest.params.variables = 'processState_eq_Complete';
+          tasksRequest.params.processDefinitionKey = 'assignTarget';
+
+          taskCountRequest.url = '/history/process-instance/count';
+          taskCountRequest.params.variables = 'processState_eq_Complete';
+          taskCountRequest.params.processDefinitionKey = 'assignTarget';
+
+          variableInstancesRequest.url = '/history/variable-instance';
+        } else {
+          const commonQueryParams = {};
+
+          if (taskStatus === TASK_STATUS_NEW) {
+            commonQueryParams.processVariables = 'processState_neq_Complete';
+            commonQueryParams.unassigned = true;
+          } else if (taskStatus === TASK_STATUS_IN_PROGRESS) {
+            commonQueryParams.processVariables = 'processState_neq_Complete';
+            commonQueryParams.assigned = true;
+          }
+
+          tasksRequest.url = '/task';
+          tasksRequest.params = { ...tasksRequest.params, ...commonQueryParams };
+
+          taskCountRequest.url = '/task/count';
+          taskCountRequest.params = commonQueryParams;
+
+          variableInstancesRequest.url = '/variable-instance';
+          variableInstancesRequest.params.variableName = 'taskSummary';
+        }
+
+        const tasksResponse = await camundaRequest(tasksRequest.url, tasksRequest.params);
+        const processInstanceIds = _.uniq(tasksResponse.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
+        variableInstancesRequest.params.processInstanceIdIn = processInstanceIds;
+        const taskCountResponse = await camundaRequest(taskCountRequest.url, taskCountRequest.params);
+        const variableInstancesResponse = await camundaRequest(variableInstancesRequest.url, variableInstancesRequest.params);
+        let parsedTasks;
+
+        if (taskStatus === TASK_STATUS_COMPLETED) {
+          parsedTasks = variableInstancesResponse.data.filter((variableInstance) => {
+            if (variableInstance.name === 'taskSummary') {
+              return variableInstance;
+            }
+            if (
+              variableInstance.name === 'targetInformationSheet'
+              && !variableInstancesResponse.data.some((v) => v.name === 'taskSummary' && variableInstance.processInstanceId === v.processInstanceId)
+            ) {
+              return variableInstance;
+            }
+          }).map((variableInstance) => {
+            const tmp = { ...variableInstance, ...JSON.parse(variableInstance.value) };
+            delete tmp.value;
+            return tmp;
+          });
+        } else {
+          parsedTasks = tasksResponse.data.map((task) => {
+            const taskSummaryVar = variableInstancesResponse.data.find((v) => task.processInstanceId === v.processInstanceId);
+            return {
+              ...(taskSummaryVar ? JSON.parse(taskSummaryVar.value) : {}),
+              ...task,
+            };
+          });
+        }
 
         setTaskCount(taskCountResponse.data.count);
         setTasks(parsedTasks);
