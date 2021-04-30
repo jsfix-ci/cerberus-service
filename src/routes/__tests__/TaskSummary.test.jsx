@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, render } from '@testing-library/react';
 
 import TaskSummary from '../TaskDetails/TaskSummary';
-import { testInputDataFieldsEmpty } from '../../utils/__tests__/taskSummaryData.fixture';
+import { testInputDataFieldsEmpty } from '../../utils/__fixtures__/taskSummaryData.fixture';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
