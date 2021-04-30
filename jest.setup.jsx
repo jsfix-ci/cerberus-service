@@ -26,6 +26,9 @@ jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(() => ({
     pathname: '/example',
   })),
+  useHistory: jest.fn(() => ({
+    pathname: '/example',
+  })),
   Link: ({ children, to, ...props }) => <a href={to} {...props}>{children}</a>,
 }));
 
