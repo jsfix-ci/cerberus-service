@@ -26,7 +26,11 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, ...props }) =>
       await camundaClient.post(`task/${taskId}/claim`, {
         userId: currentUser,
       });
-      history.push(`/tasks/${taskId}`);
+      if (history.location.pathname !== `/tasks/${taskId}`) {
+        history.push(`/tasks/${taskId}`);
+      } else {
+        history.go(0);
+      }
     } catch (e) {
       setError(e.message);
       setAssignmentProgress(false);
