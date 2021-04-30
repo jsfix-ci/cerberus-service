@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import LinkButton from '../govuk/LinkButton';
 import useAxiosInstance from '../utils/axiosInstance';
 import config from '../config';
 import { useKeycloak } from '../utils/keycloak';
 
 const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, ...props }) => {
+  const history = useHistory();
   const [isAssignmentInProgress, setAssignmentProgress] = useState(false);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
@@ -24,7 +26,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, ...props }) =>
       await camundaClient.post(`task/${taskId}/claim`, {
         userId: currentUser,
       });
-      history.go(0);
+      history.push(`/tasks/${taskId}`);
     } catch (e) {
       setError(e.message);
       setAssignmentProgress(false);
