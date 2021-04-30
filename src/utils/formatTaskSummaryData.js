@@ -4,7 +4,7 @@ import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
 const formatTaskData = (taskSummaryData) => {
   const account = {
     label: 'Account',
-    name: taskSummaryData?.organisations.find(({ type }) => type === 'ORGACCOUNT')?.name || 'Unknown',
+    name: taskSummaryData?.organisations?.find(({ type }) => type === 'ORGACCOUNT')?.name || 'Unknown',
   };
   const arrival = {
     label: 'Arrival due',
@@ -30,7 +30,7 @@ const formatTaskData = (taskSummaryData) => {
   };
   const haulier = {
     label: 'Haulier',
-    name: taskSummaryData?.organisations.find(({ type }) => type === 'ORGHAULIER')?.name || 'Unknown',
+    name: taskSummaryData?.organisations?.find(({ type }) => type === 'ORGHAULIER')?.name || 'Unknown',
   };
   const trailer = {
     dataExists: taskSummaryData?.trailers?.length > 0,
