@@ -27,14 +27,14 @@ const TASK_STATUS_COMPLETED = 'completed';
 const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
-  const [taskCount, setTaskCount] = useState(0);
+  const [targetTaskCount, setTargetTaskCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
 
   const itemsPerPage = 10;
   const index = activePage - 1;
   const offset = index * itemsPerPage;
-  const totalPages = Math.ceil(taskCount / itemsPerPage);
+  const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const source = axios.CancelToken.source();
@@ -128,7 +128,7 @@ const TasksTab = ({ taskStatus, setError }) => {
           });
         }
 
-        setTaskCount(taskCountResponse.data.count);
+        setTargetTaskCount(taskCountResponse.data.count);
         setTargetTasks(parsedTasks);
       } catch (e) {
         setError(e.message);
@@ -311,7 +311,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       })}
 
       <Pagination
-        totalItems={taskCount}
+        totalItems={targetTaskCount}
         itemsPerPage={itemsPerPage}
         activePage={activePage}
         totalPages={totalPages}
