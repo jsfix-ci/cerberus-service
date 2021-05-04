@@ -181,7 +181,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-                    to={`/tasks/${target.id}`}
+                    to={`/tasks/${target.processInstanceId || target.id}`}
                   >{target.businessKey || target.id}
                   </Link>
                 </h3>

@@ -62,7 +62,7 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 };
 
 const TaskDetailsPage = () => {
-  const { taskId } = useParams();
+  const { processInstanceId } = useParams();
   const [error, setError] = useState(null);
   const [taskVersions, setTaskVersions] = useState([]);
   const [activityLog, setActivityLog] = useState([]);
@@ -101,12 +101,13 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     const loadTask = async () => {
       try {
-        const taskResponse = await camundaClient.get(`/task/${taskId}`);
-        const processInstanceId = taskResponse.data.processInstanceId;
-
-        const [variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse] = await Promise.all([
+        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse] = await Promise.all([
           camundaClient.get(
-            '/variable-instance',
+            '/task',
+            { params: { processInstanceId } },
+          ),
+          camundaClient.get(
+            '/history/variable-instance',
             { params: { processInstanceIdIn: processInstanceId, deserializeValues: false } },
           ),
           camundaClient.get(
@@ -158,7 +159,7 @@ const TaskDetailsPage = () => {
             return acc;
           }, {});
         setTaskVersions([{
-          ...taskResponse.data,
+          ...taskResponse.data[0],
           ...parsedTaskVariables,
         }]);
       } catch (e) {
@@ -188,6 +189,7 @@ const TaskDetailsPage = () => {
     }
     return `Assigned to ${assignee}`;
   };
+  const taskId = 'hello';
 
   return (
     <>
