@@ -16,7 +16,7 @@ import Panel from '../../govuk/Panel';
 import { useFormSubmit } from '../../utils/formioSupport';
 import TaskSummary from './TaskSummary';
 
-import './__assets__/TaskDetailsPage.scss';
+import '../__assets__/TaskDetailsPage.scss';
 import TaskVersions from './TaskVersions';
 
 // See Camunda docs for all operation types: https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html

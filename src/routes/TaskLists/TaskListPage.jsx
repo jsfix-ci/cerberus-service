@@ -16,7 +16,7 @@ import formatTaskData from '../../utils/formatTaskSummaryData';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import ErrorSummary from '../../govuk/ErrorSummary';
 
-import './__assets__/TaskListPage.scss';
+import '../__assets__/TaskListPage.scss';
 import ClaimButton from '../../components/ClaimTaskButton';
 import { useKeycloak } from '../../utils/keycloak';
 
