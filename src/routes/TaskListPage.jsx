@@ -26,15 +26,15 @@ const TASK_STATUS_COMPLETED = 'completed';
 
 const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);
-  const [tasks, setTasks] = useState([]);
-  const [taskCount, setTaskCount] = useState(0);
+  const [targetTasks, setTargetTasks] = useState([]);
+  const [targetTaskCount, setTargetTaskCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
 
   const itemsPerPage = 10;
   const index = activePage - 1;
   const offset = index * itemsPerPage;
-  const totalPages = Math.ceil(taskCount / itemsPerPage);
+  const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const source = axios.CancelToken.source();
@@ -53,7 +53,7 @@ const TasksTab = ({ taskStatus, setError }) => {
             maxResults: itemsPerPage,
           },
         };
-        const taskCountRequest = {
+        const targetTaskCountRequest = {
           url: '',
           params: {},
         };
@@ -69,9 +69,9 @@ const TasksTab = ({ taskStatus, setError }) => {
           tasksRequest.params.variables = 'processState_eq_Complete';
           tasksRequest.params.processDefinitionKey = 'assignTarget';
 
-          taskCountRequest.url = '/history/process-instance/count';
-          taskCountRequest.params.variables = 'processState_eq_Complete';
-          taskCountRequest.params.processDefinitionKey = 'assignTarget';
+          targetTaskCountRequest.url = '/history/process-instance/count';
+          targetTaskCountRequest.params.variables = 'processState_eq_Complete';
+          targetTaskCountRequest.params.processDefinitionKey = 'assignTarget';
 
           variableInstancesRequest.url = '/history/variable-instance';
         } else {
@@ -88,8 +88,8 @@ const TasksTab = ({ taskStatus, setError }) => {
           tasksRequest.url = '/task';
           tasksRequest.params = { ...tasksRequest.params, ...commonQueryParams };
 
-          taskCountRequest.url = '/task/count';
-          taskCountRequest.params = commonQueryParams;
+          targetTaskCountRequest.url = '/task/count';
+          targetTaskCountRequest.params = commonQueryParams;
 
           variableInstancesRequest.url = '/variable-instance';
           variableInstancesRequest.params.variableName = 'taskSummary';
@@ -98,7 +98,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         const tasksResponse = await camundaRequest(tasksRequest.url, tasksRequest.params);
         const processInstanceIds = _.uniq(tasksResponse.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
         variableInstancesRequest.params.processInstanceIdIn = processInstanceIds;
-        const taskCountResponse = await camundaRequest(taskCountRequest.url, taskCountRequest.params);
+        const targetTaskCountResponse = await camundaRequest(targetTaskCountRequest.url, targetTaskCountRequest.params);
         const variableInstancesResponse = await camundaRequest(variableInstancesRequest.url, variableInstancesRequest.params);
         let parsedTasks;
 
@@ -128,11 +128,11 @@ const TasksTab = ({ taskStatus, setError }) => {
           });
         }
 
-        setTaskCount(taskCountResponse.data.count);
-        setTasks(parsedTasks);
+        setTargetTaskCount(targetTaskCountResponse.data.count);
+        setTargetTasks(parsedTasks);
       } catch (e) {
         setError(e.message);
-        setTasks([]);
+        setTargetTasks([]);
       } finally {
         setLoading(false);
       }
@@ -166,34 +166,34 @@ const TasksTab = ({ taskStatus, setError }) => {
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
 
-      {!isLoading && tasks.length === 0 && (
+      {!isLoading && targetTasks.length === 0 && (
         <p className="govuk-body-l">No tasks available</p>
       )}
 
-      {!isLoading && tasks.length > 0 && tasks.map((task) => {
-        const formattedData = formatTaskData(task);
-        const passengers = task.people?.filter(({ role }) => role === 'PASSENGER') || [];
+      {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
+        const formattedData = formatTaskData(target);
+        const passengers = target.people?.filter(({ role }) => role === 'PASSENGER') || [];
 
         return (
-          <section className="task-list--item" key={task.processInstanceId}>
+          <section className="task-list--item" key={target.processInstanceId}>
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-three-quarters">
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-                    to={`/tasks/${task.id}`}
-                  >{task.businessKey || task.id}
+                    to={`/tasks/${target.processInstanceId || target.id}`}
+                  >{target.businessKey || target.id}
                   </Link>
                 </h3>
                 <h4 className="govuk-heading-m task-sub-heading govuk-!-font-weight-regular">
-                  {task.movementStatus}
+                  {target.movementStatus}
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
                 <ClaimButton
                   className="govuk-!-font-weight-bold"
-                  assignee={task.assignee}
-                  taskId={task.id}
+                  assignee={target.assignee}
+                  taskId={target.id}
                   setError={setError}
                 />
               </div>
@@ -223,7 +223,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                         {formattedData.driver.name}
                       </span>, DOB: {formattedData.driver.dateOfBirth},
                       {' '}
-                      {pluralise.withCount(task.aggregateDriverTrips || '?', '% trip', '% trips')}
+                      {pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}
                     </>
                   ) : (<span className="govuk-!-font-weight-bold">Unknown</span>)}
                 </p>
@@ -245,7 +245,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                         {formattedData.vehicle.registration}
                       </span>, {formattedData.vehicle.description},
                       {' '}
-                      {pluralise.withCount(task.aggregateVehicleTrips || 0, '% trip', '% trips')}
+                      {pluralise.withCount(target.aggregateVehicleTrips || 0, '% trip', '% trips')}
                     </>
                   ) : (<span className="govuk-!-font-weight-bold">No vehicle</span>)}
                 </p>
@@ -259,7 +259,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                         {formattedData.trailerRegistration}
                       </span>, {formattedData.trailer.description},
                       {' '}
-                      {pluralise.withCount(task.aggregateTrailerTrips || 0, '% trip', '% trips')}
+                      {pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}
                     </>
                   ) : (<span className="govuk-!-font-weight-bold">No trailer</span>)}
                 </p>
@@ -278,8 +278,8 @@ const TasksTab = ({ taskStatus, setError }) => {
                   <span className="govuk-!-font-weight-bold">
                     {formattedData.account.name}
                   </span>
-                  {task.bookingDateTime && (
-                    <>, Booked on {moment(task.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
+                  {target.bookingDateTime && (
+                    <>, Booked on {moment(target.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
                   )}
                 </p>
               </div>
@@ -288,7 +288,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   Goods details
                 </h3>
                 <p className="govuk-body-s govuk-!-font-weight-bold">
-                  {task.freight?.descriptionOfCargo || 'Unknown'}
+                  {target.freight?.descriptionOfCargo || 'Unknown'}
                 </p>
               </div>
             </div>
@@ -297,11 +297,11 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
                   <li className="task-labels-item">
                     <strong className="govuk-tag govuk-tag--positiveTarget">
-                      {task.matchedSelectors?.[0]?.priority || 'Unknown'}
+                      {target.matchedSelectors?.[0]?.priority || 'Unknown'}
                     </strong>
                   </li>
                   <li className="task-labels-item">
-                    {task.matchedSelectors?.[0]?.threatType || 'Unknown'}
+                    {target.matchedSelectors?.[0]?.threatType || 'Unknown'}
                   </li>
                 </ul>
               </div>
@@ -311,7 +311,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       })}
 
       <Pagination
-        totalItems={taskCount}
+        totalItems={targetTaskCount}
         itemsPerPage={itemsPerPage}
         activePage={activePage}
         totalPages={totalPages}
