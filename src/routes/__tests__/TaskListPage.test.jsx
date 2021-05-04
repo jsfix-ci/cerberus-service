@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import TaskListPage from '../TaskListPage';
+import TaskListPage from '../TaskLists/TaskListPage';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
