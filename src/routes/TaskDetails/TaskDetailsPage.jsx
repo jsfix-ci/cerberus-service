@@ -3,21 +3,21 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
 
-import config from '../config';
-import { FORM_NAME_TARGET_INFORMATION_SHEET } from '../constants';
-import { useKeycloak } from '../utils/keycloak';
-import useAxiosInstance from '../utils/axiosInstance';
-import Button from '../govuk/Button';
-import LoadingSpinner from '../forms/LoadingSpinner';
-import ErrorSummary from '../govuk/ErrorSummary';
-import ClaimButton from '../components/ClaimTaskButton';
-import RenderForm from '../components/RenderForm';
-import Panel from '../govuk/Panel';
-import { useFormSubmit } from '../utils/formioSupport';
-import TaskSummary from './TaskDetails/TaskSummary';
+import config from '../../config';
+import { FORM_NAME_TARGET_INFORMATION_SHEET } from '../../constants';
+import { useKeycloak } from '../../utils/keycloak';
+import useAxiosInstance from '../../utils/axiosInstance';
+import Button from '../../govuk/Button';
+import LoadingSpinner from '../../forms/LoadingSpinner';
+import ErrorSummary from '../../govuk/ErrorSummary';
+import ClaimButton from '../../components/ClaimTaskButton';
+import RenderForm from '../../components/RenderForm';
+import Panel from '../../govuk/Panel';
+import { useFormSubmit } from '../../utils/formioSupport';
+import TaskSummary from './TaskSummary';
 
 import './__assets__/TaskDetailsPage.scss';
-import TaskVersions from './TaskDetails/TaskVersions';
+import TaskVersions from './TaskVersions';
 
 // See Camunda docs for all operation types: https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';

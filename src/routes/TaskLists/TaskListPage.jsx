@@ -7,18 +7,18 @@ import * as pluralise from 'pluralise';
 import axios from 'axios';
 import _ from 'lodash';
 
-import config from '../config';
-import { SHORT_DATE_FORMAT } from '../constants';
-import Tabs from '../govuk/Tabs';
-import Pagination from '../components/Pagination';
-import useAxiosInstance from '../utils/axiosInstance';
-import formatTaskData from '../utils/formatTaskSummaryData';
-import LoadingSpinner from '../forms/LoadingSpinner';
-import ErrorSummary from '../govuk/ErrorSummary';
+import config from '../../config';
+import { SHORT_DATE_FORMAT } from '../../constants';
+import Tabs from '../../govuk/Tabs';
+import Pagination from '../../components/Pagination';
+import useAxiosInstance from '../../utils/axiosInstance';
+import formatTaskData from '../../utils/formatTaskSummaryData';
+import LoadingSpinner from '../../forms/LoadingSpinner';
+import ErrorSummary from '../../govuk/ErrorSummary';
 
 import './__assets__/TaskListPage.scss';
-import ClaimButton from '../components/ClaimTaskButton';
-import { useKeycloak } from '../utils/keycloak';
+import ClaimButton from '../../components/ClaimTaskButton';
+import { useKeycloak } from '../../utils/keycloak';
 
 const TASK_STATUS_NEW = 'new';
 const TASK_STATUS_IN_PROGRESS = 'in_progress';

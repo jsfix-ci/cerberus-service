@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import TaskDetailsPage from '../TaskDetailsPage';
+import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import taskDetailsVariableInstanceResponse from '../__fixtures__/taskDetailsVariableInstanceResponse.fixture.json';
 
 // mock useParams
