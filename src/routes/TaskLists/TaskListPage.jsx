@@ -195,6 +195,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   assignee={target.assignee}
                   taskId={target.id}
                   setError={setError}
+                  processInstanceId={target.processInstanceId}
                 />
               </div>
             </div>

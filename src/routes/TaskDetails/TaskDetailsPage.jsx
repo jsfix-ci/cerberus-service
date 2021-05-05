@@ -69,12 +69,14 @@ const TaskDetailsPage = () => {
   const [isLoading, setLoading] = useState(true);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
-  const currentUser = keycloak.tokenParsed.email;
-  const assignee = taskVersions?.[0]?.assignee;
-  const currentUserIsOwner = assignee === currentUser;
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
+  const [isProcessComplete, setIsProcessComplete] = useState();
+  const [targetTask, setTargetTask] = useState({});
+  const currentUser = keycloak.tokenParsed.email;
+  const assignee = targetTask?.assignee;
+  const currentUserIsOwner = assignee === currentUser;
   const source = axios.CancelToken.source();
 
   const TaskCompletedSuccessMessage = ({ message }) => {
@@ -101,7 +103,7 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     const loadTask = async () => {
       try {
-        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse] = await Promise.all([
+        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse, processInstanceResponse] = await Promise.all([
           camundaClient.get(
             '/task',
             { params: { processInstanceId } },
@@ -117,6 +119,10 @@ const TaskDetailsPage = () => {
           camundaClient.get(
             '/history/task',
             { params: { processInstanceId, deserializeValues: false } },
+          ),
+          camundaClient.get(
+            '/process-instance',
+            { params: { processInstanceIds: processInstanceId, variables: 'processState_neq_Complete' } },
           ),
         ]);
 
@@ -158,8 +164,10 @@ const TaskDetailsPage = () => {
             acc[camundaVar.name] = JSON.parse(camundaVar.value);
             return acc;
           }, {});
+
+        setIsProcessComplete(processInstanceResponse.data.length === 0);
+        setTargetTask(taskResponse.data.length === 0 ? null : taskResponse.data[0]);
         setTaskVersions([{
-          ...taskResponse.data[0],
           ...parsedTaskVariables,
         }]);
       } catch (e) {
@@ -189,7 +197,6 @@ const TaskDetailsPage = () => {
     }
     return `Assigned to ${assignee}`;
   };
-  const taskId = 'hello';
 
   return (
     <>
@@ -201,14 +208,15 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
-              <p className="govuk-body">
-                {getAssignee()}
-                <ClaimButton assignee={assignee} taskId={taskId} setError={setError} />
-              </p>
+              {!isProcessComplete && (
+                <p className="govuk-body">
+                  {getAssignee()}
+                  <ClaimButton assignee={assignee} taskId={targetTask.id} setError={setError} processInstanceId={processInstanceId} />
+                </p>
+              )}
             </div>
-
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {currentUserIsOwner && (
+              {currentUserIsOwner && !isProcessComplete && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
@@ -252,7 +260,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="assessmentComplete"
                   onCancel={() => setCompleteFormOpen(false)}
-                  taskId={taskVersions[0].id}
+                  taskId={targetTask.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
@@ -262,7 +270,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="dismissTarget"
                   onCancel={() => setDismissFormOpen(false)}
-                  taskId={taskVersions[0].id}
+                  taskId={targetTask.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
@@ -280,7 +288,7 @@ const TaskDetailsPage = () => {
                   <TaskManagementForm
                     formName="targetInformationSheet"
                     onCancel={() => setIssueTargetFormOpen(false)}
-                    taskId={taskVersions[0].id}
+                    taskId={targetTask.id}
                     taskData={taskVersions[0].targetInformationSheet}
                     actionTarget
                   >
@@ -298,7 +306,7 @@ const TaskDetailsPage = () => {
                 <TaskNotesForm
                   formName="noteCerberus"
                   businessKey={taskVersions[0].taskSummary?.businessKey}
-                  processInstanceId={taskVersions.find((task) => !!task.processInstanceId).processInstanceId}
+                  processInstanceId={processInstanceId}
                 />
               )}
 
