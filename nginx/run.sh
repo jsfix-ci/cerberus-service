@@ -24,7 +24,8 @@ echo "== Finished ENV sub =="
 # config file takes precedence
 if [[ -f ${NGINX_CONFIG_FILE} ]]; then
   echo "== Starting nginx using a config file =="
-  sed -i 's,REPLACE_CERBERUS_API_URL,'${CERBERUS_API_URL}',g' ${NGINX_CONFIG_FILE}
+  export CERBERUS_API_SERVER=`echo ${CERBERUS_API_URL} | sed 's|^https://||'`
+  sed -i 's,REPLACE_CERBERUS_API_SERVER,'${CERBERUS_API_SERVER}',g' ${NGINX_CONFIG_FILE}
   nginx -g 'daemon off;' -c ${NGINX_CONFIG_FILE}
 elif [[ -n ${NGINX_CONFIG} ]]; then
   echo "== Starting nginx using a config variable =="
