@@ -360,7 +360,7 @@ const TaskListPage = () => {
             label: 'New',
             panel: (
               <>
-                <h1 className="govuk-heading-l">New tasks</h1>
+                <h2 className="govuk-heading-l">New tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_NEW} setError={setError} />
               </>
             ),
@@ -370,7 +370,7 @@ const TaskListPage = () => {
             label: 'In progress',
             panel: (
               <>
-                <h1 className="govuk-heading-l">In progress tasks</h1>
+                <h2 className="govuk-heading-l">In progress tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
               </>
             ),
@@ -380,7 +380,7 @@ const TaskListPage = () => {
             label: 'Target issued',
             panel: (
               <>
-                <h1 className="govuk-heading-l">Target issued tasks</h1>
+                <h2 className="govuk-heading-l">Target issued tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
               </>
             ),
@@ -390,7 +390,7 @@ const TaskListPage = () => {
             label: 'Complete',
             panel: (
               <>
-                <h1 className="govuk-heading-l">Completed tasks</h1>
+                <h2 className="govuk-heading-l">Completed tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
               </>
             ),
