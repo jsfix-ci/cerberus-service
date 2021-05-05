@@ -22,6 +22,7 @@ import { useKeycloak } from '../../utils/keycloak';
 
 const TASK_STATUS_NEW = 'new';
 const TASK_STATUS_IN_PROGRESS = 'in_progress';
+const TASK_STATUS_TARGET_ISSUED = 'issued';
 const TASK_STATUS_COMPLETED = 'completed';
 
 const TasksTab = ({ taskStatus, setError }) => {
@@ -75,6 +76,14 @@ const TasksTab = ({ taskStatus, setError }) => {
           taskCountRequest.params.processDefinitionKey = 'assignTarget';
 
           variableInstancesRequest.url = '/history/variable-instance';
+        } else if (taskStatus === TASK_STATUS_TARGET_ISSUED) {
+          tasksRequest.url = '/process-instance';
+          tasksRequest.params.variables = 'processState_eq_Issued';
+
+          taskCountRequest.url = '/process-instance/count';
+          taskCountRequest.params.variables = 'processState_eq_Issued';
+
+          variableInstancesRequest.url = '/variable-instance';
         } else {
           const commonQueryParams = {};
 
@@ -363,6 +372,16 @@ const TaskListPage = () => {
               <>
                 <h1 className="govuk-heading-l">In progress tasks</h1>
                 <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
+              </>
+            ),
+          },
+          {
+            id: 'target-issued',
+            label: 'Target issued',
+            panel: (
+              <>
+                <h1 className="govuk-heading-l">Target issued tasks</h1>
+                <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
               </>
             ),
           },
