@@ -18,7 +18,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should add notes for the selected tasks', () => {
     const taskNotes = 'Add notes for testing & check it stored';
     cy.intercept('POST', '/camunda/process-definition/key/noteSubmissionWrapper/submit-form').as('notes');
-
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
@@ -77,19 +76,31 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
+
+      cy.wait(2000);
+
+      cy.get('.govuk-caption-xl').invoke('text').then((text) => {
+        cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+
+        cy.wait(2000);
+
+        cy.contains('Back to task list').click();
+
+        cy.get('a[href="#in-progress"]').click();
+
+        cy.waitForTaskManagementPageToLoad();
+
+        cy.get('a[data-test="last"]').click();
+
+        cy.contains(text);
+      });
     });
-
-    cy.wait(2000);
-
-    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
-
-    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
-
-    cy.wait('@claim').then(({ response }) => {
-      expect(response.statusCode).to.equal(204);
-    });
-
-    cy.wait(2000);
   });
 
   it('Should Unclaim a task Successfully from task details page', () => {
@@ -121,6 +132,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should complete assessment of a task with a reason as take no further action', () => {
+    const reasons = [
+      'Credibility checks carried out - no target required',
+      'Vessel arrived',
+      'False BSM or selector match',
+      'Other',
+    ];
+
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
@@ -137,9 +155,18 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.contains('Assessment complete').click();
 
+    cy.clickNext();
+
+    cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for completing your assessment');
+
     cy.selectCheckBox('reason', 'No further action');
 
     cy.clickNext();
+
+    cy.get('.formio-component-nfaReason .govuk-checkboxes__item label').each((reason, index) => {
+      cy.wrap(reason)
+        .should('contain.text', reasons[index]).and('be.visible');
+    });
 
     cy.selectCheckBox('nfaReason', 'Vessel arrived');
 
@@ -150,6 +177,52 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.clickSubmit();
 
     cy.verifySuccessfulSubmissionHeader('Task has been completed');
+  });
+
+  it('Should dismiss a task with a reason', () => {
+    cy.postTasks();
+    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
+
+    const reasons = [
+      'Vessel arrived',
+      'False rule match',
+      'Resource redirected',
+      'Other (please specify)',
+    ];
+
+    cy.getUnassignedTasks().then((tasks) => {
+      const taskId = tasks.map(((item) => item.id));
+      expect(taskId.length).to.not.equal(0);
+      cy.visit(`/tasks/${taskId[0]}`);
+      cy.wait('@tasksDetails').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.contains('Dismiss').click();
+
+    cy.get('.formio-component-reason .govuk-checkboxes__item label').each((reason, index) => {
+      cy.wrap(reason)
+        .should('contain.text', reasons[index]).and('be.visible');
+    });
+
+    cy.clickNext();
+
+    cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for dismissing the task');
+
+    cy.selectCheckBox('reason', 'False rule match');
+
+    cy.clickNext();
+
+    cy.typeValueInTextArea('addANote', 'This is for testing');
+
+    cy.clickSubmit();
+
+    cy.verifySuccessfulSubmissionHeader('Task has been dismissed');
   });
 
   after(() => {

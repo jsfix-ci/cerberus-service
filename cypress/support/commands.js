@@ -4,6 +4,8 @@ let token;
 
 const cerberusServiceUrl = Cypress.env('cerberusServiceUrl');
 const realm = Cypress.env('auth_realm');
+const formioComponent = '.formio-component-';
+const formioErrorText = '.govuk-error-message > div';
 
 Cypress.Commands.add('login', (userName) => {
   cy.kcLogout();
@@ -21,6 +23,7 @@ Cypress.Commands.add('navigation', (option) => {
 
 Cypress.Commands.add('waitForTaskManagementPageToLoad', () => {
   cy.intercept('GET', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=**').as('tasks');
+
   cy.navigation('Tasks');
 
   cy.wait('@tasks').then(({ response }) => {
@@ -40,6 +43,7 @@ Cypress.Commands.add('getUnassignedTasks', () => {
   };
 
   cy.request(options).then((response) => {
+    console.log(response.body);
     return response.body.filter((item) => item.assignee === null);
   });
 });
@@ -76,7 +80,7 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
 
 Cypress.Commands.add('selectCheckBox', (elementName, value) => {
   if (value !== undefined && value !== '') {
-    cy.get(`.formio-component-${elementName}`)
+    cy.get(`${formioComponent}${elementName}`)
       .should('be.visible')
       .contains(new RegExp(`^${value}$`, 'g'))
       .closest('div')
@@ -93,7 +97,7 @@ Cypress.Commands.add('clickNext', () => {
 
 Cypress.Commands.add('typeValueInTextArea', (elementName, value) => {
   if (value !== undefined && value !== '') {
-    cy.get(`.formio-component-${elementName} textarea`)
+    cy.get(`${formioComponent}${elementName} textarea`)
       .should('be.visible')
       .type(value, { force: true });
   }
@@ -146,6 +150,12 @@ function findItem(value) {
 
 Cypress.Commands.add('unClaimTaskFromListPage', (value) => {
   findItem(value);
+});
+
+Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
+  cy.get(`${formioComponent}${element} ${formioErrorText}`)
+    .should('be.visible')
+    .contains(errorText);
 });
 
 Cypress.Commands.add('postTasks', (name) => {
