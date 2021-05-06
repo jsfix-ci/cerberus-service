@@ -72,8 +72,9 @@ const TaskDetailsPage = () => {
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
-  const [isProcessComplete, setIsProcessComplete] = useState();
+  const [isTargetComplete, setIsTargetComplete] = useState();
   const [targetTask, setTargetTask] = useState({});
+  const [isTargetIssued, setIsTargetIssued] = useState();
   const currentUser = keycloak.tokenParsed.email;
   const assignee = targetTask?.assignee;
   const currentUserIsOwner = assignee === currentUser;
@@ -103,7 +104,7 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     const loadTask = async () => {
       try {
-        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse, processInstanceResponse] = await Promise.all([
+        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse, targetCompleteResponse, targetIssuedResponse] = await Promise.all([
           camundaClient.get(
             '/task',
             { params: { processInstanceId } },
@@ -123,6 +124,10 @@ const TaskDetailsPage = () => {
           camundaClient.get(
             '/process-instance',
             { params: { processInstanceIds: processInstanceId, variables: 'processState_neq_Complete' } },
+          ),
+          camundaClient.get(
+            '/process-instance',
+            { params: { processInstanceIds: processInstanceId, variables: 'processState_eq_Issued' } },
           ),
         ]);
 
@@ -165,8 +170,9 @@ const TaskDetailsPage = () => {
             return acc;
           }, {});
 
-        setIsProcessComplete(processInstanceResponse.data.length === 0);
-        setTargetTask(taskResponse.data.length === 0 ? null : taskResponse.data[0]);
+        setIsTargetComplete(targetCompleteResponse.data.length === 0);
+        setIsTargetIssued(targetIssuedResponse.data.length > 0);
+        setTargetTask(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
         setTaskVersions([{
           ...parsedTaskVariables,
         }]);
@@ -208,7 +214,7 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
-              {!isProcessComplete && (
+              {!isTargetComplete && !isTargetIssued && (
                 <p className="govuk-body">
                   {getAssignee()}
                   <ClaimButton assignee={assignee} taskId={targetTask.id} setError={setError} processInstanceId={processInstanceId} />
@@ -216,7 +222,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {currentUserIsOwner && !isProcessComplete && (
+              {currentUserIsOwner && !isTargetComplete && !isTargetIssued && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
