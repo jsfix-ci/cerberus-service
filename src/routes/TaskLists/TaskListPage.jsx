@@ -38,6 +38,7 @@ const TasksTab = ({ taskStatus, setError }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const source = axios.CancelToken.source();
+  const isTargetTaskComplete = taskStatus === TASK_STATUS_COMPLETED;
 
   const camundaRequest = async (url, params = {}) => {
     return camundaClient.get(url, { params });
@@ -181,7 +182,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-                    to={`/tasks/${target.id}`}
+                    to={`/tasks/${target.processInstanceId || target.id}`}
                   >{target.businessKey || target.id}
                   </Link>
                 </h3>
@@ -190,12 +191,15 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
-                <ClaimButton
-                  className="govuk-!-font-weight-bold"
-                  assignee={target.assignee}
-                  taskId={target.id}
-                  setError={setError}
-                />
+                {!isTargetTaskComplete && (
+                  <ClaimButton
+                    className="govuk-!-font-weight-bold"
+                    assignee={target.assignee}
+                    taskId={target.id}
+                    setError={setError}
+                    processInstanceId={target.processInstanceId}
+                  />
+                )}
               </div>
             </div>
             <div className="govuk-grid-row">

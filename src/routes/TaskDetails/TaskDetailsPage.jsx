@@ -62,19 +62,22 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 };
 
 const TaskDetailsPage = () => {
-  const { taskId } = useParams();
+  const { processInstanceId } = useParams();
   const [error, setError] = useState(null);
   const [taskVersions, setTaskVersions] = useState([]);
   const [activityLog, setActivityLog] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
-  const currentUser = keycloak.tokenParsed.email;
-  const assignee = taskVersions?.[0]?.assignee;
-  const currentUserIsOwner = assignee === currentUser;
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
+  const [isTargetComplete, setIsTargetComplete] = useState();
+  const [targetTask, setTargetTask] = useState({});
+  const [isTargetIssued, setIsTargetIssued] = useState();
+  const currentUser = keycloak.tokenParsed.email;
+  const assignee = targetTask?.assignee;
+  const currentUserIsOwner = assignee === currentUser;
   const source = axios.CancelToken.source();
 
   const TaskCompletedSuccessMessage = ({ message }) => {
@@ -101,12 +104,13 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     const loadTask = async () => {
       try {
-        const taskResponse = await camundaClient.get(`/task/${taskId}`);
-        const processInstanceId = taskResponse.data.processInstanceId;
-
-        const [variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse] = await Promise.all([
+        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse, targetCompleteResponse, targetIssuedResponse] = await Promise.all([
           camundaClient.get(
-            '/variable-instance',
+            '/task',
+            { params: { processInstanceId } },
+          ),
+          camundaClient.get(
+            '/history/variable-instance',
             { params: { processInstanceIdIn: processInstanceId, deserializeValues: false } },
           ),
           camundaClient.get(
@@ -116,6 +120,14 @@ const TaskDetailsPage = () => {
           camundaClient.get(
             '/history/task',
             { params: { processInstanceId, deserializeValues: false } },
+          ),
+          camundaClient.get(
+            '/process-instance',
+            { params: { processInstanceIds: processInstanceId, variables: 'processState_neq_Complete' } },
+          ),
+          camundaClient.get(
+            '/process-instance',
+            { params: { processInstanceIds: processInstanceId, variables: 'processState_eq_Issued' } },
           ),
         ]);
 
@@ -157,8 +169,11 @@ const TaskDetailsPage = () => {
             acc[camundaVar.name] = JSON.parse(camundaVar.value);
             return acc;
           }, {});
+
+        setIsTargetComplete(targetCompleteResponse.data.length === 0);
+        setIsTargetIssued(targetIssuedResponse.data.length > 0);
+        setTargetTask(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
         setTaskVersions([{
-          ...taskResponse.data,
           ...parsedTaskVariables,
         }]);
       } catch (e) {
@@ -199,14 +214,15 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
-              <p className="govuk-body">
-                {getAssignee()}
-                <ClaimButton assignee={assignee} taskId={taskId} setError={setError} />
-              </p>
+              {!isTargetComplete && !isTargetIssued && (
+                <p className="govuk-body">
+                  {getAssignee()}
+                  <ClaimButton assignee={assignee} taskId={targetTask.id} setError={setError} processInstanceId={processInstanceId} />
+                </p>
+              )}
             </div>
-
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {currentUserIsOwner && (
+              {currentUserIsOwner && !isTargetComplete && !isTargetIssued && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
@@ -250,7 +266,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="assessmentComplete"
                   onCancel={() => setCompleteFormOpen(false)}
-                  taskId={taskVersions[0].id}
+                  taskId={targetTask.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
@@ -260,7 +276,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="dismissTarget"
                   onCancel={() => setDismissFormOpen(false)}
-                  taskId={taskVersions[0].id}
+                  taskId={targetTask.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
@@ -278,7 +294,7 @@ const TaskDetailsPage = () => {
                   <TaskManagementForm
                     formName="targetInformationSheet"
                     onCancel={() => setIssueTargetFormOpen(false)}
-                    taskId={taskVersions[0].id}
+                    taskId={targetTask.id}
                     taskData={taskVersions[0].targetInformationSheet}
                     actionTarget
                   >
@@ -296,7 +312,7 @@ const TaskDetailsPage = () => {
                 <TaskNotesForm
                   formName="noteCerberus"
                   businessKey={taskVersions[0].taskSummary?.businessKey}
-                  processInstanceId={taskVersions.find((task) => !!task.processInstanceId).processInstanceId}
+                  processInstanceId={processInstanceId}
                 />
               )}
 

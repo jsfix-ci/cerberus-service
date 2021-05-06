@@ -23,7 +23,7 @@ const AppRouter = () => {
     <BrowserRouter>
       <Route path="/" exact><Redirect to="/tasks" /></Route>
       <Route path="/tasks" exact><Layout><TaskListPage /></Layout></Route>
-      <Route path="/tasks/:taskId" exact>
+      <Route path="/tasks/:processInstanceId" exact>
         <Layout beforeMain={<Link className="govuk-back-link" to="/tasks">Back to task list</Link>}>
           <TaskDetailsPage />
         </Layout>

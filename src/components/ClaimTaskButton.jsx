@@ -5,7 +5,7 @@ import useAxiosInstance from '../utils/axiosInstance';
 import config from '../config';
 import { useKeycloak } from '../utils/keycloak';
 
-const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, ...props }) => {
+const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, processInstanceId, ...props }) => {
   const history = useHistory();
   const [isAssignmentInProgress, setAssignmentProgress] = useState(false);
   const keycloak = useKeycloak();
@@ -26,8 +26,8 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, ...props }) =>
       await camundaClient.post(`task/${taskId}/claim`, {
         userId: currentUser,
       });
-      if (history.location.pathname !== `/tasks/${taskId}`) {
-        history.push(`/tasks/${taskId}`);
+      if (history.location.pathname !== `/tasks/${processInstanceId}`) {
+        history.push(`/tasks/${processInstanceId}`);
       } else {
         history.go(0);
       }
