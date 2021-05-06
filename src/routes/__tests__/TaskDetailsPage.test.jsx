@@ -22,6 +22,7 @@ describe('TaskDetailsPage', () => {
         processInstanceId: '123',
         assignee: 'test',
         id: 'task123',
+        taskDefinitionKey: 'developTarget',
       }],
       variableInstanceResponse: taskDetailsVariableInstanceResponse,
       operationsHistoryResponse: [{
@@ -147,6 +148,23 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryByText('Assigned to ANOTHER_USER')).not.toBeInTheDocument();
     expect(screen.queryByText('Unclaim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+  });
+
+  it('should not render action forms when target task type is not equal to "developTarget"', async () => {
+    mockTaskDetailsAxiosResponses.taskResponse = [{
+      processInstanceId: '123',
+      assignee: 'test',
+      id: 'task123',
+      taskDefinitionKey: 'NOT_DEVELOP_TARGET',
+    }];
+
+    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
+    expect(screen.queryByText('Unclaim')).toBeInTheDocument();
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
   });
 });
