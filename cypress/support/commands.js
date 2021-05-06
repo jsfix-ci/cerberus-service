@@ -20,7 +20,7 @@ Cypress.Commands.add('navigation', (option) => {
 });
 
 Cypress.Commands.add('waitForTaskManagementPageToLoad', () => {
-  cy.intercept('POST', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=*').as('tasks');
+  cy.intercept('GET', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=**').as('tasks');
   cy.navigation('Tasks');
 
   cy.wait('@tasks').then(({ response }) => {
@@ -33,7 +33,7 @@ Cypress.Commands.add('getUnassignedTasks', () => {
 
   const options = {
     method: 'GET',
-    url: '/camunda/task?firstResult=0&maxResults=20',
+    url: '/camunda/task?**',
     headers: {
       authorization,
     },
@@ -48,7 +48,7 @@ Cypress.Commands.add('getTasksAssignedToOtherUsers', () => {
   const authorization = `bearer ${token}`;
   const options = {
     method: 'GET',
-    url: '/camunda/task?firstResult=0&maxResults=20',
+    url: '/camunda/task?**',
     headers: {
       authorization,
     },
@@ -63,7 +63,7 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
   const authorization = `bearer ${token}`;
   const options = {
     method: 'GET',
-    url: '/camunda/task?firstResult=0&maxResults=20',
+    url: '/camunda/task?**',
     headers: {
       authorization,
     },
@@ -111,8 +111,45 @@ Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
     .and('have.text', value);
 });
 
-Cypress.Commands.add('postTasks', () => {
-  const businessKey = `CERB-AUTOTEST-${Math.floor((Math.random() * 1000000) + 1)}`;
+function findItem(value) {
+  function findInPage(index) {
+    let found = false;
+
+    cy.get('li a[data-test*="page-number"]').as('pages');
+
+    cy.get('@pages').its(length).then((len) => {
+      if (index > len) {
+        return false;
+      }
+      cy.get('@pages').eq(index).click();
+      cy.get('.govuk-link--no-visited-state').each((item) => {
+        cy.wrap(item).invoke('attr', 'href').then((href) => {
+          if (href === value) {
+            found = true;
+            cy.get(`.govuk-grid-row a[href="${value}"]`)
+              .parentsUntil('.task-list--item').within(() => {
+                cy.get('button.link-button')
+                  .should('have.text', 'Unclaim')
+                  .click();
+              });
+          }
+        });
+      }).then(() => {
+        if (!found) {
+          findInPage(index += 1);
+        }
+      });
+    });
+  }
+  findInPage(0);
+}
+
+Cypress.Commands.add('unClaimTaskFromListPage', (value) => {
+  findItem(value);
+});
+
+Cypress.Commands.add('postTasks', (name) => {
+  const businessKey = `${name}-${Math.floor((Math.random() * 1000000) + 1)}`;
 
   cy.fixture('tasks.json').then((task) => {
     task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);

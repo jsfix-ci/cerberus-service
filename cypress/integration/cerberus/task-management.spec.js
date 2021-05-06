@@ -6,7 +6,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   before(() => {
     cy.login(Cypress.env('userName'));
-    cy.postTasks();
+    cy.postTasks('CERB-AUTOTEST');
   });
 
   beforeEach(() => {
@@ -55,7 +55,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify refresh task list page', () => {
-    cy.intercept('POST', '/camunda/variable-instance?deserializeValues=false').as('tasks');
+    cy.intercept('GET', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=**').as('tasks');
     cy.clock();
 
     cy.wait('@tasks').then(({ response }) => {
@@ -73,7 +73,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.url().should('contain', 'page=2');
   });
 
-  it('Should Unclaim & claim a task Successfully from task management page', () => {
+  it('Should Claim & Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
@@ -90,15 +90,12 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.wait(2000);
 
+    cy.contains('Back to task list').click();
+
     cy.get('a[href="#in-progress"]').click();
 
-    cy.get('@taskLink').then(($value) => {
-      cy.get(`.govuk-grid-row a[href="${$value}"]`)
-        .parentsUntil('.task-list--item').within(() => {
-          cy.get('button.link-button')
-            .should('have.text', 'Unclaim')
-            .click();
-        });
+    cy.get('@taskLink').then((value) => {
+      cy.unClaimTaskFromListPage(value);
     });
 
     cy.wait('@unclaim').then(({ response }) => {

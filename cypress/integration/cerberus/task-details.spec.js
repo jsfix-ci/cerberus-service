@@ -1,7 +1,7 @@
 describe('Render tasks from Camunda and manage them on task details Page', () => {
   before(() => {
     cy.login(Cypress.env('userName'));
-    cy.postTasks();
+    cy.postTasks('CERB-AUTOTEST');
   });
 
   beforeEach(() => {
@@ -17,12 +17,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should add notes for the selected tasks', () => {
     const taskNotes = 'Add notes for testing & check it stored';
-    cy.intercept('POST', '/camunda/message').as('notes');
-    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
+    cy.intercept('POST', '/camunda/process-definition/key/noteSubmissionWrapper/submit-form').as('notes');
 
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
       cy.visit(`/tasks/${taskId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
@@ -42,7 +42,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.get('.formio-component-submit button').click('top');
 
     cy.wait('@notes').then(({ response }) => {
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(200);
     });
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim').click();
@@ -51,11 +51,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should hide Notes Textarea for the tasks assigned to others', () => {
-    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
-
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
       cy.visit(`/tasks/${taskId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
@@ -68,12 +67,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should Claim a task Successfully from task details page', () => {
-    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
       cy.visit(`/tasks/${taskId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
@@ -94,7 +93,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should Unclaim a task Successfully from task details page', () => {
-    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.get('a[href="#in-progress"]').click();
@@ -104,6 +102,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.getTasksAssignedToMe().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
       cy.visit(`/tasks/${taskId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
@@ -122,11 +121,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should complete assessment of a task with a reason as take no further action', () => {
-    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
-
     cy.getUnassignedTasks().then((tasks) => {
       const taskId = tasks.map(((item) => item.id));
       expect(taskId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
       cy.visit(`/tasks/${taskId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
