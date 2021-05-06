@@ -36,12 +36,21 @@ describe('TaskDetailsPage', () => {
         startTime: '2021-04-20T10:50:25.869+0000',
         name: 'Investigate Error',
       }],
-      processInstanceResponse: [{ id: '123' }],
+      targetCompleteResponse: [{ id: '123' }],
+      targetIssuedResponse: [],
       noteFormResponse: { test },
     };
   });
 
-  const mockTaskDetailsAxiosCalls = ({ taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse, processInstanceResponse, noteFormResponse }) => {
+  const mockTaskDetailsAxiosCalls = ({
+    taskResponse,
+    variableInstanceResponse,
+    operationsHistoryResponse,
+    taskHistoryResponse,
+    targetCompleteResponse,
+    targetIssuedResponse,
+    noteFormResponse,
+  }) => {
     mockAxios
       .onGet('/task', { params: { processInstanceId: '123' } })
       .reply(200, taskResponse)
@@ -52,7 +61,9 @@ describe('TaskDetailsPage', () => {
       .onGet('/history/task', { params: { processInstanceId: '123', deserializeValues: false } })
       .reply(200, taskHistoryResponse)
       .onGet('/process-instance', { params: { processInstanceIds: '123', variables: 'processState_neq_Complete' } })
-      .reply(200, processInstanceResponse)
+      .reply(200, targetCompleteResponse)
+      .onGet('/process-instance', { params: { processInstanceIds: '123', variables: 'processState_eq_Issued' } })
+      .reply(200, targetIssuedResponse)
       .onGet('/form/name/noteCerberus')
       .reply(200, noteFormResponse);
   };
@@ -77,7 +88,7 @@ describe('TaskDetailsPage', () => {
     expect(screen.getByText(/Check the details before issuing target/i)).toBeInTheDocument();
   });
 
-  it('should render "Claim" button when user is not assigned to the task, the task assignee is null and the process has not completed', async () => {
+  it('should render "Claim" button when user is not assigned to the task, the task assignee is null and the target has not been completed or issued', async () => {
     mockTaskDetailsAxiosResponses.taskResponse[0].assignee = null;
 
     mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
@@ -89,7 +100,7 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Unclaim')).not.toBeInTheDocument();
   });
 
-  it('should render "Unclaim" button when user is not assigned to the task and the process has not completed', async () => {
+  it('should render "Unclaim" button when user is not assigned to the task and the target has not been completed or issued', async () => {
     mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -99,7 +110,7 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
   });
 
-  it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not completed', async () => {
+  it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not been completed or issued', async () => {
     mockTaskDetailsAxiosResponses.taskResponse[0].assignee = 'ANOTHER_USER';
 
     mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
@@ -111,10 +122,24 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
   });
 
-  it('should not render user or claim/unclaim buttons when a process is not complete (come from complete tab in task list)', async () => {
+  it('should not render user or claim/unclaim buttons when a target is complete and target is not issued', async () => {
     mockTaskDetailsAxiosResponses.taskResponse[0].assignee = 'ANOTHER_USER';
     mockTaskDetailsAxiosResponses.taskResponse = [];
-    mockTaskDetailsAxiosResponses.processInstanceResponse = [];
+    mockTaskDetailsAxiosResponses.targetCompleteResponse = [];
+
+    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Assigned to ANOTHER_USER')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+  });
+
+  it('should not render user or claim/unclaim buttons when a target is issued and target is not complete', async () => {
+    mockTaskDetailsAxiosResponses.taskResponse[0].assignee = 'ANOTHER_USER';
+    mockTaskDetailsAxiosResponses.taskResponse = [];
+    mockTaskDetailsAxiosResponses.targetIssuedResponse = [{ id: '123' }];
 
     mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
 
