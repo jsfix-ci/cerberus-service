@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useInterval } from 'react-use';
-import qs from 'qs';
-import moment from 'moment';
-import * as pluralise from 'pluralise';
 import axios from 'axios';
 import _ from 'lodash';
+import moment from 'moment';
+import * as pluralise from 'pluralise';
+import qs from 'qs';
 
 import config from '../../config';
 import { SHORT_DATE_FORMAT } from '../../constants';
-import Tabs from '../../govuk/Tabs';
+import ClaimButton from '../../components/ClaimTaskButton';
 import Pagination from '../../components/Pagination';
-import useAxiosInstance from '../../utils/axiosInstance';
-import formatTaskData from '../../utils/formatTaskSummaryData';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import ErrorSummary from '../../govuk/ErrorSummary';
+import Tabs from '../../govuk/Tabs';
+import useAxiosInstance from '../../utils/axiosInstance';
+import formatTaskData from '../../utils/formatTaskSummaryData';
+import { useKeycloak } from '../../utils/keycloak';
 
 import '../__assets__/TaskListPage.scss';
-import ClaimButton from '../../components/ClaimTaskButton';
-import { useKeycloak } from '../../utils/keycloak';
 
 const TASK_STATUS_NEW = 'new';
 const TASK_STATUS_IN_PROGRESS = 'inProgress';
