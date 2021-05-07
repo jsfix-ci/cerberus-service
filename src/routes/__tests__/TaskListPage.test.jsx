@@ -44,6 +44,11 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
+
+    fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
+    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
   });
 
   it('should render links to processId with text of businessKey when tasks exist', async () => {
@@ -77,6 +82,11 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
     await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
+
+    fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
+    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
   });
 
   it('should render new tasks on page load with a Claim button', async () => {
@@ -99,6 +109,30 @@ describe('TaskListPage', () => {
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
     expect(screen.getAllByText('Claim')).toHaveLength(3);
+  });
+
+  it('should render tasks assigned to the current user with an Unclaim button', async () => {
+    mockAxios
+      .onGet('/task/count')
+      .reply(200, { count: 10 })
+      .onGet('/task')
+      .reply(200, [
+        { processInstanceId: '123', assignee: 'test' },
+        { processInstanceId: '456' },
+        { processInstanceId: '789' },
+      ])
+      .onGet('/variable-instance')
+      .reply(200, [
+        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue"}' },
+        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue"}' },
+      ]);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
+
+    await waitFor(() => expect(screen.getAllByText('Unclaim')).toHaveLength(1));
+    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 
   it('should render issued tasks with no claim buttons', async () => {

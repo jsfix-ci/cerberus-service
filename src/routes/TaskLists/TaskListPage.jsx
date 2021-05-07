@@ -21,6 +21,7 @@ import ClaimButton from '../../components/ClaimTaskButton';
 import { useKeycloak } from '../../utils/keycloak';
 
 const TASK_STATUS_NEW = 'new';
+const TASK_STATUS_IN_PROGRESS = 'inProgress';
 const TASK_STATUS_TARGET_ISSUED = 'issued';
 
 const TasksTab = ({ taskStatus, setError }) => {
@@ -38,6 +39,7 @@ const TasksTab = ({ taskStatus, setError }) => {
   const offset = index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
   // STATUS SETTINGS
+  const currentUser = keycloak.tokenParsed.email;
   const activeTab = taskStatus;
   const targetStatus = {
     new: {
@@ -45,6 +47,13 @@ const TasksTab = ({ taskStatus, setError }) => {
       statusRules: {
         processVariables: 'processState_neq_Complete',
         unassigned: true,
+      },
+    },
+    inProgress: {
+      url: '/task',
+      statusRules: {
+        variables: 'processState_neq_Complete',
+        assigned: true,
       },
     },
     issued: {
@@ -95,7 +104,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         * so we can show/hide claim details AND allow tasks to be claimed/unclaimed
         */
         let parsedTargetTaskSummariesValues;
-        if (activeTab === TASK_STATUS_NEW) {
+        if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
           const mergedTargetSummary = targetTaskSummaryValues.map((task) => {
             const matchedTargetTask = targetTaskList.data.find((v) => task.processInstanceId === v.processInstanceId);
             return {
@@ -168,7 +177,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
-                { activeTab === TASK_STATUS_NEW
+                { (activeTab === TASK_STATUS_NEW || currentUser === target.assignee)
                   && (
                   <ClaimButton
                     className="govuk-!-font-weight-bold"
@@ -334,16 +343,16 @@ const TaskListPage = () => {
               </>
             ),
           },
-          // {
-          //   id: 'in-progress',
-          //   label: 'In progress',
-          //   panel: (
-          //     <>
-          //       <h2 className="govuk-heading-l">In progress tasks</h2>
-          //       <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
-          //     </>
-          //   ),
-          // },
+          {
+            id: 'in-progress',
+            label: 'In progress',
+            panel: (
+              <>
+                <h2 className="govuk-heading-l">In progress tasks</h2>
+                <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
+              </>
+            ),
+          },
           {
             id: 'target-issued',
             label: 'Target issued',
