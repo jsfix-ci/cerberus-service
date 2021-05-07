@@ -28,6 +28,7 @@ jest.mock('react-router-dom', () => ({
   })),
   useHistory: jest.fn(() => ({
     pathname: '/example',
+    push: jest.fn(),
   })),
   Link: ({ children, to, ...props }) => <a href={to} {...props}>{children}</a>,
 }));

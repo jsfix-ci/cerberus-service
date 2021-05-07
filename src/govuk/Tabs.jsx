@@ -46,6 +46,7 @@ const Tabs = ({
                     }}
                     href={`#${itemId}`}
                     {...item.attributes}
+                    name={item.label}
                   >
                     {item.label}
                   </a>

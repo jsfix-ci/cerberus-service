@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useInterval } from 'react-use';
-import qs from 'qs';
-import moment from 'moment';
-import * as pluralise from 'pluralise';
 import axios from 'axios';
 import _ from 'lodash';
+import moment from 'moment';
+import * as pluralise from 'pluralise';
+import qs from 'qs';
 
 import config from '../../config';
 import { SHORT_DATE_FORMAT } from '../../constants';
-import Tabs from '../../govuk/Tabs';
+import ClaimButton from '../../components/ClaimTaskButton';
 import Pagination from '../../components/Pagination';
-import useAxiosInstance from '../../utils/axiosInstance';
-import formatTaskData from '../../utils/formatTaskSummaryData';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import ErrorSummary from '../../govuk/ErrorSummary';
-
-import '../__assets__/TaskListPage.scss';
-import ClaimButton from '../../components/ClaimTaskButton';
+import Tabs from '../../govuk/Tabs';
+import useAxiosInstance from '../../utils/axiosInstance';
+import formatTaskData from '../../utils/formatTaskSummaryData';
 import { useKeycloak } from '../../utils/keycloak';
 
+import '../__assets__/TaskListPage.scss';
+
 const TASK_STATUS_NEW = 'new';
-const TASK_STATUS_IN_PROGRESS = 'in_progress';
-const TASK_STATUS_COMPLETED = 'completed';
+const TASK_STATUS_IN_PROGRESS = 'inProgress';
+const TASK_STATUS_TARGET_ISSUED = 'issued';
+const TASK_STATUS_COMPLETED = 'complete';
 
 const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);
@@ -30,107 +31,105 @@ const TasksTab = ({ taskStatus, setError }) => {
   const [targetTaskCount, setTargetTaskCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
-
+  const keycloak = useKeycloak();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const source = axios.CancelToken.source();
+  // PAGINATION SETTINGS
   const itemsPerPage = 10;
   const index = activePage - 1;
   const offset = index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
-  const source = axios.CancelToken.source();
-  const isTargetTaskComplete = taskStatus === TASK_STATUS_COMPLETED;
-
-  const camundaRequest = async (url, params = {}) => {
-    return camundaClient.get(url, { params });
+  // STATUS SETTINGS
+  const currentUser = keycloak.tokenParsed.email;
+  const activeTab = taskStatus;
+  const targetStatus = {
+    new: {
+      url: '/task',
+      variableUrl: '/variable-instance',
+      statusRules: {
+        processVariables: 'processState_neq_Complete',
+        unassigned: true,
+      },
+    },
+    inProgress: {
+      url: '/task',
+      variableUrl: '/variable-instance',
+      statusRules: {
+        variables: 'processState_neq_Complete',
+        assigned: true,
+      },
+    },
+    issued: {
+      url: '/process-instance',
+      variableUrl: '/variable-instance',
+      statusRules: {
+        variables: 'processState_eq_Issued',
+      },
+    },
+    complete: {
+      url: '/history/process-instance',
+      variableUrl: '/history/variable-instance',
+      statusRules: {
+        variables: 'processState_eq_Complete',
+        processDefinitionKey: 'assignTarget',
+      },
+    },
   };
+
   const loadTasks = async () => {
     if (camundaClient) {
       try {
         setLoading(true);
-        const tasksRequest = {
-          url: '',
-          params: {
-            firstResult: offset,
-            maxResults: itemsPerPage,
-          },
-        };
-        const taskCountRequest = {
-          url: '',
-          params: {},
-        };
-        const variableInstancesRequest = {
-          url: '',
-          params: {
-            deserializeValues: false,
-          },
-        };
+        /*
+        * For pagination rules we need to get a count of total tasks that match the criteria for that status
+        * the same criteria is then used to create the target summary below
+        */
+        const getTargetTaskCount = await camundaClient.get(
+          `${targetStatus[activeTab].url}/count`,
+          { params: targetStatus[activeTab].statusRules },
+        );
+        setTargetTaskCount(getTargetTaskCount.data.count);
 
-        if (taskStatus === TASK_STATUS_COMPLETED) {
-          tasksRequest.url = '/history/process-instance';
-          tasksRequest.params.variables = 'processState_eq_Complete';
-          tasksRequest.params.processDefinitionKey = 'assignTarget';
+        /*
+        * To provide a user with a summary and the ability to claim/unclaim (when correct conditions are met)
+        * We need to get the targets that match the criteria for that status
+        * then use the processInstanceIds (when the url is /tasks) or the ids (when the url is /process-instance) from the targetTaskList data to get the targetTaskSummary data
+        */
+        const targetTaskList = await camundaClient.get(
+          targetStatus[activeTab].url,
+          { params: { ...targetStatus[activeTab].statusRules, firstResult: offset, maxResults: itemsPerPage } },
+        );
+        const processInstanceIds = _.uniq(targetTaskList.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
+        const targetTaskSummaries = await camundaClient.get(
+          targetStatus[activeTab].variableUrl,
+          { params: { variableName: 'taskSummary', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
+        );
+        const targetTaskSummaryValues = targetTaskSummaries.data.map((task) => {
+          return {
+            processInstanceId: task.processInstanceId,
+            ...JSON.parse(task.value),
+          };
+        });
 
-          taskCountRequest.url = '/history/process-instance/count';
-          taskCountRequest.params.variables = 'processState_eq_Complete';
-          taskCountRequest.params.processDefinitionKey = 'assignTarget';
-
-          variableInstancesRequest.url = '/history/variable-instance';
-        } else {
-          const commonQueryParams = {};
-
-          if (taskStatus === TASK_STATUS_NEW) {
-            commonQueryParams.processVariables = 'processState_neq_Complete';
-            commonQueryParams.unassigned = true;
-          } else if (taskStatus === TASK_STATUS_IN_PROGRESS) {
-            commonQueryParams.processVariables = 'processState_neq_Complete';
-            commonQueryParams.assigned = true;
-          }
-
-          tasksRequest.url = '/task';
-          tasksRequest.params = { ...tasksRequest.params, ...commonQueryParams };
-
-          taskCountRequest.url = '/task/count';
-          taskCountRequest.params = commonQueryParams;
-
-          variableInstancesRequest.url = '/variable-instance';
-          variableInstancesRequest.params.variableName = 'taskSummary';
-        }
-
-        const tasksResponse = await camundaRequest(tasksRequest.url, tasksRequest.params);
-        const processInstanceIds = _.uniq(tasksResponse.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
-        variableInstancesRequest.params.processInstanceIdIn = processInstanceIds;
-        const taskCountResponse = await camundaRequest(taskCountRequest.url, taskCountRequest.params);
-        const variableInstancesResponse = await camundaRequest(variableInstancesRequest.url, variableInstancesRequest.params);
-        let parsedTasks;
-
-        if (taskStatus === TASK_STATUS_COMPLETED) {
-          parsedTasks = variableInstancesResponse.data.filter((variableInstance) => {
-            if (variableInstance.name === 'taskSummary') {
-              return variableInstance;
-            }
-            if (
-              variableInstance.name === 'targetInformationSheet'
-              && !variableInstancesResponse.data.some((v) => v.name === 'taskSummary' && variableInstance.processInstanceId === v.processInstanceId)
-            ) {
-              return variableInstance;
-            }
-          }).map((variableInstance) => {
-            const tmp = { ...variableInstance, ...JSON.parse(variableInstance.value) };
-            delete tmp.value;
-            return tmp;
-          });
-        } else {
-          parsedTasks = tasksResponse.data.map((task) => {
-            const taskSummaryVar = variableInstancesResponse.data.find((v) => task.processInstanceId === v.processInstanceId);
+        /*
+        * If the targetStatus is 'new' or 'in progress' we must include the task id and assignee
+        * so we can show/hide claim details AND allow tasks to be claimed/unclaimed
+        */
+        let parsedTargetTaskSummariesValues;
+        if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
+          const mergedTargetSummary = targetTaskSummaryValues.map((task) => {
+            const matchedTargetTask = targetTaskList.data.find((v) => task.processInstanceId === v.processInstanceId);
             return {
-              ...(taskSummaryVar ? JSON.parse(taskSummaryVar.value) : {}),
               ...task,
+              ...matchedTargetTask,
             };
           });
+          parsedTargetTaskSummariesValues = mergedTargetSummary;
+        } else {
+          parsedTargetTaskSummariesValues = targetTaskSummaryValues;
         }
 
-        setTargetTaskCount(taskCountResponse.data.count);
-        setTargetTasks(parsedTasks);
+        setTargetTasks(parsedTargetTaskSummariesValues);
       } catch (e) {
         setError(e.message);
         setTargetTasks([]);
@@ -191,7 +190,8 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
-                {!isTargetTaskComplete && (
+                { (activeTab === TASK_STATUS_NEW || currentUser === target.assignee)
+                  && (
                   <ClaimButton
                     className="govuk-!-font-weight-bold"
                     assignee={target.assignee}
@@ -199,7 +199,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                     setError={setError}
                     processInstanceId={target.processInstanceId}
                   />
-                )}
+                  )}
               </div>
             </div>
             <div className="govuk-grid-row">
@@ -351,7 +351,7 @@ const TaskListPage = () => {
             label: 'New',
             panel: (
               <>
-                <h1 className="govuk-heading-l">New tasks</h1>
+                <h2 className="govuk-heading-l">New tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_NEW} setError={setError} />
               </>
             ),
@@ -361,8 +361,18 @@ const TaskListPage = () => {
             label: 'In progress',
             panel: (
               <>
-                <h1 className="govuk-heading-l">In progress tasks</h1>
+                <h2 className="govuk-heading-l">In progress tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
+              </>
+            ),
+          },
+          {
+            id: 'target-issued',
+            label: 'Target issued',
+            panel: (
+              <>
+                <h2 className="govuk-heading-l">Target issued tasks</h2>
+                <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
               </>
             ),
           },
@@ -371,7 +381,7 @@ const TaskListPage = () => {
             label: 'Complete',
             panel: (
               <>
-                <h1 className="govuk-heading-l">Completed tasks</h1>
+                <h2 className="govuk-heading-l">Completed tasks</h2>
                 <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
               </>
             ),
