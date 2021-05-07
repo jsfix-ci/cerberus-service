@@ -29,6 +29,12 @@ describe('TaskListPage', () => {
       .onGet('/process-instance/count')
       .reply(200, { count: 0 })
       .onGet('/variable-instance')
+      .reply(200, [])
+      .onGet('/history/process-instance')
+      .reply(200, [])
+      .onGet('/history/process-instance/count')
+      .reply(200, { count: 0 })
+      .onGet('/history/variable-instance')
       .reply(200, []);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
@@ -46,6 +52,11 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
+    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
+
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
     await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
@@ -84,6 +95,37 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
+    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
+  });
+
+  it('should render links to processId with text of businessKey when completed tasks exists', async () => {
+    mockAxios
+      .onGet('/task/count')
+      .reply(200, { count: 0 })
+      .onGet('/task')
+      .reply(200, [{}])
+      .onGet('/variable-instance')
+      .reply(200, [{}])
+      .onGet('/history/process-instance/count')
+      .reply(200, { count: 10 })
+      .onGet('/history/process-instance')
+      .reply(200, [
+        { id: '123' },
+        { id: '456' },
+        { id: '789' },
+      ])
+      .onGet('/history/variable-instance')
+      .reply(200, [
+        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
+        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
+      ]);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
     await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
     await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
@@ -160,6 +202,34 @@ describe('TaskListPage', () => {
     fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
 
     await waitFor(() => expect(screen.getByText('Target issued tasks')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
+  });
+
+  it('should render complete tasks with no claim buttons', async () => {
+    mockAxios
+      .onGet('/task/count')
+      .reply(200, { count: 0 })
+      .onGet('/task')
+      .reply(200, [{}])
+      .onGet('/history/process-instance/count')
+      .reply(200, { count: 10 })
+      .onGet('/history/process-instance')
+      .reply(200, [
+        { id: '123' },
+        { id: '456' },
+        { id: '789' },
+      ])
+      .onGet('/history/variable-instance')
+      .reply(200, [
+        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
+        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
+      ]);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
+
+    await waitFor(() => expect(screen.getByText('Completed tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 

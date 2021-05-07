@@ -23,6 +23,7 @@ import { useKeycloak } from '../../utils/keycloak';
 const TASK_STATUS_NEW = 'new';
 const TASK_STATUS_IN_PROGRESS = 'inProgress';
 const TASK_STATUS_TARGET_ISSUED = 'issued';
+const TASK_STATUS_COMPLETED = 'complete';
 
 const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);
@@ -44,6 +45,7 @@ const TasksTab = ({ taskStatus, setError }) => {
   const targetStatus = {
     new: {
       url: '/task',
+      variableUrl: '/variable-instance',
       statusRules: {
         processVariables: 'processState_neq_Complete',
         unassigned: true,
@@ -51,6 +53,7 @@ const TasksTab = ({ taskStatus, setError }) => {
     },
     inProgress: {
       url: '/task',
+      variableUrl: '/variable-instance',
       statusRules: {
         variables: 'processState_neq_Complete',
         assigned: true,
@@ -58,8 +61,17 @@ const TasksTab = ({ taskStatus, setError }) => {
     },
     issued: {
       url: '/process-instance',
+      variableUrl: '/variable-instance',
       statusRules: {
         variables: 'processState_eq_Issued',
+      },
+    },
+    complete: {
+      url: '/history/process-instance',
+      variableUrl: '/history/variable-instance',
+      statusRules: {
+        variables: 'processState_eq_Complete',
+        processDefinitionKey: 'assignTarget',
       },
     },
   };
@@ -89,7 +101,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         );
         const processInstanceIds = _.uniq(targetTaskList.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
         const targetTaskSummaries = await camundaClient.get(
-          '/variable-instance',
+          targetStatus[activeTab].variableUrl,
           { params: { variableName: 'taskSummary', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
         );
         const targetTaskSummaryValues = targetTaskSummaries.data.map((task) => {
@@ -116,6 +128,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         } else {
           parsedTargetTaskSummariesValues = targetTaskSummaryValues;
         }
+
         setTargetTasks(parsedTargetTaskSummariesValues);
       } catch (e) {
         setError(e.message);
@@ -363,16 +376,16 @@ const TaskListPage = () => {
               </>
             ),
           },
-          // {
-          //   id: 'complete',
-          //   label: 'Complete',
-          //   panel: (
-          //     <>
-          //       <h2 className="govuk-heading-l">Completed tasks</h2>
-          //       <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
-          //     </>
-          //   ),
-          // },
+          {
+            id: 'complete',
+            label: 'Complete',
+            panel: (
+              <>
+                <h2 className="govuk-heading-l">Completed tasks</h2>
+                <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
+              </>
+            ),
+          },
         ]}
       />
     </>
