@@ -46,6 +46,39 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
   });
 
+  it('should render links to processId with text of businessKey when tasks exist', async () => {
+    mockAxios
+      .onGet('/task/count')
+      .reply(200, { count: 0 })
+      .onGet('/task')
+      .reply(200, [{}])
+      .onGet('/process-instance/count')
+      .reply(200, { count: 10 })
+      .onGet('/process-instance')
+      .reply(200, [
+        { id: '123' },
+        { id: '456' },
+        { id: '789' },
+      ])
+      .onGet('/variable-instance')
+      .reply(200, [
+        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
+        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
+      ]);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+
+    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
+
+    fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
+    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
+  });
+
   it('should render new tasks on page load with a Claim button', async () => {
     mockAxios
       .onGet('/task/count')
@@ -68,7 +101,7 @@ describe('TaskListPage', () => {
     expect(screen.getAllByText('Claim')).toHaveLength(3);
   });
 
-  it('should render issued tasks on page load CURRENTLY with a Claim button', async () => {
+  it('should render issued tasks with no claim buttons', async () => {
     mockAxios
       .onGet('/task/count')
       .reply(200, { count: 0 })
@@ -93,10 +126,7 @@ describe('TaskListPage', () => {
     fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
 
     await waitFor(() => expect(screen.getByText('Target issued tasks')).toBeInTheDocument());
-   
-    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/123`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/456`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/789`));
+    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 
   it('should handle errors gracefully', async () => {

@@ -168,13 +168,16 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
-                <ClaimButton
-                  className="govuk-!-font-weight-bold"
-                  assignee={target.assignee}
-                  taskId={target.id}
-                  setError={setError}
-                  processInstanceId={target.processInstanceId}
-                />
+                { activeTab === TASK_STATUS_NEW
+                  && (
+                  <ClaimButton
+                    className="govuk-!-font-weight-bold"
+                    assignee={target.assignee}
+                    taskId={target.id}
+                    setError={setError}
+                    processInstanceId={target.processInstanceId}
+                  />
+                  )}
               </div>
             </div>
             <div className="govuk-grid-row">
