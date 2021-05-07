@@ -222,7 +222,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {currentUserIsOwner && !isTargetComplete && !isTargetIssued && (
+              {currentUserIsOwner && !isTargetComplete && !isTargetIssued && targetTask.taskDefinitionKey === 'developTarget' && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
