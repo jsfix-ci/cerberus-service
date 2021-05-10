@@ -143,11 +143,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       'Other',
     ];
 
-    cy.getUnassignedTasks().then((tasks) => {
-      const processInstanceId = tasks.map((item) => item.processInstanceId);
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${processInstanceId[0]}`);
+    cy.get('.govuk-grid-row').eq(0).within(() => {
+      cy.intercept('GET', '/camunda/task?processInstanceId=*').as('tasksDetails');
+      cy.get('a').invoke('text').as('taskName');
+      cy.get('a').click();
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
