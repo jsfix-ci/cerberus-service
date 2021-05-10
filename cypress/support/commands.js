@@ -115,7 +115,7 @@ Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
     .and('have.text', value);
 });
 
-function findItem(value, action) {
+function findItem(taskName, action) {
   function findInPage() {
     let found = false;
 
@@ -132,7 +132,7 @@ function findItem(value, action) {
         cy.get('.govuk-link--no-visited-state').each((item) => {
           if (action !== null) {
             cy.wrap(item).invoke('text').then((text) => {
-              if (value === text) {
+              if (taskName === text) {
                 found = true;
                 cy.wait(2000);
                 cy.contains(action).click();
@@ -141,7 +141,7 @@ function findItem(value, action) {
           } else {
             cy.wrap(item).invoke('text').then((text) => {
               cy.log('task text', text);
-              if (value === text) {
+              if (taskName === text) {
                 found = true;
               }
             });
@@ -159,8 +159,8 @@ function findItem(value, action) {
   findInPage(1);
 }
 
-Cypress.Commands.add('findTaskInAllThePages', (value, action) => {
-  findItem(value, action);
+Cypress.Commands.add('findTaskInAllThePages', (taskName, action) => {
+  findItem(taskName, action);
 });
 
 Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
