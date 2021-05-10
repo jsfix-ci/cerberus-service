@@ -8,7 +8,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.login(Cypress.env('userName'));
   });
 
-  it('Should submit target sheet information form successfully', () => {
+  it('Should submit a target successfully from a task and it should be moved to "target issued" tab', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
     cy.get('.govuk-grid-row').eq(0).within(() => {
@@ -47,5 +47,13 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.clickSubmit();
 
     cy.verifySuccessfulSubmissionHeader('Target created successfully');
+
+    cy.contains('Back to task list').click();
+
+    cy.get('a[href="#target-issued"]').click();
+
+    cy.get('@taskName').then(($text) => {
+      cy.findTaskInAllThePages($text, null);
+    });
   });
 });
