@@ -22,9 +22,7 @@ const TaskVersions = ({ taskVersions }) => (
         goods,
         booking,
         matchedRules,
-        riskIndicators,
       } = formatTaskVersion(task, versionNumber);
-      const priority = 'TODO';
 
       const isCargoHazardous = (boolAsString = null) => {
         if (!boolAsString) {
@@ -47,7 +45,6 @@ const TaskVersions = ({ taskVersions }) => (
               <div className="task-versions--right">
                 <ul className="govuk-list">
                   <li>{pluralise.withCount(0, '% change', '% changes', 'No changes')} in this version</li>
-                  <li>Highest threat level is <strong className="govuk-tag govuk-tag--red">{priority}</strong> from version {versionNumber}</li>
                 </ul>
               </div>
             </>
@@ -129,10 +126,6 @@ const TaskVersions = ({ taskVersions }) => (
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Mobile</dt>
                   <dd className="govuk-summary-list__value">{account.mobile}</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Email</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
                 </div>
               </dl>
 
@@ -236,10 +229,6 @@ const TaskVersions = ({ taskVersions }) => (
                   <dt className="govuk-summary-list__key">Is cargo hazardous?</dt>
                   <dd className="govuk-summary-list__value">{isCargoHazardous(goods?.attributes?.attrs?.hazardousCargo)}</dd>
                 </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Weight of goods</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
               </dl>
 
               <h2 className="govuk-heading-m">Booking</h2>
@@ -250,26 +239,6 @@ const TaskVersions = ({ taskVersions }) => (
                   <dd className="govuk-summary-list__value">{booking?.attributes?.attrs?.reference}</dd>
                 </div>
                 <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Ticket number</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Type</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Name</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Address</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Date and time</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Country</dt>
                   <dd className="govuk-summary-list__value">{booking?.attributes?.attrs?.countryOfBooking}</dd>
                 </div>
@@ -278,38 +247,8 @@ const TaskVersions = ({ taskVersions }) => (
                   <dd className="govuk-summary-list__value">{booking?.attributes?.attrs?.paymentMethod}</dd>
                 </div>
                 <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Ticket price</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Ticket type</dt>
                   <dd className="govuk-summary-list__value">{booking?.attributes?.attrs?.ticketType}</dd>
-                </div>
-              </dl>
-
-              <h2 className="govuk-heading-m">Consignee details</h2>
-
-              <dl className="govuk-summary-list govuk-!-margin-bottom-9">
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Name</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Address</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-              </dl>
-
-              <h2 className="govuk-heading-m">Consignor details</h2>
-
-              <dl className="govuk-summary-list govuk-!-margin-bottom-9">
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Name</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
-                </div>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">Address</dt>
-                  <dd className="govuk-summary-list__value">TODO</dd>
                 </div>
               </dl>
 
@@ -322,10 +261,6 @@ const TaskVersions = ({ taskVersions }) => (
                     <dd className="govuk-summary-list__value">{rule?.ruleName}</dd>
                   </div>
                   <div className="govuk-summary-list__row">
-                    <dt className="govuk-summary-list__key">Category</dt>
-                    <dd className="govuk-summary-list__value">TODO</dd>
-                  </div>
-                  <div className="govuk-summary-list__row">
                     <dt className="govuk-summary-list__key">Version</dt>
                     <dd className="govuk-summary-list__value">{rule?.ruleVersion}</dd>
                   </div>
@@ -334,40 +269,11 @@ const TaskVersions = ({ taskVersions }) => (
                     <dd className="govuk-summary-list__value">{rule?.abuseType}</dd>
                   </div>
                   <div className="govuk-summary-list__row">
-                    <dt className="govuk-summary-list__key">Agency</dt>
-                    <dd className="govuk-summary-list__value">TODO</dd>
-                  </div>
-                  <div className="govuk-summary-list__row">
                     <dt className="govuk-summary-list__key">Description</dt>
                     <dd className="govuk-summary-list__value">{rule?.ruleDescription}</dd>
                   </div>
                 </dl>
               ))}
-
-              {riskIndicators.length
-                && (
-                  <table className="govuk-table">
-                    <caption className="govuk-table__caption govuk-table__caption--m">Risk indicators ({riskIndicators.length})</caption>
-                    <thead className="govuk-table__head">
-                      <tr className="govuk-table__row">
-                        <th scope="col" className="govuk-table__header">Type</th>
-                        <th scope="col" className="govuk-table__header">Condition 1</th>
-                        <th scope="col" className="govuk-table__header">Expression</th>
-                        <th scope="col" className="govuk-table__header">Condition 2</th>
-                      </tr>
-                    </thead>
-                    <tbody className="govuk-table__body">
-                      {riskIndicators.map((risk) => (
-                        <tr key={risk.selectorReference} className="govuk-table__row">
-                          <td className="govuk-table__cell">TODO</td>
-                          <td className="govuk-table__cell">TODO</td>
-                          <td className="govuk-table__cell">TODO</td>
-                          <td className="govuk-table__cell">TODO</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
             </>
           ),
         }
