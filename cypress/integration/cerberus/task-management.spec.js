@@ -11,6 +11,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.intercept('GET', '/camunda/variable-instance?variableName=taskSummary&processInstanceIdIn=**').as('tasks');
     cy.navigation('Tasks');
   });
 
@@ -18,6 +19,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     const taskNavigationItems = [
       'New',
       'In progress',
+      'Target issued',
       'Complete',
     ];
 
@@ -55,7 +57,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify refresh task list page', () => {
-    cy.intercept('GET', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=**').as('tasks');
     cy.clock();
 
     cy.wait('@tasks').then(({ response }) => {
@@ -78,10 +79,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.get('.task-list--item').eq(0).within(() => {
-      cy.get('.govuk-grid-row').eq(0).within(() => {
-        cy.get('a').invoke('attr', 'href').as('taskLink');
-        cy.contains('Claim').click();
-      });
+      cy.get('.govuk-link--no-visited-state').eq(0).invoke('text').as('taskName');
+      cy.contains('Claim').click();
     });
 
     cy.wait('@claim').then(({ response }) => {
@@ -94,15 +93,15 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('a[href="#in-progress"]').click();
 
-    cy.get('@taskLink').then((value) => {
-      cy.unClaimTaskFromListPage(value);
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.get('@taskName').then((value) => {
+      cy.findTaskInAllThePages(value, 'Unclaim');
     });
 
     cy.wait('@unclaim').then(({ response }) => {
       expect(response.statusCode).to.equal(204);
     });
-
-    cy.wait(2000);
   });
 
   after(() => {

@@ -4,6 +4,8 @@ let token;
 
 const cerberusServiceUrl = Cypress.env('cerberusServiceUrl');
 const realm = Cypress.env('auth_realm');
+const formioComponent = '.formio-component-';
+const formioErrorText = '.govuk-error-message > div';
 
 Cypress.Commands.add('login', (userName) => {
   cy.kcLogout();
@@ -20,7 +22,8 @@ Cypress.Commands.add('navigation', (option) => {
 });
 
 Cypress.Commands.add('waitForTaskManagementPageToLoad', () => {
-  cy.intercept('GET', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=**').as('tasks');
+  cy.intercept('GET', '/camunda/variable-instance?variableName=taskSummary&processInstanceIdIn=**').as('tasks');
+
   cy.navigation('Tasks');
 
   cy.wait('@tasks').then(({ response }) => {
@@ -40,6 +43,7 @@ Cypress.Commands.add('getUnassignedTasks', () => {
   };
 
   cy.request(options).then((response) => {
+    console.log(response.body);
     return response.body.filter((item) => item.assignee === null);
   });
 });
@@ -76,7 +80,7 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
 
 Cypress.Commands.add('selectCheckBox', (elementName, value) => {
   if (value !== undefined && value !== '') {
-    cy.get(`.formio-component-${elementName}`)
+    cy.get(`${formioComponent}${elementName}`)
       .should('be.visible')
       .contains(new RegExp(`^${value}$`, 'g'))
       .closest('div')
@@ -93,7 +97,7 @@ Cypress.Commands.add('clickNext', () => {
 
 Cypress.Commands.add('typeValueInTextArea', (elementName, value) => {
   if (value !== undefined && value !== '') {
-    cy.get(`.formio-component-${elementName} textarea`)
+    cy.get(`${formioComponent}${elementName} textarea`)
       .should('be.visible')
       .type(value, { force: true });
   }
@@ -111,41 +115,58 @@ Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
     .and('have.text', value);
 });
 
-function findItem(value) {
-  function findInPage(index) {
+function findItem(taskName, action) {
+  function findInPage() {
     let found = false;
 
-    cy.get('li a[data-test*="page-number"]').as('pages');
+    const nextPage = 'a[data-test="next"]';
 
-    cy.get('@pages').its(length).then((len) => {
-      if (index > len) {
-        return false;
-      }
-      cy.get('@pages').eq(index).click();
-      cy.get('.govuk-link--no-visited-state').each((item) => {
-        cy.wrap(item).invoke('attr', 'href').then((href) => {
-          if (href === value) {
-            found = true;
-            cy.get(`.govuk-grid-row a[href="${value}"]`)
-              .parentsUntil('.task-list--item').within(() => {
-                cy.get('button.link-button')
-                  .should('have.text', 'Unclaim')
-                  .click();
-              });
+    if (Cypress.$(nextPage).length > 0) {
+      cy.get(nextPage).as('next');
+
+      cy.get('@next').its(length).then((len) => {
+        if (len === 0) {
+          return false;
+        }
+        cy.get('@next').click();
+        cy.get('.govuk-link--no-visited-state').each((item) => {
+          if (action !== null) {
+            cy.wrap(item).invoke('text').then((text) => {
+              if (taskName === text) {
+                found = true;
+                cy.wait(2000);
+                cy.contains(action).click();
+              }
+            });
+          } else {
+            cy.wrap(item).invoke('text').then((text) => {
+              cy.log('task text', text);
+              if (taskName === text) {
+                found = true;
+              }
+            });
+          }
+        }).then(() => {
+          if (!found) {
+            findInPage();
           }
         });
-      }).then(() => {
-        if (!found) {
-          findInPage(index += 1);
-        }
       });
-    });
+    } else {
+      return false;
+    }
   }
-  findInPage(0);
+  findInPage(1);
 }
 
-Cypress.Commands.add('unClaimTaskFromListPage', (value) => {
-  findItem(value);
+Cypress.Commands.add('findTaskInAllThePages', (taskName, action) => {
+  findItem(taskName, action);
+});
+
+Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
+  cy.get(`${formioComponent}${element} ${formioErrorText}`)
+    .should('be.visible')
+    .contains(errorText);
 });
 
 Cypress.Commands.add('postTasks', (name) => {
