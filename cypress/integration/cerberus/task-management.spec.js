@@ -76,7 +76,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should Claim & Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.get('.task-list--item').eq(0).within(() => {
       cy.get('.govuk-link--no-visited-state').eq(0).invoke('text').as('taskName');
@@ -96,11 +95,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.waitForTaskManagementPageToLoad();
 
     cy.get('@taskName').then((value) => {
+      cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
       cy.findTaskInAllThePages(value, 'Unclaim');
-    });
-
-    cy.wait('@unclaim').then(({ response }) => {
-      expect(response.statusCode).to.equal(204);
+      cy.wait('@unclaim').then(({ response }) => {
+        expect(response.statusCode).to.equal(204);
+      });
     });
   });
 
