@@ -18,21 +18,25 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should add notes for the selected tasks', () => {
     const taskNotes = 'Add notes for testing & check it stored';
     cy.intercept('POST', '/camunda/process-definition/key/noteSubmissionWrapper/submit-form').as('notes');
-    cy.getUnassignedTasks().then((tasks) => {
-      const taskId = tasks.map(((item) => item.id));
-      expect(taskId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${taskId[0]}`);
+    cy.get('.govuk-grid-row').eq(0).within(() => {
+      cy.intercept('GET', '/camunda/task?processInstanceId=*').as('tasksDetails');
+      cy.get('a').invoke('text').as('taskName');
+      cy.get('a').click();
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
     });
 
-    cy.get('.govuk-heading-xl').should('have.text', 'Task details');
-
-    cy.wait(2000);
+    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.wait(2000);
 
     cy.get('.formio-component-note textarea')
       .should('be.visible')
@@ -51,10 +55,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should hide Notes Textarea for the tasks assigned to others', () => {
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
-      const taskId = tasks.map(((item) => item.id));
-      expect(taskId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${taskId[0]}`);
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
+      expect(processInstanceId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+      cy.visit(`/tasks/${processInstanceId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
@@ -68,38 +72,26 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should Claim a task Successfully from task details page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
-    cy.getUnassignedTasks().then((tasks) => {
-      const taskId = tasks.map(((item) => item.id));
-      expect(taskId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${taskId[0]}`);
-      cy.wait('@tasksDetails').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+    cy.get('.govuk-grid-row').eq(0).within(() => {
+      cy.get('a').invoke('text').as('taskName');
+      cy.get('a').click();
+    });
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
 
-      cy.wait(2000);
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
-      cy.get('.govuk-caption-xl').invoke('text').then((text) => {
-        cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
 
-        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+    cy.wait(2000);
 
-        cy.wait('@claim').then(({ response }) => {
-          expect(response.statusCode).to.equal(204);
-        });
+    cy.contains('Back to task list').click();
 
-        cy.wait(2000);
+    cy.get('a[href="#in-progress"]').click();
 
-        cy.contains('Back to task list').click();
-
-        cy.get('a[href="#in-progress"]').click();
-
-        cy.waitForTaskManagementPageToLoad();
-
-        cy.get('a[data-test="last"]').click();
-
-        cy.contains(text);
-      });
+    cy.get('@taskName').then(($text) => {
+      cy.findTaskInAllThePages($text, null);
     });
   });
 
@@ -108,13 +100,11 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('a[href="#in-progress"]').click();
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.getTasksAssignedToMe().then((tasks) => {
-      const taskId = tasks.map(((item) => item.id));
-      expect(taskId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${taskId[0]}`);
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
+      expect(processInstanceId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+      cy.visit(`/tasks/${processInstanceId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
@@ -140,10 +130,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.getUnassignedTasks().then((tasks) => {
-      const taskId = tasks.map(((item) => item.id));
-      expect(taskId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task/${taskId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${taskId[0]}`);
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
+      expect(processInstanceId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+      cy.visit(`/tasks/${processInstanceId[0]}`);
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
@@ -181,7 +171,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should dismiss a task with a reason', () => {
     cy.postTasks();
-    cy.intercept('GET', '/camunda/task/*').as('tasksDetails');
 
     const reasons = [
       'Vessel arrived',
@@ -190,18 +179,25 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       'Other (please specify)',
     ];
 
-    cy.getUnassignedTasks().then((tasks) => {
-      const taskId = tasks.map(((item) => item.id));
-      expect(taskId.length).to.not.equal(0);
-      cy.visit(`/tasks/${taskId[0]}`);
+    cy.get('.govuk-grid-row').eq(0).within(() => {
+      cy.intercept('GET', '/camunda/task?processInstanceId=*').as('tasksDetails');
+      cy.get('a').invoke('text').as('taskName');
+      cy.get('a').click();
       cy.wait('@tasksDetails').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
     });
 
-    cy.wait(2000);
+    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.wait(2000);
 
     cy.contains('Dismiss').click();
 

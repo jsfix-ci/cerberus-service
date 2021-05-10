@@ -22,7 +22,7 @@ Cypress.Commands.add('navigation', (option) => {
 });
 
 Cypress.Commands.add('waitForTaskManagementPageToLoad', () => {
-  cy.intercept('GET', '/camunda/variable-instance?deserializeValues=false&variableName=taskSummary&processInstanceIdIn=**').as('tasks');
+  cy.intercept('GET', '/camunda/variable-instance?variableName=taskSummary&processInstanceIdIn=**').as('tasks');
 
   cy.navigation('Tasks');
 
@@ -115,41 +115,52 @@ Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
     .and('have.text', value);
 });
 
-function findItem(value) {
-  function findInPage(index) {
+function findItem(value, action) {
+  function findInPage() {
     let found = false;
 
-    cy.get('li a[data-test*="page-number"]').as('pages');
+    const nextPage = 'a[data-test="next"]';
 
-    cy.get('@pages').its(length).then((len) => {
-      if (index > len) {
-        return false;
-      }
-      cy.get('@pages').eq(index).click();
-      cy.get('.govuk-link--no-visited-state').each((item) => {
-        cy.wrap(item).invoke('attr', 'href').then((href) => {
-          if (href === value) {
-            found = true;
-            cy.get(`.govuk-grid-row a[href="${value}"]`)
-              .parentsUntil('.task-list--item').within(() => {
-                cy.get('button.link-button')
-                  .should('have.text', 'Unclaim')
-                  .click();
-              });
+    if (Cypress.$(nextPage).length > 0) {
+      cy.get(nextPage).as('next');
+
+      cy.get('@next').its(length).then((len) => {
+        if (len === 0) {
+          return false;
+        }
+        cy.get('@next').click();
+        cy.get('.govuk-link--no-visited-state').each((item) => {
+          if (action !== null) {
+            cy.wrap(item).invoke('text').then((text) => {
+              if (value === text) {
+                found = true;
+                cy.wait(2000);
+                cy.contains(action).click();
+              }
+            });
+          } else {
+            cy.wrap(item).invoke('text').then((text) => {
+              cy.log('task text', text);
+              if (value === text) {
+                found = true;
+              }
+            });
+          }
+        }).then(() => {
+          if (!found) {
+            findInPage();
           }
         });
-      }).then(() => {
-        if (!found) {
-          findInPage(index += 1);
-        }
       });
-    });
+    } else {
+      return false;
+    }
   }
-  findInPage(0);
+  findInPage(1);
 }
 
-Cypress.Commands.add('unClaimTaskFromListPage', (value) => {
-  findItem(value);
+Cypress.Commands.add('findTaskInAllThePages', (value, action) => {
+  findItem(value, action);
 });
 
 Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
