@@ -69,6 +69,20 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.get('.formio-component-note textarea').should('not.exist');
   });
 
+  it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
+    cy.getTasksAssignedToOtherUsers().then((tasks) => {
+      const processInstanceId = tasks.map(((item) => item.processInstanceId));
+      expect(processInstanceId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+      cy.visit(`/tasks/${processInstanceId[0]}`);
+      cy.wait('@tasksDetails').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    cy.get('button.link-button').should('not.exist');
+  });
+
   it('Should Claim a task Successfully from task details page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
