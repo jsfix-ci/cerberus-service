@@ -6,6 +6,7 @@ const cerberusServiceUrl = Cypress.env('cerberusServiceUrl');
 const realm = Cypress.env('auth_realm');
 const formioComponent = '.formio-component-';
 const formioErrorText = '.govuk-error-message > div';
+const displayDate24Format = 'DD-MM-YYYY HH:mm';
 
 Cypress.Commands.add('login', (userName) => {
   cy.kcLogout();
@@ -191,4 +192,38 @@ Cypress.Commands.add('postTasks', (name) => {
       expect(response.body.businessKey).to.eq(task.businessKey);
     });
   });
+});
+
+Cypress.Commands.add('selectDropDownValue', (elementName, value) => {
+  cy.get(`${formioComponent}${elementName} div.form-control`)
+    .should('be.visible')
+    .click();
+  cy.get(`${formioComponent}${elementName} div[role="listbox"]`)
+    .contains(value)
+    .click({ force: true });
+});
+
+Cypress.Commands.add('typeTodaysDateTime', (elementName) => {
+  let dateNow = new Date();
+  let dateNowFormatted = Cypress.moment(dateNow).format(displayDate24Format);
+
+  let dateTime = Cypress.moment(dateNowFormatted, displayDate24Format);
+
+  cy.get(`${formioComponent}${elementName}`)
+    .should('be.visible')
+    .within(() => {
+      cy.get(`#${elementName}-day`).clear().type(dateTime.format('D'));
+      cy.get(`#${elementName}-month`).clear().type(dateTime.format('MM'));
+      cy.get(`#${elementName}-year`).clear().type(dateTime.format('YYYY'));
+      cy.get(`#${elementName}-hour`).clear().type(dateTime.format('HH'));
+      cy.get(`#${elementName}-minute`).clear().type(dateTime.format('mm'));
+    });
+});
+
+Cypress.Commands.add('selectRadioButton', (elementName, value) => {
+  cy.get(`${formioComponent}${elementName} .govuk-radios`)
+    .contains(value)
+    .closest('div')
+    .find('input')
+    .click({ force: true });
 });
