@@ -109,6 +109,56 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
+  it('Should verify all the action buttons available when task loaded from In Progress', () => {
+    const actionItems = [
+      'Issue target',
+      'Assessment complete',
+      'Dismiss',
+    ];
+
+    cy.get('a[href="#in-progress"]').click();
+
+    cy.getTasksAssignedToMe().then((tasks) => {
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
+      expect(processInstanceId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+      cy.visit(`/tasks/${processInstanceId[0]}`);
+      cy.wait('@tasksDetails').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('.task-actions--buttons button').each(($items, index) => {
+      expect($items.text()).to.equal(actionItems[index]);
+    });
+  });
+
+  it('Should verify all the action buttons not available when task loaded from Complete tab', () => {
+    cy.get('a[href="#complete"]').click();
+
+    cy.get('.govuk-grid-row').eq(0).within(() => {
+      cy.get('a').click();
+    });
+
+    cy.get('.task-actions--buttons button').should('not.exist');
+  });
+
+  it('Should verify all the action buttons not available for non-task owner', () => {
+    cy.getTasksAssignedToOtherUsers().then((tasks) => {
+      const processInstanceId = tasks.map(((item) => item.processInstanceId));
+      expect(processInstanceId.length).to.not.equal(0);
+      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+      cy.visit(`/tasks/${processInstanceId[0]}`);
+      cy.wait('@tasksDetails').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    cy.get('.task-actions--buttons button').should('not.exist');
+  });
+
   it('Should Unclaim a task Successfully from task details page', () => {
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 

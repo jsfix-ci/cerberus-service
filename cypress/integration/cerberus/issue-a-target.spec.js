@@ -54,6 +54,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.get('.govuk-caption-xl').should('have.text', $text);
     });
 
+    cy.get('.task-actions--buttons button').should('not.exist');
+
     cy.contains('Back to task list').click();
 
     cy.get('a[href="#target-issued"]').click();
