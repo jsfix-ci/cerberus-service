@@ -48,6 +48,12 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.verifySuccessfulSubmissionHeader('Target created successfully');
 
+    cy.reload();
+
+    cy.get('@taskName').then(($text) => {
+      cy.get('.govuk-caption-xl').should('have.text', $text);
+    });
+
     cy.contains('Back to task list').click();
 
     cy.get('a[href="#target-issued"]').click();

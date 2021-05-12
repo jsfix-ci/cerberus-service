@@ -129,7 +129,6 @@ function findItem(taskName, action) {
         if (len === 0) {
           return false;
         }
-        cy.get('@next').click();
         cy.get('.govuk-link--no-visited-state').each((item) => {
           if (action !== null) {
             cy.wrap(item).invoke('text').then((text) => {
@@ -149,6 +148,7 @@ function findItem(taskName, action) {
           }
         }).then(() => {
           if (!found) {
+            cy.get('@next').click();
             findInPage();
           }
         });
