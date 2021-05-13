@@ -7,7 +7,7 @@
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "lint": "eslint -f table --ext=js,jsx",
-    "start": "webpack serve --watch --mode=development",
+    "start": "webpack serve --mode=development",
     "test": "jest",
     "cypress:test:local": "cypress run",
     "cypress:test:dev": "node get_secrets.js && cypress run --env configFile=dev",
@@ -26,7 +26,7 @@
   "homepage": "https://github.com/UKHomeOffice/cerberus-service#readme",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.13.1",
-    "@ukhomeoffice/formio-gds-template": "^1.0.6",
+    "@ukhomeoffice/formio-gds-template": "^1.0.7",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "formiojs": "^4.12.7",
