@@ -60,7 +60,7 @@ Cypress.Commands.add('getTasksAssignedToOtherUsers', () => {
   };
 
   cy.request(options).then((response) => {
-    return response.body.filter((item) => item.assignee !== 'cypressuser-cerberus@lodev.xyz');
+    return response.body.filter((item) => (item.assignee !== 'cypressuser-cerberus@lodev.xyz' && item.assignee !== null));
   });
 });
 
@@ -117,47 +117,47 @@ Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
 });
 
 function findItem(taskName, action) {
-  function findInPage() {
+  function findInPage(count) {
     let found = false;
 
     const nextPage = 'a[data-test="next"]';
 
-    if (Cypress.$(nextPage).length > 0) {
-      cy.get(nextPage).as('next');
+    cy.get('.pagination').invoke('attr', 'aria-label').as('pages');
 
-      cy.get('@next').its(length).then((len) => {
-        if (len === 0) {
-          return false;
+    cy.get('@pages').then((pages) => {
+      let page = pages.match(/\d/g).join('');
+      if (count >= page) {
+        return false;
+      }
+      if (count > 0) {
+        cy.get(nextPage).as('next');
+        cy.get('@next').click();
+      }
+      cy.get('.govuk-link--no-visited-state').each((item) => {
+        if (action !== null) {
+          cy.wrap(item).invoke('text').then((text) => {
+            if (taskName === text) {
+              cy.wait(2000);
+              cy.contains(action).click();
+              found = true;
+            }
+          });
+        } else {
+          cy.wrap(item).invoke('text').then((text) => {
+            cy.log('task text', text);
+            if (taskName === text) {
+              found = true;
+            }
+          });
         }
-        cy.get('.govuk-link--no-visited-state').each((item) => {
-          if (action !== null) {
-            cy.wrap(item).invoke('text').then((text) => {
-              if (taskName === text) {
-                found = true;
-                cy.wait(2000);
-                cy.contains(action).click();
-              }
-            });
-          } else {
-            cy.wrap(item).invoke('text').then((text) => {
-              cy.log('task text', text);
-              if (taskName === text) {
-                found = true;
-              }
-            });
-          }
-        }).then(() => {
-          if (!found) {
-            cy.get('@next').click();
-            findInPage();
-          }
-        });
+      }).then(() => {
+        if (!found) {
+          findInPage(count += 1);
+        }
       });
-    } else {
-      return false;
-    }
+    });
   }
-  findInPage(1);
+  findInPage(0);
 }
 
 Cypress.Commands.add('findTaskInAllThePages', (taskName, action) => {

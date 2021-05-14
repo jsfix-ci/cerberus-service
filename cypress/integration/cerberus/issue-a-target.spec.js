@@ -60,6 +60,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('a[href="#target-issued"]').click();
 
+    cy.waitForTaskManagementPageToLoad();
+
     cy.get('@taskName').then(($text) => {
       cy.findTaskInAllThePages($text, null);
     });

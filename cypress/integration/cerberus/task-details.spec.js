@@ -70,6 +70,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
+    cy.get('a[href="#in-progress"]').click();
+
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
       const processInstanceId = tasks.map(((item) => item.processInstanceId));
       expect(processInstanceId.length).to.not.equal(0);
