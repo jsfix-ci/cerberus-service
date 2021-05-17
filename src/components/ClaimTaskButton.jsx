@@ -43,7 +43,8 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, processInstanc
       await camundaClient.post(`task/${taskId}/unclaim`, {
         userId: currentUser,
       });
-      history.go(0);
+      history.push({ pathname: '/tasks' });
+      window.scrollTo(0, 0);
     } catch (e) {
       setError(e.message);
       setAssignmentProgress(false);
