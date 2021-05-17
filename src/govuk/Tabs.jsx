@@ -4,11 +4,13 @@
  * Code: https://github.com/alphagov/govuk-frontend/blob/master/package/govuk/components/tabs/README.md
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+import { TASK_STATUS_NEW } from '../constants';
 
 const Tabs = ({
-  id, idPrefix, className, title, items, onTabClick, ...attributes
+  id, idPrefix, className, title, items, onTabClick, tabIndex, ...attributes
 }) => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const currentTab = items[currentTabIndex];
@@ -16,6 +18,14 @@ const Tabs = ({
   const panelIsReactElement = typeof currentTab.panel === 'string' || Array.isArray(currentTab.panel) || React.isValidElement(currentTab.panel);
   const panelAttributes = panelIsReactElement ? {} : currentTab.panel.attributes;
   const panelContents = panelIsReactElement ? currentTab.panel : currentTab.panel.children;
+  const location = useLocation();
+  const forceTabIndex = location.search?.split('tab=')[1] === TASK_STATUS_NEW;
+
+  useEffect(() => {
+    if (forceTabIndex) {
+      setCurrentTabIndex(0);
+    }
+  }, [forceTabIndex]);
 
   return (
     <div

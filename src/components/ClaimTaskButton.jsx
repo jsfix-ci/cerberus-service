@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import LinkButton from '../govuk/LinkButton';
 import useAxiosInstance from '../utils/axiosInstance';
 import config from '../config';
+import { TASK_STATUS_NEW } from '../constants';
 import { useKeycloak } from '../utils/keycloak';
 
 const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, processInstanceId, ...props }) => {
@@ -43,7 +44,10 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, processInstanc
       await camundaClient.post(`task/${taskId}/unclaim`, {
         userId: currentUser,
       });
-      history.push({ pathname: '/tasks' });
+      history.push(
+        { pathname: '/tasks',
+          search: `?tab=${TASK_STATUS_NEW}` },
+      );
       window.scrollTo(0, 0);
     } catch (e) {
       setError(e.message);
