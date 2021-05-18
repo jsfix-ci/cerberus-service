@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import axios from 'axios';
 
 import config from '../../config';
@@ -134,7 +134,7 @@ const TaskDetailsPage = () => {
         const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
           return processVar.name === 'notes';
         }).value).map((note) => ({
-          date: moment(note.timeStamp).format(),
+          date: dayjs(note.timeStamp).format(),
           user: note.userId,
           note: note.note,
         }));
