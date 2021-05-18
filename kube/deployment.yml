@@ -60,11 +60,11 @@ spec:
           runAsNonRoot: true
         resources:
           requests:
-            memory: 200Mi
-            cpu: 100m
+            memory: "512Mi"
+            cpu: "200m"
           limits:
-            memory: 500Mi
-            cpu: 200m
+            memory: "1024Mi"
+            cpu: "500m"
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
