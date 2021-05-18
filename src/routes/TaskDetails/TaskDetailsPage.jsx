@@ -1,25 +1,30 @@
+// Third party imports
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
-import config from '../../config';
+// App imports
 import { FORM_NAME_TARGET_INFORMATION_SHEET } from '../../constants';
 import { useKeycloak } from '../../utils/keycloak';
-import useAxiosInstance from '../../utils/axiosInstance';
-import Button from '../../govuk/Button';
-import LoadingSpinner from '../../forms/LoadingSpinner';
-import ErrorSummary from '../../govuk/ErrorSummary';
-import ClaimButton from '../../components/ClaimTaskButton';
-import RenderForm from '../../components/RenderForm';
-import Panel from '../../govuk/Panel';
 import { useFormSubmit } from '../../utils/formioSupport';
-import TaskSummary from './TaskSummary';
-
 import '../__assets__/TaskDetailsPage.scss';
+
+import Button from '../../govuk/Button';
+import ClaimButton from '../../components/ClaimTaskButton';
+import ErrorSummary from '../../govuk/ErrorSummary';
+import LoadingSpinner from '../../forms/LoadingSpinner';
+import Panel from '../../govuk/Panel';
+import RenderForm from '../../components/RenderForm';
+import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
 
-// See Camunda docs for all operation types: https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
+import config from '../../config';
+import useAxiosInstance from '../../utils/axiosInstance';
+
+
+// See Camunda docs for all operation types: 
+// https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
