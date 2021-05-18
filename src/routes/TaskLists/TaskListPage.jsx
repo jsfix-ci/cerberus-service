@@ -3,7 +3,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useInterval } from 'react-use';
 import axios from 'axios';
 import _ from 'lodash';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 
@@ -283,7 +283,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                     {formattedData.account.name}
                   </span>
                   {target.bookingDateTime && (
-                    <>, Booked on {moment(target.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
+                    <>, Booked on {dayjs(target.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
                   )}
                 </p>
               </div>
