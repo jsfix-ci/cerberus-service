@@ -35,15 +35,18 @@ const TasksTab = ({ taskStatus, setError }) => {
   const [targetTasks, setTargetTasks] = useState([]);
   const [targetTaskCount, setTargetTaskCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
+
   const location = useLocation();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const source = axios.CancelToken.source();
+
   // PAGINATION SETTINGS
   const itemsPerPage = 10;
   const index = activePage - 1;
   const offset = index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
+
   // STATUS SETTINGS
   const currentUser = keycloak.tokenParsed.email;
   const activeTab = taskStatus;
