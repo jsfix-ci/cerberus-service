@@ -6,7 +6,6 @@ import utc from 'dayjs/plugin/utc';
 // App imports
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
 
-
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 

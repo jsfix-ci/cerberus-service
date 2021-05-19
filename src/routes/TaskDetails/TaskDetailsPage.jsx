@@ -22,8 +22,7 @@ import TaskVersions from './TaskVersions';
 import config from '../../config';
 import useAxiosInstance from '../../utils/axiosInstance';
 
-
-// See Camunda docs for all operation types: 
+// See Camunda docs for all operation types:
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
