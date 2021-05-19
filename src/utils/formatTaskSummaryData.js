@@ -1,5 +1,13 @@
-import moment from 'moment';
+// Third party imports
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
+
+// App imports
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
 
 const formatTaskData = (taskData) => {
   const account = {
@@ -9,20 +17,20 @@ const formatTaskData = (taskData) => {
   const arrival = {
     label: 'Arrival due',
     location: taskData?.voyage?.arriveAt || '',
-    date: taskData?.arrivalTime ? moment(taskData?.arrivalTime).utc().format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskData?.voyage?.arriveAt ? `${taskData?.voyage?.arriveAt}` : 'unknown') + (taskData?.arrivalTime ? `, ${moment(taskData?.arrivalTime).utc().format(LONG_DATE_FORMAT)}` : ', unknown'),
-    fromNow: `${taskData?.arrivalTime ? `, ${moment(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
+    date: taskData?.arrivalTime ? dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT) : 'unknown',
+    description: (taskData?.voyage?.arriveAt ? `${taskData?.voyage?.arriveAt}` : 'unknown') + (taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
+    fromNow: `${taskData?.arrivalTime ? `, ${dayjs(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
   };
   const departure = {
     label: 'Departure',
     location: taskData?.voyage?.departFrom || '',
-    date: taskData?.departureTime ? moment(taskData?.departureTime).utc().format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskData?.voyage?.departFrom ? `${taskData?.voyage?.departFrom}` : 'unknown') + (taskData?.departureTime ? `, ${moment(taskData?.departureTime).utc().format(LONG_DATE_FORMAT)}` : ', unknown'),
+    date: taskData?.departureTime ? dayjs.utc(taskData?.departureTime).format(LONG_DATE_FORMAT) : 'unknown',
+    description: (taskData?.voyage?.departFrom ? `${taskData?.voyage?.departFrom}` : 'unknown') + (taskData?.departureTime ? `, ${dayjs(taskData?.departureTime).utc().format(LONG_DATE_FORMAT)}` : ', unknown'),
   };
   const driver = {
     dataExists: !!taskData?.people?.find(({ role }) => role === 'DRIVER'),
     name: taskData?.people?.find(({ role }) => role === 'DRIVER')?.fullName || '',
-    dateOfBirth: taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth && moment(taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth).format(SHORT_DATE_FORMAT),
+    dateOfBirth: taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth && dayjs(taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth).format(SHORT_DATE_FORMAT),
   };
   const ferry = {
     label: 'Ferry',

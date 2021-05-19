@@ -1,24 +1,28 @@
+// Third party imports
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useInterval } from 'react-use';
-import axios from 'axios';
 import _ from 'lodash';
-import moment from 'moment';
 import * as pluralise from 'pluralise';
+
+import axios from 'axios';
+import dayjs from 'dayjs';
 import qs from 'qs';
 
-import config from '../../config';
+// App imports
 import { SHORT_DATE_FORMAT } from '../../constants';
-import ClaimButton from '../../components/ClaimTaskButton';
-import Pagination from '../../components/Pagination';
-import LoadingSpinner from '../../forms/LoadingSpinner';
-import ErrorSummary from '../../govuk/ErrorSummary';
-import Tabs from '../../govuk/Tabs';
-import useAxiosInstance from '../../utils/axiosInstance';
-import formatTaskData from '../../utils/formatTaskSummaryData';
 import { useKeycloak } from '../../utils/keycloak';
-
 import '../__assets__/TaskListPage.scss';
+
+import ClaimButton from '../../components/ClaimTaskButton';
+import ErrorSummary from '../../govuk/ErrorSummary';
+import LoadingSpinner from '../../forms/LoadingSpinner';
+import Pagination from '../../components/Pagination';
+import Tabs from '../../govuk/Tabs';
+
+import config from '../../config';
+import formatTaskData from '../../utils/formatTaskSummaryData';
+import useAxiosInstance from '../../utils/axiosInstance';
 
 const TASK_STATUS_NEW = 'new';
 const TASK_STATUS_IN_PROGRESS = 'inProgress';
@@ -30,15 +34,18 @@ const TasksTab = ({ taskStatus, setError }) => {
   const [targetTasks, setTargetTasks] = useState([]);
   const [targetTaskCount, setTargetTaskCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
+
   const location = useLocation();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const source = axios.CancelToken.source();
+
   // PAGINATION SETTINGS
   const itemsPerPage = 10;
   const index = activePage - 1;
   const offset = index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
+
   // STATUS SETTINGS
   const currentUser = keycloak.tokenParsed.email;
   const activeTab = taskStatus;
@@ -283,7 +290,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                     {formattedData.account.name}
                   </span>
                   {target.bookingDateTime && (
-                    <>, Booked on {moment(target.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
+                    <>, Booked on {dayjs(target.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
                   )}
                 </p>
               </div>

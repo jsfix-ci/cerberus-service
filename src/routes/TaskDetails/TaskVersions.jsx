@@ -1,6 +1,6 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
@@ -40,7 +40,7 @@ const TaskVersions = ({ taskVersions }) => (
           summary: (
             <>
               <div className="task-versions--left">
-                <div className="govuk-caption-m">{moment(task?.bookingDateTime || null).format(LONG_DATE_FORMAT)}</div>
+                <div className="govuk-caption-m">{dayjs(task?.bookingDateTime || null).format(LONG_DATE_FORMAT)}</div>
               </div>
               <div className="task-versions--right">
                 <ul className="govuk-list">
@@ -159,7 +159,7 @@ const TaskVersions = ({ taskVersions }) => (
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Date of birth</dt>
-                  <dd className="govuk-summary-list__value">{moment(driver?.person?.dateOfBirth || null).format(SHORT_DATE_FORMAT)}</dd>
+                  <dd className="govuk-summary-list__value">{dayjs(driver?.person?.dateOfBirth || null).format(SHORT_DATE_FORMAT)}</dd>
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Gender</dt>
@@ -179,7 +179,7 @@ const TaskVersions = ({ taskVersions }) => (
                 </div>
                 <div className="govuk-summary-list__row">
                   <dt className="govuk-summary-list__key">Travel document expiry</dt>
-                  <dd className="govuk-summary-list__value">{moment(driver?.driverDocument?.document?.expiryDate || null).format(SHORT_DATE_FORMAT)}</dd>
+                  <dd className="govuk-summary-list__value">{dayjs(driver?.driverDocument?.document?.expiryDate || null).format(SHORT_DATE_FORMAT)}</dd>
                 </div>
               </dl>
 
@@ -193,7 +193,7 @@ const TaskVersions = ({ taskVersions }) => (
                   </div>
                   <div className="govuk-summary-list__row">
                     <dt className="govuk-summary-list__key">Date of birth</dt>
-                    <dd className="govuk-summary-list__value">{moment(passenger?.person?.dateOfBirth || null).format(SHORT_DATE_FORMAT)}</dd>
+                    <dd className="govuk-summary-list__value">{dayjs(passenger?.person?.dateOfBirth || null).format(SHORT_DATE_FORMAT)}</dd>
                   </div>
                   <div className="govuk-summary-list__row">
                     <dt className="govuk-summary-list__key">Gender</dt>
@@ -213,7 +213,7 @@ const TaskVersions = ({ taskVersions }) => (
                   </div>
                   <div className="govuk-summary-list__row">
                     <dt className="govuk-summary-list__key">Travel document expiry</dt>
-                    <dd className="govuk-summary-list__value">{moment(passenger?.passengerDocument?.document?.expiryDate || null).format(SHORT_DATE_FORMAT)}</dd>
+                    <dd className="govuk-summary-list__value">{dayjs(passenger?.passengerDocument?.document?.expiryDate || null).format(SHORT_DATE_FORMAT)}</dd>
                   </div>
                 </dl>
               ))}
