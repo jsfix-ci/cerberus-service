@@ -10,17 +10,20 @@ import dayjs from 'dayjs';
 import qs from 'qs';
 
 // App imports
-import config from '../../config';
 import { SHORT_DATE_FORMAT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import { useKeycloak } from '../../utils/keycloak';
+
+import '../__assets__/TaskListPage.scss';
+
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
+
+import config from '../../config';
 import formatTaskData from '../../utils/formatTaskSummaryData';
 import useAxiosInstance from '../../utils/axiosInstance';
-import { useKeycloak } from '../../utils/keycloak';
-import '../__assets__/TaskListPage.scss';
 
 const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);
