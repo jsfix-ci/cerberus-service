@@ -96,9 +96,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('@taskName').then((value) => {
       cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
-      cy.findTaskInAllThePages(value, 'Unclaim');
-      cy.wait('@unclaim').then(({ response }) => {
-        expect(response.statusCode).to.equal(204);
+      cy.findTaskInAllThePages(value, 'Unclaim').then((returnvalue) => {
+        expect(returnvalue).to.equal(true);
+        cy.wait('@unclaim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
       });
     });
   });

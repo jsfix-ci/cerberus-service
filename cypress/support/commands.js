@@ -153,6 +153,8 @@ function findItem(taskName, action) {
       }).then(() => {
         if (!found) {
           findInPage(count += 1);
+        } else {
+          return found;
         }
       });
     });
@@ -161,7 +163,7 @@ function findItem(taskName, action) {
 }
 
 Cypress.Commands.add('findTaskInAllThePages', (taskName, action) => {
-  findItem(taskName, action);
+  return findItem(taskName, action);
 });
 
 Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
