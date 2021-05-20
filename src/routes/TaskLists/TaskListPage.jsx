@@ -10,8 +10,9 @@ import dayjs from 'dayjs';
 import qs from 'qs';
 
 // App imports
-import { SHORT_DATE_FORMAT } from '../../constants';
+import { SHORT_DATE_FORMAT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
 import { useKeycloak } from '../../utils/keycloak';
+
 import '../__assets__/TaskListPage.scss';
 
 import ClaimButton from '../../components/ClaimTaskButton';
@@ -23,11 +24,6 @@ import Tabs from '../../govuk/Tabs';
 import config from '../../config';
 import formatTaskData from '../../utils/formatTaskSummaryData';
 import useAxiosInstance from '../../utils/axiosInstance';
-
-const TASK_STATUS_NEW = 'new';
-const TASK_STATUS_IN_PROGRESS = 'inProgress';
-const TASK_STATUS_TARGET_ISSUED = 'issued';
-const TASK_STATUS_COMPLETED = 'complete';
 
 const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import ClaimButton from '../ClaimTaskButton';
+import TaskListPage from '../../routes/TaskLists/TaskListPage';
 
 const setError = jest.fn();
 
@@ -85,5 +86,10 @@ describe('Claim/Unclaim buttons', () => {
 
     await waitFor(() => { fireEvent.click(screen.getByText(/Unclaim/i)); });
     expect(mockAxios.history.post[0].url).toEqual(`task/${task.id}/unclaim`);
+    render(<TaskListPage />);
+    expect(screen.getByText('New tasks')).toBeInTheDocument();
+    expect(screen.queryByText('In progress tasks')).not.toBeInTheDocument();
+    expect(screen.queryByText('Target issued tasks')).not.toBeInTheDocument();
+    expect(screen.queryByText('Completed tasks')).not.toBeInTheDocument();
   });
 });
