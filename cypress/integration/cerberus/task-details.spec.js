@@ -114,8 +114,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.get('a[href="#in-progress"]').click();
 
     cy.get('@taskName').then((value) => {
-      cy.findTaskInAllThePages(value, null).then((returnvalue) => {
-        expect(returnvalue).to.equal(true);
+      cy.findTaskInAllThePages(value, null).then((taskFound) => {
+        expect(taskFound).to.equal(true);
       });
     });
   });
