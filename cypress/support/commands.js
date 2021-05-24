@@ -79,6 +79,18 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
   });
 });
 
+Cypress.Commands.add('navigateToTaskDetails', (processInstanceId, index) => {
+  cy.get('a[href="#in-progress"]').click();
+
+  cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[index]}`).as('tasksDetails');
+  cy.visit(`/tasks/${processInstanceId[index]}`);
+  cy.wait('@tasksDetails').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+
+  cy.wait(2000);
+});
+
 Cypress.Commands.add('selectCheckBox', (elementName, value) => {
   if (value !== undefined && value !== '') {
     cy.get(`${formioComponent}${elementName}`)

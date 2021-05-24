@@ -80,13 +80,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.get('a[href="#in-progress"]').click();
 
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
-      const processInstanceId = tasks.map(((item) => item.processInstanceId));
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
       expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${processInstanceId[0]}`);
-      cy.wait('@tasksDetails').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      let index = 0;
+      cy.navigateToTaskDetails(processInstanceId, index);
     });
 
     cy.get('button.link-button').should('not.exist');
@@ -127,19 +124,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       'Dismiss',
     ];
 
-    cy.get('a[href="#in-progress"]').click();
-
     cy.getTasksAssignedToMe().then((tasks) => {
       const processInstanceId = tasks.map((item) => item.processInstanceId);
       expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${processInstanceId[0]}`);
-      cy.wait('@tasksDetails').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      let index = 0;
+      cy.navigateToTaskDetails(processInstanceId, index);
     });
-
-    cy.wait(2000);
 
     cy.get('.task-actions--buttons button').each(($items, index) => {
       expect($items.text()).to.equal(actionItems[index]);
@@ -173,19 +163,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should Unclaim a task Successfully from task details page', () => {
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
-    cy.get('a[href="#in-progress"]').click();
-
     cy.getTasksAssignedToMe().then((tasks) => {
       const processInstanceId = tasks.map((item) => item.processInstanceId);
       expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.visit(`/tasks/${processInstanceId[0]}`);
-      cy.wait('@tasksDetails').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      let index = 0;
+      cy.navigateToTaskDetails(processInstanceId, index);
     });
-
-    cy.wait(2000);
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim').click();
 
@@ -293,6 +276,64 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.clickSubmit();
 
     cy.verifySuccessfulSubmissionHeader('Task has been dismissed');
+  });
+
+  it('Should Unclaim a task Successfully from at the end of pages In Progress tab & verify it moved to New tab', () => {
+    cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
+
+    cy.getTasksAssignedToMe().then((tasks) => {
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
+      expect(processInstanceId.length).to.not.equal(0);
+      let index = processInstanceId.length - 1;
+      cy.navigateToTaskDetails(processInstanceId, index);
+    });
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim').click();
+
+    cy.wait('@unclaim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.wait(2000);
+
+    cy.url().should('contain', '/tasks?tab=new');
+
+    cy.get('@taskName').then((text) => {
+      cy.findTaskInAllThePages(text, null).then((taskFound) => {
+        expect(taskFound).to.equal(true);
+      });
+    });
+  });
+
+  it('Should Unclaim a task Successfully from In Progress tab & verify it moved to New tab', () => {
+    cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
+
+    cy.getTasksAssignedToMe().then((tasks) => {
+      const processInstanceId = tasks.map((item) => item.processInstanceId);
+      expect(processInstanceId.length).to.not.equal(0);
+      let index = 0;
+      cy.navigateToTaskDetails(processInstanceId, index);
+    });
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim').click();
+
+    cy.wait('@unclaim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.wait(2000);
+
+    cy.url().should('contain', '/tasks?tab=new');
+
+    cy.get('@taskName').then((text) => {
+      cy.findTaskInAllThePages(text, null).then((taskFound) => {
+        expect(taskFound).to.equal(true);
+      });
+    });
   });
 
   after(() => {
