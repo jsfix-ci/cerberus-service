@@ -6,7 +6,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   before(() => {
     cy.login(Cypress.env('userName'));
-    cy.postTasks('CERB-AUTOTEST');
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'CERB-AUTOTEST');
+    });
   });
 
   beforeEach(() => {

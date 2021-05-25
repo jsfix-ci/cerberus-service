@@ -1,7 +1,9 @@
 describe('Issue target from cerberus UI using target sheet information form', () => {
   before(() => {
     cy.login(Cypress.env('userName'));
-    cy.postTasks('CERB-AUTOTEST');
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'CERB-AUTOTEST');
+    });
   });
 
   beforeEach(() => {
@@ -63,7 +65,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.waitForTaskManagementPageToLoad();
 
     cy.get('@taskName').then(($text) => {
-      cy.findTaskInAllThePages($text, null);
+      cy.findTaskInAllThePages($text, null).then((taskFound) => {
+        expect(taskFound).to.equal(true);
+      });
     });
   });
 });
