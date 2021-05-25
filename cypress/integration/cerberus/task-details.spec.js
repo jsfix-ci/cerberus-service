@@ -1,7 +1,9 @@
 describe('Render tasks from Camunda and manage them on task details Page', () => {
   before(() => {
     cy.login(Cypress.env('userName'));
-    cy.postTasks('CERB-AUTOTEST');
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'CERB-AUTOTEST');
+    });
   });
 
   beforeEach(() => {
@@ -227,8 +229,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should dismiss a task with a reason', () => {
-    cy.postTasks();
-
     const reasons = [
       'Vessel arrived',
       'False rule match',
