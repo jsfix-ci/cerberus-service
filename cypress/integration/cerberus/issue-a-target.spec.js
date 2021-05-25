@@ -40,6 +40,12 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('strategy', 'Alcohol');
 
+    cy.selectDropDownValue('nominalType', 'Account');
+
+    cy.selectDropDownValue('checks', 'Anti Fraud Information System');
+
+    cy.typeValueInTextArea('comments', 'Nominal type commnets for testing');
+
     cy.selectRadioButton('warningsIdentified', 'No');
 
     cy.clickNext();

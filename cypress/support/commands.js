@@ -208,7 +208,7 @@ Cypress.Commands.add('postTasks', (task, name) => {
 });
 
 Cypress.Commands.add('selectDropDownValue', (elementName, value) => {
-  cy.get(`${formioComponent}${elementName} div.form-control`)
+  cy.get(`${formioComponent}${elementName}${formioComponent}select div.form-control`)
     .should('be.visible')
     .click();
   cy.get(`${formioComponent}${elementName} div[role="listbox"]`)
