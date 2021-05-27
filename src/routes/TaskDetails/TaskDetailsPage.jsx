@@ -132,12 +132,26 @@ const TaskDetailsPage = () => {
           ), // taskHistoryResponse
         ]);
 
+        /*
+        * There are various actions a user can take on a target
+        * Based on it's processState and it's assignee
+        * We set these here so we can then use them to determine
+        * whether to show the action buttons, the claim/unclaim/assigned text/buttons
+        * and the notes form
+        */
         const processState = (variableInstanceResponse.data.find((processVar) => {
           return processVar.name === 'processState';
         }));
         setTargetStatus(processState?.value);
         setAssignee(taskResponse?.data[0]?.assignee);
 
+        /*
+        * To display the activity log of what's happened to a target
+        * There are three places that activity/notes can be logged in
+        * history/variable-instance (parsedNotes) including notes entered via the notes form,
+        * history/user-operation (parsedOperationsHistory),
+        * history/task (parsedTaskHistory)
+        */
         const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
           return processVar.name === 'notes';
         }).value).map((note) => ({
@@ -172,6 +186,11 @@ const TaskDetailsPage = () => {
           ...parsedNotes,
         ].sort((a, b) => -a.date.localeCompare(b.date)));
 
+        /*
+        * This takes the objects of type JSON from the /history/variable-instance data
+        * and collates them into an object of objects
+        * so we can map/use them as they are the core information about the target
+        */
         const parsedTaskVariables = variableInstanceResponse.data
           .filter((t) => t.type === 'Json')
           .reduce((acc, camundaVar) => {
