@@ -5,7 +5,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 
 // App imports
-import { FORM_NAME_TARGET_INFORMATION_SHEET } from '../../constants';
+import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
 import { useKeycloak } from '../../utils/keycloak';
 import { useFormSubmit } from '../../utils/formioSupport';
 import '../__assets__/TaskDetailsPage.scss';
@@ -67,22 +67,22 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 
 const TaskDetailsPage = () => {
   const { processInstanceId } = useParams();
-  const [error, setError] = useState(null);
-  const [taskVersions, setTaskVersions] = useState([]);
-  const [activityLog, setActivityLog] = useState([]);
-  const [isLoading, setLoading] = useState(true);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const currentUser = keycloak.tokenParsed.email;
+  const source = axios.CancelToken.source();
+
+  const [activityLog, setActivityLog] = useState([]);
+  const [assignee, setAssignee] = useState();
+  const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [targetStatus, setTargetStatus] = useState();
+  const [targetTask, setTargetTask] = useState({});
+  const [taskVersions, setTaskVersions] = useState([]);
+
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
-  const [isTargetComplete, setIsTargetComplete] = useState();
-  const [targetTask, setTargetTask] = useState({});
-  const [isTargetIssued, setIsTargetIssued] = useState();
-  const currentUser = keycloak.tokenParsed.email;
-  const assignee = targetTask?.assignee;
-  const currentUserIsOwner = assignee === currentUser;
-  const source = axios.CancelToken.source();
 
   const TaskCompletedSuccessMessage = ({ message }) => {
     return (
@@ -108,32 +108,35 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     const loadTask = async () => {
       try {
-        const [taskResponse, variableInstanceResponse, operationsHistoryResponse, taskHistoryResponse, targetCompleteResponse, targetIssuedResponse] = await Promise.all([
+        const [
+          taskResponse,
+          variableInstanceResponse,
+          operationsHistoryResponse,
+          taskHistoryResponse,
+        ] = await Promise.all([
           camundaClient.get(
             '/task',
             { params: { processInstanceId } },
-          ),
+          ), // taskResponse
           camundaClient.get(
             '/history/variable-instance',
             { params: { processInstanceIdIn: processInstanceId, deserializeValues: false } },
-          ),
+          ), // variableInstanceResponse
           camundaClient.get(
             '/history/user-operation',
             { params: { processInstanceId, deserializeValues: false } },
-          ),
+          ), // operationsHistoryResponse
           camundaClient.get(
             '/history/task',
             { params: { processInstanceId, deserializeValues: false } },
-          ),
-          camundaClient.get(
-            '/process-instance',
-            { params: { processInstanceIds: processInstanceId, variables: 'processState_neq_Complete' } },
-          ),
-          camundaClient.get(
-            '/process-instance',
-            { params: { processInstanceIds: processInstanceId, variables: 'processState_eq_Issued' } },
-          ),
+          ), // taskHistoryResponse
         ]);
+
+        const processState = (variableInstanceResponse.data.find((processVar) => {
+          return processVar.name === 'processState';
+        }));
+        setTargetStatus(processState?.value);
+        setAssignee(taskResponse?.data[0]?.assignee);
 
         const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
           return processVar.name === 'notes';
@@ -156,11 +159,13 @@ const TaskDetailsPage = () => {
             note: getNote(operation),
           };
         });
+
         const parsedTaskHistory = taskHistoryResponse.data.map((historyLog) => ({
           date: historyLog.startTime,
           user: historyLog.assignee,
           note: historyLog.name,
         }));
+
         setActivityLog([
           ...parsedOperationsHistory,
           ...parsedTaskHistory,
@@ -174,8 +179,6 @@ const TaskDetailsPage = () => {
             return acc;
           }, {});
 
-        setIsTargetComplete(targetCompleteResponse.data.length === 0);
-        setIsTargetIssued(targetIssuedResponse.data.length > 0);
         setTargetTask(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
         setTaskVersions([{
           ...parsedTaskVariables,
@@ -202,7 +205,7 @@ const TaskDetailsPage = () => {
     if (!assignee) {
       return 'Unassigned';
     }
-    if (currentUserIsOwner) {
+    if (assignee === currentUser) {
       return 'Assigned to you';
     }
     return `Assigned to ${assignee}`;
@@ -218,15 +221,20 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
-              {!isTargetComplete && !isTargetIssued && (
+              {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
                 <p className="govuk-body">
                   {getAssignee()}
-                  <ClaimButton assignee={assignee} taskId={targetTask.id} setError={setError} processInstanceId={processInstanceId} />
+                  <ClaimButton
+                    assignee={assignee}
+                    taskId={targetTask.id}
+                    setError={setError}
+                    processInstanceId={processInstanceId}
+                  />
                 </p>
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {currentUserIsOwner && !isTargetComplete && !isTargetIssued && targetTask.taskDefinitionKey === 'developTarget' && (
+              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && targetTask.taskDefinitionKey === 'developTarget' && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
@@ -312,7 +320,7 @@ const TaskDetailsPage = () => {
             </div>
 
             <div className="govuk-grid-column-one-third">
-              {currentUserIsOwner && (
+              {assignee === currentUser && (
                 <TaskNotesForm
                   formName="noteCerberus"
                   businessKey={taskVersions[0].taskSummary?.businessKey}
