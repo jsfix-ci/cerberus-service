@@ -1,0 +1,92 @@
+[
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "cerberusPayload"
+  },
+  {
+    "type": "String",
+    "value": "MOVEMENT_ID",
+    "name": "movementId"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "taskSummary"
+  },
+  {
+    "type": "String",
+    "value": "Issued",
+    "name": "processState"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "serviceMovementHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "selectorHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "ruleHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "voyageHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "orgHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "personHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "addressHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "contactHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "vehicleHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "vesselHistory"
+  },
+  {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "documentHistory"
+  },
+  {
+    "type": "Integer",
+    "value": 1,
+    "name": "version"
+  },
+  {
+    "type": "Json",
+    "value": "[{\"note\":\"Target received\",\"timeStamp\":1619171257457,\"userId\":\"Cerberus - Rules Based Targetting\"}]",
+    "name": "notes"
+  },
+  {
+    "type": "Json",
+    "value": "{\"hasBusinessKey\":true,\"mode\":\"\",\"category\":\"target_B\",\"eventPort\":\"\",\"roro\":{\"roroFreightType\":\"unaccompanied\",\"details\":{\"vessel\":{\"name\":\"VALENTINE\",\"company\":\"COBELFRET FERRIES NV\"},\"vehicle\":{\"registrationNationality\":\"\",\"trailer\":{\"type\":\"\",\"registrationNationality\":\"\",\"regNumber\":\"\"},\"registrationNumber\":\"fg3478\",\"make\":\"\",\"colour\":\"\",\"model\":\"\"},\"load\":{\"countryOfDestination\":\"\",\"manifestedLoad\":\"car parts\"},\"account\":{\"name\":\"IF Logistics\",\"number\":\"IF-123482\"},\"haulier\":{\"name\":\"\",\"address\":\"\",\"country\":\"\"},\"passengers\":[],\"eta\":null,\"departureTime\":1596636000000}},\"threatIndicators\":[\"National Security at the Border\"]}",
+    "name": "FORM"
+  }
+]

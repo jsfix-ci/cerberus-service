@@ -3,7 +3,9 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
-import taskDetailsVariableInstanceResponse from '../__fixtures__/taskDetailsVariableInstanceResponse.fixture.json';
+import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
+import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
+import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -13,43 +15,30 @@ jest.mock('react-router-dom', () => ({
 
 describe('TaskDetailsPage', () => {
   const mockAxios = new MockAdapter(axios);
-  let mockTaskDetailsAxiosResponses;
+  // let mockTaskDetailsAxiosResponses;
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
-    mockTaskDetailsAxiosResponses = {
-      taskResponse: [{
-        processInstanceId: '123',
-        assignee: 'test',
-        id: 'task123',
-        taskDefinitionKey: 'developTarget',
-      }],
-      variableInstanceResponse: taskDetailsVariableInstanceResponse,
-      operationsHistoryResponse: [{
-        operationType: 'Claim',
-        property: 'assignee',
-        orgValue: null,
-        timestamp: '2021-04-06T15:30:42.420+0000',
-        userId: 'testuser@email.com',
-      }],
-      taskHistoryResponse: [{
-        assignee: 'testuser@email.com',
-        startTime: '2021-04-20T10:50:25.869+0000',
-        name: 'Investigate Error',
-      }],
-      targetCompleteResponse: [{ id: '123' }],
-      targetIssuedResponse: [],
-      noteFormResponse: { test },
-    };
   });
+
+  const operationsHistoryFixture = [{
+    operationType: 'Claim',
+    property: 'assignee',
+    orgValue: null,
+    timestamp: '2021-04-06T15:30:42.420+0000',
+    userId: 'testuser@email.com',
+  }];
+  const taskHistoryFixture = [{
+    assignee: 'testuser@email.com',
+    startTime: '2021-04-20T10:50:25.869+0000',
+    name: 'Investigate Error',
+  }];
 
   const mockTaskDetailsAxiosCalls = ({
     taskResponse,
     variableInstanceResponse,
     operationsHistoryResponse,
     taskHistoryResponse,
-    targetCompleteResponse,
-    targetIssuedResponse,
     noteFormResponse,
   }) => {
     mockAxios
@@ -61,10 +50,6 @@ describe('TaskDetailsPage', () => {
       .reply(200, operationsHistoryResponse)
       .onGet('/history/task', { params: { processInstanceId: '123', deserializeValues: false } })
       .reply(200, taskHistoryResponse)
-      .onGet('/process-instance', { params: { processInstanceIds: '123', variables: 'processState_neq_Complete' } })
-      .reply(200, targetCompleteResponse)
-      .onGet('/process-instance', { params: { processInstanceIds: '123', variables: 'processState_eq_Issued' } })
-      .reply(200, targetIssuedResponse)
       .onGet('/form/name/noteCerberus')
       .reply(200, noteFormResponse);
   };
@@ -75,7 +60,18 @@ describe('TaskDetailsPage', () => {
   });
 
   it('should render Issue Target button when current user is assigned user, and open issue target form on click', async () => {
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
@@ -90,9 +86,18 @@ describe('TaskDetailsPage', () => {
   });
 
   it('should render "Claim" button when user is not assigned to the task, the task assignee is null and the target has not been completed or issued', async () => {
-    mockTaskDetailsAxiosResponses.taskResponse[0].assignee = null;
-
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: null,
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
@@ -101,8 +106,19 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Unclaim')).not.toBeInTheDocument();
   });
 
-  it('should render "Unclaim" button when user is not assigned to the task and the target has not been completed or issued', async () => {
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+  it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
@@ -112,9 +128,18 @@ describe('TaskDetailsPage', () => {
   });
 
   it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not been completed or issued', async () => {
-    mockTaskDetailsAxiosResponses.taskResponse[0].assignee = 'ANOTHER_USER';
-
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'ANOTHER_USER',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
@@ -123,12 +148,19 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
   });
 
-  it('should not render user or claim/unclaim buttons when a target is complete and target is not issued', async () => {
-    mockTaskDetailsAxiosResponses.taskResponse[0].assignee = 'ANOTHER_USER';
-    mockTaskDetailsAxiosResponses.taskResponse = [];
-    mockTaskDetailsAxiosResponses.targetCompleteResponse = [];
-
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+  it('should not render user or claim/unclaim buttons when a target is complete', async () => {
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: null,
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusComplete,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
@@ -137,12 +169,19 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
   });
 
-  it('should not render user or claim/unclaim buttons when a target is issued and target is not complete', async () => {
-    mockTaskDetailsAxiosResponses.taskResponse[0].assignee = 'ANOTHER_USER';
-    mockTaskDetailsAxiosResponses.taskResponse = [];
-    mockTaskDetailsAxiosResponses.targetIssuedResponse = [{ id: '123' }];
-
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+  it('should not render user or claim/unclaim buttons when a target is issued', async () => {
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: null,
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusIssued,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
@@ -152,19 +191,25 @@ describe('TaskDetailsPage', () => {
   });
 
   it('should not render action forms when target task type is not equal to "developTarget"', async () => {
-    mockTaskDetailsAxiosResponses.taskResponse = [{
-      processInstanceId: '123',
-      assignee: 'test',
-      id: 'task123',
-      taskDefinitionKey: 'NOT_DEVELOP_TARGET',
-    }];
-
-    mockTaskDetailsAxiosCalls({ ...mockTaskDetailsAxiosResponses });
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'otherType',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
     expect(screen.queryByText('Unclaim')).toBeInTheDocument();
-    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
+    expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
   });
 });
