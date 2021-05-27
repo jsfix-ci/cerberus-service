@@ -112,6 +112,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('a[href="#in-progress"]').click();
 
+    cy.waitForTaskManagementPageToLoad();
+
     cy.get('@taskName').then((value) => {
       cy.findTaskInAllThePages(value, null).then((taskFound) => {
         expect(taskFound).to.equal(true);
@@ -279,6 +281,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should Unclaim a task Successfully from at the end of pages In Progress tab & verify it moved to New tab', () => {
+    cy.clock();
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.getTasksAssignedToMe().then((tasks) => {
@@ -299,6 +302,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.wait(2000);
 
     cy.url().should('contain', '/tasks?tab=new');
+
+    cy.tick(60000);
 
     cy.get('@taskName').then((text) => {
       cy.findTaskInAllThePages(text, null).then((taskFound) => {
