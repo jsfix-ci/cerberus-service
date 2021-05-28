@@ -52,6 +52,8 @@ const TasksTab = ({ taskStatus, setError }) => {
       statusRules: {
         processVariables: 'processState_neq_Complete',
         unassigned: true,
+        sortBy: 'dueDate',
+        sortOrder: 'asc',
       },
     },
     inProgress: {
