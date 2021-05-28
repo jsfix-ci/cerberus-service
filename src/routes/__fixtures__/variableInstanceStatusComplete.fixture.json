@@ -5,6 +5,11 @@
     "name": "cerberusPayload"
   },
   {
+    "type": "Json",
+    "value": "[[]]",
+    "name": "taskDetails"
+  },
+  {
     "type": "String",
     "value": "MOVEMENT_ID",
     "name": "movementId"

@@ -78,6 +78,7 @@ const TaskDetailsPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [targetStatus, setTargetStatus] = useState();
   const [targetTask, setTargetTask] = useState({});
+  const [targetTaskVersionDetails, setTargetTaskVersionDetails] = useState([]);
   const [taskVersions, setTaskVersions] = useState([]);
 
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
@@ -202,6 +203,7 @@ const TaskDetailsPage = () => {
         setTaskVersions([{
           ...parsedTaskVariables,
         }]);
+        setTargetTaskVersionDetails(parsedTaskVariables.taskDetails)
       } catch (e) {
         setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
         setTaskVersions([]);
@@ -209,7 +211,6 @@ const TaskDetailsPage = () => {
         setLoading(false);
       }
     };
-
     loadTask();
     return () => {
       source.cancel('Cancelling request');
@@ -334,7 +335,7 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={taskVersions} />
+                <TaskVersions taskVersions={targetTaskVersionDetails} />
               )}
             </div>
 
