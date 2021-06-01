@@ -65,6 +65,12 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - -c
+              - wget -O - localhost:8080/camunda 2>&1| grep "HTTP/1.1 401"
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
