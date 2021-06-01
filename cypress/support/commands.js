@@ -91,6 +91,26 @@ Cypress.Commands.add('navigateToTaskDetails', (processInstanceId, index) => {
   cy.wait(2000);
 });
 
+Cypress.Commands.add('claimTask', () => {
+  cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+
+  cy.get('.govuk-grid-row').eq(0).within(() => {
+    cy.get('a').invoke('text').as('taskName');
+    cy.get('a').click();
+  });
+  cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+
+  cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+  cy.wait('@claim').then(({ response }) => {
+    expect(response.statusCode).to.equal(204);
+  });
+
+  cy.wait(2000);
+
+  cy.contains('Back to task list').click();
+});
+
 Cypress.Commands.add('selectCheckBox', (elementName, value) => {
   if (value !== undefined && value !== '') {
     cy.get(`${formioComponent}${elementName}`)
@@ -249,12 +269,15 @@ Cypress.Commands.add('getProcessInstanceId', (businessKey) => {
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
-    let processInstanceId = response.body[0].processInstanceId;
-    return processInstanceId;
+    return response.body[0].processInstanceId;
   });
 });
 
 Cypress.Commands.add('checkTaskDisplayed', (processInstanceId, businessKey) => {
   cy.visit(`/tasks/${processInstanceId}`);
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
+});
+
+Cypress.Commands.add('waitForNoErrors', () => {
+  cy.get(formioErrorText).should('not.exist');
 });
