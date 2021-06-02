@@ -61,15 +61,15 @@ sendSlackMessage()
 {
     curl -X POST --data-urlencode \
     "payload={
-           \"channel\": \"#cop-deployments\",
-           \"username\": \"Formio Tests\",
+           \"channel\": \"#cop-test-report\",
+           \"username\": \"Cerberus Tests\",
            \"attachments\":
                 [
 					{
 						\"fallback\": \"${SLACK_FALLBACK}\",
 						\"text\": \"${SLACK_TEXT}\",
 						\"color\": \"${SLACK_COLOR}\",
-						\"title\": \"sGMR Test Report\",
+						\"title\": \"Cerberus Test Report\",
 						\"title_link\": \"${REPORT_FULL_URL}\",
 						\"mrkdwn_in\": [\"text\", \"pretext\"]
 					}
@@ -89,3 +89,5 @@ runTestsAndGenerateReport
 uploadReport
 createReportUrl
 createSlackMessage
+sendSlackMessage
+checkFailTest
