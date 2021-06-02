@@ -37,8 +37,55 @@ createReportUrl()
     echo "######## REPORT FULL URL : $REPORT_FULL_URL #######"
 }
 
+createSlackMessage()
+{
+    if [[ ${TEST_RUN_STATUS} == 0 ]] && [[ ${REPORT_UPLOAD_STATUS} == 0 ]]; then
+        SLACK_TEST_STATUS=" Test Execution *Successful*"
+        SLACK_COLOR="good"
+    else
+        SLACK_TEST_STATUS=" Test Execution *Failed*"
+        SLACK_COLOR="danger"
+    fi
+
+    SLACK_FALLBACK="${SLACK_TEST_STATUS} on ${AUTH_REALM}\nTest Execution Report URL - ${REPORT_FULL_URL}"
+    SLACK_TEXT="${SLACK_TEST_STATUS} on ${AUTH_REALM}"
+
+    if [[ ! -z "$DRONE_BUILD_NUMBER" ]]; then
+        SLACK_TEXT+="\nBuild number *${DRONE_BUILD_NUMBER}*"
+    fi
+
+    echo "###### Slack Message :: ${SLACK_FALLBACK}"
+}
+
+sendSlackMessage()
+{
+    curl -X POST --data-urlencode \
+    "payload={
+           \"channel\": \"#cop-deployments\",
+           \"username\": \"Formio Tests\",
+           \"attachments\":
+                [
+					{
+						\"fallback\": \"${SLACK_FALLBACK}\",
+						\"text\": \"${SLACK_TEXT}\",
+						\"color\": \"${SLACK_COLOR}\",
+						\"title\": \"sGMR Test Report\",
+						\"title_link\": \"${REPORT_FULL_URL}\",
+						\"mrkdwn_in\": [\"text\", \"pretext\"]
+					}
+				]
+        }" ${SLACK_WEB_HOOK}
+}
+
+checkFailTest(){
+    if [[ ${TEST_RUN_STATUS} != 0 ]]; then
+        exit 1
+    fi
+}
+
 getSecrets
 setVariables
 runTestsAndGenerateReport
 uploadReport
 createReportUrl
+createSlackMessage

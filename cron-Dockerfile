@@ -1,0 +1,21 @@
+FROM quay.io/ukhomeofficedigital/cop-cypress:6.3.0-node13
+
+USER root
+COPY . /cerberus-service
+WORKDIR /cerberus-service
+
+RUN useradd -m -u 1000 -s /bin/bash node ; \
+    chown -R 1000:1000 /cerberus-service ; \
+    chown -R 1000:1000 /home/node ; \
+    chmod +x /cerberus-service/scripts/run-test.sh
+    
+
+USER 1000
+ENV PATH="${PATH}:$HOME/.npm/bin"
+RUN mkdir ~/.npm ; \
+    npm config set prefix ~/.npm ; \
+    echo 'export PATH="$PATH:$HOME/.npm/bin"' >> ~/.bashrc ; \
+    export PATH="$PATH:$HOME/.npm/bin" ; \
+    npm install
+
+ENTRYPOINT ["/bin/bash", "/cerberus-service/scripts/run-test.sh"]
