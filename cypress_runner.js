@@ -47,14 +47,14 @@ rm(reportFiles, (error) => {
 });
 
 function generateReport(options, results) {
-  return  merge(options).then((report) => {
-     marge.create(report, options).then(() => {
-       if(results.totalFailed !== 0) {
-         process.exit(1);
-       } else {
-         process.exit(0);
-       }
-     });
+  return merge(options).then((report) => {
+    marge.create(report, options).then(() => {
+      if (results.totalFailed !== 0) {
+        process.exit(1);
+      } else {
+        process.exit(0);
+      }
+    });
   });
 }
 
