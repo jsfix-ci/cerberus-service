@@ -47,8 +47,8 @@ createSlackMessage()
         SLACK_COLOR="danger"
     fi
 
-    SLACK_FALLBACK="${SLACK_TEST_STATUS} on ${AUTH_REALM}\nTest Execution Report URL - ${REPORT_FULL_URL}"
-    SLACK_TEXT="${SLACK_TEST_STATUS} on ${AUTH_REALM}"
+    SLACK_FALLBACK="${SLACK_TEST_STATUS} on cerberus-ui-service \nTest Execution Report URL - ${REPORT_FULL_URL}"
+    SLACK_TEXT="${SLACK_TEST_STATUS} on cerberus-ui-service"
 
     if [[ ! -z "$DRONE_BUILD_NUMBER" ]]; then
         SLACK_TEXT+="\nBuild number *${DRONE_BUILD_NUMBER}*"
