@@ -203,7 +203,7 @@ const TaskDetailsPage = () => {
         setTaskVersions([{
           ...parsedTaskVariables,
         }]);
-        setTargetTaskVersionDetails(parsedTaskVariables.taskDetails)
+        setTargetTaskVersionDetails(parsedTaskVariables.taskDetails);
       } catch (e) {
         setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
         setTaskVersions([]);
