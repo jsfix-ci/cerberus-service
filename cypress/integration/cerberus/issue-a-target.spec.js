@@ -6,10 +6,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
   });
 
-  beforeEach(() => {
-    cy.login(Cypress.env('userName'));
-  });
-
   it('Should submit a target successfully from a task and it should be moved to "target issued" tab', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
