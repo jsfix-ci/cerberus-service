@@ -3,7 +3,27 @@ import * as pluralise from 'pluralise';
 import dayjs from 'dayjs';
 
 import Accordion from '../../govuk/Accordion';
-import { LONG_DATE_FORMAT } from '../../constants';
+import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
+
+const formatField = (fieldType, content) => {
+  if (!content) {
+    return '';
+  }
+  switch (fieldType) {
+    case 'DISTANCE':
+      return `${content}m`;
+    case 'WEIGHT':
+      return `${content}kg`;
+    case 'CURRENCY':
+      return `£${content}`;
+    case 'SHORT_DATE':
+      return dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
+    case 'DATETIME':
+      return dayjs(content).format(LONG_DATE_FORMAT);
+    default:
+      return content;
+  }
+};
 
 const TaskVersions = ({ taskVersions }) => {
   /* There can be multiple versions of the data
@@ -22,18 +42,16 @@ const TaskVersions = ({ taskVersions }) => {
           const booking = version.find((fieldset) => { return fieldset.fieldSetName === 'Booking'; }) || null;
           const bookingDate = booking?.contents.find((field) => { return field.fieldName === 'Date and time'; }) || null;
           const versionNumber = taskVersions.length - index;
-          let childrenSection;
-
-          childrenSection = version.map((field) => {
+          const childrenSection = version.map((field) => {
             return (
               <div key={field.fieldSetName}>
                 <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
                 <dl className="govuk-summary-list govuk-!-margin-bottom-9">
-                  {field.contents.map((content, i) => {
+                  {field.contents.map(({ fieldName, content, type }, i) => {
                     return (
                       <div className="govuk-summary-list__row" key={i}>
-                        <dt className="govuk-summary-list__key">{content.fieldName}</dt>
-                        <dd className="govuk-summary-list__value">{content.content}</dd>
+                        <dt className="govuk-summary-list__key">{fieldName}</dt>
+                        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
                       </div>
                     );
                   })}
