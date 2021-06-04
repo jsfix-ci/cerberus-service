@@ -201,9 +201,10 @@ Cypress.Commands.add('postTasks', (task, name) => {
     headers: { Authorization: `Bearer ${token}` },
     body: task,
   }).then((response) => {
+    console.log('response', response);
     expect(response.status).to.eq(200);
     expect(response.body.businessKey).to.eq(task.businessKey);
-    return task.businessKey;
+    return response.body;
   });
 });
 
@@ -239,4 +240,21 @@ Cypress.Commands.add('selectRadioButton', (elementName, value) => {
     .closest('div')
     .find('input')
     .click({ force: true });
+});
+
+Cypress.Commands.add('getProcessInstanceId', (businessKey) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceBusinessKey=${businessKey}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    let processInstanceId = response.body[0].processInstanceId;
+    return processInstanceId;
+  });
+});
+
+Cypress.Commands.add('checkTaskDisplayed', (processInstanceId, businessKey) => {
+  cy.visit(`/tasks/${processInstanceId}`);
+  cy.get('.govuk-caption-xl').should('have.text', businessKey);
 });
