@@ -160,7 +160,6 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-      exclude:
        - main
     event:
        - push
@@ -264,7 +263,6 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests\""
   when:
     branch:
-      exclude:
        - main
     event:
        - push
