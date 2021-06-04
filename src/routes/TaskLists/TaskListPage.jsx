@@ -134,7 +134,7 @@ const TasksTab = ({ taskStatus, setError }) => {
           parsedTargetTaskSummariesValues = targetTaskSummaryValues;
         }
 
-        setTargetTasks(parsedTargetTaskSummariesValues);
+        setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => new Date(a.due) - new Date(b.due)));
       } catch (e) {
         setError(e.message);
         setTargetTasks([]);
