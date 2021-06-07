@@ -281,3 +281,11 @@ Cypress.Commands.add('checkTaskDisplayed', (processInstanceId, businessKey) => {
 Cypress.Commands.add('waitForNoErrors', () => {
   cy.get(formioErrorText).should('not.exist');
 });
+
+Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
+  cy.get(`${formioComponent}textfield${formioComponent}${elementName} input`)
+
+    .should('be.visible')
+    .clear()
+    .type(value);
+});

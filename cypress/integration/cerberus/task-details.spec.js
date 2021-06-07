@@ -262,7 +262,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.contains('Dismiss').click();
 
-    cy.get('.formio-component-reason .govuk-checkboxes__item label').each((reason, index) => {
+    cy.get('.formio-component-reason .govuk-radios__label').each((reason, index) => {
       cy.wrap(reason)
         .should('contain.text', reasons[index]).and('be.visible');
     });
@@ -271,9 +271,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for dismissing the task');
 
-    cy.selectCheckBox('reason', 'False rule match');
+    cy.selectRadioButton('reason', 'Other (please specify)');
+
+    cy.typeValueInTextField('otherReason', 'other reason for testing');
 
     cy.clickNext();
+
+    cy.waitForNoErrors();
 
     cy.typeValueInTextArea('addANote', 'This is for testing');
 
