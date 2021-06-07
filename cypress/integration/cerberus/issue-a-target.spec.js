@@ -38,6 +38,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('nominalType', 'Account');
 
+    cy.selectDropDownValue('threatIndicators', 'Cash Paid');
+
     cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
     cy.typeValueInTextArea('comments', 'Nominal type commnets for testing');
@@ -45,6 +47,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.selectRadioButton('warningsIdentified', 'No');
 
     cy.clickNext();
+
+    cy.waitForNoErrors();
 
     cy.selectDropDownValue('teamToReceiveTheTarget', 'Aberdeen Commodity team - DN02G5');
 
@@ -67,9 +71,24 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.waitForTaskManagementPageToLoad();
 
     cy.get('@taskName').then(($text) => {
+      cy.wait(2000);
       cy.findTaskInAllThePages($text, null).then((taskFound) => {
         expect(taskFound).to.equal(true);
       });
     });
+  });
+
+  it('Should verify all the action buttons not available when task loaded from Issued tab', () => {
+    cy.get('a[href="#target-issued"]').click();
+
+    cy.get('.govuk-grid-row').eq(0).within(() => {
+      cy.get('a').click();
+    });
+
+    cy.get('.task-actions--buttons button').should('not.exist');
+
+    cy.get('button.link-button').should('not.exist');
+
+    cy.get('.formio-component-note textarea').should('not.exist');
   });
 });
