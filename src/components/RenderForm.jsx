@@ -53,7 +53,6 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
         const formResponse = await formApiClient.get(`/form/name/${formName}`);
         setForm(formResponse.data);
       } catch (e) {
-        setForm(null);
         setError(e.message);
       } finally {
         setLoaderVisibility(false);

@@ -212,4 +212,26 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
   });
+
+  it('should handle form service errors gracefully', async () => {
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
+    mockAxios.onGet('/form/name/noteCerberus').reply(404);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+  });
 });
