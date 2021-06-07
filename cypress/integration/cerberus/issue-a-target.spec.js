@@ -6,7 +6,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
   });
 
-  it('Should submit a target successfully from a task and it should be moved to "target issued" tab', () => {
+  it('Should submit a target successfully from a task and it should be moved to target issued tab', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
     cy.get('.govuk-grid-row').eq(0).within(() => {
@@ -42,7 +42,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
-    cy.typeValueInTextArea('comments', 'Nominal type commnets for testing');
+    cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
 
     cy.selectRadioButton('warningsIdentified', 'No');
 
@@ -50,7 +50,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Aberdeen Commodity team - DN02G5');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Border Systems - COP Admins - COP_ADMIN');
 
     cy.clickSubmit();
 

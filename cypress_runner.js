@@ -46,9 +46,15 @@ rm(reportFiles, (error) => {
   console.log('Removing all existing report files successfully!');
 });
 
-function generateReport(options) {
+function generateReport(options, results) {
   return merge(options).then((report) => {
-    marge.create(report, options);
+    marge.create(report, options).then(() => {
+      if (results.totalFailed !== 0) {
+        process.exit(1);
+      } else {
+        process.exit(0);
+      }
+    });
   });
 }
 
@@ -66,7 +72,7 @@ cypress.run({
     ],
     reportTitle: 'cerberus-tests',
   };
-  generateReport(reporterOptions);
+  generateReport(reporterOptions, results);
 }).catch((error) => {
   console.error('errors: ', error);
   process.exit(1);
