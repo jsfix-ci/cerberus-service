@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, wait, waitFor } from '@testing-library/react';
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
@@ -211,5 +211,27 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
+  });
+
+  it('should handle form service errors gracefully', async () => {
+    mockTaskDetailsAxiosCalls({
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
+    mockAxios.onGet('/form/name/noteCerberus').reply(404);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });
 });
