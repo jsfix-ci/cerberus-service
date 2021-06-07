@@ -134,7 +134,13 @@ const TasksTab = ({ taskStatus, setError }) => {
           parsedTargetTaskSummariesValues = targetTaskSummaryValues;
         }
 
-        setTargetTasks(parsedTargetTaskSummariesValues);
+        /*
+         * We initially grab the tasks from camunda in a sorted order (by 'due' asc)
+         * However after using the tasks data to query the variable endpoint we lose the
+         * sorting we had before. As a result, the amalgamation of /tasks and /variable api calls
+         * is sorted by the 'due' property to ensure the task list is in asc order
+        */
+        setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => new Date(a.due) - new Date(b.due)));
       } catch (e) {
         setError(e.message);
         setTargetTasks([]);
