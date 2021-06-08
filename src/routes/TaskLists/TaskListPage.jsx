@@ -140,7 +140,11 @@ const TasksTab = ({ taskStatus, setError }) => {
          * sorting we had before. As a result, the amalgamation of /tasks and /variable api calls
          * is sorted by the 'due' property to ensure the task list is in asc order
         */
-        setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => new Date(a.due) - new Date(b.due)));
+        setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => {
+          const dateA = new Date(a.due);
+          const dateB = new Date(b.due);
+          return (a.due === null) - (b.due === null) || +(dateA > dateB) || -(dateA < dateB);
+        }));
       } catch (e) {
         setError(e.message);
         setTargetTasks([]);
