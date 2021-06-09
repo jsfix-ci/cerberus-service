@@ -1,6 +1,6 @@
 #!/bin/bash
 context="acp-notprod_COP"
-namespace=$1
+namespace="cop-ops-dev"
 
 rm .env
 
@@ -13,7 +13,7 @@ do
       echo "export $varName=$varValue" >> .env
   fi
 
-done < <(kubectl --context=$context --namespace=$namespace get secret cerberus-service -o yaml | awk 'BEGIN {FS=": ";output=0} {  if ($0 ~ /^kind*/) { output=0 }; if (output) { varName=toupper($1); gsub(/\./, "_", varName); printf " %s:%s\n", varName, $2  }; if ($0 == "data:") { output=1} ;  }')
+done < <(kubectl --context=$context --namespace=$namespace get secret formio-integration-test -o yaml | awk 'BEGIN {FS=": ";output=0} {  if ($0 ~ /^kind*/) { output=0 }; if (output) { varName=toupper($1); gsub(/\./, "_", varName); printf " %s:%s\n", varName, $2  }; if ($0 == "data:") { output=1} ;  }')
 
 mkdir -p cypress/fixtures/users
 source .env
