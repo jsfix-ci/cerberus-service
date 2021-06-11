@@ -14,7 +14,20 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains RoRo Tourist', () => {
+  it('Should create a task with a payload contains organisation value as null', () => {
+    cy.fixture('tasks-org-null.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      console.log(task);
+      cy.postTasks(task, 'AUTOTEST-ORG-NULL').then((response) => {
+        cy.wait(4000);
+        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
+          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
+        });
+      });
+    });
+  });
+
+  it.skip('Should create a task with a payload contains RoRo Tourist', () => {
     cy.fixture('RoRo-Tourist.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST').then((response) => {
         cy.wait(4000);
@@ -25,7 +38,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
+  it.skip('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
     cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST-RBT-SBT').then((response) => {
         cy.wait(4000);
@@ -36,7 +49,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains RoRo Tourist from SBT', () => {
+  it.skip('Should create a task with a payload contains RoRo Tourist from SBT', () => {
     cy.fixture('RoRo-Tourist-SBT.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST-SBT').then((response) => {
         cy.wait(4000);
