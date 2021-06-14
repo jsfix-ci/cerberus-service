@@ -10,6 +10,7 @@ import LoadingSpinner from '../forms/LoadingSpinner';
 import { useKeycloak } from '../utils/keycloak';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
 import ErrorSummary from '../govuk/ErrorSummary';
+import findAndFormat from '../utils/findAndFormat';
 
 Formio.use(gds);
 
@@ -63,13 +64,21 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
       if (!preFillData) {
         setFormattedPreFillData(null);
       } else {
+        /*
+         * Due to formio prefilling issues, findAndFormat is used in order to correctly
+         * prefill the form dob and docExpiry fields
+        */
+        findAndFormat(preFillData, 'dob', (dob) => dob.split('-').reverse().join('/'));
+        findAndFormat(preFillData, 'docExpiry', (dob) => dob.split('-').reverse().join('/'));
         setFormattedPreFillData(
-          { data: {
-            environmentContext: {
-              referenceDataUrl: config.refdataApiUrl,
+          {
+            data: {
+              environmentContext: {
+                referenceDataUrl: config.refdataApiUrl,
+              },
+              ...preFillData,
             },
-            ...preFillData,
-          } },
+          },
         );
       }
     };
