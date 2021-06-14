@@ -1,4 +1,6 @@
+import dayjs from 'dayjs';
 import findAndFormat from '../findAndFormat';
+import { SHORT_DATE_FORMAT } from '../../constants';
 
 describe('findAndFormat', () => {
   let input;
@@ -24,6 +26,7 @@ describe('findAndFormat', () => {
         },
       ],
       prop9: 'blah',
+      prop10: 13933,
     };
   });
 
@@ -34,5 +37,13 @@ describe('findAndFormat', () => {
   });
   it('should handle unfound keys gracefully', () => {
     expect(() => findAndFormat(input, 'does-not-exist', () => {})).not.toThrow();
+  });
+  it('should format fields with provided callback', () => {
+    findAndFormat(
+      input,
+      'prop10',
+      (prop) => dayjs(0).add(prop, 'days').format(SHORT_DATE_FORMAT),
+    );
+    expect(input.prop10).toBe('24/02/2008');
   });
 });
