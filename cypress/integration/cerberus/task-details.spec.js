@@ -187,9 +187,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should complete assessment of a task with a reason as take no further action', () => {
     const reasons = [
-      'Credibility checks carried out - no target required',
+      'Credibility checks carried out no target required',
+      'False BSM/selector match',
       'Vessel arrived',
-      'False BSM or selector match',
       'Other',
     ];
 
@@ -212,9 +212,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for completing your assessment');
 
-    cy.get('.formio-component-nfaReason .govuk-checkboxes__item label').each((reason, index) => {
-      cy.wrap(reason)
-        .should('contain.text', reasons[index]).and('be.visible');
+    cy.get('.formio-component-reason .govuk-radios__label').each(($reason, index) => {
+      expect($reason).to.be.visible;
+      let reasonText = $reason.text().replace(/^\s+|\s+$/g, '');
+      expect(reasonText).to.contain(reasons[index]);
     });
 
     cy.selectRadioButton('reason', 'Vessel arrived');
