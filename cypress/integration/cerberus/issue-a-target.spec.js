@@ -1,5 +1,5 @@
 describe('Issue target from cerberus UI using target sheet information form', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.fixture('tasks.json').then((task) => {
       cy.postTasks(task, 'CERB-AUTOTEST');
@@ -65,6 +65,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.get('.task-actions--buttons button').should('not.exist');
 
     cy.contains('Back to task list').click();
+
+    cy.reload();
 
     cy.get('a[href="#target-issued"]').click();
 

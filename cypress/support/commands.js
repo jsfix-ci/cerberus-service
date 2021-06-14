@@ -152,8 +152,6 @@ function findItem(taskName, action) {
   function findInPage(count) {
     let found = false;
 
-    const nextPage = 'a[data-test="next"]';
-
     cy.get('.pagination').invoke('attr', 'aria-label').as('pages');
 
     cy.get('@pages').then((pages) => {
@@ -162,22 +160,22 @@ function findItem(taskName, action) {
         return false;
       }
       if (count > 0) {
-        cy.get(nextPage).as('next');
-        cy.get('@next').click();
+        cy.contains('Next').click();
+        cy.wait(1000);
       }
       cy.get('.govuk-link--no-visited-state').each((item) => {
-        if (action !== null) {
+        if (action === null) {
           cy.wrap(item).invoke('text').then((text) => {
+            cy.log('task text', text);
             if (taskName === text) {
-              cy.wait(2000);
-              cy.contains(action).click();
               found = true;
             }
           });
         } else {
           cy.wrap(item).invoke('text').then((text) => {
-            cy.log('task text', text);
             if (taskName === text) {
+              cy.wait(2000);
+              cy.contains(action).click();
               found = true;
             }
           });
