@@ -38,7 +38,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('nominalType', 'Account');
 
-    cy.selectDropDownValue('threatIndicators', 'Cash Paid');
+    cy.selectDropDownValue('threatIndicators', 'Paid by cash');
 
     cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
