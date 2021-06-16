@@ -69,12 +69,21 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
         /*
          * Due to formio prefilling issues, findAndFormat is used in order to correctly
          * prefill the form dob and docExpiry fields
+         * Threat indicators arrives as an array of strings, this prepoulates correctly
+         * however it does not match the formatting expected by workflows further down the
+         * line. This means it needs to be changed to match the expected data structure
+         * THESE ARE ALL TEMPORARY FIXES
         */
         findAndFormat(preFillData, 'dob', (dob) => dob.split('-').reverse().join('/'));
         findAndFormat(
           preFillData,
           'docExpiry',
           (docExpiry) => dayjs(0).add(docExpiry, 'days').format(SHORT_DATE_FORMAT),
+        );
+        findAndFormat(
+          preFillData,
+          'threatIndicators',
+          (threatIndicators) => threatIndicators.map((threatIndicator) => ({ indicator: threatIndicator })),
         );
         setFormattedPreFillData(
           {
