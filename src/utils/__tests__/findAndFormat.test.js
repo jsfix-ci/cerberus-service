@@ -32,6 +32,7 @@ describe('findAndFormat', () => {
         'string2',
         'string3',
       ],
+      prop12: [''],
     };
   });
 
@@ -54,6 +55,11 @@ describe('findAndFormat', () => {
       'prop11',
       (prop) => prop.map((string) => ({ customProp: string })),
     );
+    findAndFormat(
+      input,
+      'prop12',
+      (prop) => (prop[0] ? prop.map((p) => ({ newProp: p })) : []),
+    );
     expect(input.prop10).toBe('24/02/2008');
     expect(input.prop11).toEqual([
       {
@@ -66,5 +72,6 @@ describe('findAndFormat', () => {
         customProp: 'string3',
       },
     ]);
+    expect(input.prop12).toEqual([]);
   });
 });

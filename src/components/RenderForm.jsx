@@ -74,16 +74,16 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
          * line. This means it needs to be changed to match the expected data structure
          * THESE ARE ALL TEMPORARY FIXES
         */
-        findAndFormat(preFillData, 'dob', (dob) => dob.split('-').reverse().join('/'));
+        findAndFormat(preFillData, 'dob', (dob) => (dob ? dob.split('-').reverse().join('/') : ''));
         findAndFormat(
           preFillData,
           'docExpiry',
-          (docExpiry) => dayjs(0).add(docExpiry, 'days').format(SHORT_DATE_FORMAT),
+          (docExpiry) => (docExpiry ? dayjs(0).add(docExpiry, 'days').format(SHORT_DATE_FORMAT) : ''),
         );
         findAndFormat(
           preFillData,
           'threatIndicators',
-          (threatIndicators) => threatIndicators.map((threatIndicator) => ({ indicator: threatIndicator })),
+          (threatIndicators) => (threatIndicators[0] ? threatIndicators.map((threatIndicator) => ({ indicator: threatIndicator })) : []),
         );
         setFormattedPreFillData(
           {
