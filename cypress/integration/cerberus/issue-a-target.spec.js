@@ -32,6 +32,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('eventPort', '135 Dunganno Road');
 
+    cy.selectDropDownValue('issuingHub', 'Vessel Targeting');
+
     cy.typeTodaysDateTime('eta');
 
     cy.selectDropDownValue('strategy', 'Alcohol');
