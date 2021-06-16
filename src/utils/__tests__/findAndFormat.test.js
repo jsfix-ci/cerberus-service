@@ -27,6 +27,11 @@ describe('findAndFormat', () => {
       ],
       prop9: 'blah',
       prop10: 13933,
+      prop11: [
+        'string1',
+        'string2',
+        'string3',
+      ],
     };
   });
 
@@ -36,7 +41,7 @@ describe('findAndFormat', () => {
     expect(input.prop9).toBe('halb');
   });
   it('should handle unfound keys gracefully', () => {
-    expect(() => findAndFormat(input, 'does-not-exist', () => {})).not.toThrow();
+    expect(() => findAndFormat(input, 'does-not-exist', () => { })).not.toThrow();
   });
   it('should format fields with provided callback', () => {
     findAndFormat(
@@ -44,6 +49,22 @@ describe('findAndFormat', () => {
       'prop10',
       (prop) => dayjs(0).add(prop, 'days').format(SHORT_DATE_FORMAT),
     );
+    findAndFormat(
+      input,
+      'prop11',
+      (prop) => prop.map((string) => ({ customProp: string })),
+    );
     expect(input.prop10).toBe('24/02/2008');
+    expect(input.prop11).toEqual([
+      {
+        customProp: 'string1',
+      },
+      {
+        customProp: 'string2',
+      },
+      {
+        customProp: 'string3',
+      },
+    ]);
   });
 });
