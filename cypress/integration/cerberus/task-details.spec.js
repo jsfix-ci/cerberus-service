@@ -128,9 +128,16 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.waitForTaskManagementPageToLoad();
 
     cy.get('@taskName').then((value) => {
-      cy.findTaskInAllThePages(value, null).then((taskFound) => {
-        expect(taskFound).to.equal(true);
-      });
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(value, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(value, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
     });
   });
 
@@ -326,9 +333,16 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.tick(60000);
 
     cy.get('@taskName').then((text) => {
-      cy.findTaskInAllThePages(text, null).then((taskFound) => {
-        expect(taskFound).to.equal(true);
-      });
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
     });
   });
 
@@ -355,9 +369,16 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.url().should('contain', '/tasks?tab=new');
 
     cy.get('@taskName').then((text) => {
-      cy.findTaskInAllThePages(text, null).then((taskFound) => {
-        expect(taskFound).to.equal(true);
-      });
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
     });
   });
 

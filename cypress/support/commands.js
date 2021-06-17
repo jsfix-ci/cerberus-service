@@ -287,3 +287,27 @@ Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
     .clear()
     .type(value);
 });
+
+Cypress.Commands.add('findTaskInSinglePage', (taskName, action) => {
+  let found = false;
+  cy.get('.govuk-link--no-visited-state').each((item) => {
+    if (action === null) {
+      cy.wrap(item).invoke('text').then((text) => {
+        cy.log('task text', text);
+        if (taskName === text) {
+          found = true;
+        }
+      });
+    } else {
+      cy.wrap(item).invoke('text').then((text) => {
+        if (taskName === text) {
+          cy.wait(2000);
+          cy.contains(action).click();
+          found = true;
+        }
+      });
+    }
+  }).then(() => {
+    return found;
+  });
+});
