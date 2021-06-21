@@ -27,7 +27,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it.skip('Should create a task with a payload contains RoRo Tourist', () => {
+  it('Should create a task with a payload contains RoRo Tourist', () => {
     cy.fixture('RoRo-Tourist.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST').then((response) => {
         cy.wait(4000);
@@ -38,7 +38,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it.skip('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
+  it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
     cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST-RBT-SBT').then((response) => {
         cy.wait(4000);
@@ -49,7 +49,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it.skip('Should create a task with a payload contains RoRo Tourist from SBT', () => {
+  it('Should create a task with a payload contains RoRo Tourist from SBT', () => {
     cy.fixture('RoRo-Tourist-SBT.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST-SBT').then((response) => {
         cy.wait(4000);

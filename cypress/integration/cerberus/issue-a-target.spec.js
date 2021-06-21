@@ -76,9 +76,16 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('@taskName').then(($text) => {
       cy.wait(2000);
-      cy.findTaskInAllThePages($text, null).then((taskFound) => {
-        expect(taskFound).to.equal(true);
-      });
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages($text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage($text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
     });
   });
 

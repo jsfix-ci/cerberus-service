@@ -73,6 +73,7 @@ module.exports = {
         'jest/valid-expect': 0,
         'jest/valid-expect-in-promise': 0,
         'jest/no-standalone-expect': 'off',
+        'jest/no-conditional-expect': 'off',
         'no-unused-expressions': 'off',
         'quote-props': 'off',
         'cypress/no-unnecessary-waiting': 'off',
