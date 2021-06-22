@@ -52,7 +52,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Border Systems - COP Admins - COP_ADMIN');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Customs/Immigration Team 1 - DS05A1');
 
     cy.clickSubmit();
 
