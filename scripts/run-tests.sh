@@ -3,7 +3,7 @@
 runTestsAndGenerateReport()
 {
     echo "== Starting cypress tests =="
-    npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -e dev
+    npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL} -e ${DEPLOY_ENV}
     TEST_RUN_STATUS=$?
      echo "######## TEST RUN STATUS : TEST_RUN_STATUS #######"
 }
@@ -11,7 +11,7 @@ runTestsAndGenerateReport()
 getSecrets()
 {
     mkdir -p cypress/fixtures/users
-    node get_secrets.js
+    node get_secrets.js ${DEPLOY_ENV}
 }
 
 setVariables()

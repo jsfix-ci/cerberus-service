@@ -10,6 +10,7 @@ const displayDate24Format = 'DD-MM-YYYY HH:mm';
 
 Cypress.Commands.add('login', (userName) => {
   cy.kcLogout();
+  console.log(Cypress.env('auth_realm'));
   cy.kcLogin(userName).as('tokens');
   cy.intercept('POST', `/auth/realms/${realm}/protocol/openid-connect/token`).as('token');
   cy.visit('/');
@@ -309,5 +310,16 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action) => {
     }
   }).then(() => {
     return found;
+  });
+});
+
+Cypress.Commands.add('getTasksByPartialBusinessKey', (businessKey) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceBusinessKey=${businessKey}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body.filter((item) => item.assignee === null && item.name === 'Develop the Target');
   });
 });

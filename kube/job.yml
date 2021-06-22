@@ -24,6 +24,13 @@ spec:
                     secretKeyRef:
                       name: "{{ .NAME }}"
                       key: cerberus_workflow_service_url
+                - name: JOB_NAME
+                  value: {{.JOB_NAME}}
+                - name: FORM_API_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: "{{ .NAME }}"
+                      key: form_api__url
                 - name: KUBE_NAMESPACE
                   valueFrom:
                     secretKeyRef:

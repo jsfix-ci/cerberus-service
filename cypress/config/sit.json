@@ -1,0 +1,6 @@
+{
+  "baseUrl": "https://www.sit.cerberus.cop.homeoffice.gov.uk",
+  "env": {
+    "envname": "sit"
+  }
+}

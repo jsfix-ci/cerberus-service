@@ -1,20 +1,25 @@
 describe('Issue target from cerberus UI using target sheet information form', () => {
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST');
-    });
   });
 
   it('Should submit a target successfully from a task and it should be moved to target issued tab', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
-    cy.get('.govuk-grid-row').eq(0).within(() => {
-      cy.get('a').invoke('text').as('taskName');
-      cy.get('a').click();
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'CERB-AUTOTEST').then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByPartialBusinessKey(taskResponse.businessKey).then((tasks) => {
+          const processInstanceId = tasks.map(((item) => item.processInstanceId));
+          expect(processInstanceId.length).to.not.equal(0);
+          cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+          cy.visit(`/tasks/${processInstanceId[0]}`);
+          cy.wait('@tasksDetails').then(({ response }) => {
+            expect(response.statusCode).to.equal(200);
+          });
+        });
+      });
     });
-
-    cy.wait(2000);
 
     cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
 
@@ -27,6 +32,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.contains('Issue target').click();
 
     cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
     cy.selectDropDownValue('mode', 'RoRo Freight');
 
@@ -60,8 +67,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.reload();
 
-    cy.get('@taskName').then(($text) => {
-      cy.get('.govuk-caption-xl').should('have.text', $text);
+    cy.get('@taskName').then((value) => {
+      cy.get('.govuk-caption-xl').should('have.text', value);
     });
 
     cy.get('.task-actions--buttons button').should('not.exist');
@@ -74,15 +81,17 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForTaskManagementPageToLoad();
 
-    cy.get('@taskName').then(($text) => {
-      cy.wait(2000);
+    cy.wait(2000);
+
+    cy.get('@taskName').then((value) => {
+      cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages($text, null).then((taskFound) => {
+        cy.findTaskInAllThePages(value, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage($text, null).then((taskFound) => {
+        cy.findTaskInSinglePage(value, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
