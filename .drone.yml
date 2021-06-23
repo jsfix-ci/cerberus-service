@@ -160,7 +160,6 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-      exclude:
        - main
     event:
        - push
@@ -330,7 +329,6 @@ steps:
     TEST_ENV: sit
   when:
     branch:
-      exclude:
       - main
     event:
       - push
