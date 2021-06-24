@@ -29,6 +29,8 @@ if (environment === 'dev') {
   env.TEST_SECRET_NAME = '/test/dev';
 } else if (environment === 'sit') {
   env.TEST_SECRET_NAME = '/test/sit';
+} else if (environment === 'staging') {
+  env.TEST_SECRET_NAME = '/test/staging';
 } else {
   env.TEST_SECRET_NAME = '/test/local';
 }

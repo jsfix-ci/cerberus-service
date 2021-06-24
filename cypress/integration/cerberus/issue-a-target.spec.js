@@ -111,4 +111,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.formio-component-note textarea').should('not.exist');
   });
+
+  after(() => {
+    cy.contains('Sign out').click();
+    cy.get('#kc-page-title').should('contain.text', 'Log In');
+  });
 });
