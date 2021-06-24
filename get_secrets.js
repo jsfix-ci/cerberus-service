@@ -25,8 +25,6 @@ if (!('AWS_REGION' in env)) {
 
 const environment = process.argv[2];
 
-console.log(environment);
-
 if (environment === 'dev') {
   env.TEST_SECRET_NAME = '/test/dev';
 } else if (environment === 'sit') {

@@ -10,7 +10,6 @@ const displayDate24Format = 'DD-MM-YYYY HH:mm';
 
 Cypress.Commands.add('login', (userName) => {
   cy.kcLogout();
-  console.log(Cypress.env('auth_realm'));
   cy.kcLogin(userName).as('tokens');
   cy.intercept('POST', `/auth/realms/${realm}/protocol/openid-connect/token`).as('token');
   cy.visit('/');

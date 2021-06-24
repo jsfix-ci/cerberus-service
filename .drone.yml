@@ -324,14 +324,16 @@ steps:
       from_secret: SIT_CERBERUS_KUBE_TOKEN
     CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
-    CRON_SCHEDULE: "\"10 8-17/2 * * 1-5\""
+    CRON_SCHEDULE: "\"10 8-18/3 * * 1-5\""
     JOB_NAME: "\"cerberus-functional-tests-sit\""
     TEST_ENV: sit
   when:
     branch:
       - main
     event:
-      - push
+      - promote
+    target:
+      - sit
 
 - name: deploy_to_sit
   pull: if-not-exists
