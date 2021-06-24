@@ -23,7 +23,13 @@ if (!('AWS_REGION' in env)) {
   env.AWS_REGION = 'eu-west-2';
 }
 
-if (!('TEST_SECRET_NAME' in env)) {
+const environment = process.argv[2];
+
+if (environment === 'dev') {
+  env.TEST_SECRET_NAME = '/test/dev';
+} else if (environment === 'sit') {
+  env.TEST_SECRET_NAME = '/test/sit';
+} else {
   env.TEST_SECRET_NAME = '/test/local';
 }
 
@@ -76,9 +82,9 @@ getSecret().then((secret) => {
         console.log(err);
       } else {
         obj = JSON.parse(data);
-        obj.env.auth_base_url = auth.url;
         obj.env.auth_realm = auth.realm;
         obj.env.auth_client_id = auth.client;
+        obj.env.auth_base_url = auth.url;
         json = JSON.stringify(obj);
         fs.writeFileSync('cypress.json', json, { flag: 'w' });
       }

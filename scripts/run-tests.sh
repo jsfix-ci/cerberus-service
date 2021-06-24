@@ -3,7 +3,7 @@
 runTestsAndGenerateReport()
 {
     echo "== Starting cypress tests =="
-    npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -e dev
+    npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL} -e ${TEST_ENV}
     TEST_RUN_STATUS=$?
      echo "######## TEST RUN STATUS : TEST_RUN_STATUS #######"
 }
@@ -11,7 +11,7 @@ runTestsAndGenerateReport()
 getSecrets()
 {
     mkdir -p cypress/fixtures/users
-    node get_secrets.js
+    node get_secrets.js ${TEST_ENV}
 }
 
 setVariables()
@@ -40,10 +40,10 @@ createReportUrl()
 createSlackMessage()
 {
     if [[ ${TEST_RUN_STATUS} == 0 ]] && [[ ${REPORT_UPLOAD_STATUS} == 0 ]]; then
-        SLACK_TEST_STATUS=" Test Execution *Successful*"
+        SLACK_TEST_STATUS=" Test Execution *Successful* on ${TEST_ENV} environment"
         SLACK_COLOR="good"
     else
-        SLACK_TEST_STATUS=" Test Execution *Failed*"
+        SLACK_TEST_STATUS=" Test Execution *Failed* on ${TEST_ENV} environment"
         SLACK_COLOR="danger"
     fi
 
@@ -62,14 +62,14 @@ sendSlackMessage()
     curl -X POST --data-urlencode \
     "payload={
            \"channel\": \"#cop-test-report\",
-           \"username\": \"Cerberus Tests\",
+           \"username\": \"Cerberus Tests against ${TEST_ENV}\",
            \"attachments\":
                 [
 					{
 						\"fallback\": \"${SLACK_FALLBACK}\",
 						\"text\": \"${SLACK_TEXT}\",
 						\"color\": \"${SLACK_COLOR}\",
-						\"title\": \"Cerberus Test Report\",
+						\"title\": \"Cerberus Test Report for ${TEST_ENV} environment\",
 						\"title_link\": \"${REPORT_FULL_URL}\",
 						\"mrkdwn_in\": [\"text\", \"pretext\"]
 					}

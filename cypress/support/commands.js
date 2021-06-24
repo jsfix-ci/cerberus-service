@@ -311,3 +311,14 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action) => {
     return found;
   });
 });
+
+Cypress.Commands.add('getTasksByPartialBusinessKey', (businessKey) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceBusinessKey=${businessKey}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body.filter((item) => item.assignee === null && item.name === 'Develop the Target');
+  });
+});

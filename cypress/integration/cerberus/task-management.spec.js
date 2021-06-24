@@ -3,11 +3,14 @@
 
 describe('Render tasks from Camunda and manage them on task management Page', () => {
   const MAX_TASK_PER_PAGE = 10;
+  let taskName;
 
   before(() => {
     cy.login(Cypress.env('userName'));
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST');
+      cy.postTasks(task, 'CERB-AUTOTEST').then((response) => {
+        taskName = response.businessKey;
+      });
     });
   });
 
@@ -79,16 +82,27 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   it('Should Claim & Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
-    cy.get('.task-list--item').eq(0).within(() => {
-      cy.get('.govuk-link--no-visited-state').eq(0).invoke('text').as('taskName');
-      cy.contains('Claim').click();
-    });
+    const nextPage = 'a[data-test="next"]';
 
-    cy.wait('@claim').then(({ response }) => {
-      expect(response.statusCode).to.equal(204);
-    });
+    if (Cypress.$(nextPage).length > 0) {
+      cy.findTaskInAllThePages(`${taskName}`, 'Claim').then((returnvalue) => {
+        expect(returnvalue).to.equal(true);
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+      });
+    } else {
+      cy.findTaskInSinglePage(`${taskName}`, 'Claim').then((returnvalue) => {
+        expect(returnvalue).to.equal(true);
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+      });
+    }
 
     cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
     cy.contains('Back to task list').click();
 
@@ -98,7 +112,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('@taskName').then((value) => {
       cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
-      const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {
         cy.findTaskInAllThePages(value, 'Unclaim').then((returnvalue) => {
           expect(returnvalue).to.equal(true);

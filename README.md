@@ -96,6 +96,7 @@ create a file called cypress.env.json on a root folder and include the following
    "auth_realm": "xxx",
    "auth_client_id": "xxx",
    "cerberusServiceUrl": "xxx",
+   "formApiUrl": "xxx"
 }
 ```
 
@@ -145,6 +146,8 @@ npm run cypress:test:report -- -b chrome -s cypress/integration/cerberus/login.s
 
 Running all tests and generating mochawesome html report with screenshots using script
 export CERBERUS_WORKFLOW_SERVICE_URL=xxxxx
+export FORM_API_URL=xxxx
+export TEST_ENV= dev / sit
 ```sh
 ./scripts/run_tests.sh
 ```

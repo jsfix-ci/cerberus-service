@@ -24,6 +24,11 @@ spec:
                     secretKeyRef:
                       name: "{{ .NAME }}"
                       key: cerberus_workflow_service_url
+                - name: FORM_API_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: "{{ .NAME }}"
+                      key: form_api_url
                 - name: KUBE_NAMESPACE
                   valueFrom:
                     secretKeyRef:
@@ -79,6 +84,11 @@ spec:
                     secretKeyRef:
                       name: "{{ .NAME }}"
                       key: cypress_cache_folder
+                - name: TEST_ENV
+                  valueFrom:
+                    secretKeyRef:
+                      name: "{{ .NAME }}"
+                      key: test_env
               securityContext:
                 runAsNonRoot: true
                 runAsUser: 1000

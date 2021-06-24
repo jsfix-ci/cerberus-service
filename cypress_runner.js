@@ -27,6 +27,10 @@ const argv = yargs.options({
     describe: 'ExecutionEnvironment',
     default: 'local',
   },
+  formApiUrl: {
+    alias: 'f',
+    describe: 'Form API URL',
+  },
 
 }).help()
   .argv;
@@ -63,6 +67,7 @@ cypress.run({
   spec: argv.spec,
   env: {
     cerberusServiceUrl: argv.cerberusServiceUrl,
+    formApiUrl: argv.formApiUrl,
     configFile: argv.configFile,
   },
 }).then((results) => {
