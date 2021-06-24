@@ -27,7 +27,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains RoRo Tourist', () => {
+  it('Should create a task with a payload contains RoRo Tourist and check AbuseType set to correct value', () => {
     cy.fixture('RoRo-Tourist.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-TOURIST').then((response) => {
         cy.wait(4000);
@@ -35,6 +35,15 @@ describe('Create task with different payload from Cerberus', () => {
           cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
         });
       });
+      cy.wait(2000);
+      cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
+        if (value !== true) {
+          cy.get('.govuk-accordion__section-button').click();
+        }
+      });
+      cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
+        .next()
+        .should('have.text', 'Obscene Material');
     });
   });
 
