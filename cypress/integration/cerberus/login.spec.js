@@ -17,6 +17,6 @@ describe('Log-in to cerberus UI', () => {
 
   after(() => {
     cy.contains('Sign out').click();
-    cy.get('#kc-page-title').should('contain.text', 'Log In');
+    cy.url().should('include', Cypress.env('auth_realm'));
   });
 });

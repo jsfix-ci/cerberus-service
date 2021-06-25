@@ -48,6 +48,6 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
 
   after(() => {
     cy.contains('Sign out').click();
-    cy.get('#kc-page-title').should('contain.text', 'Log In');
+    cy.url().should('include', Cypress.env('auth_realm'));
   });
 });
