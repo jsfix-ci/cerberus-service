@@ -3,7 +3,7 @@
 runTestsAndGenerateReport()
 {
     echo "== Starting cypress tests =="
-    npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL} -e ${TEST_ENV}
+    npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL}
     TEST_RUN_STATUS=$?
      echo "######## TEST RUN STATUS : TEST_RUN_STATUS #######"
 }
