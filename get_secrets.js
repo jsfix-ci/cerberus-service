@@ -84,7 +84,7 @@ getSecret().then((secret) => {
         console.log(err);
       } else {
         obj = JSON.parse(data);
-        if(environment !== 'local') {
+        if (environment !== 'local') {
           obj.baseUrl = secret.services.cerberus.base_url;
         } else {
           obj.baseUrl = 'http://localhost:8080';
