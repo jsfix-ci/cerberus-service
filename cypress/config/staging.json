@@ -1,6 +1,0 @@
-{
-  "baseUrl": "https://www.staging.cerberus.cop.homeoffice.gov.uk",
-  "env": {
-    "envname": "staging"
-  }
-}

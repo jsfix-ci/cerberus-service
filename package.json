@@ -9,9 +9,10 @@
     "lint": "eslint -f table --ext=js,jsx",
     "start": "webpack serve --mode=development",
     "test": "jest",
-    "cypress:test:local": "cypress run",
-    "cypress:test:dev": "node get_secrets.js dev && cypress run --env configFile=dev",
-    "cypress:test:sit": "node get_secrets.js sit && cypress run --env configFile=sit",
+    "cypress:test:local": "node get_secrets.js local && cypress run",
+    "cypress:test:dev": "node get_secrets.js dev && cypress run",
+    "cypress:test:sit": "node get_secrets.js sit && cypress run",
+    "cypress:test:staging": "node get_secrets.js staging && cypress run",
     "cypress:runner": "cypress open",
     "cypress:test:report": "node cypress_runner"
   },
