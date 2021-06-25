@@ -22,11 +22,6 @@ const argv = yargs.options({
     alias: 'c',
     describe: 'Cerberus Service URL',
   },
-  configFile: {
-    alias: 'e',
-    describe: 'ExecutionEnvironment',
-    default: 'local',
-  },
   formApiUrl: {
     alias: 'f',
     describe: 'Form API URL',
@@ -68,7 +63,6 @@ cypress.run({
   env: {
     cerberusServiceUrl: argv.cerberusServiceUrl,
     formApiUrl: argv.formApiUrl,
-    configFile: argv.configFile,
   },
 }).then((results) => {
   const reporterOptions = {

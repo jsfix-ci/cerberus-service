@@ -29,8 +29,10 @@ if (environment === 'dev') {
   env.TEST_SECRET_NAME = '/test/dev';
 } else if (environment === 'sit') {
   env.TEST_SECRET_NAME = '/test/sit';
+} else if (environment === 'staging') {
+  env.TEST_SECRET_NAME = '/test/staging';
 } else {
-  env.TEST_SECRET_NAME = '/test/local';
+  env.TEST_SECRET_NAME = '/test/dev';
 }
 
 async function getSecret() {
@@ -82,6 +84,11 @@ getSecret().then((secret) => {
         console.log(err);
       } else {
         obj = JSON.parse(data);
+        if (environment !== 'local') {
+          obj.baseUrl = secret.services.cerberus.base_url;
+        } else {
+          obj.baseUrl = 'http://localhost:8080';
+        }
         obj.env.auth_realm = auth.realm;
         obj.env.auth_client_id = auth.client;
         obj.env.auth_base_url = auth.url;

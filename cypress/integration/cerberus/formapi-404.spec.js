@@ -45,4 +45,9 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
 
     cy.get('.govuk-error-summary a').eq(0).should('contain.text', 'Request failed with status code 404');
   });
+
+  after(() => {
+    cy.contains('Sign out').click();
+    cy.url().should('include', Cypress.env('auth_realm'));
+  });
 });

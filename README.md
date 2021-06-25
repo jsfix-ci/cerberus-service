@@ -96,7 +96,8 @@ create a file called cypress.env.json on a root folder and include the following
    "auth_realm": "xxx",
    "auth_client_id": "xxx",
    "cerberusServiceUrl": "xxx",
-   "formApiUrl": "xxx"
+   "formApiUrl": "xxx",
+   "baseUrl": "xxx"
 }
 ```
 
@@ -109,7 +110,7 @@ npm run cypress:runner
 
 Running all tests using environment settings from a configuration file
 ```sh
-npm run cypress:runner -- --env configFile=dev
+npm run cypress:runner
 ```
 Once TestRunner launched, click on the interested spec inside folder cypress/integration/cerberus
 
@@ -134,9 +135,14 @@ Running specific test with chrome browser
 ```sh
 npm run cypress:test:local -- --browser chrome --spec cypress/integration/cerberus/task-management.spec.js
 ```
+
 Running All tests and generating mochawesome html report with screenshots
+run the command for specific environment to get the required baseUrl & keycloak authentication 
 ```sh
-npm run cypress:test:report -- -b chrome -c ${CERBERUS_WORKFLOW_SERVICE_URL} -e dev
+node get_secrets.js {dev, sit , staging}
+```
+```sh
+npm run cypress:test:report -- -b chrome -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL}
 ```
 
 Running specific test and generating mochawesome html report with screenshots
@@ -147,7 +153,7 @@ npm run cypress:test:report -- -b chrome -s cypress/integration/cerberus/login.s
 Running all tests and generating mochawesome html report with screenshots using script
 export CERBERUS_WORKFLOW_SERVICE_URL=xxxxx
 export FORM_API_URL=xxxx
-export TEST_ENV= dev / sit
+export TEST_ENV= dev / sit / staging
 ```sh
 ./scripts/run_tests.sh
 ```

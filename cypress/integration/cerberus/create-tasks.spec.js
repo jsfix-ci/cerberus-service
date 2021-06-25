@@ -123,4 +123,9 @@ describe('Create task with different payload from Cerberus', () => {
       });
     });
   });
+
+  after(() => {
+    cy.contains('Sign out').click();
+    cy.url().should('include', Cypress.env('auth_realm'));
+  });
 });
