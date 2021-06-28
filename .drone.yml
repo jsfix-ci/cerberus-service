@@ -160,6 +160,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
+       exclude:
        - main
     event:
        - push
@@ -295,9 +296,9 @@ steps:
     CERBERUS_SERVICE_URL:
       from_secret: SIT_CERBERUS_UI_SERVICE_URL
     AWS_ACCESS_KEY_ID:
-      from_secret: DEV_FORMIO_INT_TEST_SECRET_AWS_ACCESS_KEY_ID
+      from_secret: SIT_FORMIO_INT_TEST_SECRET_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:
-      from_secret: DEV_FORMIO_INT_TEST_SECRET_AWS_SECRET_ACCESS_KEY
+      from_secret: SIT_FORMIO_INT_TEST_SECRET_AWS_SECRET_ACCESS_KEY
     PROTOCOL_HTTPS:
       from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
@@ -311,7 +312,7 @@ steps:
     SLACK_WEB_HOOK:
       from_secret: TESTS_SLACK_WEBHOOK
     TEST_SECRET_NAME:
-      from_secret: DEV_FORMIO_INT_TEST_SECRET_NAME
+      from_secret: SIT_FORMIO_INT_TEST_SECRET_NAME
     CYPRESS_KEY:
       from_secret: CYPRESS_KEY
     CYPRESS_PROJECT_ID:
@@ -329,11 +330,10 @@ steps:
     TEST_ENV: sit
   when:
     branch:
-      - main
+      exclude:
+        - main
     event:
-      - promote
-    target:
-      - sit
+      - push
 
 - name: create_testjob_staging
   pull: always
@@ -393,11 +393,10 @@ steps:
     TEST_ENV: staging
   when:
     branch:
-      - main
+      exclude:
+        - main
     event:
-      - promote
-    target:
-      - staging
+      - push
 
 - name: deploy_to_sit
   pull: if-not-exists
