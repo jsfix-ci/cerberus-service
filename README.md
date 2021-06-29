@@ -92,17 +92,22 @@ create a file called cypress.env.json on a root folder and include the following
 
 ```json5
 {
-   "auth_base_url": "xxxx",
-   "auth_realm": "xxx",
-   "auth_client_id": "xxx",
    "cerberusServiceUrl": "xxx",
    "formApiUrl": "xxx",
-   "baseUrl": "xxx"
 }
+```
+#### Setup Environment to run the tests on local
+```sh
+./scripts/env-setup.sh {context} {namespace} {secretName}
+
+env        context               namespace                secretname                     |
+-------|--------------------|-----------------------|------------------------------------|
+Dev    | acp-notprod_COP    |  cop-cerberus-dev     |   cerberus-functional-tests        |
+Sit    | acp-notprod_COP    |  cop-cerberus-sit     |   cerberus-functional-tests-sit    |
+Staging| acp-notprod_COP    |  cop-cerberus-staging |   cerberus-functional-tests-staging|
 ```
 
 #### Running cypress test runner
-
 Running all tests
 ```sh
 npm run cypress:runner

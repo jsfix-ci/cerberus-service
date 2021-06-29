@@ -1,6 +1,8 @@
 describe('Create task with different payload from Cerberus', () => {
+  let date;
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    date = new Date();
   });
 
   it('Should create a task with a payload contains hazardous cargo without description', () => {
@@ -29,6 +31,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Tourist and check AbuseType set to correct value', () => {
     cy.fixture('RoRo-Tourist.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 2);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
@@ -49,6 +55,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
     cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 5);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-RBT-SBT').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
@@ -60,6 +70,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Tourist from SBT', () => {
     cy.fixture('RoRo-Tourist-SBT.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 4);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-SBT').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
@@ -82,6 +96,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Accompanied Freight from RBT & SBT', () => {
     cy.fixture('RoRo-Accompanied-RBT-SBT.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-RBT-SBT').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
@@ -93,6 +111,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Accompanied Freight from SBT', () => {
     cy.fixture('RoRo-Accompanied-SBT.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 10);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-SBT').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
@@ -104,6 +126,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Unaccompanied Freight from SBT', () => {
     cy.fixture('RoRo-Unaccompanied-Freight.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 8);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-SBT').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
@@ -115,6 +141,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Unaccompanied Freight from RBT & SBT', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 1);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-RBT-SBT').then((response) => {
         cy.wait(4000);
         cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
