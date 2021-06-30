@@ -10,7 +10,7 @@ import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatus
 // mock useParams
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ processInstanceId: '123' }),
+  useParams: jest.fn().mockReturnValue({ businessKey: 'BUSINESS_KEY' }),
 }));
 
 describe('TaskDetailsPage', () => {
@@ -35,6 +35,7 @@ describe('TaskDetailsPage', () => {
   }];
 
   const mockTaskDetailsAxiosCalls = ({
+    processInstanceResponse,
     taskResponse,
     variableInstanceResponse,
     operationsHistoryResponse,
@@ -42,6 +43,13 @@ describe('TaskDetailsPage', () => {
     noteFormResponse,
   }) => {
     mockAxios
+      .onGet('/process-instance', {
+        params: {
+          businessKey: 'BUSINESS_KEY',
+          processDefinitionKeyNotIn: 'raiseMovement,noteSubmissionWrapper',
+        },
+      })
+      .reply(200, processInstanceResponse)
       .onGet('/task', { params: { processInstanceId: '123' } })
       .reply(200, taskResponse)
       .onGet('/history/variable-instance', { params: { processInstanceIdIn: '123', deserializeValues: false } })
@@ -61,6 +69,7 @@ describe('TaskDetailsPage', () => {
 
   it('should render Issue Target button when current user is assigned user, and open issue target form on click', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: 'test',
@@ -87,6 +96,7 @@ describe('TaskDetailsPage', () => {
 
   it('should render "Claim" button when user is not assigned to the task, the task assignee is null and the target has not been completed or issued', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: null,
@@ -108,6 +118,7 @@ describe('TaskDetailsPage', () => {
 
   it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: 'test',
@@ -129,6 +140,7 @@ describe('TaskDetailsPage', () => {
 
   it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not been completed or issued', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: 'ANOTHER_USER',
@@ -150,6 +162,7 @@ describe('TaskDetailsPage', () => {
 
   it('should not render user or claim/unclaim buttons when a target is complete', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: null,
@@ -171,6 +184,7 @@ describe('TaskDetailsPage', () => {
 
   it('should not render user or claim/unclaim buttons when a target is issued', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: null,
@@ -192,6 +206,7 @@ describe('TaskDetailsPage', () => {
 
   it('should not render action forms when target task type is not equal to "developTarget"', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: 'test',
@@ -215,6 +230,7 @@ describe('TaskDetailsPage', () => {
 
   it('should handle form service errors gracefully', async () => {
     mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
       taskResponse: [{
         processInstanceId: '123',
         assignee: 'test',
