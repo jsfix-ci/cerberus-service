@@ -6,7 +6,7 @@ import config from '../config';
 import { TASK_STATUS_NEW } from '../constants';
 import { useKeycloak } from '../utils/keycloak';
 
-const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, processInstanceId, ...props }) => {
+const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, ...props }) => {
   const history = useHistory();
   const [isAssignmentInProgress, setAssignmentProgress] = useState(false);
   const keycloak = useKeycloak();
@@ -27,8 +27,8 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, processInstanc
       await camundaClient.post(`task/${taskId}/claim`, {
         userId: currentUser,
       });
-      if (history.location.pathname !== `/tasks/${processInstanceId}`) {
-        history.push(`/tasks/${processInstanceId}`);
+      if (history.location.pathname !== `/tasks/${businessKey}`) {
+        history.push(`/tasks/${businessKey}`);
       } else {
         history.go(0);
       }
