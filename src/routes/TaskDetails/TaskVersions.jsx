@@ -25,15 +25,26 @@ const formatField = (fieldType, content) => {
   }
 };
 
-
 const fieldContent = (fieldSet) => {
+  /*
+  * When there are multiple entries for a section
+  * e.g. 'Passengers' can have multiple passengers
+  * the 'hasChildSet' flag will be set to true
+  * which indicates we need to map out the childSet contents
+  * and not the parent contents
+  */
   if (fieldSet.hasChildSet === false) {
     return (
       fieldSet.contents.map(({ fieldName, content, type }, i) => {
         return (
           <div className="govuk-summary-list__row" key={i}>
-            <dt className="govuk-summary-list__key">{fieldName}</dt>
-            <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
+            { type !== 'HIDDEN'
+            && (
+            <>
+              <dt className="govuk-summary-list__key">{fieldName}</dt>
+              <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
+            </>
+            )}
           </div>
         );
       })
@@ -48,7 +59,8 @@ const fieldContent = (fieldSet) => {
 };
 
 const TaskVersions = ({ taskVersions }) => {
-  /* There can be multiple versions of the data
+  /*
+  * There can be multiple versions of the data
   * We need to display each version
   * We currently get the data as an array of unnamed objects
   * That contain an array of unnamed objects
