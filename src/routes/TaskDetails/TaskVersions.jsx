@@ -25,6 +25,28 @@ const formatField = (fieldType, content) => {
   }
 };
 
+
+const fieldContent = (fieldSet) => {
+  if (fieldSet.hasChildSet === false) {
+    return (
+      fieldSet.contents.map(({ fieldName, content, type }, i) => {
+        return (
+          <div className="govuk-summary-list__row" key={i}>
+            <dt className="govuk-summary-list__key">{fieldName}</dt>
+            <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
+          </div>
+        );
+      })
+    );
+  } if (fieldSet.hasChildSet === true) {
+    return (
+      fieldSet.childSets.map((obj) => {
+        return (fieldContent(obj));
+      })
+    );
+  }
+};
+
 const TaskVersions = ({ taskVersions }) => {
   /* There can be multiple versions of the data
   * We need to display each version
@@ -42,19 +64,12 @@ const TaskVersions = ({ taskVersions }) => {
           const booking = version.find((fieldset) => { return fieldset.fieldSetName === 'Booking'; }) || null;
           const bookingDate = booking?.contents.find((field) => { return field.fieldName === 'Date and time'; }) || null;
           const versionNumber = taskVersions.length - index;
-          const childrenSection = version.map((field) => {
+          const detailSection = version.map((field) => {
             return (
               <div key={field.fieldSetName}>
                 <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
                 <dl className="govuk-summary-list govuk-!-margin-bottom-9">
-                  {field.contents.map(({ fieldName, content, type }, i) => {
-                    return (
-                      <div className="govuk-summary-list__row" key={i}>
-                        <dt className="govuk-summary-list__key">{fieldName}</dt>
-                        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
-                      </div>
-                    );
-                  })}
+                  {fieldContent(field)}
                 </dl>
               </div>
             );
@@ -75,7 +90,7 @@ const TaskVersions = ({ taskVersions }) => {
                   </div>
                 </>
               ),
-              children: childrenSection,
+              children: detailSection,
             }
           );
         })
