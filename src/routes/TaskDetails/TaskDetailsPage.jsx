@@ -66,7 +66,7 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 };
 
 const TaskDetailsPage = () => {
-  const { processInstanceId } = useParams();
+  const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const currentUser = keycloak.tokenParsed.email;
@@ -80,6 +80,7 @@ const TaskDetailsPage = () => {
   const [targetTask, setTargetTask] = useState({});
   const [targetTaskVersionDetails, setTargetTaskVersionDetails] = useState([]);
   const [taskVersions, setTaskVersions] = useState([]);
+  const [processInstanceId, setProcessInstanceId] = useState();
 
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
@@ -109,6 +110,37 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     const loadTask = async () => {
       try {
+        /*
+        * Using just the /history/process-instance endpoint here would work however
+        * in time, this would result in a slower response as the history table is a
+        * super set of the process-instance table. As a result, an api call is made to
+        * the subset first to check if there are in flight process instances with the
+        * given business key (which would be New, In Progress and Target Issued targets).
+        * If this returns an empty array, there are no in flight processes, therefore it
+        * is a finished process instance and requires a history/process-instance call
+        */
+        let processInstanceResponse = await camundaClient.get(
+          '/process-instance',
+          {
+            params: {
+              businessKey,
+              processDefinitionKeyNotIn: 'raiseMovement,noteSubmissionWrapper',
+            },
+          },
+        );
+        if (processInstanceResponse.data.length < 1) {
+          processInstanceResponse = await camundaClient.get(
+            '/history/process-instance',
+            {
+              params: {
+                processInstanceBusinessKey: businessKey,
+                processDefinitionKeyNotIn: 'raiseMovement,noteSubmissionWrapper',
+              },
+            },
+          );
+        }
+        const { data: [processInstance] } = processInstanceResponse;
+
         const [
           taskResponse,
           variableInstanceResponse,
@@ -117,19 +149,19 @@ const TaskDetailsPage = () => {
         ] = await Promise.all([
           camundaClient.get(
             '/task',
-            { params: { processInstanceId } },
+            { params: { processInstanceId: processInstance.id } },
           ), // taskResponse
           camundaClient.get(
             '/history/variable-instance',
-            { params: { processInstanceIdIn: processInstanceId, deserializeValues: false } },
+            { params: { processInstanceIdIn: processInstance.id, deserializeValues: false } },
           ), // variableInstanceResponse
           camundaClient.get(
             '/history/user-operation',
-            { params: { processInstanceId, deserializeValues: false } },
+            { params: { processInstanceId: processInstance.id, deserializeValues: false } },
           ), // operationsHistoryResponse
           camundaClient.get(
             '/history/task',
-            { params: { processInstanceId, deserializeValues: false } },
+            { params: { processInstanceId: processInstance.id, deserializeValues: false } },
           ), // taskHistoryResponse
         ]);
 
@@ -143,6 +175,7 @@ const TaskDetailsPage = () => {
         const processState = (variableInstanceResponse.data.find((processVar) => {
           return processVar.name === 'processState';
         }));
+        setProcessInstanceId(processInstance.id);
         setTargetStatus(processState?.value);
         setAssignee(taskResponse?.data[0]?.assignee);
 
@@ -248,7 +281,7 @@ const TaskDetailsPage = () => {
                     assignee={assignee}
                     taskId={targetTask.id}
                     setError={setError}
-                    processInstanceId={processInstanceId}
+                    businessKey={businessKey}
                   />
                 </p>
               )}

@@ -190,14 +190,14 @@ const TasksTab = ({ taskStatus, setError }) => {
         const passengers = target.people?.filter(({ role }) => role === 'PASSENGER') || [];
 
         return (
-          <section className="task-list--item" key={target.processInstanceId}>
+          <section className="task-list--item" key={target.businessKey}>
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-three-quarters">
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-                    to={`/tasks/${target.processInstanceId || target.id}`}
-                  >{target.businessKey || target.id}
+                    to={`/tasks/${target.businessKey}`}
+                  >{target.businessKey}
                   </Link>
                 </h3>
                 <h4 className="govuk-heading-m task-sub-heading govuk-!-font-weight-regular">
@@ -212,7 +212,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                     assignee={target.assignee}
                     taskId={target.id}
                     setError={setError}
-                    processInstanceId={target.processInstanceId}
+                    businessKey={target.businessKey}
                   />
                   )}
               </div>
