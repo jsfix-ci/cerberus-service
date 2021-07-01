@@ -6,14 +6,20 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   it('Should submit a target successfully from a task and it should be moved to target issued tab', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
-    cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST').then((taskResponse) => {
+    cy.fixture('RoRo-Accompanied-RBT-SBT.json').then((task) => {
+      let date;
+      date = new Date();
+      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, 'AUTOTEST-RoRo-Accompanied').then((taskResponse) => {
         cy.wait(4000);
-        cy.getTasksByPartialBusinessKey(taskResponse.businessKey).then((tasks) => {
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           const processInstanceId = tasks.map(((item) => item.processInstanceId));
           expect(processInstanceId.length).to.not.equal(0);
           cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-          cy.visit(`/tasks/${processInstanceId[0]}`);
+          cy.visit(`/tasks/${taskResponse.businessKey}`);
           cy.wait('@tasksDetails').then(({ response }) => {
             expect(response.statusCode).to.equal(200);
           });

@@ -79,18 +79,6 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
   });
 });
 
-Cypress.Commands.add('navigateToTaskDetails', (processInstanceId, index) => {
-  cy.get('a[href="#in-progress"]').click();
-
-  cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[index]}`).as('tasksDetails');
-  cy.visit(`/tasks/${processInstanceId[index]}`);
-  cy.wait('@tasksDetails').then(({ response }) => {
-    expect(response.statusCode).to.equal(200);
-  });
-
-  cy.wait(2000);
-});
-
 Cypress.Commands.add('claimTask', () => {
   cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
@@ -219,7 +207,6 @@ Cypress.Commands.add('postTasks', (task, name) => {
     headers: { Authorization: `Bearer ${token}` },
     body: task,
   }).then((response) => {
-    console.log('response', response);
     expect(response.status).to.eq(200);
     expect(response.body.businessKey).to.eq(task.businessKey);
     return response.body;
@@ -271,8 +258,8 @@ Cypress.Commands.add('getProcessInstanceId', (businessKey) => {
   });
 });
 
-Cypress.Commands.add('checkTaskDisplayed', (processInstanceId, businessKey) => {
-  cy.visit(`/tasks/${processInstanceId}`);
+Cypress.Commands.add('checkTaskDisplayed', (businessKey) => {
+  cy.visit(`/tasks/${businessKey}`);
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
 });
 
@@ -312,7 +299,7 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action) => {
   });
 });
 
-Cypress.Commands.add('getTasksByPartialBusinessKey', (businessKey) => {
+Cypress.Commands.add('getTasksByBusinessKey', (businessKey) => {
   cy.request({
     method: 'GET',
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceBusinessKey=${businessKey}`,
@@ -320,5 +307,16 @@ Cypress.Commands.add('getTasksByPartialBusinessKey', (businessKey) => {
   }).then((response) => {
     expect(response.status).to.eq(200);
     return response.body.filter((item) => item.assignee === null && item.name === 'Develop the Target');
+  });
+});
+
+Cypress.Commands.add('getBusinessKeyByProcessInstanceId', (processInstanceId) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance/${processInstanceId}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body.businessKey;
   });
 });
