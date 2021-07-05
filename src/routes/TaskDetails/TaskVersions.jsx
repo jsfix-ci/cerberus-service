@@ -36,17 +36,19 @@ const fieldContent = (fieldSet) => {
   if (fieldSet.hasChildSet === false) {
     return (
       fieldSet.contents.map(({ fieldName, content, type }, i) => {
-        return (
-          <div className="govuk-summary-list__row" key={i}>
-            { type !== 'HIDDEN'
+        if (type !== 'HIDDEN') {
+          return (
+            <div className="govuk-summary-list__row" key={i}>
+              { type !== 'HIDDEN'
             && (
             <>
               <dt className="govuk-summary-list__key">{fieldName}</dt>
               <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
             </>
             )}
-          </div>
-        );
+            </div>
+          );
+        }
       })
     );
   } if (fieldSet.hasChildSet === true) {
