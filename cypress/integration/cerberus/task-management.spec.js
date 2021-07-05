@@ -3,16 +3,6 @@
 
 describe('Render tasks from Camunda and manage them on task management Page', () => {
   const MAX_TASK_PER_PAGE = 10;
-  let taskName;
-
-  before(() => {
-    cy.login(Cypress.env('userName'));
-    cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST').then((response) => {
-        taskName = response.businessKey;
-      });
-    });
-  });
 
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
@@ -98,24 +88,27 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should Claim & Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-
     const nextPage = 'a[data-test="next"]';
 
-    if (Cypress.$(nextPage).length > 0) {
-      cy.findTaskInAllThePages(`${taskName}`, 'Claim').then((returnvalue) => {
-        expect(returnvalue).to.equal(true);
-        cy.wait('@claim').then(({ response }) => {
-          expect(response.statusCode).to.equal(204);
-        });
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'AUTOTEST-').then((taskResponse) => {
+        if (Cypress.$(nextPage).length > 0) {
+          cy.findTaskInAllThePages(`${taskResponse.businessKey}`, 'Claim').then((returnvalue) => {
+            expect(returnvalue).to.equal(true);
+            cy.wait('@claim').then(({ response }) => {
+              expect(response.statusCode).to.equal(204);
+            });
+          });
+        } else {
+          cy.findTaskInSinglePage(`${taskResponse.businessKey}`, 'Claim').then((returnvalue) => {
+            expect(returnvalue).to.equal(true);
+            cy.wait('@claim').then(({ response }) => {
+              expect(response.statusCode).to.equal(204);
+            });
+          });
+        }
       });
-    } else {
-      cy.findTaskInSinglePage(`${taskName}`, 'Claim').then((returnvalue) => {
-        expect(returnvalue).to.equal(true);
-        cy.wait('@claim').then(({ response }) => {
-          expect(response.statusCode).to.equal(204);
-        });
-      });
-    }
+    });
 
     cy.wait(2000);
 

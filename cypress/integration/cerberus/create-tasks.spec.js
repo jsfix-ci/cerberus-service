@@ -9,9 +9,7 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('tasks-hazardous-cargo.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-HAZARDOUS').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -22,9 +20,7 @@ describe('Create task with different payload from Cerberus', () => {
       console.log(task);
       cy.postTasks(task, 'AUTOTEST-ORG-NULL').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -37,9 +33,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
       cy.wait(2000);
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
@@ -61,9 +55,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-RBT-SBT').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -76,9 +68,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-SBT').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -87,9 +77,7 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -102,9 +90,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-RBT-SBT').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -117,9 +103,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-SBT').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -132,9 +116,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-SBT').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });
@@ -147,9 +129,7 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-RBT-SBT').then((response) => {
         cy.wait(4000);
-        cy.getProcessInstanceId(`${response.businessKey}`).then((processInstanceId) => {
-          cy.checkTaskDisplayed(processInstanceId, `${response.businessKey}`);
-        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });

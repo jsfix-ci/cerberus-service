@@ -104,7 +104,7 @@ env        context               namespace                secretname            
 -------|--------------------|-----------------------|------------------------------------|
 Dev    | acp-notprod_COP    |  cop-cerberus-dev     |   cerberus-functional-tests        |
 Sit    | acp-notprod_COP    |  cop-cerberus-sit     |   cerberus-functional-tests-sit    |
-Staging| acp-notprod_COP    |  cop-cerberus-staging |   cerberus-functional-tests-staging|
+Staging| acp-prod_COP       |  cop-cerberus-staging |   cerberus-functional-tests-staging|
 ```
 
 #### Running cypress test runner
