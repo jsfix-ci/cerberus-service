@@ -36,14 +36,11 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
       cy.wait(2000);
-      cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
-        if (value !== true) {
-          cy.get('.govuk-accordion__section-button').click();
-        }
+      cy.expandTaskDetails().then(() => {
+        cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
+          .next()
+          .should('have.text', 'Obscene Material');
       });
-      cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
-        .next()
-        .should('have.text', 'Obscene Material');
     });
   });
 

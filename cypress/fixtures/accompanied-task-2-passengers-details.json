@@ -1,0 +1,82 @@
+{
+  "vehicle": {
+    "Vehicle registration": "IR-9688",
+    "Type": "HGV",
+    "Make": "",
+    "Model": "",
+    "Country of registration": "GB",
+    "Trailer registration number": "IR-6457",
+    "Trailer type": "",
+    "Trailer country of registration": "GB",
+    "Empty or loaded": "L",
+    "Trailer length": "",
+    "Trailer height": ""
+  },
+  "account": {
+    "Full name": "Product of France Wines",
+    "Short name": "Prod of Fr Wines",
+    "Reference number": "PF-6653",
+    "Address": "Unit 82 Central Docks Calais",
+    "Telephone": "0333 637851",
+    "Mobile": "",
+    "Email": ""
+  },
+  "haulier": {
+    "Name": "Gondrand UK",
+    "Address": "",
+    "Telephone": "",
+    "Mobile": ""
+  },
+  "driver": {
+    "Name": "Isiaih Ford",
+    "Date of birth": "",
+    "Gender": "",
+    "Nationality": "",
+    "Travel document type": "",
+    "Travel document number": "",
+    "Travel document expiry": ""
+  },
+  "passengers":
+    {
+      "Name": "Fred Flintstone",
+      "Date of birth": "",
+      "Gender": "",
+      "Nationality": "DE",
+      "Travel document type": "Passport",
+      "Travel document number": "875786876",
+      "Travel document expiry": "22/03/2022",
+      "Name": "Barney Rubble",
+      "Date of birth": "12/07/1991",
+      "Gender": "M",
+      "Nationality": "GB",
+      "Travel document type": "",
+      "Travel document number": "",
+      "Travel document expiry": ""
+    } ,
+  "goods": {
+    "Description of goods": "Wine",
+    "Is cargo hazardous?": "N",
+    "Weight of goods": ""
+  },
+  "booking": {
+    "Reference": "AA123412781",
+    "Ticket number": "",
+    "Type": "R",
+    "Name": "",
+    "Address": "",
+    "Date and time": "4 Aug 2020 at 12:56",
+    "Country": "GB",
+    "Payment method": "CQ",
+    "Ticket price": "",
+    "Ticket type": ""
+  },
+  "rules": {
+    "Name": "cash paid rule",
+    "Category": "Tier 1",
+    "Version": "1",
+    "Abuse type": "",
+    "Agency": "",
+    "Description": "Was this booking paid for with cash?"
+
+  }
+}

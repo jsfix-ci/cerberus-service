@@ -320,3 +320,26 @@ Cypress.Commands.add('getBusinessKeyByProcessInstanceId', (processInstanceId) =>
     return response.body.businessKey;
   });
 });
+
+Cypress.Commands.add('getTaskDetails', () => {
+  const obj = {};
+  cy.get('.govuk-summary-list__row').each((item) => {
+    cy.wrap(item).find('dt').invoke('text').then((key) => {
+      cy.wrap(item).find('dd').invoke('text').then((value) => {
+        obj[key] = value;
+        // console.log(obj);
+      });
+    });
+  }).then(() => {
+    console.log(obj);
+    return obj;
+  });
+});
+
+Cypress.Commands.add('expandTaskDetails', () => {
+  cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
+    if (value !== true) {
+      cy.get('.govuk-accordion__section-button').click();
+    }
+  });
+});
