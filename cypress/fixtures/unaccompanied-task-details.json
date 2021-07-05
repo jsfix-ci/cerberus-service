@@ -1,0 +1,65 @@
+{
+  "vehicle": {
+    "Vehicle registration": "DK-45678",
+    "Type": "Refrigerated Tanker",
+    "Make": "",
+    "Model": "",
+    "Country of registration": "DK",
+    "Trailer registration number": "GB07GYT",
+    "Trailer type": "Tanker",
+    "Trailer country of registration": "",
+    "Empty or loaded": "Empty",
+    "Trailer length": "36m",
+    "Trailer height": "3.6m"
+  },
+  "account": {
+    "Full name": "DPE logistics",
+    "Short name": "",
+    "Reference number": "000524557",
+    "Address": "John Tranums Vei Esjerg DK",
+    "Telephone": "045 76 12 1493",
+    "Mobile": "",
+    "Email": ""
+  },
+  "haulier": {
+    "Name": "",
+    "Address": "",
+    "Telephone": "",
+    "Mobile": ""
+  },
+  "driver": {
+    "Name": "",
+    "Date of birth": "",
+    "Gender": "",
+    "Nationality": "",
+    "Travel document type": "",
+    "Travel document number": "",
+    "Travel document expiry": ""
+  },
+  "passengers": {
+    "Name": "",
+    "Date of birth": "",
+    "Gender": "",
+    "Nationality": "",
+    "Travel document type": "",
+    "Travel document number": "",
+    "Travel document expiry": ""
+  },
+  "goods": {
+    "Description of goods": "Corkscrews",
+    "Is cargo hazardous?": "false",
+    "Weight of goods": ""
+  },
+  "booking": {
+    "Reference": "AA000000006",
+    "Ticket number": "ST-34560",
+    "Type": "",
+    "Name": "Susan Tower",
+    "Address": "",
+    "Date and time": "2 Aug 2020 at 09:15",
+    "Country": "GB",
+    "Payment method": "",
+    "Ticket price": "",
+    "Ticket type": "Single"
+  }
+}
