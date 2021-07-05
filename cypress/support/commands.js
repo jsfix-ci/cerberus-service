@@ -327,11 +327,9 @@ Cypress.Commands.add('getTaskDetails', () => {
     cy.wrap(item).find('dt').invoke('text').then((key) => {
       cy.wrap(item).find('dd').invoke('text').then((value) => {
         obj[key] = value;
-        // console.log(obj);
       });
     });
   }).then(() => {
-    console.log(obj);
     return obj;
   });
 });
