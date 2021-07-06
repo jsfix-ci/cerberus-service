@@ -28,7 +28,7 @@ const TaskSummary = ({ taskSummaryData }) => {
             {formattedData?.trailer && (
               <>
                 {(formattedData.vehicle.registration && formattedData.trailer.registration) && <span className="govuk-!-font-weight-regular">&nbsp;with&nbsp;</span>}
-                <span>{formattedData.trailer.registration}HJKLHJKLH</span>
+                <span>{formattedData.trailer.registration}</span>
               </>
             )}
             {formattedData.driver.dataExists
