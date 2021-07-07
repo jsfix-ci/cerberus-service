@@ -119,11 +119,12 @@ const TaskDetailsPage = () => {
         * If this returns an empty array, there are no in flight processes, therefore it
         * is a finished process instance and requires a history/process-instance call
         */
+        const decodedBusinessKey = decodeURIComponent(businessKey);
         let processInstanceResponse = await camundaClient.get(
           '/process-instance',
           {
             params: {
-              businessKey,
+              businessKey: decodedBusinessKey,
               processDefinitionKeyNotIn: 'raiseMovement,noteSubmissionWrapper',
             },
           },
@@ -133,7 +134,7 @@ const TaskDetailsPage = () => {
             '/history/process-instance',
             {
               params: {
-                processInstanceBusinessKey: businessKey,
+                processInstanceBusinessKey: decodedBusinessKey,
                 processDefinitionKeyNotIn: 'raiseMovement,noteSubmissionWrapper',
               },
             },
