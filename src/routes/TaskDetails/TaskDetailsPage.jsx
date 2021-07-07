@@ -273,7 +273,7 @@ const TaskDetailsPage = () => {
         <>
           <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
-              <span className="govuk-caption-xl">{taskVersions[0].taskSummary?.businessKey}</span>
+              <span className="govuk-caption-xl">{businessKey}</span>
               <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
               {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
                 <p className="govuk-body">
