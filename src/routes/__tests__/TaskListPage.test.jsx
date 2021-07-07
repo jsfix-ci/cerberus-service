@@ -143,9 +143,9 @@ describe('TaskListPage', () => {
       ])
       .onGet('/variable-instance')
       .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue"}' },
+        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue","businessKey":"abc"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue","businessKey":"def"}' },
+        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue","businessKey":"ghi"}' },
       ]);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
@@ -165,9 +165,9 @@ describe('TaskListPage', () => {
       ])
       .onGet('/variable-instance')
       .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue"}' },
+        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue","businessKey":"abc"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue","businessKey":"def"}' },
+        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue","businessKey":"ghi"}' },
       ]);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
