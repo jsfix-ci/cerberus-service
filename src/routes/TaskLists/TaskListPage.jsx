@@ -199,7 +199,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
                     to={`/tasks/${escapedBusinessKey}`}
-                  >{target.businessKey}
+                  >{escapedBusinessKey}
                   </Link>
                 </h3>
                 <h4 className="govuk-heading-m task-sub-heading govuk-!-font-weight-regular">
