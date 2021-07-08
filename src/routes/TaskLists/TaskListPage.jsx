@@ -188,6 +188,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const formattedData = formatTaskData(target);
         const passengers = target.people?.filter(({ role }) => role === 'PASSENGER') || [];
+        const escapedBusinessKey = encodeURIComponent(target.businessKey);
 
         return (
           <section className="task-list--item" key={target.businessKey}>
@@ -196,8 +197,8 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-                    to={`/tasks/${target.businessKey}`}
-                  >{target.businessKey}
+                    to={`/tasks/${escapedBusinessKey}`}
+                  >{escapedBusinessKey}
                   </Link>
                 </h3>
                 <h4 className="govuk-heading-m task-sub-heading govuk-!-font-weight-regular">
@@ -212,7 +213,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                     assignee={target.assignee}
                     taskId={target.id}
                     setError={setError}
-                    businessKey={target.businessKey}
+                    businessKey={escapedBusinessKey}
                   />
                   )}
               </div>
