@@ -78,25 +78,25 @@ describe('TaskListPage', () => {
       ])
       .onGet('/variable-instance')
       .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
+        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"business:key=a/b/c"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"business:key=d/e/f"}' },
         { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
       ]);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
-    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/abc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/def`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
 
     fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/abc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/def`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/abc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/def`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
   });
 
@@ -118,16 +118,16 @@ describe('TaskListPage', () => {
       ])
       .onGet('/history/variable-instance')
       .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
+        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"business:key=a/b/c"}' },
+        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"business:key=d/e/f"}' },
         { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
       ]);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /abc/i }).href).toBe(`${envUrl}/tasks/abc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /def/i }).href).toBe(`${envUrl}/tasks/def`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
   });
 
