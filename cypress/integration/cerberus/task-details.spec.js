@@ -21,13 +21,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.postTasks(task, 'CERB-AUTOTEST').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
-          const processInstanceId = tasks.map(((item) => item.processInstanceId));
-          expect(processInstanceId.length).to.not.equal(0);
-          cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-          cy.visit(`/tasks/${taskResponse.businessKey}`);
-          cy.wait('@tasksDetails').then(({ response }) => {
-            expect(response.statusCode).to.equal(200);
-          });
+          cy.navigateToTaskDetailsPage(tasks);
         });
       });
     });
@@ -67,16 +61,17 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should hide Notes Textarea for the tasks assigned to others', () => {
-    cy.getTasksAssignedToOtherUsers().then((tasks) => {
-      const processInstanceId = tasks.map((item) => item.processInstanceId);
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'AUTOTEST-ASSIGN-TO-OTHER').then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.assignToOtherUser(tasks);
         });
       });
+    });
+
+    cy.getTasksAssignedToOtherUsers().then((tasks) => {
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('.govuk-heading-xl').should('have.text', 'Task details');
@@ -85,18 +80,19 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'AUTOTEST-ASSIGN-TO-OTHER').then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.assignToOtherUser(tasks);
+        });
+      });
+    });
+
     cy.get('a[href="#in-progress"]').click();
 
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
-      const processInstanceId = tasks.map((item) => item.processInstanceId);
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-      });
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('button.link-button').should('not.exist');
@@ -115,15 +111,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.postTasks(task, 'CERB-AUTOTEST').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
-          const processInstanceId = tasks.map(((item) => item.processInstanceId));
-          expect(processInstanceId.length).to.not.equal(0);
-          cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-          cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-            cy.visit(`/tasks/${businessKey}`);
-            cy.wait('@tasksDetails').then(({ response }) => {
-              expect(response.statusCode).to.equal(200);
-            });
-          });
+          cy.navigateToTaskDetailsPage(tasks);
         });
       });
     });
@@ -173,15 +161,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.claimTask().then(() => {
       cy.getTasksAssignedToMe().then((tasks) => {
-        const processInstanceId = tasks.map((item) => item.processInstanceId);
-        expect(processInstanceId.length).to.not.equal(0);
-        cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-        cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-          cy.visit(`/tasks/${businessKey}`);
-          cy.wait('@tasksDetails').then(({ response }) => {
-            expect(response.statusCode).to.equal(200);
-          });
-        });
+        cy.navigateToTaskDetailsPage(tasks);
       });
 
       cy.get('.task-actions--buttons button').each(($items, index) => {
@@ -191,16 +171,17 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should verify all the action buttons not available for non-task owner', () => {
-    cy.getTasksAssignedToOtherUsers().then((tasks) => {
-      const processInstanceId = tasks.map(((item) => item.processInstanceId));
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, 'AUTOTEST-ASSIGN-TO-OTHER').then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.assignToOtherUser(tasks);
         });
       });
+    });
+
+    cy.getTasksAssignedToOtherUsers().then((tasks) => {
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('.task-actions--buttons button').should('not.exist');
@@ -210,15 +191,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.getTasksAssignedToMe().then((tasks) => {
-      const processInstanceId = tasks.map((item) => item.processInstanceId);
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-      });
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim').click();
@@ -242,15 +215,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.postTasks(task, 'CERB-AUTOTEST-ASSESSMENT').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
-          const processInstanceId = tasks.map(((item) => item.processInstanceId));
-          expect(processInstanceId.length).to.not.equal(0);
-          cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-          cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-            cy.visit(`/tasks/${businessKey}`);
-            cy.wait('@tasksDetails').then(({ response }) => {
-              expect(response.statusCode).to.equal(200);
-            });
-          });
+          cy.navigateToTaskDetailsPage(tasks);
         });
       });
     });
@@ -294,15 +259,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.postTasks(task, 'CERB-AUTOTEST-DISMISS').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
-          const processInstanceId = tasks.map(((item) => item.processInstanceId));
-          expect(processInstanceId.length).to.not.equal(0);
-          cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-          cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-            cy.visit(`/tasks/${businessKey}`);
-            cy.wait('@tasksDetails').then(({ response }) => {
-              expect(response.statusCode).to.equal(200);
-            });
-          });
+          cy.navigateToTaskDetailsPage(tasks);
         });
       });
     });
@@ -363,15 +320,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.getTasksAssignedToMe().then((tasks) => {
-      const processInstanceId = tasks.map((item) => item.processInstanceId);
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-      });
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
@@ -406,15 +355,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.getTasksAssignedToMe().then((tasks) => {
-      const processInstanceId = tasks.map((item) => item.processInstanceId);
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-      });
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');

@@ -20,15 +20,7 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
     cy.wait(4000);
 
     cy.getTasksByBusinessKey(`${taskName}`).then((tasks) => {
-      const processInstanceId = tasks.map(((item) => item.processInstanceId));
-      expect(processInstanceId.length).to.not.equal(0);
-      cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-      cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-        cy.visit(`/tasks/${businessKey}`);
-        cy.wait('@tasksDetails').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-      });
+      cy.navigateToTaskDetailsPage(tasks);
     });
 
     cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');

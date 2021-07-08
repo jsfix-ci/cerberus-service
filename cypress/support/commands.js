@@ -191,7 +191,7 @@ Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
 });
 
 Cypress.Commands.add('postTasks', (task, name) => {
-  const businessKey = `${name}-${Math.floor((Math.random() * 1000000) + 1)}`;
+  const businessKey = `${name}/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
   task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
 
@@ -259,6 +259,7 @@ Cypress.Commands.add('getProcessInstanceId', (businessKey) => {
 });
 
 Cypress.Commands.add('checkTaskDisplayed', (businessKey) => {
+  businessKey = encodeURIComponent(businessKey);
   cy.visit(`/tasks/${businessKey}`);
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
 });
@@ -339,5 +340,40 @@ Cypress.Commands.add('expandTaskDetails', () => {
     if (value !== true) {
       cy.get('.govuk-accordion__section-button').click();
     }
+  });
+});
+
+Cypress.Commands.add('navigateToTaskDetailsPage', (task) => {
+  const processInstanceId = task.map((item) => item.processInstanceId);
+  expect(processInstanceId.length).to.not.equal(0);
+  cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+  cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
+    businessKey = encodeURIComponent(businessKey);
+    cy.visit(`/tasks/${businessKey}`);
+    cy.wait('@tasksDetails').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+});
+
+Cypress.Commands.add('assignToOtherUser', (task) => {
+  const processInstanceId = task.map((item) => item.processInstanceId);
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceId=${processInstanceId}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((res) => {
+    expect(res.status).to.eq(200);
+    let taskId = res.body[0].id;
+    cy.request({
+      method: 'POST',
+      url: `https://${cerberusServiceUrl}/camunda/engine-rest/task/${taskId}/assignee`,
+      headers: { Authorization: `Bearer ${token}` },
+      body: {
+        'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(204);
+    });
   });
 });
