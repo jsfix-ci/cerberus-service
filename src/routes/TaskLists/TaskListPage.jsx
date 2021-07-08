@@ -188,8 +188,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const formattedData = formatTaskData(target);
         const passengers = target.people?.filter(({ role }) => role === 'PASSENGER') || [];
-        const regex = /\//g;
-        const escapedBusinessKey = target.businessKey.replace(regex, '%2F');
+        const escapedBusinessKey = encodeURIComponent(target.businessKey);
 
         return (
           <section className="task-list--item" key={target.businessKey}>
