@@ -92,16 +92,17 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.fixture('tasks.json').then((task) => {
       cy.postTasks(task, 'AUTOTEST-').then((taskResponse) => {
+        let businessKey = encodeURIComponent(taskResponse.businessKey);
         if (Cypress.$(nextPage).length > 0) {
-          cy.findTaskInAllThePages(`${taskResponse.businessKey}`, 'Claim').then((returnvalue) => {
-            expect(returnvalue).to.equal(true);
+          cy.findTaskInAllThePages(`${businessKey}`, 'Claim').then((returnValue) => {
+            expect(returnValue).to.equal(true);
             cy.wait('@claim').then(({ response }) => {
               expect(response.statusCode).to.equal(204);
             });
           });
         } else {
-          cy.findTaskInSinglePage(`${taskResponse.businessKey}`, 'Claim').then((returnvalue) => {
-            expect(returnvalue).to.equal(true);
+          cy.findTaskInSinglePage(`${businessKey}`, 'Claim').then((returnValue) => {
+            expect(returnValue).to.equal(true);
             cy.wait('@claim').then(({ response }) => {
               expect(response.statusCode).to.equal(204);
             });
@@ -123,15 +124,15 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((value) => {
       cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(value, 'Unclaim').then((returnvalue) => {
-          expect(returnvalue).to.equal(true);
+        cy.findTaskInAllThePages(value, 'Unclaim').then((returnValue) => {
+          expect(returnValue).to.equal(true);
           cy.wait('@unclaim').then(({ response }) => {
             expect(response.statusCode).to.equal(204);
           });
         });
       } else {
-        cy.findTaskInSinglePage(value, 'Unclaim').then((returnvalue) => {
-          expect(returnvalue).to.equal(true);
+        cy.findTaskInSinglePage(value, 'Unclaim').then((returnValue) => {
+          expect(returnValue).to.equal(true);
           cy.wait('@unclaim').then(({ response }) => {
             expect(response.statusCode).to.equal(204);
           });

@@ -16,13 +16,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.postTasks(task, 'AUTOTEST-RoRo-Accompanied').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
-          const processInstanceId = tasks.map(((item) => item.processInstanceId));
-          expect(processInstanceId.length).to.not.equal(0);
-          cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
-          cy.visit(`/tasks/${taskResponse.businessKey}`);
-          cy.wait('@tasksDetails').then(({ response }) => {
-            expect(response.statusCode).to.equal(200);
-          });
+          cy.navigateToTaskDetailsPage(tasks);
         });
       });
     });
