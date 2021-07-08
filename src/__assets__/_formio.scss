@@ -33,3 +33,15 @@
   0%  {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
 }
+
+.govuk-input:disabled, 
+.form-control:disabled, 
+.form-control[readonly] {
+  .govuk-input:disabled,
+  .govuk-textarea:disabled,
+  .form-control:disabled, 
+  .form-control[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+  };
+}
