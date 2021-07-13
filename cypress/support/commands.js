@@ -380,6 +380,6 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
 
 Cypress.Commands.add('checkTaskSummary', (registrationNumber) => {
   cy.get('.card').within(() => {
-    cy.get('.govuk-heading-m').should('contain.text', registrationNumber).and('not.contain', 'HJKLHJKLH');
+    cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
   });
 });
