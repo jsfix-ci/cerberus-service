@@ -377,3 +377,9 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
     });
   });
 });
+
+Cypress.Commands.add('checkTaskSummary', (registrationNumber) => {
+  cy.get('.card').within(() => {
+    cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
+  });
+});

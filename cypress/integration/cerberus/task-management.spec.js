@@ -86,7 +86,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it('Should Claim & Unclaim a task Successfully from task management page', () => {
+  it('Should Claim and Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     const nextPage = 'a[data-test="next"]';
 

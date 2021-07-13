@@ -351,7 +351,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it('Should Unclaim a task Successfully from In Progress tab & verify it moved to New tab', () => {
+  it('Should Unclaim a task Successfully from In Progress tab and verify it moved to New tab', () => {
     cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
 
     cy.getTasksAssignedToMe().then((tasks) => {

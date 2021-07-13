@@ -262,7 +262,7 @@ steps:
       from_secret: DEV_CERBERUS_KUBE_TOKEN
     CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
-    CRON_SCHEDULE: "\"10 8-17/1 * * 1-5\""
+    CRON_SCHEDULE: "\"10 10 * * 1-5\""
     JOB_NAME: "\"cerberus-functional-tests\""
     TEST_ENV: dev
   when:
@@ -324,7 +324,7 @@ steps:
       from_secret: SIT_CERBERUS_KUBE_TOKEN
     CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
-    CRON_SCHEDULE: "\"10 8-18/3 * * 1-5\""
+    CRON_SCHEDULE: "\"10 10 * * 1-5\""
     JOB_NAME: "\"cerberus-functional-tests-sit\""
     TEST_ENV: sit
   when:
