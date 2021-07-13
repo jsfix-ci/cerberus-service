@@ -361,14 +361,14 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
   cy.request({
     method: 'GET',
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceId=${processInstanceId}`,
-    headers: {Authorization: `Bearer ${token}`},
+    headers: { Authorization: `Bearer ${token}` },
   }).then((res) => {
     expect(res.status).to.eq(200);
     let taskId = res.body[0].id;
     cy.request({
       method: 'POST',
       url: `https://${cerberusServiceUrl}/camunda/engine-rest/task/${taskId}/assignee`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       body: {
         'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
       },
