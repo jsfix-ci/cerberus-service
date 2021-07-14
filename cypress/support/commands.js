@@ -190,7 +190,7 @@ Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
     .contains(errorText);
 });
 
-Cypress.Commands.add('postTasks', (task, name) => {
+function getPayLoad(task, name) {
   const businessKey = `${name}/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
   task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
@@ -201,15 +201,36 @@ Cypress.Commands.add('postTasks', (task, name) => {
 
   task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
 
+  return task;
+}
+
+Cypress.Commands.add('postTasks', (task, name) => {
+  const payload = getPayLoad(task, name);
+
   cy.request({
     method: 'POST',
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-definition/key/raiseMovement/start`,
     headers: { Authorization: `Bearer ${token}` },
-    body: task,
+    body: payload,
   }).then((response) => {
     expect(response.status).to.eq(200);
     expect(response.body.businessKey).to.eq(task.businessKey);
     return response.body;
+  });
+});
+
+Cypress.Commands.add('postTasksInParallel', (tasks) => {
+  tasks.map((task) => {
+    cy.request({
+      method: 'POST',
+      url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-definition/key/raiseMovement/start`,
+      headers: { Authorization: `Bearer ${token}` },
+      body: task,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.businessKey).to.eq(task.businessKey);
+      return response.body;
+    });
   });
 });
 
@@ -255,6 +276,17 @@ Cypress.Commands.add('getProcessInstanceId', (businessKey) => {
   }).then((response) => {
     expect(response.status).to.eq(200);
     return response.body[0].processInstanceId;
+  });
+});
+
+Cypress.Commands.add('getAllProcessInstanceId', (businessKey) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processInstanceBusinessKey=${businessKey}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response;
   });
 });
 
