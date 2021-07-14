@@ -194,6 +194,134 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
+  it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
+    let date = new Date();
+    date.setDate(date.getDate() + 8);
+    cy.fixture('RoRo-task-v1.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, 'AUTOTEST-RoRo-Versions-with-Delay-30Sec');
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('RoRo-task-v2.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, 'AUTOTEST-RoRo-Versions-with-Delay-30Sec');
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('RoRo-task-v3.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, 'AUTOTEST-RoRo-Versions-with-Delay-30Sec').then((response) => {
+        cy.wait(4000);
+        cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+          expect(res.body.length).to.not.equal(0);
+          expect(res.body.length).to.equal(1);
+        });
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+      });
+    });
+  });
+
+  it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
+    let date = new Date();
+    date.setDate(date.getDate() + 8);
+    const businessKey = `AUTOTEST-RoRo-Versions-No-Delay/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    let tasks = [];
+
+    cy.fixture('RoRo-task-v1.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.fixture('RoRo-task-v2.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.fixture('RoRo-task-v3.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.postTasksInParallel(tasks).then((response) => {
+      cy.wait(15000);
+      cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+        expect(res.body.length).to.not.equal(0);
+        expect(res.body.length).to.equal(1);
+      });
+      cy.checkTaskDisplayed(`${response.businessKey}`);
+    });
+
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+  });
+
+  it('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
+    let date = new Date();
+    date.setDate(date.getDate() + 8);
+    const businessKey = `AUTOTEST-RoRo-Versions-No-Delay-Failure/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    let tasks = [];
+
+    cy.fixture('/task-version/RoRo-task-v1.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.fixture('/task-version/RoRo-task-v2.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.fixture('/task-version/RoRo-task-v3.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.fixture('/task-version/RoRo-task-v4.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      tasks.push(task);
+    });
+
+    cy.postTasksInParallel(tasks).then((response) => {
+      cy.wait(15000);
+      cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+        expect(res.body.length).to.not.equal(0);
+        expect(res.body.length).to.equal(1);
+      });
+      cy.checkTaskDisplayed(`${response.businessKey}`);
+    });
+
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

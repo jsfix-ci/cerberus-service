@@ -8,7 +8,6 @@ describe('Create task with different payload from Cerberus', () => {
   it('Should create a task with a payload contains hazardous cargo without description and passport number as null', () => {
     cy.fixture('tasks-hazardous-cargo.json').then((task) => {
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
-      console.log(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-HAZARDOUS').then((response) => {
