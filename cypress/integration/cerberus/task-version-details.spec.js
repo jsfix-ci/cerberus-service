@@ -196,36 +196,44 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
     let date = new Date();
+    const businessKey = `AUTOTEST-RoRo-Versions-with-Delay-30Sec/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     date.setDate(date.getDate() + 8);
     cy.fixture('RoRo-task-v1.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, 'AUTOTEST-RoRo-Versions-with-Delay-30Sec');
+      cy.postTasks(task, null);
     });
 
     cy.wait(30000);
 
     cy.fixture('RoRo-task-v2.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, 'AUTOTEST-RoRo-Versions-with-Delay-30Sec');
+      cy.postTasks(task, null);
     });
 
     cy.wait(30000);
 
     cy.fixture('RoRo-task-v3.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, 'AUTOTEST-RoRo-Versions-with-Delay-30Sec').then((response) => {
-        cy.wait(4000);
-        cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+      cy.postTasks(task, null).then((response) => {
+        cy.wait(15000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
+        cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
           expect(res.body.length).to.not.equal(0);
           expect(res.body.length).to.equal(1);
         });
-        cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.get('.govuk-accordion__section-heading').should('have.length', 3);
       });
     });
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
@@ -261,14 +269,14 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.postTasksInParallel(tasks).then((response) => {
       cy.wait(15000);
-      cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+      cy.checkTaskDisplayed(`${response.businessKey}`);
+      let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
+      cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
         expect(res.body.length).to.not.equal(0);
         expect(res.body.length).to.equal(1);
       });
-      cy.checkTaskDisplayed(`${response.businessKey}`);
     });
-
-    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+    cy.get('.govuk-accordion__section-heading').should('have.length', 1);
   });
 
   it('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
@@ -312,14 +320,14 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.postTasksInParallel(tasks).then((response) => {
       cy.wait(15000);
-      cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+      cy.checkTaskDisplayed(`${response.businessKey}`);
+      let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
+      cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
         expect(res.body.length).to.not.equal(0);
         expect(res.body.length).to.equal(1);
       });
-      cy.checkTaskDisplayed(`${response.businessKey}`);
     });
-
-    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+    cy.get('.govuk-accordion__section-heading').should('have.length', 1);
   });
 
   after(() => {
