@@ -190,28 +190,24 @@ Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
     .contains(errorText);
 });
 
-function getPayLoad(task, name) {
-  const businessKey = `${name}/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-
-  task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
-
-  task.businessKey = businessKey;
-
-  task.variables.rbtPayload.value.data.movementId = businessKey;
-
-  task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-
-  return task;
-}
-
 Cypress.Commands.add('postTasks', (task, name) => {
-  const payload = getPayLoad(task, name);
+  if (name !== null) {
+    const businessKey = `${name}/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
+
+    task.businessKey = businessKey;
+
+    task.variables.rbtPayload.value.data.movementId = businessKey;
+
+    task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+  }
 
   cy.request({
     method: 'POST',
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-definition/key/raiseMovement/start`,
     headers: { Authorization: `Bearer ${token}` },
-    body: payload,
+    body: task,
   }).then((response) => {
     expect(response.status).to.eq(200);
     expect(response.body.businessKey).to.eq(task.businessKey);
@@ -286,6 +282,8 @@ Cypress.Commands.add('getAllProcessInstanceId', (businessKey) => {
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
+    console.log(response);
+    console.log(response.body);
     return response;
   });
 });
