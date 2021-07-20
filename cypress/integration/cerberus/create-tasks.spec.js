@@ -37,7 +37,7 @@ describe('Create task with different payload from Cerberus', () => {
       date.setDate(date.getDate() + 2);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, 'AUTOTEST-TOURIST').then((response) => {
+      cy.postTasks(task, 'AUTOTEST-TOURIST-WITH-PASSENGERS').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.checkTaskSummary(registrationNumber);
@@ -46,7 +46,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.expandTaskDetails().then(() => {
         cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
           .next()
-          .should('have.text', 'Obscene Material');
+          .should('have.text', 'Clandestine Entry');
       });
     });
   });
@@ -82,7 +82,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains RoRo Accompanied Freight', () => {
+  it.only('Should create a task with a payload contains RoRo Accompanied Freight', () => {
     cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       console.log(task.variables.rbtPayload.value);
@@ -149,6 +149,22 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-RBT-SBT').then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.checkTaskSummary(registrationNumber);
+      });
+    });
+  });
+
+  it('Should create a task with a payload contains RoRo accompanied with no passengers', () => {
+    cy.fixture('RoRo-Freight-Accompanied-no-passengers.json').then((task) => {
+      let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+      date.setDate(date.getDate() + 1);
+      console.log(task.variables.rbtPayload.value);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      console.log(task.variables.rbtPayload.value);
+      cy.postTasks(task, 'AUTOTEST-RoRo-ACC-NO-PASSENGERS').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.checkTaskSummary(registrationNumber);
