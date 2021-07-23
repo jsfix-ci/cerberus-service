@@ -331,6 +331,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

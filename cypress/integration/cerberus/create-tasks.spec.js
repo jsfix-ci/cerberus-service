@@ -1,6 +1,6 @@
 describe('Create task with different payload from Cerberus', () => {
   let date;
-  beforeEach(() => {
+  before(() => {
     cy.login(Cypress.env('userName'));
     date = new Date();
   });
@@ -82,8 +82,8 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it.only('Should create a task with a payload contains RoRo Accompanied Freight', () => {
-    cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
+  it('Should create a task with a payload contains RoRo Accompanied Freight', () => {
+    cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       console.log(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
@@ -173,6 +173,7 @@ describe('Create task with different payload from Cerberus', () => {
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

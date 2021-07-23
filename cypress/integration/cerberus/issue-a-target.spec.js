@@ -113,6 +113,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

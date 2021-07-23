@@ -41,6 +41,7 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
