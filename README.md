@@ -20,40 +20,39 @@ Cerberus frontend service for cerberus-api
 ### Native development
 **2. Install dependencies**
 ```sh
-$ npm install
+npm install
 ```
-**3. Add environment variables (you don't need to use `export` on OSX)**
+**3. Build development bundle** *(optional)*
 ```sh
-$ export KEYCLOAK_AUTH_URL=https://your.sso.com/auth
-$ export KEYCLOAK_CLIENT_ID=your-client-id
-$ export KEYCLOAK_REALM=realm
-$ export FORM_API_URL=https://form-api.example.com/
-$ export REFDATA_API_URL=https://refdata-api.example.com/
-$ export CERBERUS_API_URL=https://cerberus-api.example.com/
+npm run build:dev
 ```
-**4. Build development bundle** *(optional)*
+**4. Start the application** *(optional)*
 ```sh
-$ npm run build:dev
-```
-**5. Start the application** *(optional)*
-```sh
-$ npm start
+\
+REACT_APP_AUTH_CLIENT_ID=your-client-id \
+FORM_API_URL=https://form-api.example.com/ \
+REFDATA_API_URL=https://refdata-api.example.com/ \
+KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
+KEYCLOAK_CLIENT_ID=your-client-id \
+KEYCLOAK_REALM=realm \
+CERBERUS_API_URL=https://cerberus-api.example.com/ \
+npm run start
 ```
 
 ### Development with docker
-**2. Build the application Docker container**
+**5. Build the application Docker container**
 ```sh
 docker build -t cerberus-service .
 ```
-**3. Run the resulting Docker container**
+**6. Run the resulting Docker container**
 ```sh
 docker run --name cerberus-service -p 8080:8080 \
-  --env KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
-  --env KEYCLOAK_CLIENT_ID=your-client-id \
-  --env KEYCLOAK_REALM=realm \
-  --env FORM_API_URL=https://form-api.example.com \
-  --env REFDATA_API_URL=https://refdata-api.example.com \
-  --env CERBERUS_API_URL=https://cerberus-api.example.com \
+  --env KEYCLOAK_AUTH_URL=https://sso-dev.notprod.homeoffice.gov.uk/auth \
+  --env KEYCLOAK_CLIENT_ID=cerberus \
+  --env KEYCLOAK_REALM=cop-local \
+  --env FORM_API_URL=https://form-api-server.dev.cop.homeoffice.gov.uk \
+  --env REFDATA_API_URL=https://api.dev.refdata.homeoffice.gov.uk \
+  --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/engine-rest/ \
   cerberus-service
 ```
 
@@ -61,7 +60,7 @@ docker run --name cerberus-service -p 8080:8080 \
 
 Setup your environment as described in [Native development](#native-development)
 
-**3. Running jest tests**
+**7. Running jest tests**
 ```sh
 npm test
 ```
@@ -70,7 +69,7 @@ npm test
 
 Setup your environment as described in [Native development](#native-development)
 
-**3. Running linter**
+**8. Running linter**
 ```sh
 npm run lint -- <directory>
 ```
