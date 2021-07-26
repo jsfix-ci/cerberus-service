@@ -28,23 +28,23 @@ npm run build:dev
 ```
 **4. Start the application** *(optional)*
 ```sh
-\
-REACT_APP_AUTH_CLIENT_ID=your-client-id \
-FORM_API_URL=https://form-api.example.com/ \
-REFDATA_API_URL=https://refdata-api.example.com/ \
-KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
-KEYCLOAK_CLIENT_ID=your-client-id \
-KEYCLOAK_REALM=realm \
-CERBERUS_API_URL=https://cerberus-api.example.com/ \
-npm run start
+  \
+  REACT_APP_AUTH_CLIENT_ID=your-client-id \
+  FORM_API_URL=https://form-api.example.com/ \
+  REFDATA_API_URL=https://refdata-api.example.com/ \
+  KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
+  KEYCLOAK_CLIENT_ID=your-client-id \
+  KEYCLOAK_REALM=realm \
+  CERBERUS_API_URL=https://cerberus-api.example.com/ \
+  npm run start
 ```
 
 ### Development with docker
-**5. Build the application Docker container**
+**2. Build the application Docker container**
 ```sh
 docker build -t cerberus-service .
 ```
-**6. Run the resulting Docker container**
+**3. Run the resulting Docker container**
 ```sh
 docker run --name cerberus-service -p 8080:8080 \
   --env KEYCLOAK_AUTH_URL=https://sso-dev.notprod.homeoffice.gov.uk/auth \
@@ -60,7 +60,7 @@ docker run --name cerberus-service -p 8080:8080 \
 
 Setup your environment as described in [Native development](#native-development)
 
-**7. Running jest tests**
+**4. Running jest tests**
 ```sh
 npm test
 ```
@@ -69,7 +69,7 @@ npm test
 
 Setup your environment as described in [Native development](#native-development)
 
-**8. Running linter**
+**5. Running linter**
 ```sh
 npm run lint -- <directory>
 ```
