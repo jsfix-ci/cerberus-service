@@ -46,7 +46,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.expandTaskDetails().then(() => {
         cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
           .next()
-          .should('have.text', 'Clandestine Entry');
+          .should('have.text', 'Obscene Material');
       });
     });
   });

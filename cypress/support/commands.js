@@ -417,38 +417,41 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber) => {
 Cypress.Commands.add('deleteAutomationTestData', () => {
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?businessKeyLike='%AUTO-TEST%'`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'processDefinitionKey': 'assignTarget',
+      'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);
     processInstanceId.map((id) => {
+      console.log(response.body);
       cy.request({
-        method: 'GET',
-        url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance/${id}/variables`,
+        method: 'DELETE',
+        url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance/${id}`,
         headers: { Authorization: `Bearer ${token}` },
-      }).then((res) => {
-        if (Object.prototype.hasOwnProperty.call(res.body, 'movementId')) {
-          console.log(res.body);
-          cy.request({
-            method: 'GET',
-            url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance/${id}/variables/movementId`,
-            headers: { Authorization: `Bearer ${token}` },
-          }).then((result) => {
-            console.log(res.body);
-            if (result.body.value.includes('AUTOTEST-')) {
-              cy.request({
-                method: 'DELETE',
-                url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance/${id}`,
-                headers: { Authorization: `Bearer ${token}` },
-              }).then((deleteResponse) => {
-                expect(deleteResponse.status).to.eq(204);
-              });
-            }
-          });
-        }
+      }).then((deleteResponse) => {
+        expect(deleteResponse.status).to.eq(204);
+      });
+    });
+  });
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?businessKeyLike='%AUTO-TEST%'`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
+    },
+  }).then((response) => {
+    const processInstanceId = response.body.map((item) => item.id);
+    processInstanceId.map((id) => {
+      console.log(response.body);
+      cy.request({
+        method: 'DELETE',
+        url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance/${id}`,
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((deleteResponse) => {
+        expect(deleteResponse.status).to.eq(204);
       });
     });
   });
