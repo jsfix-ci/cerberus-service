@@ -437,7 +437,7 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
   });
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?businessKeyLike='%AUTO-TEST%'`,
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?processInstanceBusinessKeyLike='%AUTO-TEST%'`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
       'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
