@@ -413,3 +413,46 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber) => {
     cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
   });
 });
+
+Cypress.Commands.add('deleteAutomationTestData', () => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?businessKeyLike='%AUTO-TEST%'`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
+    },
+  }).then((response) => {
+    const processInstanceId = response.body.map((item) => item.id);
+    processInstanceId.map((id) => {
+      console.log(response.body);
+      cy.request({
+        method: 'DELETE',
+        url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance/${id}`,
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((deleteResponse) => {
+        expect(deleteResponse.status).to.eq(204);
+      });
+    });
+  });
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?processInstanceBusinessKeyLike='%AUTO-TEST%'`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
+    },
+  }).then((response) => {
+    const processInstanceId = response.body.map((item) => item.id);
+    processInstanceId.map((id) => {
+      console.log(response.body);
+      cy.request({
+        method: 'DELETE',
+        url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance/${id}`,
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((deleteResponse) => {
+        expect(deleteResponse.status).to.eq(204);
+      });
+    });
+  });
+});

@@ -212,7 +212,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST-ASSESSMENT').then((taskResponse) => {
+      cy.postTasks(task, 'AUTOTEST-ASSESSMENT').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -256,7 +256,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST-DISMISS').then((taskResponse) => {
+      cy.postTasks(task, 'AUTOTEST-DISMISS').then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -385,6 +385,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
