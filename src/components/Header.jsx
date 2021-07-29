@@ -49,7 +49,6 @@ const Header = () => {
               aria-label="Navigation menu"
             >
               <NavigationItem href="/tasks">Tasks</NavigationItem>
-              <NavigationItem href="/issue-target">Issue a target</NavigationItem>
               <NavigationItem href={createLogoutUrl()}>Sign out</NavigationItem>
             </ul>
           </nav>
