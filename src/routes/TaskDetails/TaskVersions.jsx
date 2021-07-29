@@ -95,7 +95,7 @@ const TaskVersions = ({ taskVersions }) => {
               summary: (
                 <>
                   <div className="task-versions--left">
-                    <div className="govuk-caption-m">{dayjs(bookingDate?.bookingDateTime).format(LONG_DATE_FORMAT) || null}</div>
+                    <div className="govuk-caption-m">{dayjs(bookingDate?.bookingDateTime || null).format(LONG_DATE_FORMAT)}</div>
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">
