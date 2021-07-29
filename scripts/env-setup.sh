@@ -1,7 +1,23 @@
 #!/bin/bash
-context=$1
-namespace=$2
-secretName=$3
+environment=$1
+
+if [[ $environment == "dev" ]]; then
+   context="acp-notprod_COP"
+   namespace="cop-cerberus-dev"
+   secretName="cerberus-functional-tests"
+fi
+
+if [[ $environment == "sit" ]]; then
+   context="acp-notprod_COP"
+   namespace="cop-cerberus-sit"
+   secretName="cerberus-functional-tests-sit"
+fi
+
+if [[ $environment == "staging" ]]; then
+   context="acp-prod_COP"
+   namespace="cop-cerberus-staging"
+   secretName="cerberus-functional-tests-staging"
+fi
 
 rm .env
 

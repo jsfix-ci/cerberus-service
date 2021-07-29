@@ -92,6 +92,8 @@ getSecret().then((secret) => {
         obj.env.auth_realm = auth.realm;
         obj.env.auth_client_id = auth.client;
         obj.env.auth_base_url = auth.url;
+        obj.env.cerberusServiceUrl = secret.services.cerberus.service_url;
+        obj.env.formApiUrl = secret.services.form.api_server;
         json = JSON.stringify(obj);
         fs.writeFileSync('cypress.json', json, { flag: 'w' });
       }

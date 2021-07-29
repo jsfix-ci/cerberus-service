@@ -89,9 +89,10 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     const nextPage = 'a[data-test="next"]';
+    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'AUTOTEST-').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM-TASK-MANAGEMENT`).then((taskResponse) => {
         let businessKey = encodeURIComponent(taskResponse.businessKey);
         if (Cypress.$(nextPage).length > 0) {
           cy.findTaskInAllThePages(`${businessKey}`, 'Claim').then((returnValue) => {

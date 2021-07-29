@@ -86,24 +86,9 @@ By default, tests run against local environment.
 
 **NOTE:** You will need, the [cerberus-service](https://github.com/UKHomeOffice/cerberus-service) application, to be running before triggering Cypress.
 
-create a file called cypress.env.json on a root folder and include the following key-value pair when running the tests locally,
-(These values would be automatically fetched from secret manager and would be set when tests running inside drone server / kube)
-
-```json5
-{
-   "cerberusServiceUrl": "xxx",
-   "formApiUrl": "xxx",
-}
-```
-#### Setup Environment to run the tests on local
+#### Setup Environment to run the tests against different environment from local machine
 ```sh
-./scripts/env-setup.sh {context} {namespace} {secretName}
-
-env        context               namespace                secretname                     |
--------|--------------------|-----------------------|------------------------------------|
-Dev    | acp-notprod_COP    |  cop-cerberus-dev     |   cerberus-functional-tests        |
-Sit    | acp-notprod_COP    |  cop-cerberus-sit     |   cerberus-functional-tests-sit    |
-Staging| acp-prod_COP       |  cop-cerberus-staging |   cerberus-functional-tests-staging|
+./scripts/env-setup.sh {dev, sit , staging}
 ```
 
 #### Running cypress test runner
@@ -122,6 +107,7 @@ Once TestRunner launched, click on the interested spec inside folder cypress/int
 
 Running all tests on local Environment, (It executes tests headless mode on Electron Browser)
 ```sh
+source .env
 npm run cypress:test:local
 ```
 
@@ -143,7 +129,7 @@ npm run cypress:test:local -- --browser chrome --spec cypress/integration/cerber
 Running All tests and generating mochawesome html report with screenshots
 run the command for specific environment to get the required baseUrl & keycloak authentication 
 ```sh
-node get_secrets.js {dev, sit , staging}
+./scripts/env-setup.sh {dev, sit , staging}
 ```
 ```sh
 npm run cypress:test:report -- -b chrome -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL}

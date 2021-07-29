@@ -415,12 +415,13 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber) => {
 });
 
 Cypress.Commands.add('deleteAutomationTestData', () => {
+  let dateNowFormatted = Cypress.moment().subtract('1', 'd').format('DD-MM-YYYY');
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?businessKeyLike='%AUTO-TEST%'`,
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
+      'businessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);
@@ -437,10 +438,10 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
   });
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?processInstanceBusinessKeyLike='%AUTO-TEST%'`,
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'processDefinitionKeyIn': ['assignTarget', 'raiseMovement'],
+      'processInstanceBusinessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);

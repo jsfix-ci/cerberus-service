@@ -9,11 +9,12 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.fixture('RoRo-Accompanied-RBT-SBT.json').then((task) => {
       let date;
       date = new Date();
+      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, 'AUTOTEST-RoRo-Accompanied').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Accompanied`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
