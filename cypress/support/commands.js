@@ -408,10 +408,16 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
   });
 });
 
-Cypress.Commands.add('checkTaskSummary', (registrationNumber) => {
+Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) => {
   cy.get('.card').within(() => {
     cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
   });
+
+  if (bookingDateTime === 'Invalid date') {
+    bookingDateTime = 'Invalid Date';
+  }
+
+  cy.get('.task-versions .task-versions--left').should('contain.text', bookingDateTime);
 });
 
 Cypress.Commands.add('deleteAutomationTestData', () => {

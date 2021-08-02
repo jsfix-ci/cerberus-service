@@ -8,9 +8,6 @@ describe('Log-in to cerberus UI', () => {
 
     cy.get('.govuk-heading-xl').should('contain.text', 'Task management');
 
-    cy.contains('Issue a target').click();
-    cy.url().should('include', '/issue-target');
-
     cy.contains('Tasks').click();
     cy.url().should('include', '/tasks');
   });

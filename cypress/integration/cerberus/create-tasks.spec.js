@@ -9,11 +9,13 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('tasks-hazardous-cargo.json').then((task) => {
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-HAZARDOUS').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -21,11 +23,13 @@ describe('Create task with different payload from Cerberus', () => {
   it('Should create a task with a payload contains organisation value as null', () => {
     cy.fixture('tasks-org-null.json').then((task) => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-ORG-NULL').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -36,11 +40,13 @@ describe('Create task with different payload from Cerberus', () => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 2);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-WITH-PASSENGERS').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
       cy.wait(2000);
       cy.expandTaskDetails().then(() => {
@@ -57,11 +63,13 @@ describe('Create task with different payload from Cerberus', () => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 5);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-RBT-SBT').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -73,11 +81,14 @@ describe('Create task with different payload from Cerberus', () => {
       console.log(task.variables.rbtPayload.value);
       date.setDate(date.getDate() + 4);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.organisations[0].attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      cy.log('Booking Date  Time', bookingDateTime);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-TOURIST-SBT').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -87,11 +98,13 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       console.log(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -102,11 +115,13 @@ describe('Create task with different payload from Cerberus', () => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-RBT-SBT').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -117,11 +132,13 @@ describe('Create task with different payload from Cerberus', () => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 10);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-SBT').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -132,11 +149,13 @@ describe('Create task with different payload from Cerberus', () => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-SBT').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -147,11 +166,13 @@ describe('Create task with different payload from Cerberus', () => {
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 1);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-UNACC-RBT-SBT').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });
@@ -162,12 +183,14 @@ describe('Create task with different payload from Cerberus', () => {
       date.setDate(date.getDate() + 1);
       console.log(task.variables.rbtPayload.value);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       console.log(task.variables.rbtPayload.value);
       cy.postTasks(task, 'AUTOTEST-RoRo-ACC-NO-PASSENGERS').then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.checkTaskSummary(registrationNumber);
+        cy.checkTaskSummary(registrationNumber, bookingDateTime);
       });
     });
   });

@@ -126,7 +126,7 @@
                   "ticketNumber": "GH5983476",
                   "adultCount": "84",
                   "checkInTime": "202010240844",
-                  "bookingDateTime": "202008051203",
+                  "bookingDateTime": null,
                   "childCount": "44",
                   "ticketType": "S",
                   "creditCardType": "Fancy Elite",
