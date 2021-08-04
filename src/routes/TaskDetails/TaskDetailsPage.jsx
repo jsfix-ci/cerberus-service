@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 // Config
 import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
 import config from '../../config';
@@ -189,6 +190,7 @@ const TaskDetailsPage = () => {
         const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
           return processVar.name === 'notes';
         }).value).map((note) => ({
+          id: uuidv4(),
           date: dayjs(note.timeStamp).format(),
           user: note.userId,
           note: note.note,
@@ -202,14 +204,16 @@ const TaskDetailsPage = () => {
             return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
           };
           return {
-            date: operation.timestamp,
+            id: uuidv4(),
+            date: dayjs(operation.timestamp).format(),
             user: operation.userId,
             note: getNote(operation),
           };
         });
 
         const parsedTaskHistory = taskHistoryResponse.data.map((historyLog) => ({
-          date: historyLog.startTime,
+          id: uuidv4(),
+          date: dayjs(historyLog.startTime).format(),
           user: historyLog.assignee,
           note: historyLog.name,
         }));
@@ -386,7 +390,7 @@ const TaskDetailsPage = () => {
               <h3 className="govuk-heading-m">Activity</h3>
 
               {activityLog.map((activity) => (
-                <React.Fragment key={activity.date}>
+                <React.Fragment key={activity.id}>
                   <p className="govuk-body-s govuk-!-margin-bottom-2">
                     <span className="govuk-!-font-weight-bold">
                       {new Date(activity.date).toLocaleDateString()}
