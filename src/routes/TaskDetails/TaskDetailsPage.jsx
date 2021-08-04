@@ -65,12 +65,6 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 };
 
 const TaskDetailsPage = () => {
-  /* TERMINOLOGY
-    * businessKey - the unique ID for a "Target Task provided to a Targeter/FLO member of staff"
-    * processInstance - common information returned from Camunda about a process, related to a businessKey
-    * target - data related to a processInstance
-    * version - a version of the target data, originating from Cerberus, related to a processInstance
-  */
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
@@ -155,19 +149,19 @@ const TaskDetailsPage = () => {
           camundaClient.get(
             '/task',
             { params: { processInstanceId: processInstance.id } },
-          ), // taskResponse : common Camunda information e.g. assignee
+          ), // taskResponse
           camundaClient.get(
             '/history/variable-instance',
             { params: { processInstanceIdIn: processInstance.id, deserializeValues: false } },
-          ), // variableInstanceResponse : target specific information, including versions
+          ), // variableInstanceResponse
           camundaClient.get(
             '/history/user-operation',
             { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-          ), // operationsHistoryResponse : activity related to a process instance e.g. claim/unclaim
+          ), // operationsHistoryResponse
           camundaClient.get(
             '/history/task',
             { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-          ), // taskHistoryResponse : activity on a processInstance, e.g. start time, assignee added
+          ), // taskHistoryResponse
         ]);
 
         /*
