@@ -1,38 +1,37 @@
-// Third party imports
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
-
-// App imports
+// Config
 import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
+import config from '../../config';
+// Utils
+import useAxiosInstance from '../../utils/axiosInstance';
 import { useKeycloak } from '../../utils/keycloak';
 import { useFormSubmit } from '../../utils/formioSupport';
-import '../__assets__/TaskDetailsPage.scss';
-
-import Button from '../../govuk/Button';
+// Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
-import ErrorSummary from '../../govuk/ErrorSummary';
-import LoadingSpinner from '../../forms/LoadingSpinner';
-import Panel from '../../govuk/Panel';
 import RenderForm from '../../components/RenderForm';
+import LoadingSpinner from '../../forms/LoadingSpinner';
 import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
-
-import config from '../../config';
-import useAxiosInstance from '../../utils/axiosInstance';
+// Styling
+import Button from '../../govuk/Button';
+import ErrorSummary from '../../govuk/ErrorSummary';
+import Panel from '../../govuk/Panel';
+import '../__assets__/TaskDetailsPage.scss';
 
 // See Camunda docs for all operation types:
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskManagementForm = ({ onCancel, taskId, taskData, actionTarget, ...props }) => {
+const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, ...props }) => {
   const submitForm = useFormSubmit();
   return (
     <RenderForm
       onCancel={() => onCancel(false)}
-      preFillData={taskData}
+      preFillData={processInstanceData}
       onSubmit={async (data, form) => {
         await submitForm(
           `/task/${taskId}/submit-form`,
@@ -75,16 +74,15 @@ const TaskDetailsPage = () => {
   const [activityLog, setActivityLog] = useState([]);
   const [assignee, setAssignee] = useState();
   const [error, setError] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-  const [targetStatus, setTargetStatus] = useState();
-  const [targetTask, setTargetTask] = useState({});
-  const [targetTaskVersionDetails, setTargetTaskVersionDetails] = useState([]);
-  const [taskVersions, setTaskVersions] = useState([]);
   const [processInstanceId, setProcessInstanceId] = useState();
+  const [processInstanceData, setProcessInstanceData] = useState({});
+  const [targetStatus, setTargetStatus] = useState();
+  const [targetData, setTargetData] = useState([]);
 
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
+  const [isLoading, setLoading] = useState(true);
 
   const TaskCompletedSuccessMessage = ({ message }) => {
     return (
@@ -167,8 +165,9 @@ const TaskDetailsPage = () => {
         ]);
 
         /*
+        * ** TASK STATUS AND ASSIGNEE
         * There are various actions a user can take on a target
-        * Based on it's processState and it's assignee
+        * based on it's processState and it's assignee
         * We set these here so we can then use them to determine
         * whether to show the action buttons, the claim/unclaim/assigned text/buttons
         * and the notes form
@@ -181,7 +180,7 @@ const TaskDetailsPage = () => {
         setAssignee(taskResponse?.data[0]?.assignee);
 
         /*
-        * To display the activity log of what's happened to a target
+        * ** ACTIVITY LOG & NOTES
         * There are three places that activity/notes can be logged in
         * history/variable-instance (parsedNotes) including notes entered via the notes form,
         * history/user-operation (parsedOperationsHistory),
@@ -222,6 +221,7 @@ const TaskDetailsPage = () => {
         ].sort((a, b) => -a.date.localeCompare(b.date)));
 
         /*
+        * ** TARGET DATA
         * This takes the objects of type JSON from the /history/variable-instance data
         * and collates them into an object of objects
         * so we can map/use them as they are the core information about the target
@@ -233,14 +233,13 @@ const TaskDetailsPage = () => {
             return acc;
           }, {});
 
-        setTargetTask(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
-        setTaskVersions([{
+        setProcessInstanceData(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
+        setTargetData([{
           ...parsedTaskVariables,
         }]);
-        setTargetTaskVersionDetails(parsedTaskVariables.taskDetails);
       } catch (e) {
         setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
-        setTaskVersions([]);
+        setTargetData([]);
       } finally {
         setLoading(false);
       }
@@ -269,7 +268,7 @@ const TaskDetailsPage = () => {
     <>
       {error && <ErrorSummary title={error} />}
 
-      {taskVersions.length > 0 && (
+      {targetData.length > 0 && (
         <>
           <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
@@ -280,7 +279,7 @@ const TaskDetailsPage = () => {
                   {getAssignee()}
                   <ClaimButton
                     assignee={assignee}
-                    taskId={targetTask.id}
+                    taskId={processInstanceData.id}
                     setError={setError}
                     businessKey={businessKey}
                   />
@@ -288,7 +287,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && targetTask.taskDefinitionKey === 'developTarget' && (
+              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && processInstanceData.taskDefinitionKey === 'developTarget' && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
@@ -327,12 +326,12 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={taskVersions[0].taskSummary} />
+              <TaskSummary taskSummaryData={targetData[0].taskSummary} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
                   onCancel={() => setCompleteFormOpen(false)}
-                  taskId={targetTask.id}
+                  taskId={processInstanceData.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
@@ -342,7 +341,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="dismissTarget"
                   onCancel={() => setDismissFormOpen(false)}
-                  taskId={targetTask.id}
+                  taskId={processInstanceData.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
@@ -360,8 +359,8 @@ const TaskDetailsPage = () => {
                   <TaskManagementForm
                     formName="targetInformationSheet"
                     onCancel={() => setIssueTargetFormOpen(false)}
-                    taskId={targetTask.id}
-                    taskData={taskVersions[0].targetInformationSheet}
+                    taskId={processInstanceData.id}
+                    processInstanceData={targetData[0].targetInformationSheet}
                     actionTarget
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
@@ -369,7 +368,7 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetTaskVersionDetails} />
+                <TaskVersions taskVersions={targetData[0].taskDetails} />
               )}
             </div>
 
@@ -377,7 +376,7 @@ const TaskDetailsPage = () => {
               {assignee === currentUser && (
                 <TaskNotesForm
                   formName="noteCerberus"
-                  businessKey={taskVersions[0].taskSummary?.businessKey}
+                  businessKey={targetData[0].taskSummary?.businessKey}
                   processInstanceId={processInstanceId}
                 />
               )}

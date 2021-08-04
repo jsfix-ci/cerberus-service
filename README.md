@@ -6,12 +6,30 @@ Cerberus frontend service for cerberus-api
 * node v8.10.0
 
 ## Index
+* [Terminology](#terminology)
 * [Getting started](#getting-started)
 * [Native development](#native-development)
 * [Development with docker](#development-with-docker)
 *  [Tests in native development](#tests-in-native-development)
 * [Linter in native development](#linter-in-native-development)
 * [E2E tests in native development](#e2e-tests-in-native-development)
+
+----
+
+## Terminology
+Terms used in relation to "tasks"
+* businessKey - the unique ID for a "Target Task provided to a Targeter/FLO member of staff"
+* processInstance - common information returned from Camunda about a process, related to a businessKey
+* target - data related to a processInstance
+* version - a version of the target data, originating from Cerberus, related to a processInstance
+
+Terms used for variables that contain results of GET requests from Camunda
+* GET /task -> taskResponse : common Camunda information e.g. assignee
+* GET /history/variable-instance -> variableInstanceResponse : target specific information, including versions
+* GET /history/user-operation -> operationsHistoryResponse : activity related to a process instance e.g. claim/unclaim
+* GET /history/task -> taskHistoryResponse : activity on a processInstance, e.g. start time, assignee added
+
+----
 
 ## Getting started
 

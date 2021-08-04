@@ -74,6 +74,9 @@ const TaskVersions = ({ taskVersions }) => {
       className="task-versions"
       id="task-versions"
       items={
+        /* the task data is provided in an array,
+         * there is only everone item in the array
+        */
         taskVersions.reverse().map((version, index) => {
           const booking = version.find((fieldset) => { return fieldset.fieldSetName === 'Booking'; }) || null;
           const bookingDate = booking?.contents.find((field) => { return field.fieldName === 'Date and time'; }) || null;
