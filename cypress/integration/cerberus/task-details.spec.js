@@ -1,6 +1,11 @@
 describe('Render tasks from Camunda and manage them on task details Page', () => {
+  let dateNowFormatted;
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+  });
+
+  before(() => {
+    dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
   });
 
   it('Should navigate to task details page', () => {
@@ -18,7 +23,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.intercept('POST', '/camunda/process-definition/key/noteSubmissionWrapper/submit-form').as('notes');
 
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ADD-NOTES`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -62,7 +67,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should hide Notes Textarea for the tasks assigned to others', () => {
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'AUTOTEST-ASSIGN-TO-OTHER').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -81,7 +86,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'AUTOTEST-ASSIGN-TO-OTHER').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER-USER`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -106,9 +111,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'CERB-AUTOTEST').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -172,7 +176,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should verify all the action buttons not available for non-task owner', () => {
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'AUTOTEST-ASSIGN-TO-OTHER').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -212,7 +216,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'AUTOTEST-ASSESSMENT').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSESSMENT`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -256,7 +260,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.fixture('tasks.json').then((task) => {
-      cy.postTasks(task, 'AUTOTEST-DISMISS').then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-DISMISS`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
