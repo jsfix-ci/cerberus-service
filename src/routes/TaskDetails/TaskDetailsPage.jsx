@@ -27,12 +27,12 @@ import useAxiosInstance from '../../utils/axiosInstance';
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskManagementForm = ({ onCancel, taskId, taskData, actionTarget, ...props }) => {
+const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, ...props }) => {
   const submitForm = useFormSubmit();
   return (
     <RenderForm
       onCancel={() => onCancel(false)}
-      preFillData={taskData}
+      preFillData={processInstanceData}
       onSubmit={async (data, form) => {
         await submitForm(
           `/task/${taskId}/submit-form`,
@@ -66,6 +66,12 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 };
 
 const TaskDetailsPage = () => {
+  /* TERMINOLOGY
+    * businessKey - the unique ID for a "Target Task provided to a Targeter/FLO member of staff"
+    * processInstance - common information returned from Camunda about a process, related to a businessKey
+    * target - data related to a processInstance
+    * version - a version of the target data, originating from Cerberus, related to a processInstance
+  */
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
@@ -75,15 +81,15 @@ const TaskDetailsPage = () => {
   const [activityLog, setActivityLog] = useState([]);
   const [assignee, setAssignee] = useState();
   const [error, setError] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-  const [targetStatus, setTargetStatus] = useState();
-  const [targetTask, setTargetTask] = useState({});
-  const [targetTaskDetails, setTargetTaskDetails] = useState([]);
   const [processInstanceId, setProcessInstanceId] = useState();
+  const [processInstanceData, setProcessInstanceData] = useState({});
+  const [targetStatus, setTargetStatus] = useState();
+  const [targetData, setTargetData] = useState([]);
 
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
+  const [isLoading, setLoading] = useState(true);
 
   const TaskCompletedSuccessMessage = ({ message }) => {
     return (
@@ -150,24 +156,25 @@ const TaskDetailsPage = () => {
           camundaClient.get(
             '/task',
             { params: { processInstanceId: processInstance.id } },
-          ), // taskResponse
+          ), // taskResponse : common Camunda information e.g. assignee
           camundaClient.get(
             '/history/variable-instance',
             { params: { processInstanceIdIn: processInstance.id, deserializeValues: false } },
-          ), // variableInstanceResponse
+          ), // variableInstanceResponse : target specific information, including versions
           camundaClient.get(
             '/history/user-operation',
             { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-          ), // operationsHistoryResponse
+          ), // operationsHistoryResponse : activity related to a process instance e.g. claim/unclaim
           camundaClient.get(
             '/history/task',
             { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-          ), // taskHistoryResponse
+          ), // taskHistoryResponse : activity on a processInstance, e.g. start time, assignee added
         ]);
 
         /*
+        * ** TASK STATUS AND ASSIGNEE
         * There are various actions a user can take on a target
-        * Based on it's processState and it's assignee
+        * based on it's processState and it's assignee
         * We set these here so we can then use them to determine
         * whether to show the action buttons, the claim/unclaim/assigned text/buttons
         * and the notes form
@@ -180,7 +187,7 @@ const TaskDetailsPage = () => {
         setAssignee(taskResponse?.data[0]?.assignee);
 
         /*
-        * To display the activity log of what's happened to a target
+        * ** ACTIVITY LOG & NOTES
         * There are three places that activity/notes can be logged in
         * history/variable-instance (parsedNotes) including notes entered via the notes form,
         * history/user-operation (parsedOperationsHistory),
@@ -221,6 +228,7 @@ const TaskDetailsPage = () => {
         ].sort((a, b) => -a.date.localeCompare(b.date)));
 
         /*
+        * ** TARGET DATA
         * This takes the objects of type JSON from the /history/variable-instance data
         * and collates them into an object of objects
         * so we can map/use them as they are the core information about the target
@@ -232,13 +240,13 @@ const TaskDetailsPage = () => {
             return acc;
           }, {});
 
-        setTargetTask(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
-        setTargetTaskDetails([{
+        setProcessInstanceData(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
+        setTargetData([{
           ...parsedTaskVariables,
         }]);
       } catch (e) {
         setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
-        setTargetTaskDetails([]);
+        setTargetData([]);
       } finally {
         setLoading(false);
       }
@@ -267,7 +275,7 @@ const TaskDetailsPage = () => {
     <>
       {error && <ErrorSummary title={error} />}
 
-      {targetTaskDetails.length > 0 && (
+      {targetData.length > 0 && (
         <>
           <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
@@ -278,7 +286,7 @@ const TaskDetailsPage = () => {
                   {getAssignee()}
                   <ClaimButton
                     assignee={assignee}
-                    taskId={targetTask.id}
+                    taskId={processInstanceData.id}
                     setError={setError}
                     businessKey={businessKey}
                   />
@@ -286,7 +294,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && targetTask.taskDefinitionKey === 'developTarget' && (
+              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && processInstanceData.taskDefinitionKey === 'developTarget' && (
                 <>
                   <Button
                     className="govuk-!-margin-right-1"
@@ -325,12 +333,12 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={targetTaskDetails[0].taskSummary} />
+              <TaskSummary taskSummaryData={targetData[0].taskSummary} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
                   onCancel={() => setCompleteFormOpen(false)}
-                  taskId={targetTask.id}
+                  taskId={processInstanceData.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
@@ -340,7 +348,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="dismissTarget"
                   onCancel={() => setDismissFormOpen(false)}
-                  taskId={targetTask.id}
+                  taskId={processInstanceData.id}
                   actionTarget={false}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
@@ -358,8 +366,8 @@ const TaskDetailsPage = () => {
                   <TaskManagementForm
                     formName="targetInformationSheet"
                     onCancel={() => setIssueTargetFormOpen(false)}
-                    taskId={targetTask.id}
-                    taskData={targetTaskDetails[0].targetInformationSheet}
+                    taskId={processInstanceData.id}
+                    processInstanceData={targetData[0].targetInformationSheet}
                     actionTarget
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
@@ -367,7 +375,7 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetTaskDetails} />
+                <TaskVersions taskVersions={targetData[0].taskDetails} />
               )}
             </div>
 
@@ -375,7 +383,7 @@ const TaskDetailsPage = () => {
               {assignee === currentUser && (
                 <TaskNotesForm
                   formName="noteCerberus"
-                  businessKey={targetTaskDetails[0].taskSummary?.businessKey}
+                  businessKey={targetData[0].taskSummary?.businessKey}
                   processInstanceId={processInstanceId}
                 />
               )}
