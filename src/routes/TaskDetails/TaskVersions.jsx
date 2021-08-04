@@ -74,10 +74,10 @@ const TaskVersions = ({ taskVersions }) => {
       className="task-versions"
       id="task-versions"
       items={
-        taskVersions.reverse().map((version, index) => {
+        taskVersions[0].taskDetails.reverse().map((version, index) => {
           const booking = version.find((fieldset) => { return fieldset.fieldSetName === 'Booking'; }) || null;
           const bookingDate = booking?.contents.find((field) => { return field.fieldName === 'Date and time'; }) || null;
-          const versionNumber = taskVersions.length - index;
+          const versionNumber = taskVersions[0].taskDetails.length - index;
           const detailSection = version.map((field) => {
             return (
               <div key={field.fieldSetName}>
