@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Form, Formio } from 'react-formio';
 import gds from '@ukhomeoffice/formio-gds-template/lib';
 import { isEmpty } from 'lodash';
-import dayjs from 'dayjs';
 
 import config from '../config';
 import useAxiosInstance from '../utils/axiosInstance';
@@ -11,8 +10,6 @@ import LoadingSpinner from '../forms/LoadingSpinner';
 import { useKeycloak } from '../utils/keycloak';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
 import ErrorSummary from '../govuk/ErrorSummary';
-import findAndFormat from '../utils/findAndFormat';
-import { SHORT_DATE_FORMAT } from '../constants';
 
 Formio.use(gds);
 
@@ -66,25 +63,6 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
       if (!preFillData) {
         setFormattedPreFillData(null);
       } else {
-        /*
-         * Due to formio prefilling issues, findAndFormat is used in order to correctly
-         * prefill the form dob and docExpiry fields
-         * Threat indicators arrives as an array of strings, this prepoulates correctly
-         * however it does not match the formatting expected by workflows further down the
-         * line. This means it needs to be changed to match the expected data structure
-         * THESE ARE ALL TEMPORARY FIXES
-        */
-        findAndFormat(preFillData, 'dob', (dob) => (dob ? dob.split('-').reverse().join('/') : ''));
-        findAndFormat(
-          preFillData,
-          'docExpiry',
-          (docExpiry) => (docExpiry ? dayjs(0).add(docExpiry, 'days').format(SHORT_DATE_FORMAT) : ''),
-        );
-        findAndFormat(
-          preFillData,
-          'threatIndicators',
-          (threatIndicators) => (threatIndicators[0] ? threatIndicators.map((threatIndicator) => ({ indicator: threatIndicator })) : []),
-        );
         setFormattedPreFillData(
           {
             data: {
