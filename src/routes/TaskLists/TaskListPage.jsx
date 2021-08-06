@@ -212,11 +212,10 @@ const TasksTab = ({ taskStatus, setError }) => {
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
-        console.log(target);
         return (
           <section className="task-list--item" key={target.parentBusinessKey.businessKey}>
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-three-quarters">
+            <div className="govuk-grid-row title-container">
+              <div className="govuk-grid-column-three-quarters heading-container">
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
@@ -225,7 +224,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                     {escapedBusinessKey}
                   </Link>
                 </h3>
-                <h4 className="govuk-heading-m task-sub-heading govuk-!-font-weight-regular">
+                <h4 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
                   {target.roro.details.movementStatus}
                 </h4>
               </div>
@@ -242,25 +241,27 @@ const TasksTab = ({ taskStatus, setError }) => {
                   )}
               </div>
             </div>
+
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">
-                <p className="govuk-body-s arrival-title">
+                <p className="govuk-body-s content-line-one">
                   {target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}
                 </p>
-                <ul className="govuk-list arrival-dates govuk-!-margin-bottom-4">
-                  {target.roro.details.departureLocation && <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation}</li>}
+                <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
+                  <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
                   <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
-                  {target.roro.details.arrivalLocation && <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation}</li>}
+                  <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</li>
                   <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
                 </ul>
               </div>
             </div>
+
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-one-quarter">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Driver details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.driver ? (
                     <>
                       {target.roro.details.driver.firstName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.firstName}</li>}
@@ -274,7 +275,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Passenger details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.passengers ? (
                     <>
                       <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
@@ -287,7 +288,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Vehicle details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.vehicle ? (
                     <>
                       {target.roro.details.vehicle.registrationNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.registrationNumber}</li>}
@@ -301,7 +302,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Trailer details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.vehicle.trailer ? (
                     <>
                       {target.roro.details.vehicle.trailer.regNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.trailer.regNumber}</li>}
@@ -316,8 +317,8 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Haulier details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
-                  {target.roro.details.haulier.name ? (
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                  {target.roro.details.haulier?.name ? (
                     <>
                       {target.roro.details.haulier.name && <li className="govuk-!-font-weight-bold">{target.roro.details.haulier.name}</li>}
                     </>
@@ -326,7 +327,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Account details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.account ? (
                     <>
                       {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
@@ -340,7 +341,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Goods details
                 </h3>
-                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.load.manifestedLoad ? (
                     <>
                       {target.roro.details.load.manifestedLoad && <li className="govuk-!-font-weight-bold">{target.roro.details.load.manifestedLoad}</li>}
@@ -349,7 +350,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </ul>
               </div>
             </div>
-            {/* <div className="govuk-grid-row">
+            <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">
                 <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
                   <li className="task-labels-item">
@@ -362,7 +363,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   </li>
                 </ul>
               </div>
-            </div> */}
+            </div>
           </section>
         );
       })}
