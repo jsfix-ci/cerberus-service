@@ -104,20 +104,10 @@ const TasksTab = ({ taskStatus, setError }) => {
           { params: { ...targetStatus[activeTab].statusRules, firstResult: offset, maxResults: itemsPerPage } },
         );
         const processInstanceIds = _.uniq(targetTaskList.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
-        // const targetTaskSummaries = await camundaClient.get(
-        //   targetStatus[activeTab].variableUrl,
-        //   { params: { variableName: 'taskSummary', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
-        // );
         const targetTaskListItems = await camundaClient.get(
           targetStatus[activeTab].variableUrl,
           { params: { variableName: 'targetInformationSheet', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
         );
-        // const targetTaskSummaryValues = targetTaskListItems.data.map((task) => {
-        //   return {
-        //     processInstanceId: task.processInstanceId,
-        //     ...JSON.parse(task.value),
-        //   };
-        // });
         const targetTaskListData = targetTaskListItems.data.map((task) => {
           return {
             processInstanceId: task.processInstanceId,
@@ -129,20 +119,6 @@ const TasksTab = ({ taskStatus, setError }) => {
         * If the targetStatus is 'new' or 'in progress' we must include the task id and assignee
         * so we can show/hide claim details AND allow tasks to be claimed/unclaimed
         */
-        // let parsedTargetTaskSummariesValues;
-        // if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
-        //   const mergedTargetSummary = targetTaskSummaryValues.map((task) => {
-        //     const matchedTargetTask = targetTaskList.data.find((v) => task.processInstanceId === v.processInstanceId);
-        //     return {
-        //       ...task,
-        //       ...matchedTargetTask,
-        //     };
-        //   });
-        //   parsedTargetTaskSummariesValues = mergedTargetSummary;
-        // } else {
-        //   parsedTargetTaskSummariesValues = targetTaskSummaryValues;
-        // }
-
         let parsedTargetTaskListData;
         if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
           const mergedTargetData = targetTaskListData.map((task) => {
@@ -164,7 +140,6 @@ const TasksTab = ({ taskStatus, setError }) => {
          * is sorted by the 'due' property to ensure the task list is in asc order
         */
         setTargetTasks(parsedTargetTaskListData.sort((a, b) => {
-        // setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => {
           const dateA = new Date(a.due);
           const dateB = new Date(b.due);
           return (a.due === null) - (b.due === null) || +(dateA > dateB) || -(dateA < dateB);
@@ -210,6 +185,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
+        // console.log(target)
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
         return (
