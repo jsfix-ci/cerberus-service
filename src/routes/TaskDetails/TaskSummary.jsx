@@ -1,63 +1,45 @@
-import React, { useEffect, useState } from 'react';
-
-import formatTaskData from '../../utils/formatTaskSummaryData';
+import React from 'react';
+import dayjs from 'dayjs';
+import { LONG_DATE_FORMAT } from '../../constants';
 
 import '../__assets__/TaskDetailsPage.scss';
 
 const TaskSummary = ({ taskSummaryData }) => {
-  const [formattedData, setFormattedData] = useState();
-
-  useEffect(() => {
-    setFormattedData(formatTaskData(taskSummaryData));
-  }, []);
-
-  if (!formattedData) { return null; }
+  const roroData = taskSummaryData.roro.details;
 
   return (
     <section className="card">
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
-          <span className="govuk-caption-m">{
-            (formattedData.vehicle.label && formattedData.trailer.label)
-              ? `${formattedData.vehicle.label} with ${formattedData.trailer.label}`
-              : `${formattedData.vehicle.label}${formattedData.trailer.label}`
-          }
+          <span className="govuk-caption-m">
+            {roroData.vehicle && 'Vehicle'}
+            {(roroData.vehicle && roroData.vehicle.trailer.regNumber) && ' with '}
+            {roroData.vehicle.trailer.regNumber && 'Trailer'}
           </span>
           <h3 className="govuk-heading-m govuk-!-margin-bottom-3">
-            <span>{formattedData.vehicle.registration}</span>
-            {formattedData?.trailer && (
-              <>
-                {(formattedData.vehicle.registration && formattedData.trailer.registration) && <span className="govuk-!-font-weight-regular">&nbsp;with&nbsp;</span>}
-                <span>{formattedData.trailer.registration}</span>
-              </>
-            )}
-            {formattedData.driver.dataExists
-            && (
-            <>
-              <span className="govuk-!-font-weight-regular">&nbsp;driven by&nbsp;</span>
-              <span id="driver-name">{formattedData.driver.name}</span>
-            </>
-            )}
+            {roroData.vehicle && roroData.vehicle.registrationNumber}
+            {(roroData.vehicle.registrationNumber && roroData.vehicle.trailer.regNumber) && <span className="govuk-!-font-weight-regular">&nbsp;with&nbsp;</span>}
+            {roroData.vehicle.trailer.regNumber && roroData.vehicle.trailer.regNumber}
           </h3>
         </div>
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-half">
           <dl className="mode-details">
-            <dt>{formattedData.ferry.label}</dt>
-            <dd>{formattedData.ferry.description}</dd>
-            <dt>{formattedData.departure.label}</dt>
-            <dd>{formattedData.departure.description}</dd>
-            <dt>{formattedData.arrival.label}</dt>
-            <dd>{formattedData.arrival.description}</dd>
+            <dt>Ferry</dt>
+            <dd>{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}</dd>
+            <dt>Departure</dt>
+            <dd>{roroData.departureLocation && `${roroData.departureLocation}, `}{!roroData.departureTime ? 'unknown' : dayjs(roroData.departureTime).format(LONG_DATE_FORMAT)}</dd>
+            <dt>Arrival</dt>
+            <dd>{roroData.arrivalLocation && `${roroData.arrivalLocation}, `}{!roroData.eta ? 'unknown' : dayjs(roroData.eta).format(LONG_DATE_FORMAT)}</dd>
           </dl>
         </div>
         <div className="govuk-grid-column-one-half">
           <dl className="mode-details">
-            <dt>{formattedData.account.label}</dt>
-            <dd>{formattedData.account.name}</dd>
-            <dt>{formattedData.haulier.label}</dt>
-            <dd>{formattedData.haulier.name}</dd>
+            <dt>Account</dt>
+            <dd>{!roroData.account.name ? 'unknown' : roroData.account.name}</dd>
+            <dt>Haulier</dt>
+            <dd>{!roroData.haulier.name ? 'unknown' : roroData.haulier.name}</dd>
           </dl>
         </div>
       </div>
