@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import qs from 'qs';
 
 // App imports
-import { SHORT_DATE_FORMAT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import { SHORT_DATE_FORMAT, LONG_DATE_FORMAT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
 import { useKeycloak } from '../../utils/keycloak';
 
 import '../__assets__/TaskListPage.scss';
@@ -22,7 +22,6 @@ import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
 
 import config from '../../config';
-import formatTaskData from '../../utils/formatTaskSummaryData';
 import useAxiosInstance from '../../utils/axiosInstance';
 
 const TasksTab = ({ taskStatus, setError }) => {
@@ -105,11 +104,21 @@ const TasksTab = ({ taskStatus, setError }) => {
           { params: { ...targetStatus[activeTab].statusRules, firstResult: offset, maxResults: itemsPerPage } },
         );
         const processInstanceIds = _.uniq(targetTaskList.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
-        const targetTaskSummaries = await camundaClient.get(
+        // const targetTaskSummaries = await camundaClient.get(
+        //   targetStatus[activeTab].variableUrl,
+        //   { params: { variableName: 'taskSummary', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
+        // );
+        const targetTaskListItems = await camundaClient.get(
           targetStatus[activeTab].variableUrl,
-          { params: { variableName: 'taskSummary', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
+          { params: { variableName: 'targetInformationSheet', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
         );
-        const targetTaskSummaryValues = targetTaskSummaries.data.map((task) => {
+        // const targetTaskSummaryValues = targetTaskListItems.data.map((task) => {
+        //   return {
+        //     processInstanceId: task.processInstanceId,
+        //     ...JSON.parse(task.value),
+        //   };
+        // });
+        const targetTaskListData = targetTaskListItems.data.map((task) => {
           return {
             processInstanceId: task.processInstanceId,
             ...JSON.parse(task.value),
@@ -120,18 +129,32 @@ const TasksTab = ({ taskStatus, setError }) => {
         * If the targetStatus is 'new' or 'in progress' we must include the task id and assignee
         * so we can show/hide claim details AND allow tasks to be claimed/unclaimed
         */
-        let parsedTargetTaskSummariesValues;
+        // let parsedTargetTaskSummariesValues;
+        // if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
+        //   const mergedTargetSummary = targetTaskSummaryValues.map((task) => {
+        //     const matchedTargetTask = targetTaskList.data.find((v) => task.processInstanceId === v.processInstanceId);
+        //     return {
+        //       ...task,
+        //       ...matchedTargetTask,
+        //     };
+        //   });
+        //   parsedTargetTaskSummariesValues = mergedTargetSummary;
+        // } else {
+        //   parsedTargetTaskSummariesValues = targetTaskSummaryValues;
+        // }
+
+        let parsedTargetTaskListData;
         if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
-          const mergedTargetSummary = targetTaskSummaryValues.map((task) => {
+          const mergedTargetData = targetTaskListData.map((task) => {
             const matchedTargetTask = targetTaskList.data.find((v) => task.processInstanceId === v.processInstanceId);
             return {
               ...task,
               ...matchedTargetTask,
             };
           });
-          parsedTargetTaskSummariesValues = mergedTargetSummary;
+          parsedTargetTaskListData = mergedTargetData;
         } else {
-          parsedTargetTaskSummariesValues = targetTaskSummaryValues;
+          parsedTargetTaskListData = targetTaskListData;
         }
 
         /*
@@ -140,7 +163,8 @@ const TasksTab = ({ taskStatus, setError }) => {
          * sorting we had before. As a result, the amalgamation of /tasks and /variable api calls
          * is sorted by the 'due' property to ensure the task list is in asc order
         */
-        setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => {
+        setTargetTasks(parsedTargetTaskListData.sort((a, b) => {
+        // setTargetTasks(parsedTargetTaskSummariesValues.sort((a, b) => {
           const dateA = new Date(a.due);
           const dateB = new Date(b.due);
           return (a.due === null) - (b.due === null) || +(dateA > dateB) || -(dateA < dateB);
@@ -186,23 +210,23 @@ const TasksTab = ({ taskStatus, setError }) => {
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
-        const formattedData = formatTaskData(target);
-        const passengers = target.people?.filter(({ role }) => role === 'PASSENGER') || [];
-        const escapedBusinessKey = encodeURIComponent(target.businessKey);
-
+        const passengers = target.roro.details.passengers;
+        const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
+        console.log(target);
         return (
-          <section className="task-list--item" key={target.businessKey}>
+          <section className="task-list--item" key={target.parentBusinessKey.businessKey}>
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-three-quarters">
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
                     to={`/tasks/${escapedBusinessKey}`}
-                  >{escapedBusinessKey}
+                  >
+                    {escapedBusinessKey}
                   </Link>
                 </h3>
                 <h4 className="govuk-heading-m task-sub-heading govuk-!-font-weight-regular">
-                  {target.movementStatus}
+                  {target.roro.details.movementStatus}
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
@@ -221,13 +245,13 @@ const TasksTab = ({ taskStatus, setError }) => {
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">
                 <p className="govuk-body-s arrival-title">
-                  {`${formattedData.ferry.description}, arrival ${formattedData.arrival.fromNow}`}
+                  {target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}
                 </p>
                 <ul className="govuk-list arrival-dates govuk-!-margin-bottom-4">
-                  <li className="govuk-!-font-weight-bold">{formattedData.departure.location}</li>
-                  <li>{formattedData.departure.date}</li>
-                  <li className="govuk-!-font-weight-bold">{formattedData.arrival.location}</li>
-                  <li>{formattedData.arrival.date}</li>
+                  {target.roro.details.departureLocation && <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation}</li>}
+                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
+                  {target.roro.details.arrivalLocation && <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation}</li>}
+                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
                 </ul>
               </div>
             </div>
@@ -236,83 +260,96 @@ const TasksTab = ({ taskStatus, setError }) => {
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Driver details
                 </h3>
-                <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  {formattedData.driver.dataExists ? (
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.driver ? (
                     <>
-                      <span className="govuk-!-font-weight-bold">
-                        {formattedData.driver.name}
-                      </span>, DOB: {formattedData.driver.dateOfBirth},
-                      {' '}
-                      {pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}
+                      {target.roro.details.driver.firstName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.firstName}</li>}
+                      {target.roro.details.driver.middleName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.middleName}</li>}
+                      {target.roro.details.driver.lastName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.lastName}</li>}
+                      {target.roro.details.driver.dob && <li>DOB: {target.roro.details.driver.dob}</li>}
+                      <li>{pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}</li>
                     </>
-                  ) : (<span className="govuk-!-font-weight-bold">Unknown</span>)}
-                </p>
+                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                </ul>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Passenger details
                 </h3>
-                <p className="govuk-body-s govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
-                  {pluralise.withCount(passengers.length, '% passenger', '% passengers')}
-                </p>
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.passengers ? (
+                    <>
+                      <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
+                    </>
+                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                </ul>
               </div>
+
               <div className="govuk-grid-column-one-quarter">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Vehicle details
                 </h3>
-                <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  {formattedData.vehicle.dataExists ? (
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.vehicle ? (
                     <>
-                      <span className="govuk-!-font-weight-bold">
-                        {formattedData.vehicle.registration}
-                      </span>, {formattedData.vehicle.description},
-                      {' '}
-                      {pluralise.withCount(target.aggregateVehicleTrips || 0, '% trip', '% trips')}
+                      {target.roro.details.vehicle.registrationNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.registrationNumber}</li>}
+                      {target.roro.details.vehicle.colour && <li>{target.roro.details.vehicle.colour}</li>}
+                      {target.roro.details.vehicle.make && <li>{target.roro.details.vehicle.make}</li>}
+                      {target.roro.details.vehicle.model && <li>{target.roro.details.vehicle.model}</li>}
+                      <li>{pluralise.withCount(target.aggregateVehicleTrips || 0, '% trip', '% trips')}</li>
                     </>
-                  ) : (<span className="govuk-!-font-weight-bold">No vehicle</span>)}
-                </p>
+                  ) : (<li className="govuk-!-font-weight-bold">No vehicle</li>)}
+                </ul>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Trailer details
                 </h3>
-                <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  {formattedData.trailer.dataExists ? (
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.vehicle.trailer ? (
                     <>
-                      <span className="govuk-!-font-weight-bold">
-                        {formattedData.trailerRegistration}
-                      </span>, {formattedData.trailer.description},
-                      {' '}
-                      {pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}
+                      {target.roro.details.vehicle.trailer.regNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.trailer.regNumber}</li>}
+                      {target.roro.details.vehicle.trailerType && <li>{target.roro.details.vehicle.trailerType}</li>}
+                      <li>{pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}</li>
                     </>
-                  ) : (<span className="govuk-!-font-weight-bold">No trailer</span>)}
-                </p>
+                  ) : (<li className="govuk-!-font-weight-bold">No trailer</li>)}
+                </ul>
               </div>
+
               <div className="govuk-grid-column-one-quarter">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Haulier details
                 </h3>
-                <p className="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-                  {formattedData.haulier.name}
-                </p>
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.haulier.name ? (
+                    <>
+                      {target.roro.details.haulier.name && <li className="govuk-!-font-weight-bold">{target.roro.details.haulier.name}</li>}
+                    </>
+                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                </ul>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Account details
                 </h3>
-                <p className="govuk-body-s govuk-!-margin-bottom-1">
-                  <span className="govuk-!-font-weight-bold">
-                    {formattedData.account.name}
-                  </span>
-                  {target.bookingDateTime && (
-                    <>, Booked on {dayjs(target.bookingDateTime).format(SHORT_DATE_FORMAT)}</>
-                  )}
-                </p>
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.account ? (
+                    <>
+                      {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
+                      {target.roro.details.bookingDateTime && <li>{dayjs(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
+                      <li>{pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}</li>
+                    </>
+                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                </ul>
               </div>
               <div className="govuk-grid-column-one-quarter">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Goods details
                 </h3>
-                <p className="govuk-body-s govuk-!-font-weight-bold">
-                  {target.freight?.descriptionOfCargo || 'Unknown'}
-                </p>
+                <ul className="govuk-body-s govuk-list arrival-dates govuk-!-margin-bottom-4">
+                  {target.roro.details.load.manifestedLoad ? (
+                    <>
+                      {target.roro.details.load.manifestedLoad && <li className="govuk-!-font-weight-bold">{target.roro.details.load.manifestedLoad}</li>}
+                    </>
+                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                </ul>
               </div>
             </div>
-            <div className="govuk-grid-row">
+            {/* <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">
                 <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
                   <li className="task-labels-item">
@@ -325,7 +362,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </section>
         );
       })}
