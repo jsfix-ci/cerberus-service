@@ -1,2 +1,802 @@
-
- {"variables": {"rbtPayload": {"type": "Json", "value": "{\"data\":{\"movementId\":\"ROROXML:CMID=36a75d0dd74f45fd6fb6653b4e656d07/426ac062c48f52719377d8b8754adb79/\",\"riskSubmissionId\":4830,\"riskCreatedDate\":\"2021-05-18T08:55:31.472Z\",\"riskType\":\"Pre-Arrival\",\"matchedRules\":[],\"matchedSelectors\":[{\"selectorId\":23,\"selectorReference\":\"2021-23\",\"startDate\":\"2021-05-06T11:19:37.982Z\",\"endDate\":\"2021-11-06T11:19:37.982Z\",\"category\":\"null\",\"agencyCode\":\"BF\",\"intelligenceSource\":\"null\",\"pointOfContact\":\"null\",\"pocMessage\":\"342334\",\"priority\":\"Selector\",\"inboundActionCode\":\"null\",\"outboundActionCode\":\"null\",\"threatType\":\"Alcohol\",\"notes\":\"null\",\"creator\":\"sachindra.mundrathi@digital.homeoffice.gov.uk\",\"approver\":\"null\",\"securityLabels\":[\"DATA_RISK_PREARRIVAL\"],\"localReference\":\"null\",\"warnings\":\"null\",\"requestingOfficer\":\"null\",\"requestingTeam\":\"null\",\"indicatorMatches\":[{\"entity\":\"vehicle\",\"descriptor\":\"registrationNumber\",\"operator\":\"equal\",\"value\":\"DK-45678\"}],\"selectorMatchedOnDate\":\"2021-05-14T14:00:41.43Z\"}],\"movement\":{\"cerberusMovementId\": \"ROROXML:CMID=36a75d0dd74f45fd6fb6653b4e656d07/426ac062c48f52719377d8b8754adb79/\", \"firstCerberusTimestamp\": 1621000841359, \"cerberusTimestamp\": 1621328098144, \"latestMessageType\": \"ENRICH\", \"messageAnalysis\": {\"messageMatches\": [], \"countOfSourceMessages\": 0, \"countOfSnapshots\": 0, \"countOfNoStateChanges\": 0, \"countOfWashes\": 0, \"countOfEnrichments\": 0, \"firstRunlogTimestamp\": 0, \"lastRunlogTimestamp\": 0, \"firstSnapshotTimestamp\": 0, \"lastSnapshotTimestamp\": 0, \"firstNSCTimestamp\": 0, \"lastNSCTimestamp\": 0, \"firstWashTimestamp\": 0, \"lastWashTimestamp\": 0, \"firstEnrichTimestamp\": 0, \"lastEnrichTimestamp\": 0, \"matchesComplete\": false, \"latestVersion\": \"1.0\"}, \"serviceMovement\": {\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:S=c34b7c46344b823ebd511838698269cc\"}, \"v1\": null}, \"type\": \"S\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"c34b7c46344b823ebd511838698269cc\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Service-Movement\", \"version\": \"1\"}}, \"type\": \"MOVEMENT\", \"effectiveFromTimestamp\": 1596567600000, \"effectiveToTimestamp\": 1596569400000, \"dueTimestamp\": null, \"status\": null, \"movement\": {\"type\": \"Pre-Arrival\", \"businessIdentifier\": \"AA000000006\", \"mode\": \"RORO Unaccompanied Freight\", \"source\": \"Brittany Ferries\", \"actualDepartureTimestamp\": 1596567600000}, \"attributes\": {\"attrs\": {\"countryOfBooking\": \"GB\", \"ticketNumber\": \"ST-34560\", \"waybillNumber\": \"99990005\", \"adultCount\": \"0\", \"bookingDateTime\": \"2020-08-02T09:15:50\", \"descriptionOfCargo\": \"Corkscrews\", \"ticketType\": \"Single\", \"childCount\": \"0\", \"driverCount\": \"001\", \"reference\": \"AA000000006\", \"oapCount\": \"0\", \"checkInDateTime\": \"2020-08-04T11:05:00\", \"hazardousCargo\": \"false\", \"infantCount\": \"0\"}}, \"features\": {\"feats\": {\"SELECTORS-MATCHED-LIST\": {\"id\": null, \"type\": null, \"valueType\": \"STRING\", \"value\": null, \"valueList\": {\"val\": [\"META:23|2021-23|2021-05-06T11:19:37.982Z|2021-11-06T11:19:37.982Z|BF|null|null|null|null|null|null|342334|null|Alcohol|null|null|null|null|sachindra.mundrathi@digital.homeoffice.gov.uk|Selector|DATA_RISK_PREARRIVAL\", \"INDICATORS:23|vehicle|registrationNumber|equal|DK-45678\"]}, \"startTimestamp\": null, \"endTimestamp\": 1621000841430}, \"STANDARDISED:emptyVehicle\": {\"id\": null, \"type\": null, \"valueType\": \"BOOL\", \"value\": true, \"valueList\": null, \"startTimestamp\": null, \"endTimestamp\": null}, \"STANDARDISED:checkInDateTime\": {\"id\": null, \"type\": null, \"valueType\": \"STRING\", \"value\": \"2020-08-04T11:05Z\", \"valueList\": null, \"startTimestamp\": null, \"endTimestamp\": null}, \"STANDARDISED:bookingDateTime\": {\"id\": null, \"type\": null, \"valueType\": \"STRING\", \"value\": \"2020-08-02T09:15:50Z\", \"valueList\": null, \"startTimestamp\": null, \"endTimestamp\": null}, \"SELECTOR-MATCHED\": {\"id\": null, \"type\": null, \"valueType\": \"BOOL\", \"value\": true, \"valueList\": null, \"startTimestamp\": null, \"endTimestamp\": 1621000841430}, \"STANDARDISED:bookingIntentHours\": {\"id\": null, \"type\": null, \"valueType\": \"LONG\", \"value\": 57, \"valueList\": null, \"startTimestamp\": null, \"endTimestamp\": null}}}, \"changeHistory\": null}, \"persons\": null, \"organisations\": [{\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=7404e54d23fa41a7ee8dcfb3f8f9c2c4\"}, \"v1\": null}, \"type\": \"P\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"7404e54d23fa41a7ee8dcfb3f8f9c2c4\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Party\", \"version\": \"1\"}}, \"type\": \"ORGANISATION\", \"organisation\": {\"type\": \"ORGBOOKER\", \"name\": \"Susan Tower\", \"registrationNumber\": null, \"vatNumber\": null, \"industrySector\": null, \"numberOfEmployees\": null}, \"attributes\": {\"attrs\": {\"countryOfBooking\": \"GB\", \"reference\": \"AA000000006\", \"CheckInDateTime\": \"2020-08-04T11:05:00\", \"ticketNumber\": \"ST-34560\", \"ticketType\": \"Single\", \"bookingDateTime\": \"2020-08-02T09:15:50\"}}, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}, {\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=cfaea00ea2648517388b65d1cb919ff4\"}, \"v1\": null}, \"type\": \"P\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"cfaea00ea2648517388b65d1cb919ff4\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Party\", \"version\": \"1\"}}, \"type\": \"ORGANISATION\", \"organisation\": {\"type\": \"ORGACCOUNT\", \"name\": \"DPE\", \"registrationNumber\": null, \"vatNumber\": null, \"industrySector\": null, \"numberOfEmployees\": null}, \"attributes\": {\"attrs\": {\"referenceNumber\": \"000524557\", \"holderName\": \"DPE logistics\"}}, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}], \"documents\": null, \"vehicles\": [{\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=null[6da7dfc587e1ec4c5a8963915a2a435c],O=6da7dfc587e1ec4c5a8963915a2a435c\"}, \"v1\": null}, \"type\": \"O\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"6da7dfc587e1ec4c5a8963915a2a435c\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Object-Vehicle\", \"version\": \"1\"}}, \"type\": \"VEHICLE\", \"party\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=null[6da7dfc587e1ec4c5a8963915a2a435c]\"}, \"v1\": null}, \"type\": \"P\"}, \"role\": \"UNKNOWN\", \"startTimestamp\": null, \"endTimestamp\": null, \"name\": null, \"description\": null, \"additionalInformation\": null, \"url\": null, \"vehicle\": {\"type\": \"OBJVEHCTRL\", \"make\": null, \"model\": null, \"vin\": null, \"registrationNumber\": \"GB07GYT\", \"registrationCountry\": null, \"year\": null, \"colour\": null, \"markings\": null}, \"attributes\": {\"attrs\": {\"type\": \"Tanker\", \"role\": \"FREIGHT\"}}, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}, {\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=null[3f20ac0563fe7541a8793b3770da952a],O=3f20ac0563fe7541a8793b3770da952a\"}, \"v1\": null}, \"type\": \"O\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"3f20ac0563fe7541a8793b3770da952a\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Object-Vehicle\", \"version\": \"1\"}}, \"type\": \"VEHICLE\", \"party\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=null[3f20ac0563fe7541a8793b3770da952a]\"}, \"v1\": null}, \"type\": \"P\"}, \"role\": \"UNKNOWN\", \"startTimestamp\": null, \"endTimestamp\": null, \"name\": null, \"description\": null, \"additionalInformation\": null, \"url\": null, \"vehicle\": {\"type\": \"OBJVEHC\", \"make\": null, \"model\": null, \"vin\": null, \"registrationNumber\": \"DK-45678\", \"registrationCountry\": \"DK\", \"year\": null, \"colour\": null, \"markings\": null}, \"attributes\": {\"attrs\": {\"netWeight\": \"3455\", \"grossWeight\": \"43623\", \"role\": \"FREIGHT\", \"statusOfLoading\": \"Empty\", \"length\": \"36\", \"type\": \"Refrigerated Tanker\", \"height\": \"3.6\"}}, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}], \"vessel\": {\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=null[b3b5650eea62fea142dbae8b05811ca8],O=b3b5650eea62fea142dbae8b05811ca8\"}, \"v1\": null}, \"type\": \"O\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"b3b5650eea62fea142dbae8b05811ca8\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Object-Vessel\", \"version\": \"1\"}}, \"type\": \"VESSEL\", \"party\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=null[b3b5650eea62fea142dbae8b05811ca8]\"}, \"v1\": null}, \"type\": \"P\"}, \"role\": \"UNKNOWN\", \"startTimestamp\": null, \"endTimestamp\": null, \"name\": null, \"description\": null, \"additionalInformation\": null, \"url\": null, \"vessel\": {\"type\": \"OBJVESWTR\", \"name\": \"NORMANDIE\", \"operator\": \"Brittany Ferries\", \"registrationNumber\": null, \"registrationCountry\": null, \"registrationPort\": null, \"mmsi\": null, \"imo\": null, \"callSign\": null}, \"attributes\": null, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}, \"addresses\": [{\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=cfaea00ea2648517388b65d1cb919ff4,L=64ed0dedefd616e32e7b2a7a01ecaf03\"}, \"v1\": null}, \"type\": \"L\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"64ed0dedefd616e32e7b2a7a01ecaf03\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Location-Address\", \"version\": \"1\"}}, \"type\": \"ADDRESS\", \"party\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=cfaea00ea2648517388b65d1cb919ff4\"}, \"v1\": null}, \"type\": \"P\"}, \"role\": \"PTOLASSO\", \"startTimestamp\": null, \"endTimestamp\": null, \"address\": {\"type\": \"LOCADDR\", \"postCode\": null, \"poBox\": null, \"fullAddress\": \"John Tranums Vei Esjerg DK\", \"name\": \"DPE\", \"siteLocation\": null, \"number\": null, \"street\": null, \"town\": \"Esjerg\", \"area\": null, \"district\": null, \"county\": null, \"country\": \"DK\", \"uniquePropertyReferenceNumber\": null, \"latitude\": null, \"longitude\": null}, \"attributes\": {\"attrs\": {\"addressLine1\": \"John Tranums Vei\"}}, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}], \"contacts\": [{\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=cfaea00ea2648517388b65d1cb919ff4,L=b9db1a03748b24350c77dbae78157b8c\"}, \"v1\": null}, \"type\": \"L\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"b9db1a03748b24350c77dbae78157b8c\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Location-Contact\", \"version\": \"1\"}}, \"type\": \"CONTACT\", \"party\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:P=cfaea00ea2648517388b65d1cb919ff4\"}, \"v1\": null}, \"type\": \"P\"}, \"role\": \"PTOLUSES\", \"startTimestamp\": null, \"endTimestamp\": null, \"contact\": {\"type\": \"LOCTEL\", \"value\": \"045 76 12 1493\"}, \"attributes\": null, \"matching\": null, \"features\": null, \"washResponses\": null, \"matchMerge\": null, \"changeHistory\": null}], \"voyage\": {\"metadata\": {\"identityRecord\": {\"poleId\": {\"v2\": {\"id\": \"ROROXML:S=398c20f7ac804a70bfc8451f848debdd\"}, \"v1\": null}, \"type\": \"S\"}, \"sourceRecord\": {\"name\": \"ROROXML\", \"shortName\": \"ROX\", \"location\": \"archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02\", \"id\": \"398c20f7ac804a70bfc8451f848debdd\", \"audit\": {\"createdBy\": \"Badnxk1LiTRvrziXu9l1kw==\", \"createdTimestamp\": 1596553620000, \"updatedBy\": null, \"updatedTimestamp\": null, \"deletedBy\": null, \"deletedTimestamp\": null}}, \"complianceRecord\": {\"visibility\": \"UNKNOWN\", \"gscMarker\": null, \"retentionMarkerDays\": -1}, \"mappingRecord\": {\"name\": \"RR-XML-Service-Voyage\", \"version\": \"1\"}}, \"type\": \"VOYAGE\", \"effectiveFromTimestamp\": 1596567600000, \"effectiveToTimestamp\": 1596569400000, \"dueTimestamp\": null, \"status\": null, \"voyage\": {\"type\": \"COMMERCIAL\", \"voyageType\": \"SEA\", \"departureLocation\": \"DOV\", \"departureCountry\": null, \"scheduledDepartureTimestamp\": 1596567600000, \"actualDepartureTimestamp\": 1596567600000, \"arrivalLocation\": \"CAL\", \"arrivalCountry\": null, \"scheduledArrivalTimestamp\": 1596569400000, \"actualArrivalTimestamp\": 1596569400000, \"intermediateLocations\": null, \"passengerCount\": null, \"crewCount\": null, \"durationMinutes\": null, \"routeId\": null, \"carrier\": \"Brittany Ferries\", \"craftId\": \"NORMANDIE\"}, \"attributes\": {\"attrs\": {\"touristMovementCount\": \"001\"}}, \"features\": {\"feats\": {\"STANDARDISED:arrivalPort\": {\"id\": null, \"type\": null, \"valueType\": \"MAP\", \"value\": null, \"valueList\": {\"val\": [{\"UNLO5\": \"FR CQF\"}]}, \"startTimestamp\": null, \"endTimestamp\": 1621000841364}, \"STANDARDISED:departurePort\": {\"id\": null, \"type\": null, \"valueType\": \"MAP\", \"value\": null, \"valueList\": {\"val\": [{\"UNLO5\": \"GB DVR\"}]}, \"startTimestamp\": null, \"endTimestamp\": 1621000841364}}}, \"changeHistory\": null}, \"consolidation\": null, \"consignments\": null}}}"}, "initiatedBy": {"type": "String", "value": "rbtEngine"}}, "businessKey": "CERB-ROROXML:CMID=36a75d0dd74f45fd6fb6653b4e656d07/426ac062c48f52719377d8b8754adb79/"}
+{
+  "variables": {
+    "rbtPayload": {
+      "type": "Json",
+     "value": {
+      "data": {
+       "movementId": "ROROXML:CMID=36a75d0dd74f45fd6fb6653b4e656d07/426ac062c48f52719377d8b8754adb79/",
+       "riskSubmissionId": 4830,
+       "riskCreatedDate": "2021-05-18T08:55:31.472Z",
+       "riskType": "Pre-Arrival",
+       "matchedRules": [],
+       "matchedSelectors": [
+        {
+         "selectorId": 23,
+         "selectorReference": "2021-23",
+         "startDate": "2021-05-06T11:19:37.982Z",
+         "endDate": "2021-11-06T11:19:37.982Z",
+         "category": "null",
+         "agencyCode": "BF",
+         "intelligenceSource": "null",
+         "pointOfContact": "null",
+         "pocMessage": "342334",
+         "priority": "Selector",
+         "inboundActionCode": "null",
+         "outboundActionCode": "null",
+         "threatType": "Alcohol",
+         "notes": "null",
+         "creator": "sachindra.mundrathi@digital.homeoffice.gov.uk",
+         "approver": "null",
+         "securityLabels": [
+          "DATA_RISK_PREARRIVAL"
+         ],
+         "localReference": "null",
+         "warnings": "null",
+         "requestingOfficer": "null",
+         "requestingTeam": "null",
+         "indicatorMatches": [
+          {
+           "entity": "vehicle",
+           "descriptor": "registrationNumber",
+           "operator": "equal",
+           "value": "DK-45678"
+          }
+         ],
+         "selectorMatchedOnDate": "2021-05-14T14:00:41.43Z"
+        }
+       ],
+       "movement": {
+        "cerberusMovementId": "ROROXML:CMID=36a75d0dd74f45fd6fb6653b4e656d07/426ac062c48f52719377d8b8754adb79/",
+        "firstCerberusTimestamp": 1621000841359,
+        "cerberusTimestamp": 1621328098144,
+        "latestMessageType": "ENRICH",
+        "messageAnalysis": {
+         "messageMatches": [],
+         "countOfSourceMessages": 0,
+         "countOfSnapshots": 0,
+         "countOfNoStateChanges": 0,
+         "countOfWashes": 0,
+         "countOfEnrichments": 0,
+         "firstRunlogTimestamp": 0,
+         "lastRunlogTimestamp": 0,
+         "firstSnapshotTimestamp": 0,
+         "lastSnapshotTimestamp": 0,
+         "firstNSCTimestamp": 0,
+         "lastNSCTimestamp": 0,
+         "firstWashTimestamp": 0,
+         "lastWashTimestamp": 0,
+         "firstEnrichTimestamp": 0,
+         "lastEnrichTimestamp": 0,
+         "matchesComplete": false,
+         "latestVersion": "1.0"
+        },
+        "serviceMovement": {
+         "metadata": {
+          "identityRecord": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:S=c34b7c46344b823ebd511838698269cc"
+            },
+            "v1": null
+           },
+           "type": "S"
+          },
+          "sourceRecord": {
+           "name": "ROROXML",
+           "shortName": "ROX",
+           "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+           "id": "c34b7c46344b823ebd511838698269cc",
+           "audit": {
+            "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+            "createdTimestamp": 1596553620000,
+            "updatedBy": null,
+            "updatedTimestamp": null,
+            "deletedBy": null,
+            "deletedTimestamp": null
+           }
+          },
+          "complianceRecord": {
+           "visibility": "UNKNOWN",
+           "gscMarker": null,
+           "retentionMarkerDays": -1
+          },
+          "mappingRecord": {
+           "name": "RR-XML-Service-Movement",
+           "version": "1"
+          }
+         },
+         "type": "MOVEMENT",
+         "effectiveFromTimestamp": 1596567600000,
+         "effectiveToTimestamp": 1596569400000,
+         "dueTimestamp": null,
+         "status": null,
+         "movement": {
+          "type": "Pre-Arrival",
+          "businessIdentifier": "AA000000006",
+          "mode": "RORO Unaccompanied Freight",
+          "source": "Brittany Ferries",
+          "actualDepartureTimestamp": 1596567600000
+         },
+         "attributes": {
+          "attrs": {
+           "countryOfBooking": "GB",
+           "ticketNumber": "ST-34560",
+           "waybillNumber": "99990005",
+           "adultCount": "0",
+           "bookingDateTime": "2020-08-02T09:15:50",
+           "descriptionOfCargo": "Corkscrews",
+           "ticketType": "Single",
+           "childCount": "0",
+           "driverCount": "001",
+           "reference": "AA000000006",
+           "oapCount": "0",
+           "checkInDateTime": "2020-08-04T11:05:00",
+           "hazardousCargo": "false",
+           "infantCount": "0"
+          }
+         },
+         "features": {
+          "feats": {
+           "SELECTORS-MATCHED-LIST": {
+            "id": null,
+            "type": null,
+            "valueType": "STRING",
+            "value": null,
+            "valueList": {
+             "val": [
+              "META:23|2021-23|2021-05-06T11:19:37.982Z|2021-11-06T11:19:37.982Z|BF|null|null|null|null|null|null|342334|null|Alcohol|null|null|null|null|sachindra.mundrathi@digital.homeoffice.gov.uk|Selector|DATA_RISK_PREARRIVAL",
+              "INDICATORS:23|vehicle|registrationNumber|equal|DK-45678"
+             ]
+            },
+            "startTimestamp": null,
+            "endTimestamp": 1621000841430
+           },
+           "STANDARDISED:emptyVehicle": {
+            "id": null,
+            "type": null,
+            "valueType": "BOOL",
+            "value": true,
+            "valueList": null,
+            "startTimestamp": null,
+            "endTimestamp": null
+           },
+           "STANDARDISED:checkInDateTime": {
+            "id": null,
+            "type": null,
+            "valueType": "STRING",
+            "value": "2020-08-04T11:05Z",
+            "valueList": null,
+            "startTimestamp": null,
+            "endTimestamp": null
+           },
+           "STANDARDISED:bookingDateTime": {
+            "id": null,
+            "type": null,
+            "valueType": "STRING",
+            "value": "2020-08-02T09:15:50Z",
+            "valueList": null,
+            "startTimestamp": null,
+            "endTimestamp": null
+           },
+           "SELECTOR-MATCHED": {
+            "id": null,
+            "type": null,
+            "valueType": "BOOL",
+            "value": true,
+            "valueList": null,
+            "startTimestamp": null,
+            "endTimestamp": 1621000841430
+           },
+           "STANDARDISED:bookingIntentHours": {
+            "id": null,
+            "type": null,
+            "valueType": "LONG",
+            "value": 57,
+            "valueList": null,
+            "startTimestamp": null,
+            "endTimestamp": null
+           }
+          }
+         },
+         "changeHistory": null
+        },
+        "persons": null,
+        "organisations": [
+         {
+          "metadata": {
+           "identityRecord": {
+            "poleId": {
+             "v2": {
+              "id": "ROROXML:P=7404e54d23fa41a7ee8dcfb3f8f9c2c4"
+             },
+             "v1": null
+            },
+            "type": "P"
+           },
+           "sourceRecord": {
+            "name": "ROROXML",
+            "shortName": "ROX",
+            "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+            "id": "7404e54d23fa41a7ee8dcfb3f8f9c2c4",
+            "audit": {
+             "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+             "createdTimestamp": 1596553620000,
+             "updatedBy": null,
+             "updatedTimestamp": null,
+             "deletedBy": null,
+             "deletedTimestamp": null
+            }
+           },
+           "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+           },
+           "mappingRecord": {
+            "name": "RR-XML-Party",
+            "version": "1"
+           }
+          },
+          "type": "ORGANISATION",
+          "organisation": {
+           "type": "ORGBOOKER",
+           "name": "Susan Tower",
+           "registrationNumber": null,
+           "vatNumber": null,
+           "industrySector": null,
+           "numberOfEmployees": null
+          },
+          "attributes": {
+           "attrs": {
+            "countryOfBooking": "GB",
+            "reference": "AA000000006",
+            "CheckInDateTime": "2020-08-04T11:05:00",
+            "ticketNumber": "ST-34560",
+            "ticketType": "Single",
+            "bookingDateTime": "2020-08-02T09:15:50"
+           }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+         },
+         {
+          "metadata": {
+           "identityRecord": {
+            "poleId": {
+             "v2": {
+              "id": "ROROXML:P=cfaea00ea2648517388b65d1cb919ff4"
+             },
+             "v1": null
+            },
+            "type": "P"
+           },
+           "sourceRecord": {
+            "name": "ROROXML",
+            "shortName": "ROX",
+            "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+            "id": "cfaea00ea2648517388b65d1cb919ff4",
+            "audit": {
+             "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+             "createdTimestamp": 1596553620000,
+             "updatedBy": null,
+             "updatedTimestamp": null,
+             "deletedBy": null,
+             "deletedTimestamp": null
+            }
+           },
+           "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+           },
+           "mappingRecord": {
+            "name": "RR-XML-Party",
+            "version": "1"
+           }
+          },
+          "type": "ORGANISATION",
+          "organisation": {
+           "type": "ORGACCOUNT",
+           "name": "DPE",
+           "registrationNumber": null,
+           "vatNumber": null,
+           "industrySector": null,
+           "numberOfEmployees": null
+          },
+          "attributes": {
+           "attrs": {
+            "referenceNumber": "000524557",
+            "holderName": "DPE logistics"
+           }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+         }
+        ],
+        "documents": null,
+        "vehicles": [
+         {
+          "metadata": {
+           "identityRecord": {
+            "poleId": {
+             "v2": {
+              "id": "ROROXML:P=null[6da7dfc587e1ec4c5a8963915a2a435c],O=6da7dfc587e1ec4c5a8963915a2a435c"
+             },
+             "v1": null
+            },
+            "type": "O"
+           },
+           "sourceRecord": {
+            "name": "ROROXML",
+            "shortName": "ROX",
+            "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+            "id": "6da7dfc587e1ec4c5a8963915a2a435c",
+            "audit": {
+             "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+             "createdTimestamp": 1596553620000,
+             "updatedBy": null,
+             "updatedTimestamp": null,
+             "deletedBy": null,
+             "deletedTimestamp": null
+            }
+           },
+           "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+           },
+           "mappingRecord": {
+            "name": "RR-XML-Object-Vehicle",
+            "version": "1"
+           }
+          },
+          "type": "VEHICLE",
+          "party": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:P=null[6da7dfc587e1ec4c5a8963915a2a435c]"
+            },
+            "v1": null
+           },
+           "type": "P"
+          },
+          "role": "UNKNOWN",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "name": null,
+          "description": null,
+          "additionalInformation": null,
+          "url": null,
+          "vehicle": {
+           "type": "OBJVEHCTRL",
+           "make": "Mercedez",
+           "model": "Car Transporter",
+           "vin": "VIN987654321",
+           "registrationNumber": "GB07GYT",
+           "registrationCountry": "DK",
+           "year": "2017",
+           "colour": "Black",
+           "markings": "nothing"
+          },
+          "attributes": {
+           "attrs": {
+            "type": "Tanker",
+            "role": "FREIGHT"
+           }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+         },
+         {
+          "metadata": {
+           "identityRecord": {
+            "poleId": {
+             "v2": {
+              "id": "ROROXML:P=null[3f20ac0563fe7541a8793b3770da952a],O=3f20ac0563fe7541a8793b3770da952a"
+             },
+             "v1": null
+            },
+            "type": "O"
+           },
+           "sourceRecord": {
+            "name": "ROROXML",
+            "shortName": "ROX",
+            "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+            "id": "3f20ac0563fe7541a8793b3770da952a",
+            "audit": {
+             "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+             "createdTimestamp": 1596553620000,
+             "updatedBy": null,
+             "updatedTimestamp": null,
+             "deletedBy": null,
+             "deletedTimestamp": null
+            }
+           },
+           "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+           },
+           "mappingRecord": {
+            "name": "RR-XML-Object-Vehicle",
+            "version": "1"
+           }
+          },
+          "type": "VEHICLE",
+          "party": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:P=null[3f20ac0563fe7541a8793b3770da952a]"
+            },
+            "v1": null
+           },
+           "type": "P"
+          },
+          "role": "UNKNOWN",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "name": null,
+          "description": null,
+          "additionalInformation": null,
+          "url": null,
+          "vehicle": {
+           "type": "OBJVEHC",
+           "make": "Land Rover",
+           "model": "Discovery",
+           "vin": "VIN1234567789",
+           "registrationNumber": "DK-45678",
+           "registrationCountry": "GB",
+           "year": "2015",
+           "colour": "Grey",
+           "markings": "none"
+          },
+          "attributes": {
+           "attrs": {
+            "netWeight": "3455",
+            "grossWeight": "43623",
+            "role": "FREIGHT",
+            "statusOfLoading": "Empty",
+            "length": "36",
+            "type": "SUV",
+            "height": "3.6"
+           }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+         }
+        ],
+        "vessel": {
+         "metadata": {
+          "identityRecord": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:P=null[b3b5650eea62fea142dbae8b05811ca8],O=b3b5650eea62fea142dbae8b05811ca8"
+            },
+            "v1": null
+           },
+           "type": "O"
+          },
+          "sourceRecord": {
+           "name": "ROROXML",
+           "shortName": "ROX",
+           "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+           "id": "b3b5650eea62fea142dbae8b05811ca8",
+           "audit": {
+            "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+            "createdTimestamp": 1596553620000,
+            "updatedBy": null,
+            "updatedTimestamp": null,
+            "deletedBy": null,
+            "deletedTimestamp": null
+           }
+          },
+          "complianceRecord": {
+           "visibility": "UNKNOWN",
+           "gscMarker": null,
+           "retentionMarkerDays": -1
+          },
+          "mappingRecord": {
+           "name": "RR-XML-Object-Vessel",
+           "version": "1"
+          }
+         },
+         "type": "VESSEL",
+         "party": {
+          "poleId": {
+           "v2": {
+            "id": "ROROXML:P=null[b3b5650eea62fea142dbae8b05811ca8]"
+           },
+           "v1": null
+          },
+          "type": "P"
+         },
+         "role": "UNKNOWN",
+         "startTimestamp": null,
+         "endTimestamp": null,
+         "name": null,
+         "description": null,
+         "additionalInformation": null,
+         "url": null,
+         "vessel": {
+          "type": "OBJVESWTR",
+          "name": "NORMANDIE",
+          "operator": "Brittany Ferries",
+          "registrationNumber": null,
+          "registrationCountry": null,
+          "registrationPort": null,
+          "mmsi": null,
+          "imo": null,
+          "callSign": null
+         },
+         "attributes": null,
+         "matching": null,
+         "features": null,
+         "washResponses": null,
+         "matchMerge": null,
+         "changeHistory": null
+        },
+        "addresses": [
+         {
+          "metadata": {
+           "identityRecord": {
+            "poleId": {
+             "v2": {
+              "id": "ROROXML:P=cfaea00ea2648517388b65d1cb919ff4,L=64ed0dedefd616e32e7b2a7a01ecaf03"
+             },
+             "v1": null
+            },
+            "type": "L"
+           },
+           "sourceRecord": {
+            "name": "ROROXML",
+            "shortName": "ROX",
+            "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+            "id": "64ed0dedefd616e32e7b2a7a01ecaf03",
+            "audit": {
+             "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+             "createdTimestamp": 1596553620000,
+             "updatedBy": null,
+             "updatedTimestamp": null,
+             "deletedBy": null,
+             "deletedTimestamp": null
+            }
+           },
+           "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+           },
+           "mappingRecord": {
+            "name": "RR-XML-Location-Address",
+            "version": "1"
+           }
+          },
+          "type": "ADDRESS",
+          "party": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:P=cfaea00ea2648517388b65d1cb919ff4"
+            },
+            "v1": null
+           },
+           "type": "P"
+          },
+          "role": "PTOLASSO",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "address": {
+           "type": "LOCADDR",
+           "postCode": null,
+           "poBox": null,
+           "fullAddress": "John Tranums Vei Esjerg DK",
+           "name": "DPE",
+           "siteLocation": null,
+           "number": null,
+           "street": null,
+           "town": "Esjerg",
+           "area": null,
+           "district": null,
+           "county": null,
+           "country": "DK",
+           "uniquePropertyReferenceNumber": null,
+           "latitude": null,
+           "longitude": null
+          },
+          "attributes": {
+           "attrs": {
+            "addressLine1": "John Tranums Vei"
+           }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+         }
+        ],
+        "contacts": [
+         {
+          "metadata": {
+           "identityRecord": {
+            "poleId": {
+             "v2": {
+              "id": "ROROXML:P=cfaea00ea2648517388b65d1cb919ff4,L=b9db1a03748b24350c77dbae78157b8c"
+             },
+             "v1": null
+            },
+            "type": "L"
+           },
+           "sourceRecord": {
+            "name": "ROROXML",
+            "shortName": "ROX",
+            "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+            "id": "b9db1a03748b24350c77dbae78157b8c",
+            "audit": {
+             "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+             "createdTimestamp": 1596553620000,
+             "updatedBy": null,
+             "updatedTimestamp": null,
+             "deletedBy": null,
+             "deletedTimestamp": null
+            }
+           },
+           "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+           },
+           "mappingRecord": {
+            "name": "RR-XML-Location-Contact",
+            "version": "1"
+           }
+          },
+          "type": "CONTACT",
+          "party": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:P=cfaea00ea2648517388b65d1cb919ff4"
+            },
+            "v1": null
+           },
+           "type": "P"
+          },
+          "role": "PTOLUSES",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "contact": {
+           "type": "LOCTEL",
+           "value": "045 76 12 1493"
+          },
+          "attributes": null,
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+         }
+        ],
+        "voyage": {
+         "metadata": {
+          "identityRecord": {
+           "poleId": {
+            "v2": {
+             "id": "ROROXML:S=398c20f7ac804a70bfc8451f848debdd"
+            },
+            "v1": null
+           },
+           "type": "S"
+          },
+          "sourceRecord": {
+           "name": "ROROXML",
+           "shortName": "ROX",
+           "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753618/CERBERUS_XML_3h_roroxml_freight_Britany_v02",
+           "id": "398c20f7ac804a70bfc8451f848debdd",
+           "audit": {
+            "createdBy": "Badnxk1LiTRvrziXu9l1kw==",
+            "createdTimestamp": 1596553620000,
+            "updatedBy": null,
+            "updatedTimestamp": null,
+            "deletedBy": null,
+            "deletedTimestamp": null
+           }
+          },
+          "complianceRecord": {
+           "visibility": "UNKNOWN",
+           "gscMarker": null,
+           "retentionMarkerDays": -1
+          },
+          "mappingRecord": {
+           "name": "RR-XML-Service-Voyage",
+           "version": "1"
+          }
+         },
+         "type": "VOYAGE",
+         "effectiveFromTimestamp": 1596567600000,
+         "effectiveToTimestamp": 1596569400000,
+         "dueTimestamp": null,
+         "status": null,
+         "voyage": {
+          "type": "COMMERCIAL",
+          "voyageType": "SEA",
+          "departureLocation": "DOV",
+          "departureCountry": null,
+          "scheduledDepartureTimestamp": 1596567600000,
+          "actualDepartureTimestamp": 1596567600000,
+          "arrivalLocation": "CAL",
+          "arrivalCountry": null,
+          "scheduledArrivalTimestamp": 1596569400000,
+          "actualArrivalTimestamp": 1628333099208,
+          "intermediateLocations": null,
+          "passengerCount": null,
+          "crewCount": null,
+          "durationMinutes": null,
+          "routeId": null,
+          "carrier": "Brittany Ferries",
+          "craftId": "NORMANDIE"
+         },
+         "attributes": {
+          "attrs": {
+           "touristMovementCount": "001"
+          }
+         },
+         "features": {
+          "feats": {
+           "STANDARDISED:arrivalPort": {
+            "id": null,
+            "type": null,
+            "valueType": "MAP",
+            "value": null,
+            "valueList": {
+             "val": [
+              {
+               "UNLO5": "FR CQF"
+              }
+             ]
+            },
+            "startTimestamp": null,
+            "endTimestamp": 1621000841364
+           },
+           "STANDARDISED:departurePort": {
+            "id": null,
+            "type": null,
+            "valueType": "MAP",
+            "value": null,
+            "valueList": {
+             "val": [
+              {
+               "UNLO5": "GB DVR"
+              }
+             ]
+            },
+            "startTimestamp": null,
+            "endTimestamp": 1621000841364
+           }
+          }
+         },
+         "changeHistory": null
+        },
+        "consolidation": null,
+        "consignments": null
+       }
+      }
+     }
+    },
+    "initiatedBy": {
+      "type": "String",
+      "value": "rbtEngine"
+    }
+  },
+  "businessKey": "CERB-ROROXML:CMID=36a75d0dd74f45fd6fb6653b4e656d07/426ac062c48f52719377d8b8754adb79/"
+}

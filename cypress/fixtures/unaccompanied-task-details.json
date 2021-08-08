@@ -1,13 +1,14 @@
 {
   "vehicle": {
+    "Colour": "Grey",
     "Vehicle registration": "DK-45678",
-    "Type": "Refrigerated Tanker",
-    "Make": "",
-    "Model": "",
-    "Country of registration": "DK",
+    "Type": "SUV",
+    "Make": "Land Rover",
+    "Model": "Discovery",
+    "Country of registration": "GB",
     "Trailer registration number": "GB07GYT",
     "Trailer type": "Tanker",
-    "Trailer country of registration": "",
+    "Trailer country of registration": "DK",
     "Empty or loaded": "Empty",
     "Trailer length": "36m",
     "Trailer height": "3.6m"
@@ -61,5 +62,9 @@
     "Payment method": "",
     "Ticket price": "",
     "Ticket type": "Single"
+  },
+  "vessel": {
+    "name": "NORMANDIE",
+    "shippingCompany": "Brittany Ferries"
   }
 }

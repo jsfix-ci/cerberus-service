@@ -11,11 +11,10 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify task version details of unaccompanied task on task details page', () => {
     let date = new Date();
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
-      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-UNACC-SBT`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-UNACC-VERSION`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
@@ -134,9 +133,9 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify task version details of accompanied task with 2 passengers on task details page', () => {
     let date = new Date();
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
-      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      console.log(task.variables.rbtPayload.value);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC-2-Passengers`).then((response) => {
         cy.wait(4000);
