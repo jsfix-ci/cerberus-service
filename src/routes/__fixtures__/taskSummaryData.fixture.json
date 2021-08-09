@@ -1,0 +1,77 @@
+{
+  "parentBusinessKey": {
+    "businessKey": "JENTEST-RoRowU-DONOTCLAIM4"
+  },
+  "roro": {
+    "roroFreightType": "accompanied",
+    "details": {
+      "movementStatus": "Pre-Arrival",
+      "bookingDateTime": "2020-08-02T09:15:00",
+      "vessel": {
+        "name": "DOVER SEAWAYS",
+        "company": "DFDS"
+      },
+      "eta": "2020-08-03T13:05:00Z",
+      "departureTime": "2020-08-03T13:05:00Z",
+      "arrivalLocation": "CAL",
+      "departureLocation": "DOV",
+      "vehicle": {
+        "colour": "",
+        "model": "",
+        "make": "",
+        "registrationNumber": "DF7565LK",
+        "trailer": {
+          "regNumber": "NL-234-392",
+          "trailerType": "TR",
+          "trailerRegistrationNationality": "",
+          "trailerLength": "36",
+          "trailerHeight": "3.6"
+        }
+      },
+      "load": {
+        "manifestedLoad": "tf-cb racks empty",
+        "manifestedWeight": "",
+        "countryOfDestination": null
+      },
+      "account": {
+        "name": "Univeral Printers Ltd",
+        "number": "PO000359675"
+      },
+      "driver": {
+        "name": "Isiaih Ford",
+        "dob": "",
+        "gender": "",
+        "docNumber": "",
+        "docExpiry": "",
+        "poleId": "ROROTSV:P=0e75150abaa1101a877c550397b8a53c",
+        "firstName": "Isiaih",
+        "lastName": "Ford",
+        "middleName": ""
+      },
+      "passengers": [
+        {
+          "name": "Bob Brown",
+          "dob": "12/03/1971",
+          "gender": "M",
+          "docNumber": "244746NL",
+          "docExpiry": "01/02/2021",
+          "poleId": "ROROXML:P=33f544d684db9e59150ae84406709122",
+          "firstName": "Bob",
+          "lastName": "Brown",
+          "middleName": ""
+        }
+      ],
+      "haulier": {
+        "name": "Matthesons",
+        "address": {
+          "line1": "Unit 9-12 Pinkerton Way",
+          "line2": "",
+          "line3": null,
+          "city": "Bognor Regis",
+          "postCode": null,
+          "country": "GB"
+        }
+      }
+    }
+  }
+}

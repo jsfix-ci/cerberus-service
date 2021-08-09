@@ -1,0 +1,20 @@
+[
+  {
+    "type": "Json",
+    "processInstanceId": "123",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"business:key=a/b/c\"},\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "name": "taskSummaryBasedOnTIS"
+  },
+  {
+    "type": "Json",
+    "processInstanceId": "456",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"business:key=d/e/f\"},\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "name": "taskSummaryBasedOnTIS"
+  },
+  {
+    "type": "Json",
+    "processInstanceId": "789",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "name": "taskSummaryBasedOnTIS"
+  }
+]

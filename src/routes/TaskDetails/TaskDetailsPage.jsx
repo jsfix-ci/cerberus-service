@@ -260,12 +260,12 @@ const TaskDetailsPage = () => {
 
   const getAssignee = () => {
     if (!assignee) {
-      return 'Unassigned';
+      return 'Unassigned ';
     }
     if (assignee === currentUser) {
-      return 'Assigned to you';
+      return 'Assigned to you ';
     }
-    return `Assigned to ${assignee}`;
+    return `Assigned to ${assignee} `;
   };
 
   return (
@@ -330,7 +330,7 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={targetData[0].taskSummary} />
+              <TaskSummary taskSummaryData={targetData[0].taskSummaryBasedOnTIS} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"

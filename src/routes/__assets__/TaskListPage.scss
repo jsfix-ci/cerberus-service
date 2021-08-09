@@ -5,64 +5,41 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
 @import "~govuk-frontend/govuk/helpers/all";
 @import "~govuk-frontend/govuk/tools/all";
 
+.title-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.heading-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
 .task-list--item {
   margin-bottom: 1em;
   border-bottom: 1px solid #b1b4b6;
   padding: 1em 0;
 
   .task-heading {
-    display: inline-block;
-    margin: 0 0.5em 0 0;
-    padding: 0;
+    margin: 0 0.5em 0.25em 0; /* reduces the GDS header margin */
   }
 
-  .task-sub-heading {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
+  .content-line-one {
+    margin-bottom: 0.25em;
   }
 
-  .task-labels {
-    .task-labels-item {
-      display: inline-block;
-      margin-right: 10px;
-    }
-  }
-
-  .task-interact {
-    display: flex;
-    justify-content: flex-end;
-
-    .task-view {
-      float: right;
-      margin: 0.5em 1em 0 0;
-    }
-
-    .task-claim {
-      float: right;
-    }
-  }
-
-  .arrival-title {
+  .content-line-two {
     margin-bottom: 0;
   }
 
-  .arrival-dates {
+  ul li {
+    display: inline-block;
     margin-bottom: 0;
-
-    & :nth-child(odd) {
-      margin-right: .3em;
-    }
-
-    & :nth-child(even) {
-      margin-right: 1em;
-    }
-
-    li {
-      display: inline-block;
-      margin-bottom: 0;
-    }
+    margin-right: 0.25em;
   }
+
 }
 
 .govuk-tag.govuk-tag--positiveTarget {

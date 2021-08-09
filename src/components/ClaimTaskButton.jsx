@@ -14,11 +14,9 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
   const currentUser = keycloak.tokenParsed.email;
 
   const CommonButton = (p) => (
-    <span className="govuk-!-margin-left-3">
-      {isAssignmentInProgress
-        ? <span className="govuk-body">Please wait...</span>
-        : <LinkButton type="button" {...p} />}
-    </span>
+    isAssignmentInProgress
+      ? <span className="govuk-body">Please wait...</span>
+      : <LinkButton type="button" {...p} />
   );
 
   const handleClaim = async () => {
