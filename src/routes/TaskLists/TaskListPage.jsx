@@ -7,6 +7,7 @@ import * as pluralise from 'pluralise';
 
 import axios from 'axios';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import qs from 'qs';
 
 // App imports
@@ -33,6 +34,7 @@ const TasksTab = ({ taskStatus, setError }) => {
   const location = useLocation();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  dayjs.extend(relativeTime);
   const source = axios.CancelToken.source();
 
   // PAGINATION SETTINGS
@@ -185,7 +187,6 @@ const TasksTab = ({ taskStatus, setError }) => {
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
-        // console.log(target)
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
         return (
@@ -220,14 +221,15 @@ const TasksTab = ({ taskStatus, setError }) => {
 
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">
-                <p className="govuk-body-s content-line-one">
-                  {target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}
-                </p>
+                <ul className="govuk-list govuk-body-s content-line-one">
+                  <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}</li>
+                  <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs(target.roro.details.eta).fromNow() }</li>
+                </ul>
                 <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
                   <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
                   <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
                   <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
+                  <li>{!target.roro.details.eta ? 'unknown' : dayjs(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
                 </ul>
               </div>
             </div>
