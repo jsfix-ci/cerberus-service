@@ -39,9 +39,9 @@ const TaskSummary = ({ taskSummaryData }) => {
         <div className="govuk-grid-column-one-half">
           <dl className="mode-details">
             <dt>Account</dt>
-            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}</dd>
+            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}, <span className="govuk-!-font-weight-regular">booked on {!roroData.bookingDate ? 'unknown' : roroData.bookingDate}</span></dd>
             <dt>Haulier</dt>
-            <dd>{!roroData.haulier?.name ? 'unknown' : roroData.haulier.name}, <span className="govuk-!-font-weight-regular">booked on {!roroData.bookingDate ? 'unknown' : roroData.bookingDate}</span></dd>
+            <dd>{!roroData.haulier?.name ? 'unknown' : roroData.haulier.name}</dd>
           </dl>
         </div>
       </div>
