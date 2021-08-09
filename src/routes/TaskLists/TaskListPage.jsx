@@ -308,8 +308,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   {target.roro.details.account ? (
                     <>
                       {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
-                      {target.roro.details.bookingDateTime && <li>{dayjs(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
-                      <li>{pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}</li>
+                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
