@@ -1,45 +1,44 @@
 // Third party imports
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useInterval } from 'react-use';
-import _ from 'lodash';
-import * as pluralise from 'pluralise';
-
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import _ from 'lodash';
+import * as pluralise from 'pluralise';
 import qs from 'qs';
-
-// App imports
+// Config
 import { SHORT_DATE_FORMAT, LONG_DATE_FORMAT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import config from '../../config';
+// Utils
+import useAxiosInstance from '../../utils/axiosInstance';
 import { useKeycloak } from '../../utils/keycloak';
-
-import '../__assets__/TaskListPage.scss';
-
+// Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
-
-import config from '../../config';
-import useAxiosInstance from '../../utils/axiosInstance';
+// Styling
+import '../__assets__/TaskListPage.scss';
 
 const TasksTab = ({ taskStatus, setError }) => {
+  dayjs.extend(relativeTime);
+  const keycloak = useKeycloak();
+  const location = useLocation();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const source = axios.CancelToken.source();
+
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
   const [targetTaskCount, setTargetTaskCount] = useState(0);
+
   const [isLoading, setLoading] = useState(true);
 
-  const location = useLocation();
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
-  dayjs.extend(relativeTime);
-  const source = axios.CancelToken.source();
-
   // PAGINATION SETTINGS
-  const itemsPerPage = 10;
   const index = activePage - 1;
+  const itemsPerPage = 10;
   const offset = index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
 
