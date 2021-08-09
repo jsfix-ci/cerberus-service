@@ -3,6 +3,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import TaskListPage from '../TaskLists/TaskListPage';
+import variableInstanceTaskSummaryBasedOnTIS from '../__fixtures__/variableInstanceTaskSummaryBasedOnTIS.fixture.json';
 
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);
@@ -77,11 +78,7 @@ describe('TaskListPage', () => {
         { id: '789' },
       ])
       .onGet('/variable-instance')
-      .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"business:key=a/b/c"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"business:key=d/e/f"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
-      ]);
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
@@ -117,11 +114,7 @@ describe('TaskListPage', () => {
         { id: '789' },
       ])
       .onGet('/history/variable-instance')
-      .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"business:key=a/b/c"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"business:key=d/e/f"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
-      ]);
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
@@ -137,16 +130,12 @@ describe('TaskListPage', () => {
       .reply(200, { count: 10 })
       .onGet('/task')
       .reply(200, [
-        { processInstanceId: '123' },
-        { processInstanceId: '456' },
-        { processInstanceId: '789' },
+        { processInstanceId: '123', assignee: null },
+        { processInstanceId: '456', assignee: null },
+        { processInstanceId: '789', assignee: null },
       ])
       .onGet('/variable-instance')
-      .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue","businessKey":"abc"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue","businessKey":"def"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue","businessKey":"ghi"}' },
-      ]);
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
@@ -160,15 +149,11 @@ describe('TaskListPage', () => {
       .onGet('/task')
       .reply(200, [
         { processInstanceId: '123', assignee: 'test' },
-        { processInstanceId: '456' },
-        { processInstanceId: '789' },
+        { processInstanceId: '456', assignee: null },
+        { processInstanceId: '789', assignee: null },
       ])
       .onGet('/variable-instance')
-      .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"mode":"TestValue","businessKey":"abc"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"mode":"TestValue","businessKey":"def"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"mode":"TestValue","businessKey":"ghi"}' },
-      ]);
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
@@ -192,11 +177,7 @@ describe('TaskListPage', () => {
         { id: '789' },
       ])
       .onGet('/variable-instance')
-      .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
-      ]);
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
     fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
@@ -220,11 +201,7 @@ describe('TaskListPage', () => {
         { id: '789' },
       ])
       .onGet('/history/variable-instance')
-      .reply(200, [
-        { processInstanceId: '123', type: 'Json', value: '{"businessKey":"abc"}' },
-        { processInstanceId: '456', type: 'Json', value: '{"businessKey":"def"}' },
-        { processInstanceId: '789', type: 'Json', value: '{"businessKey":"ghi"}' },
-      ]);
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));

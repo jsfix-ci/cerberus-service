@@ -93,5 +93,10 @@
     "type": "Json",
     "value": "{\"hasBusinessKey\":true,\"mode\":\"\",\"category\":\"target_B\",\"eventPort\":\"\",\"roro\":{\"roroFreightType\":\"unaccompanied\",\"details\":{\"vessel\":{\"name\":\"VALENTINE\",\"company\":\"COBELFRET FERRIES NV\"},\"vehicle\":{\"registrationNationality\":\"\",\"trailer\":{\"type\":\"\",\"registrationNationality\":\"\",\"regNumber\":\"\"},\"registrationNumber\":\"fg3478\",\"make\":\"\",\"colour\":\"\",\"model\":\"\"},\"load\":{\"countryOfDestination\":\"\",\"manifestedLoad\":\"car parts\"},\"account\":{\"name\":\"IF Logistics\",\"number\":\"IF-123482\"},\"haulier\":{\"name\":\"\",\"address\":\"\",\"country\":\"\"},\"passengers\":[],\"eta\":null,\"departureTime\":1596636000000}},\"threatIndicators\":[\"National Security at the Border\"]}",
     "name": "FORM"
+  },
+  {
+    "type": "Json",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "name": "taskSummaryBasedOnTIS"
   }
 ]

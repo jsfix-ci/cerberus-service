@@ -2,7 +2,8 @@ import React from 'react';
 import { screen, render } from '@testing-library/react';
 
 import TaskSummary from '../TaskDetails/TaskSummary';
-import { testInputDataFieldsEmpty } from '../../utils/__fixtures__/taskSummaryData.fixture';
+// import { testInputDataFieldsEmpty } from '../../utils/__fixtures__/taskSummaryData.fixture';
+import taskSummaryData from '../__fixtures__/taskSummaryData.fixture.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -12,7 +13,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('TaskSummary', () => {
   it('should render the summary section', () => {
-    const { container } = render(<TaskSummary taskSummaryData={testInputDataFieldsEmpty} />);
+    const { container } = render(<TaskSummary taskSummaryData={taskSummaryData} />);
     expect(container.firstChild.classList.contains('card')).toBe(true);
   });
 
@@ -21,29 +22,21 @@ describe('TaskSummary', () => {
       <TaskSummary
         taskSummaryData={
           {
-            ...testInputDataFieldsEmpty,
-            vehicles: [
-              { registrationNumber: 'GB09KLT' },
-              { registrationNumber: 'GB09KLT' },
-            ],
-            trailers: [
-              { registrationNumber: 'NL-234-392' },
-            ],
-            people: [
-              {
-                fullName: 'Bob Brown',
-                role: 'DRIVER',
+            ...taskSummaryData,
+            vehicle: {
+              registrationNumber: 'DF7565LK',
+              trailer: {
+                regNumber: 'NL-234-392',
               },
-            ],
+            },
           }
         }
       />,
     );
 
     expect(screen.getByText(/Vehicle with trailer/i)).toBeInTheDocument();
-    expect(screen.getByText(/GB09KLT/i)).toBeInTheDocument();
+    expect(screen.getByText(/DF7565LK/i)).toBeInTheDocument();
     expect(screen.getByText(/NL-234-392/i)).toBeInTheDocument();
-    expect(screen.getByText(/Bob Brown/i)).toBeInTheDocument();
   });
 
   it('should display Vehicle only when data contains trailers but no vehicle or driver', () => {
@@ -51,10 +44,12 @@ describe('TaskSummary', () => {
       <TaskSummary
         taskSummaryData={
           {
-            ...testInputDataFieldsEmpty,
-            trailers: [
-              { registrationNumber: 'NL-234-392' },
-            ],
+            ...taskSummaryData,
+            vehicle: {
+              trailer: {
+                regNumber: 'NL-234-392',
+              },
+            },
           }
         }
       />,
