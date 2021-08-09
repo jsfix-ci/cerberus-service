@@ -330,7 +330,7 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={targetData[0].targetInformationSheet} />
+              <TaskSummary taskSummaryData={targetData[0].taskSummaryBasedOnTIS} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"

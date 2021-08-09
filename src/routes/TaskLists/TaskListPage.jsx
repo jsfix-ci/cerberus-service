@@ -106,7 +106,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         const processInstanceIds = _.uniq(targetTaskList.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
         const targetTaskListItems = await camundaClient.get(
           targetStatus[activeTab].variableUrl,
-          { params: { variableName: 'targetInformationSheet', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
+          { params: { variableName: 'taskSummaryBasedOnTIS', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
         );
         const targetTaskListData = targetTaskListItems.data.map((task) => {
           return {
