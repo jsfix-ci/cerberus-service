@@ -20,6 +20,8 @@ const TaskSummary = ({ taskSummaryData }) => {
             {roroData.vehicle && roroData.vehicle.registrationNumber}
             {(roroData.vehicle?.registrationNumber && roroData.vehicle?.trailer?.regNumber) && <span className="govuk-!-font-weight-regular"> with </span>}
             {roroData.vehicle?.trailer?.regNumber && roroData.vehicle.trailer.regNumber}
+            {roroData.driver?.name && <span className="govuk-!-font-weight-regular"> driven by </span>}
+            {roroData.driver?.name && roroData.driver.name}
           </h3>
         </div>
       </div>
