@@ -38,7 +38,7 @@ const TasksTab = ({ taskStatus, setError }) => {
 
   // PAGINATION SETTINGS
   const index = activePage - 1;
-  const itemsPerPage = 10;
+  const itemsPerPage = 100;
   const offset = index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
 
