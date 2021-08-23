@@ -164,12 +164,12 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Unaccompanied Freight from RBT & SBT', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
-      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       date.setDate(date.getDate() + 1);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
       bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      console.log(task.variables.rbtPayload.value);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-UNACC-RBT-SBT`).then((response) => {
         cy.wait(4000);

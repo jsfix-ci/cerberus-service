@@ -463,3 +463,30 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
     });
   });
 });
+
+Cypress.Commands.add('multiSelectDropDown', (element, values) => {
+  if (values !== '') {
+    cy.get(`${formioComponent}${element}`)
+      .should('be.visible')
+      .within(() => {
+        cy.get(' .formio-choices').click({ force: true });
+        cy.get('.choices__list').should('have.class', 'is-active');
+        for (let value of values) {
+          cy.get('div[role="listbox"]')
+            .contains(value)
+            .click({ force: true });
+        }
+      });
+    cy.get(`${formioComponent}${element}`).type('{esc}');
+  }
+});
+
+Cypress.Commands.add('verifyElementText', (elementName, value) => {
+  cy.get(`${formioComponent}${elementName} input`).should('have.value', value);
+});
+
+Cypress.Commands.add('verifyDate', (elementName, day, month, year) => {
+  cy.get(`#${elementName}-day`).should('have.value', day);
+  cy.get(`#${elementName}-month`).should('have.value', month);
+  cy.get(`#${elementName}-year`).should('have.value', year);
+});
