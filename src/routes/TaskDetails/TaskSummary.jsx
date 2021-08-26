@@ -7,8 +7,6 @@ import '../__assets__/TaskDetailsPage.scss';
 const TaskSummary = ({ taskSummaryData }) => {
   const roroData = taskSummaryData.roro.details;
 
-  console.log(dayjs(roroData.bookingDateTime).isValid());
-
   return (
     <section className="card">
       <div className="govuk-grid-row">
