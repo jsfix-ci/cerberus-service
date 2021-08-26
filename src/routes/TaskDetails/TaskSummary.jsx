@@ -7,6 +7,8 @@ import '../__assets__/TaskDetailsPage.scss';
 const TaskSummary = ({ taskSummaryData }) => {
   const roroData = taskSummaryData.roro.details;
 
+  console.log(dayjs(roroData.bookingDateTime).isValid());
+
   return (
     <section className="card">
       <div className="govuk-grid-row">
@@ -39,7 +41,7 @@ const TaskSummary = ({ taskSummaryData }) => {
         <div className="govuk-grid-column-one-half">
           <dl className="mode-details">
             <dt>Account</dt>
-            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}, <span className="govuk-!-font-weight-regular">booked on {!dayjs(roroData.bookingDateTime).format(LONG_DATE_FORMAT) ? 'unknown' : dayjs(roroData.bookingDateTime).format(LONG_DATE_FORMAT)}</span></dd>
+            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}{dayjs(roroData.bookingDateTime).isValid() && <span className="govuk-!-font-weight-regular">, booked on {dayjs(roroData.bookingDateTime).format(LONG_DATE_FORMAT)}</span>}</dd>
             <dt>Haulier</dt>
             <dd>{!roroData.haulier?.name ? 'unknown' : roroData.haulier.name}</dd>
           </dl>
