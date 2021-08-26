@@ -1,6 +1,7 @@
-import React from 'react';
-import * as pluralise from 'pluralise';
+import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
+import * as pluralise from 'pluralise';
+import { v4 as uuidv4 } from 'uuid';
 
 import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
@@ -25,7 +26,38 @@ const formatField = (fieldType, content) => {
   }
 };
 
-const fieldContent = (fieldSet) => {
+const renderFieldSetContents = (contents) => (
+  contents.map(({ fieldName, content, type }) => {
+    if (type !== 'HIDDEN') {
+      return (
+        <div className="govuk-summary-list__row" key={uuidv4()}>
+          <dt className="govuk-summary-list__key">{fieldName}</dt>
+          <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
+        </div>
+      );
+    }
+  })
+);
+
+const renderChildSets = (childSets) => {
+  return childSets.map((child) => {
+    if (child.hasChildSet) {
+      return (
+        <div key={uuidv4()} className="govuk-!-margin-bottom-6">
+          {renderFieldSetContents(child.contents)}
+          {renderChildSets(child.childSets)}
+        </div>
+      );
+    }
+    return (
+      <Fragment key={uuidv4()}>
+        {renderFieldSetContents(child.contents)}
+      </Fragment>
+    );
+  });
+};
+
+const renderFieldSets = (fieldSet) => {
   /*
   * When there are multiple entries for a section
   * e.g. 'Passengers' can have multiple passengers
@@ -33,31 +65,15 @@ const fieldContent = (fieldSet) => {
   * which indicates we need to map out the childSet contents
   * and not the parent contents
   */
-  if (fieldSet.hasChildSet === false) {
+  if (fieldSet.hasChildSet) {
     return (
-      fieldSet.contents.map(({ fieldName, content, type }, i) => {
-        if (type !== 'HIDDEN') {
-          return (
-            <div className="govuk-summary-list__row" key={i}>
-              { type !== 'HIDDEN'
-            && (
-            <>
-              <dt className="govuk-summary-list__key">{fieldName}</dt>
-              <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
-            </>
-            )}
-            </div>
-          );
-        }
-      })
-    );
-  } if (fieldSet.hasChildSet === true) {
-    return (
-      fieldSet.childSets.map((obj) => {
-        return (fieldContent(obj));
-      })
+      <Fragment key={uuidv4()}>
+        {renderFieldSetContents(fieldSet.contents)}
+        {renderChildSets(fieldSet.childSets)}
+      </Fragment>
     );
   }
+  return renderFieldSetContents(fieldSet.contents);
 };
 
 const TaskVersions = ({ taskVersions }) => {
@@ -86,7 +102,7 @@ const TaskVersions = ({ taskVersions }) => {
               <div key={field.fieldSetName}>
                 <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
                 <dl className="govuk-summary-list govuk-!-margin-bottom-9">
-                  {fieldContent(field)}
+                  {renderFieldSets(field)}
                 </dl>
               </div>
             );
