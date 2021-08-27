@@ -388,6 +388,69 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
+  it('Vehicle and Trailer - Unknown values in Task List & Task Summary', () => {
+    cy.fixture('taskInfo-unknown/RoRo-Acc-VehWithTrail-expected.json').as('expTestData');
+    cy.fixture('taskInfo-unknown/RoRo-Acc-VehWithTrail.json')
+      .then((task) => {
+        // vehicle registration number
+        task.variables.rbtPayload.value.data.movement.vehicles[1].vehicle.registrationNumber = null;
+        // Trailer Registration number - If trailer is set to null then title changes from "Vehicle with Trailer" to "Vehicle"
+        // task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = null;
+        task.variables.rbtPayload.value.data.movement.voyage.voyage.departureLocation = null;
+        task.variables.rbtPayload.value.data.movement.voyage.voyage.arrivalLocation = null;
+        // Account - (stored in holdername or name)
+        task.variables.rbtPayload.value.data.movement.organisations[1].attributes.attrs.holderName = null;
+        task.variables.rbtPayload.value.data.movement.organisations[1].organisation.name = null;
+        // Haulier Name
+        task.variables.rbtPayload.value.data.movement.organisations[2].organisation.name = null;
+        task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.goodsDescription = null;
+        task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC`)
+          .then((response) => {
+            cy.wait(4000);
+            cy.get('@expTestData').then((expectedData) => {
+              let exptaskListInfo = encodeURIComponent(response.businessKey) + expectedData.taskListDetail.join('');
+              cy.verifyTaskListInfo(exptaskListInfo, response.businessKey);
+            });
+            cy.checkTaskDisplayed(`${response.businessKey}`);
+          });
+      });
+    cy.get('@expTestData').then((expTestData) => {
+      cy.verifyTaskSummary(expTestData.taskSummary.join(''));
+    });
+  });
+
+  it('Vehicle - Unknown values in Task List and Task summary', () => {
+    cy.fixture('taskInfo-unknown/RoRo-Acc-VehOnly-expected.json').as('expTestData');
+    cy.fixture('/taskInfo-unknown/RoRo-Acc-VehOnly.json')
+      .then((task) => {
+        // vehicle registration number
+        task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = null;
+        task.variables.rbtPayload.value.data.movement.voyage.voyage.departureLocation = null;
+        task.variables.rbtPayload.value.data.movement.voyage.voyage.arrivalLocation = null;
+        // Account - (stored in holdername or name)
+        task.variables.rbtPayload.value.data.movement.organisations[1].attributes.attrs.holderName = null;
+        task.variables.rbtPayload.value.data.movement.organisations[1].organisation.name = null;
+        // Haulier Name
+        task.variables.rbtPayload.value.data.movement.organisations[2].organisation.name = null;
+        // Goods description
+        task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.goodsDescription = null;
+        task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+        const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-`;
+        cy.postTasks(task, businessKey)
+          .then((response) => {
+            cy.wait(4000);
+            cy.get('@expTestData').then((expectedData) => {
+              let exptaskListInfo = encodeURIComponent(response.businessKey) + expectedData.taskListDetail.join('');
+              cy.verifyTaskListInfo(exptaskListInfo, response.businessKey);
+            });
+            cy.checkTaskDisplayed(`${response.businessKey}`);
+          });
+      });
+    cy.get('@expTestData').then((expTestData) => {
+      cy.verifyTaskSummary(expTestData.taskSummary.join(''));
+    });
+  });
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();

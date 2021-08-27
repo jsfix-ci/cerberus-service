@@ -490,3 +490,12 @@ Cypress.Commands.add('verifyDate', (elementName, day, month, year) => {
   cy.get(`#${elementName}-month`).should('have.value', month);
   cy.get(`#${elementName}-year`).should('have.value', year);
 });
+
+Cypress.Commands.add('verifyTaskSummary', (taskSummary) => {
+  cy.get('.card').should('contain.text', taskSummary);
+});
+
+Cypress.Commands.add('verifyTaskListInfo', (taskListDetail, businessKey) => {
+  cy.visit('/tasks');
+  cy.get('.task-list--item').contains(encodeURIComponent(businessKey)).closest('section').should('contain.text', taskListDetail);
+});
