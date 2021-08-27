@@ -499,3 +499,55 @@ Cypress.Commands.add('verifyTaskListInfo', (taskListDetail, businessKey) => {
   cy.visit('/tasks');
   cy.get('.task-list--item').contains(encodeURIComponent(businessKey)).closest('section').should('contain.text', taskListDetail);
 });
+
+Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionname) => {
+  if (versionInRow == null) {
+    versionInRow = 1;
+  }
+  cy.get(`#task-versions-content-${versionInRow}`).within(() => {
+    cy.contains('h2', sectionname)
+      .next()
+      .within(() => {
+        cy.getTaskDetails()
+          .then((details) => {
+            expect(details)
+              .to
+              .deep
+              .equal(expData);
+          });
+      });
+  });
+});
+
+Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInRow, businessKey) => {
+  businessKey = encodeURIComponent(businessKey);
+  cy.visit(`/tasks/${businessKey}`);
+
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'vehicle')) {
+    cy.verifyTaskDetailSection(expectedDetails.vehicle, versionInRow, 'Vehicle details');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'account')) {
+    cy.verifyTaskDetailSection(expectedDetails.account, versionInRow, 'Account details');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'haulier')) {
+    cy.verifyTaskDetailSection(expectedDetails.haulier, versionInRow, 'Haulier details');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'driver')) {
+    cy.verifyTaskDetailSection(expectedDetails.driver, versionInRow, 'Driver');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'passengers')) {
+    cy.verifyTaskDetailSection(expectedDetails.passengers, versionInRow, 'Passengers');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'goods')) {
+    cy.verifyTaskDetailSection(expectedDetails.goods, versionInRow, 'Goods');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'booking')) {
+    cy.verifyTaskDetailSection(expectedDetails.booking, versionInRow, 'Booking');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'rules')) {
+    cy.verifyTaskDetailSection(expectedDetails.rules, versionInRow, 'Rules matched');
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
+    cy.verifyTaskDetailSection(expectedDetails.selectorMatch, versionInRow, expectedDetails.selectorMatchSection);
+  }
+});

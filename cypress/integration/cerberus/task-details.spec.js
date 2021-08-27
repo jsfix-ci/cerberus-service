@@ -451,6 +451,31 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.verifyTaskSummary(expTestData.taskSummary.join(''));
     });
   });
+
+  it('Should display correct values for PERFDRIVER Driver, Booking, Vehicle', () => {
+    cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-expected.json').as('expTestData');
+    cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-known.json')
+      .then((task) => {
+        task.variables.rbtPayload.value.data.movement.persons[0].person.type = 'PERFDRIVER';
+        task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC`)
+          .then((response) => {
+            cy.wait(4000);
+            cy.get('@expTestData').then((expectedData) => {
+              let exptaskListInfo = encodeURIComponent(response.businessKey) + expectedData.taskListDetail.join('');
+              cy.verifyTaskListInfo(exptaskListInfo, response.businessKey);
+            });
+            cy.checkTaskDisplayed(`${response.businessKey}`);
+            cy.get('@expTestData').then((expectedData) => {
+              cy.verifyTaskDetailAllSections(expectedData, 1, `${response.businessKey}`);
+            });
+          });
+      });
+    cy.get('@expTestData').then((expTestData) => {
+      cy.verifyTaskSummary(expTestData.taskSummary.join(''));
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
