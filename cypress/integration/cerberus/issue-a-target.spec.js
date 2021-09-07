@@ -95,7 +95,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Customs/Immigration Team 1 - DS05A1');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline - GPGMYBP2');
 
     cy.clickSubmit();
 
@@ -200,7 +200,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Customs/Immigration Team 1 - DS05A1');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline - GPGMYBP2');
 
     cy.clickSubmit();
 
@@ -306,7 +306,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Customs/Immigration Team 1 - DS05A1');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline - GPGMYBP2');
 
     cy.clickSubmit();
 
