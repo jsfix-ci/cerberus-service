@@ -51,23 +51,23 @@
               "endDate": "2021-08-20T22:59:59Z",
               "category": "B",
               "agencyCode": "Counter Terrorism Police (CTP)",
-              "intelligenceSource": "ffhtr",
-              "pointOfContact": "hrth",
-              "pocMessage": "hthtr",
-              "priority": "Selector",
-              "inboundActionCode": "No action required",
-              "outboundActionCode": "No action required",
-              "threatType": "Class B&C Drugs inc. Cannabis",
-              "notes": "notes",
-              "creator": "user",
-              "approver": "hthtr",
+              "intelligenceSource": "intel source",
+              "pointOfContact": "Point Of Contact",
+              "pocMessage": "Message for the POC",
+              "priority": "Tier 2",
+              "inboundActionCode": "Advise originator",
+              "outboundActionCode": "Full attention",
+              "threatType": "National Security at the Border",
+              "notes": "Supplemental notes",
+              "creator": "Joe Jones",
+              "approver": "Henry Hamlet",
               "securityLabels": [
                 "DATA_RISK_PREARRIVAL"
               ],
-              "localReference": "htrthr",
-              "warnings": "rtht",
-              "requestingOfficer": "bffg",
-              "requestingTeam": "BFNIH",
+              "localReference": "Local Reference",
+              "warnings": "Supplemental warnings",
+              "requestingOfficer": "Peter Price",
+              "requestingTeam": "RoRo accompanied",
               "indicatorMatches": [
                 {
                   "entity": "Organisation",
@@ -82,7 +82,7 @@
                   "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
-              "selectorMatchedOnDate": "2021-07-13T09:30:02.896Z"
+              "selectorMatchedOnDate": "2021-09-05T09:30:02.896Z"
             },
             {
               "selectorId": 50,
@@ -300,7 +300,7 @@
                     "value": null,
                     "valueList": {
                       "val": [
-                        "Bailey|Ben|M|-66|GB|null|null|null|PERPAS|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
+                        "Bailey|Ben|M|-66|GB|null|null|null|null|PERPAS|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
                       ]
                     },
                     "startTimestamp": null,

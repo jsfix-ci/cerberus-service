@@ -11,38 +11,44 @@
        "matchedRules": [],
        "matchedSelectors": [
         {
-         "selectorId": 23,
-         "selectorReference": "2021-23",
-         "startDate": "2021-05-06T11:19:37.982Z",
-         "endDate": "2021-11-06T11:19:37.982Z",
-         "category": "null",
-         "agencyCode": "BF",
-         "intelligenceSource": "null",
-         "pointOfContact": "null",
-         "pocMessage": "342334",
-         "priority": "Selector",
-         "inboundActionCode": "null",
-         "outboundActionCode": "null",
-         "threatType": "Alcohol",
-         "notes": "null",
-         "creator": "sachindra.mundrathi@digital.homeoffice.gov.uk",
-         "approver": "null",
+         "selectorId": 51,
+         "selectorReference": "2021-51",
+         "startDate": "2021-07-09T13:42:48.381Z",
+         "endDate": "2021-08-20T22:59:59Z",
+         "category": "B",
+         "agencyCode": "Counter Terrorism Police (CTP)",
+         "intelligenceSource": "intel source",
+         "pointOfContact": "Point Of Contact",
+         "pocMessage": "Message for the POC",
+         "priority": "Tier 2",
+         "inboundActionCode": "Advise originator",
+         "outboundActionCode": "Full attention",
+         "threatType": "National Security at the Border",
+         "notes": "Supplemental notes",
+         "creator": "Joe Jones",
+         "approver": "Henry Hamlet",
          "securityLabels": [
           "DATA_RISK_PREARRIVAL"
          ],
-         "localReference": "null",
-         "warnings": "null",
-         "requestingOfficer": "null",
-         "requestingTeam": "null",
+         "localReference": "Local Reference",
+         "warnings": "Supplemental warnings",
+         "requestingOfficer": "Peter Price",
+         "requestingTeam": "RoRo accompanied",
          "indicatorMatches": [
           {
-           "entity": "vehicle",
-           "descriptor": "registrationNumber",
+           "entity": "Organisation",
+           "descriptor": "telephone",
            "operator": "equal",
-           "value": "DK-45678"
+           "value": "01234 56723737"
+          },
+          {
+           "entity": "Message",
+           "descriptor": "mode",
+           "operator": "in",
+           "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
           }
          ],
-         "selectorMatchedOnDate": "2021-05-14T14:00:41.43Z"
+         "selectorMatchedOnDate": "2021-09-05T09:30:02.896Z"
         }
        ],
        "movement": {

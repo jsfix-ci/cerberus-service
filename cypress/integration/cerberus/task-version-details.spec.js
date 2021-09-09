@@ -237,7 +237,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
     });
-    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+    cy.get('.govuk-accordion__section-heading').should('have.length', 1);
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {

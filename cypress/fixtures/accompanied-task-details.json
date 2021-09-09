@@ -5,6 +5,7 @@
     "Make": "",
     "Model": "",
     "Country of registration": "DK",
+    "Colour": "",
     "Trailer registration number": "",
     "Trailer type": "",
     "Trailer country of registration": "",
@@ -32,7 +33,7 @@
     "Date of birth": "27/04/1993",
     "Gender": "",
     "Nationality": "",
-    "Travel document type": "Passport",
+    "Travel document type": "OBJDOCPAS",
     "Travel document number": "AB2099357",
     "Travel document expiry": "20/03/2025"
   },
