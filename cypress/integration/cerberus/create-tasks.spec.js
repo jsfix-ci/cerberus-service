@@ -97,8 +97,6 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains RoRo Accompanied Freight', () => {
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
-      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
-      console.log(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
       bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
