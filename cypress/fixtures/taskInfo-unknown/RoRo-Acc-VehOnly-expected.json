@@ -1,22 +1,22 @@
 {
   "taskListDetail": ["Pre-ArrivalClaim",
-   "Brittany Ferries voyage of BARFLEURarrival a year ago",
-   "unknown4 Aug 2020 at 14:05unknown4 Aug 2020 at 14:35",
-   "Driver detailsBobBrownDOB: 12/03/1971? trips",
-   "Passenger detailsUnknown",
-   "Vehicle details0 trips",
-   "Trailer details0 trips",
-   "Haulier detailsUnknown",
-   "Account detailsBooked on 02/08/2020",
-   "Goods detailsUnknownUnknownUnknown"
+    "Brittany Ferries voyage of BARFLEURarrival a year ago",
+    "unknown4 Aug 2020 at 14:05unknown4 Aug 2020 at 14:35",
+    "Driver detailsUnknown",
+    "Passenger detailsUnknown",
+    "Vehicle details0 trips",
+    "Trailer details0 trips",
+    "Haulier detailsUnknown",
+    "Account detailsBooked on 02/08/2020",
+    "Goods detailsUnknownUnknownUnknown"
   ],
   "taskSummary":[
-    "Vehicle driven by Bob Brown",
+    "Vehicle",
     "FerryBrittany Ferries voyage of BARFLEUR",
-     "Departure4 Aug 2020 at 14:05",
-     "Arrival4 Aug 2020 at 14:35",
-     "Accountunknown, booked on 2 Aug 2020 at 09:15",
-     "Haulierunknown"
+    "Departure4 Aug 2020 at 14:05",
+    "Arrival4 Aug 2020 at 14:35",
+    "Accountunknown, booked on 2 Aug 2020 at 09:15",
+    "Haulierunknown"
   ]
 
 }

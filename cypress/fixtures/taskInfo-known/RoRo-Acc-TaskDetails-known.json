@@ -3,7 +3,7 @@
     "rbtPayload": {
       "value": {
         "data": {
-          "riskCreatedDate": "2021-08-13T11:41:13.370105Z",
+          "riskCreatedDate": "2021-09-06T15:17:52.621041Z",
           "riskType": "Pre-Arrival",
           "matchedRules": [
             {
@@ -11,19 +11,19 @@
                 {
                   "indicatorType": "BASIC",
                   "values": [
-                    "COP1"
+                    "RORO Accompanied Freight"
                   ],
-                  "index": 0
+                  "index": 1
                 },
                 {
                   "indicatorType": "BASIC",
                   "values": [
-                    "RORO Accompanied Freight"
+                    "COP1"
                   ],
-                  "index": 1
+                  "index": 0
                 }
               ],
-              "ruleMatchedOnDate": "2021-08-13T11:41:13Z",
+              "ruleMatchedOnDate": "2021-09-06T15:17:52Z",
               "ruleType": "Both",
               "ruleVersion": 1,
               "ruleName": "Scenario 1 Rule",
@@ -198,96 +198,8 @@
                 "startTimestamp": null
               }
             ],
-            "documents": [
-              {
-                "changeHistory": null,
-                "additionalInformation": null,
-                "metadata": {
-                  "identityRecord": {
-                    "type": "O",
-                    "poleId": {
-                      "v1": null,
-                      "v2": {
-                        "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3,O=25ac12a631b0fc743c9d90219e219b0c"
-                      }
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "retentionMarkerDays": -1,
-                    "gscMarker": null
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Object-Document",
-                    "version": "1"
-                  },
-                  "sourceRecord": {
-                    "audit": {
-                      "updatedBy": null,
-                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
-                      "createdTimestamp": 1627395427799,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    },
-                    "name": "ROROXML",
-                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
-                    "id": "25ac12a631b0fc743c9d90219e219b0c",
-                    "shortName": "ROX"
-                  }
-                },
-                "role": "PTOOUSES",
-                "document": {
-                  "expiryDate": 18659,
-                  "placeOfIssue": null,
-                  "countryOfIssue": "NL",
-                  "subject": null,
-                  "validFromDate": null,
-                  "type": "OBJDOCPAS",
-                  "category": "P",
-                  "dateOfIssue": null,
-                  "value": "ST678457",
-                  "status": null
-                },
-                "description": null,
-                "type": "DOCUMENT",
-                "url": null,
-                "matching": null,
-                "features": {
-                  "feats": {
-                    "STANDARDISED:expiryDate": {
-                      "valueType": "STRING",
-                      "valueList": null,
-                      "id": null,
-                      "type": null,
-                      "value": "2021-02-01",
-                      "endTimestamp": null,
-                      "startTimestamp": null
-                    }
-                  }
-                },
-                "washResponses": null,
-                "name": null,
-                "attributes": {
-                  "attrs": {
-                    "documentType": "Passport"
-                  }
-                },
-                "matchMerge": null,
-                "endTimestamp": null,
-                "party": {
-                  "type": "P",
-                  "poleId": {
-                    "v1": null,
-                    "v2": {
-                      "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3"
-                    }
-                  }
-                },
-                "startTimestamp": 1627395427799
-              }
-            ],
-            "cerberusMovementId": "ROROXML:CMID=6d99e1e240791507f17a6c1bca841d58/dbd31e76f8430aaceca39d30cb7bf65b/1bdf3d2b906f4df2eb30a65d35d7e2b8",
+            "documents": null,
+            "cerberusMovementId": "ROROXML:CMID=6d99e1e240791507f17a6c1bca841d58/d55422c80dfa2496f064295fb7b206c8/a296a0797b9701f912a5a808851e6156",
             "serviceMovement": {
               "changeHistory": null,
               "features": {
@@ -305,13 +217,13 @@
                     "valueType": "STRING",
                     "valueList": {
                       "val": [
-                        "Bailey|Ben|M|-66|GB|null|null|null|PERTDRIVER|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
+                        "Brown|Bob|M|435|IR|OBJDOCPAS|ST678457|18659|NL|PERFDRIVER|ROROXML:P=8049bc0c58748004ad81925020b26ce3"
                       ]
                     },
                     "id": null,
                     "type": null,
                     "value": null,
-                    "endTimestamp": 1628854873236,
+                    "endTimestamp": 1630941472500,
                     "startTimestamp": null
                   },
                   "STANDARDISED:isHazardousGoods": {
@@ -390,7 +302,6 @@
               "effectiveFromTimestamp": 1596546300000,
               "attributes": {
                 "attrs": {
-                  "ticketNumber": "DFDS-1000974",
                   "waybillNumber": "99990001",
                   "adultCount": "001",
                   "bookingDateTime": "2020-08-02T09:15:00",
@@ -412,7 +323,7 @@
               "movement": {
                 "mode": "RORO Accompanied Freight",
                 "actualDepartureTimestamp": 1596546300000,
-                "businessIdentifier": "357485636-14151",
+                "businessIdentifier": "357485636-14270",
                 "source": "Brittany Ferries",
                 "type": "Pre-Arrival"
               },
@@ -461,15 +372,15 @@
                 "type": "VEHICLE",
                 "url": null,
                 "vehicle": {
-                  "colour": "Red",
+                  "colour": null,
                   "markings": null,
-                  "year": 2021,
+                  "year": null,
                   "registrationNumber": "NL-234-392",
                   "model": null,
                   "vin": null,
                   "type": "OBJVEHCTRL",
                   "make": null,
-                  "registrationCountry": "GB"
+                  "registrationCountry": null
                 },
                 "matching": null,
                 "features": null,
@@ -537,14 +448,14 @@
                 "type": "VEHICLE",
                 "url": null,
                 "vehicle": {
-                  "colour": "White",
-                  "markings": "marking-abc",
-                  "year": 2021,
+                  "colour": "Colour-White",
+                  "markings": null,
+                  "year": null,
                   "registrationNumber": "COP1",
-                  "model": "model-xyz",
+                  "model": "Make-123",
                   "vin": null,
                   "type": "OBJVEHC",
-                  "make": "make-123",
+                  "make": "Model-xyz",
                   "registrationCountry": "GB"
                 },
                 "matching": null,
@@ -553,13 +464,13 @@
                 "name": null,
                 "attributes": {
                   "attrs": {
-                    "type": "HGV",
                     "netWeight": "3455",
                     "grossWeight": "43623",
                     "role": "FREIGHT",
                     "statusOfLoading": "Loaded",
                     "length": "36",
-                    "height": "3.6"
+                    "height": "3.6",
+                    "type": "HGV"
                   }
                 },
                 "matchMerge": null,
@@ -576,7 +487,7 @@
                 "startTimestamp": null
               }
             ],
-            "firstCerberusTimestamp": 1628854871222,
+            "firstCerberusTimestamp": 1630941470470,
             "consolidation": null,
             "latestMessageType": "RUN_LOG",
             "voyage": {
@@ -595,7 +506,7 @@
                     "id": null,
                     "type": null,
                     "value": null,
-                    "endTimestamp": 1628854871228,
+                    "endTimestamp": 1630941470483,
                     "startTimestamp": null
                   },
                   "STANDARDISED:departurePort": {
@@ -610,7 +521,7 @@
                     "id": null,
                     "type": null,
                     "value": null,
-                    "endTimestamp": 1628854871228,
+                    "endTimestamp": 1630941470483,
                     "startTimestamp": null
                   }
                 }
@@ -689,7 +600,7 @@
                       "valueList": null,
                       "id": null,
                       "type": null,
-                      "value": "1971-03-12",
+                      "value": "1969-10-27",
                       "endTimestamp": null,
                       "startTimestamp": null
                     }
@@ -701,7 +612,7 @@
                     "poleId": {
                       "v1": null,
                       "v2": {
-                        "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3"
+                        "id": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
                       }
                     }
                   },
@@ -725,34 +636,34 @@
                     },
                     "name": "ROROXML",
                     "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
-                    "id": "8049bc0c58748004ad81925020b26ce3",
+                    "id": "26ebab61705c7a2c44b5f47ff0b4a58c",
                     "shortName": "ROX"
                   }
                 },
                 "washResponses": null,
                 "person": {
-                  "passportNumber": "ST678457",
+                  "passportNumber": null,
                   "placeOfBirth": null,
                   "gender": "M",
                   "ethnicity": null,
                   "dateOfDeath": null,
-                  "givenName": "Bob",
-                  "fullName": "Bob Brown",
-                  "dateOfBirth": 435,
+                  "givenName": "Ben",
+                  "fullName": "Ben Bailey",
+                  "dateOfBirth": -66,
                   "type": "PERTDRIVER",
                   "title": null,
-                  "monthOfBirth": 3,
+                  "monthOfBirth": 10,
                   "religion": null,
-                  "nationality": "IR",
+                  "nationality": "GB",
                   "countryOfBirth": null,
-                  "dayOfBirth": 12,
-                  "familyName": "Brown",
+                  "dayOfBirth": 27,
+                  "familyName": "Bailey",
                   "maritalStatus": null,
-                  "yearOfBirth": 1971
+                  "yearOfBirth": 1969
                 },
                 "attributes": {
                   "attrs": {
-                    "role": "DRIVER"
+                    "role": "PASSENGER"
                   }
                 },
                 "matchMerge": null,
@@ -813,10 +724,11 @@
                     "reference": "357485636",
                     "ticketPrice": "30 quid",
                     "bookingType": "Test",
-                    "bookingDateTime": "2020-08-01T09:15:00",
+                    "bookingDateTime": "2020-08-02T09:15:00",
                     "CheckInDateTime": "2020-08-03T12:05:00",
                     "paymentMethod": "Account",
-                    "ticketType": "Return"
+                    "ticketType": "Return",
+                    "ticketNumber": "DFDS-1000974"
                   }
                 },
                 "matchMerge": null,
@@ -935,7 +847,7 @@
               "lastSnapshotTimestamp": 0,
               "lastWashTimestamp": 0,
               "firstEnrichTimestamp": 0,
-              "lastRunlogTimestamp": 1628854871222,
+              "lastRunlogTimestamp": 1630941470470,
               "lastNSCTimestamp": 0,
               "matchesComplete": false,
               "lastEnrichTimestamp": 0,
@@ -950,13 +862,13 @@
                   "sourceMsgEnriches": 0,
                   "countOfMatches": 0,
                   "sourceMessageVersion": 1,
-                  "expectedMatches": 13
+                  "expectedMatches": 12
                 }
               ],
               "countOfEnrichments": 0,
               "firstNSCTimestamp": 0,
               "firstSnapshotTimestamp": 0,
-              "firstRunlogTimestamp": 1628854871222
+              "firstRunlogTimestamp": 1630941470470
             },
             "vessel": {
               "changeHistory": null,
@@ -1028,7 +940,7 @@
               },
               "startTimestamp": null
             },
-            "cerberusTimestamp": 1628854871222,
+            "cerberusTimestamp": 1630941470470,
             "consignments": null,
             "contacts": [
               {
@@ -1151,8 +1063,8 @@
               }
             ]
           },
-          "movementId": "ROROXML:CMID=6d99e1e240791507f17a6c1bca841d58/dbd31e76f8430aaceca39d30cb7bf65b/1bdf3d2b906f4df2eb30a65d35d7e2b8",
-          "riskSubmissionId": 20743
+          "movementId": "ROROXML:CMID=6d99e1e240791507f17a6c1bca841d58/d55422c80dfa2496f064295fb7b206c8/a296a0797b9701f912a5a808851e6156",
+          "riskSubmissionId": 26220
         }
       },
       "type": "Json"
