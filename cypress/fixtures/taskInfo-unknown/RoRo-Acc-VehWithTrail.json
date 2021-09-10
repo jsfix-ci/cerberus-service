@@ -305,7 +305,7 @@
                     "valueType": "STRING",
                     "valueList": {
                       "val": [
-                        "Bailey|Ben|M|-66|GB|null|null|null|PERTDRIVER|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
+                        "Bailey|Ben|M|-66|GB|null|null|null|null|PERTDRIVER|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
                       ]
                     },
                     "id": null,
@@ -677,87 +677,7 @@
                 "arrivalCountry": null
               }
             },
-            "persons": [
-              {
-                "changeHistory": null,
-                "features": {
-                  "feats": {
-                    "STANDARDISED:dateOfBirth": {
-                      "valueType": "STRING",
-                      "valueList": null,
-                      "id": null,
-                      "type": null,
-                      "value": "1971-03-12",
-                      "endTimestamp": null,
-                      "startTimestamp": null
-                    }
-                  }
-                },
-                "metadata": {
-                  "identityRecord": {
-                    "type": "P",
-                    "poleId": {
-                      "v1": null,
-                      "v2": {
-                        "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3"
-                      }
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "retentionMarkerDays": -1,
-                    "gscMarker": null
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Party",
-                    "version": "1"
-                  },
-                  "sourceRecord": {
-                    "audit": {
-                      "updatedBy": null,
-                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
-                      "createdTimestamp": 1627395427799,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    },
-                    "name": "ROROXML",
-                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
-                    "id": "8049bc0c58748004ad81925020b26ce3",
-                    "shortName": "ROX"
-                  }
-                },
-                "washResponses": null,
-                "person": {
-                  "passportNumber": "ST678457",
-                  "placeOfBirth": null,
-                  "gender": "M",
-                  "ethnicity": null,
-                  "dateOfDeath": null,
-                  "givenName": "Bob",
-                  "fullName": "Bob Brown",
-                  "dateOfBirth": 435,
-                  "type": "PERTDRIVER",
-                  "title": null,
-                  "monthOfBirth": 3,
-                  "religion": null,
-                  "nationality": "IR",
-                  "countryOfBirth": null,
-                  "dayOfBirth": 12,
-                  "familyName": "Brown",
-                  "maritalStatus": null,
-                  "yearOfBirth": 1971
-                },
-                "attributes": {
-                  "attrs": {
-                    "role": "DRIVER"
-                  }
-                },
-                "matchMerge": null,
-                "type": "PERSON",
-                "matching": null
-              }
-            ],
+            "persons": null,
             "organisations": [
               {
                 "changeHistory": null,
