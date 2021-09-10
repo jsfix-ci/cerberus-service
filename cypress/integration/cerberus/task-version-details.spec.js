@@ -65,6 +65,12 @@ describe('Task Details of different tasks on task details Page', () => {
           expect(details).to.deep.equal(expectedDetails.booking);
         });
       });
+
+      cy.contains('h2', '1 selector matches').next().within(() => {
+        cy.getTaskDetails().then((details) => {
+          expect(details).to.deep.equal(expectedDetails.selector_matches);
+        });
+      });
     });
   });
 
