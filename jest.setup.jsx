@@ -19,6 +19,9 @@ jest.mock('./src/utils/keycloak', () => ({
       team_id: '21',
     },
     createLogoutUrl: jest.fn(() => 'http://example.com/logout'),
+    logout: jest.fn(() => ({
+      pathname: '/example',
+    })),
   }),
 }));
 
