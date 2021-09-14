@@ -372,7 +372,7 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetData[0].taskDetails} />
+                <TaskVersions taskVersions={targetData[0].taskDetails} businessKey={targetData[0].targetInformationSheet.parentBusinessKey.businessKey} />
               )}
             </div>
 
