@@ -372,7 +372,7 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetData[0].taskDetails} businessKey={targetData[0].targetInformationSheet.parentBusinessKey.businessKey} />
+                <TaskVersions taskVersions={targetData[0].taskDetails} businessKey={targetData[0].taskSummaryBasedOnTIS?.businessKey} />
               )}
             </div>
 
@@ -380,7 +380,7 @@ const TaskDetailsPage = () => {
               {assignee === currentUser && (
                 <TaskNotesForm
                   formName="noteCerberus"
-                  businessKey={targetData[0].taskSummary?.businessKey}
+                  businessKey={targetData[0].taskSummaryBasedOnTIS?.businessKey}
                   processInstanceId={processInstanceId}
                 />
               )}
