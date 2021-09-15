@@ -67,6 +67,11 @@
     "name": "NORMANDIE",
     "shippingCompany": "Brittany Ferries"
   },
+  "TargetingIndicators": {
+    "Name": "Paid by cash",
+    "Name": "Empty trailer for round trip",
+    "Name": "Empty vehicle"
+  },
   "selector_matches": {
     "Group number": "2021-51",
     "Requesting officer": "Peter Price",

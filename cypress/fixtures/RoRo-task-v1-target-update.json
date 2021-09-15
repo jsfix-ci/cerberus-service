@@ -4,9 +4,9 @@
       "type": "Json",
       "value": {
         "data": {
-          "movementId": "ROROXML:CMID=5cab661edbc124203d7c148bec9eb092/608999ce5bb3091a6361e30e84c71948/a296a0797b9701f912a5a808851e6156",
-          "riskSubmissionId": 8551,
-          "riskCreatedDate": "2021-07-13T09:30:03.457474Z",
+          "movementId": "ROROXML:CMID=5cab661edbc124203d7c148bec9eb092/608999ce5bb3091a6361e30e84c71948/2f9a5d455992ca1932cd818be3a74d5c",
+          "riskSubmissionId": 8550,
+          "riskCreatedDate": "2021-07-13T09:30:03.106021Z",
           "riskType": "Pre-Arrival",
           "matchedRules": [
             {
@@ -51,23 +51,23 @@
               "endDate": "2021-08-20T22:59:59Z",
               "category": "B",
               "agencyCode": "Counter Terrorism Police (CTP)",
-              "intelligenceSource": "ffhtr",
-              "pointOfContact": "hrth",
-              "pocMessage": "hthtr",
-              "priority": "Selector",
-              "inboundActionCode": "No action required",
-              "outboundActionCode": "No action required",
-              "threatType": "Class B&C Drugs inc. Cannabis",
-              "notes": "notes",
-              "creator": "user",
-              "approver": "hthtr",
+              "intelligenceSource": "intel source",
+              "pointOfContact": "Point Of Contact",
+              "pocMessage": "Message for the POC",
+              "priority": "Tier 2",
+              "inboundActionCode": "Advise originator",
+              "outboundActionCode": "Full attention",
+              "threatType": "National Security at the Border",
+              "notes": "Supplemental notes",
+              "creator": "Joe Jones",
+              "approver": "Henry Hamlet",
               "securityLabels": [
                 "DATA_RISK_PREARRIVAL"
               ],
-              "localReference": "htrthr",
-              "warnings": "rtht",
-              "requestingOfficer": "bffg",
-              "requestingTeam": "BFNIH",
+              "localReference": "Local Reference",
+              "warnings": "Supplemental warnings",
+              "requestingOfficer": "Peter Price",
+              "requestingTeam": "RoRo accompanied",
               "indicatorMatches": [
                 {
                   "entity": "Organisation",
@@ -82,7 +82,7 @@
                   "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
-              "selectorMatchedOnDate": "2021-07-13T09:30:03.043Z"
+              "selectorMatchedOnDate": "2021-09-05T09:30:02.896Z"
             },
             {
               "selectorId": 50,
@@ -122,41 +122,7 @@
                   "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
-              "selectorMatchedOnDate": "2021-07-13T09:30:03.043Z"
-            },
-            {
-              "selectorId": 30,
-              "selectorReference": "2021-30",
-              "startDate": "2021-06-17T14:58:25.081Z",
-              "endDate": "2021-12-17T14:58:25.081Z",
-              "category": "null",
-              "agencyCode": "NCA",
-              "intelligenceSource": "null",
-              "pointOfContact": "null",
-              "pocMessage": "87687",
-              "priority": "Selector",
-              "inboundActionCode": "null",
-              "outboundActionCode": "null",
-              "threatType": "Clandestine Entry",
-              "notes": "null",
-              "creator": "sachindra.mundrathi@digital.homeoffice.gov.uk",
-              "approver": "null",
-              "securityLabels": [
-                "DATA_RISK_PREARRIVAL"
-              ],
-              "localReference": "null",
-              "warnings": "null",
-              "requestingOfficer": "null",
-              "requestingTeam": "null",
-              "indicatorMatches": [
-                {
-                  "entity": "Vehicle",
-                  "descriptor": "registrationNumber",
-                  "operator": "equal",
-                  "value": "GB09KLT"
-                }
-              ],
-              "selectorMatchedOnDate": "2021-07-13T09:30:03.043Z"
+              "selectorMatchedOnDate": "2021-07-13T09:30:02.896Z"
             },
             {
               "selectorId": 52,
@@ -196,11 +162,11 @@
                   "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
-              "selectorMatchedOnDate": "2021-07-13T09:30:03.043Z"
+              "selectorMatchedOnDate": "2021-07-13T09:30:02.896Z"
             }
           ],
           "movement": {
-            "cerberusMovementId": "ROROXML:CMID=5cab661edbc124203d7c148bec9eb092/608999ce5bb3091a6361e30e84c71948/a296a0797b9701f912a5a808851e6156",
+            "cerberusMovementId": "ROROXML:CMID=5cab661edbc124203d7c148bec9eb092/608999ce5bb3091a6361e30e84c71948/2f9a5d455992ca1932cd818be3a74d5c",
             "firstCerberusTimestamp": 1626168602828,
             "cerberusTimestamp": 1626168602828,
             "latestMessageType": "ENRICH",
@@ -208,7 +174,7 @@
               "messageMatches": [
                 {
                   "sourceMessageVersion": 1,
-                  "expectedMatches": 12,
+                  "expectedMatches": 13,
                   "countOfMatches": 0,
                   "sourceMsgEnriches": 1
                 }
@@ -311,14 +277,12 @@
                         "INDICATORS:51|Organisation|telephone|equal|01234 56723737¬Message|mode|in|RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight",
                         "META:50|2021-50|2021-07-09T13:42:43.639Z|2021-08-20T22:59:59Z|Counter Terrorism Police (CTP)|BFNIH|bffg|B|No action required|No action required|hrth|hthtr|rtht|Class B&C Drugs inc. Cannabis|ffhtr|htrthr|hthtr|notes|user|Selector|DATA_RISK_PREARRIVAL",
                         "INDICATORS:50|Organisation|telephone|equal|01234 56723737¬Message|mode|in|RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight",
-                        "META:30|2021-30|2021-06-17T14:58:25.081Z|2021-12-17T14:58:25.081Z|NCA|null|null|null|null|null|null|87687|null|Clandestine Entry|null|null|null|null|sachindra.mundrathi@digital.homeoffice.gov.uk|Selector|DATA_RISK_PREARRIVAL",
-                        "INDICATORS:30|Vehicle|registrationNumber|equal|GB09KLT",
                         "META:52|2021-52|2021-07-09T13:43:10.327Z|2021-08-20T22:59:59Z|Counter Terrorism Police (CTP)|BFNIH|srg|B|No action required|No action required|greg|gregre|rgeger|Class B&C Drugs inc. Cannabis|grre|greger|gerger|notes|user|Selector|DATA_RISK_PREARRIVAL",
                         "INDICATORS:52|Organisation|telephone|equal|01234 56723737¬Message|mode|in|RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                       ]
                     },
                     "startTimestamp": null,
-                    "endTimestamp": 1626168603043
+                    "endTimestamp": 1626168602896
                   },
                   "STANDARDISED:bookingDateTime": {
                     "id": null,
@@ -336,7 +300,7 @@
                     "value": null,
                     "valueList": {
                       "val": [
-                        "Brown|Bob|M|435|NL|null|244746NL|18659|NL|PERTDRIVER|ROROXML:P=33f544d684db9e59150ae84406709122"
+                        "Bailey|Ben|M|-66|GB|null|null|null|null|PERPAS|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
                       ]
                     },
                     "startTimestamp": null,
@@ -349,9 +313,9 @@
                     "value": true,
                     "valueList": null,
                     "startTimestamp": null,
-                    "endTimestamp": 1626168603043
+                    "endTimestamp": 1626168602896
                   },
-                  "STANDARDISED:tractorUnitOnly": {
+                  "VEHICLE-TOURIST-QUICK-TURNAROUND-24_72_HRS": {
                     "id": null,
                     "type": null,
                     "valueType": "BOOL",
@@ -388,7 +352,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
+                        "id": "ROROXML:P=33f544d684db9e59150ae84406709122"
                       },
                       "v1": null
                     },
@@ -398,7 +362,7 @@
                     "name": "ROROXML",
                     "shortName": "ROX",
                     "location": "archive/GroupId=none/CollectionDate=2020-10-28/DataFeedId=5/DataFeedTaskId=1650552/CERBERUS_XML_3a_roroxml_freight_DFDS_v02",
-                    "id": "26ebab61705c7a2c44b5f47ff0b4a58c",
+                    "id": "33f544d684db9e59150ae84406709122",
                     "audit": {
                       "createdBy": "+Z9FHV/6VAaBmp/LrXLTnQ==",
                       "createdTimestamp": 1596456420000,
@@ -420,28 +384,28 @@
                 },
                 "type": "PERSON",
                 "person": {
-                  "type": "PERPAS",
+                  "type": "PERTDRIVER",
                   "title": null,
-                  "familyName": "Bailey",
-                  "givenName": "Ben",
-                  "fullName": "Ben Bailey",
-                  "dateOfBirth": -66,
+                  "familyName": "Brown",
+                  "givenName": "Bob",
+                  "fullName": "Bob Brown",
+                  "dateOfBirth": 435,
                   "dateOfDeath": null,
                   "gender": "M",
-                  "nationality": "GB",
-                  "yearOfBirth": 1969,
-                  "monthOfBirth": 10,
-                  "dayOfBirth": 27,
+                  "nationality": "NL",
+                  "yearOfBirth": 1971,
+                  "monthOfBirth": 3,
+                  "dayOfBirth": 12,
                   "countryOfBirth": null,
                   "placeOfBirth": null,
                   "ethnicity": null,
                   "maritalStatus": null,
                   "religion": null,
-                  "passportNumber": null
+                  "passportNumber": "244746NL"
                 },
                 "attributes": {
                   "attrs": {
-                    "role": "PASSENGER"
+                    "role": "DRIVER"
                   }
                 },
                 "matching": null,
@@ -624,7 +588,83 @@
                 "changeHistory": null
               }
             ],
-            "documents": null,
+            "documents": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=33f544d684db9e59150ae84406709122,O=0c054324d71c36114b03ecd12e80b5c2"
+                      },
+                      "v1": null
+                    },
+                    "type": "O"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2020-10-28/DataFeedId=5/DataFeedTaskId=1650552/CERBERUS_XML_3a_roroxml_freight_DFDS_v02",
+                    "id": "0c054324d71c36114b03ecd12e80b5c2",
+                    "audit": {
+                      "createdBy": "+Z9FHV/6VAaBmp/LrXLTnQ==",
+                      "createdTimestamp": 1596456420000,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Document",
+                    "version": "1"
+                  }
+                },
+                "type": "DOCUMENT",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=33f544d684db9e59150ae84406709122"
+                    },
+                    "v1": null
+                  },
+                  "type": "P"
+                },
+                "role": "PTOOUSES",
+                "startTimestamp": 1596456420000,
+                "endTimestamp": null,
+                "name": null,
+                "description": null,
+                "additionalInformation": null,
+                "url": null,
+                "document": {
+                  "type": "OBJDOCPAS",
+                  "value": "244746NL",
+                  "subject": null,
+                  "category": "P",
+                  "status": null,
+                  "placeOfIssue": null,
+                  "countryOfIssue": "NL",
+                  "dateOfIssue": null,
+                  "validFromDate": null,
+                  "expiryDate": 18659
+                },
+                "attributes": {
+                  "attrs": {
+                    "documentType": "Passport"
+                  }
+                },
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "matchMerge": null,
+                "changeHistory": null
+              }
+            ],
             "vehicles": [
               {
                 "metadata": {
