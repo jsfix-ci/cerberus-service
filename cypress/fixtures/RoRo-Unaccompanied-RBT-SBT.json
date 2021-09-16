@@ -166,6 +166,15 @@
             "startTimestamp": null,
             "endTimestamp": null
            },
+           "STANDARDISED:cashPaid": {
+            "id": null,
+            "type": null,
+            "valueType": "BOOL",
+            "value": true,
+            "valueList": null,
+            "startTimestamp": null,
+            "endTimestamp": null
+           },
            "STANDARDISED:checkInDateTime": {
             "id": null,
             "type": null,
@@ -397,7 +406,19 @@
            }
           },
           "matching": null,
-          "features": null,
+          "features": {
+           "feats": {
+            "EMPTY-TRAILER-ON-ROUND-TRIP": {
+             "id": null,
+             "type": null,
+             "valueType": "BOOL",
+             "value": true,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            }
+           }
+          },
           "washResponses": null,
           "matchMerge": null,
           "changeHistory": null

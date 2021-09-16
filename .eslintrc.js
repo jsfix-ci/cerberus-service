@@ -78,6 +78,7 @@ module.exports = {
         'quote-props': 'off',
         'cypress/no-unnecessary-waiting': 'off',
         'no-console': 0,
+        'no-dupe-keys': 'off',
       },
     },
   ],

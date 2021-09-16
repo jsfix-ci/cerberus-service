@@ -62,5 +62,15 @@
     "Payment method": "",
     "Ticket price": "",
     "Ticket type": "Single"
+  },
+  "TargetingIndicators": {
+    "Name": "Quick turnaround freight (under 24 hours)",
+    "Name": "Change of driver",
+    "Name": "First use of account (Trailer)",
+    "Name": "New account",
+    "Name": "Empty vehicle",
+    "Name": "Change of account (Vehicle)",
+    "Name": "Same load for round trip (Trailer)",
+    "Name": "First time across border (Trailer)"
   }
 }
