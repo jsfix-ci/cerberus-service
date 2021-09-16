@@ -5,12 +5,21 @@ import { useKeycloak } from '../utils/keycloak';
 import NavigationItem from './NavigationItem';
 
 const Header = () => {
-  const { createLogoutUrl } = useKeycloak();
+  const keycloak = useKeycloak();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMenu = (e) => {
     e.preventDefault();
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    sessionStorage.clear();
+    keycloak.logout({
+      redirectUri: window.location.origin.toString(),
+    });
   };
 
   return (
@@ -49,7 +58,9 @@ const Header = () => {
               aria-label="Navigation menu"
             >
               <NavigationItem href="/tasks">Tasks</NavigationItem>
-              <NavigationItem href={createLogoutUrl()}>Sign out</NavigationItem>
+              <li className="govuk-header__navigation-item">
+                <Link to="/" onClick={(e) => logout(e)} className="govuk-header__link">Sign out</Link>
+              </li>
             </ul>
           </nav>
         </div>

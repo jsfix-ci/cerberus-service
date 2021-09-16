@@ -76,7 +76,7 @@ const renderFieldSets = (fieldSet) => {
   return renderFieldSetContents(fieldSet.contents);
 };
 
-const TaskVersions = ({ taskVersions }) => {
+const TaskVersions = ({ taskVersions, businessKey }) => {
   /*
   * There can be multiple versions of the data
   * We need to display each version
@@ -88,10 +88,10 @@ const TaskVersions = ({ taskVersions }) => {
   return (
     <Accordion
       className="task-versions"
-      id="task-versions"
+      id={`task-versions-${businessKey}`}
       items={
         /* the task data is provided in an array,
-         * there is only everone item in the array
+         * there is only ever one item in the array
         */
         taskVersions.reverse().map((version, index) => {
           const booking = version.find((fieldset) => { return fieldset.fieldSetName === 'Booking'; }) || null;
@@ -109,6 +109,7 @@ const TaskVersions = ({ taskVersions }) => {
           });
           return (
             {
+              expanded: index === 0,
               heading: `Version ${versionNumber}`,
               summary: (
                 <>
