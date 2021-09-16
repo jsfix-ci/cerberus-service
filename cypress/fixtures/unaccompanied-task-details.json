@@ -66,5 +66,28 @@
   "vessel": {
     "name": "NORMANDIE",
     "shippingCompany": "Brittany Ferries"
+  },
+  "selector_matches": {
+    "Group number": "2021-51",
+    "Requesting officer": "Peter Price",
+    "Source reference": "intel source",
+    "Group reference": "Local Reference",
+    "Category": "A",
+    "Threat type": "National Security at the Border",
+    "Point of contact message": "Message for the POC",
+    "Point of contact": "Point Of Contact",
+    "Inbound action": "Advise originator",
+    "Outbound action": "Full attention",
+    "Warnings": "Supplemental warnings",
+    "Notes": "Supplemental notes",
+    "Creator": "Jack Jones",
+    "Entity": "Organisation",
+    "Attribute": "telephone",
+    "Operator": "equal",
+    "Value": "01234 45654654",
+    "Entity": "Message",
+    "Attribute": "mode",
+    "Operator": "in",
+    "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
   }
 }

@@ -15,18 +15,18 @@
          "selectorReference": "2021-51",
          "startDate": "2021-07-09T13:42:48.381Z",
          "endDate": "2021-08-20T22:59:59Z",
-         "category": "B",
+         "category": "A",
          "agencyCode": "Counter Terrorism Police (CTP)",
          "intelligenceSource": "intel source",
          "pointOfContact": "Point Of Contact",
          "pocMessage": "Message for the POC",
-         "priority": "Tier 2",
+         "priority": "Tier 1",
          "inboundActionCode": "Advise originator",
          "outboundActionCode": "Full attention",
          "threatType": "National Security at the Border",
          "notes": "Supplemental notes",
-         "creator": "Joe Jones",
-         "approver": "Henry Hamlet",
+         "creator": "Jack Jones",
+         "approver": "Van Gough",
          "securityLabels": [
           "DATA_RISK_PREARRIVAL"
          ],
@@ -39,7 +39,7 @@
            "entity": "Organisation",
            "descriptor": "telephone",
            "operator": "equal",
-           "value": "01234 56723737"
+           "value": "01234 45654654"
           },
           {
            "entity": "Message",

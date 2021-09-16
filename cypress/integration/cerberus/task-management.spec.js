@@ -71,16 +71,18 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should verify tasks are sorted in arrival time on task management page', () => {
     let arrivalDate;
-    cy.get('.arrival-dates ').each((item, index) => {
+    cy.get('.task-list--item .content-line-two').each((item, index) => {
       let dates;
       cy.wrap(item).find('li').last().then((element) => {
-        dates = element.text().split('at');
-        const d = new Date(dates[0]);
-        if (index === 0) {
-          arrivalDate = d.getTime();
-        } else {
-          expect(arrivalDate).to.be.lte(d.getTime());
-          arrivalDate = d.getTime();
+        if (element.text() !== 'unknown') {
+          dates = element.text().split('at');
+          const d = new Date(dates[0]);
+          if (index === 0) {
+            arrivalDate = d.getTime();
+          } else {
+            expect(arrivalDate).to.be.lte(d.getTime());
+            arrivalDate = d.getTime();
+          }
         }
       });
     });
