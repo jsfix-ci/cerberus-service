@@ -373,6 +373,14 @@ Cypress.Commands.add('expandTaskDetails', () => {
   });
 });
 
+Cypress.Commands.add('collapseTaskDetails', () => {
+  cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
+    if (value === true) {
+      cy.get('.govuk-accordion__section-button').click();
+    }
+  });
+});
+
 Cypress.Commands.add('navigateToTaskDetailsPage', (task) => {
   const processInstanceId = task.map((item) => item.processInstanceId);
   expect(processInstanceId.length).to.not.equal(0);

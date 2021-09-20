@@ -10,17 +10,20 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify task version details of unaccompanied task on task details page', () => {
     let date = new Date();
+    let targetURL;
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-UNACC-VERSION`).then((response) => {
         cy.wait(4000);
+        targetURL = response.businessKey;
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
 
     cy.wait(2000);
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails();
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
@@ -77,6 +80,22 @@ describe('Task Details of different tasks on task details Page', () => {
           expect(details).to.deep.equal(expectedDetails.selector_matches);
         });
       });
+      // COP-6433 : Auto-expand current task version
+      cy.collapseTaskDetails();
+      cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
+      cy.reload();
+      cy.wait(2000);
+      cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
+
+      cy.contains('Sign out').click();
+
+      cy.login(Cypress.env('userName'));
+
+      cy.checkTaskDisplayed(targetURL);
+
+      cy.wait(2000);
+
+      cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     });
   });
 
@@ -94,6 +113,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails();
 
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
@@ -161,6 +181,8 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.wait(2000);
+
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
 
     cy.expandTaskDetails();
 
@@ -383,7 +405,7 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 1);
-
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails();
 
     const expectedDetails = {
