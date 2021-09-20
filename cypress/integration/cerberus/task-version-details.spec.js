@@ -276,7 +276,31 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
     });
+
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+
+    // COP-6433 : Auto-expand latest task version
+
+    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'true');
+
+    cy.get('.govuk-accordion__section-button').eq(0).click();
+
+    cy.wait(2000);
+
+    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'false');
+    cy.reload();
+    cy.wait(2000);
+    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'false');
+
+    cy.contains('Sign out').click();
+
+    cy.login(Cypress.env('userName'));
+
+    cy.checkTaskDisplayed(businessKey);
+
+    cy.wait(2000);
+
+    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'true');
   });
 
   it.skip('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
@@ -462,6 +486,8 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 2);
+
+    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'true');
 
     cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').then((value) => {
       if (value !== true) {
