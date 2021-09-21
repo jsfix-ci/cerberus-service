@@ -240,6 +240,12 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
     let date = new Date();
     const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-with-Delay-30Sec/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const expectedAutoExpandStatus = [
+      'false',
+      'false',
+      'false',
+    ];
+
     date.setDate(date.getDate() + 8);
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
@@ -281,16 +287,19 @@ describe('Task Details of different tasks on task details Page', () => {
 
     // COP-6433 : Auto-expand latest task version
 
-    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'true');
+    cy.get('.govuk-accordion__section-button').first().invoke('attr', 'aria-expanded').should('equal', 'true');
 
-    cy.get('.govuk-accordion__section-button').eq(0).click();
+    cy.get('.govuk-accordion__section-button').first().click();
 
     cy.wait(2000);
 
-    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'false');
+    cy.get('.govuk-accordion__section-button').first().invoke('attr', 'aria-expanded').should('equal', 'false');
     cy.reload();
     cy.wait(2000);
-    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'false');
+
+    cy.get('.govuk-accordion__section-button').each((version, index) => {
+      cy.wrap(version).invoke('attr', 'aria-expanded').should('equal', expectedAutoExpandStatus[index]);
+    });
 
     cy.contains('Sign out').click();
 
@@ -300,7 +309,15 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'true');
+    const expectedDefaultExpandStatus = [
+      'true',
+      'false',
+      'false',
+    ];
+
+    cy.get('.govuk-accordion__section-button').each((version, index) => {
+      cy.wrap(version).invoke('attr', 'aria-expanded').should('equal', expectedDefaultExpandStatus[index]);
+    });
   });
 
   it.skip('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
