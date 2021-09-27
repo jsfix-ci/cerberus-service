@@ -561,3 +561,9 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
     cy.verifyTaskDetailSection(expectedDetails.selectorMatch, versionInRow, expectedDetails.selectorMatchSection);
   }
 });
+
+Cypress.Commands.add('checkTaskSummaryDetails', (expectedSummary) => {
+  cy.get('.govuk-grid-row dl.mode-details dd').each((element, index) => {
+    cy.wrap(element).should('contain.text', expectedSummary[index]);
+  });
+});

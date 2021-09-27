@@ -1,0 +1,677 @@
+{
+  "variables": {
+    "rbtPayload": {
+      "type": "Json",
+      "value": {
+        "data": {
+          "movementId": "ROROTSV:CMID=2ff265ab61ceae749500a8a9efa38146/ff780ed9b2c636030e055f8a3f59e4bd/006ada597cb1f03ef0f276cff4e1f292/ccb8774f570aa606fc3dec2ed1a626f9/cc290639a48d9fa04427007f7b5ad321",
+          "riskSubmissionId": 30651,
+          "riskCreatedDate": "2021-09-24T13:50:52.487276Z",
+          "riskType": "Pre-Arrival",
+          "matchedRules": [
+            {
+              "ruleId": 293,
+              "ruleName": "Paid by Cash",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Test",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-09-24T13:50:52Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ]
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Tourist"
+                  ]
+                }
+              ],
+              "abuseTypes": [
+                "National Security at the Border"
+              ]
+            }
+          ],
+          "matchedSelectors": [
+          ],
+          "movement": {
+            "cerberusMovementId": "ROROTSV:CMID=2ff265ab61ceae749500a8a9efa38146/ff780ed9b2c636030e055f8a3f59e4bd/006ada597cb1f03ef0f276cff4e1f292/ccb8774f570aa606fc3dec2ed1a626f9/cc290639a48d9fa04427007f7b5ad321",
+            "firstCerberusTimestamp": 1632491450358,
+            "cerberusTimestamp": 1632491450358,
+            "latestMessageType": "RUN_LOG",
+            "messageAnalysis": {
+              "messageMatches": [
+                {
+                  "sourceMessageVersion": 1,
+                  "expectedMatches": 6,
+                  "countOfMatches": 0,
+                  "sourceMsgEnriches": 0
+                }
+              ],
+              "countOfSourceMessages": 1,
+              "countOfSnapshots": 0,
+              "countOfNoStateChanges": 0,
+              "countOfWashes": 0,
+              "countOfEnrichments": 0,
+              "firstRunlogTimestamp": 1632491450358,
+              "lastRunlogTimestamp": 1632491450358,
+              "firstSnapshotTimestamp": 0,
+              "lastSnapshotTimestamp": 0,
+              "firstNSCTimestamp": 0,
+              "lastNSCTimestamp": 0,
+              "firstWashTimestamp": 0,
+              "lastWashTimestamp": 0,
+              "firstEnrichTimestamp": 0,
+              "lastEnrichTimestamp": 0,
+              "matchesComplete": false,
+              "latestVersion": "1.0"
+            },
+            "serviceMovement": {
+              "metadata": {
+                "identityRecord": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROTSV:S=571afcef94f26f5ffad87bbc13599604"
+                    },
+                    "v1": null
+                  },
+                  "type": "S"
+                },
+                "sourceRecord": {
+                  "name": "ROROTSV",
+                  "shortName": "ROT",
+                  "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                  "id": "571afcef94f26f5ffad87bbc13599604",
+                  "audit": {
+                    "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                    "createdTimestamp": 1596380820000,
+                    "updatedBy": null,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "gscMarker": null,
+                  "retentionMarkerDays": -1
+                },
+                "mappingRecord": {
+                  "name": "RR-TSV-Service-Movement",
+                  "version": "1"
+                }
+              },
+              "type": "MOVEMENT",
+              "effectiveFromTimestamp": 1596378600000,
+              "effectiveToTimestamp": null,
+              "dueTimestamp": null,
+              "status": null,
+              "movement": {
+                "type": "Pre-Arrival",
+                "businessIdentifier": "987600011-536",
+                "mode": "RORO Tourist",
+                "source": "P & O Ferries Limite",
+                "actualDepartureTimestamp": 1596378600000
+              },
+              "attributes": {
+                "attrs": {
+                  "bookingReference": "987600011",
+                  "ticketNumber": "DT0098677",
+                  "methodOfPayment": "C",
+                  "adultCount": "1",
+                  "bookingType": "S",
+                  "checkInTime": "1631",
+                  "bookingDateTime": "202008011345",
+                  "ticketType": "S"
+                }
+              },
+              "features": {
+                "feats": {
+                  "STANDARDISED:cashPaid": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:checkInDateTime": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "2020-08-01T16:31Z",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:bookingDateTime": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "2020-08-01T13:45Z",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:checkInLeadTimeMilliseconds": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 79140000,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "TOURIST-LATE-BOOKING-24_72_HRS": {
+                    "id": null,
+                    "type": "TXE",
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:bookingIntentHours": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 24,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  }
+                }
+              },
+              "changeHistory": null
+            },
+            "persons": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROTSV:P=13b52214ac62135d6f823426dda12e93"
+                      },
+                      "v1": null
+                    },
+                    "type": "P"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROTSV",
+                    "shortName": "ROT",
+                    "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                    "id": "13b52214ac62135d6f823426dda12e93",
+                    "audit": {
+                      "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                      "createdTimestamp": 1596380820000,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-TSV-Party",
+                    "version": "1"
+                  }
+                },
+                "type": "PERSON",
+                "person": {
+                  "type": "PERPAS",
+                  "title": null,
+                  "familyName": "MMH5",
+                  "givenName": "OLDTHORPE",
+                  "fullName": "OLDTHORPE MMH5",
+                  "dateOfBirth": null,
+                  "dateOfDeath": null,
+                  "gender": null,
+                  "nationality": null,
+                  "yearOfBirth": null,
+                  "monthOfBirth": null,
+                  "dayOfBirth": null,
+                  "countryOfBirth": null,
+                  "placeOfBirth": null,
+                  "ethnicity": null,
+                  "maritalStatus": null,
+                  "religion": null,
+                  "passportNumber": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "role": "PASSENGER"
+                  }
+                },
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "matchMerge": null,
+                "changeHistory": null
+              }
+            ],
+            "organisations": null,
+            "documents": null,
+            "vehicles": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROTSV:P=null[1f60592d8c2048ba87ca7a14e8a9f515],O=1f60592d8c2048ba87ca7a14e8a9f515"
+                      },
+                      "v1": null
+                    },
+                    "type": "O"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROTSV",
+                    "shortName": "ROT",
+                    "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                    "id": "1f60592d8c2048ba87ca7a14e8a9f515",
+                    "audit": {
+                      "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                      "createdTimestamp": 1596380820000,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-TSV-Object-Vehicle",
+                    "version": "1"
+                  }
+                },
+                "type": "VEHICLE",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROTSV:P=null[1f60592d8c2048ba87ca7a14e8a9f515]"
+                    },
+                    "v1": null
+                  },
+                  "type": "P"
+                },
+                "role": "UNKNOWN",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "name": null,
+                "description": null,
+                "additionalInformation": null,
+                "url": null,
+                "vehicle": {
+                  "type": "OBJVEHC",
+                  "make": null,
+                  "model": null,
+                  "vin": null,
+                  "registrationNumber": "K123LKJ",
+                  "registrationCountry": "GB",
+                  "year": null,
+                  "colour": null,
+                  "markings": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "type": "CV",
+                    "role": "TOURIST"
+                  }
+                },
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "matchMerge": null,
+                "changeHistory": null
+              }
+            ],
+            "vessel": {
+              "metadata": {
+                "identityRecord": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROTSV:P=null[78535731db8747df56f7368848491660],O=78535731db8747df56f7368848491660"
+                    },
+                    "v1": null
+                  },
+                  "type": "O"
+                },
+                "sourceRecord": {
+                  "name": "ROROTSV",
+                  "shortName": "ROT",
+                  "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                  "id": "78535731db8747df56f7368848491660",
+                  "audit": {
+                    "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                    "createdTimestamp": 1596380820000,
+                    "updatedBy": null,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "gscMarker": null,
+                  "retentionMarkerDays": -1
+                },
+                "mappingRecord": {
+                  "name": "RR-TSV-Object-Vessel",
+                  "version": "1"
+                }
+              },
+              "type": "VESSEL",
+              "party": {
+                "poleId": {
+                  "v2": {
+                    "id": "ROROTSV:P=null[78535731db8747df56f7368848491660]"
+                  },
+                  "v1": null
+                },
+                "type": "P"
+              },
+              "role": "UNKNOWN",
+              "startTimestamp": null,
+              "endTimestamp": null,
+              "name": null,
+              "description": null,
+              "additionalInformation": null,
+              "url": null,
+              "vessel": {
+                "type": "OBJVESWTR",
+                "name": "PRIDE OF KENT",
+                "operator": "P & O Ferries Limite",
+                "registrationNumber": null,
+                "registrationCountry": null,
+                "registrationPort": null,
+                "mmsi": null,
+                "imo": null,
+                "callSign": null
+              },
+              "attributes": null,
+              "matching": null,
+              "features": null,
+              "washResponses": null,
+              "matchMerge": null,
+              "changeHistory": null
+            },
+            "addresses": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROTSV:P=13b52214ac62135d6f823426dda12e93,L=13b52214ac62135d6f823426dda12e93"
+                      },
+                      "v1": null
+                    },
+                    "type": "L"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROTSV",
+                    "shortName": "ROT",
+                    "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                    "id": "13b52214ac62135d6f823426dda12e93",
+                    "audit": {
+                      "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                      "createdTimestamp": 1596380820000,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-TSV-Location-Address",
+                    "version": "1"
+                  }
+                },
+                "type": "ADDRESS",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROTSV:P=13b52214ac62135d6f823426dda12e93"
+                    },
+                    "v1": null
+                  },
+                  "type": "P"
+                },
+                "role": "PTOLASSO",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "address": {
+                  "type": "LOCADDR",
+                  "postCode": "SE13 2RJ",
+                  "poBox": null,
+                  "fullAddress": "FLAT 1A 72 MICKLEMASS ROAD HACKNEY GREATER LONDON SE13 2RJ",
+                  "name": "OLDTHORPE POLLY",
+                  "siteLocation": null,
+                  "number": null,
+                  "street": null,
+                  "town": "HACKNEY",
+                  "area": null,
+                  "district": null,
+                  "county": "GREATER LONDON",
+                  "country": null,
+                  "uniquePropertyReferenceNumber": null,
+                  "latitude": null,
+                  "longitude": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "addressLine1": "FLAT 1A",
+                    "addressLine2": "72 MICKLEMASS ROAD"
+                  }
+                },
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "matchMerge": null,
+                "changeHistory": null
+              }
+            ],
+            "contacts": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROTSV:P=13b52214ac62135d6f823426dda12e93,L=6f4d245a4b5d2aba34e9d8e8319827ad"
+                      },
+                      "v1": null
+                    },
+                    "type": "L"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROTSV",
+                    "shortName": "ROT",
+                    "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                    "id": "6f4d245a4b5d2aba34e9d8e8319827ad",
+                    "audit": {
+                      "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                      "createdTimestamp": 1596380820000,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-TSV-Location-Contact",
+                    "version": "1"
+                  }
+                },
+                "type": "CONTACT",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROTSV:P=13b52214ac62135d6f823426dda12e93"
+                    },
+                    "v1": null
+                  },
+                  "type": "P"
+                },
+                "role": "PTOLUSES",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "contact": {
+                  "type": "LOCTEL",
+                  "value": "0208 3451234"
+                },
+                "attributes": null,
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "matchMerge": null,
+                "changeHistory": null
+              }
+            ],
+            "voyage": {
+              "metadata": {
+                "identityRecord": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROTSV:S=60179686cf9b35ff5283382477ab9934"
+                    },
+                    "v1": null
+                  },
+                  "type": "S"
+                },
+                "sourceRecord": {
+                  "name": "ROROTSV",
+                  "shortName": "ROT",
+                  "location": "archive/GroupId=none/CollectionDate=2021-03-03/DataFeedId=107/DataFeedTaskId=7577059/CERBERUS_4_TSV_SameVeh_DiffDriv_voyage2",
+                  "id": "60179686cf9b35ff5283382477ab9934",
+                  "audit": {
+                    "createdBy": "Nx7O8iZ0u9z/QcDt3SA3gQ==",
+                    "createdTimestamp": 1596380820000,
+                    "updatedBy": null,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "gscMarker": null,
+                  "retentionMarkerDays": -1
+                },
+                "mappingRecord": {
+                  "name": "RR-TSV-Service-Voyage",
+                  "version": "1"
+                }
+              },
+              "type": "VOYAGE",
+              "effectiveFromTimestamp": 1596378600000,
+              "effectiveToTimestamp": null,
+              "dueTimestamp": null,
+              "status": null,
+              "voyage": {
+                "type": "COMMERCIAL",
+                "voyageType": "SEA",
+                "departureLocation": "xxx",
+                "departureCountry": null,
+                "scheduledDepartureTimestamp": 1596378600000,
+                "actualDepartureTimestamp": 1596378600000,
+                "arrivalLocation": "CAL",
+                "arrivalCountry": null,
+                "scheduledArrivalTimestamp": null,
+                "actualArrivalTimestamp": null,
+                "intermediateLocations": null,
+                "passengerCount": null,
+                "crewCount": null,
+                "durationMinutes": null,
+                "routeId": null,
+                "carrier": "P & O Ferries Limite",
+                "craftId": "PRIDE OF KENT"
+              },
+              "attributes": {
+                "attrs": {
+                }
+              },
+              "features": {
+                "feats": {
+                  "STANDARDISED:arrivalPort": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "MAP",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        {
+                          "UNLO5": "FR CQF"
+                        }
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1632491450363
+                  },
+                  "STANDARDISED:departurePort": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "MAP",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        {
+                          "UNLO5": "xxx(not mapped)"
+                        }
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1632491450362
+                  }
+                }
+              },
+              "changeHistory": null
+            },
+            "consolidation": null,
+            "consignments": null
+          }
+        },
+        "form": {
+          "formId": "0461b839-fa27-424b-9fdc-baa4a0d59597",
+          "formVersionId": "f7494983-cdda-4472-9f57-e58f945d14b8",
+          "name": "examinerbtpayload",
+          "submittedBy": "rbtEngine-eb4c39bd-0a50-4595-aae5-c66a23a3a8fb",
+          "title": "Examine RBT Payload",
+          "submissionDate": "2021-09-24T13:41:54Z"
+        }
+      }
+    },
+    "initiatedBy": {
+      "type": "String",
+      "value": "rbtEngine"
+    }
+  },
+  "businessKey": "CERB-ROROXML:CMID=b79733bfd00a67d245b70ec11d9a518d/426ac062c48f52719377d8b8754adb79/cdc28e1ff3b21c07417bcd650de717e8"
+}
