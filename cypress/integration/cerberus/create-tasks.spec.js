@@ -36,6 +36,19 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
+  it('Should create a task with a payload contains vehicle value as null', () => {
+    cy.fixture('task-vehicle-null.json').then((task) => {
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.checkTaskSummary(null, bookingDateTime);
+      });
+    });
+  });
+
   it('Should create a task with a payload contains RoRo Tourist and check AbuseType set to correct value', () => {
     cy.fixture('RoRo-Tourist.json').then((task) => {
       task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);

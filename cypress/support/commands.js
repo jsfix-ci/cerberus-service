@@ -417,9 +417,11 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
 });
 
 Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) => {
-  cy.get('.card').within(() => {
-    cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
-  });
+  if (registrationNumber !== null) {
+    cy.get('.card').within(() => {
+      cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
+    });
+  }
 
   if (bookingDateTime === 'Invalid date') {
     bookingDateTime = 'Invalid Date';

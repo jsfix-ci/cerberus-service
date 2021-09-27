@@ -320,7 +320,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it.skip('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
+  it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -360,10 +360,10 @@ describe('Task Details of different tasks on task details Page', () => {
         expect(res.body.length).to.equal(1);
       });
     });
-    cy.get('.govuk-accordion__section-heading').should('have.length', 1);
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
   });
 
-  it.skip('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
+  it('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay-Failure/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -411,7 +411,7 @@ describe('Task Details of different tasks on task details Page', () => {
         expect(res.body.length).to.equal(1);
       });
     });
-    cy.get('.govuk-accordion__section-heading').should('have.length', 1);
+    cy.get('.govuk-accordion__section-heading').should('have.length', 4);
   });
 
   // COP-6905 Scenario-2
