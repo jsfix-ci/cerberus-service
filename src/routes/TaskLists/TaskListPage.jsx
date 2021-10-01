@@ -161,7 +161,11 @@ const TasksTab = ({ taskStatus, setError }) => {
   }, [location.search]);
 
   useEffect(() => {
-    if (activePage > 0) {
+    const isTargeter = (keycloak.tokenParsed.groups).indexOf('/DS05B2no') > -1;
+    if (!isTargeter) {
+      console.log('no')
+    }
+    if (activePage > 0 && isTargeter) {
       loadTasks();
       return () => {
         source.cancel('Cancelling request');
