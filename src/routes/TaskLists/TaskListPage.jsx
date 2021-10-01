@@ -9,7 +9,7 @@ import _ from 'lodash';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 // Config
-import { SHORT_DATE_FORMAT, LONG_DATE_FORMAT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import { SHORT_DATE_FORMAT, LONG_DATE_FORMAT, TARGETER_GROUP, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
@@ -33,6 +33,7 @@ const TasksTab = ({ taskStatus, setError }) => {
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
   const [targetTaskCount, setTargetTaskCount] = useState(0);
+  const [authorisedGroup, setAuthorisedGroup] = useState();
 
   const [isLoading, setLoading] = useState(true);
 
@@ -161,11 +162,13 @@ const TasksTab = ({ taskStatus, setError }) => {
   }, [location.search]);
 
   useEffect(() => {
-    const isTargeter = (keycloak.tokenParsed.groups).indexOf('/DS05B2no') > -1;
+    const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
-      console.log('no')
+      setLoading(false);
+      setAuthorisedGroup(false);
     }
     if (activePage > 0 && isTargeter) {
+      setAuthorisedGroup(true);
       loadTasks();
       return () => {
         source.cancel('Cancelling request');
@@ -184,12 +187,14 @@ const TasksTab = ({ taskStatus, setError }) => {
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
-
-      {!isLoading && targetTasks.length === 0 && (
+      {!isLoading && !authorisedGroup && (
+        <p>You are not authorised to view these tasks.</p>
+      )}
+      {!isLoading && authorisedGroup && targetTasks.length === 0 && (
         <p className="govuk-body-l">No tasks available</p>
       )}
 
-      {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
+      {!isLoading && authorisedGroup && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
         return (
