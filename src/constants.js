@@ -5,4 +5,4 @@ export const TASK_STATUS_NEW = 'new';
 export const TASK_STATUS_IN_PROGRESS = 'inProgress';
 export const TASK_STATUS_TARGET_ISSUED = 'issued';
 export const TASK_STATUS_COMPLETED = 'complete';
-export const TARGETER_GROUP = '/DS05B2';
+export const TARGETER_GROUP = 'bf-intel-targeters';
