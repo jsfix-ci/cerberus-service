@@ -14,7 +14,7 @@ jest.mock('../../src/utils/keycloak', () => ({
         roles: ['test'],
       },
       team_id: '21',
-      groups: ['bf-intel-targeters'],
+      groups: ['/bf-intel-targeters'],
     },
     createLogoutUrl: jest.fn(() => 'http://example.com/logout'),
     logout: jest.fn(() => ({
