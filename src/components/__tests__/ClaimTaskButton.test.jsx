@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
+import '../../__mocks__/keycloakMock';
 import ClaimButton from '../ClaimTaskButton';
 import TaskListPage from '../../routes/TaskLists/TaskListPage';
 

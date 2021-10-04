@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import '../../__mocks__/keycloakMock';
 import Header from '../Header';
 
 describe('Header', () => {
