@@ -177,11 +177,14 @@ const TasksTab = ({ taskStatus, setError }) => {
   }, [activePage]);
 
   useInterval(() => {
-    setLoading(true);
-    loadTasks();
-    return () => {
-      source.cancel('Cancelling request');
-    };
+    const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
+    if (isTargeter) {
+      setLoading(true);
+      loadTasks();
+      return () => {
+        source.cancel('Cancelling request');
+      };
+    }
   }, 60000);
 
   return (
