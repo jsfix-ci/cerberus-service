@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import '../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import variableInstanceTaskSummaryBasedOnTIS from '../__fixtures__/variableInstanceTaskSummaryBasedOnTIS.fixture.json';
 
@@ -15,7 +16,6 @@ describe('TaskListPage', () => {
 
   it('should render loading spinner on component load', () => {
     render(<TaskListPage taskStatus="new" setError={() => { }} />);
-
     expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
@@ -40,6 +40,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('New')).toBeInTheDocument();
     expect(screen.getByText('Target issued')).toBeInTheDocument();
 
