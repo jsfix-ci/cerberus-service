@@ -150,8 +150,8 @@ describe('TaskListPage', () => {
       .onGet('/task')
       .reply(200, [
         { processInstanceId: '123', assignee: 'test' },
-        { processInstanceId: '456', assignee: null },
-        { processInstanceId: '789', assignee: null },
+        { processInstanceId: '456', assignee: 'another-user' },
+        { processInstanceId: '789', assignee: 'another-user' },
       ])
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
