@@ -31,7 +31,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
         history.go(0);
       }
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
       setAssignmentProgress(false);
     }
   };
@@ -48,7 +48,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
       );
       window.scrollTo(0, 0);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
       setAssignmentProgress(false);
     }
   };
