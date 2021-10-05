@@ -59,6 +59,9 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
   if (!assignee) {
     return <CommonButton onClick={handleClaim} {...props}>Claim</CommonButton>;
   }
+  if (assignee !== currentUser) {
+    return <span>{`Already claimed by ${assignee}`}</span>;
+  }
   return null;
 };
 
