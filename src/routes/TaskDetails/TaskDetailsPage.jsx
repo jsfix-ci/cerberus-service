@@ -258,6 +258,14 @@ const TaskDetailsPage = () => {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
 
+  /*
+   * TaskListPage and TaskDetailsPage both use the
+   * ClaimButton logic to display claim/unclaim button
+   * And to display who the task is assigned to
+   * if it's already assigned (ie assignee !== currentUser)
+   * TaskDetaisPage needs extra text in the two scenarios
+   * listed below
+  */
   const getAssignee = () => {
     if (!assignee) {
       return 'Unassigned ';
@@ -265,7 +273,6 @@ const TaskDetailsPage = () => {
     if (assignee === currentUser) {
       return 'Assigned to you ';
     }
-    return `Assigned to ${assignee} `;
   };
 
   return (

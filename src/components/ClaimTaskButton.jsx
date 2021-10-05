@@ -60,7 +60,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
     return <CommonButton onClick={handleClaim} {...props}>Claim</CommonButton>;
   }
   if (assignee !== currentUser) {
-    return <span>{`Already claimed by ${assignee}`}</span>;
+    return <span className="govuk-body">{`Assigned to ${assignee}`}</span>;
   }
   return null;
 };

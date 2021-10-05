@@ -217,7 +217,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </h4>
               </div>
               <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
-                { (activeTab === TASK_STATUS_NEW || currentUser === target.assignee)
+                { (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS || currentUser === target.assignee)
                   && (
                   <ClaimButton
                     className="govuk-!-font-weight-bold"
