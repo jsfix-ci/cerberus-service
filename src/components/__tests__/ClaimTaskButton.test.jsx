@@ -93,4 +93,22 @@ describe('Claim/Unclaim buttons', () => {
     expect(screen.queryByText('Target issued tasks')).not.toBeInTheDocument();
     expect(screen.queryByText('Completed tasks')).not.toBeInTheDocument();
   });
+
+  it('should render with text of username when the assignee does not match the current user', async () => {
+    const task = {
+      assignee: 'not-current-user',
+      id: '123',
+    };
+
+    render(<ClaimButton
+      className="govuk-!-font-weight-bold"
+      assignee={task.assignee}
+      taskId={task.id}
+      setError={setError}
+    />);
+
+    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Unclaim')).not.toBeInTheDocument());
+    expect(screen.getByText(/Assigned to not-current-user/i)).toBeInTheDocument();
+  });
 });
