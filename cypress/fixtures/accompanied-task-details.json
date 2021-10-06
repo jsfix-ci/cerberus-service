@@ -6,6 +6,8 @@
     "Model": "",
     "Country of registration": "DK",
     "Colour": "",
+    "Net weight": "3455kg",
+    "Gross weight": "43623kg",
     "Trailer registration number": "",
     "Trailer type": "",
     "Trailer country of registration": "",
@@ -48,10 +50,10 @@
   },
   "goods": {
     "Description of goods": "Liquid Nitrogen",
-    "Is cargo hazardous?": "false",
+    "Is cargo hazardous?": "No",
     "Weight of goods": ""
   },
-  "booking": {
+  "Booking-and-check-in": {
     "Reference": "AA000000006",
     "Ticket number": "ST-34560",
     "Type": "",
@@ -61,7 +63,8 @@
     "Country": "GB",
     "Payment method": "",
     "Ticket price": "",
-    "Ticket type": "Single"
+    "Ticket type": "Single",
+    "Check in": "4 Aug 2020 at 11:05"
   },
   "TargetingIndicators": {
     "Name": "Quick turnaround freight (under 24 hours)",
