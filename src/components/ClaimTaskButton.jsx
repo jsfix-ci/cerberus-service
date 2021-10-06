@@ -6,7 +6,7 @@ import config from '../config';
 import { TASK_STATUS_NEW } from '../constants';
 import { useKeycloak } from '../utils/keycloak';
 
-const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, ...props }) => {
+const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, TaskAssignedWarning = () => {}, ...props }) => {
   const history = useHistory();
   const [isAssignmentInProgress, setAssignmentProgress] = useState(false);
   const keycloak = useKeycloak();
@@ -31,9 +31,13 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
         history.go(0);
       }
     } catch (e) {
-      // setError(e.response.data.message);
       setAssignmentProgress(false);
-      history.push(`/tasks/${businessKey}?alreadyAssigned=t`);
+      if (history.location.pathname !== `/tasks/${businessKey}`) {
+        history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
+      } else {
+        history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
+        return TaskAssignedWarning(assignee);
+      }
     }
   };
 
