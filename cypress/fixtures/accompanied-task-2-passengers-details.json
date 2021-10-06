@@ -75,7 +75,7 @@
   },
   "rules": {
     "Name": "cash paid rule",
-    "Category": "Tier 1",
+    "Priority": "Tier 1",
     "Version": "1",
     "Abuse type": "",
     "Agency": "",
