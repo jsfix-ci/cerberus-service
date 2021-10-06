@@ -42,6 +42,10 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
 
 }
 
+.task-list--email {
+  overflow-wrap: break-word;
+}
+
 .govuk-tag.govuk-tag--positiveTarget {
   @include govuk-font($size: 14, $weight: bold, $line-height: 1);
   height: 19px;
