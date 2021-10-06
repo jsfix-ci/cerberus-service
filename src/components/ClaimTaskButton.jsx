@@ -32,12 +32,9 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, T
       }
     } catch (e) {
       setAssignmentProgress(false);
-      if (history.location.pathname !== `/tasks/${businessKey}`) {
-        history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
-      } else {
-        history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
-        return TaskAssignedWarning(assignee);
-      }
+      history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
+      return TaskAssignedWarning(assignee);
+      // }
     }
   };
 
@@ -53,7 +50,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, T
       );
       window.scrollTo(0, 0);
     } catch (e) {
-      setError(e.response.data.message);
+      setError(e.message);
       setAssignmentProgress(false);
     }
   };

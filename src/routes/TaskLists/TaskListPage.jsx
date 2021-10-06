@@ -147,7 +147,7 @@ const TasksTab = ({ taskStatus, setError }) => {
           return (a.due === null) - (b.due === null) || +(dateA > dateB) || -(dateA < dateB);
         }));
       } catch (e) {
-        setError(e.response.data.message);
+        setError(e.message);
         setTargetTasks([]);
       } finally {
         setLoading(false);
