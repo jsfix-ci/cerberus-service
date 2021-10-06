@@ -31,11 +31,9 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, .
         history.go(0);
       }
     } catch (e) {
-      if (history.location.pathname !== `/tasks/${businessKey}`) {
-        history.push(`/tasks/${businessKey}`);
-      }
-      setError(e.response.data.message);
+      // setError(e.response.data.message);
       setAssignmentProgress(false);
+      history.push(`/tasks/${businessKey}?alreadyAssigned=t`);
     }
   };
 

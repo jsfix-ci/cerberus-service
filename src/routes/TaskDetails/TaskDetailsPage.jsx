@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import qs from 'qs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
 import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
@@ -79,6 +80,7 @@ const TaskDetailsPage = () => {
   const [processInstanceData, setProcessInstanceData] = useState({});
   const [targetStatus, setTargetStatus] = useState();
   const [targetData, setTargetData] = useState([]);
+  const [warning, setWarning] = useState();
 
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissFormOpen, setDismissFormOpen] = useState();
@@ -106,7 +108,17 @@ const TaskDetailsPage = () => {
     );
   };
 
+  const TaskAssignedWarning = () => {
+    const assignedState = qs.parse(location.search, { ignoreQueryPrefix: true });
+    if (assignedState.alreadyAssigned === 't') {
+      setWarning(true);
+    } else {
+      setWarning(false);
+    }
+  };
+
   useEffect(() => {
+    setWarning(false);
     const loadTask = async () => {
       try {
         /*
@@ -248,6 +260,7 @@ const TaskDetailsPage = () => {
         setLoading(false);
       }
     };
+    TaskAssignedWarning();
     loadTask();
     return () => {
       source.cancel('Cancelling request');
@@ -278,6 +291,15 @@ const TaskDetailsPage = () => {
   return (
     <>
       {error && <ErrorSummary title={error} />}
+      {warning && (
+        <div className="govuk-warning-text">
+          <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong className="govuk-warning-text__text">
+            <span className="govuk-warning-text__assistive">Warning</span>
+            {`Task already assigned to ${assignee}`}
+          </strong>
+        </div>
+      )}
 
       {targetData.length > 0 && (
         <>
