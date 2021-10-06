@@ -83,7 +83,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
   * We currently get the data as an array of unnamed objects
   * That contain an array of unnamed objects
   * There is a plan to name the objects in the future
-  * But for now we have to find the relevant object by looking at the fieldSetName
+  * But for now we have to find the relevant object by looking at the propName
   */
   return (
     <Accordion
@@ -94,12 +94,12 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
          * there is only ever one item in the array
         */
         taskVersions.reverse().map((version, index) => {
-          const booking = version.find((fieldset) => { return fieldset.fieldSetName === 'Booking'; }) || null;
-          const bookingDate = booking?.contents.find((field) => { return field.fieldName === 'Date and time'; }) || null;
+          const booking = version.find((fieldset) => { return fieldset.propName === 'booking'; }) || null;
+          const bookingDate = booking?.contents.find((field) => { return field.propName === 'dateBooked'; }) || null;
           const versionNumber = taskVersions.length - index;
           const detailSection = version.map((field) => {
             return (
-              <div key={field.fieldSetName}>
+              <div key={field.propName}>
                 <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
                 <dl className="govuk-summary-list govuk-!-margin-bottom-9">
                   {renderFieldSets(field)}
