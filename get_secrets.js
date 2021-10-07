@@ -9,6 +9,8 @@ const env = process.env;
 
 const cerberusUser = 'cypressuser-cerberus@lodev.xyz';
 
+const cerberusUserNotInGroup = 'cypressuser@lodev.xyz';
+
 if (!('AWS_ACCESS_KEY_ID' in env)) {
   console.log("You must set: 'AWS_ACCESS_KEY_ID'");
   process.exit(1);
@@ -53,6 +55,8 @@ getSecret().then((secret) => {
   if (secret.users) {
     const testUser = secret.users.find((user) => user.username === cerberusUser);
 
+    const testUserWithoutAccessToTasks = secret.users.find((user) => user.username === cerberusUserNotInGroup);
+
     let dir = 'cypress/fixtures/users';
 
     if (!fs.existsSync(dir)) {
@@ -65,9 +69,18 @@ getSecret().then((secret) => {
       { flag: 'w' },
     );
 
+    fs.writeFileSync(
+      `cypress/fixtures/users/${testUserWithoutAccessToTasks.username}.json`,
+      JSON.stringify(testUserWithoutAccessToTasks),
+      { flag: 'w' },
+    );
+
     try {
       if (fs.existsSync(`cypress/fixtures/users/${testUser.username}.json`)) {
-        console.log('File exists');
+        console.log(`${testUser.username} File exists`);
+      }
+      if (fs.existsSync(`cypress/fixtures/users/${testUserWithoutAccessToTasks.username}.json`)) {
+        console.log(`${testUserWithoutAccessToTasks.username} File exists`);
       }
     } catch (err) {
       console.error(err);
