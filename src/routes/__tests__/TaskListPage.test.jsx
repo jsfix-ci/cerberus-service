@@ -211,6 +211,26 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 
+  it('should display the first risk and a count of risks', async () => {
+    mockAxios
+      .onGet('/task/count')
+      .reply(200, { count: 10 })
+      .onGet('/task')
+      .reply(200, [
+        { processInstanceId: '123', assignee: null },
+        { processInstanceId: '456', assignee: null },
+        { processInstanceId: '789', assignee: null },
+      ])
+      .onGet('/variable-instance')
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+
+    expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 2 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('Rulename, Tier 1, Class A Drugs and 0 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 1 other rule')).toHaveLength(1);
+  });
+
   it('should handle errors gracefully', async () => {
     mockAxios
       .onGet('/task/count')
