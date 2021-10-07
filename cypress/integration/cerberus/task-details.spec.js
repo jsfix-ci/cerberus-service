@@ -476,6 +476,46 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
+  it('Should display assignee name when task in progress on task management page', () => {
+    cy.fixture('tasks.json').then((task) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER-CHECK-ASSIGNEE-NAME`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.assignToOtherUser(tasks);
+        });
+      });
+    });
+
+    cy.getTasksAssignedToSpecificUser('boothi.palanisamy@digital.homeoffice.gov.uk').then((tasks) => {
+      cy.navigateToTaskDetailsPage(tasks);
+    });
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
+
+    cy.contains('Back to task list').click();
+
+    cy.get('a[href="#in-progress"]').click();
+
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.get('@taskName').then((text) => {
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
+    });
+
+    cy.get('.task-list--email').should('not.contain', `Assigned to ${Cypress.env('userName')}`);
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
