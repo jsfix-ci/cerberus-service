@@ -82,6 +82,17 @@ const TasksTab = ({ taskStatus, setError }) => {
     },
   };
 
+  const formatTargetRisk = (target) => {
+    if (target.risks) {
+      const topRisk = target.risks[0].contents
+        ? `SELECTOR: ${target.risks[0].contents.groupReference}, ${target.risks[0].contents.category}, ${target.risks[0].contents.threatType}`
+        : `${target.risks[0].name}, ${target.risks[0].rulePriority}, ${target.risks[0].abuseType}`;
+      const count = target.risks.length - 1;
+      return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
+    }
+    return 0;
+  };
+
   const loadTasks = async () => {
     if (camundaClient) {
       try {
@@ -186,18 +197,6 @@ const TasksTab = ({ taskStatus, setError }) => {
       };
     }
   }, 60000);
-
-  const formatTargetRisk = (target) => {
-    if (target.risks) {
-      const topRisk = target.risks[0].contents
-        ? `SELECTOR: ${target.risks[0].contents.groupReference}, ${target.risks[0].contents.category}, ${target.risks[0].contents.threatType}`
-        : `${target.risks[0].name}, ${target.risks[0].rulePriority}, ${target.risks[0].abuseType}`;
-
-      const count = target.risks.length - 1;
-      return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
-    }
-    return 0;
-  };
 
   return (
     <>
