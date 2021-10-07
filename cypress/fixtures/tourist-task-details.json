@@ -2,18 +2,18 @@
   "vehicle": {
     "Vehicle registration": "IR-9688",
     "Type": "HGV",
-    "Make": "BMW",
-    "Model": "520D",
+    "Make": "AUDI",
+    "Model": "V9",
     "Country of registration": "GB",
-    "Trailer registration number": "IR-6457",
-    "Colour": "Red",
+    "Colour": "WHITE",
     "Net weight": "0kg",
     "Gross weight": "2889kg",
+    "Trailer registration number": "IR-6457",
     "Trailer type": "",
     "Trailer country of registration": "GB",
     "Empty or loaded": "L",
-    "Trailer length": "36m",
-    "Trailer height": "3.6m"
+    "Trailer length": "",
+    "Trailer height": ""
   },
   "account": {
     "Full name": "Product of France Wines",
@@ -32,23 +32,23 @@
   },
   "driver": {
     "Name": "Isiaih Ford",
-    "Date of birth": "09/10/1991",
+    "Date of birth": "13/10/1991",
     "Gender": "M",
-    "Nationality": "DK",
+    "Nationality": "AUS",
     "Travel document type": "OBJDOCPAS",
     "Travel document number": "566746DL",
     "Travel document expiry": "29/10/2023"
   },
   "passengers": {
     "Name": "Fred Flintstone",
-    "Date of birth": "15/07/1991",
+    "Date of birth": "22/11/1991",
     "Gender": "F",
     "Nationality": "DE",
-    "Travel document type": "Passport",
+    "Travel document type": "OBJDOCPAS",
     "Travel document number": "875786876",
     "Travel document expiry": "22/03/2022",
     "Name": "Barney Rubble",
-    "Date of birth": "12/07/1991",
+    "Date of birth": "01/03/1989",
     "Gender": "M",
     "Nationality": "GB",
     "Travel document type": "OBJDOCPAS",
@@ -61,7 +61,7 @@
     "Weight of goods": ""
   },
   "Booking-and-check-in": {
-    "Reference": "AA123412781",
+    "Reference": "AB555412781",
     "Ticket number": "1234567",
     "Type": "R",
     "Name": "",
@@ -72,37 +72,5 @@
     "Ticket price": "",
     "Ticket type": "Return",
     "Check in": ""
-  },
-  "rules": {
-    "Name": "cash paid rule",
-    "Priority": "Tier 1",
-    "Version": "1",
-    "Abuse type": "",
-    "Agency": "",
-    "Description": "Was this booking paid for with cash?"
-  },
-  "vessel": {
-    "name": "PRIDE OF CANTERBURY",
-    "shippingCompany": "P & O Ferries Limite"
-  },
-  "passengersTIS":[
-    {
-      "Name": "Fred Flintstone",
-      "Date of birth": "15/7/1991",
-      "Gender": "F",
-      "Nationality": "DE",
-      "Travel document type": "OBJDOCPAS",
-      "Travel document number": "875786876",
-      "Travel document expiry": "22/3/2022"
-    },
-    {
-      "Name": "Barney Rubble",
-      "Date of birth": "12/7/1991",
-      "Gender": "M",
-      "Nationality": "GB",
-      "Travel document type": "OBJDOCPAS",
-      "Travel document number": "244746NL",
-      "Travel document expiry": "1/2/2021"
-    }
-  ]
+  }
 }
