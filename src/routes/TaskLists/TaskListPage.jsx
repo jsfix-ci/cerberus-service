@@ -187,6 +187,15 @@ const TasksTab = ({ taskStatus, setError }) => {
     }
   }, 60000);
 
+  const formatTargetRisk = (target) => {
+    if (target.risks) {
+      const topRisk = target.risks[0].contents ? target.risks[0].contents.threatType : target.risks[0].name;
+      const count = target.risks.length - 1;
+      return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
+    }
+    return 0;
+  };
+
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
@@ -227,6 +236,12 @@ const TasksTab = ({ taskStatus, setError }) => {
                     businessKey={escapedBusinessKey}
                   />
                   )}
+              </div>
+            </div>
+
+            <div className="govuk-grid-row">
+              <div className="govuk-grid-column-full">
+                <p className="govuk-body task-risk-statement">{formatTargetRisk(target)}</p>
               </div>
             </div>
 
