@@ -2,19 +2,19 @@
   {
     "type": "Json",
     "processInstanceId": "123",
-    "value": "{\"parentBusinessKey\":{\"businessKey\":\"business:key=a/b/c\"},\"risks\":[{\"contents\":{\"threatType\":\"Class B&C Drugs inc. Cannabis\"}},{\"contents\":{\"threatType\":\"National Security at the Border\"}},{\"name\":\"Selector Matched\"}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"business:key=a/b/c\"},\"risks\":[{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}},{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"A\",\"threatType\":\"National Security at the Border\"}},{\"name\":\"Rulename\",\"rulePriority\":\"Tier 1\",\"abuseType\":\"Class A Drugs\"}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
     "name": "taskSummaryBasedOnTIS"
   },
   {
     "type": "Json",
     "processInstanceId": "456",
-    "value": "{\"parentBusinessKey\":{\"businessKey\":\"business:key=d/e/f\"},\"risks\":[{\"name\":\"Selector Matched\"}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"business:key=d/e/f\"},\"risks\":[{\"name\":\"Rulename\", \"rulePriority\":\"Tier 1\", \"abuseType\":\"Class A Drugs\"}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
     "name": "taskSummaryBasedOnTIS"
   },
   {
     "type": "Json",
     "processInstanceId": "789",
-    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"risks\":[{\"contents\":{\"threatType\":\"Class B&C Drugs inc. Cannabis\"}},{\"contents\":{\"threatType\":\"National Security at the Border\"}}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"risks\":[{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}},{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
     "name": "taskSummaryBasedOnTIS"
   }
 ]

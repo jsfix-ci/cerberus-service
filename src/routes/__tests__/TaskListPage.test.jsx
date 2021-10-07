@@ -226,9 +226,9 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
-    expect(screen.getAllByText('Class B&C Drugs inc. Cannabis and 2 other rules')).toHaveLength(1);
-    expect(screen.getAllByText('Class B&C Drugs inc. Cannabis and 1 other rule')).toHaveLength(1);
-    expect(screen.getAllByText('Selector Matched and 0 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 2 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('Rulename, Tier 1, Class A Drugs and 0 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 1 other rule')).toHaveLength(1);
   });
 
   it('should handle errors gracefully', async () => {
