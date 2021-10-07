@@ -7,6 +7,7 @@ import ClaimButton from '../ClaimTaskButton';
 import TaskListPage from '../../routes/TaskLists/TaskListPage';
 
 const setError = jest.fn();
+const TaskAssignedWarning = jest.fn();
 
 describe('Claim/Unclaim buttons', () => {
   const mockAxios = new MockAdapter(axios);
@@ -105,6 +106,26 @@ describe('Claim/Unclaim buttons', () => {
       assignee={task.assignee}
       taskId={task.id}
       setError={setError}
+    />);
+
+    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Unclaim')).not.toBeInTheDocument());
+    expect(screen.getByText(/Assigned to not-current-user/i)).toBeInTheDocument();
+  });
+
+  it('should handle 500', async () => {
+    const task = {
+      id: '123',
+      assignee: 'not-current-user',
+    };
+    mockAxios.onPost(`task/${task.id}/claim`).reply(500);
+
+    render(<ClaimButton
+      className="govuk-!-font-weight-bold"
+      assignee={task.assignee}
+      taskId={task.id}
+      setError={setError}
+      TaskAssignedWarning={TaskAssignedWarning}
     />);
 
     await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
