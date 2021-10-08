@@ -22,7 +22,7 @@ const formatField = (fieldType, content) => {
     case 'SHORT_DATE':
       return dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
     case 'DATETIME':
-      return dayjs(content).format(LONG_DATE_FORMAT);
+      return dayjs.utc(content).format(LONG_DATE_FORMAT);
     default:
       return content;
   }
