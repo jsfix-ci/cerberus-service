@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,6 +8,7 @@ import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
 
 const formatField = (fieldType, content) => {
+  dayjs.extend(utc);
   if (!content) {
     return '';
   }

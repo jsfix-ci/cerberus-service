@@ -5,6 +5,7 @@ import { useInterval } from 'react-use';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import _ from 'lodash';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
@@ -25,6 +26,7 @@ import '../__assets__/TaskListPage.scss';
 
 const TasksTab = ({ taskStatus, setError }) => {
   dayjs.extend(relativeTime);
+  dayjs.extend(utc);
   const keycloak = useKeycloak();
   const location = useLocation();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);

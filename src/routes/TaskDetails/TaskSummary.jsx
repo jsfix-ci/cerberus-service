@@ -1,10 +1,12 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { LONG_DATE_FORMAT } from '../../constants';
 
 import '../__assets__/TaskDetailsPage.scss';
 
 const TaskSummary = ({ taskSummaryData }) => {
+  dayjs.extend(utc);
   const roroData = taskSummaryData.roro.details;
 
   return (
