@@ -33,15 +33,15 @@ const TaskSummary = ({ taskSummaryData }) => {
             <dt>Ferry</dt>
             <dd>{roroData.vessel?.company && `${roroData.vessel?.company} voyage of `}{roroData.vessel.name}</dd>
             <dt>Departure</dt>
-            <dd>{roroData.departureLocation && `${roroData.departureLocation}, `}{!roroData.departureTime ? 'unknown' : dayjs(roroData.departureTime).format(LONG_DATE_FORMAT)}</dd>
+            <dd>{roroData.departureLocation && `${roroData.departureLocation}, `}{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}</dd>
             <dt>Arrival</dt>
-            <dd>{roroData.arrivalLocation && `${roroData.arrivalLocation}, `}{!roroData.eta ? 'unknown' : dayjs(roroData.eta).format(LONG_DATE_FORMAT)}</dd>
+            <dd>{roroData.arrivalLocation && `${roroData.arrivalLocation}, `}{!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}</dd>
           </dl>
         </div>
         <div className="govuk-grid-column-one-half">
           <dl className="mode-details">
             <dt>Account</dt>
-            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}{dayjs(roroData.bookingDateTime).isValid() && <span className="govuk-!-font-weight-regular">, booked on {dayjs(roroData.bookingDateTime).format(LONG_DATE_FORMAT)}</span>}</dd>
+            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}{dayjs.utc(roroData.bookingDateTime).isValid() && <span className="govuk-!-font-weight-regular">, booked on {dayjs.utc(roroData.bookingDateTime).format(LONG_DATE_FORMAT)}</span>}</dd>
             <dt>Haulier</dt>
             <dd>{!roroData.haulier?.name ? 'unknown' : roroData.haulier.name}</dd>
           </dl>

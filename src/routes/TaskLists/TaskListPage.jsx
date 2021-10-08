@@ -257,9 +257,9 @@ const TasksTab = ({ taskStatus, setError }) => {
                 </ul>
                 <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
                   <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
+                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs.utc(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
                   <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.eta ? 'unknown' : dayjs(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
+                  <li>{!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
                 </ul>
               </div>
             </div>
@@ -339,7 +339,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   {target.roro.details.account ? (
                     <>
                       {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
-                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
+                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs.utc(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>

@@ -116,7 +116,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
               summary: (
                 <>
                   <div className="task-versions--left">
-                    <div className="govuk-caption-m">{dayjs(bookingDate?.content || null).format(LONG_DATE_FORMAT)}</div>
+                    <div className="govuk-caption-m">{dayjs.utc(bookingDate?.content || null).format(LONG_DATE_FORMAT)}</div>
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">
