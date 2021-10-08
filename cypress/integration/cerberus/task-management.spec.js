@@ -3,6 +3,7 @@
 
 describe('Render tasks from Camunda and manage them on task management Page', () => {
   const MAX_TASK_PER_PAGE = 100;
+  const nextPage = 'a[data-test="next"]';
 
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
@@ -24,25 +25,29 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it.skip('Should hide first and prev buttons on first page', () => {
-    cy.get('.pagination--list a').then(($items) => {
-      const texts = Array.from($items, (el) => el.innerText);
-      expect(texts).not.to.contain(['First', 'Previous']);
-    });
+  it('Should hide first and prev buttons on first page', () => {
+    if (Cypress.$(nextPage).length > 0) {
+      cy.get('.pagination--list a').then(($items) => {
+        const texts = Array.from($items, (el) => el.innerText);
+        expect(texts).not.to.contain(['First', 'Previous']);
+      });
 
-    cy.get('.pagination--summary').should('contain.text', `Showing 1 - ${MAX_TASK_PER_PAGE}`);
+      cy.get('.pagination--summary').should('contain.text', `Showing 1 - ${MAX_TASK_PER_PAGE}`);
+    }
   });
 
-  it.skip('Should hide last and next buttons on last page', () => {
-    cy.get('.pagination--list a').last().click();
+  it('Should hide last and next buttons on last page', () => {
+    if (Cypress.$(nextPage).length > 0) {
+      cy.get('.pagination--list a').last().click();
 
-    cy.get('.pagination--list a').then(($items) => {
-      const texts = Array.from($items, (el) => el.innerText);
-      expect(texts).not.to.contain(['Next', 'Last']);
-    });
+      cy.get('.pagination--list a').then(($items) => {
+        const texts = Array.from($items, (el) => el.innerText);
+        expect(texts).not.to.contain(['Next', 'Last']);
+      });
+    }
   });
 
-  it.skip('Should maintain the page links count', () => {
+  it('Should maintain the page links count', () => {
     cy.get('.task-list--item').should('have.length', MAX_TASK_PER_PAGE);
 
     cy.get('a[data-test="page-number"]').each((item) => {
@@ -51,22 +56,24 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it.skip('Should verify refresh task list page', () => {
-    cy.clock();
+  it('Should verify refresh task list page', () => {
+    if (Cypress.$(nextPage).length > 0) {
+      cy.clock();
 
-    cy.wait('@tasks').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
-    });
+      cy.wait('@tasks').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
 
-    cy.get('a[href="/tasks?page=2"]').eq(0).click();
+      cy.get('a[href="/tasks?page=2"]').eq(0).click();
 
-    cy.tick(65000);
+      cy.tick(65000);
 
-    cy.wait('@tasks').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
-    });
+      cy.wait('@tasks').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
 
-    cy.url().should('contain', 'page=2');
+      cy.url().should('contain', 'page=2');
+    }
   });
 
   it('Should verify tasks are sorted in arrival time on task management page', () => {
@@ -90,11 +97,12 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    const nextPage = 'a[data-test="next"]';
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('tasks.json').then((task) => {
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM-TASK-MANAGEMENT`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.reload();
         let businessKey = encodeURIComponent(taskResponse.businessKey);
         if (Cypress.$(nextPage).length > 0) {
           cy.findTaskInAllThePages(`${businessKey}`, 'Claim').then((returnValue) => {
@@ -119,6 +127,10 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
     cy.contains('Back to task list').click();
+
+    cy.get('a[href="#in-progress"]').click();
+
+    cy.reload();
 
     cy.get('a[href="#in-progress"]').click();
 
