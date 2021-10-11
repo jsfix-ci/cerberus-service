@@ -75,7 +75,7 @@ const testOutputDataFieldsComplete = {
   arrival: {
     date: '4 Aug 2020 at 13:45',
     description: 'DOV, 4 Aug 2020 at 13:45',
-    fromNow: `, ${dayjs(testInputDataFieldsComplete.arrivalTime).fromNow()}`,
+    fromNow: `, ${dayjs.utc(testInputDataFieldsComplete.arrivalTime).fromNow()}`,
     label: 'Arrival due',
     location: 'DOV',
   },

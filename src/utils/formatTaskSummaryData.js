@@ -19,7 +19,7 @@ const formatTaskData = (taskData) => {
     location: taskData?.voyage?.arriveAt || '',
     date: taskData?.arrivalTime ? dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT) : 'unknown',
     description: (taskData?.voyage?.arriveAt ? `${taskData?.voyage?.arriveAt}` : 'unknown') + (taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
-    fromNow: `${taskData?.arrivalTime ? `, ${dayjs(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
+    fromNow: `${taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
   };
   const departure = {
     label: 'Departure',

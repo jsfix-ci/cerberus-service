@@ -253,7 +253,7 @@ const TasksTab = ({ taskStatus, setError }) => {
               <div className="govuk-grid-column-full">
                 <ul className="govuk-list govuk-body-s content-line-one">
                   <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}</li>
-                  <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs(target.roro.details.eta).fromNow() }</li>
+                  <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow() }</li>
                 </ul>
                 <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
                   <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
