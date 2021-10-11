@@ -1,8 +1,3 @@
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-
-dayjs.extend(relativeTime);
-
 const testInputDataFieldsComplete = {
   departureTime: 1596459900000,
   arrivalTime: 1596548700000,
@@ -75,7 +70,7 @@ const testOutputDataFieldsComplete = {
   arrival: {
     date: '4 Aug 2020 at 13:45',
     description: 'DOV, 4 Aug 2020 at 13:45',
-    fromNow: `, ${dayjs.utc(testInputDataFieldsComplete.arrivalTime).fromNow()}`,
+    fromNow: ', a year ago',
     label: 'Arrival due',
     location: 'DOV',
   },
