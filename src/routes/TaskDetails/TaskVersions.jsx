@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,6 +8,7 @@ import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
 
 const formatField = (fieldType, content) => {
+  dayjs.extend(utc);
   if (!content) {
     return '';
   }
@@ -20,7 +22,7 @@ const formatField = (fieldType, content) => {
     case 'SHORT_DATE':
       return dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
     case 'DATETIME':
-      return dayjs(content).format(LONG_DATE_FORMAT);
+      return dayjs.utc(content).format(LONG_DATE_FORMAT);
     default:
       return content;
   }
@@ -114,7 +116,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
               summary: (
                 <>
                   <div className="task-versions--left">
-                    <div className="govuk-caption-m">{dayjs(bookingDate?.content || null).format(LONG_DATE_FORMAT)}</div>
+                    <div className="govuk-caption-m">{dayjs.utc(bookingDate?.content || null).format(LONG_DATE_FORMAT)}</div>
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">

@@ -19,13 +19,13 @@ const formatTaskData = (taskData) => {
     location: taskData?.voyage?.arriveAt || '',
     date: taskData?.arrivalTime ? dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT) : 'unknown',
     description: (taskData?.voyage?.arriveAt ? `${taskData?.voyage?.arriveAt}` : 'unknown') + (taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
-    fromNow: `${taskData?.arrivalTime ? `, ${dayjs(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
+    fromNow: `${taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
   };
   const departure = {
     label: 'Departure',
     location: taskData?.voyage?.departFrom || '',
     date: taskData?.departureTime ? dayjs.utc(taskData?.departureTime).format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskData?.voyage?.departFrom ? `${taskData?.voyage?.departFrom}` : 'unknown') + (taskData?.departureTime ? `, ${dayjs(taskData?.departureTime).utc().format(LONG_DATE_FORMAT)}` : ', unknown'),
+    description: (taskData?.voyage?.departFrom ? `${taskData?.voyage?.departFrom}` : 'unknown') + (taskData?.departureTime ? `, ${dayjs.utc(taskData?.departureTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
   };
   const driver = {
     dataExists: !!taskData?.people?.find(({ role }) => role === 'DRIVER'),

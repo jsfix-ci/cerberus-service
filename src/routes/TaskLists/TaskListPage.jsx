@@ -5,6 +5,7 @@ import { useInterval } from 'react-use';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import _ from 'lodash';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
@@ -25,6 +26,7 @@ import '../__assets__/TaskListPage.scss';
 
 const TasksTab = ({ taskStatus, setError }) => {
   dayjs.extend(relativeTime);
+  dayjs.extend(utc);
   const keycloak = useKeycloak();
   const location = useLocation();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
@@ -251,13 +253,13 @@ const TasksTab = ({ taskStatus, setError }) => {
               <div className="govuk-grid-column-full">
                 <ul className="govuk-list govuk-body-s content-line-one">
                   <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}</li>
-                  <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs(target.roro.details.eta).fromNow() }</li>
+                  <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow() }</li>
                 </ul>
                 <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
                   <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
+                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs.utc(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
                   <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.eta ? 'unknown' : dayjs(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
+                  <li>{!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
                 </ul>
               </div>
             </div>
@@ -337,7 +339,7 @@ const TasksTab = ({ taskStatus, setError }) => {
                   {target.roro.details.account ? (
                     <>
                       {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
-                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
+                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs.utc(target.roro.details.bookingDateTime).format(SHORT_DATE_FORMAT)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>

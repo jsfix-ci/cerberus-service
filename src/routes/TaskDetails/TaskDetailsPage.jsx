@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
@@ -68,6 +69,7 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
+  dayjs.extend(utc);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const currentUser = keycloak.tokenParsed.email;
@@ -421,18 +423,20 @@ const TaskDetailsPage = () => {
 
               <h3 className="govuk-heading-m">Activity</h3>
 
-              {activityLog.map((activity) => (
-                <React.Fragment key={activity.id}>
-                  <p className="govuk-body-s govuk-!-margin-bottom-2">
-                    <span className="govuk-!-font-weight-bold">
-                      {new Date(activity.date).toLocaleDateString()}
-                    </span>
+              {activityLog.map((activity) => {
+                return (
+                  <React.Fragment key={activity.id}>
+                    <p className="govuk-body-s govuk-!-margin-bottom-2">
+                      <span className="govuk-!-font-weight-bold">
+                        {new Date(activity.date).toLocaleDateString()}
+                      </span>
                     &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
-                    {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
-                  </p>
-                  <p className="govuk-body">{activity.note}</p>
-                </React.Fragment>
-              ))}
+                      {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
+                    </p>
+                    <p className="govuk-body">{activity.note}</p>
+                  </React.Fragment>
+                );
+              })}
             </div>
           </div>
         </>
