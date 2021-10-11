@@ -64,6 +64,21 @@ Cypress.Commands.add('getTasksAssignedToOtherUsers', () => {
   });
 });
 
+Cypress.Commands.add('getTasksAssignedToSpecificUser', (user) => {
+  const authorization = `bearer ${token}`;
+  const options = {
+    method: 'GET',
+    url: '/camunda/task?**',
+    headers: {
+      authorization,
+    },
+  };
+
+  cy.request(options).then((response) => {
+    return response.body.filter((item) => (item.assignee === user));
+  });
+});
+
 Cypress.Commands.add('getTasksAssignedToMe', () => {
   const authorization = `bearer ${token}`;
   const options = {
@@ -156,6 +171,17 @@ function findItem(taskName, action) {
           cy.wrap(item).invoke('text').then((text) => {
             cy.log('task text', text);
             if (taskName === text) {
+              cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
+                cy.wrap(element).invoke('attr', 'id').then((value) => {
+                  if (value === 'in-progress') {
+                    cy.wrap(item).parents('.govuk-grid-row').then((taskElement) => {
+                      cy.wrap(taskElement).find('.task-list--email').invoke('text').then((assignee) => {
+                        expect(assignee).to.equal('Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
+                      });
+                    });
+                  }
+                });
+              });
               found = true;
             }
           });
@@ -313,6 +339,17 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action) => {
       cy.wrap(item).invoke('text').then((text) => {
         cy.log('task text', text);
         if (taskName === text) {
+          cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
+            cy.wrap(element).invoke('attr', 'id').then((value) => {
+              if (value === 'in-progress') {
+                cy.wrap(item).parents('.govuk-grid-row').then((taskElement) => {
+                  cy.wrap(taskElement).find('.task-list--email').invoke('text').then((assignee) => {
+                    expect(assignee).to.equal('Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
+                  });
+                });
+              }
+            });
+          });
           found = true;
         }
       });
