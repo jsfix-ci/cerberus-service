@@ -35,8 +35,7 @@ const TaskSummary = ({ taskSummaryData }) => {
             <dt>Departure</dt>
             <dd>{roroData.departureLocation && `${roroData.departureLocation}, `}{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}</dd>
             <dt>Arrival</dt>
-            {/* <dd>{roroData.arrivalLocation && `${roroData.arrivalLocation}, `}{!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}</dd> */}
-            <dd>{roroData.arrivalLocation && `${roroData.arrivalLocation}, `}{!roroData.eta ? 'unknown' : new Date(roroData.eta).toUTCString()}</dd>
+            <dd>{roroData.arrivalLocation && `${roroData.arrivalLocation}, `}{!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}</dd>
           </dl>
         </div>
         <div className="govuk-grid-column-one-half">
