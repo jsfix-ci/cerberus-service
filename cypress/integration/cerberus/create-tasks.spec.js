@@ -9,10 +9,10 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create a task with a payload contains hazardous cargo without description and passport number as null', () => {
     cy.fixture('tasks-hazardous-cargo.json').then((task) => {
-      task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
       bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      console.log(task.variables.rbtPayload.value);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-HAZARDOUS`).then((response) => {
         cy.wait(4000);

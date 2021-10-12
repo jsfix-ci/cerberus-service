@@ -1,12 +1,11 @@
 {
-  "variables": {
-    "rbtPayload": {
-      "type": "Json",
-      "value": {
+  "variables":{
+    "rbtPayload" : {
+      "value" : {
         "data": {
-          "movementId": "ROROXML:CMID=55e472c26c5a6f36936875846df46bc2/66e9285ce6b5eb63c62d2a814ac00f29/170fa9ec10755ad9f1006d02175bf20c",
-          "riskSubmissionId": 2949,
-          "riskCreatedDate": "2021-05-07T13:17:10.553Z",
+          "movementId": "ROROXML:CMID=7a40dc79b9035ae7c0d1c803cb86a3c7/9312a61eb4a515864774373172189906/25d1a21d4dbc503078e702d923c9c302",
+          "riskSubmissionId": 35349,
+          "riskCreatedDate": "2021-10-11T09:40:39.711242Z",
           "riskType": "Pre-Arrival",
           "matchedRules": [
             {
@@ -206,21 +205,28 @@
             }
           ],
           "movement": {
-            "cerberusMovementId": "ROROXML:CMID=55e472c26c5a6f36936875846df46bc2/66e9285ce6b5eb63c62d2a814ac00f29/170fa9ec10755ad9f1006d02175bf20c",
-            "firstCerberusTimestamp": 1620392320414,
-            "cerberusTimestamp": 1620392332206,
-            "latestMessageType": "EVENT_SNAPSHOT",
+            "cerberusMovementId": "ROROXML:CMID=7a40dc79b9035ae7c0d1c803cb86a3c7/9312a61eb4a515864774373172189906/25d1a21d4dbc503078e702d923c9c302",
+            "firstCerberusTimestamp": 1633945180380,
+            "cerberusTimestamp": 1633945237652,
+            "latestMessageType": "PARTY_SNAPSHOT",
             "messageAnalysis": {
-              "messageMatches": [],
-              "countOfSourceMessages": 0,
-              "countOfSnapshots": 0,
+              "messageMatches": [
+                {
+                  "sourceMessageVersion": 1,
+                  "expectedMatches": 5,
+                  "countOfMatches": 0,
+                  "sourceMsgEnriches": 0
+                }
+              ],
+              "countOfSourceMessages": 1,
+              "countOfSnapshots": 1,
               "countOfNoStateChanges": 0,
               "countOfWashes": 0,
               "countOfEnrichments": 0,
-              "firstRunlogTimestamp": 0,
-              "lastRunlogTimestamp": 0,
-              "firstSnapshotTimestamp": 0,
-              "lastSnapshotTimestamp": 0,
+              "firstRunlogTimestamp": 1633945180380,
+              "lastRunlogTimestamp": 1633945180380,
+              "firstSnapshotTimestamp": 1633945237652,
+              "lastSnapshotTimestamp": 1633945237652,
               "firstNSCTimestamp": 0,
               "lastNSCTimestamp": 0,
               "firstWashTimestamp": 0,
@@ -235,7 +241,7 @@
                 "identityRecord": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:S=129a1db7bb769db0f75b85da25ca9050"
+                      "id": "ROROXML:S=557bac0c8d560330fdb1cec1bc48d21f"
                     },
                     "v1": null
                   },
@@ -244,11 +250,11 @@
                 "sourceRecord": {
                   "name": "ROROXML",
                   "shortName": "ROX",
-                  "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                  "id": "129a1db7bb769db0f75b85da25ca9050",
+                  "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                  "id": "557bac0c8d560330fdb1cec1bc48d21f",
                   "audit": {
-                    "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                    "createdTimestamp": 1604827020000,
+                    "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                    "createdTimestamp": 1628254931343,
                     "updatedBy": null,
                     "updatedTimestamp": null,
                     "deletedBy": null,
@@ -266,38 +272,71 @@
                 }
               },
               "type": "MOVEMENT",
-              "effectiveFromTimestamp": 1604844000000,
-              "effectiveToTimestamp": 1604849100000,
+              "effectiveFromTimestamp": 1596571200000,
+              "effectiveToTimestamp": 1596580200000,
               "dueTimestamp": null,
               "status": null,
               "movement": {
                 "type": "Pre-Arrival",
-                "businessIdentifier": "8486734756",
-                "mode": "RORO Accompanied Freight",
-                "source": "Brittany Ferries",
-                "actualDepartureTimestamp": 1604844000000
+                "businessIdentifier": "DFDS347376-14387",
+                "mode": "RORO Tourist",
+                "source": "DFDS",
+                "actualDepartureTimestamp": 1596571200000
               },
               "attributes": {
                 "attrs": {
-                  "countryOfBooking": "BO",
-                  "ticketNumber": "784675674",
-                  "waybillNumber": "9842579827",
-                  "adultCount": "001",
-                  "bookingDateTime": "",
-                  "ticketType": "Return",
+                  "ticketNumber": "DFDS-1000974",
+                  "method": "Online",
+                  "adultCount": "0",
+                  "bookingDateTime": "2020-08-03T11:25:00",
+                  "ticketType": "Single",
                   "childCount": "0",
-                  "driverCount": "001",
-                  "reference": "8486734756",
+                  "journeyLeg": "Outbound",
+                  "driverCount": "0",
+                  "reference": "DFDS347376",
                   "oapCount": "0",
-                  "checkInDateTime": "2020-11-08T12:45:00",
-                  "hazardousCargo": "true",
-                  "paymentMethod": "Account",
+                  "checkInDateTime": "2020-08-04T18:40:00",
+                  "paymentMethod": "Cash",
                   "infantCount": "0"
                 }
               },
               "features": {
                 "feats": {
-                  "STANDARDISED:emptyVehicle": {
+                  "STANDARDISED:bookingDateTime": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "2020-08-03T11:25Z",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "RORO-BOOKING-MOVEMENT-CO-TRAVELLERS": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        "Flower|Joanne|F|3054|GB|OBJDOCPAS|ST453786|18659|GB|PERPAS|ROROXML:P=ca9b7637419d3ad9902fe4fb983526dd",
+                        "Ball|Darren|M|7379|GB|OBJDOCPAS|ST2447631|18659|GB|PERPAS|ROROXML:P=75045e691849c3afe63cf1ec384bc14a",
+                        "Baller 2|Darren|M|7379|GB|OBJDOCPAS|ST2447633|18659|GB|PERPAS|ROROXML:P=75045e691849c3afe63cf1ec384bc14abc",
+                        "Ball|Eloise|M|7379|GB|OBJDOCPAS|ST2447634|18659|GB|PERPAS|ROROXML:P=75045e691849c3afe63cf1ec384bc14abcd"
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1633945182429
+                  },
+                  "TOURIST-LATE-BOOKING-24_72_HRS": {
+                    "id": null,
+                    "type": "TXE",
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:cashPaid": {
                     "id": null,
                     "type": null,
                     "valueType": "BOOL",
@@ -310,16 +349,16 @@
                     "id": null,
                     "type": null,
                     "valueType": "STRING",
-                    "value": "2020-11-08T12:45Z",
+                    "value": "2020-08-04T18:40Z",
                     "valueList": null,
                     "startTimestamp": null,
                     "endTimestamp": null
                   },
-                  "STANDARDISED:bookingDateTime": {
+                  "STANDARDISED:checkInLeadTimeMilliseconds": {
                     "id": null,
                     "type": null,
-                    "valueType": "STRING",
-                    "value": "2020-10-24T01:15Z",
+                    "valueType": "LONG",
+                    "value": 4800000,
                     "valueList": null,
                     "startTimestamp": null,
                     "endTimestamp": null
@@ -328,7 +367,7 @@
                     "id": null,
                     "type": null,
                     "valueType": "LONG",
-                    "value": 372,
+                    "value": 32,
                     "valueList": null,
                     "startTimestamp": null,
                     "endTimestamp": null
@@ -343,7 +382,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=8ead6c5b5083731fe0271fec21cab1cc"
+                        "id": "ROROXML:P=75045e691849c3afe63cf1ec384bc14ab"
                       },
                       "v1": null
                     },
@@ -352,11 +391,11 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "8ead6c5b5083731fe0271fec21cab1cc",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "75045e691849c3afe63cf1ec384bc14ab",
                     "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -375,35 +414,71 @@
                 },
                 "type": "PERSON",
                 "person": {
-                  "type": "PERFDRIVER",
+                  "type": "PERPAS",
                   "title": null,
-                  "familyName": "Yashinev",
-                  "givenName": "Lev",
-                  "fullName": "Lev Yashinev",
-                  "dateOfBirth": 7862,
+                  "familyName": "Ball",
+                  "givenName": "Adam",
+                  "fullName": "Adam Ball",
+                  "dateOfBirth": 7379,
                   "dateOfDeath": null,
                   "gender": "M",
-                  "nationality": "UA",
-                  "yearOfBirth": 1991,
-                  "monthOfBirth": 7,
-                  "dayOfBirth": 12,
+                  "nationality": "GB",
+                  "yearOfBirth": 1990,
+                  "monthOfBirth": 3,
+                  "dayOfBirth": 16,
                   "countryOfBirth": null,
                   "placeOfBirth": null,
                   "ethnicity": null,
                   "maritalStatus": null,
                   "religion": null,
-                  "passportNumber": null
+                  "passportNumber": "ST2447632"
                 },
                 "attributes": {
                   "attrs": {
-                    "role": "DRIVER"
+                    "role": "PASSENGER"
                   }
                 },
                 "matching": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "STANDARDISED:dateOfBirth": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "STRING",
+                      "value": "1990-03-16",
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
                 "washResponses": null,
                 "matchMerge": null,
-                "changeHistory": null
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1633945237652,
+                      "state": {
+                        "creationTimestamp": 1614783788940,
+                        "updateTimestamp": 1633945237383,
+                        "version": 0
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "OBJECT_NEW",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": null,
+                            "propertyChange": null,
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "organisations": [
@@ -412,7 +487,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=85c98aa936ffcf2bbbfa59e514ee3e40"
+                        "id": "ROROXML:P=19df6a74024e39ab3f164e4391416a5a"
                       },
                       "v1": null
                     },
@@ -421,11 +496,11 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "85c98aa936ffcf2bbbfa59e514ee3e40",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "19df6a74024e39ab3f164e4391416a5a",
                     "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -444,8 +519,8 @@
                 },
                 "type": "ORGANISATION",
                 "organisation": {
-                  "type": "ORGACCOUNT",
-                  "name": "APPLE",
+                  "type": "ORGBOOKER",
+                  "name": "Dean Fulton",
                   "registrationNumber": null,
                   "vatNumber": null,
                   "industrySector": null,
@@ -453,61 +528,16 @@
                 },
                 "attributes": {
                   "attrs": {
-                    "referenceNumber": "289475333",
-                    "holderName": "Apple Accounts LTD"
+                    "reference": "DFDS347376",
+                    "ticketNumber": "DFDS-1000974",
+                    "method": "Online",
+                    "checkInDateTime": "2020-08-04T18:40:00",
+                    "bookingDateTime": "2020-08-03T11:25:00",
+                    "paymentMethod": "Cash",
+                    "ticketType": "Single",
+                    "journeyLeg": "Outbound"
                   }
                 },
-                "matching": null,
-                "features": null,
-                "washResponses": null,
-                "matchMerge": null,
-                "changeHistory": null
-              },
-              {
-                "metadata": {
-                  "identityRecord": {
-                    "poleId": {
-                      "v2": {
-                        "id": "ROROXML:P=8922a58943830db0cf838f37df283193"
-                      },
-                      "v1": null
-                    },
-                    "type": "P"
-                  },
-                  "sourceRecord": {
-                    "name": "ROROXML",
-                    "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "8922a58943830db0cf838f37df283193",
-                    "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
-                      "updatedBy": null,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "gscMarker": null,
-                    "retentionMarkerDays": -1
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Party",
-                    "version": "1"
-                  }
-                },
-                "type": "ORGANISATION",
-                "organisation": {
-                  "type": "ORGHAULIER",
-                  "name": "Alien Hauliers",
-                  "registrationNumber": null,
-                  "vatNumber": null,
-                  "industrySector": null,
-                  "numberOfEmployees": null
-                },
-                "attributes": null,
                 "matching": null,
                 "features": null,
                 "washResponses": null,
@@ -521,7 +551,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=8ead6c5b5083731fe0271fec21cab1cc,O=fa5151a3d8f5f5535949d143f75f28d7"
+                        "id": "ROROXML:P=75045e691849c3afe63cf1ec384bc14ab,O=85176fafb9f22cb5b54e84e58d66f699a"
                       },
                       "v1": null
                     },
@@ -530,11 +560,11 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "fa5151a3d8f5f5535949d143f75f28d7",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "85176fafb9f22cb5b54e84e58d66f699a",
                     "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -555,14 +585,14 @@
                 "party": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:P=8ead6c5b5083731fe0271fec21cab1cc"
+                      "id": "ROROXML:P=75045e691849c3afe63cf1ec384bc14ab"
                     },
                     "v1": null
                   },
                   "type": "P"
                 },
                 "role": "PTOOUSES",
-                "startTimestamp": 1604827020000,
+                "startTimestamp": 1628254931343,
                 "endTimestamp": null,
                 "name": null,
                 "description": null,
@@ -570,15 +600,15 @@
                 "url": null,
                 "document": {
                   "type": "OBJDOCPAS",
-                  "value": null,
+                  "value": "ST2447632",
                   "subject": null,
                   "category": "P",
                   "status": null,
                   "placeOfIssue": null,
-                  "countryOfIssue": "DE",
+                  "countryOfIssue": "GB",
                   "dateOfIssue": null,
                   "validFromDate": null,
-                  "expiryDate": 19073
+                  "expiryDate": 18659
                 },
                 "attributes": {
                   "attrs": {
@@ -586,7 +616,19 @@
                   }
                 },
                 "matching": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "STANDARDISED:expiryDate": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "STRING",
+                      "value": "2021-02-01",
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
                 "washResponses": null,
                 "matchMerge": null,
                 "changeHistory": null
@@ -598,7 +640,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=null[3e2a64eb593c1a984fdbac3fd8a1e37d],O=3e2a64eb593c1a984fdbac3fd8a1e37d"
+                        "id": "ROROXML:P=null[6d88053734d026d598778150e4396035],O=6d88053734d026d598778150e4396035"
                       },
                       "v1": null
                     },
@@ -607,11 +649,11 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "3e2a64eb593c1a984fdbac3fd8a1e37d",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "6d88053734d026d598778150e4396035",
                     "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -632,7 +674,7 @@
                 "party": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:P=null[3e2a64eb593c1a984fdbac3fd8a1e37d]"
+                      "id": "ROROXML:P=null[6d88053734d026d598778150e4396035]"
                     },
                     "v1": null
                   },
@@ -647,10 +689,10 @@
                 "url": null,
                 "vehicle": {
                   "type": "OBJVEHC",
-                  "make": null,
-                  "model": null,
+                  "make": "Ford",
+                  "model": "Fiesta",
                   "vin": null,
-                  "registrationNumber": "GH33G786",
+                  "registrationNumber": "HL09YXR",
                   "registrationCountry": "GB",
                   "year": null,
                   "colour": null,
@@ -658,13 +700,12 @@
                 },
                 "attributes": {
                   "attrs": {
-                    "netWeight": "3455",
-                    "grossWeight": "43623",
-                    "role": "FREIGHT",
+                    "netWeight": "00000",
+                    "grossWeight": "00000",
+                    "role": "TOURIST",
+                    "isGB": "true",
                     "statusOfLoading": "Empty",
-                    "length": "36",
-                    "type": "VAN",
-                    "height": "3.6"
+                    "type": "HGV"
                   }
                 },
                 "matching": null,
@@ -679,7 +720,7 @@
                 "identityRecord": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:P=null[5225d4f3f7f3c314d3f95b42837cd30b],O=5225d4f3f7f3c314d3f95b42837cd30b"
+                      "id": "ROROXML:P=null[048caa213f70429e3f5ec58722d1bb87],O=048caa213f70429e3f5ec58722d1bb87"
                     },
                     "v1": null
                   },
@@ -688,11 +729,11 @@
                 "sourceRecord": {
                   "name": "ROROXML",
                   "shortName": "ROX",
-                  "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                  "id": "5225d4f3f7f3c314d3f95b42837cd30b",
+                  "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                  "id": "048caa213f70429e3f5ec58722d1bb87",
                   "audit": {
-                    "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                    "createdTimestamp": 1604827020000,
+                    "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                    "createdTimestamp": 1628254931343,
                     "updatedBy": null,
                     "updatedTimestamp": null,
                     "deletedBy": null,
@@ -713,7 +754,7 @@
               "party": {
                 "poleId": {
                   "v2": {
-                    "id": "ROROXML:P=null[5225d4f3f7f3c314d3f95b42837cd30b]"
+                    "id": "ROROXML:P=null[048caa213f70429e3f5ec58722d1bb87]"
                   },
                   "v1": null
                 },
@@ -728,8 +769,8 @@
               "url": null,
               "vessel": {
                 "type": "OBJVESWTR",
-                "name": "Felix",
-                "operator": "Brittany Ferries",
+                "name": "RICHTEA SEAWAYS",
+                "operator": "DFDS",
                 "registrationNumber": null,
                 "registrationCountry": null,
                 "registrationPort": null,
@@ -744,289 +785,14 @@
               "matchMerge": null,
               "changeHistory": null
             },
-            "addresses": [
-              {
-                "metadata": {
-                  "identityRecord": {
-                    "poleId": {
-                      "v2": {
-                        "id": "ROROXML:P=85c98aa936ffcf2bbbfa59e514ee3e40,L=9a31667eec670d91ae10922b52050cd6"
-                      },
-                      "v1": null
-                    },
-                    "type": "L"
-                  },
-                  "sourceRecord": {
-                    "name": "ROROXML",
-                    "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "9a31667eec670d91ae10922b52050cd6",
-                    "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
-                      "updatedBy": null,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "gscMarker": null,
-                    "retentionMarkerDays": -1
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Location-Address",
-                    "version": "1"
-                  }
-                },
-                "type": "ADDRESS",
-                "party": {
-                  "poleId": {
-                    "v2": {
-                      "id": "ROROXML:P=85c98aa936ffcf2bbbfa59e514ee3e40"
-                    },
-                    "v1": null
-                  },
-                  "type": "P"
-                },
-                "role": "PTOLASSO",
-                "startTimestamp": null,
-                "endTimestamp": null,
-                "address": {
-                  "type": "LOCADDR",
-                  "postCode": "9875GG",
-                  "poBox": null,
-                  "fullAddress": "Unit 99 London 9875GG GB",
-                  "name": "APPLE",
-                  "siteLocation": null,
-                  "number": null,
-                  "street": null,
-                  "town": "London",
-                  "area": null,
-                  "district": null,
-                  "county": null,
-                  "country": "GB",
-                  "uniquePropertyReferenceNumber": null,
-                  "latitude": null,
-                  "longitude": null
-                },
-                "attributes": {
-                  "attrs": {
-                    "addressLine1": "Unit 99"
-                  }
-                },
-                "matching": null,
-                "features": null,
-                "washResponses": null,
-                "matchMerge": null,
-                "changeHistory": null
-              },
-              {
-                "metadata": {
-                  "identityRecord": {
-                    "poleId": {
-                      "v2": {
-                        "id": "ROROXML:P=8922a58943830db0cf838f37df283193,L=903542400f72171d23135958fc108ffc"
-                      },
-                      "v1": null
-                    },
-                    "type": "L"
-                  },
-                  "sourceRecord": {
-                    "name": "ROROXML",
-                    "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "903542400f72171d23135958fc108ffc",
-                    "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
-                      "updatedBy": null,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "gscMarker": null,
-                    "retentionMarkerDays": -1
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Location-Address",
-                    "version": "1"
-                  }
-                },
-                "type": "ADDRESS",
-                "party": {
-                  "poleId": {
-                    "v2": {
-                      "id": "ROROXML:P=8922a58943830db0cf838f37df283193"
-                    },
-                    "v1": null
-                  },
-                  "type": "P"
-                },
-                "role": "PTOLASSO",
-                "startTimestamp": null,
-                "endTimestamp": null,
-                "address": {
-                  "type": "LOCADDR",
-                  "postCode": "90734",
-                  "poBox": null,
-                  "fullAddress": "6 Travis 9 Filbert Burgamont 90734 GB",
-                  "name": "Alien Hauliers",
-                  "siteLocation": null,
-                  "number": null,
-                  "street": null,
-                  "town": "Burgamont",
-                  "area": null,
-                  "district": null,
-                  "county": null,
-                  "country": "GB",
-                  "uniquePropertyReferenceNumber": null,
-                  "latitude": null,
-                  "longitude": null
-                },
-                "attributes": {
-                  "attrs": {
-                    "addressLine1": "6 Travis",
-                    "addressLine2": "9 Filbert"
-                  }
-                },
-                "matching": null,
-                "features": null,
-                "washResponses": null,
-                "matchMerge": null,
-                "changeHistory": null
-              }
-            ],
-            "contacts": [
-              {
-                "metadata": {
-                  "identityRecord": {
-                    "poleId": {
-                      "v2": {
-                        "id": "ROROXML:P=85c98aa936ffcf2bbbfa59e514ee3e40,L=c425abef7d20714ae500695f9457cc92"
-                      },
-                      "v1": null
-                    },
-                    "type": "L"
-                  },
-                  "sourceRecord": {
-                    "name": "ROROXML",
-                    "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "c425abef7d20714ae500695f9457cc92",
-                    "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
-                      "updatedBy": null,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "gscMarker": null,
-                    "retentionMarkerDays": -1
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Location-Contact",
-                    "version": "1"
-                  }
-                },
-                "type": "CONTACT",
-                "party": {
-                  "poleId": {
-                    "v2": {
-                      "id": "ROROXML:P=85c98aa936ffcf2bbbfa59e514ee3e40"
-                    },
-                    "v1": null
-                  },
-                  "type": "P"
-                },
-                "role": "PTOLUSES",
-                "startTimestamp": null,
-                "endTimestamp": null,
-                "contact": {
-                  "type": "LOCTEL",
-                  "value": "876502740"
-                },
-                "attributes": null,
-                "matching": null,
-                "features": null,
-                "washResponses": null,
-                "matchMerge": null,
-                "changeHistory": null
-              },
-              {
-                "metadata": {
-                  "identityRecord": {
-                    "poleId": {
-                      "v2": {
-                        "id": "ROROXML:P=8922a58943830db0cf838f37df283193,L=aab2212796300affda3640005cf4c7c7"
-                      },
-                      "v1": null
-                    },
-                    "type": "L"
-                  },
-                  "sourceRecord": {
-                    "name": "ROROXML",
-                    "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                    "id": "aab2212796300affda3640005cf4c7c7",
-                    "audit": {
-                      "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                      "createdTimestamp": 1604827020000,
-                      "updatedBy": null,
-                      "updatedTimestamp": null,
-                      "deletedBy": null,
-                      "deletedTimestamp": null
-                    }
-                  },
-                  "complianceRecord": {
-                    "visibility": "UNKNOWN",
-                    "gscMarker": null,
-                    "retentionMarkerDays": -1
-                  },
-                  "mappingRecord": {
-                    "name": "RR-XML-Location-Contact",
-                    "version": "1"
-                  }
-                },
-                "type": "CONTACT",
-                "party": {
-                  "poleId": {
-                    "v2": {
-                      "id": "ROROXML:P=8922a58943830db0cf838f37df283193"
-                    },
-                    "v1": null
-                  },
-                  "type": "P"
-                },
-                "role": "PTOLUSES",
-                "startTimestamp": null,
-                "endTimestamp": null,
-                "contact": {
-                  "type": "LOCTEL",
-                  "value": "83497093 9"
-                },
-                "attributes": null,
-                "matching": null,
-                "features": null,
-                "washResponses": null,
-                "matchMerge": null,
-                "changeHistory": null
-              }
-            ],
+            "addresses": null,
+            "contacts": null,
             "voyage": {
               "metadata": {
                 "identityRecord": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:S=c1e939e419ad819fe3202cd4410a6fa5"
+                      "id": "ROROXML:S=e6cfbfdfe8b4b7a2c546e3fc0ded9cf4"
                     },
                     "v1": null
                   },
@@ -1035,11 +801,11 @@
                 "sourceRecord": {
                   "name": "ROROXML",
                   "shortName": "ROX",
-                  "location": "archive/GroupId=none/CollectionDate=2021-03-08/DataFeedId=108/DataFeedTaskId=7607765/CERBERUS_XML_roroxml_emptyVehicle",
-                  "id": "c1e939e419ad819fe3202cd4410a6fa5",
+                  "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                  "id": "e6cfbfdfe8b4b7a2c546e3fc0ded9cf4",
                   "audit": {
-                    "createdBy": "niKQs8Y+D6YqNgx7LYkVSQ==",
-                    "createdTimestamp": 1604827020000,
+                    "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                    "createdTimestamp": 1628254931343,
                     "updatedBy": null,
                     "updatedTimestamp": null,
                     "deletedBy": null,
@@ -1057,32 +823,32 @@
                 }
               },
               "type": "VOYAGE",
-              "effectiveFromTimestamp": 1604844000000,
-              "effectiveToTimestamp": 1604849100000,
+              "effectiveFromTimestamp": 1596571200000,
+              "effectiveToTimestamp": 1596580200000,
               "dueTimestamp": null,
               "status": null,
               "voyage": {
                 "type": "COMMERCIAL",
                 "voyageType": "SEA",
-                "departureLocation": "BOU",
+                "departureLocation": "NEW",
                 "departureCountry": null,
-                "scheduledDepartureTimestamp": 1604844000000,
-                "actualDepartureTimestamp": 1604844000000,
-                "arrivalLocation": "BEL",
+                "scheduledDepartureTimestamp": 1596571200000,
+                "actualDepartureTimestamp": 1596571200000,
+                "arrivalLocation": "DIE",
                 "arrivalCountry": null,
-                "scheduledArrivalTimestamp": 1604849100000,
-                "actualArrivalTimestamp": 1604849100000,
+                "scheduledArrivalTimestamp": 1596580200000,
+                "actualArrivalTimestamp": 1596580200000,
                 "intermediateLocations": null,
                 "passengerCount": null,
                 "crewCount": null,
                 "durationMinutes": null,
                 "routeId": null,
-                "carrier": "Brittany Ferries",
-                "craftId": "Felix"
+                "carrier": "DFDS",
+                "craftId": "RICHTEA SEAWAYS"
               },
               "attributes": {
                 "attrs": {
-                  "freightMovementCount": "001"
+                  "touristMovementCount": "001"
                 }
               },
               "features": {
@@ -1095,12 +861,21 @@
                     "valueList": {
                       "val": [
                         {
-                          "UNLO5": "GB BEL"
+                          "UNLO5": "FR DPE"
                         }
                       ]
                     },
                     "startTimestamp": null,
-                    "endTimestamp": 1620392320418
+                    "endTimestamp": 1633945180395
+                  },
+                  "STANDARDISED:estimatedArrivalTimestamp": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 1596585600000,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
                   },
                   "STANDARDISED:departurePort": {
                     "id": null,
@@ -1110,12 +885,12 @@
                     "valueList": {
                       "val": [
                         {
-                          "UNLO5": "BOU(not mapped)"
+                          "UNLO5": "GB NHV"
                         }
                       ]
                     },
                     "startTimestamp": null,
-                    "endTimestamp": 1620392320418
+                    "endTimestamp": 1633945180395
                   }
                 }
               },
@@ -1125,12 +900,15 @@
             "consignments": null
           }
         }
-      }
+      },
+      "type" :  "Json"
     },
-    "initiatedBy": {
-      "type": "String",
-      "value": "rbtEngine"
+    "initiatedBy" : {
+      "value": "rbtEngine",
+      "type": "String"
+
     }
   },
-  "businessKey": "CERB-ROROXML:CMID=55e472c26c5a6f36936875846df46bc2/66e9285ce6b5eb63c62d2a814ac00f29/170fa9ec10755ad9f1006d02175bf20c"
+  "businessKey": "CERB-AUTOTEST-100020"
 }
+
