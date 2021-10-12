@@ -1,0 +1,1168 @@
+{
+  "variables": {
+    "rbtPayload": {
+      "type": "Json",
+      "value": {
+        "data": {
+          "riskCreatedDate": "2021-08-13T11:41:13.370105Z",
+          "riskType": "Pre-Arrival",
+          "matchedRules": [
+            {
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "values": [
+                    "COP1"
+                  ],
+                  "index": 0,
+                  "field": "mode"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "values": [
+                    "RORO Accompanied Freight"
+                  ],
+                  "index": 1,
+                  "field": "mode"
+                }
+              ],
+              "ruleMatchedOnDate": "2021-08-13T11:41:13Z",
+              "ruleType": "Both",
+              "ruleVersion": 1,
+              "ruleName": "Scenario 1 Rule",
+              "ruleId": 191,
+              "abuseTypes": [
+                "Class A Drugs"
+              ],
+              "ruleDescription": "COP Scenario 1",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "rulePriority": "Tier 1"
+            }
+          ],
+          "matchedSelectors": [],
+          "movement": {
+            "addresses": [
+              {
+                "changeHistory": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "L",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=805d8df7e346ed835e3d1ed91830b433,L=21cb57f58c17fba29fc784f1ec5d71d1"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Location-Address",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "21cb57f58c17fba29fc784f1ec5d71d1",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "PTOLASSO",
+                "address": {
+                  "area": null,
+                  "country": "GB",
+                  "uniquePropertyReferenceNumber": null,
+                  "town": "Bognor Regis",
+                  "latitude": null,
+                  "county": null,
+                  "type": "LOCADDR",
+                  "poBox": null,
+                  "number": null,
+                  "street": null,
+                  "siteLocation": null,
+                  "district": null,
+                  "fullAddress": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
+                  "name": "Uni Print",
+                  "postCode": "KJFSG094",
+                  "longitude": null
+                },
+                "type": "ADDRESS",
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "attributes": {
+                  "attrs": {
+                    "addressLine1": "Unit 9-12 Pinkerton Way"
+                  }
+                },
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=805d8df7e346ed835e3d1ed91830b433"
+                    }
+                  }
+                },
+                "startTimestamp": null
+              },
+              {
+                "changeHistory": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "L",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=0895a52dec8fa239341e4b25ddb43145,L=d4843a5da9a8086797c4da4f286d41e2"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Location-Address",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "d4843a5da9a8086797c4da4f286d41e2",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "PTOLASSO",
+                "address": {
+                  "area": null,
+                  "country": "GB",
+                  "uniquePropertyReferenceNumber": null,
+                  "town": "Bognor Regis",
+                  "latitude": null,
+                  "county": null,
+                  "type": "LOCADDR",
+                  "poBox": null,
+                  "number": null,
+                  "street": null,
+                  "siteLocation": null,
+                  "district": null,
+                  "fullAddress": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
+                  "name": "Matthesons",
+                  "postCode": "KJFSG094",
+                  "longitude": null
+                },
+                "type": "ADDRESS",
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "attributes": {
+                  "attrs": {
+                    "addressLine1": "Unit 9-12 Pinkerton Way"
+                  }
+                },
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=0895a52dec8fa239341e4b25ddb43145"
+                    }
+                  }
+                },
+                "startTimestamp": null
+              }
+            ],
+            "documents": [
+              {
+                "changeHistory": null,
+                "additionalInformation": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "O",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3,O=25ac12a631b0fc743c9d90219e219b0c"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Document",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "25ac12a631b0fc743c9d90219e219b0c",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "PTOOUSES",
+                "document": {
+                  "expiryDate": 18659,
+                  "placeOfIssue": null,
+                  "countryOfIssue": "NL",
+                  "subject": null,
+                  "validFromDate": null,
+                  "type": "OBJDOCPAS",
+                  "category": "P",
+                  "dateOfIssue": null,
+                  "value": "ST678457",
+                  "status": null
+                },
+                "description": null,
+                "type": "DOCUMENT",
+                "url": null,
+                "matching": null,
+                "features": {
+                  "feats": {
+                    "STANDARDISED:expiryDate": {
+                      "valueType": "STRING",
+                      "valueList": null,
+                      "id": null,
+                      "type": null,
+                      "value": "2021-02-01",
+                      "endTimestamp": null,
+                      "startTimestamp": null
+                    }
+                  }
+                },
+                "washResponses": null,
+                "name": null,
+                "attributes": {
+                  "attrs": {
+                    "documentType": "Passport"
+                  }
+                },
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3"
+                    }
+                  }
+                },
+                "startTimestamp": 1627395427799
+              }
+            ],
+            "cerberusMovementId": "ROROXML:CMID=6d99e1e240791507f17a6c1bca841d58/dbd31e76f8430aaceca39d30cb7bf65b/1bdf3d2b906f4df2eb30a65d35d7e2b8",
+            "serviceMovement": {
+              "changeHistory": null,
+              "features": {
+                "feats": {
+                  "STANDARDISED:bookingDateTime": {
+                    "valueType": "STRING",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": "2020-08-02T09:15Z",
+                    "endTimestamp": null,
+                    "startTimestamp": null
+                  },
+                  "RORO-BOOKING-MOVEMENT-CO-TRAVELLERS": {
+                    "valueType": "STRING",
+                    "valueList": {
+                      "val": [
+                        "Bailey|Ben|M|-66|GB|null|null|null|null|PERTDRIVER|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+                        "Bailey|Amy|F|-66|GB|null|null|null|null|PERTDRIVER|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
+                      ]
+                    },
+                    "id": null,
+                    "type": null,
+                    "value": null,
+                    "endTimestamp": 1628854873236,
+                    "startTimestamp": null
+                  },
+                  "STANDARDISED:isHazardousGoods": {
+                    "valueType": "BOOL",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": false,
+                    "endTimestamp": null,
+                    "startTimestamp": null
+                  },
+                  "STANDARDISED:checkInDateTime": {
+                    "valueType": "STRING",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": "2020-08-04T12:05Z",
+                    "endTimestamp": null,
+                    "startTimestamp": null
+                  },
+                  "STANDARDISED:checkInLeadTimeMilliseconds": {
+                    "valueType": "LONG",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": 3600000,
+                    "endTimestamp": null,
+                    "startTimestamp": null
+                  },
+                  "STANDARDISED:bookingIntentHours": {
+                    "valueType": "LONG",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": 51,
+                    "endTimestamp": null,
+                    "startTimestamp": null
+                  }
+                }
+              },
+              "metadata": {
+                "identityRecord": {
+                  "type": "S",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:S=40134cf34afa5d7b63c93c0b7fd7c2a5"
+                    }
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "retentionMarkerDays": -1,
+                  "gscMarker": null
+                },
+                "mappingRecord": {
+                  "name": "RR-XML-Service-Movement",
+                  "version": "1"
+                },
+                "sourceRecord": {
+                  "audit": {
+                    "updatedBy": null,
+                    "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                    "createdTimestamp": 1627395427799,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  },
+                  "name": "ROROXML",
+                  "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                  "id": "40134cf34afa5d7b63c93c0b7fd7c2a5",
+                  "shortName": "ROX"
+                }
+              },
+              "effectiveToTimestamp": 1596548100000,
+              "effectiveFromTimestamp": 1596546300000,
+              "attributes": {
+                "attrs": {
+                  "waybillNumber": "99990001",
+                  "adultCount": "001",
+                  "bookingDateTime": "2020-08-02T09:15:00",
+                  "ticketType": "Return",
+                  "childCount": "0",
+                  "driverCount": "001",
+                  "reference": "357485636",
+                  "oapCount": "0",
+                  "checkInDateTime": "2020-08-04T12:05:00",
+                  "hazardousCargo": "false",
+                  "paymentMethod": "Account",
+                  "bookingCountry": "GB",
+                  "goodsDescription": "Printed Paper",
+                  "infantCount": "0"
+                }
+              },
+              "type": "MOVEMENT",
+              "dueTimestamp": null,
+              "movement": {
+                "mode": "RORO Accompanied Freight",
+                "actualDepartureTimestamp": 1596546300000,
+                "businessIdentifier": "357485636-14151",
+                "source": "Brittany Ferries",
+                "type": "Pre-Arrival"
+              },
+              "status": null
+            },
+            "vehicles": [
+              {
+                "changeHistory": null,
+                "additionalInformation": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "O",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=null[2380efd8711aca3e040c0532413909f4],O=2380efd8711aca3e040c0532413909f4"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Vehicle",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "2380efd8711aca3e040c0532413909f4",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "UNKNOWN",
+                "description": null,
+                "type": "VEHICLE",
+                "url": null,
+                "vehicle": {
+                  "colour": null,
+                  "markings": null,
+                  "year": null,
+                  "registrationNumber": "NL-234-392",
+                  "model": null,
+                  "vin": null,
+                  "type": "OBJVEHCTRL",
+                  "make": null,
+                  "registrationCountry": null
+                },
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "name": null,
+                "attributes": {
+                  "attrs": {
+                    "role": "FREIGHT",
+                    "statusOfLoading": "Loaded",
+                    "type": "TR"
+                  }
+                },
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=null[2380efd8711aca3e040c0532413909f4]"
+                    }
+                  }
+                },
+                "startTimestamp": null
+              },
+              {
+                "changeHistory": null,
+                "additionalInformation": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "O",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=null[33654c2386bd600f646d015a460c5be6],O=33654c2386bd600f646d015a460c5be6"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Vehicle",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "33654c2386bd600f646d015a460c5be6",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "UNKNOWN",
+                "description": null,
+                "type": "VEHICLE",
+                "url": null,
+                "vehicle": {
+                  "colour": null,
+                  "markings": null,
+                  "year": null,
+                  "registrationNumber": "COP1",
+                  "model": null,
+                  "vin": null,
+                  "type": "OBJVEHC",
+                  "make": null,
+                  "registrationCountry": "GB"
+                },
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "name": null,
+                "attributes": {
+                  "attrs": {
+                    "netWeight": "3455",
+                    "grossWeight": "43623",
+                    "role": "FREIGHT",
+                    "statusOfLoading": "Loaded",
+                    "length": "36",
+                    "height": "3.6"
+                  }
+                },
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=null[33654c2386bd600f646d015a460c5be6]"
+                    }
+                  }
+                },
+                "startTimestamp": null
+              }
+            ],
+            "firstCerberusTimestamp": 1628854871222,
+            "consolidation": null,
+            "latestMessageType": "RUN_LOG",
+            "voyage": {
+              "changeHistory": null,
+              "features": {
+                "feats": {
+                  "STANDARDISED:arrivalPort": {
+                    "valueType": "MAP",
+                    "valueList": {
+                      "val": [
+                        {
+                          "UNLO5": "FR CQF"
+                        }
+                      ]
+                    },
+                    "id": null,
+                    "type": null,
+                    "value": null,
+                    "endTimestamp": 1628854871228,
+                    "startTimestamp": null
+                  },
+                  "STANDARDISED:departurePort": {
+                    "valueType": "MAP",
+                    "valueList": {
+                      "val": [
+                        {
+                          "UNLO5": "GB DVR"
+                        }
+                      ]
+                    },
+                    "id": null,
+                    "type": null,
+                    "value": null,
+                    "endTimestamp": 1628854871228,
+                    "startTimestamp": null
+                  }
+                }
+              },
+              "metadata": {
+                "identityRecord": {
+                  "type": "S",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:S=27693ac60db17138737630dbbbdc2462"
+                    }
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "retentionMarkerDays": -1,
+                  "gscMarker": null
+                },
+                "mappingRecord": {
+                  "name": "RR-XML-Service-Voyage",
+                  "version": "1"
+                },
+                "sourceRecord": {
+                  "audit": {
+                    "updatedBy": null,
+                    "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                    "createdTimestamp": 1627395427799,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  },
+                  "name": "ROROXML",
+                  "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                  "id": "27693ac60db17138737630dbbbdc2462",
+                  "shortName": "ROX"
+                }
+              },
+              "effectiveToTimestamp": 1596548100000,
+              "effectiveFromTimestamp": 1596546300000,
+              "attributes": {
+                "attrs": {
+                  "freightMovementCount": "001"
+                }
+              },
+              "type": "VOYAGE",
+              "dueTimestamp": null,
+              "status": null,
+              "voyage": {
+                "actualDepartureTimestamp": 1596546300000,
+                "departureLocation": "DOV",
+                "craftId": "BARFLEUR",
+                "departureCountry": null,
+                "passengerCount": null,
+                "crewCount": null,
+                "type": "COMMERCIAL",
+                "arrivalLocation": "CAL",
+                "durationMinutes": null,
+                "voyageType": "SEA",
+                "carrier": "Brittany Ferries",
+                "routeId": null,
+                "scheduledDepartureTimestamp": 1596546300000,
+                "actualArrivalTimestamp": 1596548100000,
+                "scheduledArrivalTimestamp": 1596548100000,
+                "intermediateLocations": null,
+                "arrivalCountry": null
+              }
+            },
+            "persons": [
+              {
+                "changeHistory": null,
+                "features": {
+                  "feats": {
+                    "STANDARDISED:dateOfBirth": {
+                      "valueType": "STRING",
+                      "valueList": null,
+                      "id": null,
+                      "type": null,
+                      "value": "1971-03-12",
+                      "endTimestamp": null,
+                      "startTimestamp": null
+                    }
+                  }
+                },
+                "metadata": {
+                  "identityRecord": {
+                    "type": "P",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=8049bc0c58748004ad81925020b26ce3"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "8049bc0c58748004ad81925020b26ce3",
+                    "shortName": "ROX"
+                  }
+                },
+                "washResponses": null,
+                "person": {
+                  "passportNumber": "ST678457",
+                  "placeOfBirth": null,
+                  "gender": "M",
+                  "ethnicity": null,
+                  "dateOfDeath": null,
+                  "givenName": "Bob",
+                  "fullName": "Bob Brown",
+                  "dateOfBirth": 435,
+                  "type": "PERFDRIVER",
+                  "title": null,
+                  "monthOfBirth": 3,
+                  "religion": null,
+                  "nationality": "IR",
+                  "countryOfBirth": null,
+                  "dayOfBirth": 12,
+                  "familyName": "Brown",
+                  "maritalStatus": null,
+                  "yearOfBirth": 1971
+                },
+                "attributes": {
+                  "attrs": {
+                    "role": "DRIVER"
+                  }
+                },
+                "matchMerge": null,
+                "type": "PERSON",
+                "matching": null
+              }
+            ],
+            "organisations": [
+              {
+                "changeHistory": null,
+                "features": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "P",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=01cf4601377f37392b1865e0ba8705d6"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "+Z9FHV/6VAaBmp/LrXLTnQ==",
+                      "createdTimestamp": 1596456420000,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2020-10-28/DataFeedId=5/DataFeedTaskId=1650552/CERBERUS_XML_3a_roroxml_freight_DFDS_v02",
+                    "id": "01cf4601377f37392b1865e0ba8705d6",
+                    "shortName": "ROX"
+                  }
+                },
+                "washResponses": null,
+                "organisation": {
+                  "industrySector": null,
+                  "registrationNumber": null,
+                  "name": "test",
+                  "type": "ORGBOOKER",
+                  "vatNumber": null,
+                  "numberOfEmployees": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "countryOfBooking": "GB",
+                    "reference": "357485636",
+                    "ticketPrice": "30 quid",
+                    "bookingType": "Test",
+                    "bookingDateTime": "2020-08-02T09:15:00",
+                    "CheckInDateTime": "2020-08-03T12:05:00",
+                    "paymentMethod": "Account",
+                    "ticketType": "Return"
+                  }
+                },
+                "matchMerge": null,
+                "type": "ORGANISATION",
+                "matching": null
+              },
+              {
+                "changeHistory": null,
+                "features": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "P",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=805d8df7e346ed835e3d1ed91830b433"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "805d8df7e346ed835e3d1ed91830b433",
+                    "shortName": "ROX"
+                  }
+                },
+                "washResponses": null,
+                "organisation": {
+                  "industrySector": null,
+                  "registrationNumber": null,
+                  "name": "Uni Print",
+                  "type": "ORGACCOUNT",
+                  "vatNumber": null,
+                  "numberOfEmployees": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "holderName": "Univeral Printers Ltd",
+                    "referenceNumber": "PO000359675"
+                  }
+                },
+                "matchMerge": null,
+                "type": "ORGANISATION",
+                "matching": null
+              },
+              {
+                "changeHistory": null,
+                "features": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "P",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=0895a52dec8fa239341e4b25ddb43145"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "0895a52dec8fa239341e4b25ddb43145",
+                    "shortName": "ROX"
+                  }
+                },
+                "washResponses": null,
+                "organisation": {
+                  "industrySector": null,
+                  "registrationNumber": null,
+                  "name": "Matthesons",
+                  "type": "ORGHAULIER",
+                  "vatNumber": null,
+                  "numberOfEmployees": null
+                },
+                "attributes": null,
+                "matchMerge": null,
+                "type": "ORGANISATION",
+                "matching": null
+              }
+            ],
+            "messageAnalysis": {
+              "lastSnapshotTimestamp": 0,
+              "lastWashTimestamp": 0,
+              "firstEnrichTimestamp": 0,
+              "lastRunlogTimestamp": 1628854871222,
+              "lastNSCTimestamp": 0,
+              "matchesComplete": false,
+              "lastEnrichTimestamp": 0,
+              "countOfNoStateChanges": 0,
+              "countOfWashes": 0,
+              "countOfSourceMessages": 1,
+              "firstWashTimestamp": 0,
+              "countOfSnapshots": 0,
+              "latestVersion": "1.0",
+              "messageMatches": [
+                {
+                  "sourceMsgEnriches": 0,
+                  "countOfMatches": 0,
+                  "sourceMessageVersion": 1,
+                  "expectedMatches": 13
+                }
+              ],
+              "countOfEnrichments": 0,
+              "firstNSCTimestamp": 0,
+              "firstSnapshotTimestamp": 0,
+              "firstRunlogTimestamp": 1628854871222
+            },
+            "vessel": {
+              "changeHistory": null,
+              "additionalInformation": null,
+              "metadata": {
+                "identityRecord": {
+                  "type": "O",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=null[72c73037f7ea11668560e63cc19208c8],O=72c73037f7ea11668560e63cc19208c8"
+                    }
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "retentionMarkerDays": -1,
+                  "gscMarker": null
+                },
+                "mappingRecord": {
+                  "name": "RR-XML-Object-Vessel",
+                  "version": "1"
+                },
+                "sourceRecord": {
+                  "audit": {
+                    "updatedBy": null,
+                    "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                    "createdTimestamp": 1627395427799,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  },
+                  "name": "ROROXML",
+                  "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                  "id": "72c73037f7ea11668560e63cc19208c8",
+                  "shortName": "ROX"
+                }
+              },
+              "role": "UNKNOWN",
+              "description": null,
+              "type": "VESSEL",
+              "url": null,
+              "matching": null,
+              "features": null,
+              "washResponses": null,
+              "vessel": {
+                "mmsi": null,
+                "registrationNumber": null,
+                "name": "BARFLEUR",
+                "imo": null,
+                "type": "OBJVESWTR",
+                "registrationCountry": null,
+                "operator": "Brittany Ferries",
+                "registrationPort": null,
+                "callSign": null
+              },
+              "name": null,
+              "attributes": null,
+              "matchMerge": null,
+              "endTimestamp": null,
+              "party": {
+                "type": "P",
+                "poleId": {
+                  "v1": null,
+                  "v2": {
+                    "id": "ROROXML:P=null[72c73037f7ea11668560e63cc19208c8]"
+                  }
+                }
+              },
+              "startTimestamp": null
+            },
+            "cerberusTimestamp": 1628854871222,
+            "consignments": null,
+            "contacts": [
+              {
+                "changeHistory": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "L",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=805d8df7e346ed835e3d1ed91830b433,L=adab2c3024f2dde53d68d5a7c6be20ba"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Location-Contact",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "adab2c3024f2dde53d68d5a7c6be20ba",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "PTOLUSES",
+                "type": "CONTACT",
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "contact": {
+                  "type": "LOCTEL",
+                  "value": "01243785239"
+                },
+                "attributes": null,
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=805d8df7e346ed835e3d1ed91830b433"
+                    }
+                  }
+                },
+                "startTimestamp": null
+              },
+              {
+                "changeHistory": null,
+                "metadata": {
+                  "identityRecord": {
+                    "type": "L",
+                    "poleId": {
+                      "v1": null,
+                      "v2": {
+                        "id": "ROROXML:P=0895a52dec8fa239341e4b25ddb43145,L=d86e6214de4d8f74d8ecb8927dd49369"
+                      }
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "retentionMarkerDays": -1,
+                    "gscMarker": null
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Location-Contact",
+                    "version": "1"
+                  },
+                  "sourceRecord": {
+                    "audit": {
+                      "updatedBy": null,
+                      "createdBy": "WSHbJ+mUFRlbBG/jgVEpXg==",
+                      "createdTimestamp": 1627395427799,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    },
+                    "name": "ROROXML",
+                    "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_2a_roroxml_freight_brittany",
+                    "id": "d86e6214de4d8f74d8ecb8927dd49369",
+                    "shortName": "ROX"
+                  }
+                },
+                "role": "PTOLUSES",
+                "type": "CONTACT",
+                "matching": null,
+                "features": null,
+                "washResponses": null,
+                "contact": {
+                  "type": "LOCTEL",
+                  "value": "01243785239"
+                },
+                "attributes": null,
+                "matchMerge": null,
+                "endTimestamp": null,
+                "party": {
+                  "type": "P",
+                  "poleId": {
+                    "v1": null,
+                    "v2": {
+                      "id": "ROROXML:P=0895a52dec8fa239341e4b25ddb43145"
+                    }
+                  }
+                },
+                "startTimestamp": null
+              }
+            ]
+          },
+          "movementId": "ROROXML:CMID=6d99e1e240791507f17a6c1bca841d58/dbd31e76f8430aaceca39d30cb7bf65b/1bdf3d2b906f4df2eb30a65d35d7e2b8",
+          "riskSubmissionId": 20743
+        }
+      },
+      "type": "Json"
+    },
+    "initiatedBy": {
+      "value": "rbtEngine",
+      "type": "String"
+    }
+  },
+  "businessKey": "AUTO-RoRo2P-062901"
+}
