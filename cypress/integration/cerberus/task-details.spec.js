@@ -21,7 +21,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should add notes for the selected tasks', () => {
     const taskNotes = 'Add notes for testing & check it stored';
     cy.intercept('POST', '/camunda/process-definition/key/noteSubmissionWrapper/submit-form').as('notes');
-
     cy.fixture('tasks.json').then((task) => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ADD-NOTES`).then((taskResponse) => {
@@ -115,6 +114,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     cy.fixture('tasks.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {

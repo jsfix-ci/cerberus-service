@@ -100,6 +100,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('tasks.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM-TASK-MANAGEMENT`).then((taskResponse) => {
         cy.wait(4000);
         cy.reload();
