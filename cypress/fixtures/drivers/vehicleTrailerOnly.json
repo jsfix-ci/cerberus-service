@@ -1,0 +1,1053 @@
+{
+  "variables": {
+    "rbtPayload": {
+      "type": "Json",
+      "value": {
+  "data": {
+    "riskCreatedDate": "2021-08-13T12:23:45.778771Z",
+    "riskType": "Pre-Arrival",
+    "matchedRules": [
+      {
+        "indicatorMatches": [
+          {
+            "indicatorType": "BASIC",
+            "values": [
+              "true"
+            ],
+            "index": 0,
+            "field": "mode"
+          },
+          {
+            "indicatorType": "BASIC",
+            "values": [
+              "RORO Unaccompanied Freight"
+            ],
+            "index": 1,
+            "field": "mode"
+          }
+        ],
+        "ruleMatchedOnDate": "2021-08-13T12:23:45Z",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleName": "Selector Matched",
+        "ruleId": 31,
+        "abuseTypes": [
+          "Modern Slavery and Human Trafficking (MSHT)"
+        ],
+        "ruleDescription": "fd",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "rulePriority": "Tier 2"
+      }
+    ],
+    "matchedSelectors": [
+      {
+        "approver": "grgr",
+        "selectorId": 80,
+        "creator": "user",
+        "notes": "notes",
+        "indicatorMatches": [
+          {
+            "descriptor": "registrationNumber",
+            "value": "ABC123",
+            "entity": "Vehicle",
+            "operator": "equal"
+          },
+          {
+            "descriptor": "mode",
+            "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight",
+            "entity": "Message",
+            "operator": "in"
+          }
+        ],
+        "localReference": "greg",
+        "endDate": "2021-09-24T22:59:59Z",
+        "pocMessage": "greg",
+        "inboundActionCode": "No action required",
+        "warnings": "gregre",
+        "agencyCode": "Food Standards Agency (FSA)",
+        "requestingTeam": "MAH gateway",
+        "priority": "Selector",
+        "selectorReference": "2021-80",
+        "outboundActionCode": "No action required",
+        "intelligenceSource": "gerrg",
+        "requestingOfficer": "gergr",
+        "selectorMatchedOnDate": "2021-08-13T12:23:45.594Z",
+        "threatType": "National Security at the Border",
+        "category": "B",
+        "startDate": "2021-08-13T12:22:30.817Z",
+        "securityLabels": [
+          "DATA_RISK_PREARRIVAL"
+        ],
+        "pointOfContact": "greg"
+      }
+    ],
+    "movement": {
+      "addresses": [
+        {
+          "changeHistory": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "L",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=1e0978911ccae358e92c996e9effa51f,L=c4b7cfaa859c4132ff7e47c22495f915"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Location-Address",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "c4b7cfaa859c4132ff7e47c22495f915",
+              "shortName": "ROX"
+            }
+          },
+          "role": "PTOLASSO",
+          "address": {
+            "area": null,
+            "country": "GB",
+            "uniquePropertyReferenceNumber": null,
+            "town": "Manchester",
+            "latitude": null,
+            "county": null,
+            "type": "LOCADDR",
+            "poBox": null,
+            "number": null,
+            "street": null,
+            "siteLocation": null,
+            "district": null,
+            "fullAddress": "Unit 22 Manchester 238957 GB",
+            "name": "Account3",
+            "postCode": "238957",
+            "longitude": null
+          },
+          "type": "ADDRESS",
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "attributes": {
+            "attrs": {
+              "addressLine1": "Unit 22"
+            }
+          },
+          "matchMerge": null,
+          "endTimestamp": null,
+          "party": {
+            "type": "P",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=1e0978911ccae358e92c996e9effa51f"
+              }
+            }
+          },
+          "startTimestamp": null
+        },
+        {
+          "changeHistory": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "L",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=beeaf1bd563069b6f6b52a6e09169f21,L=ba27ca087885f849a28e1693b0a6e913"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Location-Address",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "ba27ca087885f849a28e1693b0a6e913",
+              "shortName": "ROX"
+            }
+          },
+          "role": "PTOLASSO",
+          "address": {
+            "area": null,
+            "country": "GB",
+            "uniquePropertyReferenceNumber": null,
+            "town": "Bletchley",
+            "latitude": null,
+            "county": "Bedfordshire",
+            "type": "LOCADDR",
+            "poBox": null,
+            "number": null,
+            "street": null,
+            "siteLocation": null,
+            "district": null,
+            "fullAddress": "Amberley House Red Rum Bletchley Bedfordshire 04937G GB",
+            "name": "Sinkable Hauling",
+            "postCode": "04937G",
+            "longitude": null
+          },
+          "type": "ADDRESS",
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "attributes": {
+            "attrs": {
+              "addressLine1": "Amberley House",
+              "addressLine2": "Red Rum"
+            }
+          },
+          "matchMerge": null,
+          "endTimestamp": null,
+          "party": {
+            "type": "P",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=beeaf1bd563069b6f6b52a6e09169f21"
+              }
+            }
+          },
+          "startTimestamp": null
+        }
+      ],
+      "documents": null,
+      "cerberusMovementId": "ROROXML:CMID=a66af47f1612893d68891f13153f97df/091904a6ca39dc194791bfa6acdd6a23/",
+      "serviceMovement": {
+        "changeHistory": null,
+        "features": {
+          "feats": {
+            "SELECTORS-MATCHED-LIST": {
+              "valueType": "STRING",
+              "valueList": {
+                "val": [
+                  "META:80|2021-80|2021-08-13T12:22:30.817Z|2021-09-24T22:59:59Z|Food Standards Agency (FSA)|MAH gateway|gergr|B|No action required|No action required|greg|greg|gregre|National Security at the Border|gerrg|greg|grgr|notes|user|Selector|DATA_RISK_PREARRIVAL",
+                  "INDICATORS:80|Vehicle|registrationNumber|equal|ABC123¬Message|mode|in|RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+                ]
+              },
+              "id": null,
+              "type": null,
+              "value": null,
+              "endTimestamp": 1628857425594,
+              "startTimestamp": null
+            },
+            "STANDARDISED:bookingDateTime": {
+              "valueType": "STRING",
+              "valueList": null,
+              "id": null,
+              "type": null,
+              "value": "2020-10-25T17:15Z",
+              "endTimestamp": null,
+              "startTimestamp": null
+            },
+            "SELECTOR-MATCHED": {
+              "valueType": "BOOL",
+              "valueList": null,
+              "id": null,
+              "type": null,
+              "value": true,
+              "endTimestamp": 1628857425594,
+              "startTimestamp": null
+            },
+            "STANDARDISED:isHazardousGoods": {
+              "valueType": "BOOL",
+              "valueList": null,
+              "id": null,
+              "type": null,
+              "value": true,
+              "endTimestamp": null,
+              "startTimestamp": null
+            },
+            "STANDARDISED:checkInDateTime": {
+              "valueType": "STRING",
+              "valueList": null,
+              "id": null,
+              "type": null,
+              "value": "2020-11-04T13:15Z",
+              "endTimestamp": null,
+              "startTimestamp": null
+            },
+            "STANDARDISED:checkInLeadTimeMilliseconds": {
+              "valueType": "LONG",
+              "valueList": null,
+              "id": null,
+              "type": null,
+              "value": 2700000,
+              "endTimestamp": null,
+              "startTimestamp": null
+            },
+            "STANDARDISED:bookingIntentHours": {
+              "valueType": "LONG",
+              "valueList": null,
+              "id": null,
+              "type": null,
+              "value": 236,
+              "endTimestamp": null,
+              "startTimestamp": null
+            }
+          }
+        },
+        "metadata": {
+          "identityRecord": {
+            "type": "S",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:S=2ab13de31f85d9e56a9964dc0693bcb4"
+              }
+            }
+          },
+          "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "retentionMarkerDays": -1,
+            "gscMarker": null
+          },
+          "mappingRecord": {
+            "name": "RR-XML-Service-Movement",
+            "version": "1"
+          },
+          "sourceRecord": {
+            "audit": {
+              "updatedBy": null,
+              "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+              "createdTimestamp": 1627395429692,
+              "updatedTimestamp": null,
+              "deletedBy": null,
+              "deletedTimestamp": null
+            },
+            "name": "ROROXML",
+            "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+            "id": "2ab13de31f85d9e56a9964dc0693bcb4",
+            "shortName": "ROX"
+          }
+        },
+        "effectiveToTimestamp": 1604503500000,
+        "effectiveFromTimestamp": 1604498400000,
+        "attributes": {
+          "attrs": {
+            "ticketNumber": "9823659874",
+            "waybillNumber": "893265498",
+            "adultCount": "0",
+            "bookingDateTime": "2020-10-25T17:15:00",
+            "ticketType": "Return",
+            "childCount": "0",
+            "driverCount": "0",
+            "reference": "98724360",
+            "oapCount": "0",
+            "checkInDateTime": "2020-11-04T13:15:00",
+            "hazardousCargo": "true",
+            "paymentMethod": "Credit Card",
+            "bookingCountry": "ES",
+            "goodsDescription": "Live Porcupines",
+            "infantCount": "0"
+          }
+        },
+        "type": "MOVEMENT",
+        "dueTimestamp": null,
+        "movement": {
+          "mode": "RORO Unaccompanied Freight",
+          "actualDepartureTimestamp": 1604498400000,
+          "businessIdentifier": "98724360-14154",
+          "source": "Brittany Ferries",
+          "type": "Pre-Arrival"
+        },
+        "status": null
+      },
+      "vehicles": [
+        {
+          "changeHistory": null,
+          "additionalInformation": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "O",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=null[0e38aca332ab1e3ad64a11e526c69708],O=0e38aca332ab1e3ad64a11e526c69708"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Object-Vehicle",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "0e38aca332ab1e3ad64a11e526c69708",
+              "shortName": "ROX"
+            }
+          },
+          "role": "UNKNOWN",
+          "description": null,
+          "type": "VEHICLE",
+          "url": null,
+          "vehicle": {
+            "colour": null,
+            "markings": null,
+            "year": null,
+            "registrationNumber": "qwerty",
+            "model": null,
+            "vin": null,
+            "type": "OBJVEHCTRL",
+            "make": null,
+            "registrationCountry": null
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "name": null,
+          "attributes": {
+            "attrs": {
+              "role": "FREIGHT",
+              "statusOfLoading": "Loaded",
+              "sealNumber": "23895629",
+              "type": "Trailer"
+            }
+          },
+          "matchMerge": null,
+          "endTimestamp": null,
+          "party": {
+            "type": "P",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=null[0e38aca332ab1e3ad64a11e526c69708]"
+              }
+            }
+          },
+          "startTimestamp": null
+        },
+        {
+          "changeHistory": null,
+          "additionalInformation": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "O",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=null[d93b0d1cb2937ac6a1437a5c9c4bb60d],O=d93b0d1cb2937ac6a1437a5c9c4bb60d"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Object-Vehicle",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "d93b0d1cb2937ac6a1437a5c9c4bb60d",
+              "shortName": "ROX"
+            }
+          },
+          "role": "UNKNOWN",
+          "description": null,
+          "type": "VEHICLE",
+          "url": null,
+          "vehicle": {
+            "colour": null,
+            "markings": null,
+            "year": null,
+            "registrationNumber": "ABC123",
+            "model": null,
+            "vin": null,
+            "type": "OBJVEHC",
+            "make": null,
+            "registrationCountry": "IT"
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "name": null,
+          "attributes": {
+            "attrs": {
+              "netWeight": "1",
+              "grossWeight": "1",
+              "role": "FREIGHT",
+              "statusOfLoading": "Loaded",
+              "length": "1",
+              "type": "Tractor Unit",
+              "height": "1"
+            }
+          },
+          "matchMerge": null,
+          "endTimestamp": null,
+          "party": {
+            "type": "P",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=null[d93b0d1cb2937ac6a1437a5c9c4bb60d]"
+              }
+            }
+          },
+          "startTimestamp": null
+        }
+      ],
+      "firstCerberusTimestamp": 1628857423528,
+      "consolidation": null,
+      "latestMessageType": "ENRICH",
+      "voyage": {
+        "changeHistory": null,
+        "features": {
+          "feats": {
+            "STANDARDISED:arrivalPort": {
+              "valueType": "MAP",
+              "valueList": {
+                "val": [
+                  {
+                    "UNLO5": "NL VLA"
+                  }
+                ]
+              },
+              "id": null,
+              "type": null,
+              "value": null,
+              "endTimestamp": 1628857423534,
+              "startTimestamp": null
+            },
+            "STANDARDISED:departurePort": {
+              "valueType": "MAP",
+              "valueList": {
+                "val": [
+                  {
+                    "UNLO5": "SHE(not mapped)"
+                  }
+                ]
+              },
+              "id": null,
+              "type": null,
+              "value": null,
+              "endTimestamp": 1628857423534,
+              "startTimestamp": null
+            }
+          }
+        },
+        "metadata": {
+          "identityRecord": {
+            "type": "S",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:S=7f7a9e1db121fe6d8b4dfd1eaf9fe3a1"
+              }
+            }
+          },
+          "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "retentionMarkerDays": -1,
+            "gscMarker": null
+          },
+          "mappingRecord": {
+            "name": "RR-XML-Service-Voyage",
+            "version": "1"
+          },
+          "sourceRecord": {
+            "audit": {
+              "updatedBy": null,
+              "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+              "createdTimestamp": 1627395429692,
+              "updatedTimestamp": null,
+              "deletedBy": null,
+              "deletedTimestamp": null
+            },
+            "name": "ROROXML",
+            "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+            "id": "7f7a9e1db121fe6d8b4dfd1eaf9fe3a1",
+            "shortName": "ROX"
+          }
+        },
+        "effectiveToTimestamp": 1604503500000,
+        "effectiveFromTimestamp": 1604498400000,
+        "attributes": {
+          "attrs": {
+            "freightMovementCount": "001"
+          }
+        },
+        "type": "VOYAGE",
+        "dueTimestamp": null,
+        "status": null,
+        "voyage": {
+          "actualDepartureTimestamp": 1604498400000,
+          "departureLocation": "SHE",
+          "craftId": "The SS Ricketty",
+          "departureCountry": null,
+          "passengerCount": null,
+          "crewCount": null,
+          "type": "COMMERCIAL",
+          "arrivalLocation": "VLA",
+          "durationMinutes": null,
+          "voyageType": "SEA",
+          "carrier": "Brittany Ferries",
+          "routeId": null,
+          "scheduledDepartureTimestamp": 1604498400000,
+          "actualArrivalTimestamp": 1604503500000,
+          "scheduledArrivalTimestamp": 1604503500000,
+          "intermediateLocations": null,
+          "arrivalCountry": null
+        }
+      },
+      "persons": null,
+      "organisations": [
+        {
+          "changeHistory": null,
+          "features": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "P",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=36d3031346b7387ef2955782afaebf7c"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Party",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "36d3031346b7387ef2955782afaebf7c",
+              "shortName": "ROX"
+            }
+          },
+          "washResponses": null,
+          "organisation": {
+            "industrySector": null,
+            "registrationNumber": null,
+            "name": "Arteus McClure",
+            "type": "ORGBOOKER",
+            "vatNumber": null,
+            "numberOfEmployees": null
+          },
+          "attributes": {
+            "attrs": {
+              "countryOfBooking": "ES",
+              "reference": "98724360",
+              "ticketNumber": "9823659874",
+              "checkInDateTime": "2020-11-04T13:15:00",
+              "bookingDateTime": "2020-10-25T17:15:00",
+              "paymentMethod": "Credit Card",
+              "ticketType": "Return"
+            }
+          },
+          "matchMerge": null,
+          "type": "ORGANISATION",
+          "matching": null
+        },
+        {
+          "changeHistory": null,
+          "features": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "P",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=1e0978911ccae358e92c996e9effa51f"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Party",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "1e0978911ccae358e92c996e9effa51f",
+              "shortName": "ROX"
+            }
+          },
+          "washResponses": null,
+          "organisation": {
+            "industrySector": null,
+            "registrationNumber": null,
+            "name": "Account3",
+            "type": "ORGACCOUNT",
+            "vatNumber": null,
+            "numberOfEmployees": null
+          },
+          "attributes": {
+            "attrs": {
+              "holderName": "Number 3 LTD",
+              "referenceNumber": "23975233"
+            }
+          },
+          "matchMerge": null,
+          "type": "ORGANISATION",
+          "matching": null
+        },
+        {
+          "changeHistory": null,
+          "features": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "P",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=beeaf1bd563069b6f6b52a6e09169f21"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Party",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "beeaf1bd563069b6f6b52a6e09169f21",
+              "shortName": "ROX"
+            }
+          },
+          "washResponses": null,
+          "organisation": {
+            "industrySector": null,
+            "registrationNumber": null,
+            "name": "Sinkable Hauling",
+            "type": "ORGHAULIER",
+            "vatNumber": null,
+            "numberOfEmployees": null
+          },
+          "attributes": null,
+          "matchMerge": null,
+          "type": "ORGANISATION",
+          "matching": null
+        }
+      ],
+      "messageAnalysis": {
+        "lastSnapshotTimestamp": 0,
+        "lastWashTimestamp": 0,
+        "firstEnrichTimestamp": 1628857423528,
+        "lastRunlogTimestamp": 1628857423528,
+        "lastNSCTimestamp": 0,
+        "matchesComplete": false,
+        "lastEnrichTimestamp": 1628857423528,
+        "countOfNoStateChanges": 0,
+        "countOfWashes": 0,
+        "countOfSourceMessages": 1,
+        "firstWashTimestamp": 0,
+        "countOfSnapshots": 0,
+        "latestVersion": "1.0",
+        "messageMatches": [
+          {
+            "sourceMsgEnriches": 1,
+            "countOfMatches": 0,
+            "sourceMessageVersion": 1,
+            "expectedMatches": 10
+          }
+        ],
+        "countOfEnrichments": 1,
+        "firstNSCTimestamp": 0,
+        "firstSnapshotTimestamp": 0,
+        "firstRunlogTimestamp": 1628857423528
+      },
+      "vessel": {
+        "changeHistory": null,
+        "additionalInformation": null,
+        "metadata": {
+          "identityRecord": {
+            "type": "O",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=null[cc43a4f1ef3c70867a9787472b4fd8c4],O=cc43a4f1ef3c70867a9787472b4fd8c4"
+              }
+            }
+          },
+          "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "retentionMarkerDays": -1,
+            "gscMarker": null
+          },
+          "mappingRecord": {
+            "name": "RR-XML-Object-Vessel",
+            "version": "1"
+          },
+          "sourceRecord": {
+            "audit": {
+              "updatedBy": null,
+              "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+              "createdTimestamp": 1627395429692,
+              "updatedTimestamp": null,
+              "deletedBy": null,
+              "deletedTimestamp": null
+            },
+            "name": "ROROXML",
+            "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+            "id": "cc43a4f1ef3c70867a9787472b4fd8c4",
+            "shortName": "ROX"
+          }
+        },
+        "role": "UNKNOWN",
+        "description": null,
+        "type": "VESSEL",
+        "url": null,
+        "matching": null,
+        "features": null,
+        "washResponses": null,
+        "vessel": {
+          "mmsi": null,
+          "registrationNumber": null,
+          "name": "The SS Ricketty",
+          "imo": null,
+          "type": "OBJVESWTR",
+          "registrationCountry": null,
+          "operator": "Brittany Ferries",
+          "registrationPort": null,
+          "callSign": null
+        },
+        "name": null,
+        "attributes": null,
+        "matchMerge": null,
+        "endTimestamp": null,
+        "party": {
+          "type": "P",
+          "poleId": {
+            "v1": null,
+            "v2": {
+              "id": "ROROXML:P=null[cc43a4f1ef3c70867a9787472b4fd8c4]"
+            }
+          }
+        },
+        "startTimestamp": null
+      },
+      "cerberusTimestamp": 1628857423528,
+      "consignments": null,
+      "contacts": [
+        {
+          "changeHistory": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "L",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=1e0978911ccae358e92c996e9effa51f,L=f718f673bbba1c926a4f1850f24767d1"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Location-Contact",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "f718f673bbba1c926a4f1850f24767d1",
+              "shortName": "ROX"
+            }
+          },
+          "role": "PTOLUSES",
+          "type": "CONTACT",
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "contact": {
+            "type": "LOCTELMOB",
+            "value": "0293759847"
+          },
+          "attributes": null,
+          "matchMerge": null,
+          "endTimestamp": null,
+          "party": {
+            "type": "P",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=1e0978911ccae358e92c996e9effa51f"
+              }
+            }
+          },
+          "startTimestamp": null
+        },
+        {
+          "changeHistory": null,
+          "metadata": {
+            "identityRecord": {
+              "type": "L",
+              "poleId": {
+                "v1": null,
+                "v2": {
+                  "id": "ROROXML:P=beeaf1bd563069b6f6b52a6e09169f21,L=6f91b85b371fdbee88e276d3323c1645"
+                }
+              }
+            },
+            "complianceRecord": {
+              "visibility": "UNKNOWN",
+              "retentionMarkerDays": -1,
+              "gscMarker": null
+            },
+            "mappingRecord": {
+              "name": "RR-XML-Location-Contact",
+              "version": "1"
+            },
+            "sourceRecord": {
+              "audit": {
+                "updatedBy": null,
+                "createdBy": "MnMLcPd92+1IVyGXyvaPbA==",
+                "createdTimestamp": 1627395429692,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              },
+              "name": "ROROXML",
+              "location": "archive/GroupId=none/CollectionDate=2021-07-27/DataFeedId=108/DataFeedTaskId=9251455/CERBERUS_XML_roroxml_unaccompanied3",
+              "id": "6f91b85b371fdbee88e276d3323c1645",
+              "shortName": "ROX"
+            }
+          },
+          "role": "PTOLUSES",
+          "type": "CONTACT",
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "contact": {
+            "type": "LOCTEL",
+            "value": "289675932"
+          },
+          "attributes": null,
+          "matchMerge": null,
+          "endTimestamp": null,
+          "party": {
+            "type": "P",
+            "poleId": {
+              "v1": null,
+              "v2": {
+                "id": "ROROXML:P=beeaf1bd563069b6f6b52a6e09169f21"
+              }
+            }
+          },
+          "startTimestamp": null
+        }
+      ]
+    },
+    "movementId": "ROROXML:CMID=a66af47f1612893d68891f13153f97df/091904a6ca39dc194791bfa6acdd6a23/",
+    "riskSubmissionId": 20749
+  }
+      },
+      "type": "Json"
+    },
+    "initiatedBy": {
+      "value": "rbtEngine",
+      "type": "String"
+    }
+  },
+  "businessKey": "AUTO-RoRo2P-062901"
+}
