@@ -712,29 +712,28 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       ['vehicletrailerOnly.json', ''],
       ['multiplePassengers.json', 'Darren Ball'],
     ];
-    cy.wrap(expDriverForPayload)
-      .each((item) => {
-        let payloadFile = jsonFolder + item[0];
-        let expDriver = item[1];
-        cy.fixture(payloadFile)
-          .then((task) => {
-            const businessKey = `AUTOTEST-${dateNowFormatted}-SETDRIVER`;
-            task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-            cy.postTasks(task, businessKey)
-              .then((response) => {
-                cy.checkTaskDisplayed(`${response.businessKey}`);
-                cy.get('h2:contains(Driver)')
-                  .parent('div')
-                  .within(() => {
-                    cy.get('dt')
-                      .contains('Name')
-                      .next()
-                      .should('have.text', expDriver);
-                  });
-              });
-          });
-        cy.wait(3000);
-      });
+    expDriverForPayload.forEach((item) => {
+      let payloadFile = jsonFolder + item[0];
+      let expDriver = item[1];
+      cy.fixture(payloadFile)
+        .then((task) => {
+          const businessKey = `AUTOTEST-${dateNowFormatted}-SETDRIVER`;
+          task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+          cy.postTasks(task, businessKey)
+            .then((response) => {
+              cy.checkTaskDisplayed(`${response.businessKey}`);
+              cy.get('h2:contains(Driver)')
+                .parent('div')
+                .within(() => {
+                  cy.get('dt')
+                    .contains('Name')
+                    .next()
+                    .should('have.text', expDriver);
+                });
+            });
+        });
+      cy.wait(3000);
+    });
   });
 
   after(() => {
