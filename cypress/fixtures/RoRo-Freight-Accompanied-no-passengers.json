@@ -7,35 +7,149 @@
           "riskCreatedDate":"2021-01-18T15:10:17.694",
           "riskSubmissionId":"123456",
           "riskType":"Pre-arrival",
-          "matchedRules":[
+          "matchedRules": [
             {
-              "ruleId":1,
-              "ruleName":"cash paid rule",
-              "ruleType":"Pre-arrival",
-              "ruleVersion":1,
-              "ruleDescription":"Was this booking paid for with cash?",
-              "securityLabels":[
-                "DATA_RISK_PREARRIVAL"
+              "ruleId": 293,
+              "ruleName": "Paid by Cash",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Test",
+              "securityLabels": [
+                "null",
+                "null",
+                "null",
+                "null",
+                "null",
+                "null"
               ],
-              "ruleMatchedOnDate":"Mon Jan 18 15:10:13 GMT 2021",
-              "rulePriority":"Tier 1",
-              "indicatorMatches":[
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
                 {
-                  "indicatorType":"BASIC",
-                  "index":1,
-                  "values":[
-                    "RoRo accompanied freight"
-                  ]
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "cashPaid"
                 },
                 {
-                  "indicatorType":"BASIC",
-                  "index":0,
-                  "values":[
-                    "true"
-                  ]
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
                 }
               ],
-              "abuseType":"Clandestine Entry"
+              "abuseTypes": [
+                "National Security at the Border"
+              ]
+            },
+            {
+              "ruleId": 346,
+              "ruleName": "Paid by cash1",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "cashPaid"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            },
+            {
+              "ruleId": 100,
+              "ruleName": "Selector matched",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "selectorsMatched"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            },
+            {
+              "ruleId": 10000,
+              "ruleName": "Task exists",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "taskExists"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
             }
           ],
           "matchedSelectors":[

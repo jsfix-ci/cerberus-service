@@ -100,19 +100,20 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('tasks.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM-TASK-MANAGEMENT`).then((taskResponse) => {
         cy.wait(4000);
         cy.reload();
         let businessKey = encodeURIComponent(taskResponse.businessKey);
         if (Cypress.$(nextPage).length > 0) {
-          cy.findTaskInAllThePages(`${businessKey}`, 'Claim').then((returnValue) => {
+          cy.findTaskInAllThePages(`${businessKey}`, 'Claim', null).then((returnValue) => {
             expect(returnValue).to.equal(true);
             cy.wait('@claim').then(({ response }) => {
               expect(response.statusCode).to.equal(204);
             });
           });
         } else {
-          cy.findTaskInSinglePage(`${businessKey}`, 'Claim').then((returnValue) => {
+          cy.findTaskInSinglePage(`${businessKey}`, 'Claim', null).then((returnValue) => {
             expect(returnValue).to.equal(true);
             cy.wait('@claim').then(({ response }) => {
               expect(response.statusCode).to.equal(204);
@@ -139,18 +140,182 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((value) => {
       cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(value, 'Unclaim').then((returnValue) => {
+        cy.findTaskInAllThePages(value, 'Unclaim', null).then((returnValue) => {
           expect(returnValue).to.equal(true);
           cy.wait('@unclaim').then(({ response }) => {
             expect(response.statusCode).to.equal(204);
           });
         });
       } else {
-        cy.findTaskInSinglePage(value, 'Unclaim').then((returnValue) => {
+        cy.findTaskInSinglePage(value, 'Unclaim', null).then((returnValue) => {
           expect(returnValue).to.equal(true);
           cy.wait('@unclaim').then(({ response }) => {
             expect(response.statusCode).to.equal(204);
           });
+        });
+      }
+    });
+  });
+
+  it('Should check rule matches details on task management page', () => {
+    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+
+    cy.fixture('task-rules-only.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Rule-matches`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.contains('Back to task list').click();
+
+    cy.reload();
+
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.get('@taskName').then((text) => {
+      cy.log('task to be searched', text);
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
+    });
+  });
+
+  it('Should check selector matches details on task management page', () => {
+    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+
+    cy.fixture('task-selectors-only.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Selector-matches`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.contains('Back to task list').click();
+
+    cy.reload();
+
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.get('@taskName').then((text) => {
+      cy.log('task to be searched', text);
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 2 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 2 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
+    });
+  });
+
+  it('Should check selector & rule matches details on task management page', () => {
+    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+
+    cy.fixture('task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Selector-rules-matches`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.contains('Back to task list').click();
+
+    cy.reload();
+
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.get('@taskName').then((text) => {
+      cy.log('task to be searched', text);
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
+    });
+  });
+
+  it('Should check selector & rule matches details for more than one version on task management page', () => {
+    let date = new Date();
+    date.setDate(date.getDate() + 8);
+    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    const businessKey = `AUTOTEST-${dateNowFormatted}-selectors-rules-versions/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    cy.fixture('task-rules-only.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null);
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('task-selectors-rules-v2.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null).then((response) => {
+        cy.wait(15000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
+        cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
+          expect(res.body.length).to.not.equal(0);
+          expect(res.body.length).to.equal(1);
+        });
+      });
+    });
+
+    cy.wait(3000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.contains('Back to task list').click();
+
+    cy.reload();
+
+    cy.waitForTaskManagementPageToLoad();
+
+    cy.get('@taskName').then((text) => {
+      cy.log('task to be searched', text);
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
         });
       }
     });

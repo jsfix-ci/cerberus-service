@@ -10,66 +10,180 @@
           "riskType": "Pre-arrival",
           "matchedRules": [
             {
-              "ruleId": 1,
-              "ruleName": "cash paid rule",
+              "ruleId": 293,
+              "ruleName": "Paid by Cash",
               "ruleType": "Pre-arrival",
               "ruleVersion": 1,
-              "ruleDescription": "Was this booking paid for with cash?",
+              "ruleDescription": "Test",
               "securityLabels": [
-                "DATA_RISK_PREARRIVAL"
+                "null",
+                "null",
+                "null",
+                "null",
+                "null",
+                "null"
               ],
-              "ruleMatchedOnDate": "Mon Jan 18 15:10:13 GMT 2021",
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
               "rulePriority": "Tier 1",
               "indicatorMatches": [
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RoRo tourist"
-                  ]
-                },
                 {
                   "indicatorType": "BASIC",
                   "index": 0,
                   "values": [
                     "true"
-                  ]
+                  ],
+                  "field": "cashPaid"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
                 }
               ],
-              "abuseType": "Clandestine Entry"
-            }
-          ],
-          "matchedSelectors": [
+              "abuseTypes": [
+                "National Security at the Border"
+              ]
+            },
             {
-              "selectorId": 6,
-              "selectorReference": "2020-6",
-              "startDate": "2021-01-18T01:00:00Z",
-              "endDate": "2021-12-28T23:00:00Z",
-              "category": "B",
-              "agencyCode": "code A",
-              "intelligenceSource": "intel source",
-              "pointOfContact": "poc",
-              "pocMessage": "Message for the POC",
-              "priority": "Tier 2",
-              "inboundActionCode": "Advise originator",
-              "outboundActionCode": "Full attention",
-              "threatType": "National Security at the Border",
-              "notes": "Supplemental notes",
-              "creator": "Joe Jones",
-              "approver": "Henry Hamlet",
+              "ruleId": 346,
+              "ruleName": "Paid by cash1",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
               "securityLabels": [
-                "DATA_RISK_PREARRIVAL"
+                "null",
+                "null",
+                "null"
               ],
-              "localReference": "Local ref",
-              "warnings": "Supplemental warnings",
-              "requestingOfficer": "Peter Price",
-              "requestingTeam": "RoRo accompanied",
-              "selectorMatchedOnDate": "Mon Jan 18 15:10:13 GMT 2021",
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
                   "index": 0,
                   "values": [
+                    "true"
+                  ],
+                  "field": "cashPaid"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            },
+            {
+              "ruleId": 100,
+              "ruleName": "Selector matched",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "selectorsMatched"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            },
+            {
+              "ruleId": 10000,
+              "ruleName": "Task exists",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "taskExists"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            }
+          ],
+          "matchedSelectors":[
+            {
+              "selectorId":6,
+              "selectorReference":"2020-6",
+              "startDate":"2021-01-18T01:00:00Z",
+              "endDate":"2021-12-28T23:00:00Z",
+              "category":"B",
+              "agencyCode":"code A",
+              "intelligenceSource":"intel source",
+              "pointOfContact":"poc",
+              "pocMessage":"Message for the POC",
+              "priority":"Tier 2",
+              "inboundActionCode":"Advise originator",
+              "outboundActionCode":"Full attention",
+              "threatType":"National Security at the Border",
+              "notes":"Supplemental notes",
+              "creator":"Joe Jones",
+              "approver":"Henry Hamlet",
+              "securityLabels":[
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference":"Local ref",
+              "warnings":"Supplemental warnings",
+              "requestingOfficer":"Peter Price",
+              "requestingTeam":"RoRo accompanied",
+              "selectorMatchedOnDate":"Mon Jan 18 15:10:13 GMT 2021",
+              "indicatorMatches":[
+                {
+                  "indicatorType":"BASIC",
+                  "index":0,
+                  "values":[
                     "NL-234-392"
                   ]
                 }

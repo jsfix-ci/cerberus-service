@@ -1,12 +1,11 @@
 {
-  "variables": {
-    "rbtPayload": {
-      "type": "Json",
-      "value": {
+  "variables":{
+    "rbtPayload" : {
+      "value" : {
         "data": {
-          "movementId": "ROROXML:CMID=a79009bdb5284fa553529877898dcee5/6d890213eb6cdb8ba1a5340a7550b3d8/1bd2907988415d3e08060c779c920135",
-          "riskSubmissionId": 4819,
-          "riskCreatedDate": "2021-05-18T08:54:53.505Z",
+          "movementId": "ROROXML:CMID=7a40dc79b9035ae7c0d1c803cb86a3c7/9312a61eb4a515864774373172189906/25d1a21d4dbc503078e702d923c9c302",
+          "riskSubmissionId": 35349,
+          "riskCreatedDate": "2021-10-11T09:40:39.711242Z",
           "riskType": "Pre-Arrival",
           "matchedRules": [
             {
@@ -23,9 +22,17 @@
                 "null",
                 "null"
               ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "ruleMatchedOnDate": "2021-10-11T09:40:39Z",
               "rulePriority": "Tier 1",
               "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Tourist"
+                  ],
+                  "field": "mode"
+                },
                 {
                   "indicatorType": "BASIC",
                   "index": 0,
@@ -33,18 +40,10 @@
                     "true"
                   ],
                   "field": "cashPaid"
-                },
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
                 }
               ],
               "abuseTypes": [
-                "Obscene Material"
+                "National Security at the Border"
               ]
             },
             {
@@ -58,9 +57,17 @@
                 "null",
                 "null"
               ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "ruleMatchedOnDate": "2021-10-11T09:40:39Z",
               "rulePriority": "Tier 1",
               "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Tourist"
+                  ],
+                  "field": "mode"
+                },
                 {
                   "indicatorType": "BASIC",
                   "index": 0,
@@ -68,84 +75,6 @@
                     "true"
                   ],
                   "field": "cashPaid"
-                },
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
-                }
-              ],
-              "abuseTypes": [
-                "Class A Drugs"
-              ]
-            },
-            {
-              "ruleId": 100,
-              "ruleName": "Selector matched",
-              "ruleType": "Pre-arrival",
-              "ruleVersion": 1,
-              "ruleDescription": "Paid by cash",
-              "securityLabels": [
-                "null",
-                "null",
-                "null"
-              ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
-              "indicatorMatches": [
-                {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "selectorsMatched"
-                },
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
-                }
-              ],
-              "abuseTypes": [
-                "Class A Drugs"
-              ]
-            },
-            {
-              "ruleId": 10000,
-              "ruleName": "Task exists",
-              "ruleType": "Pre-arrival",
-              "ruleVersion": 1,
-              "ruleDescription": "Paid by cash",
-              "securityLabels": [
-                "null",
-                "null",
-                "null"
-              ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
-              "indicatorMatches": [
-                {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "taskExists"
-                },
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
                 }
               ],
               "abuseTypes": [
@@ -153,59 +82,30 @@
               ]
             }
           ],
-          "matchedSelectors":[
-            {
-              "selectorId":6,
-              "selectorReference":"2020-6",
-              "startDate":"2021-01-18T01:00:00Z",
-              "endDate":"2021-12-28T23:00:00Z",
-              "category":"B",
-              "agencyCode":"code A",
-              "intelligenceSource":"intel source",
-              "pointOfContact":"poc",
-              "pocMessage":"Message for the POC",
-              "priority":"Tier 2",
-              "inboundActionCode":"Advise originator",
-              "outboundActionCode":"Full attention",
-              "threatType":"National Security at the Border",
-              "notes":"Supplemental notes",
-              "creator":"Joe Jones",
-              "approver":"Henry Hamlet",
-              "securityLabels":[
-                "DATA_RISK_PREARRIVAL"
-              ],
-              "localReference":"Local ref",
-              "warnings":"Supplemental warnings",
-              "requestingOfficer":"Peter Price",
-              "requestingTeam":"RoRo accompanied",
-              "selectorMatchedOnDate":"Mon Jan 18 15:10:13 GMT 2021",
-              "indicatorMatches":[
-                {
-                  "indicatorType":"BASIC",
-                  "index":0,
-                  "values":[
-                    "NL-234-392"
-                  ]
-                }
-              ]
-            }
-          ],
+          "matchedSelectors": [],
           "movement": {
-            "cerberusMovementId": "ROROXML:CMID=a79009bdb5284fa553529877898dcee5/6d890213eb6cdb8ba1a5340a7550b3d8/1bd2907988415d3e08060c779c920135",
-            "firstCerberusTimestamp": 1621000803621,
-            "cerberusTimestamp": 1621328033785,
-            "latestMessageType": "RUN_LOG",
+            "cerberusMovementId": "ROROXML:CMID=7a40dc79b9035ae7c0d1c803cb86a3c7/9312a61eb4a515864774373172189906/25d1a21d4dbc503078e702d923c9c302",
+            "firstCerberusTimestamp": 1633945180380,
+            "cerberusTimestamp": 1633945237652,
+            "latestMessageType": "PARTY_SNAPSHOT",
             "messageAnalysis": {
-              "messageMatches": [],
-              "countOfSourceMessages": 0,
-              "countOfSnapshots": 0,
+              "messageMatches": [
+                {
+                  "sourceMessageVersion": 1,
+                  "expectedMatches": 5,
+                  "countOfMatches": 0,
+                  "sourceMsgEnriches": 0
+                }
+              ],
+              "countOfSourceMessages": 1,
+              "countOfSnapshots": 1,
               "countOfNoStateChanges": 0,
               "countOfWashes": 0,
               "countOfEnrichments": 0,
-              "firstRunlogTimestamp": 0,
-              "lastRunlogTimestamp": 0,
-              "firstSnapshotTimestamp": 0,
-              "lastSnapshotTimestamp": 0,
+              "firstRunlogTimestamp": 1633945180380,
+              "lastRunlogTimestamp": 1633945180380,
+              "firstSnapshotTimestamp": 1633945237652,
+              "lastSnapshotTimestamp": 1633945237652,
               "firstNSCTimestamp": 0,
               "lastNSCTimestamp": 0,
               "firstWashTimestamp": 0,
@@ -220,7 +120,7 @@
                 "identityRecord": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:S=742757b5b4893032f583534f746b0062"
+                      "id": "ROROXML:S=557bac0c8d560330fdb1cec1bc48d21f"
                     },
                     "v1": null
                   },
@@ -229,11 +129,11 @@
                 "sourceRecord": {
                   "name": "ROROXML",
                   "shortName": "ROX",
-                  "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753111/CERBERUS_XML_roroxml_tourist_vehicle_stena",
-                  "id": "742757b5b4893032f583534f746b0062",
+                  "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                  "id": "557bac0c8d560330fdb1cec1bc48d21f",
                   "audit": {
-                    "createdBy": "3EeOYRtED8AAp6HeFq+dHg==",
-                    "createdTimestamp": 1596528420000,
+                    "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                    "createdTimestamp": 1628254931343,
                     "updatedBy": null,
                     "updatedTimestamp": null,
                     "deletedBy": null,
@@ -251,51 +151,60 @@
                 }
               },
               "type": "MOVEMENT",
-              "effectiveFromTimestamp": 1596531600000,
-              "effectiveToTimestamp": 1596544200000,
+              "effectiveFromTimestamp": 1596571200000,
+              "effectiveToTimestamp": 1596580200000,
               "dueTimestamp": null,
               "status": null,
               "movement": {
                 "type": "Pre-Arrival",
-                "businessIdentifier": "St-87347376",
+                "businessIdentifier": "DFDS347376-14387",
                 "mode": "RORO Tourist",
-                "source": "Stena",
-                "actualDepartureTimestamp": 1596531600000
+                "source": "DFDS",
+                "actualDepartureTimestamp": 1596571200000
               },
               "attributes": {
                 "attrs": {
-                  "reference": "St-87347376",
-                  "countryOfBooking": "IR",
-                  "oapCount": "0",
-                  "checkInDateTime": "2020-08-04T08:40:00",
+                  "ticketNumber": "DFDS-1000974",
+                  "method": "Online",
                   "adultCount": "0",
-                  "bookingDateTime": "2020-08-02T13:57:00",
-                  "paymentMethod": "Credit Card",
+                  "bookingDateTime": "2020-08-03T11:25:00",
                   "ticketType": "Single",
                   "childCount": "0",
-                  "infantCount": "0",
-                  "driverCount": "001"
+                  "journeyLeg": "Outbound",
+                  "driverCount": "0",
+                  "reference": "DFDS347376",
+                  "oapCount": "0",
+                  "checkInDateTime": "2020-08-04T18:40:00",
+                  "paymentMethod": "Cash",
+                  "infantCount": "0"
                 }
               },
               "features": {
                 "feats": {
-                  "STANDARDISED:checkInDateTime": {
-                    "id": null,
-                    "type": null,
-                    "valueType": "STRING",
-                    "value": "2020-08-04T08:40Z",
-                    "valueList": null,
-                    "startTimestamp": null,
-                    "endTimestamp": null
-                  },
                   "STANDARDISED:bookingDateTime": {
                     "id": null,
                     "type": null,
                     "valueType": "STRING",
-                    "value": "2020-08-02T13:57Z",
+                    "value": "2020-08-03T11:25Z",
                     "valueList": null,
                     "startTimestamp": null,
                     "endTimestamp": null
+                  },
+                  "RORO-BOOKING-MOVEMENT-CO-TRAVELLERS": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        "Flower|Joanne|F|3054|GB|OBJDOCPAS|ST453786|18659|GB|PERPAS|ROROXML:P=ca9b7637419d3ad9902fe4fb983526dd",
+                        "Ball|Darren|M|7379|GB|OBJDOCPAS|ST2447631|18659|GB|PERPAS|ROROXML:P=75045e691849c3afe63cf1ec384bc14a",
+                        "Baller 2|Darren|M|7379|GB|OBJDOCPAS|ST2447633|18659|GB|PERPAS|ROROXML:P=75045e691849c3afe63cf1ec384bc14abc",
+                        "Ball|Eloise|M|7379|GB|OBJDOCPAS|ST2447634|18659|GB|PERPAS|ROROXML:P=75045e691849c3afe63cf1ec384bc14abcd"
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1633945182429
                   },
                   "TOURIST-LATE-BOOKING-24_72_HRS": {
                     "id": null,
@@ -306,11 +215,38 @@
                     "startTimestamp": null,
                     "endTimestamp": null
                   },
+                  "STANDARDISED:cashPaid": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:checkInDateTime": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "2020-08-04T18:40Z",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:checkInLeadTimeMilliseconds": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 4800000,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
                   "STANDARDISED:bookingIntentHours": {
                     "id": null,
                     "type": null,
                     "valueType": "LONG",
-                    "value": 43,
+                    "value": 32,
                     "valueList": null,
                     "startTimestamp": null,
                     "endTimestamp": null
@@ -325,7 +261,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=85536f6666032a6b8811dcca9cfb914c"
+                        "id": "ROROXML:P=75045e691849c3afe63cf1ec384bc14ab"
                       },
                       "v1": null
                     },
@@ -334,11 +270,11 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753111/CERBERUS_XML_roroxml_tourist_vehicle_stena",
-                    "id": "85536f6666032a6b8811dcca9cfb914c",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "75045e691849c3afe63cf1ec384bc14ab",
                     "audit": {
-                      "createdBy": "3EeOYRtED8AAp6HeFq+dHg==",
-                      "createdTimestamp": 1596528420000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -357,36 +293,71 @@
                 },
                 "type": "PERSON",
                 "person": {
-                  "type": "PERTDRIVER",
+                  "type": "PERPAS",
                   "title": null,
-                  "familyName": "Tudor",
-                  "givenName": "Sam",
-                  "fullName": "Sam Tudor",
-                  "dateOfBirth": null,
+                  "familyName": "Ball",
+                  "givenName": "Adam",
+                  "fullName": "Adam Ball",
+                  "dateOfBirth": 7379,
                   "dateOfDeath": null,
                   "gender": "M",
                   "nationality": "GB",
-                  "yearOfBirth": null,
-                  "monthOfBirth": null,
-                  "dayOfBirth": null,
+                  "yearOfBirth": 1990,
+                  "monthOfBirth": 3,
+                  "dayOfBirth": 16,
                   "countryOfBirth": null,
                   "placeOfBirth": null,
                   "ethnicity": null,
                   "maritalStatus": null,
                   "religion": null,
-                  "passportNumber": null
+                  "passportNumber": "ST2447632"
                 },
                 "attributes": {
                   "attrs": {
-                    "classification": "Adult",
-                    "role": "DRIVER"
+                    "role": "PASSENGER"
                   }
                 },
                 "matching": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "STANDARDISED:dateOfBirth": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "STRING",
+                      "value": "1990-03-16",
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
                 "washResponses": null,
                 "matchMerge": null,
-                "changeHistory": null
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1633945237652,
+                      "state": {
+                        "creationTimestamp": 1614783788940,
+                        "updateTimestamp": 1633945237383,
+                        "version": 0
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "OBJECT_NEW",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": null,
+                            "propertyChange": null,
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "organisations": [
@@ -395,7 +366,7 @@
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=9f7c25d4702dc447453bf7001c79dea4"
+                        "id": "ROROXML:P=19df6a74024e39ab3f164e4391416a5a"
                       },
                       "v1": null
                     },
@@ -404,11 +375,11 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753111/CERBERUS_XML_roroxml_tourist_vehicle_stena",
-                    "id": "9f7c25d4702dc447453bf7001c79dea4",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "19df6a74024e39ab3f164e4391416a5a",
                     "audit": {
-                      "createdBy": "3EeOYRtED8AAp6HeFq+dHg==",
-                      "createdTimestamp": 1596528420000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -428,7 +399,7 @@
                 "type": "ORGANISATION",
                 "organisation": {
                   "type": "ORGBOOKER",
-                  "name": "Susanne Tench",
+                  "name": "Dean Fulton",
                   "registrationNumber": null,
                   "vatNumber": null,
                   "industrySector": null,
@@ -436,12 +407,14 @@
                 },
                 "attributes": {
                   "attrs": {
-                    "countryOfBooking": "IR",
-                    "reference": "St-87347376",
-                    "CheckInDateTime": "2020-08-04T08:40:00",
-                    "paymentMethod": "Credit Card",
+                    "reference": "DFDS347376",
+                    "ticketNumber": "DFDS-1000974",
+                    "method": "Online",
+                    "checkInDateTime": "2020-08-04T18:40:00",
+                    "bookingDateTime": "2020-08-03T11:25:00",
+                    "paymentMethod": "Cash",
                     "ticketType": "Single",
-                    "bookingDateTime": "2020-08-02T13:57:00"
+                    "journeyLeg": "Outbound"
                   }
                 },
                 "matching": null,
@@ -451,14 +424,13 @@
                 "changeHistory": null
               }
             ],
-            "documents": null,
-            "vehicles": [
+            "documents": [
               {
                 "metadata": {
                   "identityRecord": {
                     "poleId": {
                       "v2": {
-                        "id": "ROROXML:P=null[d4a1c49d31a1de9b9229b96067146325],O=d4a1c49d31a1de9b9229b96067146325"
+                        "id": "ROROXML:P=75045e691849c3afe63cf1ec384bc14ab,O=85176fafb9f22cb5b54e84e58d66f699a"
                       },
                       "v1": null
                     },
@@ -467,11 +439,100 @@
                   "sourceRecord": {
                     "name": "ROROXML",
                     "shortName": "ROX",
-                    "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753111/CERBERUS_XML_roroxml_tourist_vehicle_stena",
-                    "id": "d4a1c49d31a1de9b9229b96067146325",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "85176fafb9f22cb5b54e84e58d66f699a",
                     "audit": {
-                      "createdBy": "3EeOYRtED8AAp6HeFq+dHg==",
-                      "createdTimestamp": 1596528420000,
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Document",
+                    "version": "1"
+                  }
+                },
+                "type": "DOCUMENT",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=75045e691849c3afe63cf1ec384bc14ab"
+                    },
+                    "v1": null
+                  },
+                  "type": "P"
+                },
+                "role": "PTOOUSES",
+                "startTimestamp": 1628254931343,
+                "endTimestamp": null,
+                "name": null,
+                "description": null,
+                "additionalInformation": null,
+                "url": null,
+                "document": {
+                  "type": "OBJDOCPAS",
+                  "value": "ST2447632",
+                  "subject": null,
+                  "category": "P",
+                  "status": null,
+                  "placeOfIssue": null,
+                  "countryOfIssue": "GB",
+                  "dateOfIssue": null,
+                  "validFromDate": null,
+                  "expiryDate": 18659
+                },
+                "attributes": {
+                  "attrs": {
+                    "documentType": "Passport"
+                  }
+                },
+                "matching": null,
+                "features": {
+                  "feats": {
+                    "STANDARDISED:expiryDate": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "STRING",
+                      "value": "2021-02-01",
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
+                "washResponses": null,
+                "matchMerge": null,
+                "changeHistory": null
+              }
+            ],
+            "vehicles": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=null[6d88053734d026d598778150e4396035],O=6d88053734d026d598778150e4396035"
+                      },
+                      "v1": null
+                    },
+                    "type": "O"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                    "id": "6d88053734d026d598778150e4396035",
+                    "audit": {
+                      "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                      "createdTimestamp": 1628254931343,
                       "updatedBy": null,
                       "updatedTimestamp": null,
                       "deletedBy": null,
@@ -492,7 +553,7 @@
                 "party": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:P=null[d4a1c49d31a1de9b9229b96067146325]"
+                      "id": "ROROXML:P=null[6d88053734d026d598778150e4396035]"
                     },
                     "v1": null
                   },
@@ -510,7 +571,7 @@
                   "make": "Ford",
                   "model": "Fiesta",
                   "vin": null,
-                  "registrationNumber": "KP06WJV",
+                  "registrationNumber": "HL09YXR",
                   "registrationCountry": "GB",
                   "year": null,
                   "colour": null,
@@ -523,7 +584,7 @@
                     "role": "TOURIST",
                     "isGB": "true",
                     "statusOfLoading": "Empty",
-                    "type": "car"
+                    "type": "HGV"
                   }
                 },
                 "matching": null,
@@ -538,7 +599,7 @@
                 "identityRecord": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:P=null[038964cb13ccc19f7459cd4f66b23490],O=038964cb13ccc19f7459cd4f66b23490"
+                      "id": "ROROXML:P=null[048caa213f70429e3f5ec58722d1bb87],O=048caa213f70429e3f5ec58722d1bb87"
                     },
                     "v1": null
                   },
@@ -547,11 +608,11 @@
                 "sourceRecord": {
                   "name": "ROROXML",
                   "shortName": "ROX",
-                  "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753111/CERBERUS_XML_roroxml_tourist_vehicle_stena",
-                  "id": "038964cb13ccc19f7459cd4f66b23490",
+                  "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                  "id": "048caa213f70429e3f5ec58722d1bb87",
                   "audit": {
-                    "createdBy": "3EeOYRtED8AAp6HeFq+dHg==",
-                    "createdTimestamp": 1596528420000,
+                    "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                    "createdTimestamp": 1628254931343,
                     "updatedBy": null,
                     "updatedTimestamp": null,
                     "deletedBy": null,
@@ -572,7 +633,7 @@
               "party": {
                 "poleId": {
                   "v2": {
-                    "id": "ROROXML:P=null[038964cb13ccc19f7459cd4f66b23490]"
+                    "id": "ROROXML:P=null[048caa213f70429e3f5ec58722d1bb87]"
                   },
                   "v1": null
                 },
@@ -587,8 +648,8 @@
               "url": null,
               "vessel": {
                 "type": "OBJVESWTR",
-                "name": "Stena Europe",
-                "operator": "Stena",
+                "name": "RICHTEA SEAWAYS",
+                "operator": "DFDS",
                 "registrationNumber": null,
                 "registrationCountry": null,
                 "registrationPort": null,
@@ -610,7 +671,7 @@
                 "identityRecord": {
                   "poleId": {
                     "v2": {
-                      "id": "ROROXML:S=ab25f7894a705bce001a522ddaf4fb34"
+                      "id": "ROROXML:S=e6cfbfdfe8b4b7a2c546e3fc0ded9cf4"
                     },
                     "v1": null
                   },
@@ -619,11 +680,11 @@
                 "sourceRecord": {
                   "name": "ROROXML",
                   "shortName": "ROX",
-                  "location": "archive/GroupId=none/CollectionDate=2021-03-30/DataFeedId=108/DataFeedTaskId=7753111/CERBERUS_XML_roroxml_tourist_vehicle_stena",
-                  "id": "ab25f7894a705bce001a522ddaf4fb34",
+                  "location": "archive/GroupId=none/CollectionDate=2021-08-06/DataFeedId=108/DataFeedTaskId=9711890/CERBERUS_XML_2c_roroxml_tourist_vehicle_DFDS",
+                  "id": "e6cfbfdfe8b4b7a2c546e3fc0ded9cf4",
                   "audit": {
-                    "createdBy": "3EeOYRtED8AAp6HeFq+dHg==",
-                    "createdTimestamp": 1596528420000,
+                    "createdBy": "w44GxxCldoB6Vqn2xlRzrA==",
+                    "createdTimestamp": 1628254931343,
                     "updatedBy": null,
                     "updatedTimestamp": null,
                     "deletedBy": null,
@@ -641,28 +702,28 @@
                 }
               },
               "type": "VOYAGE",
-              "effectiveFromTimestamp": 1596531600000,
-              "effectiveToTimestamp": 1596544200000,
+              "effectiveFromTimestamp": 1596571200000,
+              "effectiveToTimestamp": 1596580200000,
               "dueTimestamp": null,
               "status": null,
               "voyage": {
                 "type": "COMMERCIAL",
                 "voyageType": "SEA",
-                "departureLocation": "KIL",
+                "departureLocation": "NEW",
                 "departureCountry": null,
-                "scheduledDepartureTimestamp": 1596531600000,
-                "actualDepartureTimestamp": 1596531600000,
-                "arrivalLocation": "EUR",
+                "scheduledDepartureTimestamp": 1596571200000,
+                "actualDepartureTimestamp": 1596571200000,
+                "arrivalLocation": "DIE",
                 "arrivalCountry": null,
-                "scheduledArrivalTimestamp": 1596544200000,
-                "actualArrivalTimestamp": 1634242860340,
+                "scheduledArrivalTimestamp": 1596580200000,
+                "actualArrivalTimestamp": 1596580200000,
                 "intermediateLocations": null,
                 "passengerCount": null,
                 "crewCount": null,
                 "durationMinutes": null,
                 "routeId": null,
-                "carrier": "Stena",
-                "craftId": "Stena Europe"
+                "carrier": "DFDS",
+                "craftId": "RICHTEA SEAWAYS"
               },
               "attributes": {
                 "attrs": {
@@ -679,12 +740,21 @@
                     "valueList": {
                       "val": [
                         {
-                          "UNLO5": "NL EUR"
+                          "UNLO5": "FR DPE"
                         }
                       ]
                     },
                     "startTimestamp": null,
-                    "endTimestamp": 1621000804033
+                    "endTimestamp": 1633945180395
+                  },
+                  "STANDARDISED:estimatedArrivalTimestamp": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 1596585600000,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
                   },
                   "STANDARDISED:departurePort": {
                     "id": null,
@@ -694,12 +764,12 @@
                     "valueList": {
                       "val": [
                         {
-                          "UNLO5": "GB KGH"
+                          "UNLO5": "GB NHV"
                         }
                       ]
                     },
                     "startTimestamp": null,
-                    "endTimestamp": 1621000804033
+                    "endTimestamp": 1633945180395
                   }
                 }
               },
@@ -709,12 +779,15 @@
             "consignments": null
           }
         }
-      }
+      },
+      "type" :  "Json"
     },
-    "initiatedBy": {
-      "type": "String",
-      "value": "rbtEngine"
+    "initiatedBy" : {
+      "value": "rbtEngine",
+      "type": "String"
+
     }
   },
-  "businessKey": "CERB-ROROXML:CMID=a79009bdb5284fa553529877898dcee5/6d890213eb6cdb8ba1a5340a7550b3d8/1bd2907988415d3e08060c779c920135"
+  "businessKey": "CERB-AUTOTEST-100020"
 }
+

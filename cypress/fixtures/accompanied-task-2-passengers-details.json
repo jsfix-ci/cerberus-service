@@ -74,12 +74,12 @@
     "Check-in": ""
   },
   "rules": {
-    "Name": "cash paid rule",
+    "Name": "Paid by cash1",
     "Priority": "Tier 1",
     "Version": "1",
-    "Abuse type": "",
+    "Abuse type": "Class A Drugs",
     "Agency": "",
-    "Description": "Was this booking paid for with cash?"
+    "Description": "Paid by cash"
   },
   "vessel": {
     "name": "PRIDE OF CANTERBURY",

@@ -123,11 +123,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(value, null).then((taskFound) => {
+        cy.findTaskInAllThePages(value, null, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(value, null).then((taskFound) => {
+        cy.findTaskInSinglePage(value, null, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -228,11 +228,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(value, null).then((taskFound) => {
+        cy.findTaskInAllThePages(value, null, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(value, null).then((taskFound) => {
+        cy.findTaskInSinglePage(value, null, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -334,11 +334,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(value, null).then((taskFound) => {
+        cy.findTaskInAllThePages(value, null, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(value, null).then((taskFound) => {
+        cy.findTaskInSinglePage(value, null, null).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }

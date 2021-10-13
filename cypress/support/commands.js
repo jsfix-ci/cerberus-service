@@ -151,7 +151,7 @@ Cypress.Commands.add('verifySuccessfulSubmissionHeader', (value) => {
     .and('have.text', value);
 });
 
-function findItem(taskName, action) {
+function findItem(taskName, action, taskdetails) {
   function findInPage(count) {
     let found = false;
 
@@ -171,17 +171,9 @@ function findItem(taskName, action) {
           cy.wrap(item).invoke('text').then((text) => {
             cy.log('task text', text);
             if (taskName === text) {
-              cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
-                cy.wrap(element).invoke('attr', 'id').then((value) => {
-                  if (value === 'in-progress') {
-                    cy.wrap(item).parents('.govuk-grid-row').then((taskElement) => {
-                      cy.wrap(taskElement).find('.task-list--email').invoke('text').then((assignee) => {
-                        expect(assignee).to.equal('Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
-                      });
-                    });
-                  }
-                });
-              });
+              if (taskdetails !== null) {
+                cy.verifyTaskManagementPage(item, taskdetails);
+              }
               found = true;
             }
           });
@@ -206,8 +198,28 @@ function findItem(taskName, action) {
   findInPage(0);
 }
 
-Cypress.Commands.add('findTaskInAllThePages', (taskName, action) => {
-  return findItem(taskName, action);
+Cypress.Commands.add('findTaskInAllThePages', (taskName, action, taskdetails) => {
+  return findItem(taskName, action, taskdetails);
+});
+
+Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
+  cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
+    cy.wrap(element).invoke('attr', 'id').then((value) => {
+      cy.wrap(item).parents('.govuk-grid-row').then((taskElement) => {
+        if (value === 'in-progress') {
+          cy.wrap(taskElement).find('.task-list--email').invoke('text').then((assignee) => {
+            expect(assignee).to.equal(taskdetails);
+          });
+        } else if (value === 'new') {
+          cy.wrap(taskElement).next('.govuk-grid-row').then((riskStatementElement) => {
+            cy.wrap(riskStatementElement).find('.task-risk-statement').invoke('text').then((selector) => {
+              expect(selector).to.equal(taskdetails);
+            });
+          });
+        }
+      });
+    });
+  });
 });
 
 Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
@@ -332,24 +344,16 @@ Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
     .type(value);
 });
 
-Cypress.Commands.add('findTaskInSinglePage', (taskName, action) => {
+Cypress.Commands.add('findTaskInSinglePage', (taskName, action, taskdetails) => {
   let found = false;
   cy.get('.govuk-link--no-visited-state').each((item) => {
     if (action === null) {
       cy.wrap(item).invoke('text').then((text) => {
         cy.log('task text', text);
         if (taskName === text) {
-          cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
-            cy.wrap(element).invoke('attr', 'id').then((value) => {
-              if (value === 'in-progress') {
-                cy.wrap(item).parents('.govuk-grid-row').then((taskElement) => {
-                  cy.wrap(taskElement).find('.task-list--email').invoke('text').then((assignee) => {
-                    expect(assignee).to.equal('Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
-                  });
-                });
-              }
-            });
-          });
+          if (taskdetails !== null) {
+            cy.verifyTaskManagementPage(item, taskdetails);
+          }
           found = true;
         }
       });

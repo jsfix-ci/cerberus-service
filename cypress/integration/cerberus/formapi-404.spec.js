@@ -5,6 +5,7 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
     cy.login(Cypress.env('userName'));
     cy.fixture('tasks.json').then((task) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-FORMAPI-DOWN`).then((response) => {
         taskName = response.businessKey;
       });
