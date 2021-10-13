@@ -259,7 +259,78 @@
                   "driverCount": "1"
                 }
               },
-              "features": null,
+              "features": {
+                "feats": {
+                  "SELECTORS-MATCHED-LIST": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        "META:23|2021-23|2021-05-06T11:19:37.982Z|2021-11-06T11:19:37.982Z|BF|null|null|null|null|null|null|342334|null|Alcohol|null|null|null|null|sachindra.mundrathi@digital.homeoffice.gov.uk|Selector|DATA_RISK_PREARRIVAL",
+                        "INDICATORS:23|vehicle|registrationNumber|equal|DK-45678"
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1621000841430
+                  },
+                  "STANDARDISED:emptyVehicle": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:cashPaid": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:checkInDateTime": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "2020-08-04T11:05Z",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:bookingDateTime": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "2020-08-02T09:15:50Z",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "SELECTOR-MATCHED": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": 1621000841430
+                  },
+                  "STANDARDISED:bookingIntentHours": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 57,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  }
+                }
+              },
               "changeHistory": null
             },
             "voyage": {
@@ -1033,7 +1104,19 @@
                   }
                 },
                 "matching": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "EMPTY-TRAILER-ON-ROUND-TRIP": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "BOOL",
+                      "value": true,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
                 "changeHistory": null
               },
               {

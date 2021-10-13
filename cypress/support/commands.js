@@ -634,3 +634,34 @@ Cypress.Commands.add('checkTaskSummaryDetails', (expectedSummary) => {
     cy.wrap(element).should('contain.text', expectedSummary[index]);
   });
 });
+
+Cypress.Commands.add('verifyMultiSelectDropdown', (elementName, values) => {
+  cy.get(`${formioComponent}${elementName}`)
+    .should('be.visible')
+    .within(() => {
+      cy.get('[data-item]')
+        .should('be.visible')
+        .should('have.length', values.length)
+        .each(($div) => {
+          const text = $div.text().replace('Remove item', '');
+          expect(values).to.include(text);
+        });
+    });
+});
+
+Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values) => {
+  cy.get(`${formioComponent}${elementName}`)
+    .should('be.visible')
+    .within(() => {
+      cy.get('[data-item]')
+        .should('be.visible')
+        .each((element) => {
+          cy.wrap(element).invoke('text').then((value) => {
+            const text = value.replace('Remove item', '');
+            if (values.includes(text)) {
+              cy.wrap(element).find('button').click();
+            }
+          });
+        });
+    });
+});
