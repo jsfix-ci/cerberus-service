@@ -13,14 +13,16 @@
                   "values": [
                     "RORO Accompanied Freight"
                   ],
-                  "index": 1
+                  "index": 1,
+                  "field": "mode"
                 },
                 {
                   "indicatorType": "BASIC",
                   "values": [
                     "COP1"
                   ],
-                  "index": 0
+                  "index": 0,
+                  "field": "cashPaid"
                 }
               ],
               "ruleMatchedOnDate": "2021-09-06T15:17:52Z",

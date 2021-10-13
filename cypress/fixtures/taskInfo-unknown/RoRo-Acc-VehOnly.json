@@ -13,14 +13,16 @@
                   "values": [
                     "COP1"
                   ],
-                  "index": 0
+                  "index": 0,
+                  "field": "mode"
                 },
                 {
                   "indicatorType": "BASIC",
                   "values": [
                     "RORO Accompanied Freight"
                   ],
-                  "index": 1
+                  "index": 1,
+                  "field": "mode"
                 }
               ],
               "ruleMatchedOnDate": "2021-08-13T11:41:13Z",
