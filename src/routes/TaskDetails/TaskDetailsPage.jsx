@@ -16,6 +16,7 @@ import { useFormSubmit } from '../../utils/formioSupport';
 import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
 import LoadingSpinner from '../../forms/LoadingSpinner';
+import TaskNotesForm from './TaskNotes';
 import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
 // Styling
@@ -42,24 +43,6 @@ const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarge
           form,
           { ...data.data, actionTarget },
           FORM_NAME_TARGET_INFORMATION_SHEET,
-        );
-      }}
-      {...props}
-    />
-  );
-};
-
-const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
-  const submitForm = useFormSubmit();
-  return (
-    <RenderForm
-      onSubmit={async (data, form) => {
-        await submitForm(
-          '/process-definition/key/noteSubmissionWrapper/submit-form',
-          businessKey,
-          form,
-          { ...data.data, processInstanceId },
-          'noteCerberus',
         );
       }}
       {...props}
