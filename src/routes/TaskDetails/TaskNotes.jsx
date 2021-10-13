@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
+// Config
+import config from '../../config';
 // Utils
+import useAxiosInstance from '../../utils/axiosInstance';
+import { useKeycloak } from '../../utils/keycloak';
 import { useFormSubmit } from '../../utils/formioSupport';
 // Components / Pages
 import RenderForm from '../../components/RenderForm';
+
+// See Camunda docs for all operation types:
+// https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
+const OPERATION_TYPE_CLAIM = 'Claim';
+const OPERATION_TYPE_ASSIGN = 'Assign';
 
 const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
   const submitForm = useFormSubmit();
@@ -22,7 +33,80 @@ const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
   );
 };
 
-const TaskNotes = ({ displayForm, businessKey, processInstanceId, activityLog }) => {
+const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
+  const keycloak = useKeycloak();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const [activityLog, setActivityLog] = useState([]);
+
+  const getNotes = async () => {
+    const [
+      variableInstanceResponse,
+      operationsHistoryResponse,
+      taskHistoryResponse,
+    ] = await Promise.all([
+      camundaClient.get(
+        '/history/variable-instance',
+        { params: { processInstanceIdIn: processInstanceId, deserializeValues: false } },
+      ), // variableInstanceResponse
+      camundaClient.get(
+        '/history/user-operation',
+        { params: { processInstanceId, deserializeValues: false } },
+      ), // operationsHistoryResponse
+      camundaClient.get(
+        '/history/task',
+        { params: { processInstanceId, deserializeValues: false } },
+      ), // taskHistoryResponse
+    ]);
+
+    /*
+      * ** ACTIVITY LOG & NOTES
+      * There are three places that activity/notes can be logged in
+      * history/variable-instance (parsedNotes) including notes entered via the notes form,
+      * history/user-operation (parsedOperationsHistory),
+      * history/task (parsedTaskHistory)
+    */
+    const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
+      return processVar.name === 'notes';
+    }).value).map((note) => ({
+      id: uuidv4(),
+      date: dayjs(note.timeStamp).format(),
+      user: note.userId,
+      note: note.note,
+    }));
+
+    const parsedOperationsHistory = operationsHistoryResponse.data.map((operation) => {
+      const getNote = () => {
+        if ([OPERATION_TYPE_CLAIM, OPERATION_TYPE_ASSIGN].includes(operation.operationType)) {
+          return operation.newValue ? 'User has claimed the task' : 'User has unclaimed the task';
+        }
+        return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
+      };
+      return {
+        id: uuidv4(),
+        date: dayjs(operation.timestamp).format(),
+        user: operation.userId,
+        note: getNote(operation),
+      };
+    });
+
+    const parsedTaskHistory = taskHistoryResponse.data.map((historyLog) => ({
+      id: uuidv4(),
+      date: dayjs(historyLog.startTime).format(),
+      user: historyLog.assignee,
+      note: historyLog.name,
+    }));
+
+    setActivityLog([
+      ...parsedOperationsHistory,
+      ...parsedTaskHistory,
+      ...parsedNotes,
+    ].sort((a, b) => -a.date.localeCompare(b.date)));
+  };
+
+  useEffect(() => {
+    getNotes();
+  }, []);
+
   return (
     <div className="govuk-grid-column-one-third">
       {displayForm && (

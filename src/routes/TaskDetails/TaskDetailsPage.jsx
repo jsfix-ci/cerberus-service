@@ -4,7 +4,6 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
-import { v4 as uuidv4 } from 'uuid';
 // Config
 import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
 import config from '../../config';
@@ -24,11 +23,6 @@ import Button from '../../govuk/Button';
 import ErrorSummary from '../../govuk/ErrorSummary';
 import Panel from '../../govuk/Panel';
 import '../__assets__/TaskDetailsPage.scss';
-
-// See Camunda docs for all operation types:
-// https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
-const OPERATION_TYPE_CLAIM = 'Claim';
-const OPERATION_TYPE_ASSIGN = 'Assign';
 
 const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, ...props }) => {
   const submitForm = useFormSubmit();
@@ -58,7 +52,6 @@ const TaskDetailsPage = () => {
   const currentUser = keycloak.tokenParsed.email;
   const source = axios.CancelToken.source();
 
-  const [activityLog, setActivityLog] = useState([]);
   const [assignee, setAssignee] = useState();
   const [error, setError] = useState(null);
   const [processInstanceId, setProcessInstanceId] = useState();
@@ -109,8 +102,6 @@ const TaskDetailsPage = () => {
       const [
         taskResponse,
         variableInstanceResponse,
-        operationsHistoryResponse,
-        taskHistoryResponse,
       ] = await Promise.all([
         camundaClient.get(
           '/task',
@@ -120,14 +111,6 @@ const TaskDetailsPage = () => {
           '/history/variable-instance',
           { params: { processInstanceIdIn: processInstance.id, deserializeValues: false } },
         ), // variableInstanceResponse
-        camundaClient.get(
-          '/history/user-operation',
-          { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-        ), // operationsHistoryResponse
-        camundaClient.get(
-          '/history/task',
-          { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-        ), // taskHistoryResponse
       ]);
 
       /*
@@ -144,50 +127,6 @@ const TaskDetailsPage = () => {
       setProcessInstanceId(processInstance.id);
       setTargetStatus(processState?.value);
       setAssignee(taskResponse?.data[0]?.assignee);
-
-      /*
-        * ** ACTIVITY LOG & NOTES
-        * There are three places that activity/notes can be logged in
-        * history/variable-instance (parsedNotes) including notes entered via the notes form,
-        * history/user-operation (parsedOperationsHistory),
-        * history/task (parsedTaskHistory)
-        */
-      const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
-        return processVar.name === 'notes';
-      }).value).map((note) => ({
-        id: uuidv4(),
-        date: dayjs(note.timeStamp).format(),
-        user: note.userId,
-        note: note.note,
-      }));
-
-      const parsedOperationsHistory = operationsHistoryResponse.data.map((operation) => {
-        const getNote = () => {
-          if ([OPERATION_TYPE_CLAIM, OPERATION_TYPE_ASSIGN].includes(operation.operationType)) {
-            return operation.newValue ? 'User has claimed the task' : 'User has unclaimed the task';
-          }
-          return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
-        };
-        return {
-          id: uuidv4(),
-          date: dayjs(operation.timestamp).format(),
-          user: operation.userId,
-          note: getNote(operation),
-        };
-      });
-
-      const parsedTaskHistory = taskHistoryResponse.data.map((historyLog) => ({
-        id: uuidv4(),
-        date: dayjs(historyLog.startTime).format(),
-        user: historyLog.assignee,
-        note: historyLog.name,
-      }));
-
-      setActivityLog([
-        ...parsedOperationsHistory,
-        ...parsedTaskHistory,
-        ...parsedNotes,
-      ].sort((a, b) => -a.date.localeCompare(b.date)));
 
       /*
         * ** TARGET DATA
@@ -397,7 +336,6 @@ const TaskDetailsPage = () => {
               displayForm={assignee === currentUser}
               businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
               processInstanceId={processInstanceId}
-              activityLog={activityLog}
             />
           </div>
         </>
