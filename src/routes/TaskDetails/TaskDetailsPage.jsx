@@ -16,7 +16,7 @@ import { useFormSubmit } from '../../utils/formioSupport';
 import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
 import LoadingSpinner from '../../forms/LoadingSpinner';
-import TaskNotesForm from './TaskNotes';
+import TaskNotes from './TaskNotes';
 import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
 // Styling
@@ -393,34 +393,12 @@ const TaskDetailsPage = () => {
               )}
             </div>
 
-            <div className="govuk-grid-column-one-third">
-              {assignee === currentUser && (
-                <TaskNotesForm
-                  formName="noteCerberus"
-                  businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
-                  processInstanceId={processInstanceId}
-                />
-              )}
-
-              <hr className="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-
-              <h3 className="govuk-heading-m">Activity</h3>
-
-              {activityLog.map((activity) => {
-                return (
-                  <React.Fragment key={activity.id}>
-                    <p className="govuk-body-s govuk-!-margin-bottom-2">
-                      <span className="govuk-!-font-weight-bold">
-                        {new Date(activity.date).toLocaleDateString()}
-                      </span>
-                    &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
-                      {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
-                    </p>
-                    <p className="govuk-body">{activity.note}</p>
-                  </React.Fragment>
-                );
-              })}
-            </div>
+            <TaskNotes
+              displayForm={assignee === currentUser}
+              businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+              processInstanceId={processInstanceId}
+              activityLog={activityLog}
+            />
           </div>
         </>
       )}
