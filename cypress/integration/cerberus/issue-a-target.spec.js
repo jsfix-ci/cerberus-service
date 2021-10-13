@@ -1,5 +1,9 @@
 describe('Issue target from cerberus UI using target sheet information form', () => {
+  let dateNowFormatted;
+  let date;
   beforeEach(() => {
+    date = new Date();
+    dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
     cy.login(Cypress.env('userName'));
   });
 
@@ -7,9 +11,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
-      let date;
-      date = new Date();
-      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -46,6 +47,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifyElementText('colour', expectedDetails.vehicle.Colour);
       cy.verifyElementText('registrationNumber', expectedDetails.vehicle['Vehicle registration']);
       cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
+      cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
+      cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
+      cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
 
       cy.get('.formio-component-driver').within(() => {
         cy.verifyElementText('firstName', driverFirstName.split(' ')[0]);
@@ -82,8 +86,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.selectDropDownValue('strategy', 'Alcohol');
 
     cy.selectDropDownValue('nominalType', 'Account');
-
-    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Diver)']);
 
     cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
@@ -138,9 +140,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
-      let date;
-      date = new Date();
-      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -243,9 +242,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
     cy.fixture('RoRo-Tourist-2-passengers.json').then((task) => {
-      let date;
-      date = new Date();
-      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       console.log('data value', task.variables.rbtPayload.value);
