@@ -15,24 +15,6 @@ import RenderForm from '../../components/RenderForm';
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
-  const submitForm = useFormSubmit();
-  return (
-    <RenderForm
-      onSubmit={async (data, form) => {
-        await submitForm(
-          '/process-definition/key/noteSubmissionWrapper/submit-form',
-          businessKey,
-          form,
-          { ...data.data, processInstanceId },
-          'noteCerberus',
-        );
-      }}
-      {...props}
-    />
-  );
-};
-
 const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
@@ -101,6 +83,27 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
       ...parsedTaskHistory,
       ...parsedNotes,
     ].sort((a, b) => -a.date.localeCompare(b.date)));
+  };
+
+  const TaskNotesForm = ({ ...props }) => {
+    const submitForm = useFormSubmit();
+    return (
+      <RenderForm
+        onSubmit={
+        async (data, form) => {
+          await submitForm(
+            '/process-definition/key/noteSubmissionWrapper/submit-form',
+            businessKey,
+            form,
+            { ...data.data, processInstanceId },
+            'noteCerberus',
+          );
+          getNotes();
+        }
+      }
+        {...props}
+      />
+    );
   };
 
   useEffect(() => {
