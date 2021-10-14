@@ -527,7 +527,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       ['driverAndMultiplePass.json', 'Joanne Flower'],
       ['driverNoPassenger.json', 'Bob Brown'],
       ['multipleDrivers.json', 'Amy Bailey'],
-      ['vehicletrailerOnly.json', ''],
+      ['vehicleTrailerOnly.json', ''],
       ['multiplePassengers.json', 'Darren Ball'],
     ];
     expDriverForPayload.forEach((item) => {
@@ -539,6 +539,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
           cy.postTasks(task, businessKey)
             .then((response) => {
+              cy.wait(4000);
               cy.checkTaskDisplayed(`${response.businessKey}`);
               cy.get('h2:contains(Driver)')
                 .parent('div')
@@ -550,7 +551,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
                 });
             });
         });
-      cy.wait(3000);
     });
   });
 

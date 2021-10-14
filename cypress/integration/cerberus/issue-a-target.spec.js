@@ -113,13 +113,13 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.contains('Back to task list').click();
 
+    cy.get('a[href="#target-issued"]').click();
+
     cy.reload();
 
     cy.get('a[href="#target-issued"]').click();
 
     cy.waitForTaskManagementPageToLoad();
-
-    cy.wait(2000);
 
     cy.get('@taskName').then((value) => {
       cy.log('Task Name to be searched', value);
@@ -215,13 +215,13 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.contains('Back to task list').click();
 
+    cy.get('a[href="#target-issued"]').click();
+
     cy.reload();
 
     cy.get('a[href="#target-issued"]').click();
 
     cy.waitForTaskManagementPageToLoad();
-
-    cy.wait(2000);
 
     cy.get('@taskName').then((value) => {
       cy.log('Task Name to be searched', value);
@@ -318,13 +318,13 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.contains('Back to task list').click();
 
+    cy.get('a[href="#target-issued"]').click();
+
     cy.reload();
 
     cy.get('a[href="#target-issued"]').click();
 
     cy.waitForTaskManagementPageToLoad();
-
-    cy.wait(2000);
 
     cy.get('@taskName').then((value) => {
       cy.log('Task Name to be searched', value);

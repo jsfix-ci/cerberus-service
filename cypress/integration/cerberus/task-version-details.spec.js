@@ -473,7 +473,7 @@ describe('Task Details of different tasks on task details Page', () => {
         expect(res.body.length).to.equal(1);
       });
     });
-    cy.get('.govuk-accordion__section-heading').should('have.length', 4);
+    cy.get('.govuk-accordion__section-heading').should('have.length.lessThan', 4);
   });
 
   // COP-6905 Scenario-2
