@@ -18,6 +18,7 @@ const OPERATION_TYPE_ASSIGN = 'Assign';
 const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const submitForm = useFormSubmit();
   const [activityLog, setActivityLog] = useState([]);
 
   const getNotes = async () => {
@@ -85,38 +86,27 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
     ].sort((a, b) => -a.date.localeCompare(b.date)));
   };
 
-  const TaskNotesForm = ({ ...props }) => {
-    const submitForm = useFormSubmit();
-    return (
-      <RenderForm
-        onSubmit={
-        async (data, form) => {
-          await submitForm(
-            '/process-definition/key/noteSubmissionWrapper/submit-form',
-            businessKey,
-            form,
-            { ...data.data, processInstanceId },
-            'noteCerberus',
-          );
-          getNotes();
-        }
-      }
-        {...props}
-      />
-    );
-  };
-
   useEffect(() => {
     getNotes();
-  }, []);
+  }, [processInstanceId]);
 
   return (
     <div className="govuk-grid-column-one-third">
       {displayForm && (
-      <TaskNotesForm
+      <RenderForm
+        onSubmit={
+          async (data, form) => {
+            await submitForm(
+              '/process-definition/key/noteSubmissionWrapper/submit-form',
+              businessKey,
+              form,
+              { ...data.data, processInstanceId },
+              'noteCerberus',
+            );
+            getNotes();
+          }
+        }
         formName="noteCerberus"
-        businessKey={businessKey}
-        processInstanceId={processInstanceId}
       />
       )}
 
