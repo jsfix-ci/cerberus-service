@@ -46,8 +46,8 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
 
 }
 
-.task-list--email {
-  overflow-wrap: break-word;
+.task-list--email, .task-list--businessKey {
+  word-break:break-all;
 }
 
 .govuk-tag.govuk-tag--positiveTarget {
