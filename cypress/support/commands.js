@@ -665,3 +665,37 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
         });
     });
 });
+
+Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
+  let expectedTaskSummary = [];
+  let date = new Date();
+  let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
+  const dateFormat = 'D MMM YYYY [at] HH:mm';
+  cy.fixture(payload).then((task) => {
+    let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+    const rndInt = Math.floor(Math.random() * 20) + 1;
+    date.setDate(date.getDate() + rndInt);
+    task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+    let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+    bookingDateTime = Cypress.moment(bookingDateTime).format(dateFormat);
+    if (taskName.includes('TSV')) {
+      let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
+      let departureDateTime = Cypress.moment(voyage.actualDepartureTimestamp).utc().format(dateFormat);
+      let arrivalDateTime = Cypress.moment(voyage.actualArrivalTimestamp).utc().format(dateFormat);
+      expectedTaskSummary.push(`${voyage.carrier} voyage of ${voyage.craftId}`);
+      expectedTaskSummary.push(`${voyage.departureLocation}, ${departureDateTime}`);
+      expectedTaskSummary.push(`${voyage.arrivalLocation}, ${arrivalDateTime}`);
+      expectedTaskSummary.push('unknown');
+      expectedTaskSummary.push('unknown');
+    }
+    task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+    cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${taskName}`).then((response) => {
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${response.businessKey}`);
+      if (taskName.includes('TSV')) {
+        cy.checkTaskSummaryDetails(expectedTaskSummary);
+      }
+      cy.checkTaskSummary(registrationNumber, bookingDateTime);
+    });
+  });
+});
