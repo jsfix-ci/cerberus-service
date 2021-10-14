@@ -219,7 +219,7 @@ const TasksTab = ({ taskStatus, setError }) => {
               <div className="govuk-grid-column-three-quarters heading-container">
                 <h3 className="govuk-heading-m task-heading">
                   <Link
-                    className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+                    className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold task-list--businessKey"
                     to={`/tasks/${escapedBusinessKey}`}
                   >
                     {escapedBusinessKey}
