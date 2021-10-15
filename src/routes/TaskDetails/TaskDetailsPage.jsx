@@ -4,7 +4,6 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
-import { v4 as uuidv4 } from 'uuid';
 // Config
 import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
 import config from '../../config';
@@ -16,6 +15,7 @@ import { useFormSubmit } from '../../utils/formioSupport';
 import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
 import LoadingSpinner from '../../forms/LoadingSpinner';
+import TaskNotes from './TaskNotes';
 import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
 // Styling
@@ -23,11 +23,6 @@ import Button from '../../govuk/Button';
 import ErrorSummary from '../../govuk/ErrorSummary';
 import Panel from '../../govuk/Panel';
 import '../__assets__/TaskDetailsPage.scss';
-
-// See Camunda docs for all operation types:
-// https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
-const OPERATION_TYPE_CLAIM = 'Claim';
-const OPERATION_TYPE_ASSIGN = 'Assign';
 
 const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, ...props }) => {
   const submitForm = useFormSubmit();
@@ -49,24 +44,6 @@ const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarge
   );
 };
 
-const TaskNotesForm = ({ businessKey, processInstanceId, ...props }) => {
-  const submitForm = useFormSubmit();
-  return (
-    <RenderForm
-      onSubmit={async (data, form) => {
-        await submitForm(
-          '/process-definition/key/noteSubmissionWrapper/submit-form',
-          businessKey,
-          form,
-          { ...data.data, processInstanceId },
-          'noteCerberus',
-        );
-      }}
-      {...props}
-    />
-  );
-};
-
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   dayjs.extend(utc);
@@ -75,7 +52,6 @@ const TaskDetailsPage = () => {
   const currentUser = keycloak.tokenParsed.email;
   const source = axios.CancelToken.source();
 
-  const [activityLog, setActivityLog] = useState([]);
   const [assignee, setAssignee] = useState();
   const [error, setError] = useState(null);
   const [processInstanceId, setProcessInstanceId] = useState();
@@ -126,8 +102,6 @@ const TaskDetailsPage = () => {
       const [
         taskResponse,
         variableInstanceResponse,
-        operationsHistoryResponse,
-        taskHistoryResponse,
       ] = await Promise.all([
         camundaClient.get(
           '/task',
@@ -137,14 +111,6 @@ const TaskDetailsPage = () => {
           '/history/variable-instance',
           { params: { processInstanceIdIn: processInstance.id, deserializeValues: false } },
         ), // variableInstanceResponse
-        camundaClient.get(
-          '/history/user-operation',
-          { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-        ), // operationsHistoryResponse
-        camundaClient.get(
-          '/history/task',
-          { params: { processInstanceId: processInstance.id, deserializeValues: false } },
-        ), // taskHistoryResponse
       ]);
 
       /*
@@ -161,50 +127,6 @@ const TaskDetailsPage = () => {
       setProcessInstanceId(processInstance.id);
       setTargetStatus(processState?.value);
       setAssignee(taskResponse?.data[0]?.assignee);
-
-      /*
-        * ** ACTIVITY LOG & NOTES
-        * There are three places that activity/notes can be logged in
-        * history/variable-instance (parsedNotes) including notes entered via the notes form,
-        * history/user-operation (parsedOperationsHistory),
-        * history/task (parsedTaskHistory)
-        */
-      const parsedNotes = JSON.parse(variableInstanceResponse.data.find((processVar) => {
-        return processVar.name === 'notes';
-      }).value).map((note) => ({
-        id: uuidv4(),
-        date: dayjs(note.timeStamp).format(),
-        user: note.userId,
-        note: note.note,
-      }));
-
-      const parsedOperationsHistory = operationsHistoryResponse.data.map((operation) => {
-        const getNote = () => {
-          if ([OPERATION_TYPE_CLAIM, OPERATION_TYPE_ASSIGN].includes(operation.operationType)) {
-            return operation.newValue ? 'User has claimed the task' : 'User has unclaimed the task';
-          }
-          return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
-        };
-        return {
-          id: uuidv4(),
-          date: dayjs(operation.timestamp).format(),
-          user: operation.userId,
-          note: getNote(operation),
-        };
-      });
-
-      const parsedTaskHistory = taskHistoryResponse.data.map((historyLog) => ({
-        id: uuidv4(),
-        date: dayjs(historyLog.startTime).format(),
-        user: historyLog.assignee,
-        note: historyLog.name,
-      }));
-
-      setActivityLog([
-        ...parsedOperationsHistory,
-        ...parsedTaskHistory,
-        ...parsedNotes,
-      ].sort((a, b) => -a.date.localeCompare(b.date)));
 
       /*
         * ** TARGET DATA
@@ -410,34 +332,11 @@ const TaskDetailsPage = () => {
               )}
             </div>
 
-            <div className="govuk-grid-column-one-third">
-              {assignee === currentUser && (
-                <TaskNotesForm
-                  formName="noteCerberus"
-                  businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
-                  processInstanceId={processInstanceId}
-                />
-              )}
-
-              <hr className="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-
-              <h3 className="govuk-heading-m">Activity</h3>
-
-              {activityLog.map((activity) => {
-                return (
-                  <React.Fragment key={activity.id}>
-                    <p className="govuk-body-s govuk-!-margin-bottom-2">
-                      <span className="govuk-!-font-weight-bold">
-                        {new Date(activity.date).toLocaleDateString()}
-                      </span>
-                    &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
-                      {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
-                    </p>
-                    <p className="govuk-body">{activity.note}</p>
-                  </React.Fragment>
-                );
-              })}
-            </div>
+            <TaskNotes
+              displayForm={assignee === currentUser}
+              businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+              processInstanceId={processInstanceId}
+            />
           </div>
         </>
       )}
