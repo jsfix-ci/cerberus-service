@@ -21,6 +21,7 @@ import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
+import TaskListFilters from './TaskListFilters';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
@@ -389,6 +390,36 @@ const TaskListPage = () => {
   const [error, setError] = useState(null);
   const history = useHistory();
 
+  // const [filter, setFilter] = useState();
+
+  const testFunc = (data) => {
+    console.log('test function', data)
+  }
+
+  const applyFilters = (filtersToApply) => {
+    console.log('ta', filtersToApply);
+    testFunc(filtersToApply)
+  };
+
+  const clearFilters = (filterName) => {
+    console.log('ta', filterName);
+  };
+
+  const filterList = [
+    {
+      name: 'one',
+      code: 'one',
+      label: 'Option one',
+      count: 3,
+    },
+    {
+      name: 'two',
+      code: 'two',
+      label: 'Option two',
+      count: 1,
+    },
+  ];
+
   return (
     <>
       <h1 className="govuk-heading-xl">Task management</h1>
@@ -402,53 +433,67 @@ const TaskListPage = () => {
         />
       )}
 
-      <Tabs
-        title="Title"
-        id="tasks"
-        onTabClick={() => { history.push(); }}
-        items={[
-          {
-            id: 'new',
-            label: 'New',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">New tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_NEW} setError={setError} />
-              </>
-            ),
-          },
-          {
-            id: 'in-progress',
-            label: 'In progress',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">In progress tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
-              </>
-            ),
-          },
-          {
-            id: 'target-issued',
-            label: 'Target issued',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">Target issued tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
-              </>
-            ),
-          },
-          {
-            id: 'complete',
-            label: 'Complete',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">Completed tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
-              </>
-            ),
-          },
-        ]}
-      />
+      <div className="govuk-grid-row">
+        <section className="govuk-grid-column-one-quarter">
+          <TaskListFilters
+            filterList={filterList}
+            filterName="roroMode"
+            filterType="filterTypeCheckbox"
+            onApplyFilters={applyFilters}
+            onClearFilters={clearFilters}
+          />
+        </section>
+
+        <section className="govuk-grid-column-three-quarters">
+          <Tabs
+            title="Title"
+            id="tasks"
+            onTabClick={() => { history.push(); }}
+            items={[
+              {
+                id: 'new',
+                label: 'New',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">New tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_NEW} setError={setError} />
+                  </>
+                ),
+              },
+              {
+                id: 'in-progress',
+                label: 'In progress',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">In progress tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
+                  </>
+                ),
+              },
+              {
+                id: 'target-issued',
+                label: 'Target issued',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">Target issued tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
+                  </>
+                ),
+              },
+              {
+                id: 'complete',
+                label: 'Complete',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">Completed tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
+                  </>
+                ),
+              },
+            ]}
+          />
+        </section>
+      </div>
     </>
   );
 };
