@@ -48,12 +48,14 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should maintain the page links count', () => {
-    cy.get('.task-list--item').should('have.length', MAX_TASK_PER_PAGE);
+    cy.get('.task-list--item').should('have.length.lessThan', MAX_TASK_PER_PAGE);
 
-    cy.get('a[data-test="page-number"]').each((item) => {
-      cy.wrap(item).click();
-      cy.get('.task-list--item').its('length').should('be.lte', MAX_TASK_PER_PAGE);
-    });
+    if (Cypress.$(nextPage).length > 0) {
+      cy.get('a[data-test="page-number"]').each((item) => {
+        cy.wrap(item).click();
+        cy.get('.task-list--item').should('have.length.lessThan', MAX_TASK_PER_PAGE);
+      });
+    }
   });
 
   it('Should verify refresh task list page', () => {
