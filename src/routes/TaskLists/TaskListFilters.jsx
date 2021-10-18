@@ -41,8 +41,8 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
   const [filterListAndState, setFilterListAndState] = useState([]);
 
   const getAlreadySelectedFilters = () => {
-    const checked = localStorage.getItem('checkbox')?.split(',') || [];
-    setFiltersSelected(checked);
+    const selected = localStorage.getItem('filtersSelected')?.split(',') || [];
+    setFiltersSelected(selected);
   };
 
   const getFilterState = () => {
@@ -71,10 +71,10 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
   };
 
   const handleFilterApply = (e) => {
-    localStorage.removeItem('checkbox', filtersSelected);
+    localStorage.removeItem('filtersSelected', filtersSelected);
     e.preventDefault();
     if (filtersSelected.length > 0) {
-      localStorage.setItem('checkbox', filtersSelected);
+      localStorage.setItem('filtersSelected', filtersSelected);
       onApplyFilters(filtersSelected);
     }
   };
@@ -88,7 +88,7 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
      * uncheck any checked checkboxes
      */
     setFiltersSelected([]);
-    localStorage.removeItem('checkbox', filtersSelected);
+    localStorage.removeItem('filtersSelected', filtersSelected);
     const checkboxes = document.getElementsByName('filter');
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < checkboxes.length; i++) {
