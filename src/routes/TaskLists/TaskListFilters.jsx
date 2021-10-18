@@ -17,7 +17,7 @@ const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
   if (filterList.length > 0) {
     return (
       <ul
-        className="govuk-checkboxes cop-filters-options"
+        className="govuk-checkboxes"
         data-module="govuk-checkboxes"
         data-testid="sorted-list"
       >
@@ -82,6 +82,7 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
     return (
     // eslint-disable-next-line jsx-a11y/no-onchange
       <select
+        className="govuk-select"
         value={localStorage.getItem('filtersSelected') || filterList[0].label}
         onChange={(e) => {
           localStorage.setItem('filtersSelected', e.target.value);

@@ -35,12 +35,17 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     margin: 1em;
   }
 
-  .cop-filters-options h3 {
-    margin-left: 1em;
+  .cop-filters-options {
+    padding: 1em;
   }
 
-  ul.cop-filters-options {
-    padding-inline-start: 1em !important;
+  .cop-filters-options select {
+    width: 100%;
+  }
+
+  .cop-filters-options .govuk-checkboxes {
+    margin-block-start: 0px !important; //clears the GDS style which adds more padding
+    padding-inline-start: 0px !important; //clears the GDS style which adds more padding
   }
   
   button.govuk-link {
