@@ -79,14 +79,13 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
    * And a filterType of filterTypeSelect
   */
   if (filterList.length > 0) {
-    const [selectedOption, setSelectedOption] = useState(filterList[0].label);
     return (
     // eslint-disable-next-line jsx-a11y/no-onchange
       <select
-        value={selectedOption}
+        value={localStorage.getItem('filtersSelected') || filterList[0].label}
         onChange={(e) => {
-          setSelectedOption(e.target.value);
-          handleFilterChange(e, e.target.value);
+          localStorage.setItem('filtersSelected', e.target.value);
+          handleFilterChange(e, e.target.value, 'filterTypeSelect');
         }}
       >
         {filterList.map((o) => (
@@ -121,8 +120,10 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     setFilterListAndState(createFilterListAndStateArray);
   };
 
-  const handleFilterChange = (e, code) => {
-    console.log(e.target);
+  const handleFilterChange = (e, code, type) => {
+    if (type === 'filterTypeSelect') {
+      setFiltersSelected([code]);
+    }
     if (e.target.checked) {
       setFiltersSelected([...filtersSelected, code]);
     } else if (!e.target.checked) {
@@ -135,7 +136,6 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
   };
 
   const handleFilterApply = (e) => {
-    localStorage.removeItem('filtersSelected', filtersSelected);
     e.preventDefault();
     if (filtersSelected.length > 0) {
       localStorage.setItem('filtersSelected', filtersSelected);
