@@ -127,7 +127,7 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     }
     if (e.target.checked) {
       setFiltersSelected([...filtersSelected, code]);
-    } else if (!e.target.checked) {
+    } else if (!e.target.checked && type === 'filterTypeCheckbox') {
       const array = [...filtersSelected];
       const updatedArr = _.remove(array, (item) => {
         return item !== code;

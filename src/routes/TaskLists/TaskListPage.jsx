@@ -404,6 +404,12 @@ const TaskListPage = () => {
     console.log('fc', filterName);
   };
 
+  /* We currently only have RoRo cases
+   * and there are 3 options
+   * that must be specified as below
+   * to be able to make the API call successfully
+   * so they are hardcoded for this implementation
+  */
   const createFilterList = () => {
     setFilterList([
       {
@@ -414,17 +420,24 @@ const TaskListPage = () => {
         checked: true,
       },
       {
-        name: 'one',
-        code: 'one',
-        label: 'Option one',
-        count: 3,
+        name: 'roro-unaccompanied-freight',
+        code: 'roro-unaccompanied-freight',
+        label: 'RoRo unaccompanied freight',
+        count: 0,
         checked: false,
       },
       {
-        name: 'two',
-        code: 'two',
-        label: 'Option two',
-        count: 1,
+        name: 'roro-accompanied-freight',
+        code: 'roro-accompanied-freight',
+        label: 'RoRo accompanied freight',
+        count: 0,
+        checked: false,
+      },
+      {
+        name: 'roro-tourist',
+        code: 'roro-tourist',
+        label: 'RoRo tourist',
+        count: 0,
         checked: false,
       },
     ]);
