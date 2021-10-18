@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 
-const filterTypeCheckbox = (filterList, handleFilterChange) => {
+const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
   if (filterList.length > 0) {
-    filterList.map((filter) => {
+    return filterList.map((filter) => {
       let checked = true;
       return (
         <li
@@ -38,6 +38,25 @@ const filterTypeCheckbox = (filterList, handleFilterChange) => {
 
 const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, onClearFilters }) => {
   const [filtersSelected, setFiltersSelected] = useState([]);
+  const [filterListAndState, setFilterListAndState] = useState([]);
+
+  const getAlreadySelectedFilters = () => {
+    const checked = localStorage.getItem('checkbox')?.split(',') || [];
+    setFiltersSelected(checked);
+  };
+
+  const getFilterState = () => {
+    const createFilterListAndStateArray = [];
+    filterList.map((filterItem) => {
+      createFilterListAndStateArray.push({
+        code: filterItem.code,
+        name: filterItem.name,
+        count: filterItem.count,
+        checked: filtersSelected.includes(filterItem.code),
+      });
+    });
+    setFilterListAndState(createFilterListAndStateArray);
+  };
 
   const handleFilterChange = (e, code) => {
     if (e.target.checked) {
@@ -79,6 +98,16 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     }
     onClearFilters(filterName);
   };
+
+  useEffect(() => {
+    getAlreadySelectedFilters();
+  }, []);
+
+  useEffect(() => {
+    if (filterList.length > 0) {
+      getFilterState();
+    }
+  }, [filterList, filtersSelected]);
 
   return (
     <div className="cop-filters-container">
@@ -122,36 +151,15 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
               data-module="govuk-checkboxes"
               data-testid="sorted-list"
             >
-              {filterList.length > 0 && filterList.map((filter) => {
-                let checked = true;
-                return (
-                  <li
-                    className="govuk-checkboxes__item govuk-!-margin-bottom-5"
-                    key={filter.code}
-                  >
-                    <input
-                      className="govuk-checkboxes__input"
-                      id={filter.code}
-                      name="filter"
-                      type="checkbox"
-                      value={filter.name}
-                      defaultChecked={filter.checked}
-                      onChange={(e) => {
-                        checked = !checked;
-                        handleFilterChange(e, filter.code);
-                      }}
-                      data-testid={`checkbox-${filter.code}`}
-                    />
-                    <label
-                      className="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-                      htmlFor={filter.code}
-                    >
-                      {filter.name} <br />
-                      <strong>{filter.count} targets</strong>
-                    </label>
-                  </li>
-                );
-              })}
+              {
+                (filterListAndState.length > 0 && filterType === 'filterTypeCheckbox')
+                && (
+                <FilterTypeCheckbox
+                  filterList={filterListAndState}
+                  handleFilterChange={handleFilterChange}
+                />
+                )
+              }
             </ul>
           </fieldset>
         </div>

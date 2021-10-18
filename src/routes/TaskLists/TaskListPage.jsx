@@ -389,36 +389,43 @@ const TasksTab = ({ taskStatus, setError }) => {
 const TaskListPage = () => {
   const [error, setError] = useState(null);
   const history = useHistory();
-
-  // const [filter, setFilter] = useState();
+  const [filterList, setFilterList] = useState([]);
 
   const testFunc = (data) => {
-    console.log('test function', data)
-  }
+    console.log('test function', data);
+  };
 
   const applyFilters = (filtersToApply) => {
-    console.log('ta', filtersToApply);
-    testFunc(filtersToApply)
+    console.log('tfaa', filtersToApply);
+    testFunc(filtersToApply);
   };
 
   const clearFilters = (filterName) => {
-    console.log('ta', filterName);
+    console.log('fc', filterName);
   };
 
-  const filterList = [
-    {
-      name: 'one',
-      code: 'one',
-      label: 'Option one',
-      count: 3,
-    },
-    {
-      name: 'two',
-      code: 'two',
-      label: 'Option two',
-      count: 1,
-    },
-  ];
+  const createFilterList = () => {
+    setFilterList([
+      {
+        name: 'one',
+        code: 'one',
+        label: 'Option one',
+        count: 3,
+        checked: false,
+      },
+      {
+        name: 'two',
+        code: 'two',
+        label: 'Option two',
+        count: 1,
+        checked: false,
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    createFilterList();
+  }, []);
 
   return (
     <>
