@@ -407,6 +407,13 @@ const TaskListPage = () => {
   const createFilterList = () => {
     setFilterList([
       {
+        name: 'default',
+        code: 'default',
+        label: 'Select filter',
+        count: null,
+        checked: true,
+      },
+      {
         name: 'one',
         code: 'one',
         label: 'Option one',
@@ -445,7 +452,7 @@ const TaskListPage = () => {
           <TaskListFilters
             filterList={filterList}
             filterName="roroMode"
-            filterType="filterTypeCheckbox"
+            filterType="filterTypeSelect"
             onApplyFilters={applyFilters}
             onClearFilters={clearFilters}
           />

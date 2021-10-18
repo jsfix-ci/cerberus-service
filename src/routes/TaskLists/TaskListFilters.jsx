@@ -2,38 +2,100 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 
 const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
+  /*
+   * To create a checkbox list for filters you must pass in
+   * an array of objects that contain the following:
+   * {
+   *  name: 'one',
+   *  code: 'one',
+   *  label: 'Option one',
+   *  count: 3,
+   *  checked: false,
+   * }
+   * And a filterType of filterTypeCheckbox
+  */
   if (filterList.length > 0) {
-    return filterList.map((filter) => {
-      let checked = true;
-      return (
-        <li
-          className="govuk-checkboxes__item govuk-!-margin-bottom-5"
-          key={filter.code}
-        >
-          <input
-            className="govuk-checkboxes__input"
-            id={filter.code}
-            name="filter"
-            type="checkbox"
-            value={filter.name}
-            defaultChecked={filter.checked}
-            onChange={(e) => {
-              checked = !checked;
-              handleFilterChange(e, filter.code);
-            }}
-            data-testid={`checkbox-${filter.code}`}
-          />
-          <label
-            className="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-            htmlFor={filter.code}
-          >
-            {filter.name} <br />
-            <strong>{filter.count} targets</strong>
-          </label>
-        </li>
-      );
-    });
+    return (
+      <ul
+        className="govuk-checkboxes cop-filters-options"
+        data-module="govuk-checkboxes"
+        data-testid="sorted-list"
+      >
+        {filterList.map((filter) => {
+          let checked = true;
+          return (
+            <li
+              className="govuk-checkboxes__item govuk-!-margin-bottom-5"
+              key={filter.code}
+            >
+              <input
+                className="govuk-checkboxes__input"
+                id={filter.code}
+                name="filter"
+                type="checkbox"
+                value={filter.name}
+                defaultChecked={filter.checked}
+                onChange={(e) => {
+                  checked = !checked;
+                  handleFilterChange(e, filter.code);
+                }}
+                data-testid={`checkbox-${filter.code}`}
+              />
+              <label
+                className="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
+                htmlFor={filter.code}
+              >
+                {filter.name} <br />
+                <strong>{filter.count} targets</strong>
+              </label>
+            </li>
+          );
+        })}
+      </ul>
+    );
   }
+  return null;
+};
+
+const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
+  /*
+   * To create a select dropdown for filters you must pass in
+   * an array of objects that contain the following:
+   * {
+   *  name: 'one',
+   *  code: 'one',
+   *  label: 'Option one',
+   *  count: 3,
+   *  checked: false,
+   * }
+   * where the first item in the array is your disabled default item
+   * {
+   * name: 'default',
+   * code: 'default',
+   * label: 'Select filter',
+   * count: null,
+   * checked: true,
+   * }
+   * And a filterType of filterTypeSelect
+  */
+  if (filterList.length > 0) {
+    const [selectedOption, setSelectedOption] = useState(filterList[0].label);
+    return (
+    // eslint-disable-next-line jsx-a11y/no-onchange
+      <select
+        value={selectedOption}
+        onChange={(e) => {
+          setSelectedOption(e.target.value);
+          handleFilterChange(e, e.target.value);
+        }}
+      >
+        {filterList.map((o) => (
+          <option key={o.code} value={o.code}>{o.label}</option>
+        ))}
+      </select>
+    );
+  }
+  return null;
 };
 
 const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, onClearFilters }) => {
@@ -49,16 +111,18 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     const createFilterListAndStateArray = [];
     filterList.map((filterItem) => {
       createFilterListAndStateArray.push({
-        code: filterItem.code,
         name: filterItem.name,
+        code: filterItem.code,
+        label: filterItem.label,
         count: filterItem.count,
-        checked: filtersSelected.includes(filterItem.code),
+        checked: filtersSelected.includes(filterItem.code) || filterItem.checked,
       });
     });
     setFilterListAndState(createFilterListAndStateArray);
   };
 
   const handleFilterChange = (e, code) => {
+    console.log(e.target);
     if (e.target.checked) {
       setFiltersSelected([...filtersSelected, code]);
     } else if (!e.target.checked) {
@@ -146,21 +210,8 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h3 className="govuk-fieldset__heading">Title</h3>
             </legend>
-            <ul
-              className="govuk-checkboxes cop-filters-options"
-              data-module="govuk-checkboxes"
-              data-testid="sorted-list"
-            >
-              {
-                (filterListAndState.length > 0 && filterType === 'filterTypeCheckbox')
-                && (
-                <FilterTypeCheckbox
-                  filterList={filterListAndState}
-                  handleFilterChange={handleFilterChange}
-                />
-                )
-              }
-            </ul>
+            {filterType === 'filterTypeCheckbox' && <FilterTypeCheckbox filterList={filterListAndState} handleFilterChange={handleFilterChange} />}
+            {filterType === 'filterTypeSelect' && <FilterTypeSelect filterList={filterListAndState} handleFilterChange={handleFilterChange} />}
           </fieldset>
         </div>
       </div>
