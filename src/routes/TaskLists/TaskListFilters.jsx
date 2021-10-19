@@ -149,6 +149,17 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     onClearFilters(filterName);
   };
 
+  const getFilterType = (type) => {
+    switch (type) {
+      case 'filterTypeCheckbox':
+        return <FilterTypeCheckbox filterList={filterListAndState} handleFilterChange={handleFilterChange} />;
+      case 'filterTypeSelect':
+        return <FilterTypeSelect filterList={filterListAndState} handleFilterChange={handleFilterChange} />;
+      default:
+        return <FilterTypeSelect filterList={filterListAndState} handleFilterChange={handleFilterChange} />;
+    }
+  };
+
   useEffect(() => {
     getAlreadySelectedFilters();
   }, []);
@@ -196,8 +207,7 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h3 className="govuk-fieldset__heading">Title</h3>
             </legend>
-            {filterType === 'filterTypeCheckbox' && <FilterTypeCheckbox filterList={filterListAndState} handleFilterChange={handleFilterChange} />}
-            {filterType === 'filterTypeSelect' && <FilterTypeSelect filterList={filterListAndState} handleFilterChange={handleFilterChange} />}
+            {getFilterType(filterType)}
           </fieldset>
         </div>
       </div>
