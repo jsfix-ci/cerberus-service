@@ -67,14 +67,6 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
    *  count: 3,
    *  checked: false,
    * }
-   * where the first item in the array is your disabled default item
-   * {
-   * name: 'default',
-   * code: 'default',
-   * label: 'Select filter',
-   * count: null,
-   * checked: true,
-   * }
    * And a filterType of filterTypeSelect
   */
   if (filterList.length > 0) {
@@ -82,12 +74,13 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
     // eslint-disable-next-line jsx-a11y/no-onchange
       <select
         className="govuk-select"
-        value={localStorage.getItem('filtersSelected') || filterList[0].label}
+        value={localStorage.getItem('filtersSelected') || ''}
         onChange={(e) => {
           localStorage.setItem('filtersSelected', e.target.value);
           handleFilterChange(e, e.target.value, 'filterTypeSelect');
         }}
       >
+        <option key="default" value="">Select filter</option>
         {filterList.map((o) => (
           <option key={o.code} value={o.code}>{o.label}</option>
         ))}
