@@ -202,7 +202,7 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
         <div className="govuk-form-group">
           <fieldset className="govuk-fieldset" aria-describedby="waste-hint">
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
-              <h3 className="govuk-fieldset__heading">Title</h3>
+              <h3 className="govuk-fieldset__heading">Select filter</h3>
             </legend>
             {getFilterType(filterType)}
           </fieldset>
