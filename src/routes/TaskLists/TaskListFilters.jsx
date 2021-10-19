@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 
 const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
   /*
@@ -37,7 +36,7 @@ const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
                 defaultChecked={filter.checked}
                 onChange={(e) => {
                   checked = !checked;
-                  handleFilterChange(e, filter.code);
+                  handleFilterChange(e, filter.code, 'filterTypeCheckbox');
                 }}
                 data-testid={`checkbox-${filter.code}`}
               />
@@ -128,11 +127,7 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     if (e.target.checked) {
       setFiltersSelected([...filtersSelected, code]);
     } else if (!e.target.checked && type === 'filterTypeCheckbox') {
-      const array = [...filtersSelected];
-      const updatedArr = _.remove(array, (item) => {
-        return item !== code;
-      });
-      setFiltersSelected(updatedArr);
+      setFiltersSelected(filtersSelected.filter((item) => item !== code));
     }
   };
 
