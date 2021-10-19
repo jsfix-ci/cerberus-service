@@ -220,4 +220,23 @@ describe('TaskListFilters', () => {
     expect(screen.getByRole('checkbox', { name: 'item-three' }).checked).toBe(false);
     expect(localStorage.getItem('filtersSelected')).toBeFalsy();
   });
+
+  it('should persist checkbox filters when they exist in local storage', async () => {
+    const filterType = 'filterTypeCheckbox';
+    localStorage.setItem('filtersSelected', 'item-two,item-three'); // setting here is not setting into localstorage correctly
+    render(
+      <TaskListFilters
+        filterList={filterList}
+        filterName={filterName}
+        filterType={filterType}
+        onApplyFilters={applyFilters}
+        onClearFilters={clearFilters}
+      />,
+    );
+
+    expect(screen.getByRole('checkbox', { name: 'item-one' }).checked).toBe(false);
+    expect(screen.getByRole('checkbox', { name: 'item-two' }).checked).toBe(true);
+    expect(screen.getByRole('checkbox', { name: 'item-three' }).checked).toBe(true);
+    expect(localStorage.getItem('filtersSelected')).toBe('item-two,item-three');
+  });
 });
