@@ -6,8 +6,11 @@ describe('TaskListFilters', () => {
   const applyFilters = jest.fn();
   const clearFilters = jest.fn();
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const filterName = 'Filters name';
-  const filterType = 'filterTypeSelect';
   const filterList = [
     {
       name: 'item-one',
@@ -30,6 +33,7 @@ describe('TaskListFilters', () => {
   ];
 
   it('should display select filter if type is select', async () => {
+    const filterType = 'filterTypeSelect';
     render(<TaskListFilters
       filterList={filterList}
       filterName={filterName}
@@ -50,7 +54,8 @@ describe('TaskListFilters', () => {
     expect(screen.getAllByRole('option').length).toBe(4);
   });
 
-  it('should allow user to change selection', async () => {
+  it('should allow user to change selection in select box', async () => {
+    const filterType = 'filterTypeSelect';
     const { container } = render(
       <TaskListFilters
         filterList={filterList}
@@ -66,6 +71,46 @@ describe('TaskListFilters', () => {
     expect(screen.getByRole('option', { name: 'Select filter' }).selected).toBe(false);
     expect(screen.getByRole('option', { name: 'Item one' }).selected).toBe(false);
     expect(screen.getByRole('option', { name: 'Item two' }).selected).toBe(true);
+    expect(screen.getByRole('option', { name: 'Item three' }).selected).toBe(false);
+  });
+
+  it('should allow call applyFilters when apply filters button is clicked', async () => {
+    const filterType = 'filterTypeSelect';
+    const { container } = render(
+      <TaskListFilters
+        filterList={filterList}
+        filterName={filterName}
+        filterType={filterType}
+        onApplyFilters={applyFilters}
+        onClearFilters={clearFilters}
+      />,
+    );
+
+    const dropDown = getByTestId(container, 'target-filter-select');
+    fireEvent.change(dropDown, { target: { value: 'item-two' } });
+    fireEvent.click(screen.getByText('Apply filters'));
+
+    expect(applyFilters.mock.calls.length).toBe(1);
+  });
+
+  it('should clear filters when clearAll is clicked', async () => {
+    const filterType = 'filterTypeSelect';
+    render(
+      <TaskListFilters
+        filterList={filterList}
+        filterName={filterName}
+        filterType={filterType}
+        onApplyFilters={applyFilters}
+        onClearFilters={clearFilters}
+      />,
+    );
+
+    fireEvent.click(screen.getByText('Clear filters'));
+
+    expect(clearFilters.mock.calls.length).toBe(1);
+    expect(screen.getByRole('option', { name: 'Select filter' }).selected).toBe(true);
+    expect(screen.getByRole('option', { name: 'Item one' }).selected).toBe(false);
+    expect(screen.getByRole('option', { name: 'Item two' }).selected).toBe(false);
     expect(screen.getByRole('option', { name: 'Item three' }).selected).toBe(false);
   });
 });
