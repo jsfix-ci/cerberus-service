@@ -25,7 +25,7 @@ import TaskListFilters from './TaskListFilters';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
-const TasksTab = ({ taskStatus, setError }) => {
+const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
@@ -54,7 +54,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       url: '/task',
       variableUrl: '/variable-instance',
       statusRules: {
-        processVariables: 'processState_neq_Complete',
+        processVariables: `processState_neq_Complete,${filtersToApply}`,
         unassigned: true,
         sortBy: 'dueDate',
         sortOrder: 'asc',
@@ -84,6 +84,8 @@ const TasksTab = ({ taskStatus, setError }) => {
       },
     },
   };
+
+  console.log(targetStatus[activeTab].statusRules)
 
   const formatTargetRisk = (target) => {
     if (target.risks) {
@@ -188,7 +190,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         source.cancel('Cancelling request');
       };
     }
-  }, [activePage]);
+  }, [activePage, filtersToApply]);
 
   useInterval(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
@@ -390,14 +392,10 @@ const TaskListPage = () => {
   const [error, setError] = useState(null);
   const history = useHistory();
   const [filterList, setFilterList] = useState([]);
+  const [filtersToApply, setFiltersToApply] = useState('');
 
-  const testFunc = (data) => {
-    console.log('test function', data);
-  };
-
-  const applyFilters = (filtersToApply) => {
-    console.log('tfaa', filtersToApply);
-    testFunc(filtersToApply);
+  const applyFilters = (filtersSelected) => {
+    setFiltersToApply(`movementMode_eq_${filtersSelected}`);
   };
 
   const clearFilters = (filterName) => {
@@ -412,13 +410,6 @@ const TaskListPage = () => {
   */
   const createFilterList = () => {
     setFilterList([
-      {
-        name: 'default',
-        code: 'default',
-        label: 'Select filter',
-        count: null,
-        checked: true,
-      },
       {
         name: 'roro-unaccompanied-freight',
         code: 'roro-unaccompanied-freight',
@@ -483,7 +474,7 @@ const TaskListPage = () => {
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">New tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_NEW} setError={setError} />
+                    <TasksTab taskStatus={TASK_STATUS_NEW} filtersToApply={filtersToApply} setError={setError} />
                   </>
                 ),
               },
