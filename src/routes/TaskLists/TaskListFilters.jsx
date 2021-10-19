@@ -71,7 +71,7 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
   */
   if (filterList.length > 0) {
     return (
-    // eslint-disable-next-line jsx-a11y/no-onchange
+      // eslint-disable-next-line jsx-a11y/no-onchange
       <select
         className="govuk-select"
         value={localStorage.getItem('filtersSelected') || ''}
@@ -103,10 +103,7 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     const createFilterListAndStateArray = [];
     filterList.map((filterItem) => {
       createFilterListAndStateArray.push({
-        name: filterItem.name,
-        code: filterItem.code,
-        label: filterItem.label,
-        count: filterItem.count,
+        ...filterItem,
         checked: filtersSelected.includes(filterItem.code) || filterItem.checked,
       });
     });
