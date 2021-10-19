@@ -211,7 +211,8 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
         <p className="govuk-body-l">No tasks available</p>
       )}
       {/* The count tasks below will be moved to the tab names in a future story */}
-      <p className="govuk-body-s">{targetTaskCount} tasks</p>
+      <p className="govuk-body-s">{pluralise.withCount(targetTaskCount || '?', '% target', '% targets')}</p>
+
       {!isLoading && authorisedGroup && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
