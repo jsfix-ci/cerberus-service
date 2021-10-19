@@ -64,7 +64,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       url: '/task',
       variableUrl: '/variable-instance',
       statusRules: {
-        variables: 'processState_neq_Complete',
+        variables: `processState_neq_Complete,${filtersToApply}`,
         assigned: true,
       },
     },
@@ -72,20 +72,18 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       url: '/process-instance',
       variableUrl: '/variable-instance',
       statusRules: {
-        variables: 'processState_eq_Issued',
+        variables: `processState_eq_Issued,${filtersToApply}`,
       },
     },
     complete: {
       url: '/history/process-instance',
       variableUrl: '/history/variable-instance',
       statusRules: {
-        variables: 'processState_eq_Complete',
+        variables: `processState_eq_Complete,${filtersToApply}`,
         processDefinitionKey: 'assignTarget',
       },
     },
   };
-
-  console.log(targetStatus[activeTab].statusRules)
 
   const formatTargetRisk = (target) => {
     if (target.risks) {
@@ -212,7 +210,8 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       {!isLoading && authorisedGroup && targetTasks.length === 0 && (
         <p className="govuk-body-l">No tasks available</p>
       )}
-
+      {/* The count tasks below will be moved to the tab names in a future story */}
+      <p className="govuk-body-s">{targetTaskCount} tasks</p>
       {!isLoading && authorisedGroup && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
@@ -484,7 +483,7 @@ const TaskListPage = () => {
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">In progress tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
+                    <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} filtersToApply={filtersToApply} setError={setError} />
                   </>
                 ),
               },
@@ -494,7 +493,7 @@ const TaskListPage = () => {
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">Target issued tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
+                    <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} filtersToApply={filtersToApply} setError={setError} />
                   </>
                 ),
               },
@@ -504,7 +503,7 @@ const TaskListPage = () => {
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">Completed tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
+                    <TasksTab taskStatus={TASK_STATUS_COMPLETED} filtersToApply={filtersToApply} setError={setError} />
                   </>
                 ),
               },
