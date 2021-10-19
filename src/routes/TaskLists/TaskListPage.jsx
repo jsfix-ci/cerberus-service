@@ -395,11 +395,13 @@ const TaskListPage = () => {
   const [filtersToApply, setFiltersToApply] = useState('');
 
   const applyFilters = (filtersSelected) => {
-    setFiltersToApply(`movementMode_eq_${filtersSelected}`);
+    if (filtersSelected) {
+      setFiltersToApply(`movementMode_eq_${filtersSelected}`);
+    }
   };
 
-  const clearFilters = (filterName) => {
-    console.log('fc', filterName);
+  const clearFilters = () => {
+    setFiltersToApply('');
   };
 
   /* We currently only have RoRo cases
@@ -435,6 +437,7 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
+    applyFilters(localStorage.getItem('filtersSelected') || '');
     createFilterList();
   }, []);
 
