@@ -416,21 +416,18 @@ const TaskListPage = () => {
         name: 'roro-unaccompanied-freight',
         code: 'roro-unaccompanied-freight',
         label: 'RoRo unaccompanied freight',
-        count: 0,
         checked: false,
       },
       {
         name: 'roro-accompanied-freight',
         code: 'roro-accompanied-freight',
         label: 'RoRo accompanied freight',
-        count: 0,
         checked: false,
       },
       {
         name: 'roro-tourist',
         code: 'roro-tourist',
         label: 'RoRo tourist',
-        count: 0,
         checked: false,
       },
     ]);

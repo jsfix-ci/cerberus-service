@@ -8,7 +8,6 @@ const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
    *  name: 'one',
    *  code: 'one',
    *  label: 'Option one',
-   *  count: 3,
    *  checked: false,
    * }
    * And a filterType of filterTypeCheckbox
@@ -44,8 +43,7 @@ const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
                 className="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
                 htmlFor={filter.code}
               >
-                {filter.name} <br />
-                <strong>{filter.count} targets</strong>
+                {filter.name}
               </label>
             </li>
           );
@@ -64,7 +62,6 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
    *  name: 'one',
    *  code: 'one',
    *  label: 'Option one',
-   *  count: 3,
    *  checked: false,
    * }
    * And a filterType of filterTypeSelect
