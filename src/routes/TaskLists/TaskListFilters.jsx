@@ -70,7 +70,7 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
     return (
       // eslint-disable-next-line jsx-a11y/no-onchange
       <select
-        data-testId="target-filter-select"
+        data-testid="target-filter-select"
         className="govuk-select"
         value={localStorage.getItem('filtersSelected') || ''}
         onChange={(e) => {
