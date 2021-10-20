@@ -1,59 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-const FilterTypeCheckbox = ({ filterList, handleFilterChange }) => {
-  /*
-   * To create a checkbox list for filters you must pass in
-   * an array of objects that contain the following:
-   * {
-   *  name: 'one',
-   *  code: 'one',
-   *  label: 'Option one',
-   *  checked: false,
-   * }
-   * And a filterType of filterTypeCheckbox
-  */
-  if (filterList.length > 0) {
-    return (
-      <ul
-        className="govuk-checkboxes"
-        data-module="govuk-checkboxes"
-        data-testid="sorted-list"
-      >
-        {filterList.map((filter) => {
-          let checked = true;
-          return (
-            <li
-              className="govuk-checkboxes__item govuk-!-margin-bottom-5"
-              key={filter.code}
-            >
-              <input
-                className="govuk-checkboxes__input"
-                id={filter.code}
-                name="filter"
-                type="checkbox"
-                value={filter.name}
-                defaultChecked={filter.checked}
-                onChange={(e) => {
-                  checked = !checked;
-                  handleFilterChange(e, filter.code, 'filterTypeCheckbox');
-                }}
-                data-testid={`checkbox-${filter.code}`}
-              />
-              <label
-                className="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-                htmlFor={filter.code}
-              >
-                {filter.name}
-              </label>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
-  return null;
-};
-
 const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
   /*
    * To create a select dropdown for filters you must pass in
@@ -112,13 +58,6 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     if (type === 'filterTypeSelect') {
       setFiltersSelected([code]);
     }
-    if (e.target.checked) {
-      setFiltersSelected((previousSelected) => {
-        return [...previousSelected, code];
-      });
-    } else if (!e.target.checked && type === 'filterTypeCheckbox') {
-      setFiltersSelected(filtersSelected.filter((item) => item !== code));
-    }
   };
 
   const handleFilterApply = (e) => {
@@ -139,20 +78,11 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
      */
     setFiltersSelected([]);
     localStorage.removeItem('filtersSelected', filtersSelected);
-    const checkboxes = document.getElementsByName('filter');
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        checkboxes[i].checked = !checkboxes[i].checked;
-      }
-    }
     onClearFilters(filterName);
   };
 
   const getFilterType = (type) => {
     switch (type) {
-      case 'filterTypeCheckbox':
-        return <FilterTypeCheckbox filterList={filterListAndState} handleFilterChange={handleFilterChange} />;
       case 'filterTypeSelect':
         return <FilterTypeSelect filterList={filterListAndState} handleFilterChange={handleFilterChange} />;
       default:
