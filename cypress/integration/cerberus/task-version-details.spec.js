@@ -301,7 +301,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
     let date = new Date();
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-with-Delay-30Sec/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-with-Delay-30Sec_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
       'false',
@@ -385,7 +385,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
@@ -428,7 +428,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay-Failure/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay-Failure_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
@@ -480,7 +480,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify only one versions are created for a task when the attribute for the target indicators in the payload not changed', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-same-version/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-same-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
@@ -508,7 +508,6 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 1);
-    // cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails();
 
     const expectedDetails = {
@@ -527,7 +526,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify 2 versions are created for a task when the payload has different target indicators', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-diff-version/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-diff-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
@@ -566,8 +565,6 @@ describe('Task Details of different tasks on task details Page', () => {
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 2);
 
-    // cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').should('equal', 'true');
-
     cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').then((value) => {
       if (value !== true) {
         cy.get('.govuk-accordion__section-button').eq(0).click();
@@ -578,6 +575,49 @@ describe('Task Details of different tasks on task details Page', () => {
       'Name': 'UK port hop inbound',
       'Name': 'First use of account (Driver)',
       'Name': 'First time through this UK port (Trailer)',
+    };
+
+    cy.contains('h2', 'Targeting indicators').next().within(() => {
+      cy.getTaskDetails().then((details) => {
+        expect(details).to.deep.equal(expectedDetails);
+      });
+    });
+  });
+
+  it('Should verify all the target indicators received in the payload displayed on UI', () => {
+    let date = new Date();
+    date.setDate(date.getDate() + 8);
+
+    cy.fixture('RoRo-task-target-indicators.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Target-Indicators-Details`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
+
+    cy.expandTaskDetails();
+
+    const expectedDetails = {
+      'Name': 'UK port hop inbound',
+      'Name': 'First use of account (Driver)',
+      'Name': 'First time through this UK port (Trailer)',
+      'Name': 'Intelligence Received - Account',
+      'Name': 'Intelligence Received - Consignee',
+      'Name': 'Intelligence Received - Consignor',
+      'Name': 'Intelligence Received - Driver',
+      'Name': 'Intelligence Received - Haulier',
+      'Name': 'Intelligence Received - Passenger',
+      'Name': 'Intelligence Received - Trailer',
+      'Name': 'Intelligence Received - Vehicle',
+      'Name': 'Has previously travelled as freight',
+      'Name': 'Empty trailer',
+      'Name': 'Has previously travelled as tourist',
     };
 
     cy.contains('h2', 'Targeting indicators').next().within(() => {

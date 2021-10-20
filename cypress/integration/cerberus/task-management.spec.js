@@ -307,7 +307,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let date = new Date();
     date.setDate(date.getDate() + 8);
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
-    const businessKey = `AUTOTEST-${dateNowFormatted}-selectors-rules-versions/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       task.businessKey = businessKey;

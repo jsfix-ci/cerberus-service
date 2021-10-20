@@ -230,7 +230,7 @@ Cypress.Commands.add('verifyMandatoryErrorMessage', (element, errorText) => {
 
 Cypress.Commands.add('postTasks', (task, name) => {
   if (name !== null) {
-    const businessKey = `${name}/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `${name}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     task.variables.rbtPayload.value = JSON.parse(task.variables.rbtPayload.value);
 
