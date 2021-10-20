@@ -223,7 +223,7 @@ describe('TaskListFilters', () => {
 
   it('should persist checkbox filters when they exist in local storage', async () => {
     const filterType = 'filterTypeCheckbox';
-    localStorage.setItem('filtersSelected', 'item-two,item-three'); // setting here is not setting into localstorage correctly
+    localStorage.setItem('filtersSelected', 'item-two,item-three');
     render(
       <TaskListFilters
         filterList={filterList}

@@ -113,7 +113,9 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
       setFiltersSelected([code]);
     }
     if (e.target.checked) {
-      setFiltersSelected([...filtersSelected, code]);
+      setFiltersSelected((previousSelected) => {
+        return [...previousSelected, code];
+      });
     } else if (!e.target.checked && type === 'filterTypeCheckbox') {
       setFiltersSelected(filtersSelected.filter((item) => item !== code));
     }
