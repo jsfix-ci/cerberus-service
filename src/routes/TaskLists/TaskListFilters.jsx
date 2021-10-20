@@ -48,6 +48,9 @@ const TaskListFilters = ({ filterList, filterName, filterType, onApplyFilters, o
     filterList.map((filterItem) => {
       createFilterListAndStateArray.push({
         ...filterItem,
+        checked: filtersSelected.includes(filterItem.code) || filterItem.checked
+      });
+        ...filterItem,
         checked: filtersSelected.includes(filterItem.code) || filterItem.checked,
       });
     });
