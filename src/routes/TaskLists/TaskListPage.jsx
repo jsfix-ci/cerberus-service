@@ -21,10 +21,11 @@ import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
+import TaskListFilters from './TaskListFilters';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
-const TasksTab = ({ taskStatus, setError }) => {
+const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
@@ -53,7 +54,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       url: '/task',
       variableUrl: '/variable-instance',
       statusRules: {
-        processVariables: 'processState_neq_Complete',
+        processVariables: `processState_neq_Complete,${filtersToApply}`,
         unassigned: true,
         sortBy: 'dueDate',
         sortOrder: 'asc',
@@ -63,7 +64,7 @@ const TasksTab = ({ taskStatus, setError }) => {
       url: '/task',
       variableUrl: '/variable-instance',
       statusRules: {
-        variables: 'processState_neq_Complete',
+        processVariables: `processState_neq_Complete,${filtersToApply}`,
         assigned: true,
       },
     },
@@ -71,14 +72,14 @@ const TasksTab = ({ taskStatus, setError }) => {
       url: '/process-instance',
       variableUrl: '/variable-instance',
       statusRules: {
-        variables: 'processState_eq_Issued',
+        variables: `processState_eq_Issued,${filtersToApply}`,
       },
     },
     complete: {
       url: '/history/process-instance',
       variableUrl: '/history/variable-instance',
       statusRules: {
-        variables: 'processState_eq_Complete',
+        variables: `processState_eq_Complete,${filtersToApply}`,
         processDefinitionKey: 'assignTarget',
       },
     },
@@ -187,7 +188,7 @@ const TasksTab = ({ taskStatus, setError }) => {
         source.cancel('Cancelling request');
       };
     }
-  }, [activePage]);
+  }, [activePage, filtersToApply]);
 
   useInterval(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
@@ -209,6 +210,8 @@ const TasksTab = ({ taskStatus, setError }) => {
       {!isLoading && authorisedGroup && targetTasks.length === 0 && (
         <p className="govuk-body-l">No tasks available</p>
       )}
+      {/* The count tasks below will be moved to the tab names in a future story */}
+      <p className="govuk-body-s">{pluralise.withCount(targetTaskCount || '0', '% target', '% targets')}</p>
 
       {!isLoading && authorisedGroup && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
@@ -388,6 +391,52 @@ const TasksTab = ({ taskStatus, setError }) => {
 const TaskListPage = () => {
   const [error, setError] = useState(null);
   const history = useHistory();
+  const [filterList, setFilterList] = useState([]);
+  const [filtersToApply, setFiltersToApply] = useState('');
+
+  const applyFilters = (filtersSelected) => {
+    if (filtersSelected) {
+      setFiltersToApply(`movementMode_eq_${filtersSelected}`);
+    }
+  };
+
+  const clearFilters = () => {
+    setFiltersToApply('');
+  };
+
+  /* We currently only have RoRo cases
+   * and there are 3 options
+   * that must be specified as below
+   * to be able to make the API call successfully
+   * so they are hardcoded for this implementation
+  */
+  const createFilterList = () => {
+    setFilterList([
+      {
+        name: 'roro-unaccompanied-freight',
+        code: 'roro-unaccompanied-freight',
+        label: 'RoRo unaccompanied freight',
+        checked: false,
+      },
+      {
+        name: 'roro-accompanied-freight',
+        code: 'roro-accompanied-freight',
+        label: 'RoRo accompanied freight',
+        checked: false,
+      },
+      {
+        name: 'roro-tourist',
+        code: 'roro-tourist',
+        label: 'RoRo tourist',
+        checked: false,
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    applyFilters(localStorage.getItem('filtersSelected') || '');
+    createFilterList();
+  }, []);
 
   return (
     <>
@@ -402,53 +451,67 @@ const TaskListPage = () => {
         />
       )}
 
-      <Tabs
-        title="Title"
-        id="tasks"
-        onTabClick={() => { history.push(); }}
-        items={[
-          {
-            id: 'new',
-            label: 'New',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">New tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_NEW} setError={setError} />
-              </>
-            ),
-          },
-          {
-            id: 'in-progress',
-            label: 'In progress',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">In progress tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} setError={setError} />
-              </>
-            ),
-          },
-          {
-            id: 'target-issued',
-            label: 'Target issued',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">Target issued tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} setError={setError} />
-              </>
-            ),
-          },
-          {
-            id: 'complete',
-            label: 'Complete',
-            panel: (
-              <>
-                <h2 className="govuk-heading-l">Completed tasks</h2>
-                <TasksTab taskStatus={TASK_STATUS_COMPLETED} setError={setError} />
-              </>
-            ),
-          },
-        ]}
-      />
+      <div className="govuk-grid-row">
+        <section className="govuk-grid-column-one-quarter">
+          <TaskListFilters
+            filterList={filterList}
+            filterName="roroMode"
+            filterType="filterTypeSelect"
+            onApplyFilters={applyFilters}
+            onClearFilters={clearFilters}
+          />
+        </section>
+
+        <section className="govuk-grid-column-three-quarters">
+          <Tabs
+            title="Title"
+            id="tasks"
+            onTabClick={() => { history.push(); }}
+            items={[
+              {
+                id: 'new',
+                label: 'New',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">New tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_NEW} filtersToApply={filtersToApply} setError={setError} />
+                  </>
+                ),
+              },
+              {
+                id: 'in-progress',
+                label: 'In progress',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">In progress tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} filtersToApply={filtersToApply} setError={setError} />
+                  </>
+                ),
+              },
+              {
+                id: 'target-issued',
+                label: 'Target issued',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">Target issued tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} filtersToApply={filtersToApply} setError={setError} />
+                  </>
+                ),
+              },
+              {
+                id: 'complete',
+                label: 'Complete',
+                panel: (
+                  <>
+                    <h2 className="govuk-heading-l">Completed tasks</h2>
+                    <TasksTab taskStatus={TASK_STATUS_COMPLETED} filtersToApply={filtersToApply} setError={setError} />
+                  </>
+                ),
+              },
+            ]}
+          />
+        </section>
+      </div>
     </>
   );
 };
