@@ -5,8 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
-import { useKeycloak } from '../../utils/keycloak';
 import { useFormSubmit } from '../../utils/formioSupport';
+import hyperlinkify from '../../utils/hyperlinkify';
+import { useKeycloak } from '../../utils/keycloak';
 // Components / Pages
 import RenderForm from '../../components/RenderForm';
 
@@ -93,21 +94,21 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
   return (
     <div className="govuk-grid-column-one-third">
       {displayForm && (
-      <RenderForm
-        onSubmit={
-          async (data, form) => {
-            await submitForm(
-              '/process-definition/key/noteSubmissionWrapper/submit-form',
-              businessKey,
-              form,
-              { ...data.data, processInstanceId },
-              'noteCerberus',
-            );
-            getNotes();
+        <RenderForm
+          onSubmit={
+            async (data, form) => {
+              await submitForm(
+                '/process-definition/key/noteSubmissionWrapper/submit-form',
+                businessKey,
+                form,
+                { ...data.data, processInstanceId },
+                'noteCerberus',
+              );
+              getNotes();
+            }
           }
-        }
-        formName="noteCerberus"
-      />
+          formName="noteCerberus"
+        />
       )}
 
       <hr className="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
@@ -121,10 +122,10 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
               <span className="govuk-!-font-weight-bold">
                 {new Date(activity.date).toLocaleDateString()}
               </span>
-                    &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
+              &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
               {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
             </p>
-            <p className="govuk-body">{activity.note}</p>
+            <p className="govuk-body">{hyperlinkify(activity.note)}</p>
           </React.Fragment>
         );
       })}
