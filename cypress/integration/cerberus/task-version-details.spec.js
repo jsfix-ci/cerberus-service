@@ -301,7 +301,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
     let date = new Date();
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-with-Delay-30Sec/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-with-Delay-30Sec_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
       'false',
@@ -385,7 +385,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
@@ -428,7 +428,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay-Failure/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay-Failure_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
@@ -480,7 +480,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify only one versions are created for a task when the attribute for the target indicators in the payload not changed', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-same-version/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-same-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
@@ -526,7 +526,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify 2 versions are created for a task when the payload has different target indicators', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-diff-version/${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-diff-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
