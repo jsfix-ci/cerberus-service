@@ -53,11 +53,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       expect(response.statusCode).to.equal(200);
     });
 
-    cy.reload();
-
     cy.get('.govuk-grid-column-one-third').within(() => {
       cy.get('.govuk-body-s a').first().should('have.text', 'cypressuser-cerberus@lodev.xyz');
-      cy.get('p.govuk-body').first().should('have.text', taskNotes);
+      cy.contains('Add notes for testing & check it stored').should('have.text', taskNotes);
     });
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim').click();
