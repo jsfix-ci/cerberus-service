@@ -82,11 +82,29 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     margin-bottom: 0;
     margin-right: 0.25em;
   }
+
 }
 
 .task-list--email,
 .task-list--businessKey {
   word-break: break-all;
+}
+
+ul.item-list--bulleted {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  li + li::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0.5em 0 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
 }
 
 .govuk-tag.govuk-tag--positiveTarget {
