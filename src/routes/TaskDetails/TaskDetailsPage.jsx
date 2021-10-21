@@ -57,7 +57,7 @@ const TaskDetailsPage = () => {
   const [processInstanceId, setProcessInstanceId] = useState();
   const [processInstanceData, setProcessInstanceData] = useState({});
   const [targetStatus, setTargetStatus] = useState();
-  const [targetData, setTargetData] = useState([]);
+  const [targetData, setTargetData] = useState();
   const [warning, setWarning] = useState();
 
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
@@ -142,12 +142,13 @@ const TaskDetailsPage = () => {
         }, {});
 
       setProcessInstanceData(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
-      setTargetData([{
+
+      parsedTaskVariables.taskDetails.reverse();
+      setTargetData({
         ...parsedTaskVariables,
-      }]);
+      });
     } catch (e) {
       setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
-      setTargetData([]);
     } finally {
       setLoading(false);
     }
@@ -227,7 +228,7 @@ const TaskDetailsPage = () => {
         </div>
       )}
 
-      {targetData.length > 0 && (
+      {targetData && (
         <>
           <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
@@ -286,7 +287,7 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={targetData[0].taskSummaryBasedOnTIS} />
+              <TaskSummary taskSummaryData={targetData.taskSummaryBasedOnTIS} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
@@ -320,7 +321,7 @@ const TaskDetailsPage = () => {
                     formName="targetInformationSheet"
                     onCancel={() => setIssueTargetFormOpen(false)}
                     taskId={processInstanceData.id}
-                    processInstanceData={targetData[0].targetInformationSheet}
+                    processInstanceData={targetData.targetInformationSheet}
                     actionTarget
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
@@ -328,13 +329,13 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetData[0].taskDetails} businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey} />
+                <TaskVersions taskVersions={targetData.taskDetails} businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey} />
               )}
             </div>
 
             <TaskNotes
               displayForm={assignee === currentUser}
-              businessKey={targetData[0].taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+              businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
               processInstanceId={processInstanceId}
             />
           </div>

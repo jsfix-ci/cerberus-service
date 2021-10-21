@@ -95,7 +95,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
         /* the task data is provided in an array,
          * there is only ever one item in the array
         */
-        taskVersions.reverse().map((version, index) => {
+        taskVersions.map((version, index) => {
           const booking = version.find((fieldset) => { return fieldset.propName === 'booking'; }) || null;
           const bookingDate = booking?.contents.find((field) => { return field.propName === 'dateBooked'; }) || null;
           const versionNumber = taskVersions.length - index;
