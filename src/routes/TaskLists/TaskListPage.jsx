@@ -34,9 +34,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   const source = axios.CancelToken.source();
 
   const [activePage, setActivePage] = useState(0);
+  const [authorisedGroup, setAuthorisedGroup] = useState();
   const [targetTasks, setTargetTasks] = useState([]);
   const [targetTaskCount, setTargetTaskCount] = useState(0);
-  const [authorisedGroup, setAuthorisedGroup] = useState();
 
   const [isLoading, setLoading] = useState(true);
 
@@ -94,6 +94,24 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
     return 0;
+  };
+
+  const formatTargetIndicators = (target) => {
+    if (target.threatIndicators?.length > 0) {
+      const threatIndicatorList = target.threatIndicators.map((threatIndicator) => {
+        return threatIndicator.userfacingtext;
+      });
+      return (
+        <ul className="govuk-list item-list--bulleted">
+          <li>{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
+          {threatIndicatorList.map((threat) => {
+            return (
+              <li key={threat}>{threat}</li>
+            );
+          })}
+        </ul>
+      );
+    }
   };
 
   const loadTasks = async () => {
@@ -369,7 +387,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                     </strong>
                   </li>
                   <li className="task-labels-item">
-                    {target.matchedSelectors?.[0]?.threatType || 'Unknown'}
+                    {formatTargetIndicators(target)}
                   </li>
                 </ul>
               </div>

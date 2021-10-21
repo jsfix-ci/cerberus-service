@@ -231,6 +231,26 @@ describe('TaskListPage', () => {
     expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 1 other rule')).toHaveLength(1);
   });
 
+  it('should display a count and list of targeting indicators', async () => {
+    mockAxios
+      .onGet('/task/count')
+      .reply(200, { count: 10 })
+      .onGet('/task')
+      .reply(200, [
+        { processInstanceId: '123', assignee: null },
+        { processInstanceId: '456', assignee: null },
+        { processInstanceId: '789', assignee: null },
+      ])
+      .onGet('/variable-instance')
+      .reply(200, variableInstanceTaskSummaryBasedOnTIS);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+
+    expect(screen.getAllByText('2 indicators')).toHaveLength(1);
+    expect(screen.getAllByText('Paid by cash')).toHaveLength(1);
+    expect(screen.getAllByText('Late booking tourist (24-72 hours)')).toHaveLength(1);
+  });
+
   it('should handle errors gracefully', async () => {
     mockAxios
       .onGet('/task/count')
