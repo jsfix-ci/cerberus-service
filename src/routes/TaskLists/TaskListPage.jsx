@@ -97,7 +97,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   };
 
   const formatTargetIndicators = (target) => {
-    if (target.threatIndicators.length > 0) {
+    if (target.threatIndicators?.length > 0) {
       const threatIndicatorList = target.threatIndicators.map((threatIndicator) => {
         return threatIndicator.userfacingtext;
       });

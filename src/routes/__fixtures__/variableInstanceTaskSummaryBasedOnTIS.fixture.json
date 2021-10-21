@@ -14,7 +14,7 @@
   {
     "type": "Json",
     "processInstanceId": "789",
-    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"risks\":[{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}},{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"threatIndicators\":[{\"userfacingtext\":\"Paid by cash\"},{\"userfacingtext\":\"Late booking tourist (24-72 hours)\"}],\"risks\":[{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}},{\"contents\":{\"groupReference\":\"Local ref\",\"category\":\"B\",\"threatType\":\"National Security at the Border\"}}],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
     "name": "taskSummaryBasedOnTIS"
   }
 ]
