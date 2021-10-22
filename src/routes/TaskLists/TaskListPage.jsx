@@ -407,10 +407,82 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
 };
 
 const TaskListPage = () => {
-  const [error, setError] = useState(null);
   const history = useHistory();
+  const keycloak = useKeycloak();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
+  const [taskCountsByStatus, setTaskCountsByStatus] = useState({});
+
+  const targetStatus = {
+    new: {
+      url: '/task',
+      variableUrl: '/variable-instance',
+      statusRules: {
+        processVariables: `processState_neq_Complete,${filtersToApply}`,
+        unassigned: true,
+        sortBy: 'dueDate',
+        sortOrder: 'asc',
+      },
+    },
+    inProgress: {
+      url: '/task',
+      variableUrl: '/variable-instance',
+      statusRules: {
+        processVariables: `processState_neq_Complete,${filtersToApply}`,
+        assigned: true,
+      },
+    },
+    issued: {
+      url: '/process-instance',
+      variableUrl: '/variable-instance',
+      statusRules: {
+        variables: `processState_eq_Issued,${filtersToApply}`,
+      },
+    },
+    complete: {
+      url: '/history/process-instance',
+      variableUrl: '/history/variable-instance',
+      statusRules: {
+        variables: `processState_eq_Complete,${filtersToApply}`,
+        processDefinitionKey: 'assignTarget',
+      },
+    },
+  };
+
+  const getTaskCountsByTab = async () => {
+    try {
+      const [
+        countNew, countInProgress, countIssued, countCompleted,
+      ] = await Promise.all([
+        camundaClient.get(
+          `${targetStatus[TASK_STATUS_NEW].url}/count`,
+          { params: targetStatus[TASK_STATUS_NEW].statusRules },
+        ),
+        camundaClient.get(
+          `${targetStatus[TASK_STATUS_IN_PROGRESS].url}/count`,
+          { params: targetStatus[TASK_STATUS_IN_PROGRESS].statusRules },
+        ),
+        camundaClient.get(
+          `${targetStatus[TASK_STATUS_TARGET_ISSUED].url}/count`,
+          { params: targetStatus[TASK_STATUS_TARGET_ISSUED].statusRules },
+        ),
+        camundaClient.get(
+          `${targetStatus[TASK_STATUS_COMPLETED].url}/count`,
+          { params: targetStatus[TASK_STATUS_COMPLETED].statusRules },
+        ),
+      ]);
+      setTaskCountsByStatus({
+        TASK_STATUS_NEW: countNew.data.count,
+        TASK_STATUS_IN_PROGRESS: countInProgress.data.count,
+        TASK_STATUS_TARGET_ISSUED: countIssued.data.count,
+        TASK_STATUS_COMPLETED: countCompleted.data.count,
+      });
+    } catch (e) {
+      setError(e.message);
+    }
+  };
 
   const applyFilters = (filtersSelected) => {
     if (filtersSelected) {
@@ -452,8 +524,13 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
+    getTaskCountsByTab();
+  }, [filtersToApply]);
+
+  useEffect(() => {
     applyFilters(localStorage.getItem('filtersSelected') || '');
     createFilterList();
+    getTaskCountsByTab();
   }, []);
 
   return (
@@ -487,8 +564,8 @@ const TaskListPage = () => {
             onTabClick={() => { history.push(); }}
             items={[
               {
-                id: 'new',
-                label: 'New',
+                id: TASK_STATUS_NEW,
+                label: `${taskCountsByStatus?.TASK_STATUS_NEW} New`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">New tasks</h2>
@@ -497,8 +574,8 @@ const TaskListPage = () => {
                 ),
               },
               {
-                id: 'in-progress',
-                label: 'In progress',
+                id: TASK_STATUS_IN_PROGRESS,
+                label: `${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS} In progress`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">In progress tasks</h2>
@@ -507,8 +584,8 @@ const TaskListPage = () => {
                 ),
               },
               {
-                id: 'target-issued',
-                label: 'Target issued',
+                id: TASK_STATUS_TARGET_ISSUED,
+                label: `${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED} Issued`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">Target issued tasks</h2>
@@ -517,8 +594,8 @@ const TaskListPage = () => {
                 ),
               },
               {
-                id: 'complete',
-                label: 'Complete',
+                id: TASK_STATUS_COMPLETED,
+                label: `${taskCountsByStatus?.TASK_STATUS_COMPLETED} Complete`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">Completed tasks</h2>

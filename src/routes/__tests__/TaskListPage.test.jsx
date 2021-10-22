@@ -41,14 +41,14 @@ describe('TaskListPage', () => {
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
-    expect(screen.getByText('New')).toBeInTheDocument();
-    expect(screen.getByText('Target issued')).toBeInTheDocument();
+    expect(screen.getByText('0 New')).toBeInTheDocument();
+    expect(screen.getByText('0 Issued')).toBeInTheDocument();
 
     expect(screen.getByText('No tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
+    fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
     await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
@@ -87,7 +87,7 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
 
-    fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
+    fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
     await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
     await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
@@ -181,7 +181,7 @@ describe('TaskListPage', () => {
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
-    fireEvent.click(screen.getByRole('link', { name: /Target issued/i }));
+    fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
 
     await waitFor(() => expect(screen.getByText('Target issued tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
