@@ -14,7 +14,7 @@ describe('TaskListPage', () => {
     mockAxios.reset();
   });
 
-  it('should render loading spinner on component load', () => {
+  it('should render loading spinner on component load', async () => {
     render(<TaskListPage taskStatus="new" setError={() => { }} />);
     expect(screen.getByText('Loading')).toBeInTheDocument();
   });
@@ -282,6 +282,18 @@ describe('TaskListPage', () => {
       .onGet('/task/count')
       .reply(200, { count: 10 })
       .onGet('/task')
+      .reply(500);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+
+    expect(screen.getByText('No tasks available')).toBeInTheDocument();
+    expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
+    expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+  });
+
+  it('should handle count errors gracefully', async () => {
+    mockAxios
+      .onGet('/task/count')
       .reply(500);
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
