@@ -28,7 +28,7 @@
   "homepage": "https://github.com/UKHomeOffice/cerberus-service#readme",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.37.0",
-    "@ukhomeoffice/formio-gds-template": "^1.0.7",
+    "@ukhomeoffice/formio-gds-template": "^1.0.12",
     "axios": "^0.23.0",
     "browserlist": "^1.0.1",
     "classnames": "^2.2.6",
