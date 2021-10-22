@@ -164,8 +164,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Rule-matches`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Rule-matches`).then((taskResponse) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
       });
@@ -200,8 +201,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-only.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Selector-matches`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Selector-matches`).then((taskResponse) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
       });
@@ -236,8 +238,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Selector-rules-matches`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Selector-rules-matches`).then((taskResponse) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
       });
@@ -272,8 +275,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules-hide.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-Selector-rules-matches-hide`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Selector-rules-matches-hide`).then((taskResponse) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
       });
@@ -307,7 +311,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     let date = new Date();
     date.setDate(date.getDate() + 8);
     let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
-    const businessKey = `AUTOTEST-${dateNowFormatted}-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       task.businessKey = businessKey;

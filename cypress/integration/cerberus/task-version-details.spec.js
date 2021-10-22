@@ -14,8 +14,9 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-UNACC-VERSION-DETAILS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-VERSION-DETAILS`).then((response) => {
         cy.wait(4000);
         targetURL = response.businessKey;
         cy.checkTaskDisplayed(`${response.businessKey}`);
@@ -104,8 +105,9 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC-DETAILS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-DETAILS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
@@ -172,8 +174,9 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-Tourist-2-passengers.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Tourist-DETAILS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-DETAILS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
@@ -234,9 +237,10 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       console.log(task.variables.rbtPayload.value);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC-2-Passengers-DETAILS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-with-2-Passengers-DETAILS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
@@ -301,7 +305,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
     let date = new Date();
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-with-Delay-30Sec_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-with-Delay-30Sec_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
       'false',
@@ -385,7 +389,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
@@ -425,10 +429,10 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
   });
 
-  it('Should verify single task created for the same target with different versions of failure when payloads sent without delay', () => {
+  it('Should verify single task created for the same target with different versions when Failed Cerberus payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-No-Delay-Failure_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
@@ -480,7 +484,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify only one versions are created for a task when the attribute for the target indicators in the payload not changed', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-same-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-target-indicators-same-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
@@ -526,7 +530,7 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify 2 versions are created for a task when the payload has different target indicators', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-Versions-target-indicators-diff-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-target-indicators-diff-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
@@ -590,8 +594,9 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.fixture('RoRo-task-target-indicators.json').then((task) => {
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Target-Indicators-Details`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Target-Indicators-Details`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });

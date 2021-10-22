@@ -13,8 +13,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Accompanied`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -142,8 +143,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Unaccompanied`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -245,8 +247,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       console.log('data value', task.variables.rbtPayload.value);
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-Tourist`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -344,7 +347,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   it('Should verify all the action buttons not available when task loaded from Issued tab', () => {
     cy.get('a[href="#target-issued"]').click();
 
-    cy.get('.govuk-grid-row').eq(0).within(() => {
+    cy.get('.title-container').eq(0).within(() => {
       cy.get('a').click();
     });
 
