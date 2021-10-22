@@ -25,31 +25,8 @@ import TaskListFilters from './TaskListFilters';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
-const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
-  dayjs.extend(relativeTime);
-  dayjs.extend(utc);
-  const keycloak = useKeycloak();
-  const location = useLocation();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
-  const source = axios.CancelToken.source();
-
-  const [activePage, setActivePage] = useState(0);
-  const [authorisedGroup, setAuthorisedGroup] = useState();
-  const [targetTasks, setTargetTasks] = useState([]);
-  const [targetTaskCount, setTargetTaskCount] = useState(0);
-
-  const [isLoading, setLoading] = useState(true);
-
-  // PAGINATION SETTINGS
-  const index = activePage - 1;
-  const itemsPerPage = 100;
-  const offset = index * itemsPerPage;
-  const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
-
-  // STATUS SETTINGS
-  const currentUser = keycloak.tokenParsed.email;
-  const activeTab = taskStatus;
-  const targetStatus = {
+const targetStatusConfig = (filtersToApply) => {
+  return ({
     new: {
       url: '/task',
       variableUrl: '/variable-instance',
@@ -83,7 +60,34 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
         processDefinitionKey: 'assignTarget',
       },
     },
-  };
+  });
+};
+
+const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
+  dayjs.extend(relativeTime);
+  dayjs.extend(utc);
+  const keycloak = useKeycloak();
+  const location = useLocation();
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const source = axios.CancelToken.source();
+
+  const [activePage, setActivePage] = useState(0);
+  const [authorisedGroup, setAuthorisedGroup] = useState();
+  const [targetTasks, setTargetTasks] = useState([]);
+  const [targetTaskCount, setTargetTaskCount] = useState(0);
+
+  const [isLoading, setLoading] = useState(true);
+
+  // PAGINATION SETTINGS
+  const index = activePage - 1;
+  const itemsPerPage = 100;
+  const offset = index * itemsPerPage;
+  const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
+
+  // STATUS SETTINGS
+  const currentUser = keycloak.tokenParsed.email;
+  const activeTab = taskStatus;
+  const targetStatus = (targetStatusConfig(filtersToApply));
 
   const formatTargetRisk = (target) => {
     if (target.risks) {
@@ -412,42 +416,7 @@ const TaskListPage = () => {
   const [filterList, setFilterList] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
   const [taskCountsByStatus, setTaskCountsByStatus] = useState({});
-
-  const targetStatus = {
-    new: {
-      url: '/task',
-      variableUrl: '/variable-instance',
-      statusRules: {
-        processVariables: `processState_neq_Complete,${filtersToApply}`,
-        unassigned: true,
-        sortBy: 'dueDate',
-        sortOrder: 'asc',
-      },
-    },
-    inProgress: {
-      url: '/task',
-      variableUrl: '/variable-instance',
-      statusRules: {
-        processVariables: `processState_neq_Complete,${filtersToApply}`,
-        assigned: true,
-      },
-    },
-    issued: {
-      url: '/process-instance',
-      variableUrl: '/variable-instance',
-      statusRules: {
-        variables: `processState_eq_Issued,${filtersToApply}`,
-      },
-    },
-    complete: {
-      url: '/history/process-instance',
-      variableUrl: '/history/variable-instance',
-      statusRules: {
-        variables: `processState_eq_Complete,${filtersToApply}`,
-        processDefinitionKey: 'assignTarget',
-      },
-    },
-  };
+  const targetStatus = (targetStatusConfig(filtersToApply));
 
   const getTaskCountsByTab = async () => {
     try {
