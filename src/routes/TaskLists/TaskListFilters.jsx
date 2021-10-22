@@ -24,7 +24,7 @@ const FilterTypeSelect = ({ filterList, handleFilterChange }) => {
           handleFilterChange(e, e.target.value, 'filterTypeSelect');
         }}
       >
-        <option key="default" value="">Select filter</option>
+        <option key="default" value="" disabled>Select filter</option>
         {filterList.map((o) => (
           <option key={o.code} value={o.code}>{o.label}</option>
         ))}

@@ -88,7 +88,8 @@ describe('Claim/Unclaim buttons', () => {
 
     await waitFor(() => { fireEvent.click(screen.getByText(/Unclaim/i)); });
     expect(mockAxios.history.post[0].url).toEqual(`task/${task.id}/unclaim`);
-    render(<TaskListPage />);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
     expect(screen.getByText('New tasks')).toBeInTheDocument();
     expect(screen.queryByText('In progress tasks')).not.toBeInTheDocument();
     expect(screen.queryByText('Target issued tasks')).not.toBeInTheDocument();
