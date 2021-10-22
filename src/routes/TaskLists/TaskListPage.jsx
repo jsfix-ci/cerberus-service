@@ -228,8 +228,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       {!isLoading && authorisedGroup && targetTasks.length === 0 && (
         <p className="govuk-body-l">No tasks available</p>
       )}
-      {/* The count tasks below will be moved to the tab names in a future story */}
-      <p className="govuk-body-s">{pluralise.withCount(targetTaskCount || '0', '% target', '% targets')}</p>
 
       {!isLoading && authorisedGroup && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
