@@ -72,7 +72,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   const source = axios.CancelToken.source();
 
   const [activePage, setActivePage] = useState(0);
-  const [authorisedGroup, setAuthorisedGroup] = useState();
+  // const [authorisedGroup, setAuthorisedGroup] = useState();
   const [targetTasks, setTargetTasks] = useState([]);
   const [targetTaskCount, setTargetTaskCount] = useState(0);
 
@@ -198,18 +198,10 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   }, [location.search]);
 
   useEffect(() => {
-    const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
-    if (!isTargeter) {
-      setLoading(false);
-      setAuthorisedGroup(false);
-    }
-    if (activePage > 0 && isTargeter) {
-      setAuthorisedGroup(true);
-      loadTasks();
-      return () => {
-        source.cancel('Cancelling request');
-      };
-    }
+    loadTasks();
+    return () => {
+      source.cancel('Cancelling request');
+    };
   }, [activePage, filtersToApply]);
 
   useInterval(() => {
@@ -226,14 +218,11 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
-      {!isLoading && !authorisedGroup && (
-        <p>You are not authorised to view these tasks.</p>
-      )}
-      {!isLoading && authorisedGroup && targetTasks.length === 0 && (
+      {!isLoading && targetTasks.length === 0 && (
         <p className="govuk-body-l">No tasks available</p>
       )}
 
-      {!isLoading && authorisedGroup && targetTasks.length > 0 && targetTasks.map((target) => {
+      {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
         const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
         return (
@@ -412,6 +401,7 @@ const TaskListPage = () => {
   const history = useHistory();
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
@@ -495,14 +485,25 @@ const TaskListPage = () => {
   }, [filtersToApply]);
 
   useEffect(() => {
-    applyFilters(localStorage.getItem('filtersSelected') || '');
-    createFilterList();
-    getTaskCountsByTab();
+    const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
+    if (!isTargeter) {
+      setAuthorisedGroup(false);
+    }
+    if (isTargeter) {
+      setAuthorisedGroup(true);
+      createFilterList();
+      if (localStorage.getItem('filtersSelected')) {
+        applyFilters(localStorage.getItem('filtersSelected') || '');
+      } else {
+        getTaskCountsByTab();
+      }
+    }
   }, []);
 
   return (
     <>
       <h1 className="govuk-heading-xl">Task management</h1>
+      {!authorisedGroup && (<p>You are not authorised to view these tasks.</p>)}
 
       {error && (
         <ErrorSummary
@@ -513,67 +514,69 @@ const TaskListPage = () => {
         />
       )}
 
-      <div className="govuk-grid-row">
-        <section className="govuk-grid-column-one-quarter">
-          <TaskListFilters
-            filterList={filterList}
-            filterName="roroMode"
-            filterType="filterTypeSelect"
-            onApplyFilters={applyFilters}
-            onClearFilters={clearFilters}
-          />
-        </section>
+      {authorisedGroup && (
+        <div className="govuk-grid-row">
+          <section className="govuk-grid-column-one-quarter">
+            <TaskListFilters
+              filterList={filterList}
+              filterName="roroMode"
+              filterType="filterTypeSelect"
+              onApplyFilters={applyFilters}
+              onClearFilters={clearFilters}
+            />
+          </section>
 
-        <section className="govuk-grid-column-three-quarters">
-          <Tabs
-            title="Title"
-            id="tasks"
-            onTabClick={() => { history.push(); }}
-            items={[
-              {
-                id: TASK_STATUS_NEW,
-                label: `${taskCountsByStatus?.TASK_STATUS_NEW} New`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">New tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_NEW} filtersToApply={filtersToApply} setError={setError} />
-                  </>
-                ),
-              },
-              {
-                id: TASK_STATUS_IN_PROGRESS,
-                label: `${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS} In progress`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">In progress tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} filtersToApply={filtersToApply} setError={setError} />
-                  </>
-                ),
-              },
-              {
-                id: TASK_STATUS_TARGET_ISSUED,
-                label: `${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED} Issued`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">Target issued tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} filtersToApply={filtersToApply} setError={setError} />
-                  </>
-                ),
-              },
-              {
-                id: TASK_STATUS_COMPLETED,
-                label: `${taskCountsByStatus?.TASK_STATUS_COMPLETED} Complete`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">Completed tasks</h2>
-                    <TasksTab taskStatus={TASK_STATUS_COMPLETED} filtersToApply={filtersToApply} setError={setError} />
-                  </>
-                ),
-              },
-            ]}
-          />
-        </section>
-      </div>
+          <section className="govuk-grid-column-three-quarters">
+            <Tabs
+              title="Title"
+              id="tasks"
+              onTabClick={() => { history.push(); }}
+              items={[
+                {
+                  id: TASK_STATUS_NEW,
+                  label: `${taskCountsByStatus?.TASK_STATUS_NEW} New`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">New tasks</h2>
+                      <TasksTab taskStatus={TASK_STATUS_NEW} filtersToApply={filtersToApply} setError={setError} />
+                    </>
+                  ),
+                },
+                {
+                  id: TASK_STATUS_IN_PROGRESS,
+                  label: `${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS} In progress`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">In progress tasks</h2>
+                      <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} filtersToApply={filtersToApply} setError={setError} />
+                    </>
+                  ),
+                },
+                {
+                  id: TASK_STATUS_TARGET_ISSUED,
+                  label: `${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED} Issued`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">Target issued tasks</h2>
+                      <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} filtersToApply={filtersToApply} setError={setError} />
+                    </>
+                  ),
+                },
+                {
+                  id: TASK_STATUS_COMPLETED,
+                  label: `${taskCountsByStatus?.TASK_STATUS_COMPLETED} Complete`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">Completed tasks</h2>
+                      <TasksTab taskStatus={TASK_STATUS_COMPLETED} filtersToApply={filtersToApply} setError={setError} />
+                    </>
+                  ),
+                },
+              ]}
+            />
+          </section>
+        </div>
+      )}
     </>
   );
 };
