@@ -430,11 +430,12 @@ const TaskListPage = () => {
           { params: targetStatus[TASK_STATUS_COMPLETED].statusRules },
         ),
       ]);
+
       setTaskCountsByStatus({
-        TASK_STATUS_NEW: countNew.data.count,
-        TASK_STATUS_IN_PROGRESS: countInProgress.data.count,
-        TASK_STATUS_TARGET_ISSUED: countIssued.data.count,
-        TASK_STATUS_COMPLETED: countCompleted.data.count,
+        TASK_STATUS_NEW: countNew.data.count.toString(),
+        TASK_STATUS_IN_PROGRESS: countInProgress.data.count.toString(),
+        TASK_STATUS_TARGET_ISSUED: countIssued.data.count.toString(),
+        TASK_STATUS_COMPLETED: countCompleted.data.count.toString(),
       });
     } catch (e) {
       setError(e.message);
@@ -534,7 +535,7 @@ const TaskListPage = () => {
               items={[
                 {
                   id: TASK_STATUS_NEW,
-                  label: `${taskCountsByStatus?.TASK_STATUS_NEW} New`,
+                  label: `${taskCountsByStatus?.TASK_STATUS_NEW || ''} New`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">New tasks</h2>
@@ -544,7 +545,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_IN_PROGRESS,
-                  label: `${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS} In progress`,
+                  label: `${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS || ''} In progress`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">In progress tasks</h2>
@@ -554,7 +555,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_TARGET_ISSUED,
-                  label: `${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED} Issued`,
+                  label: `${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED || ''} Issued`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
@@ -564,7 +565,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_COMPLETED,
-                  label: `${taskCountsByStatus?.TASK_STATUS_COMPLETED} Complete`,
+                  label: `${taskCountsByStatus?.TASK_STATUS_COMPLETED || ''} Complete`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Completed tasks</h2>
