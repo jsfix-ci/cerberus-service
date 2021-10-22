@@ -19,6 +19,32 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
+  it('should render counts in tab name', async () => {
+    mockAxios
+      .onGet('/task')
+      .reply(200, [])
+      .onGet('/task/count')
+      .reply(200, { count: 7 })
+      .onGet('/process-instance')
+      .reply(200, [])
+      .onGet('/process-instance/count')
+      .reply(200, { count: 5 })
+      .onGet('/variable-instance')
+      .reply(200, [])
+      .onGet('/history/process-instance')
+      .reply(200, [])
+      .onGet('/history/process-instance/count')
+      .reply(200, { count: 0 })
+      .onGet('/history/variable-instance')
+      .reply(200, []);
+
+    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getByText('7 New')).toBeInTheDocument();
+    expect(screen.getByText('5 Issued')).toBeInTheDocument();
+  });
+
   it('should render no tasks available message when New, In Progress, Target Issued and Complete tabs are clicked and there are no tasks', async () => {
     mockAxios
       .onGet('/task')
