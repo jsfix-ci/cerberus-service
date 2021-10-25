@@ -477,7 +477,7 @@ describe('Task Details of different tasks on task details Page', () => {
         expect(res.body.length).to.equal(1);
       });
     });
-    cy.get('.govuk-accordion__section-heading').should('have.length.lessThan', 4);
+    cy.get('.govuk-accordion__section-heading').should('have.length.lte', 4);
   });
 
   // COP-6905 Scenario-2
@@ -620,9 +620,9 @@ describe('Task Details of different tasks on task details Page', () => {
       'Name': 'Intelligence Received - Passenger',
       'Name': 'Intelligence Received - Trailer',
       'Name': 'Intelligence Received - Vehicle',
-      'Name': 'Has previously travelled as freight',
       'Name': 'Empty trailer',
-      'Name': 'Has previously travelled as tourist',
+      'Name': 'Has previously travelled as tourist (vehicle)',
+      'Name': 'Has previously travelled as freight (person)',
     };
 
     cy.contains('h2', 'Targeting indicators').next().within(() => {

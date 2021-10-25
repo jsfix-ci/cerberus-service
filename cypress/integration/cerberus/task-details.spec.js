@@ -97,7 +97,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       });
     });
 
-    cy.get('a[href="#in-progress"]').click();
+    cy.get('a[href="#inProgress"]').click();
 
     cy.getTasksAssignedToOtherUsers().then((tasks) => {
       cy.navigateToTaskDetailsPage(tasks);
@@ -143,7 +143,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.contains('Back to task list').click();
 
-    cy.get('a[href="#in-progress"]').click();
+    cy.get('a[href="#inProgress"]').click();
 
     cy.waitForTaskManagementPageToLoad();
 
@@ -512,7 +512,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.contains('Back to task list').click();
 
-    cy.get('a[href="#in-progress"]').click();
+    cy.get('a[href="#inProgress"]').click();
 
     cy.waitForTaskManagementPageToLoad();
 

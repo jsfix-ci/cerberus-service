@@ -114,11 +114,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.contains('Back to task list').click();
 
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.reload();
 
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.waitForTaskManagementPageToLoad();
 
@@ -189,7 +189,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('nominalType', 'Account');
 
-    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Diver)']);
+    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Driver)']);
 
     cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
@@ -217,11 +217,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.contains('Back to task list').click();
 
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.reload();
 
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.waitForTaskManagementPageToLoad();
 
@@ -293,7 +293,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.selectDropDownValue('nominalType', 'Account');
 
-    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Diver)']);
+    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Driver)']);
 
     cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
@@ -321,11 +321,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.contains('Back to task list').click();
 
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.reload();
 
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.waitForTaskManagementPageToLoad();
 
@@ -345,7 +345,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   });
 
   it('Should verify all the action buttons not available when task loaded from Issued tab', () => {
-    cy.get('a[href="#target-issued"]').click();
+    cy.get('a[href="#issued"]').click();
 
     cy.get('.title-container').eq(0).within(() => {
       cy.get('a').click();
