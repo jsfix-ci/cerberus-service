@@ -22,8 +22,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     const taskNotes = 'Add notes for testing & check it stored';
     cy.intercept('POST', '/camunda/process-definition/key/noteSubmissionWrapper/submit-form').as('notes');
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ADD-NOTES`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ADD-NOTES`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -65,8 +66,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should hide Notes Textarea for the tasks assigned to others', () => {
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSIGN-TO-OTHER`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -85,8 +87,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER-USER`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSIGN-TO-OTHER-USER`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -112,8 +115,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-CLAIM`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -177,8 +181,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should verify all the action buttons not available for non-task owner', () => {
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSIGN-TO-OTHER`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -218,8 +223,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSESSMENT`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSESSMENT`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -263,8 +269,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     ];
 
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-DISMISS`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-DISMISS`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
@@ -312,7 +319,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should verify all the action buttons not available when task loaded from Complete tab', () => {
     cy.get('a[href="#complete"]').click();
 
-    cy.get('.govuk-grid-row').eq(0).within(() => {
+    cy.get('.title-container').eq(0).within(() => {
       cy.get('a').click();
     });
 
@@ -408,8 +415,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         // Haulier Name
         task.variables.rbtPayload.value.data.movement.organisations[2].organisation.name = null;
         task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.goodsDescription = null;
+        let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
         task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC`)
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`)
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expectedData) => {
@@ -439,8 +447,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         task.variables.rbtPayload.value.data.movement.organisations[2].organisation.name = null;
         // Goods description
         task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.goodsDescription = null;
+        let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
         task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-        const businessKey = `AUTOTEST-${dateNowFormatted}-RoRo-`;
+        const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}`;
         cy.postTasks(task, businessKey)
           .then((response) => {
             cy.wait(4000);
@@ -461,8 +470,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-known.json')
       .then((task) => {
         task.variables.rbtPayload.value.data.movement.persons[0].person.type = 'PERFDRIVER';
+        let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
         task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-RoRo-ACC`)
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`)
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expectedData) => {
@@ -482,8 +492,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should display assignee name when task in progress on task management page', () => {
     cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-ASSIGN-TO-OTHER-CHECK-ASSIGNEE-NAME`).then((taskResponse) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSIGN-TO-OTHER-CHECK-ASSIGNEE-NAME`).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.assignToOtherUser(tasks);
@@ -533,7 +544,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       let expDriver = item[1];
       cy.fixture(payloadFile)
         .then((task) => {
-          const businessKey = `AUTOTEST-${dateNowFormatted}-SETDRIVER`;
+          let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+          const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}-SETDRIVER`;
           task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
           cy.postTasks(task, businessKey)
             .then((response) => {
