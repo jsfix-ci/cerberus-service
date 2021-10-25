@@ -15,7 +15,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     const taskNavigationItems = [
       'New',
       'In progress',
-      'Target issued',
+      'Issued',
       'Complete',
     ];
 
@@ -131,11 +131,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.contains('Back to task list').click();
 
-    cy.get('a[href="#in-progress"]').click();
+    cy.get('a[href="#inProgress"]').click();
 
     cy.reload();
 
-    cy.get('a[href="#in-progress"]').click();
+    cy.get('a[href="#inProgress"]').click();
 
     cy.waitForTaskManagementPageToLoad();
 

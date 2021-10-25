@@ -9,17 +9,7 @@ describe('Cerberus User not in the Targeters Group should not have access to tas
   });
 
   it('Should render all the tabs on task management page and check access is restricted to view the tasks', () => {
-    const locators = [
-      'new',
-      'in-progress',
-      'target-issued',
-      'complete',
-    ];
-
-    cy.get('.govuk-tabs__list li a').each((navigationItem, index) => {
-      cy.wrap(navigationItem).click();
-      cy.get(`#${locators[index]} p`).eq(0).should('have.text', 'You are not authorised to view these tasks.');
-    });
+    cy.get('#main-content p').should('have.text', 'You are not authorised to view these tasks.');
   });
 
   after(() => {
