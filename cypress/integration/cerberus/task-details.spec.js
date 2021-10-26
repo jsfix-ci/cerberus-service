@@ -465,7 +465,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it('Should display correct values for PERFDRIVER Driver, Booking, Vehicle', () => {
+  it('Should display correct values for PERFDRIVER Driver, Booking, Vehicle, tasklist,task summary', () => {
     cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-expected.json').as('expTestData');
     cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-known.json')
       .then((task) => {
