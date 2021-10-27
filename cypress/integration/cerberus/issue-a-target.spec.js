@@ -358,6 +358,34 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.get('.formio-component-note textarea').should('not.exist');
   });
 
+  it('Should check target indicators displayed sorted order in the drop down list', () => {
+    cy.getUnassignedTasks().then((tasks) => {
+      cy.navigateToTaskDetailsPage(tasks);
+    });
+
+    let expectedTargetIndicators = [];
+    let actualTargetIndicators = [];
+    cy.fixture('target-indicators.json').then((targetIndicators) => {
+      targetIndicators.TI.forEach((indicator) => {
+        expectedTargetIndicators.push(indicator);
+      });
+
+      cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+      cy.contains('Issue target').click();
+
+      cy.wait(2000);
+      cy.get('.formio-component-threatIndicators').click();
+      cy.get('.formio-component-threatIndicators')
+        .within(() => {
+          cy.get('.choices__list--dropdown .choices__item--selectable span').each((indicators) => {
+            actualTargetIndicators.push(indicators.text());
+          });
+        }).then(() => {
+          expect(actualTargetIndicators).to.have.ordered.members(expectedTargetIndicators);
+        });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
