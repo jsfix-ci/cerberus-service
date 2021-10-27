@@ -90,14 +90,14 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   const targetStatus = (targetStatusConfig(filtersToApply));
 
   const formatTargetRisk = (target) => {
-    if (target.risks) {
+    if (target.risks.length >= 1) {
       const topRisk = target.risks[0].contents
         ? `SELECTOR: ${target.risks[0].contents.groupReference}, ${target.risks[0].contents.category}, ${target.risks[0].contents.threatType}`
         : `${target.risks[0].name}, ${target.risks[0].rulePriority}, ${target.risks[0].abuseType}`;
       const count = target.risks.length - 1;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
-    return 0;
+    return null;
   };
 
   const formatTargetIndicators = (target) => {
