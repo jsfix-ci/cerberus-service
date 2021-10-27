@@ -386,6 +386,42 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
+  it('Should verify task details on each version retained', () => {
+    cy.getBusinessKey('-RORO-Accompanied-Freight-with-Delay-30Sec_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.visit(`/tasks/${businessKeys[0]}`);
+      cy.wait(3000);
+    });
+
+    // COP-8997 Verify Task version details are not changed after clicking on cancel button
+    cy.fixture('task-details-versions.json').then((expectedDetails) => {
+      cy.verifyTaskDetailAllSections(expectedDetails.versions[0], 1);
+    });
+
+    cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
+      if (assignee === 'Unassigned') {
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+      }
+    });
+
+    cy.contains('Issue target').click();
+
+    cy.wait(3000);
+
+    cy.contains('Cancel').click();
+
+    cy.on('window:confirm', (str) => {
+      expect(str).to.equal('Are you sure you want to cancel?');
+    });
+
+    cy.on('window:confirm', () => true);
+
+    // Check Version 1 details are retained after clicking cancel button
+    cy.fixture('task-details-versions.json').then((expectedDetails) => {
+      cy.verifyTaskDetailAllSections(expectedDetails.versions[2], 3);
+    });
+  });
+
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);

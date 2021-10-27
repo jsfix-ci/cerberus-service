@@ -394,6 +394,20 @@ Cypress.Commands.add('getBusinessKeyByProcessInstanceId', (processInstanceId) =>
   });
 });
 
+Cypress.Commands.add('getBusinessKey', (partOfTheBusinessKey) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'businessKeyLike': `%${partOfTheBusinessKey}%`,
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(200);
+    return response.body.map((item) => item.businessKey);
+  });
+});
+
 Cypress.Commands.add('getTaskDetails', () => {
   const obj = {};
   cy.get('.govuk-summary-list__row').each((item) => {
@@ -571,10 +585,7 @@ Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionn
   });
 });
 
-Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInRow, businessKey) => {
-  businessKey = encodeURIComponent(businessKey);
-  cy.visit(`/tasks/${businessKey}`);
-
+Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInRow) => {
   const sectionHeading = new Map();
   sectionHeading.set('vehicle', 'Vehicle details');
   sectionHeading.set('account', 'Account details');
@@ -584,7 +595,8 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   sectionHeading.set('goods', 'Goods');
   sectionHeading.set('booking', 'Booking and check-in');
   sectionHeading.set('rulesMatched', 'Rules matched');
-  sectionHeading.set('selectorMatch', 'selectorMatch');
+  sectionHeading.set('selectorMatch', '1 selector matches');
+  sectionHeading.set('TargetingIndicators', 'Targeting indicators');
 
   // close all in order to expand the correct version
   cy.get('.govuk-accordion__open-all').invoke('text').then(($text) => {
@@ -623,10 +635,13 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
     cy.verifyTaskDetailSection(expectedDetails.booking, versionInRow, sectionHeading.get('booking'));
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'rulesMatched')) {
-    cy.verifyTaskDetailSection(expectedDetails.rules, versionInRow, sectionHeading.get('rulesMatched'));
+    cy.verifyTaskDetailSection(expectedDetails.rulesMatched, versionInRow, sectionHeading.get('rulesMatched'));
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
-    cy.verifyTaskDetailSection(expectedDetails.selectorMatch, versionInRow, expectedDetails.selectorMatchSection);
+    cy.verifyTaskDetailSection(expectedDetails.selectorMatch, versionInRow, sectionHeading.get('selectorMatch'));
+  }
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'TargetingIndicators')) {
+    cy.verifyTaskDetailSection(expectedDetails.TargetingIndicators, versionInRow, sectionHeading.get('TargetingIndicators'));
   }
 });
 

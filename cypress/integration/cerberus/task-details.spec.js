@@ -481,7 +481,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             });
             cy.checkTaskDisplayed(`${response.businessKey}`);
             cy.get('@expTestData').then((expectedData) => {
-              cy.verifyTaskDetailAllSections(expectedData, 1, `${response.businessKey}`);
+              cy.verifyTaskDetailAllSections(expectedData, 1);
             });
           });
       });
