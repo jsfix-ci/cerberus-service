@@ -237,7 +237,7 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 
-  it('should display the first risk and a count of risks', async () => {
+  it('should display the first risk and a count of risks & handle empty arrays', async () => {
     mockAxios
       .onGet('/task/count')
       .reply(200, { count: 10 })
@@ -254,7 +254,6 @@ describe('TaskListPage', () => {
 
     expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 2 other rules')).toHaveLength(1);
     expect(screen.getAllByText('Rulename, Tier 1, Class A Drugs and 0 other rules')).toHaveLength(1);
-    expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 1 other rule')).toHaveLength(1);
   });
 
   it('should display a count and list of targeting indicators', async () => {
