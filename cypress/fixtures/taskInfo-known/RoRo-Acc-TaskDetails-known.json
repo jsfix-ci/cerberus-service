@@ -263,6 +263,33 @@
                     "value": 51,
                     "endTimestamp": null,
                     "startTimestamp": null
+                  },
+                  "VEHICLE-PORT-HOP-IN2OUT": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "FIRST-TIME-ACCOUNT-DRIVER": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "FIRST-TIME-TRAILER-THIS-PORT": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
                   }
                 }
               },
