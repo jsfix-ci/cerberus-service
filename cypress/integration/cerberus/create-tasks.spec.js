@@ -89,6 +89,21 @@ describe('Create task with different payload from Cerberus', () => {
     cy.createCerberusTask('tsv-no-departure-location.json', 'TSV-NO-DEPARTURE-LOCATION');
   });
 
+  it('Should create a task with payload contains risks array as null', () => {
+    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.fixture('task-risks-null.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.contains('0 selector matches');
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
