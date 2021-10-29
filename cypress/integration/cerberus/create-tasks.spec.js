@@ -98,6 +98,8 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {
         cy.wait(4000);
+        cy.navigation('Tasks');
+        cy.get('.govuk-heading-xl').should('have.text', 'Task management');
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.contains('0 selector matches');
       });
