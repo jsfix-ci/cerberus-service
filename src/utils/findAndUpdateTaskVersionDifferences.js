@@ -19,12 +19,12 @@ const compareTaskVersions = (versionOne, versionTwo) => {
 
 export default (taskVersions) => {
   for (let i = 0; i < taskVersions.length - 1; i += 1) {
-    const a = taskVersions[i].filter((fieldSet) => {
+    const taskVersionA = taskVersions[i].filter((fieldSet) => {
       return !['targetingIndicators', 'selectors', 'rules'].includes(fieldSet.propName);
     });
-    const b = taskVersions[i + 1].filter((fieldSet) => {
+    const taskVersionB = taskVersions[i + 1].filter((fieldSet) => {
       return !['targetingIndicators', 'selectors', 'rules'].includes(fieldSet.propName);
     });
-    compareTaskVersions(a, b);
+    compareTaskVersions(taskVersionA, taskVersionB);
   }
 };
