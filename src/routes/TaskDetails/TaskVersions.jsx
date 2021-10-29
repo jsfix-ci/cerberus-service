@@ -12,25 +12,37 @@ const formatField = (fieldType, content) => {
   if (!content) {
     return '';
   }
-  switch (fieldType) {
-    case 'DISTANCE':
-      return `${content}m`;
-    case 'WEIGHT':
-      return `${content}kg`;
-    case 'CURRENCY':
-      return `£${content}`;
-    case 'SHORT_DATE':
-      return dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
-    case 'DATETIME':
-      return dayjs.utc(content).format(LONG_DATE_FORMAT);
+  let result;
+
+  switch (true) {
+    case fieldType.includes('DISTANCE'):
+      result = `${content}m`;
+      break;
+    case fieldType.includes('WEIGHT'):
+      result = `${content}kg`;
+      break;
+    case fieldType.includes('CURRENCY'):
+      result = `£${content}`;
+      break;
+    case fieldType.includes('SHORT_DATE'):
+      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
+      break;
+    case fieldType.includes('DATETIME'):
+      result = dayjs.utc(content).format(LONG_DATE_FORMAT);
+      break;
     default:
-      return content;
+      result = content;
   }
+
+  if (fieldType.includes('CHANGED')) {
+    result = <span className="task-versions--highlight">{result}</span>;
+  }
+  return result;
 };
 
 const renderFieldSetContents = (contents) => (
   contents.map(({ fieldName, content, type }) => {
-    if (type !== 'HIDDEN') {
+    if (!type.includes('HIDDEN')) {
       return (
         <div className="govuk-summary-list__row" key={uuidv4()}>
           <dt className="govuk-summary-list__key">{fieldName}</dt>
