@@ -448,6 +448,15 @@
                     "startTimestamp": null,
                     "endTimestamp": null
                   },
+                  "PERSON-MODE-CHANGE-T2F": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
                   "STANDARDISED:emptyTrailer": {
                     "id": null,
                     "type": null,
@@ -458,6 +467,15 @@
                     "endTimestamp": null
                   },
                   "VEHICLE-MODE-CHANGE-T2F": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "VEHICLE-MODE-CHANGE-F2T": {
                     "id": null,
                     "type": null,
                     "valueType": "BOOL",

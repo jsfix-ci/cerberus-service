@@ -399,7 +399,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
-      if (assignee === 'Unassigned') {
+      if (assignee.includes('Unassigned')) {
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
       }
     });
@@ -659,6 +659,8 @@ describe('Task Details of different tasks on task details Page', () => {
       'Name': 'Empty trailer',
       'Name': 'Has previously travelled as tourist (vehicle)',
       'Name': 'Has previously travelled as freight (person)',
+      'Name': 'Has previously travelled as freight (vehicle)',
+      'Name': 'Has previously travelled as tourist (person)',
     };
 
     cy.contains('h2', 'Targeting indicators').next().within(() => {
