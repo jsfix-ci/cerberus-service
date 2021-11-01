@@ -90,7 +90,7 @@ const renderFieldSets = (fieldSet) => {
   return renderFieldSetContents(fieldSet.contents);
 };
 
-const TaskVersions = ({ taskVersions, businessKey }) => {
+const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
   /*
   * There can be multiple versions of the data
   * We need to display each version
@@ -108,8 +108,8 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
          * there is only ever one item in the array
         */
         taskVersions.map((version, index) => {
-          const booking = version.find((fieldset) => { return fieldset.propName === 'booking'; }) || null;
-          const bookingDate = booking?.contents.find((field) => { return field.propName === 'dateBooked'; }) || null;
+          const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
+          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked') || null;
           const versionNumber = taskVersions.length - index;
           const detailSection = version.map((field) => {
             return (
@@ -132,7 +132,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">
-                      <li>{pluralise.withCount(0, '% change', '% changes', 'No changes')} in this version</li>
+                      <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
                     </ul>
                   </div>
                 </>

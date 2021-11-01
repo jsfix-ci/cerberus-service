@@ -146,12 +146,11 @@ const TaskDetailsPage = () => {
 
       parsedTaskVariables.taskDetails.reverse();
 
-      if (parsedTaskVariables.taskDetails.length > 1) {
-        findAndUpdateTaskVersionDifferences(parsedTaskVariables.taskDetails);
-      }
+      // findAndUpdateTaskVersionDifferences is a mutable function
+      const { differencesCounts } = findAndUpdateTaskVersionDifferences(parsedTaskVariables.taskDetails);
 
       setTargetData({
-        ...parsedTaskVariables,
+        ...parsedTaskVariables, taskVersionDifferencesCounts: differencesCounts,
       });
     } catch (e) {
       setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
@@ -335,7 +334,11 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetData.taskDetails} businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey} />
+                <TaskVersions
+                  taskVersions={targetData.taskDetails}
+                  businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+                  taskVersionDifferencesCounts={targetData.taskVersionDifferencesCounts}
+                />
               )}
             </div>
 
