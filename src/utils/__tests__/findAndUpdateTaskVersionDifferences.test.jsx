@@ -101,4 +101,11 @@ describe('findAndUpdateTaskVersionDifferences', () => {
     expect(input[0][0].childSets[0].contents[0].type).toBe('STRING');
     expect(input[0][0].childSets[1].contents[0].type).toBe('STRING-CHANGED');
   });
+
+  it('should return an object with correct "wasUpdated" and "differencesCounts" values', () => {
+    const { wasUpdated, differencesCounts } = findAndUpdateTaskVersionDifferences(input);
+
+    expect(wasUpdated).toBe(true);
+    expect(differencesCounts).toEqual([3, 0]);
+  });
 });
