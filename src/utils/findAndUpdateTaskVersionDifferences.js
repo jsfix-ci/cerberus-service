@@ -1,30 +1,42 @@
-const compareTaskVersions = (versionOne, versionTwo) => {
-  if (!Array.isArray(versionOne) && typeof versionOne === 'object' && versionOne?.childSets && versionOne.contents.length > 0) {
-    versionOne.contents.forEach((e, i) => {
-      if (e.content !== versionTwo?.contents[i]?.content) {
+const compareTaskVersions = (versionA, versionB, differencesCounts, differencesIdx) => {
+  if (!Array.isArray(versionA) && typeof versionA === 'object' && versionA?.childSets && versionA.contents.length > 0) {
+    versionA.contents.forEach((e, i) => {
+      if (e.content !== versionB?.contents[i]?.content && e.type !== 'HIDDEN') {
         e.type = `${e.type}-CHANGED`;
+        differencesCounts[differencesIdx] += 1;
       }
     });
-    compareTaskVersions(versionOne.childSets, versionTwo.childSets);
-  } else if (!Array.isArray(versionOne) && typeof versionOne === 'object' && versionOne?.contents.length > 0) {
-    versionOne.contents.forEach((e, i) => {
-      if (e.content !== versionTwo?.contents[i]?.content) {
+    compareTaskVersions(versionA.childSets, versionB.childSets, differencesCounts, differencesIdx);
+  } else if (!Array.isArray(versionA) && typeof versionA === 'object' && versionA?.contents.length > 0) {
+    versionA.contents.forEach((e, i) => {
+      if (e.content !== versionB?.contents[i]?.content && e.type !== 'HIDDEN') {
         e.type = `${e.type}-CHANGED`;
+        differencesCounts[differencesIdx] += 1;
       }
     });
-  } else if (Array.isArray(versionOne)) {
-    versionOne.forEach((e, i) => compareTaskVersions(e, versionTwo[i]));
+  } else if (Array.isArray(versionA)) {
+    versionA.forEach((e, i) => compareTaskVersions(e, versionB[i], differencesCounts, differencesIdx));
   }
 };
 
 export default (taskVersions) => {
-  for (let i = 0; i < taskVersions.length - 1; i += 1) {
-    const taskVersionA = taskVersions[i].filter((fieldSet) => {
-      return !['targetingIndicators', 'selectors', 'rules'].includes(fieldSet.propName);
-    });
-    const taskVersionB = taskVersions[i + 1].filter((fieldSet) => {
-      return !['targetingIndicators', 'selectors', 'rules'].includes(fieldSet.propName);
-    });
-    compareTaskVersions(taskVersionA, taskVersionB);
+  const differencesCounts = [0];
+  let wasUpdated = false;
+  if (taskVersions.length >= 2) {
+    wasUpdated = true;
+    for (let i = 0; i < taskVersions.length - 1; i += 1) {
+      const taskVersionA = taskVersions[i].filter((fieldSet) => {
+        return !['targetingIndicators', 'selectors', 'rules'].includes(fieldSet.propName);
+      });
+      const taskVersionB = taskVersions[i + 1].filter((fieldSet) => {
+        return !['targetingIndicators', 'selectors', 'rules'].includes(fieldSet.propName);
+      });
+      differencesCounts.push(0);
+      compareTaskVersions(taskVersionA, taskVersionB, differencesCounts, i);
+    }
   }
+  return {
+    wasUpdated,
+    differencesCounts,
+  };
 };
