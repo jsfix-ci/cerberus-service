@@ -12,25 +12,37 @@ const formatField = (fieldType, content) => {
   if (!content) {
     return '';
   }
-  switch (fieldType) {
-    case 'DISTANCE':
-      return `${content}m`;
-    case 'WEIGHT':
-      return `${content}kg`;
-    case 'CURRENCY':
-      return `£${content}`;
-    case 'SHORT_DATE':
-      return dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
-    case 'DATETIME':
-      return dayjs.utc(content).format(LONG_DATE_FORMAT);
+  let result;
+
+  switch (true) {
+    case fieldType.includes('DISTANCE'):
+      result = `${content}m`;
+      break;
+    case fieldType.includes('WEIGHT'):
+      result = `${content}kg`;
+      break;
+    case fieldType.includes('CURRENCY'):
+      result = `£${content}`;
+      break;
+    case fieldType.includes('SHORT_DATE'):
+      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
+      break;
+    case fieldType.includes('DATETIME'):
+      result = dayjs.utc(content).format(LONG_DATE_FORMAT);
+      break;
     default:
-      return content;
+      result = content;
   }
+
+  if (fieldType.includes('CHANGED')) {
+    result = <span className="task-versions--highlight">{result}</span>;
+  }
+  return result;
 };
 
 const renderFieldSetContents = (contents) => (
   contents.map(({ fieldName, content, type }) => {
-    if (type !== 'HIDDEN') {
+    if (!type.includes('HIDDEN')) {
       return (
         <div className="govuk-summary-list__row" key={uuidv4()}>
           <dt className="govuk-summary-list__key">{fieldName}</dt>
@@ -78,7 +90,7 @@ const renderFieldSets = (fieldSet) => {
   return renderFieldSetContents(fieldSet.contents);
 };
 
-const TaskVersions = ({ taskVersions, businessKey }) => {
+const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
   /*
   * There can be multiple versions of the data
   * We need to display each version
@@ -96,8 +108,8 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
          * there is only ever one item in the array
         */
         taskVersions.map((version, index) => {
-          const booking = version.find((fieldset) => { return fieldset.propName === 'booking'; }) || null;
-          const bookingDate = booking?.contents.find((field) => { return field.propName === 'dateBooked'; }) || null;
+          const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
+          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked') || null;
           const versionNumber = taskVersions.length - index;
           const detailSection = version.map((field) => {
             return (
@@ -120,7 +132,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">
-                      <li>{pluralise.withCount(0, '% change', '% changes', 'No changes')} in this version</li>
+                      <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
                     </ul>
                   </div>
                 </>

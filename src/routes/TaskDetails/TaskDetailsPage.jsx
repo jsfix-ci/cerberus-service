@@ -11,6 +11,7 @@ import config from '../../config';
 import useAxiosInstance from '../../utils/axiosInstance';
 import { useKeycloak } from '../../utils/keycloak';
 import { useFormSubmit } from '../../utils/formioSupport';
+import findAndUpdateTaskVersionDifferences from '../../utils/findAndUpdateTaskVersionDifferences';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
@@ -144,8 +145,12 @@ const TaskDetailsPage = () => {
       setProcessInstanceData(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
 
       parsedTaskVariables.taskDetails.reverse();
+
+      // findAndUpdateTaskVersionDifferences is a mutable function
+      const { differencesCounts } = findAndUpdateTaskVersionDifferences(parsedTaskVariables.taskDetails);
+
       setTargetData({
-        ...parsedTaskVariables,
+        ...parsedTaskVariables, taskVersionDifferencesCounts: differencesCounts,
       });
     } catch (e) {
       setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
@@ -329,7 +334,11 @@ const TaskDetailsPage = () => {
                 </>
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
-                <TaskVersions taskVersions={targetData.taskDetails} businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey} />
+                <TaskVersions
+                  taskVersions={targetData.taskDetails}
+                  businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+                  taskVersionDifferencesCounts={targetData.taskVersionDifferencesCounts}
+                />
               )}
             </div>
 
