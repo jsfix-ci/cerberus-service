@@ -25,7 +25,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
-    cy.expandTaskDetails();
+    cy.expandTaskDetails(0);
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h2', 'Vehicle details').next().within(() => {
@@ -82,7 +82,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
       // COP-6433 : Auto-expand current task version
-      cy.collapseTaskDetails();
+      cy.collapseTaskDetails(0);
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
       cy.reload();
       cy.wait(2000);
@@ -116,7 +116,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.wait(2000);
 
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
-    cy.expandTaskDetails();
+    cy.expandTaskDetails(0);
 
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h2', 'Vehicle details').next().within(() => {
@@ -185,7 +185,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.wait(2000);
 
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
-    cy.expandTaskDetails();
+    cy.expandTaskDetails(0);
 
     cy.fixture('tourist-task-details.json').then((expectedDetails) => {
       cy.contains('h2', 'Vehicle details').next().within(() => {
@@ -250,7 +250,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
 
-    cy.expandTaskDetails();
+    cy.expandTaskDetails(0);
 
     cy.fixture('accompanied-task-2-passengers-details.json').then((expectedDetails) => {
       cy.contains('h2', 'Vehicle details').next().within(() => {
@@ -422,6 +422,51 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
+  it('Should verify difference between versions displayed on task details page', () => {
+    const firstVersionIndex = 2;
+    const versionDiff = [
+      '4 changes in this version',
+      '3 changes in this version',
+      'No changes in this version',
+    ];
+
+    const expectedHighlights = [
+      [
+        'Bobby Brownshoes',
+        'OBJDOCPAS',
+        '244746NL',
+        '27/10/1969',
+      ],
+      [
+        '244999NL',
+        '23/09/1969',
+      ],
+    ];
+
+    cy.getBusinessKey('-RORO-Accompanied-Freight-with-Delay-30Sec_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.visit(`/tasks/${businessKeys[0]}`);
+      cy.wait(3000);
+    });
+
+    // COP-8704 Verify number of difference between the versions displayed & highlighted
+    cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li').invoke('text').then((value) => {
+        expect(versionDiff[index]).to.be.equal(value);
+      });
+
+      if (index !== firstVersionIndex) {
+        cy.expandTaskDetails(index).then(() => {
+          cy.wrap(element).find('.task-versions--highlight').each((diff, diffIndex) => {
+            cy.wrap(diff).invoke('text').then((highlight) => {
+              expect(highlight).to.be.equal(expectedHighlights[index][diffIndex]);
+            });
+          });
+        });
+      }
+    });
+  });
+
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
@@ -548,7 +593,7 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 1);
-    cy.expandTaskDetails();
+    cy.expandTaskDetails(0);
 
     const expectedDetails = {
       'Name': 'Quick turnaround tourist (24-72 hours)',
@@ -642,7 +687,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
 
-    cy.expandTaskDetails();
+    cy.expandTaskDetails(0);
 
     const expectedDetails = {
       'Name': 'UK port hop inbound',
