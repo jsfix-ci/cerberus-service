@@ -305,7 +305,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
     let date = new Date();
-    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-with-Delay-30Sec_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-different-versions-task_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
       'false',
@@ -387,7 +387,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify task details on each version retained', () => {
-    cy.getBusinessKey('-RORO-Accompanied-Freight-with-Delay-30Sec_').then((businessKeys) => {
+    cy.getBusinessKey('-RORO-Accompanied-Freight-different-versions-task_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.visit(`/tasks/${businessKeys[0]}`);
       cy.wait(3000);
@@ -443,7 +443,7 @@ describe('Task Details of different tasks on task details Page', () => {
       ],
     ];
 
-    cy.getBusinessKey('-RORO-Accompanied-Freight-with-Delay-30Sec_').then((businessKeys) => {
+    cy.getBusinessKey('-RORO-Accompanied-Freight-different-versions-task_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.visit(`/tasks/${businessKeys[0]}`);
       cy.wait(3000);
