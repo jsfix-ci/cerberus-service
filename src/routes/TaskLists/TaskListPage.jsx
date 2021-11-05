@@ -535,7 +535,7 @@ const TaskListPage = () => {
               items={[
                 {
                   id: TASK_STATUS_NEW,
-                  label: `${taskCountsByStatus?.TASK_STATUS_NEW || ''} New`,
+                  label: `New (${taskCountsByStatus?.TASK_STATUS_NEW || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">New tasks</h2>
@@ -545,7 +545,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_IN_PROGRESS,
-                  label: `${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS || ''} In progress`,
+                  label: `In progress (${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">In progress tasks</h2>
@@ -555,7 +555,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_TARGET_ISSUED,
-                  label: `${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED || ''} Issued`,
+                  label: `Issued (${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
@@ -565,7 +565,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_COMPLETED,
-                  label: `${taskCountsByStatus?.TASK_STATUS_COMPLETED || ''} Complete`,
+                  label: `Complete (${taskCountsByStatus?.TASK_STATUS_COMPLETED || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Completed tasks</h2>

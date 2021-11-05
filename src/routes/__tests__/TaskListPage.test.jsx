@@ -41,8 +41,8 @@ describe('TaskListPage', () => {
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
-    expect(screen.getByText('7 New')).toBeInTheDocument();
-    expect(screen.getByText('5 Issued')).toBeInTheDocument();
+    expect(screen.getByText('New (7)')).toBeInTheDocument();
+    expect(screen.getByText('Issued (5)')).toBeInTheDocument();
   });
 
   it('should render no tasks available message when New, In Progress, Target Issued and Complete tabs are clicked and there are no tasks', async () => {
@@ -67,8 +67,8 @@ describe('TaskListPage', () => {
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
-    expect(screen.getByText('0 New')).toBeInTheDocument();
-    expect(screen.getByText('0 Issued')).toBeInTheDocument();
+    expect(screen.getByText('New (0)')).toBeInTheDocument();
+    expect(screen.getByText('Issued (0)')).toBeInTheDocument();
 
     expect(screen.getByText('No tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument();
