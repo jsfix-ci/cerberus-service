@@ -327,7 +327,7 @@
                     "value": null,
                     "valueList": {
                       "val": [
-                        "Brown|Bob|M|435|NL|null|244746NL|18659|NL|PERTDRIVER|ROROXML:P=33f544d684db9e59150ae84406709122"
+                        "Brown|Bob|M|435|NL|null|244999NL|18659|NL|PERTDRIVER|ROROXML:P=33f544d684db9e59150ae84406709122"
                       ]
                     },
                     "startTimestamp": null,
@@ -416,13 +416,13 @@
                   "familyName": "Bailey",
                   "givenName": "Ben",
                   "fullName": "Ben Bailey",
-                  "dateOfBirth": -66,
+                  "dateOfBirth": -100,
                   "dateOfDeath": null,
                   "gender": "M",
                   "nationality": "GB",
                   "yearOfBirth": 1969,
-                  "monthOfBirth": 10,
-                  "dayOfBirth": 27,
+                  "monthOfBirth": 7,
+                  "dayOfBirth": 10,
                   "countryOfBirth": null,
                   "placeOfBirth": null,
                   "ethnicity": null,

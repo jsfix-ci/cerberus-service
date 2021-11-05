@@ -421,10 +421,10 @@ Cypress.Commands.add('getTaskDetails', () => {
   });
 });
 
-Cypress.Commands.add('expandTaskDetails', () => {
-  cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
+Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
+  cy.get('.govuk-accordion__section-button').eq(versionNumber).invoke('attr', 'aria-expanded').then((value) => {
     if (value !== true) {
-      cy.get('.govuk-accordion__section-button').click();
+      cy.get('.govuk-accordion__section-button').eq(versionNumber).click();
     }
   });
 });
