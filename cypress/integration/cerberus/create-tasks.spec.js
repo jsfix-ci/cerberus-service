@@ -14,9 +14,9 @@ describe('Create task with different payload from Cerberus', () => {
   it('Should create a task with a payload contains vehicle value as null', () => {
     cy.fixture('task-vehicle-null.json').then((task) => {
       let date = new Date();
-      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
       let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
-      bookingDateTime = Cypress.moment(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      bookingDateTime = Cypress.dayjs(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
         cy.wait(4000);
@@ -93,7 +93,7 @@ describe('Create task with different payload from Cerberus', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     cy.fixture('task-risks-null.json').then((task) => {
       let date = new Date();
-      let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {

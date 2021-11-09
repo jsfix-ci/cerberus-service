@@ -1,6 +1,14 @@
 import './commands';
 
 const addContext = require('mochawesome/addContext');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
+
+Cypress.dayjs = dayjs;
 
 Cypress.on('test:after:run', (test, runnable) => {
   if (test.state === 'failed') {

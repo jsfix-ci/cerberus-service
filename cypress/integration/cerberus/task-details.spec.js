@@ -5,7 +5,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   before(() => {
-    dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
   });
 
   it('Should navigate to task details page', () => {

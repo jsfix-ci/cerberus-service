@@ -99,7 +99,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('tasks.json').then((task) => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -161,7 +161,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should check rule matches details on task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -198,7 +198,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should check selector matches details on task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-only.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -235,7 +235,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should check selector & rule matches details on task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -272,7 +272,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should hide rule matches details on task management page', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules-hide.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -310,7 +310,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   it('Should check selector & rule matches details for more than one version on task management page', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    let dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {

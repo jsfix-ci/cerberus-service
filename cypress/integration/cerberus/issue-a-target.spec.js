@@ -3,7 +3,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   let date;
   beforeEach(() => {
     date = new Date();
-    dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
+    dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
     cy.login(Cypress.env('userName'));
   });
 
