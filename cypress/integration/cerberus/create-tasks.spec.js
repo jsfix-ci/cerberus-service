@@ -29,7 +29,7 @@ describe('Create task with different payload from Cerberus', () => {
   it('Should create a task with a payload contains RoRo Tourist and check AbuseType set to correct value', () => {
     cy.createCerberusTask('RoRo-Tourist.json', 'TOURIST-WITH-PASSENGERS').then(() => {
       cy.wait(2000);
-      cy.expandTaskDetails().then(() => {
+      cy.expandTaskDetails(0).then(() => {
         cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
           .next()
           .should('have.text', 'Obscene Material');
