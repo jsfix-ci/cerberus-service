@@ -280,9 +280,9 @@ Cypress.Commands.add('selectDropDownValue', (elementName, value) => {
 
 Cypress.Commands.add('typeTodaysDateTime', (elementName) => {
   let dateNow = new Date();
-  let dateNowFormatted = Cypress.moment(dateNow).format(displayDate24Format);
+  let dateNowFormatted = Cypress.dayjs(dateNow).format(displayDate24Format);
 
-  let dateTime = Cypress.moment(dateNowFormatted, displayDate24Format);
+  let dateTime = Cypress.dayjs(dateNowFormatted, displayDate24Format);
 
   cy.get(`${formioComponent}${elementName}`)
     .should('be.visible')
@@ -487,7 +487,7 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
 });
 
 Cypress.Commands.add('deleteAutomationTestData', () => {
-  let dateNowFormatted = Cypress.moment().subtract('1', 'd').format('DD-MM-YYYY');
+  let dateNowFormatted = Cypress.dayjs().subtract('1', 'd').format('DD-MM-YYYY');
   cy.request({
     method: 'POST',
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
@@ -685,7 +685,7 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = [];
   let date = new Date();
-  let dateNowFormatted = Cypress.moment(date).format('DD-MM-YYYY');
+  let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
   const dateFormat = 'D MMM YYYY [at] HH:mm';
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
@@ -693,12 +693,13 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
     date.setDate(date.getDate() + rndInt);
     task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
     let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
-    bookingDateTime = Cypress.moment(bookingDateTime).format(dateFormat);
+    bookingDateTime = Cypress.dayjs(bookingDateTime).format(dateFormat);
     let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
     if (taskName.includes('TSV')) {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
-      let departureDateTime = Cypress.moment(voyage.actualDepartureTimestamp).utc().format(dateFormat);
-      let arrivalDateTime = Cypress.moment(voyage.actualArrivalTimestamp).utc().format(dateFormat);
+      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).utc().format(dateFormat);
+      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format(dateFormat);
+      cy.log('departure and arrival time', departureDateTime, arrivalDateTime);
       expectedTaskSummary.push(`${voyage.carrier} voyage of ${voyage.craftId}`);
       expectedTaskSummary.push(`${voyage.departureLocation}, ${departureDateTime}`);
       expectedTaskSummary.push(`${voyage.arrivalLocation}, ${arrivalDateTime}`);

@@ -5,7 +5,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   before(() => {
-    dateNowFormatted = Cypress.moment(new Date()).format('DD-MM-YYYY');
+    dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
   });
 
   it('Should verify task version details of unaccompanied task on task details page', () => {
