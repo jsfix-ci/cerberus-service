@@ -422,20 +422,48 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it('Should verify difference between versions displayed on task details page', () => {
+  it.only('Should verify difference between versions displayed on task details page', () => {
     const firstVersionIndex = 2;
     const versionDiff = [
-      '4 changes in this version',
+      '32 changes in this version',
       '3 changes in this version',
       'No changes in this version',
     ];
 
     const expectedHighlights = [
       [
+        'GB09KLT-2000',
+        'LandRover',
+        'Discovery',
+        'DE',
+        'Red',
+        '4000kg',
+        '43680kg',
+        'NL',
+        'Loaded',
+        '46m',
+        '4.6m',
+        'Testing Printers Ltd',
+        'Test Highlights name',
+        'PO000355555',
+        'Unit 11-12 Pink Way Bognoris Regis E209JB GB',
+        '01234 56724747',
+        'Matthew',
+        '01243784444',
         'Bobby Brownshoes',
+        '17/03/1971',
+        'F',
+        'FR',
         'OBJDOCPAS',
         '244746NL',
-        '27/10/1969',
+        '14/03/2021',
+        'Ken Bailey',
+        '03/10/1969',
+        'F',
+        'FR',
+        'OBJDOCPAS',
+        '244746NL',
+        '14/03/2021',
       ],
       [
         '244999NL',
