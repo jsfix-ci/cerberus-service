@@ -422,7 +422,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it.only('Should verify difference between versions displayed on task details page', () => {
+  it('Should verify difference between versions displayed on task details page', () => {
     const firstVersionIndex = 2;
     const versionDiff = [
       '32 changes in this version',
