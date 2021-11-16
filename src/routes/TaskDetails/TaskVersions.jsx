@@ -76,7 +76,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
         */
         taskVersions.map((version, index) => {
           const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
-          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked') || null;
+          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
           const detailSection = version.map((field) => {
             return (
@@ -95,7 +95,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
               summary: (
                 <>
                   <div className="task-versions--left">
-                    <div className="govuk-caption-m">{dayjs.utc(bookingDate?.content || null).format(LONG_DATE_FORMAT)}</div>
+                    <div className="govuk-caption-m">{dayjs.utc(bookingDate ? bookingDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">
