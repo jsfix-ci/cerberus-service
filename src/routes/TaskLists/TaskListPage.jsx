@@ -352,7 +352,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                   {target.roro.details.account ? (
                     <>
                       {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
-                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs.utc(target.roro.details.bookingDateTime.split(",")[0]).format(SHORT_DATE_FORMAT)}</li>}
+                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs.utc(target.roro.details.bookingDateTime.split(',')[0]).format(SHORT_DATE_FORMAT)}</li>}
                       {target.roro.details.bookingDateTime && <li>{targetDatetimeDifference(target.roro.details.bookingDateTime)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
