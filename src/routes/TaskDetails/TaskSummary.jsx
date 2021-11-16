@@ -8,6 +8,7 @@ import '../__assets__/TaskDetailsPage.scss';
 const TaskSummary = ({ taskSummaryData }) => {
   dayjs.extend(utc);
   const roroData = taskSummaryData.roro.details;
+  const bookingDateTime = roroData.bookingDateTime ? dayjs.utc(roroData.bookingDateTime.split(',')[0]) : '';
 
   return (
     <section className="card">
@@ -41,7 +42,7 @@ const TaskSummary = ({ taskSummaryData }) => {
         <div className="govuk-grid-column-one-half">
           <dl className="mode-details">
             <dt>Account</dt>
-            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}{dayjs.utc(roroData.bookingDateTime).isValid() && <span className="govuk-!-font-weight-regular">, booked on {dayjs.utc(roroData.bookingDateTime).format(LONG_DATE_FORMAT)}</span>}</dd>
+            <dd>{!roroData.account?.name ? 'unknown' : roroData.account.name}{dayjs.utc(bookingDateTime).isValid() && <span className="govuk-!-font-weight-regular">, booked on {dayjs.utc(bookingDateTime).format(LONG_DATE_FORMAT)}</span>}</dd>
             <dt>Haulier</dt>
             <dd>{!roroData.haulier?.name ? 'unknown' : roroData.haulier.name}</dd>
           </dl>
