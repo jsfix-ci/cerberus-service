@@ -1,44 +1,11 @@
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 
 import Accordion from '../../govuk/Accordion';
-import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
-
-const formatField = (fieldType, content) => {
-  dayjs.extend(utc);
-  if (!content) {
-    return '';
-  }
-  let result;
-
-  switch (true) {
-    case fieldType.includes('DISTANCE'):
-      result = `${content}m`;
-      break;
-    case fieldType.includes('WEIGHT'):
-      result = `${content}kg`;
-      break;
-    case fieldType.includes('CURRENCY'):
-      result = `£${content}`;
-      break;
-    case fieldType.includes('SHORT_DATE'):
-      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
-      break;
-    case fieldType.includes('DATETIME'):
-      result = dayjs.utc(content).format(LONG_DATE_FORMAT);
-      break;
-    default:
-      result = content;
-  }
-
-  if (fieldType.includes('CHANGED')) {
-    result = <span className="task-versions--highlight">{result}</span>;
-  }
-  return result;
-};
+import { LONG_DATE_FORMAT } from '../../constants';
+import formatField from '../../utils/formatField';
 
 const renderFieldSetContents = (contents) => (
   contents.map(({ fieldName, content, type }) => {
