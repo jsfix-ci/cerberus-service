@@ -14,6 +14,23 @@ const config = {
   refdataApiUrl: process.env.REFDATA_API_URL,
   formApiUrl: process.env.FORM_API_URL,
   camundaApiUrl: '/camunda',
+  dayjsConfig: {
+    relativeTime: {
+      future: '%s before travel',
+      past: '%s after travel',
+      s: 'a few seconds',
+      m: 'a minute',
+      mm: '%d minutes',
+      h: 'an hour',
+      hh: '%d hours',
+      d: 'a day',
+      dd: '%d days',
+      M: 'a month',
+      MM: '%d months',
+      y: 'a year',
+      yy: '%d years',
+    },
+  },
 };
 
 export default config;
