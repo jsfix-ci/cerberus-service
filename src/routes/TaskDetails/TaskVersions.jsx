@@ -1,44 +1,11 @@
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 
 import Accordion from '../../govuk/Accordion';
-import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../../constants';
-
-const formatField = (fieldType, content) => {
-  dayjs.extend(utc);
-  if (!content) {
-    return '';
-  }
-  let result;
-
-  switch (true) {
-    case fieldType.includes('DISTANCE'):
-      result = `${content}m`;
-      break;
-    case fieldType.includes('WEIGHT'):
-      result = `${content}kg`;
-      break;
-    case fieldType.includes('CURRENCY'):
-      result = `£${content}`;
-      break;
-    case fieldType.includes('SHORT_DATE'):
-      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
-      break;
-    case fieldType.includes('DATETIME'):
-      result = dayjs.utc(content).format(LONG_DATE_FORMAT);
-      break;
-    default:
-      result = content;
-  }
-
-  if (fieldType.includes('CHANGED')) {
-    result = <span className="task-versions--highlight">{result}</span>;
-  }
-  return result;
-};
+import { LONG_DATE_FORMAT } from '../../constants';
+import formatField from '../../utils/formatField';
 
 const renderFieldSetContents = (contents) => (
   contents.map(({ fieldName, content, type }) => {
@@ -109,7 +76,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
         */
         taskVersions.map((version, index) => {
           const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
-          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked') || null;
+          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
           const detailSection = version.map((field) => {
             return (
@@ -128,7 +95,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
               summary: (
                 <>
                   <div className="task-versions--left">
-                    <div className="govuk-caption-m">{dayjs.utc(bookingDate?.content || null).format(LONG_DATE_FORMAT)}</div>
+                    <div className="govuk-caption-m">{dayjs.utc(bookingDate ? bookingDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
                   </div>
                   <div className="task-versions--right">
                     <ul className="govuk-list">
