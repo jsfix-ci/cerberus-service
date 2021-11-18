@@ -630,13 +630,13 @@ const TaskListPage = () => {
                                     checked = !checked;
                                     handleFilterChange(e, filterItem.code, filterSet.filterType, filterSet.filterName);
                                   }}
-                                  data-testid={`checkbox-${filterItem.code}`}
+                                  data-testid={`${filterSet.filterName}-${filterItem.code}`}
                                 />
                                 <label
                                   className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                   htmlFor={filterItem.code}
                                 >
-                                  {filterItem.label} ({filterItem.count})
+                                  {filterItem.label}
                                 </label>
                               </li>
                             );
