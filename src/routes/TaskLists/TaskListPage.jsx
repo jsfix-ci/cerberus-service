@@ -14,15 +14,14 @@ import { SHORT_DATE_FORMAT, LONG_DATE_FORMAT, TARGETER_GROUP, TASK_STATUS_COMPLE
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
-import { useKeycloak } from '../../utils/keycloak';
 import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
+import { useKeycloak } from '../../utils/keycloak';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
-import TaskListFilters from './TaskListFilters';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
@@ -63,6 +62,59 @@ const targetStatusConfig = (filtersToApply) => {
     },
   });
 };
+
+const filterListConfig = [
+  {
+    filterName: 'Mode',
+    filterType: 'radio',
+    filterClassPrefix: 'radios',
+    filterOptions: [
+      {
+        name: 'roro-unaccompanied-freight',
+        code: 'movementMode_eq_roro-unaccompanied-freight',
+        label: 'RoRo unaccompanied freight',
+        checked: false,
+      },
+      {
+        name: 'roro-accompanied-freight',
+        code: 'movementMode_eq_roro-accompanied-freight',
+        label: 'RoRo accompanied freight',
+        checked: false,
+      },
+      {
+        name: 'roro-tourist',
+        code: 'movementMode_eq_roro-tourist',
+        label: 'RoRo tourist',
+        checked: false,
+      },
+    ],
+  },
+  {
+    filterName: 'Selectors',
+    filterType: 'radio',
+    filterClassPrefix: 'radios',
+    filterOptions: [
+      {
+        name: 'has-no-selector',
+        code: 'hasSelectors_eq_no',
+        label: 'Has no selector',
+        checked: false,
+      },
+      {
+        name: 'has-selector',
+        code: 'hasSelectors_eq_yes',
+        label: 'Has selector',
+        checked: false,
+      },
+      {
+        name: 'both',
+        code: '', // as 'both' is all tasks we just return null for the filter when selected
+        label: 'Both',
+        checked: false,
+      },
+    ],
+  },
+];
 
 const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   dayjs.extend(relativeTime);
@@ -407,6 +459,7 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
+  const [filtersSelected, setFiltersSelected] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
   const [taskCountsByStatus, setTaskCountsByStatus] = useState({});
   const targetStatus = (targetStatusConfig(filtersToApply));
@@ -445,43 +498,45 @@ const TaskListPage = () => {
     }
   };
 
-  const applyFilters = (filtersSelected) => {
-    if (filtersSelected) {
-      setFiltersToApply(`movementMode_eq_${filtersSelected}`);
+  const handleFilterChange = (e, code) => {
+    if (e.target.checked) {
+      setFiltersSelected([...filtersSelected, code]);
+    } else if (!e.target.checked) {
+      const array = [...filtersSelected];
+      const updatedArr = _.remove(array, (item) => {
+        return item !== code;
+      });
+      setFiltersSelected(updatedArr);
     }
   };
 
-  const clearFilters = () => {
-    setFiltersToApply('');
+  const handleFilterApply = (e) => {
+    localStorage.removeItem('filters');
+    e.preventDefault();
+    if (filtersSelected.length > 0) {
+      localStorage.setItem('filters', filtersSelected);
+      setFiltersToApply(filtersSelected);
+    } else {
+      setFiltersToApply(''); // show all targets
+    }
   };
 
-  /* We currently only have RoRo cases
-   * and there are 3 options
-   * that must be specified as below
-   * to be able to make the API call successfully
-   * so they are hardcoded for this implementation
-  */
-  const createFilterList = () => {
-    setFilterList([
-      {
-        name: 'roro-unaccompanied-freight',
-        code: 'roro-unaccompanied-freight',
-        label: 'RoRo unaccompanied freight',
-        checked: false,
-      },
-      {
-        name: 'roro-accompanied-freight',
-        code: 'roro-accompanied-freight',
-        label: 'RoRo accompanied freight',
-        checked: false,
-      },
-      {
-        name: 'roro-tourist',
-        code: 'roro-tourist',
-        label: 'RoRo tourist',
-        checked: false,
-      },
-    ]);
+  const handleFilterReset = (e) => {
+    e.preventDefault();
+    setFiltersToApply(''); // reset to null
+    setFiltersSelected([]); // reset to null
+    setFilterList(filterListConfig); // reset to default
+    localStorage.removeItem('filters');
+
+    filterList.map((filterSet) => {
+      const optionItem = document.getElementsByName(filterSet.filterName);
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < optionItem.length; i++) {
+        if (optionItem[i].checked) {
+          optionItem[i].checked = !optionItem[i].checked;
+        }
+      }
+    });
   };
 
   useEffect(() => {
@@ -495,12 +550,8 @@ const TaskListPage = () => {
     }
     if (isTargeter) {
       setAuthorisedGroup(true);
-      createFilterList();
-      if (localStorage.getItem('filtersSelected')) {
-        applyFilters(localStorage.getItem('filtersSelected') || '');
-      } else {
-        getTaskCountsByTab();
-      }
+      setFilterList(filterListConfig);
+      getTaskCountsByTab();
     }
   }, []);
 
@@ -521,13 +572,75 @@ const TaskListPage = () => {
       {authorisedGroup && (
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter">
-            <TaskListFilters
-              filterList={filterList}
-              filterName="roroMode"
-              filterType="filterTypeSelect"
-              onApplyFilters={applyFilters}
-              onClearFilters={clearFilters}
-            />
+            <div className="cop-filters-container">
+              <div className="cop-filters-header">
+                <h2 className="govuk-heading-s">Filters</h2>
+                <button
+                  className="govuk-link govuk-heading-s "
+                  data-module="govuk-button"
+                  type="button"
+                  onClick={(e) => {
+                    handleFilterReset(e);
+                  }}
+                >
+                  Clear all filters
+                </button>
+              </div>
+
+              {filterList.length > 0 && filterList
+                .map((filterSet) => {
+                  return (
+                    <div className="govuk-form-group" key={filterSet.filterName}>
+                      <fieldset className="govuk-fieldset" aria-describedby="waste-hint">
+                        <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+                          <h4 className="govuk-fieldset__heading cop-filters-fieldset__heading">{filterSet.filterName}</h4>
+                        </legend>
+                        <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
+                          {filterSet.filterOptions.map((filterItem) => {
+                            let checked = true;
+                            return (
+                              <li
+                                className={`govuk-${filterSet.filterClassPrefix}__item`}
+                                key={filterItem.code}
+                              >
+                                <input
+                                  className={`govuk-${filterSet.filterClassPrefix}__input"`}
+                                  id={filterItem.code}
+                                  name={filterSet.filterName}
+                                  type={filterSet.filterType}
+                                  value={filterItem.name}
+                                  defaultChecked={filterItem.checked}
+                                  onChange={(e) => {
+                                    checked = !checked;
+                                    handleFilterChange(e, filterItem.code);
+                                  }}
+                                  data-testid={`checkbox-${filterItem.code}`}
+                                />
+                                <label
+                                  className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                  htmlFor={filterItem.code}
+                                >
+                                  {filterItem.label} ({filterItem.count})
+                                </label>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </fieldset>
+                    </div>
+                  );
+                })}
+            </div>
+            <button
+              className="govuk-button"
+              data-module="govuk-button"
+              type="button"
+              onClick={(e) => {
+                handleFilterApply(e);
+              }}
+            >
+              Apply filters
+            </button>
           </section>
 
           <section className="govuk-grid-column-three-quarters">
