@@ -66,8 +66,8 @@ const targetStatusConfig = (filtersToApply) => {
 const filterListConfig = [
   {
     filterName: 'Mode',
-    filterType: 'radio',
-    filterClassPrefix: 'radios',
+    filterType: 'checkbox',
+    filterClassPrefix: 'checkboxes',
     filterOptions: [
       {
         name: 'roro-unaccompanied-freight',
@@ -498,10 +498,26 @@ const TaskListPage = () => {
     }
   };
 
-  const handleFilterChange = (e, code) => {
-    if (e.target.checked) {
+  const handleFilterChange = (e, code, type, name) => {
+    // map over radios and uncheck anything not selected
+    if (type === 'radio') {
+      // add currently selected code
+      const filtersSelectedArray = [...filtersSelected, code];
+      // Remove codes from deselected radio buttons
+      const filterSetArray = filterListConfig.find((set) => set.filterName === name);
+      const filterSetOptionCodes = filterSetArray.filterOptions.map((option) => {
+        return option.code;
+      });
+      const filtersToRemove = _.remove(filterSetOptionCodes, (item) => {
+        return item !== code;
+      });
+      const updatedArray = filtersSelectedArray.filter((item) => !filtersToRemove.includes(item));
+      setFiltersSelected(updatedArray);
+    }
+
+    if (type === 'checkbox' && e.target.checked) {
       setFiltersSelected([...filtersSelected, code]);
-    } else if (!e.target.checked) {
+    } else if (type === 'checkbox' && !e.target.checked) {
       const array = [...filtersSelected];
       const updatedArr = _.remove(array, (item) => {
         return item !== code;
@@ -612,7 +628,7 @@ const TaskListPage = () => {
                                   defaultChecked={filterItem.checked}
                                   onChange={(e) => {
                                     checked = !checked;
-                                    handleFilterChange(e, filterItem.code);
+                                    handleFilterChange(e, filterItem.code, filterSet.filterType, filterSet.filterName);
                                   }}
                                   data-testid={`checkbox-${filterItem.code}`}
                                 />
