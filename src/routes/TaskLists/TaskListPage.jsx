@@ -66,8 +66,8 @@ const targetStatusConfig = (filtersToApply) => {
 const filterListConfig = [
   {
     filterName: 'Mode',
-    filterType: 'checkbox',
-    filterClassPrefix: 'checkboxes',
+    filterType: 'radio',
+    filterClassPrefix: 'radios',
     filterOptions: [
       {
         name: 'roro-unaccompanied-freight',
