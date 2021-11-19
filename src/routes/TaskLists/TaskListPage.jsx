@@ -514,16 +514,6 @@ const TaskListPage = () => {
       const updatedArray = filtersSelectedArray.filter((item) => !filtersToRemove.includes(item));
       setFiltersSelected(updatedArray);
     }
-
-    if (type === 'checkbox' && e.target.checked) {
-      setFiltersSelected([...filtersSelected, code]);
-    } else if (type === 'checkbox' && !e.target.checked) {
-      const array = [...filtersSelected];
-      const updatedArr = _.remove(array, (item) => {
-        return item !== code;
-      });
-      setFiltersSelected(updatedArr);
-    }
   };
 
   const handleFilterApply = (e) => {
@@ -613,7 +603,7 @@ const TaskListPage = () => {
                         </legend>
                         <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
                           {filterSet.filterOptions.map((filterItem) => {
-                            let checked = true;
+                            let checked = false;
                             return (
                               <li
                                 className={`govuk-${filterSet.filterClassPrefix}__item`}
