@@ -18,34 +18,22 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 }
 
 .cop-filters-container {
-  border: 1px solid #b1b4b6;
   padding: 0 !important;
   margin-bottom: 1em;
 
   .cop-filters-header {
-    background-color: #b1b4b6;
-    padding: 1em;
+    display: flex;
+    justify-content: space-between;
   }
 
-  .cop-filters-header .govuk-heading-s {
-    margin: 0;
+  .cop-filters-fieldset__heading {
+    font-weight: normal;
   }
 
-  .cop-filters-controls {
-    margin: 1em;
-  }
-
-  .cop-filters-options {
-    padding: 1em;
-  }
-
-  .cop-filters-options select {
-    width: 100%;
-  }
-
-  .cop-filters-options .govuk-checkboxes {
-    margin-block-start: 0px !important; //clears the GDS style which adds more padding
-    padding-inline-start: 0px !important; //clears the GDS style which adds more padding
+  /* Remove govuk default padding for ul */
+  ul {
+    margin-block-start: 0px;
+    padding-inline-start: 0px;
   }
   
   button.govuk-link {
@@ -53,6 +41,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     border: none;
     background: none;
     cursor: pointer;
+    font-weight: normal;
   }
 }
 
