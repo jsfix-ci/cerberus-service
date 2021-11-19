@@ -68,4 +68,16 @@ describe('TaskListFilters', () => {
     expect(screen.getByLabelText('Has selector')).not.toBeChecked();
     expect(localStorage.getItem('filters')).toBeFalsy();
   });
+
+  it('should persist filters when they exist in local storage', async () => {
+    localStorage.setItem('filters', 'movementMode_eq_roro-accompanied-freight');
+    render(<TaskListPage />);
+
+    expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo accompanied freight')).toBeChecked();
+    expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
+    expect(screen.getByLabelText('Has no selector')).not.toBeChecked();
+    expect(screen.getByLabelText('Has selector')).not.toBeChecked();
+    expect(localStorage.getItem('filters')).toBe('movementMode_eq_roro-accompanied-freight');
+  });
 });

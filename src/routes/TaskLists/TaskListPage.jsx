@@ -461,6 +461,7 @@ const TaskListPage = () => {
   const [filterList, setFilterList] = useState([]);
   const [filtersSelected, setFiltersSelected] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
+  const [storedFilters, setStoredFilters] = useState(localStorage?.getItem('filters')?.split(',') || '');
   const [taskCountsByStatus, setTaskCountsByStatus] = useState({});
   const targetStatus = (targetStatusConfig(filtersToApply));
 
@@ -555,8 +556,10 @@ const TaskListPage = () => {
       setAuthorisedGroup(false);
     }
     if (isTargeter) {
+      setStoredFilters(localStorage?.getItem('filters')?.split(',') || '');
       setAuthorisedGroup(true);
       setFilterList(filterListConfig);
+      setFiltersToApply(storedFilters);
       getTaskCountsByTab();
     }
   }, []);
@@ -603,7 +606,7 @@ const TaskListPage = () => {
                         </legend>
                         <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
                           {filterSet.filterOptions.map((filterItem) => {
-                            let checked = false;
+                            let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === filterItem.code)));
                             return (
                               <li
                                 className={`govuk-${filterSet.filterClassPrefix}__item`}
@@ -615,7 +618,7 @@ const TaskListPage = () => {
                                   name={filterSet.filterName}
                                   type={filterSet.filterType}
                                   value={filterItem.name}
-                                  defaultChecked={filterItem.checked}
+                                  defaultChecked={checked}
                                   onChange={(e) => {
                                     checked = !checked;
                                     handleFilterChange(e, filterItem.code, filterSet.filterType, filterSet.filterName);
