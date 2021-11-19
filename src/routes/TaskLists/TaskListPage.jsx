@@ -560,6 +560,7 @@ const TaskListPage = () => {
       setAuthorisedGroup(true);
       setFilterList(filterListConfig);
       setFiltersToApply(storedFilters);
+      setFiltersSelected(storedFilters);
       getTaskCountsByTab();
     }
   }, []);
