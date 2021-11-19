@@ -597,9 +597,9 @@ const TaskListPage = () => {
                 .map((filterSet) => {
                   return (
                     <div className="govuk-form-group" key={filterSet.filterName}>
-                      <fieldset className="govuk-fieldset" aria-describedby="waste-hint">
+                      <fieldset className="govuk-fieldset">
                         <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
-                          <h4 className="govuk-fieldset__heading cop-filters-fieldset__heading">{filterSet.filterName}</h4>
+                          <h4 className="govuk-fieldset__heading">{filterSet.filterName}</h4>
                         </legend>
                         <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
                           {filterSet.filterOptions.map((filterItem) => {
@@ -610,7 +610,7 @@ const TaskListPage = () => {
                                 key={filterItem.code}
                               >
                                 <input
-                                  className={`govuk-${filterSet.filterClassPrefix}__input"`}
+                                  className={`govuk-${filterSet.filterClassPrefix}__input`}
                                   id={filterItem.code}
                                   name={filterSet.filterName}
                                   type={filterSet.filterType}
