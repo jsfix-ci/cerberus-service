@@ -108,7 +108,7 @@ const filterListConfig = [
       },
       {
         name: 'both',
-        code: '', // as 'both' is all tasks we just return null for the filter when selected
+        code: 'noCode', // as 'both' is all tasks we return a word we can set to null in the call
         label: 'Both',
         checked: false,
       },
@@ -503,7 +503,7 @@ const TaskListPage = () => {
     // map over radios and uncheck anything not selected
     if (type === 'radio') {
       // add currently selected code
-      const filtersSelectedArray = [...filtersSelected, code];
+      const filtersSelectedArray = code === 'noCode' ? [...filtersSelected] : [...filtersSelected, code];
       // Remove codes from deselected radio buttons
       const filterSetArray = filterListConfig.find((set) => set.filterName === name);
       const filterSetOptionCodes = filterSetArray.filterOptions.map((option) => {
@@ -547,21 +547,24 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    getTaskCountsByTab();
+    if (filtersToApply) {
+      getTaskCountsByTab();
+    }
   }, [filtersToApply]);
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
+    const hasStoredFilters = localStorage?.getItem('filters');
     if (!isTargeter) {
       setAuthorisedGroup(false);
     }
     if (isTargeter) {
-      setStoredFilters(localStorage?.getItem('filters')?.split(',') || '');
+      setStoredFilters(hasStoredFilters?.split(',') || '');
       setAuthorisedGroup(true);
       setFilterList(filterListConfig);
       setFiltersToApply(storedFilters);
       setFiltersSelected(storedFilters);
-      getTaskCountsByTab();
+      if (!hasStoredFilters) { getTaskCountsByTab(); }
     }
   }, []);
 
