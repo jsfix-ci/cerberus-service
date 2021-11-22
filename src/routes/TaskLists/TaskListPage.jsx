@@ -108,7 +108,7 @@ const filterListConfig = [
       },
       {
         name: 'both',
-        code: '', // as 'both' is all tasks we just return null for the filter when selected
+        code: 'noCode', // as 'both' is all tasks we return a word we can set to null in the call
         label: 'Both',
         checked: false,
       },
@@ -503,7 +503,7 @@ const TaskListPage = () => {
     // map over radios and uncheck anything not selected
     if (type === 'radio') {
       // add currently selected code
-      const filtersSelectedArray = [...filtersSelected, code];
+      const filtersSelectedArray = code === 'noCode' ? [...filtersSelected] : [...filtersSelected, code];
       // Remove codes from deselected radio buttons
       const filterSetArray = filterListConfig.find((set) => set.filterName === name);
       const filterSetOptionCodes = filterSetArray.filterOptions.map((option) => {
