@@ -561,11 +561,6 @@ Cypress.Commands.add('verifyTaskSummary', (taskSummary) => {
   cy.get('.card').should('contain.text', taskSummary);
 });
 
-// Cypress.Commands.add('verifyTaskListInfo', (taskListDetail, businessKey) => {
-//   cy.visit('/tasks');
-//   cy.get('.task-list--item').contains(encodeURIComponent(businessKey)).closest('section').should('contain.text', taskListDetail);
-// });
-
 Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
   let taskSummary = {};
   cy.visit('/tasks');
@@ -576,6 +571,7 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
     cy.wrap(element).find('.task-risk-statement').invoke('text').then((rules) => {
       taskSummary.rules = rules;
     });
+
     cy.wrap(element).find('.content-line-one li').each((section, index) => {
       cy.wrap(section).invoke('text').then((info) => {
         if (index === 0) {

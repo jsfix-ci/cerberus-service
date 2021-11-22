@@ -1,23 +1,28 @@
 {
-  "taskListDetail": ["Pre-ArrivalClaim",
-    "Scenario 1 Rule, Tier 1, Class A Drugs and 0 other rules",
-    "Brittany Ferries voyage of BARFLEURarrival a year ago",
-    "unknown4 Aug 2020 at 13:05unknown4 Aug 2020 at 13:35",
-    "Driver detailsUnknown",
-    "Passenger detailsUnknown",
-    "Vehicle details0 trips",
-    "Trailer detailsNL-234-3920 trips",
-    "Haulier detailsUnknown",
-    "Account detailsBooked on 01/08/2020",
-    "Goods detailsUnknownUnknown"
-  ],
-  "taskSummary":[
-    "Vehicle with TrailerNL-234-392",
-    "FerryBrittany Ferries voyage of BARFLEUR",
-    "Departure4 Aug 2020 at 13:05",
-    "Arrival4 Aug 2020 at 13:35",
-    "Accountunknown, booked on 1 Aug 2020 at 09:15",
-    "Haulierunknown"
-  ]
-
+  "taskListDetails": {
+    "mode": "Pre-Arrival",
+    "rules": "Scenario 1 Rule, Tier 1, Class A Drugs and 0 other rules",
+    "voyage": "Brittany Ferries voyage of BARFLEUR",
+    "arrival": "arrival a year after travel",
+    "departurePort": "unknown",
+    "departureDateTime": "4 Aug 2020 at 13:05",
+    "arrivalPort": "unknown",
+    "arrivalDateTime": "4 Aug 2020 at 13:35",
+    "driverFirstName": "Unknown",
+    "vehicleRegistration": "0 trips",
+    "bookedDateTime": "Booked on 02/08/2020",
+    "bookedDetails": "Booked 2 days before travel",
+    "haulier": "Unknown",
+    "goods": "Unknown",
+    "passengerDetails": "Unknown",
+    "trailerRegitration": "NL-234-392",
+    "trailerTrips": "0 trips"
+  },
+  "taskSummary": {
+    "Ferry": "Brittany Ferries voyage of BARFLEUR",
+    "Departure": "4 Aug 2020 at 13:05",
+    "Arrival": "4 Aug 2020 at 13:35",
+    "Account": "unknown, booked on 2 Aug 2020 at 09:15",
+    "Haulier": "unknown"
+  }
 }

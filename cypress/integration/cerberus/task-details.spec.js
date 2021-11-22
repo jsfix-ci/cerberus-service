@@ -420,15 +420,24 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`)
           .then((response) => {
             cy.wait(4000);
-            cy.get('@expTestData').then((expectedData) => {
-              let exptaskListInfo = encodeURIComponent(response.businessKey) + expectedData.taskListDetail.join('');
-              cy.verifyTaskListInfo(exptaskListInfo, response.businessKey);
+            cy.get('@expTestData').then((expTestData) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
+                expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
+              });
             });
             cy.checkTaskDisplayed(`${response.businessKey}`);
           });
       });
+
+    cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle with Trailer');
+    cy.get('.card .govuk-heading-m').should('contain.text', 'NL-234-392');
+
     cy.get('@expTestData').then((expTestData) => {
-      cy.verifyTaskSummary(expTestData.taskSummary.join(''));
+      cy.checkTaskSummaryDetails().then((taskSummary) => {
+        console.log('expected data', expTestData.taskSummary);
+        console.log('actual data', taskSummary);
+        expect(taskSummary).to.deep.equal(expTestData.taskSummary);
+      });
     });
   });
 
@@ -453,15 +462,24 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.postTasks(task, businessKey)
           .then((response) => {
             cy.wait(4000);
-            cy.get('@expTestData').then((expectedData) => {
-              let exptaskListInfo = encodeURIComponent(response.businessKey) + expectedData.taskListDetail.join('');
-              cy.verifyTaskListInfo(exptaskListInfo, response.businessKey);
+            cy.get('@expTestData').then((expTestData) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
+                console.log('task Details', taskListDetails);
+                expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
+              });
             });
             cy.checkTaskDisplayed(`${response.businessKey}`);
           });
       });
+
+    cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle');
+
     cy.get('@expTestData').then((expTestData) => {
-      cy.verifyTaskSummary(expTestData.taskSummary.join(''));
+      cy.checkTaskSummaryDetails().then((taskSummary) => {
+        console.log('expected data', expTestData.taskSummary);
+        console.log('actual data', taskSummary);
+        expect(taskSummary).to.deep.equal(expTestData.taskSummary);
+      });
     });
   });
 
@@ -475,18 +493,28 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`)
           .then((response) => {
             cy.wait(4000);
-            cy.get('@expTestData').then((expectedData) => {
-              let exptaskListInfo = encodeURIComponent(response.businessKey) + expectedData.taskListDetail.join('');
-              cy.verifyTaskListInfo(exptaskListInfo, response.businessKey);
+            cy.get('@expTestData').then((expTestData) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
+                console.log('task Details', taskListDetails);
+                expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
+              });
             });
             cy.checkTaskDisplayed(`${response.businessKey}`);
             cy.get('@expTestData').then((expectedData) => {
-              cy.verifyTaskDetailAllSections(expectedData, 1);
+              cy.verifyTaskDetailAllSections(expectedData.versions[0], 1);
             });
           });
       });
+
+    cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle with Trailer');
+    cy.get('.card .govuk-heading-m').should('contain.text', 'NL-234-392');
+
     cy.get('@expTestData').then((expTestData) => {
-      cy.verifyTaskSummary(expTestData.taskSummary.join(''));
+      cy.checkTaskSummaryDetails().then((taskSummary) => {
+        console.log('expected data', expTestData.taskSummary);
+        console.log('actual data', taskSummary);
+        expect(taskSummary).to.deep.equal(expTestData.taskSummary);
+      });
     });
   });
 
