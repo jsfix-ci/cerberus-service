@@ -12,7 +12,7 @@ const renderFieldSetContents = (contents) => (
     if (!type.includes('HIDDEN')) {
       return (
         <div className="govuk-summary-list__row" key={uuidv4()}>
-          <dt className="govuk-summary-list__key">{fieldName}</dt>
+          <dt className="govuk-summary-list__key">{type.includes('CHANGED') ? <span className="task-versions--highlight">{fieldName}</span> : fieldName}</dt>
           <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
         </div>
       );
