@@ -547,21 +547,24 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    getTaskCountsByTab();
+    if (filtersToApply) {
+      getTaskCountsByTab();
+    }
   }, [filtersToApply]);
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
+    const hasStoredFilters = localStorage?.getItem('filters');
     if (!isTargeter) {
       setAuthorisedGroup(false);
     }
     if (isTargeter) {
-      setStoredFilters(localStorage?.getItem('filters')?.split(',') || '');
+      setStoredFilters(hasStoredFilters?.split(',') || '');
       setAuthorisedGroup(true);
       setFilterList(filterListConfig);
       setFiltersToApply(storedFilters);
       setFiltersSelected(storedFilters);
-      getTaskCountsByTab();
+      if (!hasStoredFilters) { getTaskCountsByTab(); }
     }
   }, []);
 
