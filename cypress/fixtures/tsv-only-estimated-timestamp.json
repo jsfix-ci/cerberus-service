@@ -277,7 +277,7 @@
                   "adultCount": "1",
                   "bookingType": "S",
                   "checkInTime": "1631",
-                  "bookingDateTime": "202008011345",
+                  "bookingDateTime": "2021-11-17T09:10:00",
                   "ticketType": "S"
                 }
               },
@@ -745,8 +745,8 @@
                 "voyageType": "SEA",
                 "departureLocation": "DOV",
                 "departureCountry": null,
-                "scheduledDepartureTimestamp": 1596378600000,
-                "actualDepartureTimestamp": 1596378600000,
+                "scheduledDepartureTimestamp": 1637142180000,
+                "actualDepartureTimestamp": 1637142180000,
                 "arrivalLocation": "CAL",
                 "arrivalCountry": null,
                 "scheduledArrivalTimestamp": null,

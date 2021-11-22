@@ -5,7 +5,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   before(() => {
-    dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
   });
 
   it('Should verify task version details of unaccompanied task on task details page', () => {
@@ -425,8 +425,8 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify difference between versions displayed on task details page', () => {
     const firstVersionIndex = 2;
     const versionDiff = [
-      '32 changes in this version',
-      '3 changes in this version',
+      '33 changes in this version',
+      '5 changes in this version',
       'No changes in this version',
     ];
 
@@ -464,10 +464,13 @@ describe('Task Details of different tasks on task details Page', () => {
         'OBJDOCPAS',
         '244746NL',
         '14/03/2021',
+        '19 Nov 2021 at 09:15, a day before travel',
       ],
       [
         '244999NL',
         '23/09/1969',
+        '18 Nov 2021 at 09:15, 10 months after travel',
+        '3 Aug 2020 at 12:05',
       ],
     ];
 
