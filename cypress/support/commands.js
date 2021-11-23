@@ -866,9 +866,104 @@ Cypress.Commands.add('getNumberOfTasksByMode', (modeName, taskStatus) => {
   });
 });
 
-Cypress.Commands.add('applyPreArrivalFilter', (mode, taskType) => {
-  cy.get('select').select(mode);
-  cy.get('.cop-filters-controls .govuk-button').click();
+Cypress.Commands.add('getNumberOfTasksWithoutFilter', (taskStatus) => {
+  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=`;
+  let url;
+
+  if (taskStatus === 'New') {
+    url = `${baseUrl}processState_neq_Complete&unassigned=true`;
+  } else if (taskStatus === 'In Progress') {
+    url = `${baseUrl}processState_neq_Complete&assigned=true`;
+  } else if (taskStatus === 'Issued') {
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Issued`;
+  } else if (taskStatus === 'Completed') {
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=processState_eq_Complete&processDefinitionKey=assignTarget`;
+  }
+  cy.request({
+    method: 'GET',
+    url,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body);
+    return response.body.filter((item) => item.id).length;
+  });
+});
+
+Cypress.Commands.add('getNumberOfTasksByModeAndSelectors', (modeName, selector, taskStatus) => {
+  if (selector === 'has-no-selector') {
+    selector = 'hasSelectors_eq_no';
+  } else if (selector === 'has-selector') {
+    selector = 'hasSelectors_eq_yes';
+  } else {
+    selector = '';
+  }
+  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=movementMode_eq_${modeName},`;
+  let url;
+
+  if (taskStatus === 'New') {
+    url = `${baseUrl}processState_neq_Complete,${selector}&unassigned=true`;
+  } else if (taskStatus === 'In Progress') {
+    url = `${baseUrl}processState_neq_Complete,${selector}&assigned=true`;
+  } else if (taskStatus === 'Issued') {
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=movementMode_eq_${modeName},processState_eq_Issued,${selector}`;
+  } else if (taskStatus === 'Completed') {
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=movementMode_eq_${modeName},processState_eq_Complete,${selector}&processDefinitionKey=assignTarget`;
+  }
+  cy.request({
+    method: 'GET',
+    url,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body);
+    return response.body.filter((item) => item.id).length;
+  });
+});
+
+Cypress.Commands.add('getNumberOfTasksBySelectors', (selector, taskStatus) => {
+  if (selector === 'has-no-selector') {
+    selector = 'hasSelectors_eq_no';
+  } else if (selector === 'has-selector') {
+    selector = 'hasSelectors_eq_yes';
+  } else {
+    selector = '';
+  }
+  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=processState_neq_Complete,${selector}&`;
+  let url;
+
+  if (taskStatus === 'New') {
+    url = `${baseUrl}unassigned=true`;
+  } else if (taskStatus === 'In Progress') {
+    url = `${baseUrl}assigned=true`;
+  } else if (taskStatus === 'Issued') {
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Issued,${selector}&firstResult=0&maxResults=100`;
+  } else if (taskStatus === 'Completed') {
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Complete,${selector}&processDefinitionKey=assignTarget`;
+  }
+  cy.request({
+    method: 'GET',
+    url,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body);
+    return response.body.filter((item) => item.id).length;
+  });
+});
+
+Cypress.Commands.add('applyFilter', (filterOptions, taskType) => {
+  if (filterOptions instanceof Array) {
+    filterOptions.forEach((option) => {
+      cy.get(`.govuk-radios [value=${option}]`)
+        .click({ force: true });
+    });
+  } else {
+    cy.get(`.govuk-radios [value=${filterOptions}]`)
+      .click({ force: true });
+  }
+
+  cy.contains('Apply filters').click();
   cy.wait(2000);
   cy.get(`a[href="#${taskType}"]`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
