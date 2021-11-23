@@ -434,8 +434,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
-        console.log('expected data', expTestData.taskSummary);
-        console.log('actual data', taskSummary);
         expect(taskSummary).to.deep.equal(expTestData.taskSummary);
       });
     });
@@ -464,7 +462,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
               cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
-                console.log('task Details', taskListDetails);
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
@@ -476,8 +473,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
-        console.log('expected data', expTestData.taskSummary);
-        console.log('actual data', taskSummary);
         expect(taskSummary).to.deep.equal(expTestData.taskSummary);
       });
     });
@@ -495,7 +490,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
               cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
-                console.log('task Details', taskListDetails);
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
@@ -511,8 +505,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
-        console.log('expected data', expTestData.taskSummary);
-        console.log('actual data', taskSummary);
         expect(taskSummary).to.deep.equal(expTestData.taskSummary);
       });
     });
