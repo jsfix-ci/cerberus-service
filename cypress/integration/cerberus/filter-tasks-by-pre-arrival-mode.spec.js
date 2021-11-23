@@ -10,7 +10,6 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should view filter tasks by pre-arrival modes', () => {
     const filterOptions = [
-      'Select filter',
       'RoRo unaccompanied freight',
       'RoRo accompanied freight',
       'RoRo tourist',
@@ -21,10 +20,9 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
 
     cy.get('.cop-filters-container').within(() => {
-      cy.get('h2.govuk-heading-s').should('have.text', 'Filter');
-      cy.get('.cop-filters-controls .govuk-button').should('have.text', 'Apply filters');
-      cy.get('.cop-filters-controls .govuk-link').should('have.text', 'Clear filters');
-      cy.get('[data-testid="target-filter-select"] option').each((element) => {
+      cy.get('h2.govuk-heading-s').should('have.text', 'Filters');
+      cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
+      cy.get('.govuk-radios__item [name="Mode"]').next().each((element) => {
         cy.wrap(element).invoke('text').then((value) => {
           expect(filterOptions).to.include(value);
         });
@@ -43,7 +41,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyPreArrivalFilter(mode, 'new').then((actualTargets) => {
+      cy.applyFilter(mode, 'new').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getNumberOfTasksByMode(mode, 'New').then((expectedTargets) => {
@@ -53,7 +51,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
 
     // clear the filter
-    cy.get('.cop-filters-controls .govuk-link').click();
+    cy.contains('Clear all filters').click();
 
     cy.wait(1000);
 
@@ -77,7 +75,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyPreArrivalFilter(mode, 'inProgress').then((actualTargets) => {
+      cy.applyFilter(mode, 'inProgress').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getNumberOfTasksByMode(mode, 'In Progress').then((expectedTargets) => {
@@ -87,7 +85,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
 
     // clear the filter
-    cy.get('.cop-filters-controls .govuk-link').click();
+    cy.contains('Clear all filters').click();
 
     cy.wait(1000);
 
@@ -111,7 +109,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyPreArrivalFilter(mode, 'issued').then((actualTargets) => {
+      cy.applyFilter(mode, 'issued').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getNumberOfTasksByMode(mode, 'Issued').then((expectedTargets) => {
@@ -121,7 +119,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
 
     // clear the filter
-    cy.get('.cop-filters-controls .govuk-link').click();
+    cy.contains('Clear all filters').click();
 
     cy.wait(1000);
 
@@ -145,7 +143,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyPreArrivalFilter(mode, 'complete').then((actualTargets) => {
+      cy.applyFilter(mode, 'complete').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getNumberOfTasksByMode(mode, 'Completed').then((expectedTargets) => {
@@ -155,7 +153,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
 
     // clear the filter
-    cy.get('.cop-filters-controls .govuk-link').click();
+    cy.contains('Clear all filters').click();
 
     cy.wait(1000);
 
@@ -175,7 +173,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 switch between the tabs, filter should be retained
     filterOptions.forEach((mode) => {
-      cy.applyPreArrivalFilter(mode, 'new').then((actualTargets) => {
+      cy.applyFilter(mode, 'new').then((actualTargets) => {
         cy.getNumberOfTasksByMode(mode, 'New').then((expectedTargets) => {
           expect(expectedTargets).be.equal(actualTargets);
         });
@@ -189,7 +187,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 reload the page after filter applied on the page, filter should be retained
     filterOptions.forEach((mode) => {
-      cy.applyPreArrivalFilter(mode, 'new').then((actualTargets) => {
+      cy.applyFilter(mode, 'new').then((actualTargets) => {
         cy.getNumberOfTasksByMode(mode, 'New').then((expectedTargets) => {
           expect(expectedTargets).be.equal(actualTargets);
         });
@@ -197,6 +195,70 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
         cy.getNumberOfTasksByMode(mode, 'New').then((expectedTargets) => {
           expect(expectedTargets).be.equal(actualTargets);
         });
+      });
+    });
+  });
+
+  it('Should apply filter tasks by roro-unaccompanied mode & has selectors on New tasks', () => {
+    const filterOptions = [
+      'roro-unaccompanied-freight',
+      'has-selector',
+    ];
+
+    cy.getNumberOfTasksWithoutFilter('New').as('expectedTargets');
+
+    // COP-9191 Apply each pre-arrival filter, compare the expected number of targets
+
+    cy.applyFilter(filterOptions, 'new').then((actualTargets) => {
+      cy.log('actual targets', actualTargets);
+      cy.getNumberOfTasksByModeAndSelectors(filterOptions[0], filterOptions[1], 'New').then((expectedTargets) => {
+        expect(expectedTargets).be.equal(actualTargets);
+      });
+    });
+
+    // clear the filter
+    cy.contains('Clear all filters').click({ force: true });
+
+    cy.wait(1000);
+
+    // compare total number of expected and actual targets
+    cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
+      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+      cy.get('@expectedTargets').then((expectedTargets) => {
+        expect(expectedTargets).be.equal(totalTargets);
+      });
+    });
+  });
+
+  it('Should apply filter tasks by roro-accompanied mode & has no selectors on In Progress tasks', () => {
+    const filterOptions = [
+      'roro-accompanied-freight',
+      'has-no-selector',
+    ];
+
+    cy.get('a[href="#inProgress"]').click();
+
+    cy.getNumberOfTasksWithoutFilter('In Progress').as('expectedTargets');
+
+    // COP-9191 Apply each pre-arrival filter, compare the expected number of targets
+
+    cy.applyFilter(filterOptions, 'inProgress').then((actualTargets) => {
+      cy.log('actual targets', actualTargets);
+      cy.getNumberOfTasksByModeAndSelectors(filterOptions[0], filterOptions[1], 'In Progress').then((expectedTargets) => {
+        expect(expectedTargets).be.equal(actualTargets);
+      });
+    });
+
+    // clear the filter
+    cy.contains('Clear all filters').click({ force: true });
+
+    cy.wait(1000);
+
+    // compare total number of expected and actual targets
+    cy.get('a[href="#inProgress"]').invoke('text').then((totalTargets) => {
+      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+      cy.get('@expectedTargets').then((expectedTargets) => {
+        expect(expectedTargets).be.equal(totalTargets);
       });
     });
   });
