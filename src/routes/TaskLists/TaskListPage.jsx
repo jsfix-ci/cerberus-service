@@ -461,6 +461,7 @@ const TaskListPage = () => {
   const [filterList, setFilterList] = useState([]);
   const [filtersSelected, setFiltersSelected] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
+  const [resetFilters, setResetFilters] = useState(false);
   const [storedFilters, setStoredFilters] = useState(localStorage?.getItem('filters')?.split(',') || '');
   const [taskCountsByStatus, setTaskCountsByStatus] = useState({});
   const targetStatus = (targetStatusConfig(filtersToApply));
@@ -494,6 +495,7 @@ const TaskListPage = () => {
         TASK_STATUS_TARGET_ISSUED: countIssued.data.count.toString(),
         TASK_STATUS_COMPLETED: countCompleted.data.count.toString(),
       });
+      setResetFilters(false);
     } catch (e) {
       setError(e.message);
     }
@@ -534,6 +536,7 @@ const TaskListPage = () => {
     setFiltersSelected([]); // reset to null
     setFilterList(filterListConfig); // reset to default
     localStorage.removeItem('filters');
+    setResetFilters(true);
 
     filterList.map((filterSet) => {
       const optionItem = document.getElementsByName(filterSet.filterName);
@@ -547,10 +550,10 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    if (filtersToApply) {
+    if (filtersToApply || resetFilters) {
       getTaskCountsByTab();
     }
-  }, [filtersToApply]);
+  }, [filtersToApply, resetFilters]);
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
