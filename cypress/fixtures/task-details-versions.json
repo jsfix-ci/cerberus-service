@@ -61,7 +61,7 @@
         "Type": "Test",
         "Name": "test",
         "Address": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
-        "Date and time": "2 Aug 2020 at 09:15",
+        "Date and time": "19 Nov 2021 at 09:15, a day before travel",
         "Country": "GB",
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
@@ -166,7 +166,7 @@
         "Type": "Test",
         "Name": "test",
         "Address": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
-        "Date and time": "2 Aug 2020 at 09:15",
+        "Date and time": "18 Nov 2021 at 09:15, 10 months after travel",
         "Country": "GB",
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
@@ -271,12 +271,12 @@
         "Type": "Test",
         "Name": "test",
         "Address": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
-        "Date and time": "2 Aug 2020 at 09:15",
+        "Date and time": "17 Nov 2021 at 09:15, 4 days before travel",
         "Country": "GB",
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05"
+        "Check-in": "3 Aug 2021 at 12:05"
       },
       "TargetingIndicators": {
         "Name": "Paid by cash"

@@ -750,3 +750,12 @@ Cypress.Commands.add('applyPreArrivalFilter', (mode, taskType) => {
     return parseInt(targets.match(/\d+/)[0], 10);
   });
 });
+
+Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
+  cy.contains('h2', 'Booking and check-in').next().within(() => {
+    cy.getTaskDetails().then((details) => {
+      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
+      expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
+    });
+  });
+});
