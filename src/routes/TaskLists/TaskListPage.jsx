@@ -444,7 +444,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                       {calculateTotalRiskScore(target)}
                     </strong>
                   </li>
-                  <br/>
                   <li className="task-labels-item">
                     {formatTargetIndicators(target)}
                   </li>
