@@ -171,6 +171,18 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
     }
   };
 
+  const calculateTotalRiskScore = (target) => {
+    if (target.threatIndicators?.length > 0) {
+      let totalRiskScore = 0;
+      target.threatIndicators.map((threatIndicatorScore) => {
+        totalRiskScore += threatIndicatorScore?.score || 0;
+      });
+      return (
+        totalRiskScore > 0 && <li className="govuk-!-font-weight-bold">{totalRiskScore}</li>
+      );
+    }
+  };
+
   const loadTasks = async () => {
     if (camundaClient) {
       try {
@@ -428,10 +440,11 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
               <div className="govuk-grid-column-full">
                 <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
                   <li className="task-labels-item">
-                    <strong className="govuk-tag govuk-tag--positiveTarget">
-                      {target.matchedSelectors?.[0]?.priority || 'Unknown'}
+                    <strong className="govuk-!-font-weight-bold">
+                      Risk Score: {calculateTotalRiskScore(target)}
                     </strong>
                   </li>
+                  <br/>
                   <li className="task-labels-item">
                     {formatTargetIndicators(target)}
                   </li>
