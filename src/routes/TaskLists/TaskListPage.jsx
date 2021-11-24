@@ -413,7 +413,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
               </div>
               <div className="govuk-grid-column-one-quarter">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Goods details
+                  Goods description
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {target.roro.details.load.manifestedLoad ? (
