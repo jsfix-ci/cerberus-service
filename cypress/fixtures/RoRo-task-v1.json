@@ -822,7 +822,7 @@
                 "vehicle": {
                   "type": "OBJVEHC",
                   "make": null,
-                  "model": null,
+                  "model": "Discovery",
                   "vin": null,
                   "registrationNumber": "GB09KLT-10684",
                   "registrationCountry": "GB",
