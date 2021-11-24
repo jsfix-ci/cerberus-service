@@ -178,7 +178,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
         totalRiskScore += threatIndicatorScore?.score || 0;
       });
       return (
-        totalRiskScore > 0 && <li className="govuk-!-font-weight-bold">{totalRiskScore}</li>
+        totalRiskScore > 0 ? <li className="govuk-!-font-weight-bold">Risk Score: {totalRiskScore}</li> : 'Risk Score:'
       );
     }
   };
@@ -441,7 +441,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                 <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
                   <li className="task-labels-item">
                     <strong className="govuk-!-font-weight-bold">
-                      Risk Score: {calculateTotalRiskScore(target)}
+                      {calculateTotalRiskScore(target)}
                     </strong>
                   </li>
                   <br/>
