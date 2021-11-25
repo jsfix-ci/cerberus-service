@@ -825,7 +825,7 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
       expectedTaskSummary.Ferry = `${voyage.carrier} voyage of ${voyage.craftId}`;
       expectedTaskSummary.Departure = `${voyage.departureLocation}, ${departureDateTime}`;
       expectedTaskSummary.Arrival = `${voyage.arrivalLocation}, ${arrivalDateTime}`;
-      expectedTaskSummary.Account = 'unknown';
+      expectedTaskSummary.Account = `unknown, booked on ${bookingDateTime}`;
       expectedTaskSummary.Haulier = 'unknown';
     }
     task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -939,7 +939,7 @@ Cypress.Commands.add('getNumberOfTasksBySelectors', (selector, taskStatus) => {
   } else if (taskStatus === 'Issued') {
     url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Issued,${selector}&firstResult=0&maxResults=100`;
   } else if (taskStatus === 'Completed') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Complete,${selector}&processDefinitionKey=assignTarget`;
+    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=processState_eq_Complete,${selector}&processDefinitionKey=assignTarget`;
   }
   cy.request({
     method: 'GET',
