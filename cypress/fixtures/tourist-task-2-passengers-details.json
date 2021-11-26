@@ -54,7 +54,7 @@
     "Travel document expiry": "01/02/2021"
   },
   "goods": {
-    "Description of goods": "Wine",
+    "Description": "Wine",
     "Is cargo hazardous?": "",
     "Weight of goods": ""
   },

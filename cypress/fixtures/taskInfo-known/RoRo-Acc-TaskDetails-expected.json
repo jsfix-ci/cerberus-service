@@ -75,7 +75,7 @@
         "Travel document expiry": ""
       },
       "goods": {
-        "Description of goods": "Printed Paper",
+        "Description": "Printed Paper",
         "Is cargo hazardous?": "No",
         "Weight of goods": ""
       },
