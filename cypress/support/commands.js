@@ -673,6 +673,10 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
         });
       });
     });
+
+    cy.wrap(element).find('.task-labels-item strong').invoke('text').then((riskScore) => {
+      taskSummary.riskScore = riskScore;
+    });
   })
     .then(() => {
       return taskSummary;
