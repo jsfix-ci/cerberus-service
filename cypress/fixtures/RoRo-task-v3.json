@@ -325,7 +325,7 @@
                     "value": null,
                     "valueList": {
                       "val": [
-                        "Bailey|Ken|F|-90|FR|OBJDOCPAS|244746NL|18700||PERPAS|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
+                        "Bailey|Ken|F|-90||OBJDOCPAS|244746NL|18700||PERPAS|ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c"
                       ]
                     },
                     "startTimestamp": null,
@@ -414,9 +414,9 @@
                   "familyName": "Brownshoes",
                   "givenName": "Bobby",
                   "fullName": "Bobby Brownshoes",
-                  "dateOfBirth": 440,
+                  "dateOfBirth": null,
                   "dateOfDeath": null,
-                  "gender": "F",
+                  "gender": "",
                   "nationality": "FR",
                   "yearOfBirth": 1971,
                   "monthOfBirth": 3,
@@ -550,7 +550,7 @@
                 "attributes": {
                   "attrs": {
                     "holderName": "Testing Printers Ltd",
-                    "shortName": "Test Highlights name",
+                    "shortName": "",
                     "accountNumber": "Test",
                     "referenceNumber": "PO000355555"
                   }
@@ -822,7 +822,7 @@
                 "vehicle": {
                   "type": "OBJVEHC",
                   "make": "LandRover",
-                  "model": "Discovery",
+                  "model": null,
                   "vin": null,
                   "registrationNumber": "GB09KLT-2000",
                   "registrationCountry": "DE",
@@ -1125,7 +1125,7 @@
                 "contact":
                   {
                     "type": "LOCTEL",
-                    "value": "01234 56724747"
+                    "value": ""
                   },
                 "attributes": null,
                 "matching": null,

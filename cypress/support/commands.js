@@ -646,7 +646,7 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
       });
     });
 
-    cy.wrap(element).contains('Goods details').next().then((goodsDetails) => {
+    cy.wrap(element).contains('Goods description').next().then((goodsDetails) => {
       cy.wrap(goodsDetails).find('li').each((details) => {
         cy.wrap(details).invoke('text').then((info) => {
           taskSummary.goods = info;
@@ -782,6 +782,21 @@ Cypress.Commands.add('verifyMultiSelectDropdown', (elementName, values) => {
         .should('have.length', values.length)
         .each(($div) => {
           const text = $div.text().replace('Remove item', '');
+          expect(values).to.include(text);
+        });
+    });
+});
+
+Cypress.Commands.add('verifySelectDropdown', (elementName, values) => {
+  cy.get(`${formioComponent}${elementName}${formioComponent}select div.form-control`)
+    .should('be.visible').click({ force: true });
+  cy.get(`${formioComponent}${elementName} div[role="listbox"]`)
+    .within(() => {
+      cy.get('.choices__item')
+        .should('be.visible')
+        .should('have.length', values.length)
+        .each(($div) => {
+          const text = $div.text();
           expect(values).to.include(text);
         });
     });
@@ -976,5 +991,45 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
       const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
       expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
     });
+  });
+});
+
+Cypress.Commands.add('getTaskVersionsDifference', (version, index) => {
+  let valueLocator = '.govuk-summary-list__value .task-versions--highlight';
+  let difference = {};
+  cy.expandTaskDetails(index).then(() => {
+    cy.wrap(version).find('.govuk-summary-list__key .task-versions--highlight').each((item) => {
+      cy.wrap(item).parents('.govuk-summary-list__row').then((valueElement) => {
+        if (valueElement.find(valueLocator).length > 0) {
+          cy.wrap(item).invoke('text').then((key) => {
+            cy.wrap(valueElement).find(valueLocator).invoke('text').then((value) => {
+              if (key in difference) {
+                if (`${key}-dup` in difference) {
+                  difference[`${key}-dup-${1}`] = value;
+                } else {
+                  difference[`${key}-dup`] = value;
+                }
+              } else {
+                difference[key] = value;
+              }
+            });
+          });
+        } else {
+          cy.wrap(item).invoke('text').then((key) => {
+            if (key in difference) {
+              if (`${key}-dup` in difference) {
+                difference[`${key}-dup-${1}`] = '';
+              } else {
+                difference[`${key}-dup`] = '';
+              }
+            } else {
+              difference[key] = '';
+            }
+          });
+        }
+      });
+    });
+  }).then(() => {
+    return difference;
   });
 });

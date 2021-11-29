@@ -98,6 +98,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
+    cy.verifySelectDropdown('teamToReceiveTheTarget', ['Portsmouth Frontline', 'Pembroke Frontline', 'Poole Frontline', 'Newhaven Frontline']);
+
     cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline');
 
     cy.clickSubmit();
@@ -201,7 +203,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Pembroke Frontline');
 
     cy.clickSubmit();
 
@@ -305,7 +307,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline');
+    cy.selectDropDownValue('teamToReceiveTheTarget', 'Poole Frontline');
 
     cy.clickSubmit();
 
