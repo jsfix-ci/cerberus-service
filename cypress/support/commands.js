@@ -787,6 +787,21 @@ Cypress.Commands.add('verifyMultiSelectDropdown', (elementName, values) => {
     });
 });
 
+Cypress.Commands.add('verifySelectDropdown', (elementName, values) => {
+  cy.get(`${formioComponent}${elementName}${formioComponent}select div.form-control`)
+    .should('be.visible').click({ force: true });
+  cy.get(`${formioComponent}${elementName} div[role="listbox"]`)
+    .within(() => {
+      cy.get('.choices__item')
+        .should('be.visible')
+        .should('have.length', values.length)
+        .each(($div) => {
+          const text = $div.text();
+          expect(values).to.include(text);
+        });
+    });
+});
+
 Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values) => {
   cy.get(`${formioComponent}${elementName}`)
     .should('be.visible')
