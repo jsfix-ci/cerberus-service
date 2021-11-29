@@ -425,55 +425,14 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify difference between versions displayed on task details page', () => {
     const firstVersionIndex = 2;
     const versionDiff = [
-      '33 changes in this version',
-      '5 changes in this version',
+      '32 changes in this version',
+      '6 changes in this version',
       'No changes in this version',
     ];
 
-    const expectedHighlights = [
-      [
-        'GB09KLT-2000',
-        'LandRover',
-        'Discovery',
-        'DE',
-        'Red',
-        '4000kg',
-        '43680kg',
-        'NL',
-        'Loaded',
-        '46m',
-        '4.6m',
-        'Testing Printers Ltd',
-        'Test Highlights name',
-        'PO000355555',
-        'Unit 11-12 Pink Way Bognoris Regis E209JB GB',
-        '01234 56724747',
-        'Matthew',
-        '01243784444',
-        'Bobby Brownshoes',
-        '17/03/1971',
-        'F',
-        'FR',
-        'OBJDOCPAS',
-        '244746NL',
-        '14/03/2021',
-        'Ken Bailey',
-        '03/10/1969',
-        'F',
-        'FR',
-        'OBJDOCPAS',
-        '244746NL',
-        '14/03/2021',
-        '19 Nov 2021 at 09:15, a day before travel',
-      ],
-      [
-        '244999NL',
-        '23/09/1969',
-        '18 Nov 2021 at 09:15, 10 months after travel',
-        '3 Aug 2020 at 12:05',
-      ],
-    ];
+    cy.fixture('/task-version-differences.json').as('differences');
 
+    let differencesInEachVersion = [];
     cy.getBusinessKey('-RORO-Accompanied-Freight-different-versions-task_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.visit(`/tasks/${businessKeys[0]}`);
@@ -487,14 +446,15 @@ describe('Task Details of different tasks on task details Page', () => {
       });
 
       if (index !== firstVersionIndex) {
-        cy.expandTaskDetails(index).then(() => {
-          cy.wrap(element).find('.task-versions--highlight').each((diff, diffIndex) => {
-            cy.wrap(diff).invoke('text').then((highlight) => {
-              expect(highlight).to.be.equal(expectedHighlights[index][diffIndex]);
-            });
-          });
+        cy.getTaskVersionsDifference(element, index).then((differences) => {
+          differencesInEachVersion.push(differences);
         });
       }
+    });
+
+    // COP-9273 Verify number of difference between the versions for both Keys and values displayed & highlighted
+    cy.get('@differences').then((expectedData) => {
+      expect(expectedData.versions).to.deep.equal(differencesInEachVersion);
     });
   });
 
