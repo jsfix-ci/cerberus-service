@@ -109,18 +109,18 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
   });
 
@@ -146,8 +146,8 @@ describe('TaskListPage', () => {
     await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
     await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
   });
 
