@@ -361,11 +361,11 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                   Passenger details
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.passengers ? (
+                  {target.roro.details.passengers && target.roro.details.passengers.length > 0 ? (
                     <>
                       <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
                     </>
-                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                  ) : (<li className="govuk-!-font-weight-bold">None</li>)}
                 </ul>
               </div>
 
