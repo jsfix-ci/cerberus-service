@@ -1,31 +1,30 @@
-import React, { Fragment } from "react";
-import dayjs from "dayjs";
-import * as pluralise from "pluralise";
-import { v4 as uuidv4 } from "uuid";
+import React, { Fragment } from 'react';
+import dayjs from 'dayjs';
+import * as pluralise from 'pluralise';
+import { v4 as uuidv4 } from 'uuid';
 
-import Accordion from "../../govuk/Accordion";
-import { LONG_DATE_FORMAT } from "../../constants";
-import formatField from "../../utils/formatField";
+import Accordion from '../../govuk/Accordion';
+import { LONG_DATE_FORMAT } from '../../constants';
+import formatField from '../../utils/formatField';
 
-const renderFieldSetContents = (contents) =>
-  contents.map(({ fieldName, content, type }) => {
-    if (!type.includes("HIDDEN")) {
-      return (
-        <div className="govuk-summary-list__row" key={uuidv4()}>
-          <dt className="govuk-summary-list__key">
-            {type.includes("CHANGED") ? (
-              <span className="task-versions--highlight">{fieldName}</span>
-            ) : (
-              fieldName
-            )}
-          </dt>
-          <dd className="govuk-summary-list__value">
-            {formatField(type, content)}
-          </dd>
-        </div>
-      );
-    }
-  });
+const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
+  if (!type.includes('HIDDEN')) {
+    return (
+      <div className="govuk-summary-list__row" key={uuidv4()}>
+        <dt className="govuk-summary-list__key">
+          {type.includes('CHANGED') ? (
+            <span className="task-versions--highlight">{fieldName}</span>
+          ) : (
+            fieldName
+          )}
+        </dt>
+        <dd className="govuk-summary-list__value">
+          {formatField(type, content)}
+        </dd>
+      </div>
+    );
+  }
+});
 
 const renderChildSets = (childSets) => {
   return childSets.map((child) => {
@@ -73,7 +72,7 @@ const renderFieldSets = (fieldSet) => {
  */
 const renderVersionSection = (field) => {
   switch (true) {
-    case field.propName.includes("passengers"): {
+    case field.propName.includes('passengers'): {
       let isValidToRender = false;
       if (field.childSets.length > 0) {
         for (const passengerChildSets of field.childSets) {
@@ -131,11 +130,9 @@ const TaskVersions = ({
          * there is only ever one item in the array
          */
         taskVersions.map((version, index) => {
-          const booking =
-            version.find((fieldset) => fieldset.propName === "booking") || null;
-          const bookingDate =
-            booking?.contents.find((field) => field.propName === "dateBooked")
-              .content || null;
+          const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
+          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked')
+            .content || null;
           const versionNumber = taskVersions.length - index;
           const detailSection = version.map((field) => {
             return renderVersionSection(field);
@@ -148,7 +145,7 @@ const TaskVersions = ({
                 <div className="task-versions--left">
                   <div className="govuk-caption-m">
                     {dayjs
-                      .utc(bookingDate ? bookingDate.split(",")[0] : null)
+                      .utc(bookingDate ? bookingDate.split(',')[0] : null)
                       .format(LONG_DATE_FORMAT)}
                   </div>
                 </div>
@@ -157,10 +154,10 @@ const TaskVersions = ({
                     <li>
                       {pluralise.withCount(
                         taskVersionDifferencesCounts[index],
-                        "% change",
-                        "% changes",
-                        "No changes"
-                      )}{" "}
+                        '% change',
+                        '% changes',
+                        'No changes',
+                      )}{' '}
                       in this version
                     </li>
                   </ul>
