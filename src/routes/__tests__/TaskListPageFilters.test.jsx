@@ -4,9 +4,14 @@ import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
+import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
+  const tabData = {
+    selectedTabIndex: 1,
+    selectTabIndex: jest.fn(),
+  };
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     jest.clearAllMocks();
@@ -14,8 +19,11 @@ describe('TaskListFilters', () => {
     mockAxios.reset();
   });
 
+  beforeEach(() => {
+    render(<TaskSelectedTabContext.Provider value={tabData}><TaskListPage /></TaskSelectedTabContext.Provider>);
+  });
+
   it('should display filter options based on filter config (filters.js)', async () => {
-    render(<TaskListPage />);
     // Titles & Actions
     expect(screen.getByText('Filters')).toBeInTheDocument();
     expect(screen.getByText('Apply filters')).toBeInTheDocument();
@@ -33,7 +41,6 @@ describe('TaskListFilters', () => {
   });
 
   it('should allow user to select a single radio button in each group', async () => {
-    render(<TaskListPage />);
     // group one select
     fireEvent.click(screen.getByLabelText('RoRo accompanied freight'));
     // group two select first 'has', then 'has no'
@@ -48,7 +55,6 @@ describe('TaskListFilters', () => {
   });
 
   it('should store selection to localstorage when apply filters button is clicked', async () => {
-    render(<TaskListPage />);
     fireEvent.click(screen.getByLabelText('RoRo accompanied freight'));
     fireEvent.click(screen.getByLabelText('Has selector'));
     fireEvent.click(screen.getByText('Apply filters'));
@@ -58,7 +64,7 @@ describe('TaskListFilters', () => {
 
   it('should clear filters when clearAll is clicked', async () => {
     localStorage.setItem('filters', 'movementMode_eq_roro-accompanied-freight,hasSelectors_eq_yes');
-    render(<TaskListPage />);
+
     fireEvent.click(screen.getByText('Clear all filters'));
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
@@ -71,10 +77,8 @@ describe('TaskListFilters', () => {
 
   it('should persist filters when they exist in local storage', async () => {
     localStorage.setItem('filters', 'movementMode_eq_roro-accompanied-freight');
-    render(<TaskListPage />);
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
-    expect(screen.getByLabelText('RoRo accompanied freight')).toBeChecked();
     expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
     expect(screen.getByLabelText('Has no selector')).not.toBeChecked();
     expect(screen.getByLabelText('Has selector')).not.toBeChecked();

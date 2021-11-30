@@ -3,6 +3,7 @@ import axios from 'axios';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import '../../__mocks__/keycloakMock';
+import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 import ClaimButton from '../ClaimTaskButton';
 import TaskListPage from '../../routes/TaskLists/TaskListPage';
 
@@ -89,7 +90,12 @@ describe('Claim/Unclaim buttons', () => {
     await waitFor(() => { fireEvent.click(screen.getByText(/Unclaim/i)); });
     expect(mockAxios.history.post[0].url).toEqual(`task/${task.id}/unclaim`);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    const tabData = {
+      selectedTabIndex: 0,
+      selectTabIndex: jest.fn(),
+    };
+    await waitFor(() => render(<TaskSelectedTabContext.Provider value={tabData}><TaskListPage taskStatus="new" setError={() => { }} /></TaskSelectedTabContext.Provider>));
+
     expect(screen.getByText('New tasks')).toBeInTheDocument();
     expect(screen.queryByText('In progress tasks')).not.toBeInTheDocument();
     expect(screen.queryByText('Target issued tasks')).not.toBeInTheDocument();

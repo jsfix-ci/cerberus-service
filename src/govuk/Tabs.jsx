@@ -4,15 +4,17 @@
  * Code: https://github.com/alphagov/govuk-frontend/blob/master/package/govuk/components/tabs/README.md
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { TASK_STATUS_NEW } from '../constants';
+import { TaskSelectedTabContext } from '../context/TaskSelectedTabContext';
 
 const Tabs = ({
   id, idPrefix, className, title, items, onTabClick, tabIndex, ...attributes
 }) => {
-  const [currentTabIndex, setCurrentTabIndex] = useState(0);
+  const { selectedTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
+  const [currentTabIndex, setCurrentTabIndex] = useState(selectedTabIndex);
   const currentTab = items[currentTabIndex];
   const currentTabId = currentTab.id || `${idPrefix}-${currentTabIndex}`;
   const panelIsReactElement = typeof currentTab.panel === 'string' || Array.isArray(currentTab.panel) || React.isValidElement(currentTab.panel);
@@ -48,6 +50,7 @@ const Tabs = ({
                   <a
                     className="govuk-tabs__tab"
                     onClick={(e) => {
+                      selectTabIndex(index);
                       setCurrentTabIndex(index);
                       e.preventDefault();
                       if (onTabClick) {
