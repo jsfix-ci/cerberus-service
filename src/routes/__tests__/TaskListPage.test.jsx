@@ -5,17 +5,27 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import variableInstanceTaskSummaryBasedOnTIS from '../__fixtures__/variableInstanceTaskSummaryBasedOnTIS.fixture.json';
+import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);
   const envUrl = `${window.location.protocol}//${window.location.hostname}`;
+  const tabData = {
+    selectedTabIndex: 1,
+    selectTabIndex: jest.fn(),
+  };
+
+  const setTabAndTaskValues = (value = tabData, taskStatus = 'new') => {
+    return (<TaskSelectedTabContext.Provider value={value}><TaskListPage taskStatus={taskStatus} setError={() => { }} /></TaskSelectedTabContext.Provider>);
+  };
+
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
   });
 
   it('should render loading spinner on component load', async () => {
-    render(<TaskListPage taskStatus="new" setError={() => { }} />);
+    render(setTabAndTaskValues(tabData, 'new'));
     expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
@@ -38,7 +48,7 @@ describe('TaskListPage', () => {
       .onGet('/history/variable-instance')
       .reply(200, []);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('New (7)')).toBeInTheDocument();
@@ -64,7 +74,7 @@ describe('TaskListPage', () => {
       .onGet('/history/variable-instance')
       .reply(200, []);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('New (0)')).toBeInTheDocument();
@@ -107,7 +117,7 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
     await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Dd%2Fe%2Ff/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Dd%2Fe%2Ff`));
@@ -143,7 +153,7 @@ describe('TaskListPage', () => {
       .onGet('/history/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
     await waitFor(() => expect(screen.getByRole('link', { name: /business%3Akey%3Da%2Fb%2Fc/i }).href).toBe(`${envUrl}/tasks/business%3Akey%3Da%2Fb%2Fc`));
@@ -164,7 +174,7 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getAllByText('Claim')).toHaveLength(3);
   });
@@ -182,7 +192,8 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
 
     await waitFor(() => expect(screen.getAllByText('Unclaim')).toHaveLength(1));
@@ -206,7 +217,8 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
 
     await waitFor(() => expect(screen.getByText('Target issued tasks')).toBeInTheDocument());
@@ -230,7 +242,8 @@ describe('TaskListPage', () => {
       .onGet('/history/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
 
     await waitFor(() => expect(screen.getByText('Completed tasks')).toBeInTheDocument());
@@ -250,7 +263,7 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 2 other rules')).toHaveLength(1);
     expect(screen.getAllByText('Rulename, Tier 1, Class A Drugs and 0 other rules')).toHaveLength(1);
@@ -269,7 +282,7 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getAllByText('2 indicators')).toHaveLength(1);
     expect(screen.getAllByText('Paid by cash')).toHaveLength(1);
@@ -289,7 +302,7 @@ describe('TaskListPage', () => {
       .onGet('/variable-instance')
       .reply(200, variableInstanceTaskSummaryBasedOnTIS);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getAllByText('Risk Score: 25')).toHaveLength(1);
   });
@@ -301,7 +314,7 @@ describe('TaskListPage', () => {
       .onGet('/task')
       .reply(500);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getByText('No tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
@@ -313,7 +326,7 @@ describe('TaskListPage', () => {
       .onGet('/task/count')
       .reply(500);
 
-    await waitFor(() => render(<TaskListPage taskStatus="new" setError={() => { }} />));
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getByText('No tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
