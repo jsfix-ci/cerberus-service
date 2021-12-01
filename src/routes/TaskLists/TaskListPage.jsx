@@ -289,7 +289,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
-        const escapedBusinessKey = encodeURIComponent(target.parentBusinessKey.businessKey);
         return (
           <section className="task-list--item" key={target.parentBusinessKey.businessKey}>
             <div className="govuk-grid-row title-container">
@@ -297,9 +296,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                 <h3 className="govuk-heading-m task-heading">
                   <Link
                     className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold task-list--businessKey"
-                    to={`/tasks/${escapedBusinessKey}`}
+                    to={`/tasks/${target.parentBusinessKey.businessKey}`}
                   >
-                    {escapedBusinessKey}
+                    {target.parentBusinessKey.businessKey}
                   </Link>
                 </h3>
                 <h4 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
@@ -314,7 +313,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                     assignee={target.assignee}
                     taskId={target.id}
                     setError={setError}
-                    businessKey={escapedBusinessKey}
+                    businessKey={target.parentBusinessKey.businessKey}
                   />
                   )}
               </div>
