@@ -37,7 +37,7 @@ Cypress.Commands.add('getUnassignedTasks', () => {
 
   const options = {
     method: 'GET',
-    url: '/camunda/task?**',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=processState_neq_Complete&unassigned=true`,
     headers: {
       authorization,
     },

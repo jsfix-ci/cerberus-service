@@ -10,6 +10,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   it('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
 
+    cy.fixture('target-information.json').as('inputData');
+
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
@@ -37,17 +39,17 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.fixture('accompanied-task-2-passengers-details.json').then((expectedDetails) => {
-      let driverFirstName = expectedDetails.driver.Name;
-      let driiverDOB = expectedDetails.driver['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
-      let driverDocExpiry = expectedDetails.driver['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
-      cy.verifyElementText('name', expectedDetails.vessel.name);
-      cy.verifyElementText('company', expectedDetails.vessel.shippingCompany);
-      cy.verifyElementText('make', expectedDetails.vehicle.Make);
-      cy.verifyElementText('model', expectedDetails.vehicle.Model);
-      cy.verifyElementText('colour', expectedDetails.vehicle.Colour);
-      cy.verifyElementText('registrationNumber', expectedDetails.vehicle['Vehicle registration']);
-      cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
+    cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
+      let driverFirstName = targetData.driver.Name;
+      let driiverDOB = targetData.driver['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
+      let driverDocExpiry = targetData.driver['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
+      cy.verifyElementText('name', targetData.vessel.name);
+      cy.verifyElementText('company', targetData.vessel.shippingCompany);
+      cy.verifyElementText('make', targetData.vehicle.Make);
+      cy.verifyElementText('model', targetData.vehicle.Model);
+      cy.verifyElementText('colour', targetData.vehicle.Colour);
+      cy.verifyElementText('registrationNumber', targetData.vehicle['Vehicle registration']);
+      cy.verifyElementText('regNumber', targetData.vehicle['Trailer registration number']);
       cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
       cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
       cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
@@ -56,13 +58,13 @@ describe('Issue target from cerberus UI using target sheet information form', ()
         cy.verifyElementText('firstName', driverFirstName.split(' ')[0]);
         cy.verifyElementText('lastName', driverFirstName.split(' ')[1]);
         cy.verifyDate('dob', driiverDOB[0], driiverDOB[1], driiverDOB[2]);
-        cy.verifyElementText('docNumber', expectedDetails.driver['Travel document number']);
+        cy.verifyElementText('docNumber', targetData.driver['Travel document number']);
         cy.verifyDate('docExpiry', driverDocExpiry[0], driverDocExpiry[1], driverDocExpiry[2]);
       });
 
       const name = 'passengers';
       let row = 0;
-      for (let passenger of expectedDetails.passengersTIS) {
+      for (let passenger of targetData.passengersTIS) {
         row += 1;
         cy.get(`.formio-component-${name} [ref="datagrid-${name}-tbody"] > div:nth-child(${row})`).should('be.visible').within(() => {
           cy.verifyElementText('firstName', passenger.Name.split(' ')[0]);
@@ -76,31 +78,33 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       }
     });
 
-    cy.selectDropDownValue('mode', 'RoRo Freight');
+    cy.fixture('target-information.json').then((targetInfo) => {
+      cy.selectDropDownValue('mode', 'RoRo Freight');
 
-    cy.selectDropDownValue('eventPort', '135 Dunganno Road');
+      cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
-    cy.selectDropDownValue('issuingHub', 'Vessel Targeting');
+      cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-    cy.typeTodaysDateTime('eta');
+      cy.typeTodaysDateTime('eta');
 
-    cy.selectDropDownValue('strategy', 'Alcohol');
+      cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
-    cy.selectDropDownValue('nominalType', 'Account');
+      cy.selectDropDownValue('nominalType', 'Account');
 
-    cy.selectDropDownValue('checks', 'Anti Fraud Information System');
+      cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
-    cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
+      cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
 
-    cy.selectRadioButton('warningsIdentified', 'No');
+      cy.selectRadioButton('warningsIdentified', 'No');
 
-    cy.clickNext();
+      cy.clickNext();
 
-    cy.waitForNoErrors();
+      cy.waitForNoErrors();
 
-    cy.verifySelectDropdown('teamToReceiveTheTarget', ['Portsmouth Frontline', 'Pembroke Frontline', 'Poole Frontline', 'Newhaven Frontline']);
+      cy.verifySelectDropdown('teamToReceiveTheTarget', targetInfo.groups);
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Portsmouth Frontline');
+      cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+    });
 
     cy.clickSubmit();
 
@@ -179,31 +183,33 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
     });
 
-    cy.selectDropDownValue('mode', 'RoRo Freight');
+    cy.fixture('target-information.json').then((targetInfo) => {
+      cy.selectDropDownValue('mode', 'RoRo Freight');
 
-    cy.selectDropDownValue('eventPort', '135 Dunganno Road');
+      cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
-    cy.selectDropDownValue('issuingHub', 'Vessel Targeting');
+      cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-    cy.typeTodaysDateTime('eta');
+      cy.typeTodaysDateTime('eta');
 
-    cy.selectDropDownValue('strategy', 'Alcohol');
+      cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
-    cy.selectDropDownValue('nominalType', 'Account');
+      cy.selectDropDownValue('nominalType', 'Account');
 
-    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Driver)']);
+      cy.multiSelectDropDown('threatIndicators', targetInfo['target-indicators']);
 
-    cy.selectDropDownValue('checks', 'Anti Fraud Information System');
+      cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
-    cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
+      cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
 
-    cy.selectRadioButton('warningsIdentified', 'No');
+      cy.selectRadioButton('warningsIdentified', 'No');
 
-    cy.clickNext();
+      cy.clickNext();
 
-    cy.waitForNoErrors();
+      cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Pembroke Frontline');
+      cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+    });
 
     cy.clickSubmit();
 
@@ -283,31 +289,33 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
     });
 
-    cy.selectDropDownValue('mode', 'RoRo Tourist');
+    cy.fixture('target-information.json').then((targetInfo) => {
+      cy.selectDropDownValue('mode', 'RoRo Tourist');
 
-    cy.selectDropDownValue('eventPort', '135 Dunganno Road');
+      cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
-    cy.selectDropDownValue('issuingHub', 'Vessel Targeting');
+      cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-    cy.typeTodaysDateTime('eta');
+      cy.typeTodaysDateTime('eta');
 
-    cy.selectDropDownValue('strategy', 'Alcohol');
+      cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
-    cy.selectDropDownValue('nominalType', 'Account');
+      cy.selectDropDownValue('nominalType', 'Account');
 
-    cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Driver)']);
+      cy.multiSelectDropDown('threatIndicators', ['Paid by cash', 'Change of account (Driver)']);
 
-    cy.selectDropDownValue('checks', 'Anti Fraud Information System');
+      cy.selectDropDownValue('checks', 'Anti Fraud Information System');
 
-    cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
+      cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
 
-    cy.selectRadioButton('warningsIdentified', 'No');
+      cy.selectRadioButton('warningsIdentified', 'No');
 
-    cy.clickNext();
+      cy.clickNext();
 
-    cy.waitForNoErrors();
+      cy.waitForNoErrors();
 
-    cy.selectDropDownValue('teamToReceiveTheTarget', 'Poole Frontline');
+      cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+    });
 
     cy.clickSubmit();
 
