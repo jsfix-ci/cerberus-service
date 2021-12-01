@@ -11,16 +11,8 @@ const renderFieldSetContents = (contents) => contents.map(({ fieldName, content,
   if (!type.includes('HIDDEN')) {
     return (
       <div className="govuk-summary-list__row" key={uuidv4()}>
-        <dt className="govuk-summary-list__key">
-          {type.includes('CHANGED') ? (
-            <span className="task-versions--highlight">{fieldName}</span>
-          ) : (
-            fieldName
-          )}
-        </dt>
-        <dd className="govuk-summary-list__value">
-          {formatField(type, content)}
-        </dd>
+        <dt className="govuk-summary-list__key">{type.includes('CHANGED') ? <span className="task-versions--highlight">{fieldName}</span> : fieldName}</dt>
+        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
       </div>
     );
   }
@@ -108,11 +100,26 @@ const renderVersionSection = (field) => {
   }
 };
 
-const TaskVersions = ({
-  taskVersions,
-  businessKey,
-  taskVersionDifferencesCounts,
-}) => {
+const stripOutSectionsByMovementMode = (version, movementMode) => {
+  const roroTourist = 'RORO Tourist';
+  const roroUnaccompFreight = 'RORO Unaccompanied Freight';
+  const roroAccompFreight = 'RORO Accompanied Freight';
+  switch (true) {
+    case movementMode.toUpperCase() === roroTourist.toUpperCase():
+      version = version.filter((field) => field.propName !== 'haulier' && field.propName !== 'account' && field.propName !== 'goods');
+      break;
+    case movementMode.toUpperCase() === roroUnaccompFreight.toUpperCase():
+      version = version.filter((field) => field.propName !== 'vehicle');
+      break;
+    case movementMode.toUpperCase() === roroAccompFreight.toUpperCase():
+      return version;
+    default:
+      break;
+  }
+  return version;
+};
+
+const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
   /*
    * There can be multiple versions of the data
    * We need to display each version
@@ -131,9 +138,9 @@ const TaskVersions = ({
          */
         taskVersions.map((version, index) => {
           const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
-          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked')
-            .content || null;
+          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
+          version = stripOutSectionsByMovementMode(version, movementMode);
           const detailSection = version.map((field) => {
             return renderVersionSection(field);
           });
@@ -143,23 +150,11 @@ const TaskVersions = ({
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">
-                    {dayjs
-                      .utc(bookingDate ? bookingDate.split(',')[0] : null)
-                      .format(LONG_DATE_FORMAT)}
-                  </div>
+                  <div className="govuk-caption-m">{dayjs.utc(bookingDate ? bookingDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
-                    <li>
-                      {pluralise.withCount(
-                        taskVersionDifferencesCounts[index],
-                        '% change',
-                        '% changes',
-                        'No changes',
-                      )}{' '}
-                      in this version
-                    </li>
+                    <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
                   </ul>
                 </div>
               </>
