@@ -328,7 +328,6 @@ Cypress.Commands.add('getAllProcessInstanceId', (businessKey) => {
 });
 
 Cypress.Commands.add('checkTaskDisplayed', (businessKey) => {
-  businessKey = encodeURIComponent(businessKey);
   cy.visit(`/tasks/${businessKey}`);
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
 });
@@ -442,7 +441,6 @@ Cypress.Commands.add('navigateToTaskDetailsPage', (task) => {
   expect(processInstanceId.length).to.not.equal(0);
   cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
   cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
-    businessKey = encodeURIComponent(businessKey);
     cy.visit(`/tasks/${businessKey}`);
     cy.wait('@tasksDetails').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
@@ -564,7 +562,7 @@ Cypress.Commands.add('verifyTaskSummary', (taskSummary) => {
 Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
   let taskSummary = {};
   cy.visit('/tasks');
-  cy.get('.task-list--item').contains(encodeURIComponent(businessKey)).closest('section').then((element) => {
+  cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
     cy.wrap(element).find('h4.task-heading').invoke('text').then((mode) => {
       taskSummary.mode = mode;
     });

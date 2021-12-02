@@ -15,7 +15,15 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
     cy.wait(2000);
     cy.get('.govuk-accordion__open-all').click();
-    cy.get('h2.govuk-heading-m').last().should('contain.text', 'selector matches');
+    let headers = [];
+    cy.get('h2.govuk-heading-m').each((element) => {
+      cy.wrap(element).invoke('text').then((value) => {
+        cy.log(value);
+        headers.push(value);
+      });
+    }).then(() => {
+      expect(headers.some((x) => x.includes('selector matches'))).to.be.true;
+    });
   });
 
   it('Should add notes for the selected tasks', () => {

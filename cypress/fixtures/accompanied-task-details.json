@@ -39,15 +39,6 @@
     "Travel document number": "AB2099357",
     "Travel document expiry": "20/03/2025"
   },
-  "passengers": {
-    "Name": "",
-    "Date of birth": "",
-    "Gender": "",
-    "Nationality": "",
-    "Travel document type": "",
-    "Travel document number": "",
-    "Travel document expiry": ""
-  },
   "goods": {
     "Description": "Liquid Nitrogen",
     "Is cargo hazardous?": "No",
