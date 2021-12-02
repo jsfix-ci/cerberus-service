@@ -14,7 +14,7 @@
   {
     "type": "Json",
     "processInstanceId": "789",
-    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"threatIndicators\":[{\"userfacingtext\":\"Paid by cash\", \"score\": 10},{\"userfacingtext\":\"Late booking tourist (24-72 hours)\", \"score\": 15}],\"risks\":[],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
+    "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"}, \"numberOfVersions\":2, \"threatIndicators\":[{\"userfacingtext\":\"Paid by cash\", \"score\": 10},{\"userfacingtext\":\"Late booking tourist (24-72 hours)\", \"score\": 15}],\"risks\":[],\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
     "name": "taskSummaryBasedOnTIS"
   }
 ]
