@@ -229,6 +229,74 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
   });
 
+  it('should not render haulier, goods & account section', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Haulier details')).toHaveLength(0);
+    expect(screen.queryAllByText('Goods')).toHaveLength(0);
+    expect(screen.queryAllByText('Account details')).toHaveLength(0);
+  });
+
+  it('should not render vehicle section', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusIssued,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Vehicle details')).toHaveLength(0);
+  });
+
+  it('should not render passenger section', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusComplete,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Passenger')).toHaveLength(0);
+  });
+
   it('should handle form service errors gracefully', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],

@@ -338,6 +338,7 @@ const TaskDetailsPage = () => {
                   taskVersions={targetData.taskDetails}
                   businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                   taskVersionDifferencesCounts={targetData.taskVersionDifferencesCounts}
+                  movementMode={targetData.serviceMovement.movement.mode}
                 />
               )}
             </div>
