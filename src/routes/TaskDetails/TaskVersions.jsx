@@ -103,20 +103,14 @@ const renderVersionSection = (field) => {
 const stripOutSectionsByMovementMode = (version, movementMode) => {
   const roroTourist = 'RORO Tourist';
   const roroUnaccompFreight = 'RORO Unaccompanied Freight';
-  const roroAccompFreight = 'RORO Accompanied Freight';
   switch (true) {
     case movementMode.toUpperCase() === roroTourist.toUpperCase():
-      version = version.filter((field) => field.propName !== 'haulier' && field.propName !== 'account' && field.propName !== 'goods');
-      break;
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
     case movementMode.toUpperCase() === roroUnaccompFreight.toUpperCase():
-      version = version.filter((field) => field.propName !== 'vehicle');
-      break;
-    case movementMode.toUpperCase() === roroAccompFreight.toUpperCase():
-      return version;
+      return version.filter(({ propName }) => propName !== 'vehicle');
     default:
-      break;
+      return version;
   }
-  return version;
 };
 
 const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
@@ -140,8 +134,8 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts,
           const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
-          version = stripOutSectionsByMovementMode(version, movementMode);
-          const detailSection = version.map((field) => {
+          const filteredVersion = stripOutSectionsByMovementMode(version, movementMode);
+          const detailSection = filteredVersion.map((field) => {
             return renderVersionSection(field);
           });
           return {
