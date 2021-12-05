@@ -183,6 +183,18 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
     );
   };
 
+  const hasUpdatedSTatus = (target) => {
+    if (target.numberOfVersions > 1) {
+      return (
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-full">
+            <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
+          </div>
+        </div>
+      );
+    }
+  };
+
   const loadTasks = async () => {
     if (camundaClient) {
       try {
@@ -318,6 +330,8 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                   )}
               </div>
             </div>
+
+            {hasUpdatedSTatus(target)}
 
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-full">

@@ -96,12 +96,20 @@ ul.item-list--bulleted {
   }
 }
 
-.govuk-tag.govuk-tag--positiveTarget {
+.govuk-tag {
   @include govuk-font($size: 14, $weight: bold, $line-height: 1);
   height: 19px;
-  color: #FFF;
-  background-color: #BC2410;
+  color: #FFF;  
   border-radius: 5px;
   text-transform: capitalize;
   padding: 3px 5px 0 5px;
+
+  &.govuk-tag--positiveTarget{
+    background-color: #BC2410;
+  }
+
+  &.govuk-tag--updatedTarget{
+    background-color: #00703c;
+    margin-bottom: 10px;
+  }
 }
