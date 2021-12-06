@@ -561,7 +561,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
-  it.only('Should verify passenger details on different version on task details page', () => {
+  it('Should verify passenger details on different version on task details page', () => {
     cy.getBusinessKey('-RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.checkTaskDisplayed(businessKeys[0]);
