@@ -15,21 +15,6 @@
     "Trailer length": "",
     "Trailer height": ""
   },
-  "account": {
-    "Full name": "Product of France Wines",
-    "Short name": "Prod of Fr Wines",
-    "Reference number": "PF-6653",
-    "Address": "Unit 82 Central Docks Calais",
-    "Telephone": "0333 637851",
-    "Mobile": "",
-    "Email": ""
-  },
-  "haulier": {
-    "Name": "Gondrand UK",
-    "Address": "Unit 82 Central Docks, Canary Wharf, East London, E16 2SR",
-    "Telephone": "020 89637851",
-    "Mobile": ""
-  },
   "driver": {
     "Name": "Isiaih Ford",
     "Date of birth": "13/10/1991",
@@ -54,11 +39,6 @@
     "Travel document type": "OBJDOCPAS",
     "Travel document number": "244746NL",
     "Travel document expiry": "01/02/2021"
-  },
-  "goods": {
-    "Description": "Wine",
-    "Is cargo hazardous?": "No",
-    "Weight of goods": ""
   },
   "Booking-and-check-in": {
     "Reference": "AB555412781",

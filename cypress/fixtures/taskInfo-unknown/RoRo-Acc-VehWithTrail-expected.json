@@ -14,9 +14,10 @@
     "bookedDetails": "Booked 2 days before travel",
     "haulier": "Unknown",
     "goods": "Unknown",
-    "passengerDetails": "Unknown",
+    "passengerDetails": "None",
     "trailerRegitration": "NL-234-392",
-    "trailerTrips": "0 trips"
+    "trailerTrips": "0 trips",
+    "riskScore": "Risk Score:"
   },
   "taskSummary": {
     "Ferry": "Brittany Ferries voyage of BARFLEUR",

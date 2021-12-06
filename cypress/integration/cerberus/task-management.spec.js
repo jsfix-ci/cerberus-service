@@ -106,7 +106,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CLAIM-TASK-MANAGEMENT`).then((taskResponse) => {
         cy.wait(4000);
         cy.reload();
-        let businessKey = encodeURIComponent(taskResponse.businessKey);
+        let businessKey = taskResponse.businessKey;
         if (Cypress.$(nextPage).length > 0) {
           cy.findTaskInAllThePages(`${businessKey}`, 'Claim', null).then((returnValue) => {
             expect(returnValue).to.equal(true);
@@ -331,8 +331,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
-        cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
+        cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
           expect(res.body.length).to.not.equal(0);
           expect(res.body.length).to.equal(1);
         });

@@ -176,11 +176,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('name', expectedDetails.vessel.name);
       cy.verifyElementText('company', expectedDetails.vessel.shippingCompany);
-      cy.verifyElementText('make', expectedDetails.vehicle.Make);
-      cy.verifyElementText('model', expectedDetails.vehicle.Model);
-      cy.verifyElementText('colour', expectedDetails.vehicle.Colour);
-      cy.verifyElementText('registrationNumber', expectedDetails.vehicle['Vehicle registration']);
-      cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -282,11 +277,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.fixture('tourist-task-2-passengers-details.json').then((expectedDetails) => {
       cy.verifyElementText('name', expectedDetails.vessel.name);
       cy.verifyElementText('company', expectedDetails.vessel.shippingCompany);
-      cy.verifyElementText('make', expectedDetails.vehicle.Make);
-      cy.verifyElementText('model', expectedDetails.vehicle.Model);
-      cy.verifyElementText('colour', expectedDetails.vehicle.Colour);
-      cy.verifyElementText('registrationNumber', expectedDetails.vehicle['Vehicle registration']);
-      cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {

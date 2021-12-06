@@ -28,12 +28,6 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
-      cy.contains('h2', 'Vehicle details').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.vehicle);
-        });
-      });
-
       cy.contains('h2', 'Account details').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.account);
@@ -49,12 +43,6 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.contains('h2', 'Driver').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h2', 'Passengers').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.passengers);
         });
       });
 
@@ -143,12 +131,6 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', 'Passengers').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.passengers);
-        });
-      });
-
       cy.contains('h2', 'Goods').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.goods);
@@ -194,18 +176,6 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', 'Account details').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.account);
-        });
-      });
-
-      cy.contains('h2', 'Haulier details').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.haulier);
-        });
-      });
-
       cy.contains('h2', 'Driver').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.driver);
@@ -215,12 +185,6 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.contains('h2', 'Passengers').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.passengers);
-        });
-      });
-
-      cy.contains('h2', 'Goods').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.goods);
         });
       });
 
