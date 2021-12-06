@@ -516,6 +516,68 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.govuk-accordion__section-heading').should('have.length.lte', 4);
   });
 
+  it('Should verify single task created for the same target with different versions with different passengers information', () => {
+    let date = new Date();
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-passenger-info_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    date.setDate(date.getDate() + 8);
+    cy.fixture('/task-version-passenger/RoRo-task-v1.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null);
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('/task-version-passenger/RoRo-task-v2.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null);
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('/task-version-passenger/RoRo-task-v3.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null).then((response) => {
+        cy.wait(15000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
+        cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
+          expect(res.body.length).to.not.equal(0);
+          expect(res.body.length).to.equal(1);
+        });
+      });
+    });
+
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+  });
+
+  // COP-8934 two versions have passenger details and one version doesn't have passenger details
+  it.only('Should verify passenger details on different version on task details page', () => {
+    cy.getBusinessKey('-RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.checkTaskDisplayed(businessKeys[0]);
+
+      cy.get('[id$=-content-2]').within(() => {
+        cy.contains('h2', 'Passengers').should('not.exist');
+      });
+
+      cy.fixture('passenger-details.json').then((expectedDetails) => {
+        cy.verifyTaskDetailSection(expectedDetails.passengers, 1, 'Passengers');
+
+        cy.verifyTaskDetailSection(expectedDetails.passengers, 3, 'Passengers');
+      });
+    });
+  });
+
   // COP-6905 Scenario-2
   it('Should verify only one versions are created for a task when the attribute for the target indicators in the payload not changed', () => {
     let date = new Date();
