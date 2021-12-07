@@ -179,7 +179,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       });
     }
     return (
-      totalRiskScore > 0 ? <li className="govuk-!-font-weight-bold">Risk Score: {totalRiskScore}</li> : <li>Risk Score:</li>
+      totalRiskScore > 0 ? <li className="govuk-!-font-weight-bold">Risk Score: {totalRiskScore}</li> : <li>Risk Score: 0</li>
     );
   };
 
