@@ -97,19 +97,19 @@ const filterListConfig = [
       {
         name: 'has-no-selector',
         code: 'hasSelectors_eq_no',
-        label: 'Has no selector',
+        label: 'Not present',
         checked: false,
       },
       {
         name: 'has-selector',
         code: 'hasSelectors_eq_yes',
-        label: 'Has selector',
+        label: 'Present',
         checked: false,
       },
       {
         name: 'both',
         code: 'noCode', // as 'both' is all tasks we return a word we can set to null in the call
-        label: 'Both',
+        label: 'Any',
         checked: false,
       },
     ],
