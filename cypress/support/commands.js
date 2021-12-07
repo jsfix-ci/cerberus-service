@@ -378,7 +378,7 @@ Cypress.Commands.add('getTasksByBusinessKey', (businessKey) => {
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
-    return response.body.filter((item) => item.assignee === null && item.name === 'Develop the Target');
+    return response.body.filter((item) => item.assignee === null && item.name === 'Develop the task');
   });
 });
 
