@@ -520,8 +520,6 @@ describe('Task Details of different tasks on task details Page', () => {
     let date = new Date();
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-passenger-info_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     let departureDateTime;
-    let arrivalDataTime;
-    let bookingDateTime;
     const dateFormat = 'D MMM YYYY [at] HH:mm';
 
     date.setDate(date.getDate() + 8);
@@ -556,14 +554,14 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('/task-version-passenger/RoRo-task-v3.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
+      let arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       departureDateTime = Cypress.dayjs().add(13, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureDateTime;
       departureDateTime = Cypress.dayjs(departureDateTime).utc().format(dateFormat);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(13, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().format('YYYY-MM-DDThh:mm:ss');
-      bookingDateTime = Cypress.dayjs(task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime).utc().format(dateFormat);
+      let bookingDateTime = Cypress.dayjs(task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime).utc().format(dateFormat);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
