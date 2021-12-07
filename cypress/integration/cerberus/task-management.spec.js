@@ -25,6 +25,24 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
+  it('Should verify Back to task list workflow', () => {
+    cy.get('.govuk-tabs__list li a[href="#new"]').then((element) => {
+      cy.backToTaskList(element, 'New');
+    });
+
+    cy.get('.govuk-tabs__list li a[href="#inProgress"]').then((element) => {
+      cy.backToTaskList(element, 'In progress');
+    });
+
+    cy.get('.govuk-tabs__list li a[href="#issued"]').then((element) => {
+      cy.backToTaskList(element, 'Issued');
+    });
+
+    cy.get('.govuk-tabs__list li a[href="#complete"]').then((element) => {
+      cy.backToTaskList(element, 'Complete');
+    });
+  });
+
   it('Should hide first and prev buttons on first page', () => {
     if (Cypress.$(nextPage).length > 0) {
       cy.get('.pagination--list a').then(($items) => {
@@ -348,18 +366,18 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.waitForTaskManagementPageToLoad();
 
-    // cy.get('@taskName').then((text) => {
-    //   cy.log('task to be searched', text);
-    //   if (Cypress.$(nextPage).length > 0) {
-    //     cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
-    //       expect(taskFound).to.equal(true);
-    //     });
-    //   } else {
-    //     cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
-    //       expect(taskFound).to.equal(true);
-    //     });
-    //   }
-    // });
+    cy.get('@taskName').then((text) => {
+      cy.log('task to be searched', text);
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
+    });
   });
 
   after(() => {

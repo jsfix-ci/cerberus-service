@@ -485,7 +485,12 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
 });
 
 Cypress.Commands.add('deleteAutomationTestData', () => {
-  let dateNowFormatted = Cypress.dayjs().subtract(1, 'day').format('DD-MM-YYYY');
+  let dateNowFormatted;
+  if (Cypress.dayjs().day() === 1) {
+    dateNowFormatted = Cypress.dayjs().subtract(3, 'day').format('DD-MM-YYYY');
+  } else {
+    dateNowFormatted = Cypress.dayjs().subtract(1, 'day').format('DD-MM-YYYY');
+  }
   cy.request({
     method: 'POST',
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
@@ -1034,4 +1039,12 @@ Cypress.Commands.add('getTaskVersionsDifference', (version, index) => {
   }).then(() => {
     return difference;
   });
+});
+
+Cypress.Commands.add('backToTaskList', (element, tabName) => {
+  cy.wrap(element).click();
+  cy.get('.govuk-link--no-visited-state').eq(0).click();
+  cy.wait(1000);
+  cy.contains('Back to task list').click();
+  cy.get('.govuk-tabs__list-item--selected').should('contain.text', tabName).and('be.visible');
 });
