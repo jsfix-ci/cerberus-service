@@ -809,6 +809,15 @@ Cypress.Commands.add('verifySelectDropdown', (elementName, values) => {
     });
 });
 
+Cypress.Commands.add('verifySelectedDropdownValue', (elementName, value) => {
+  cy.get(`${formioComponent}${elementName} [data-item]`)
+    .should('be.visible')
+    .should(($div) => {
+      const text = $div.text().replace('Remove item', '');
+      expect(text).equal(value);
+    });
+});
+
 Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values) => {
   cy.get(`${formioComponent}${elementName}`)
     .should('be.visible')

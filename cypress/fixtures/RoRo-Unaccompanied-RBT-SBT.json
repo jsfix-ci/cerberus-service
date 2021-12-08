@@ -45,6 +45,46 @@
            ]
           }
          ]
+        },
+        {
+         "selectorId": 281,
+         "selectorReference": "2021-281",
+         "startDate": "2021-12-08T08:24:53.433Z",
+         "endDate": "2022-01-19T23:59:59Z",
+         "category": "C",
+         "agencyCode": "Food Standards Agency (FSA)",
+         "intelligenceSource": "ffew",
+         "pointOfContact": "ewfe",
+         "pocMessage": "effew",
+         "priority": "Selector",
+         "inboundActionCode": "No action required",
+         "outboundActionCode": "No action required",
+         "threatType": "National Security at the Border",
+         "notes": "notes",
+         "creator": "user",
+         "approver": "fewf",
+         "securityLabels": [
+          "DATA_RISK_PREARRIVAL"
+         ],
+         "localReference": "SR-222",
+         "warnings": "fewfwe",
+         "requestingOfficer": "efew",
+         "requestingTeam": "MAH gateway",
+         "indicatorMatches": [
+          {
+           "entity": "Trailer",
+           "descriptor": "registrationNumber",
+           "operator": "equal",
+           "value": "qwerty"
+          },
+          {
+           "entity": "Message",
+           "descriptor": "mode",
+           "operator": "in",
+           "value": "RORO Unaccompanied Freight"
+          }
+         ],
+         "selectorMatchedOnDate": "2021-12-08T09:19:33.097Z"
         }
        ],
        "movement": {
