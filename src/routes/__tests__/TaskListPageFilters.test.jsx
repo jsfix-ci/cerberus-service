@@ -36,27 +36,27 @@ describe('TaskListFilters', () => {
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo accompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
-    expect(screen.getByLabelText('Has no selector')).not.toBeChecked();
-    expect(screen.getByLabelText('Has selector')).not.toBeChecked();
+    expect(screen.getByLabelText('Not present')).not.toBeChecked();
+    expect(screen.getByLabelText('Present')).not.toBeChecked();
   });
 
   it('should allow user to select a single radio button in each group', async () => {
     // group one select
     fireEvent.click(screen.getByLabelText('RoRo accompanied freight'));
     // group two select first 'has', then 'has no'
-    fireEvent.click(screen.getByLabelText('Has selector'));
-    fireEvent.click(screen.getByLabelText('Has no selector'));
+    fireEvent.click(screen.getByLabelText('Present'));
+    fireEvent.click(screen.getByLabelText('Not present'));
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo accompanied freight')).toBeChecked();
     expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
-    expect(screen.getByLabelText('Has no selector')).toBeChecked();
-    expect(screen.getByLabelText('Has selector')).not.toBeChecked(); // this is reset to 'not' when 'has no' is selected
+    expect(screen.getByLabelText('Not present')).toBeChecked();
+    expect(screen.getByLabelText('Present')).not.toBeChecked(); // this is reset to 'not' when 'has no' is selected
   });
 
   it('should store selection to localstorage when apply filters button is clicked', async () => {
     fireEvent.click(screen.getByLabelText('RoRo accompanied freight'));
-    fireEvent.click(screen.getByLabelText('Has selector'));
+    fireEvent.click(screen.getByLabelText('Present'));
     fireEvent.click(screen.getByText('Apply filters'));
 
     expect(localStorage.getItem('filters')).toBe('movementMode_eq_roro-accompanied-freight,hasSelectors_eq_yes');
@@ -70,8 +70,8 @@ describe('TaskListFilters', () => {
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo accompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
-    expect(screen.getByLabelText('Has no selector')).not.toBeChecked();
-    expect(screen.getByLabelText('Has selector')).not.toBeChecked();
+    expect(screen.getByLabelText('Not present')).not.toBeChecked();
+    expect(screen.getByLabelText('Present')).not.toBeChecked();
     expect(localStorage.getItem('filters')).toBeFalsy();
   });
 
@@ -80,8 +80,8 @@ describe('TaskListFilters', () => {
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
-    expect(screen.getByLabelText('Has no selector')).not.toBeChecked();
-    expect(screen.getByLabelText('Has selector')).not.toBeChecked();
+    expect(screen.getByLabelText('Not present')).not.toBeChecked();
+    expect(screen.getByLabelText('Present')).not.toBeChecked();
     expect(localStorage.getItem('filters')).toBe('movementMode_eq_roro-accompanied-freight');
   });
 });
