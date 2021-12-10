@@ -348,6 +348,13 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.govuk-accordion__section-button').each((version, index) => {
       cy.wrap(version).invoke('attr', 'aria-expanded').should('equal', expectedDefaultExpandStatus[index]);
     });
+
+    cy.visit('/tasks');
+    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
+        expect(taskUpdated).to.be.equal('Updated');
+      });
+    });
   });
 
   it('Should verify task details on each version retained', () => {
@@ -463,6 +470,13 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+
+    cy.visit('/tasks');
+    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
+        expect(taskUpdated).to.be.equal('Updated');
+      });
+    });
   });
 
   it('Should verify single task created for the same target with different versions when Failed Cerberus payloads sent without delay', () => {
@@ -589,6 +603,13 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+
+    cy.visit('/tasks');
+    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
+        expect(taskUpdated).to.be.equal('Updated');
+      });
+    });
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
@@ -653,6 +674,11 @@ describe('Task Details of different tasks on task details Page', () => {
         expect(details).to.deep.equal(expectedDetails);
       });
     });
+
+    cy.visit('/tasks');
+    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+      cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+    });
   });
 
   // COP-6905 Scenario-3
@@ -713,6 +739,13 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.contains('h2', 'Targeting indicators').next().within(() => {
       cy.getTaskDetails().then((details) => {
         expect(details).to.deep.equal(expectedDetails);
+      });
+    });
+
+    cy.visit('/tasks');
+    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
+        expect(taskUpdated).to.be.equal('Updated');
       });
     });
   });
