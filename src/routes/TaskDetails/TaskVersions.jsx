@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT } from '../../constants';
 import formatField from '../../utils/formatField';
+import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
 
 const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
   if (!type.includes('HIDDEN')) {
@@ -55,12 +56,44 @@ const renderFieldSets = (fieldSet) => {
   return renderFieldSetContents(fieldSet.contents);
 };
 
+const renderTargetingIndicators = ({ type, hasChildSet, childSets }) => {
+  if (hasChildSet) {
+    const targetingIndicators = childSets.map((childSet) => {
+      const indicator = childSet.contents.filter(({ propName }) => propName === 'userfacingtext')[0].content;
+      const score = childSet.contents.filter(({ propName }) => propName === 'score')[0].content;
+      return (
+        <div className="govuk-summary-list__row" key={uuidv4()}>
+          <dl className="govuk-summary-list govuk-!-margin-bottom-2">
+            <dt className="govuk-summary-list__key font__light">{type.includes('CHANGED') ? <span className="task-versions--highlight">{indicator}</span> : indicator}</dt>
+            <dd className="govuk-summary-list__value font__bold">{formatField(type, score)}</dd>
+          </dl>
+        </div>
+      );
+    });
+    if (targetingIndicators.length > 0) {
+      return (
+        <>
+          <dl className="govuk-summary-list govuk-!-margin-bottom-9">
+            <div className="govuk-summary-list__row" key={uuidv4()}>
+              <dl className="govuk-summary-list govuk-!-margin-bottom-2">
+                <dt className="govuk-summary-list__key font__light">Indicator</dt>
+                <dd className="govuk-summary-list__value font__light">Score</dd>
+              </dl>
+            </div>
+            {targetingIndicators}
+          </dl>
+        </>
+      );
+    }
+    return (
+      <dl className="govuk-summary-list govuk-!-margin-bottom-4" />
+    );
+  }
+};
+
 /**
- * This will loop through each section to render, when arrives the on passengers section
- * it will loop thorough the passengers data and for each passenger, it will loop through
- * the data fields in that passenger, once it finds a content field that is not null, it
- * will force exit the loop, perform a check and render. If it loops through and all field
- * contents are null, it will not render that passenger section.
+ * This will handle portions of the movement data and apply the neccessary changes
+ * before they are rendered.
  */
 const renderVersionSection = (field) => {
   switch (true) {
@@ -87,6 +120,23 @@ const renderVersionSection = (field) => {
         }
       }
       break;
+    }
+    case field.propName.includes('targetingIndicators'): {
+      const targetingIndicators = renderTargetingIndicators(field);
+      return (
+        <div key={field.propName}>
+          <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
+          <dl className="govuk-summary-list govuk-!-margin-bottom-0 govuk-summary-list__row--no-border">
+            <dd className="govuk-summary-list__key font__light">Indicators</dd>
+            <dd className="govuk-summary-list__value font__light">Total score</dd>
+          </dl>
+          <dl className="govuk-summary-list govuk-summary-list__row--no-border">
+            <dt className="govuk-summary-list__key">{field.childSets.length}</dt>
+            <dd className="govuk-summary-list__value font__bold">{calculateTaskVersionTotalRiskScore(field.childSets)}</dd>
+          </dl>
+          {targetingIndicators}
+        </div>
+      );
     }
     default:
       return (
