@@ -14,10 +14,10 @@ metadata:
     ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   rules:
-  - host: {{.CERBERUS_UI_URL}}
     http:
       paths:
-      - pathType: Prefix
+      - path: {{.CERBERUS_UI_URL}}
+        pathType: Prefix
         backend:
           service:
             name: {{.CERBERUS_UI_NAME}}
