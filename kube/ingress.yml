@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{.CERBERUS_UI_NAME}}
@@ -18,8 +18,10 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{.CERBERUS_UI_NAME}}
-          servicePort: 10443
+          service:
+            name: {{.CERBERUS_UI_NAME}}
+            port:
+              number: 10443
   tls:
   - hosts:
     - {{.CERBERUS_UI_URL}}

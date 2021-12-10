@@ -16,6 +16,7 @@ import config from '../../config';
 import useAxiosInstance from '../../utils/axiosInstance';
 import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
 import { useKeycloak } from '../../utils/keycloak';
+import { calculateTaskListTotalRiskScore } from '../../utils/rickScoreCalculator';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
@@ -171,19 +172,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
     }
   };
 
-  const calculateTotalRiskScore = (target) => {
-    let totalRiskScore = 0;
-    if (target.threatIndicators?.length > 0) {
-      target.threatIndicators.map((threatIndicatorScore) => {
-        totalRiskScore += threatIndicatorScore?.score || 0;
-      });
-    }
-    return (
-      totalRiskScore > 0 ? <li className="govuk-!-font-weight-bold">Risk Score: {totalRiskScore}</li> : <li>Risk Score: 0</li>
-    );
-  };
-
-  const hasUpdatedSTatus = (target) => {
+  const hasUpdatedStatus = (target) => {
     if (target.numberOfVersions > 1) {
       return (
         <div className="govuk-grid-row">
@@ -336,7 +325,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                       )}
                   </div>
                 </div>
-                {hasUpdatedSTatus(target)}
+                {hasUpdatedStatus(target)}
                 <div>
                   <div className="govuk-grid-row">
                     <div className="govuk-grid-column-full-one">
@@ -469,7 +458,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                     <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
                       <li className="task-labels-item">
                         <strong className="govuk-!-font-weight-bold">
-                          {calculateTotalRiskScore(target)}
+                          {calculateTaskListTotalRiskScore(target)}
                         </strong>
                       </li>
                     </ul>
