@@ -17,7 +17,8 @@ spec:
   - host: {{.CERBERUS_UI_URL}}
     http:
       paths:
-      - backend:
+      - pathType: Prefix
+        backend:
           service:
             name: {{.CERBERUS_UI_NAME}}
             port:
