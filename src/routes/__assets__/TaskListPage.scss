@@ -5,7 +5,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "~govuk-frontend/govuk/tools/all";
 .title-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: -20px;
 }

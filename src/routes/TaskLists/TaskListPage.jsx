@@ -270,6 +270,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
     };
   }, [activePage, filtersToApply]);
 
+  /*
   useInterval(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
     if (isTargeter) {
@@ -280,6 +281,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       };
     }
   }, 60000);
+  */
 
   return (
     <>
