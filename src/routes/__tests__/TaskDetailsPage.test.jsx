@@ -319,4 +319,48 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });
+
+  it('should render indicators in task versions', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusComplete,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Indicator')).toHaveLength(1);
+  });
+
+  it('should not render indicators in task versions when none are present', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusIssued,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Indicator')).toHaveLength(0);
+  });
 });
