@@ -18,8 +18,10 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{.CERBERUS_UI_NAME}}
-          servicePort: 10443
+          service:
+            name: {{.CERBERUS_UI_NAME}}
+            port:
+              number: 10443
   tls:
   - hosts:
     - {{.CERBERUS_UI_URL}}
