@@ -281,6 +281,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
     };
   }, [activePage, filtersToApply]);
 
+  /*
+  TODO: Uncomment
+
   useInterval(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
     if (isTargeter) {
@@ -291,6 +294,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       };
     }
   }, 60000);
+  */
 
   return (
     <>
@@ -302,174 +306,187 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const passengers = target.roro.details.passengers;
         return (
-          <section className="task-list--item" key={target.parentBusinessKey.businessKey}>
-            <div className="govuk-grid-row title-container">
-              <div className="govuk-grid-column-three-quarters heading-container">
-                <h3 className="govuk-heading-m task-heading">
-                  <Link
-                    className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold task-list--businessKey"
-                    to={`/tasks/${target.parentBusinessKey.businessKey}`}
-                  >
-                    {target.parentBusinessKey.businessKey}
-                  </Link>
-                </h3>
-                <h4 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
-                  {target.roro.details.movementStatus}
-                </h4>
-              </div>
-              <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
-                { (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS || currentUser === target.assignee)
-                  && (
-                  <ClaimButton
-                    className="govuk-!-font-weight-bold"
-                    assignee={target.assignee}
-                    taskId={target.id}
-                    setError={setError}
-                    businessKey={target.parentBusinessKey.businessKey}
-                  />
-                  )}
-              </div>
-            </div>
+          <div className="card" key={target.parentBusinessKey.businessKey}>
+            <div className="card-container">
+              <section className="task-list--item-one">
+                <div className="govuk-grid-row title-container">
+                  <div className="govuk-grid-column-three-quarters heading-container">
+                    <h3 className="govuk-heading-m task-heading">
+                      <Link
+                        className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold task-list--businessKey"
+                        to={`/tasks/${target.parentBusinessKey.businessKey}`}
+                      >
+                        {target.parentBusinessKey.businessKey}
+                      </Link>
+                    </h3>
+                    <h4 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
+                      {target.roro.details.movementStatus}
+                    </h4>
+                  </div>
+                  <div className="govuk-grid-column-one-quarter govuk-!-font-size-19">
+                    { (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS || currentUser === target.assignee)
+                      && (
+                      <ClaimButton
+                        className="govuk-!-font-weight-bold"
+                        assignee={target.assignee}
+                        taskId={target.id}
+                        setError={setError}
+                        businessKey={target.parentBusinessKey.businessKey}
+                      />
+                      )}
+                  </div>
+                </div>
+                {hasUpdatedSTatus(target)}
+                <div>
+                  <div className="govuk-grid-row">
+                    <div className="govuk-grid-column-full-one">
+                      <p className="govuk-body task-risk-statement">{formatTargetRisk(target)}</p>
+                      <ul className="govuk-list govuk-body-s content-line-one">
+                        <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}</li>
+                        <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow() }</li>
+                      </ul>
+                      <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
+                        <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
+                        <li>{!target.roro.details.departureTime ? 'unknown' : dayjs.utc(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
+                        <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</li>
+                        <li>{!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-            {hasUpdatedSTatus(target)}
+              {/* TODO: Start */}
+              <section className="task-list--item-two">
+                <div className="govuk-grid-row">
 
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-full">
-                <p className="govuk-body task-risk-statement">{formatTargetRisk(target)}</p>
-              </div>
-            </div>
+                  <div className="govuk-grid-column-one-quarter">
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Driver details
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.driver ? (
+                        <>
+                          {target.roro.details.driver.firstName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.firstName}</li>}
+                          {target.roro.details.driver.middleName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.middleName}</li>}
+                          {target.roro.details.driver.lastName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.lastName}</li>}
+                          {target.roro.details.driver.dob && <li>DOB: {target.roro.details.driver.dob}</li>}
+                          <li>{pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}</li>
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                    </ul>
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Passenger details
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.passengers && target.roro.details.passengers.length > 0 ? (
+                        <>
+                          <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">None</li>)}
+                    </ul>
+                  </div>
 
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-full">
-                <ul className="govuk-list govuk-body-s content-line-one">
-                  <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}</li>
-                  <li>arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow() }</li>
-                </ul>
-                <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
-                  <li className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.departureTime ? 'unknown' : dayjs.utc(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}</li>
-                  <li className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</li>
-                  <li>{!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).format(LONG_DATE_FORMAT)}</li>
-                </ul>
-              </div>
-            </div>
+                  <div className="govuk-grid-column-one-quarter border-line">
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Vehicle details
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.vehicle ? (
+                        <>
+                          {target.roro.details.vehicle.registrationNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.registrationNumber}</li>}
+                          {target.roro.details.vehicle.colour && <li>{target.roro.details.vehicle.colour}</li>}
+                          {target.roro.details.vehicle.make && <li>{target.roro.details.vehicle.make}</li>}
+                          {target.roro.details.vehicle.model && <li>{target.roro.details.vehicle.model}</li>}
+                          <li>{pluralise.withCount(target.aggregateVehicleTrips || 0, '% trip', '% trips')}</li>
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">No vehicle</li>)}
+                    </ul>
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Trailer details
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.vehicle.trailer ? (
+                        <>
+                          {target.roro.details.vehicle.trailer.regNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.trailer.regNumber}</li>}
+                          {target.roro.details.vehicle.trailerType && <li>{target.roro.details.vehicle.trailerType}</li>}
+                          <li>{pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}</li>
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">No trailer</li>)}
+                    </ul>
+                  </div>
 
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-one-quarter">
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Driver details
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.driver ? (
-                    <>
-                      {target.roro.details.driver.firstName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.firstName}</li>}
-                      {target.roro.details.driver.middleName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.middleName}</li>}
-                      {target.roro.details.driver.lastName && <li className="govuk-!-font-weight-bold">{target.roro.details.driver.lastName}</li>}
-                      {target.roro.details.driver.dob && <li>DOB: {target.roro.details.driver.dob}</li>}
-                      <li>{pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}</li>
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                </ul>
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Passenger details
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.passengers && target.roro.details.passengers.length > 0 ? (
-                    <>
-                      <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">None</li>)}
-                </ul>
-              </div>
+                  <div className="govuk-grid-column-one-quarter border-line">
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Haulier details
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.haulier?.name ? (
+                        <>
+                          {target.roro.details.haulier.name && <li className="govuk-!-font-weight-bold">{target.roro.details.haulier.name}</li>}
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                    </ul>
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Account details
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.account ? (
+                        <>
+                          {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
+                          {target.roro.details.bookingDateTime && <li>Booked on {dayjs.utc(target.roro.details.bookingDateTime.split(',')[0]).format(SHORT_DATE_FORMAT)}</li>}
+                          {target.roro.details.bookingDateTime && <br />}
+                          {target.roro.details.bookingDateTime && <li>{targetDatetimeDifference(target.roro.details.bookingDateTime)}</li>}
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                    </ul>
+                  </div>
 
-              <div className="govuk-grid-column-one-quarter">
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Vehicle details
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.vehicle ? (
-                    <>
-                      {target.roro.details.vehicle.registrationNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.registrationNumber}</li>}
-                      {target.roro.details.vehicle.colour && <li>{target.roro.details.vehicle.colour}</li>}
-                      {target.roro.details.vehicle.make && <li>{target.roro.details.vehicle.make}</li>}
-                      {target.roro.details.vehicle.model && <li>{target.roro.details.vehicle.model}</li>}
-                      <li>{pluralise.withCount(target.aggregateVehicleTrips || 0, '% trip', '% trips')}</li>
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">No vehicle</li>)}
-                </ul>
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Trailer details
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.vehicle.trailer ? (
-                    <>
-                      {target.roro.details.vehicle.trailer.regNumber && <li className="govuk-!-font-weight-bold">{target.roro.details.vehicle.trailer.regNumber}</li>}
-                      {target.roro.details.vehicle.trailerType && <li>{target.roro.details.vehicle.trailerType}</li>}
-                      <li>{pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}</li>
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">No trailer</li>)}
-                </ul>
-              </div>
+                  <div className="govuk-grid-column-one-third">
+                    <span className="border-line" />
+                  </div>
 
-              <div className="govuk-grid-column-one-quarter">
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Haulier details
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.haulier?.name ? (
-                    <>
-                      {target.roro.details.haulier.name && <li className="govuk-!-font-weight-bold">{target.roro.details.haulier.name}</li>}
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                </ul>
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Account details
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.account ? (
-                    <>
-                      {target.roro.details.account.name && <li className="govuk-!-font-weight-bold">{target.roro.details.account.name}</li>}
-                      {target.roro.details.bookingDateTime && <li>Booked on {dayjs.utc(target.roro.details.bookingDateTime.split(',')[0]).format(SHORT_DATE_FORMAT)}</li>}
-                      {target.roro.details.bookingDateTime && <br />}
-                      {target.roro.details.bookingDateTime && <li>{targetDatetimeDifference(target.roro.details.bookingDateTime)}</li>}
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                </ul>
-              </div>
-              <div className="govuk-grid-column-one-quarter">
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Goods description
-                </h3>
-                <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {target.roro.details.load.manifestedLoad ? (
-                    <>
-                      {target.roro.details.load.manifestedLoad && <li className="govuk-!-font-weight-bold">{target.roro.details.load.manifestedLoad}</li>}
-                    </>
-                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                </ul>
-              </div>
+                  <div className="govuk-grid-column-one-quarter">
+                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+                      Goods description
+                    </h3>
+                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
+                      {target.roro.details.load.manifestedLoad ? (
+                        <>
+                          {target.roro.details.load.manifestedLoad && <li className="govuk-!-font-weight-bold">{target.roro.details.load.manifestedLoad}</li>}
+                        </>
+                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                    </ul>
+                  </div>
+
+                </div>
+              </section>
+              {/* TODO: End */}
+
+              <section className="task-list--item-three">
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-full-two">
+                    <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+                      <li className="task-labels-item">
+                        <strong className="govuk-!-font-weight-bold">
+                          {calculateTotalRiskScore(target)}
+                        </strong>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-full-two">
+                    <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+                      <li className="task-labels-item">
+                        {formatTargetIndicators(target)}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
             </div>
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-full">
-                <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
-                  <li className="task-labels-item">
-                    <strong className="govuk-!-font-weight-bold">
-                      {calculateTotalRiskScore(target)}
-                    </strong>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-full">
-                <ul className="govuk-list task-labels govuk-!-margin-top-2 govuk-!-margin-bottom-0">
-                  <li className="task-labels-item">
-                    {formatTargetIndicators(target)}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
+          </div>
         );
       })}
 
