@@ -161,8 +161,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       });
       return (
         <ul className="govuk-list item-list--bulleted">
-          <li>{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
-          {threatIndicatorList.map((threat) => {
+          <li>{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>{threatIndicatorList.map((threat) => {
             return (
               <li key={threat}>{threat}</li>
             );
@@ -175,11 +174,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   const hasUpdatedStatus = (target) => {
     if (target.numberOfVersions > 1) {
       return (
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-full">
-            <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
-          </div>
-        </div>
+        <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
       );
     }
   };
@@ -270,7 +265,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
     };
   }, [activePage, filtersToApply]);
 
-  /*
   useInterval(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
     if (isTargeter) {
@@ -281,7 +275,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       };
     }
   }, 60000);
-  */
 
   return (
     <>
@@ -295,57 +288,54 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
         return (
           <div className="govuk-task-list-card" key={target.parentBusinessKey.businessKey}>
             <div className="card-container">
-
               <section className="task-list--item-1">
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-item">
-                    <div className="govuk-grid-row title-container">
+                    <div className="title-container">
                       <div className="heading-container">
-                        <h3 className="govuk-heading-m task-heading">
-                          <Link
-                            className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold task-list--businessKey"
-                            to={`/tasks/${target.parentBusinessKey.businessKey}`}
-                          >
-                            {target.parentBusinessKey.businessKey}
-                          </Link>
-                        </h3>
-                        <h4 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
-                          {target.roro.details.movementStatus}
+                        <h4 className="govuk-heading-m task-heading">
+                          {target.parentBusinessKey.businessKey}
                         </h4>
+                        <h3 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
+                          {target.roro.details.movementStatus}
+                        </h3>
                       </div>
+                    </div>
+                    <div className="govuk-grid-column">
+                      <p className="govuk-body task-risk-statement">{formatTargetRisk(target)}</p>
+                    </div>
+                    <div className="govuk-grid-column">
+                      {hasUpdatedStatus(target)}
                     </div>
                   </div>
                   <div className="govuk-grid-item">
                     <div className="govuk-!-font-size-19">
-                      {(activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS || currentUser === target.assignee)
-                        && (
-                          <ClaimButton
-                            className="govuk-!-font-weight-bold govuk-button"
-                            assignee={target.assignee}
-                            taskId={target.id}
-                            setError={setError}
-                            businessKey={target.parentBusinessKey.businessKey}
-                          />
-                        )}
+                      <div className="claim-button-container">
+                        <div>
+                          {(activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS || currentUser === target.assignee)
+                          && (
+                            <ClaimButton
+                              className="govuk-!-font-weight-bold govuk-button"
+                              assignee={target.assignee}
+                              taskId={target.id}
+                              setError={setError}
+                              businessKey={target.parentBusinessKey.businessKey}
+                            />
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-
               </section>
-
               <section className="task-list--item-2">
-                {hasUpdatedStatus(target)}
-              </section>
-
-              <section className="task-list--item-3">
                 <div>
                   <div className="govuk-grid-row">
-                    <div className="govuk-grid-column-full-one">
-                      <p className="govuk-body task-risk-statement">{formatTargetRisk(target)}</p>
+                    <div className="govuk-grid-column">
                       <ul className="govuk-list govuk-body-s content-line-one">
                         <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}{', '}arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow()}</li>
                       </ul>
-                      <ul className="govuk-list content-line-two govuk-!-margin-bottom-4">
+                      <ul className="govuk-list content-line-two">
                         <li>
                           {!target.roro.details.departureTime ? 'unknown' : dayjs.utc(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}{' '}
                           <span className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</span>{' '}-{' '}
@@ -357,8 +347,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                   </div>
                 </div>
               </section>
-
-              <section className="task-list--item-4">
+              <section className="task-list--item-3">
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-item">
                     <div>
@@ -460,30 +449,38 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                   </div>
                 </div>
               </section>
-
-              <section className="task-list--item-5">
+              <section className="task-list--item-4">
                 <div className="govuk-grid-row">
-                  <div className="govuk-grid-column-full-two">
-                    <ul className="govuk-list task-labels govuk-!-margin-top-2">
-                      <li className="task-labels-item">
-                        <strong className="govuk-!-font-weight-bold">
-                          {calculateTaskListTotalRiskScore(target)}
-                        </strong>
-                      </li>
-                    </ul>
+                  <div className="govuk-grid-item">
+                    <div className="govuk-grid-column">
+                      <ul className="govuk-list task-labels govuk-!-margin-top-2">
+                        <li className="task-labels-item">
+                          <strong className="govuk-!-font-weight-bold">
+                            {calculateTaskListTotalRiskScore(target)}
+                          </strong>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="govuk-grid-column">
+                      <ul className="govuk-list task-labels govuk-!-margin-top-0">
+                        <li className="task-labels-item">
+                          {formatTargetIndicators(target)}
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div className="govuk-grid-row">
-                  <div className="govuk-grid-column-full-two">
-                    <ul className="govuk-list task-labels govuk-!-margin-top-0">
-                      <li className="task-labels-item">
-                        {formatTargetIndicators(target)}
-                      </li>
-                    </ul>
+                  <div className="govuk-grid-item task-link-container">
+                    <div>
+                      <Link
+                        className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+                        to={`/tasks/${target.parentBusinessKey.businessKey}`}
+                      >
+                        View details
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </section>
-
             </div>
           </div>
         );
