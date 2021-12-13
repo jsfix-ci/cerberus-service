@@ -10,9 +10,9 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   it('Should view filter tasks by selectors', () => {
     const filterOptions = [
-      'Has no selector',
-      'Has selector',
-      'Both',
+      'Not present',
+      'Present',
+      'Any',
     ];
 
     cy.get('a[href="#new"]').invoke('text').as('total-tasks').then((totalTargets) => {
