@@ -100,7 +100,7 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
   });
 
-  it('should render links to processId with text of businessKey when tasks exist', async () => {
+  it('should render each "View details" link per task', async () => {
     mockAxios
       .onGet('/task/count')
       .reply(200, { count: 0 })
@@ -119,22 +119,22 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
+    await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getAllByText('View details')[1].href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
+    await waitFor(() => expect(screen.getAllByText('View details')[2].href).toBe(`${envUrl}/tasks/ghi`));
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
+    await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getAllByText('View details')[1].href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
+    await waitFor(() => expect(screen.getAllByText('View details')[2].href).toBe(`${envUrl}/tasks/ghi`));
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
+    await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getAllByText('View details')[1].href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
+    await waitFor(() => expect(screen.getAllByText('View details')[2].href).toBe(`${envUrl}/tasks/ghi`));
   });
 
-  it('should render links to processId with text of businessKey when completed tasks exists', async () => {
+  it('should render links to tasks when completed tasks exists', async () => {
     mockAxios
       .onGet('/task/count')
       .reply(200, { count: 0 })
@@ -156,9 +156,9 @@ describe('TaskListPage', () => {
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=a_b_c/i }).href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /business:key=d_e_f/i }).href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
-    await waitFor(() => expect(screen.getByRole('link', { name: /ghi/i }).href).toBe(`${envUrl}/tasks/ghi`));
+    await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
+    await waitFor(() => expect(screen.getAllByText('View details')[1].href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
+    await waitFor(() => expect(screen.getAllByText('View details')[2].href).toBe(`${envUrl}/tasks/ghi`));
   });
 
   it('should render new tasks on page load with a Claim button', async () => {
