@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
-
 import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT } from '../../constants';
 import formatField from '../../utils/formatField';
@@ -137,6 +136,98 @@ const renderVersionSection = (field) => {
           {targetingIndicators}
         </div>
       );
+    }
+    case field.propName === 'rules': {
+      if (field.childSets.length > 0) {
+        const firstRule = field.childSets[0];
+        const otherRules = field.childSets.slice(1);
+        return (
+          <div>
+            <div>
+              <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-one-quarter">
+                  <h4 className="govuk-heading-s">Rule name</h4>
+                  <p>{firstRule.contents.find((item) => item.propName === 'name').content}</p>
+                </div>
+                <div className="govuk-grid-column-one-quarter">
+                  <h4 className="govuk-heading-s">Threat</h4>
+                  <p className="govuk-body govuk-tag govuk-tag--positiveTarget">
+                    {firstRule.contents.find((item) => item.propName === 'rulePriority').content}
+                  </p>
+                </div>
+
+                <div className="govuk-grid-column-one-quarter">
+                  <h4 className="govuk-heading-s">Rule verison</h4>
+                  <p>{firstRule.contents.find((item) => item.propName === 'ruleVersion').content}</p>
+                </div>
+                <div className="govuk-grid-column-one-quarter">
+                  <h4 className="govuk-heading-s">Abuse Type</h4>
+                  <p>{firstRule.contents.find((item) => item.propName === 'abuseType').content}</p>
+                </div>
+              </div>
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-three-quarters">
+                  <h4 className="govuk-heading-s">Description</h4>
+                  <p>{firstRule.contents.find((item) => item.propName === 'description').content}</p>
+                </div>
+                <div className="govuk-grid-column-one-quarter">
+                  <h4 className="govuk-heading-s">Agency</h4>
+                  <p>{firstRule.contents.find((item) => item.propName === 'agencyCode').content}</p>
+                </div>
+              </div>
+            </div>
+
+            { otherRules && (
+              <div className="govuk-!-margin-top-9">
+                <h2 className="govuk-heading-m">Other rule matches ({otherRules.length})</h2>
+                {otherRules.map((rule, index) => (
+                  <div key={index}>
+                    <div className="govuk-grid-row">
+                      <div className="govuk-grid-column-one-quarter">
+                        <h4 className="govuk-heading-s">Rule name</h4>
+                        <p>{rule.contents.find((item) => item.propName === 'name').content}</p>
+                      </div>
+                      <div className="govuk-grid-column-one-quarter">
+                        <h4 className="govuk-heading-s">Threat</h4>
+                        <p className="govuk-body govuk-tag govuk-tag--positiveTarget">
+                          {rule.contents.find((item) => item.propName === 'rulePriority').content}
+                        </p>
+                      </div>
+
+                      <div className="govuk-grid-column-one-quarter">
+                        <h4 className="govuk-heading-s">Rule verison</h4>
+                        <p>{rule.contents.find((item) => item.propName === 'ruleVersion').content}</p>
+                      </div>
+                      <div className="govuk-grid-column-one-quarter">
+                        <h4 className="govuk-heading-s">Abuse Type</h4>
+                        <p>{rule.contents.find((item) => item.propName === 'abuseType').content}</p>
+                      </div>
+                    </div>
+
+                    <details className="govuk-details" data-module="govuk-details">
+                      <summary className="govuk-details__summary">
+                        <span className="govuk-details__summary-text">View further details</span>
+                      </summary>
+                      <div className="govuk-details__text" style={{ overflow: 'hidden' }}>
+                        <div className="govuk-grid-column-three-quarters">
+                          <h4 className="govuk-heading-s">Description</h4>
+                          <p>{rule.contents.find((item) => item.propName === 'description').content}</p>
+                        </div>
+                        <div className="govuk-grid-column-one-quarter">
+                          <h4 className="govuk-heading-s">Agency</h4>
+                          <p>{rule.contents.find((item) => item.propName === 'agencyCode').content}</p>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      }
+      break;
     }
     default:
       return (
