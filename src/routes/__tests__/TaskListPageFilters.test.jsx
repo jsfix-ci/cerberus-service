@@ -28,16 +28,20 @@ describe('TaskListFilters', () => {
     expect(screen.getByText('Filters')).toBeInTheDocument();
     expect(screen.getByText('Apply filters')).toBeInTheDocument();
     expect(screen.getByText('Clear all filters')).toBeInTheDocument();
-    expect(screen.getByText('Mode')).toBeInTheDocument();
+    expect(screen.getByText('Modes')).toBeInTheDocument();
     expect(screen.getByText('Selectors')).toBeInTheDocument();
 
-    // Radio buttons
-    expect(screen.getAllByRole('radio').length).toBe(6);
+    // Check boxes
+    expect(screen.getAllByRole('checkbox').length).toBe(3);
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo accompanied freight')).not.toBeChecked();
-    expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
+
+    // Radio buttons
+    expect(screen.getAllByRole('radio').length).toBe(3);
     expect(screen.getByLabelText('Not present')).not.toBeChecked();
     expect(screen.getByLabelText('Present')).not.toBeChecked();
+    expect(screen.getByLabelText('Any')).not.toBeChecked();
   });
 
   it('should allow user to select a single radio button in each group', async () => {
@@ -49,7 +53,7 @@ describe('TaskListFilters', () => {
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo accompanied freight')).toBeChecked();
-    expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
     expect(screen.getByLabelText('Not present')).toBeChecked();
     expect(screen.getByLabelText('Present')).not.toBeChecked(); // this is reset to 'not' when 'has no' is selected
   });
@@ -59,29 +63,29 @@ describe('TaskListFilters', () => {
     fireEvent.click(screen.getByLabelText('Present'));
     fireEvent.click(screen.getByText('Apply filters'));
 
-    expect(localStorage.getItem('filters')).toBe('movementMode_eq_roro-accompanied-freight,hasSelectors_eq_yes');
+    expect(localStorage.getItem('filters')).toBe('true,RORO_ACCOMPANIED_FREIGHT');
   });
 
   it('should clear filters when clearAll is clicked', async () => {
-    localStorage.setItem('filters', 'movementMode_eq_roro-accompanied-freight,hasSelectors_eq_yes');
+    localStorage.setItem('filters', 'true,RORO_ACCOMPANIED_FREIGHT');
 
     fireEvent.click(screen.getByText('Clear all filters'));
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
     expect(screen.getByLabelText('RoRo accompanied freight')).not.toBeChecked();
-    expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
     expect(screen.getByLabelText('Not present')).not.toBeChecked();
     expect(screen.getByLabelText('Present')).not.toBeChecked();
     expect(localStorage.getItem('filters')).toBeFalsy();
   });
 
   it('should persist filters when they exist in local storage', async () => {
-    localStorage.setItem('filters', 'movementMode_eq_roro-accompanied-freight');
+    localStorage.setItem('filters', 'RORO_ACCOMPANIED_FREIGHT');
 
     expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
-    expect(screen.getByLabelText('RoRo tourist')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
     expect(screen.getByLabelText('Not present')).not.toBeChecked();
     expect(screen.getByLabelText('Present')).not.toBeChecked();
-    expect(localStorage.getItem('filters')).toBe('movementMode_eq_roro-accompanied-freight');
+    expect(localStorage.getItem('filters')).toBe('RORO_ACCOMPANIED_FREIGHT');
   });
 });
