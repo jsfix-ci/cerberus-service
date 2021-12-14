@@ -563,7 +563,6 @@ const TaskListPage = () => {
                       </legend>
                       <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
                         {filterSet.filterOptions.map((option) => {
-                          console.log(option)
                           let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
                           return (
                             <li
