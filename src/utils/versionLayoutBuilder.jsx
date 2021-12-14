@@ -2,7 +2,31 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { formatKey, formatField } from './formatField';
 
-// has own rendering style
+const renderVersionSection = ({ fieldSetName, contents }) => {
+  if (contents.length > 0) {
+    const jsxElement = contents.map((content) => {
+      if (!content.type.includes('HIDDEN')) {
+        return (
+          <div className="govuk-task-details-grid-item" key={uuidv4()}>
+            <ul>
+              <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
+              <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
+            </ul>
+          </div>
+        );
+      }
+    });
+    return (
+      <div className="task-details-container border-bottom">
+        <h3 className="title-heading">{fieldSetName}</h3>
+        <div className="govuk-vehicle-grid-col">
+          {jsxElement}
+        </div>
+      </div>
+    );
+  }
+};
+
 const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
   if (hasChildSet) {
     const targetingIndicators = childSets.map((childSet) => {
@@ -10,7 +34,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
       const score = childSet.contents.filter(({ propName }) => propName === 'score')[0].content;
       if (!type.includes('HIDDEN')) {
         return (
-          <div className="govuk-indicator-grid-row bottom-border" key={uuidv4()}>
+          <div className="govuk-task-details-grid-row bottom-border" key={uuidv4()}>
             {type.includes('CHANGED') ? <span className="govuk-grid-key font__light task-versions--highlight">{indicator}</span> : <span className="govuk-grid-key font__light">{indicator}</span>}
             <span className="govuk-grid-value font__bold">{formatField(type, score)}</span>
           </div>
@@ -21,7 +45,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
       return (
         <>
           <div className="targeting-indicator-container">
-            <div className="govuk-indicator-grid-row bottom-border">
+            <div className="govuk-task-details-grid-row bottom-border">
               <span className="govuk-grid-key font__light">Indicator</span>
               <span className="govuk-grid-value font__light">Score</span>
             </div>
@@ -47,49 +71,49 @@ const renderVehicleSection = ({ contents }) => {
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">Vehicle</h3>
         <div className="govuk-vehicle-grid-col">
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleVrn.type, 'VRN')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleVrn.type, vehicleVrn.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleType.type, 'Type')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleType.type, vehicleType.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleMake.type, 'Make')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleMake.type, vehicleMake.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleModel.type, 'Model')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleModel.type, vehicleModel.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleCountryOfReg.type, 'Country of registration')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleCountryOfReg.type, vehicleCountryOfReg.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleColour.type, 'Colour')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleColour.type, vehicleColour.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleNetWeight.type, 'Net weight')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleNetWeight.type, vehicleNetWeight.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleGrossWeight.type, 'Gross weight')}</li>
               <li className="govuk-grid-value font__bold">{formatField(vehicleGrossWeight.type, vehicleGrossWeight.content)}</li>
@@ -113,37 +137,37 @@ const renderTrailerSection = ({ contents }) => {
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">Trailer</h3>
         <div className="govuk-vehicle-grid-col">
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerRegistrationNumber.type, 'Trailer Registration Number')}</li>
               <li className="govuk-grid-value font__bold">{formatField(trailerRegistrationNumber.type, trailerRegistrationNumber.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerType.type, 'Type')}</li>
               <li className="govuk-grid-value font__bold">{formatField(trailerType.type, trailerType.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerLength.type, 'Length')}</li>
               <li className="govuk-grid-value font__bold">{formatField(trailerLength.type, trailerLength.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerHeight.type, 'Height')}</li>
               <li className="govuk-grid-value font__bold">{formatField(trailerHeight.type, trailerHeight.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerCountryOfRegistration.type, 'Country of registration')}</li>
               <li className="govuk-grid-value font__bold">{formatField(trailerCountryOfRegistration.type, trailerCountryOfRegistration.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerEmptyOrLoaded.type, 'Empty or loaded')}</li>
               <li className="govuk-grid-value font__bold">{formatField(trailerEmptyOrLoaded.type, trailerEmptyOrLoaded.content)}</li>
@@ -165,25 +189,25 @@ const renderHaulierSection = ({ contents }) => {
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">Haulier</h3>
         <div className="govuk-vehicle-grid-col">
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(haulierName.type, 'Name')}</li>
               <li className="govuk-grid-value font__bold">{formatField(haulierName.type, haulierName.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(haulierAddress.type, 'Address')}</li>
               <li className="govuk-grid-value font__bold">{formatField(haulierAddress.type, haulierAddress.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(haulierTelephone.type, 'Telephone')}</li>
               <li className="govuk-grid-value font__bold">{formatField(haulierTelephone.type, haulierTelephone.content)}</li>
             </ul>
           </div>
-          <div className="govuk-vehicle-grid-item">
+          <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(haulierMobile.type, 'Mobile')}</li>
               <li className="govuk-grid-value font__bold">{formatField(haulierMobile.type, haulierMobile.content)}</li>
@@ -195,12 +219,12 @@ const renderHaulierSection = ({ contents }) => {
   }
 };
 
-const renderVersionSection = ({ fieldSetName, contents }) => {
-  if (contents.length > 0) {
-    const jsxElement = contents.map((content) => {
+const renderPassengersSection = (fieldSetName, passenger) => {
+  if (passenger.length > 0) {
+    const jsxPassengerElement = passenger.map((content) => {
       if (!content.type.includes('HIDDEN')) {
         return (
-          <div className="govuk-vehicle-grid-item" key={uuidv4()}>
+          <div className="govuk-task-details-grid-item" key={uuidv4()}>
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
               <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
@@ -213,8 +237,144 @@ const renderVersionSection = ({ fieldSetName, contents }) => {
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">{fieldSetName}</h3>
         <div className="govuk-vehicle-grid-col">
-          {jsxElement}
+          {jsxPassengerElement}
         </div>
+      </div>
+    );
+  }
+};
+
+const renderHiddenPassengersChildsets = (otherPassengers) => {
+  if (otherPassengers.length > 0) {
+    const jsxPassengerElement = otherPassengers.map((hiddenPassenger) => {
+      return hiddenPassenger.contents.map((passenger) => {
+        if (!passenger.type.includes('HIDDEN')) {
+          return (
+            <div className="govuk-task-details-grid-item" key={uuidv4()}>
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
+                <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
+              </ul>
+            </div>
+          );
+        }
+      });
+    });
+    return (
+      <details className="govuk-details" data-module="govuk-details">
+        <summary className="govuk-details__summary">
+          <span className="govuk-details__summary-text">
+            Show more
+          </span>
+        </summary>
+        <div className="govuk-hidden-passengers">
+          {jsxPassengerElement}
+        </div>
+      </details>
+    );
+  }
+};
+
+const renderOccupantsSection = ({ fieldSetName, childSets }) => {
+  const firstPassenger = childSets[0].contents;
+  const otherPassengers = childSets.slice(1);
+  const firstPassengerElement = renderPassengersSection(fieldSetName, firstPassenger);
+  const hiddenPaddengersElement = renderHiddenPassengersChildsets(otherPassengers);
+  return (
+    <>
+      {firstPassengerElement}
+      {hiddenPaddengersElement}
+    </>
+  );
+};
+
+const renderRulesSection = (field) => {
+  if (field.childSets.length > 0) {
+    const firstRule = field.childSets[0];
+    const otherRules = field.childSets.slice(1);
+    return (
+      <div>
+        <div>
+          <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-quarter">
+              <h4 className="govuk-heading-s">Rule name</h4>
+              <p>{firstRule.contents.find((item) => item.propName === 'name').content}</p>
+            </div>
+            <div className="govuk-grid-column-one-quarter">
+              <h4 className="govuk-heading-s">Threat</h4>
+              <p className="govuk-body govuk-tag govuk-tag--positiveTarget">
+                {firstRule.contents.find((item) => item.propName === 'rulePriority').content}
+              </p>
+            </div>
+
+            <div className="govuk-grid-column-one-quarter">
+              <h4 className="govuk-heading-s">Rule verison</h4>
+              <p>{firstRule.contents.find((item) => item.propName === 'ruleVersion').content}</p>
+            </div>
+            <div className="govuk-grid-column-one-quarter">
+              <h4 className="govuk-heading-s">Abuse Type</h4>
+              <p>{firstRule.contents.find((item) => item.propName === 'abuseType').content}</p>
+            </div>
+          </div>
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-three-quarters">
+              <h4 className="govuk-heading-s">Description</h4>
+              <p>{firstRule.contents.find((item) => item.propName === 'description').content}</p>
+            </div>
+            <div className="govuk-grid-column-one-quarter">
+              <h4 className="govuk-heading-s">Agency</h4>
+              <p>{firstRule.contents.find((item) => item.propName === 'agencyCode').content}</p>
+            </div>
+          </div>
+        </div>
+
+        { otherRules && (
+          <div className="govuk-!-margin-top-9">
+            <h2 className="govuk-heading-m">Other rule matches ({otherRules.length})</h2>
+            {otherRules.map((rule, index) => (
+              <div key={index}>
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-one-quarter">
+                    <h4 className="govuk-heading-s">Rule name</h4>
+                    <p>{rule.contents.find((item) => item.propName === 'name').content}</p>
+                  </div>
+                  <div className="govuk-grid-column-one-quarter">
+                    <h4 className="govuk-heading-s">Threat</h4>
+                    <p className="govuk-body govuk-tag govuk-tag--positiveTarget">
+                      {rule.contents.find((item) => item.propName === 'rulePriority').content}
+                    </p>
+                  </div>
+
+                  <div className="govuk-grid-column-one-quarter">
+                    <h4 className="govuk-heading-s">Rule verison</h4>
+                    <p>{rule.contents.find((item) => item.propName === 'ruleVersion').content}</p>
+                  </div>
+                  <div className="govuk-grid-column-one-quarter">
+                    <h4 className="govuk-heading-s">Abuse Type</h4>
+                    <p>{rule.contents.find((item) => item.propName === 'abuseType').content}</p>
+                  </div>
+                </div>
+
+                <details className="govuk-details" data-module="govuk-details">
+                  <summary className="govuk-details__summary">
+                    <span className="govuk-details__summary-text">View further details</span>
+                  </summary>
+                  <div className="govuk-details__text" style={{ overflow: 'hidden' }}>
+                    <div className="govuk-grid-column-three-quarters">
+                      <h4 className="govuk-heading-s">Description</h4>
+                      <p>{rule.contents.find((item) => item.propName === 'description').content}</p>
+                    </div>
+                    <div className="govuk-grid-column-one-quarter">
+                      <h4 className="govuk-heading-s">Agency</h4>
+                      <p>{rule.contents.find((item) => item.propName === 'agencyCode').content}</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -224,4 +384,6 @@ export { renderTargetingIndicatorsSection,
   renderVehicleSection,
   renderTrailerSection,
   renderHaulierSection,
-  renderVersionSection };
+  renderVersionSection,
+  renderOccupantsSection,
+  renderRulesSection };

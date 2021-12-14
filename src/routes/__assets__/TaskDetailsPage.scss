@@ -70,13 +70,15 @@
 
 // Start work
 // Targeting Indicator
-.govuk-main-indicator-grid {
-    display: grid;
+.govuk-main-task-details-grid {
+    font-family: "GDS Transport", arial, sans-serif;
+    display: flex;
     padding: 5px;
     grid-template-columns: 33.3333% 33.3333% 33.3333%;
     grid-gap: 2em;
-    padding: 5px;
-    .govuk-indicator-grid-row {
+    border-bottom: 2px solid #b1b4b6;
+    margin-bottom: 10px;
+    .govuk-task-details-grid-row {
         display: grid;
         grid-template-columns: 70% 30%;
         grid-gap: 5px;
@@ -87,7 +89,7 @@
             border-bottom: 1px solid #b1b4b6;
         }
     }
-    .govuk-indicator-grid-row::after {
+    .govuk-task-details-grid-row::after {
         content: "";
         clear: both;
     }
@@ -98,7 +100,6 @@
         padding: 2px 0 0;
     }
     .targeting-indicator-container {
-        font-family: "GDS Transport", arial, sans-serif;
         .title-heading {
             margin-bottom: 5px;
             padding-bottom: 5px;
@@ -130,7 +131,6 @@
         }
     }
     .task-details-container {
-        font-family: "GDS Transport", arial, sans-serif;
         border-bottom: 1px solid #b1b4b6;
         &.title-heading {
             margin-bottom: 5px;
@@ -141,10 +141,9 @@
             grid-template-columns: 50% 50%;
             column-gap: 2em;
         }
-        .govuk-vehicle-grid-item {
+        .govuk-task-details-grid-item {
             display: flex;
             grid-template-columns: auto;
-            grid-gap: 5px;
             &.bottom-border {
                 margin-bottom: 5px;
                 padding-bottom: 5px;
@@ -189,12 +188,29 @@
                 list-style-type: none;
             }
         }
+        .govuk-details__summary {
+            padding-left: 15px;
+        }
+        .govuk-details__summary-text {}
     }
     .grid-item {
+        width: 100%;
         &.verticel-dotted-line {
-            height: 100%;
+            height: inherit;
             border-left: 4px dotted #b1b4b6;
             padding-left: 15px;
         }
+    }
+    // The window: task details, task notes
+    .task-versions-details-notes {
+        font-family: "GDS Transport", arial, sans-serif;
+        display: flex;
+        padding: 5px;
+        grid-template-columns: 80% 20%;
+        grid-gap: 2em;
+    }
+    .task-versions-details-notes::after {
+        content: "";
+        clear: both;
     }
 }

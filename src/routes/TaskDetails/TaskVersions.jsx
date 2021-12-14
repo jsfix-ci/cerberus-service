@@ -8,72 +8,37 @@ import { formatField } from '../../utils/formatField';
 import * as versionLayoutBuilder from '../../utils/versionLayoutBuilder';
 import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
 
-const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
-  if (!type.includes('HIDDEN')) {
-    return (
-      <div className="govuk-summary-list__row" key={uuidv4()}>
-        <dt className="govuk-summary-list__key">{type.includes('CHANGED') ? <span className="task-versions--highlight">{fieldName}</span> : fieldName}</dt>
-        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
-      </div>
-    );
-  }
-});
-
-const renderChildSets = (childSets) => {
-  return childSets.map((child) => {
-    if (child.hasChildSet) {
-      return (
-        <div key={uuidv4()} className="govuk-!-margin-bottom-6">
-          {renderFieldSetContents(child.contents)}
-          {renderChildSets(child.childSets)}
-        </div>
-      );
+const isPassengerValidToRender = (passengers) => {
+  let isValidToRender = false;
+  for (const passengerChildSets of passengers.childSets) {
+    for (const passengerDataFieldObj of passengerChildSets.contents) {
+      if (passengerDataFieldObj.content !== null) {
+        isValidToRender = true;
+        break;
+      }
     }
-    return (
-      <Fragment key={uuidv4()}>
-        {renderFieldSetContents(child.contents)}
-      </Fragment>
-    );
-  });
-};
-
-const renderFieldSets = (fieldSet) => {
-  /*
-   * When there are multiple entries for a section
-   * e.g. 'Passengers' can have multiple passengers
-   * the 'hasChildSet' flag will be set to true
-   * which indicates we need to map out the childSet contents
-   * and not the parent contents
-   */
-  if (fieldSet.hasChildSet) {
-    return (
-      <Fragment key={uuidv4()}>
-        {renderFieldSetContents(fieldSet.contents)}
-        {renderChildSets(fieldSet.childSets)}
-      </Fragment>
-    );
   }
-  return renderFieldSetContents(fieldSet.contents);
+  return isValidToRender;
 };
 
 const renderFirstColumn = (version) => {
   const targIndicatorsField = version.filter(({ propName }) => propName === 'targetingIndicators');
   const vehicleField = version.filter(({ propName }) => propName === 'vehicle');
   const goodsField = version.filter(({ propName }) => propName === 'goods');
-  const targetingIndicators = versionLayoutBuilder.renderTargetingIndicatorsSection(targIndicatorsField[0]);
-  const vehicle = versionLayoutBuilder.renderVehicleSection(vehicleField[0]);
-  const trailer = versionLayoutBuilder.renderTrailerSection(vehicleField[0]);
-  const goods = versionLayoutBuilder.renderVersionSection(goodsField[0]);
+  const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && versionLayoutBuilder.renderTargetingIndicatorsSection(targIndicatorsField[0]);
+  const vehicle = (vehicleField !== null && vehicleField !== undefined && vehicleField.length > 0) && versionLayoutBuilder.renderVehicleSection(vehicleField[0]);
+  const trailer = (vehicleField !== null && vehicleField !== undefined && vehicleField.length > 0) && versionLayoutBuilder.renderTrailerSection(vehicleField[0]);
+  const goods = (goodsField !== null && goodsField !== undefined && goodsField.length > 0) && versionLayoutBuilder.renderVersionSection(goodsField[0]);
   return (
     <>
       <div>
         <div className="targeting-indicator-container">
           <h3 className="title-heading">{targIndicatorsField[0].fieldSetName}</h3>
-          <div className="govuk-indicator-grid-row bottom-border">
+          <div className="govuk-task-details-grid-row bottom-border">
             <span className="govuk-grid-key font__bold">Indicators</span>
             <span className="govuk-grid-value font__bold">Total score</span>
           </div>
-          <div className="govuk-indicator-grid-row bottom-border">
+          <div className="govuk-task-details-grid-row bottom-border">
             <span className="govuk-grid-key font__bold">{targIndicatorsField[0].childSets.length}</span>
             <span className="govuk-grid-key font__bold">{calculateTaskVersionTotalRiskScore(targIndicatorsField[0].childSets)}</span>
           </div>
@@ -91,9 +56,9 @@ const renderSecondColumn = (version) => {
   const haulierField = version.filter(({ propName }) => propName === 'haulier');
   const accountField = version.filter(({ propName }) => propName === 'account');
   const bookingField = version.filter(({ propName }) => propName === 'booking');
-  const haulier = versionLayoutBuilder.renderVersionSection(haulierField[0]);
-  const account = versionLayoutBuilder.renderVersionSection(accountField[0]);
-  const booking = versionLayoutBuilder.renderVersionSection(bookingField[0]);
+  const haulier = (haulierField !== null && haulierField !== undefined && haulierField.length > 0) && versionLayoutBuilder.renderVersionSection(haulierField[0]);
+  const account = (accountField !== null && accountField !== undefined && accountField.length > 0) && versionLayoutBuilder.renderVersionSection(accountField[0]);
+  const booking = (bookingField !== null && bookingField !== undefined && bookingField.length > 0) && versionLayoutBuilder.renderVersionSection(bookingField[0]);
   return (
     <>
       <div>
@@ -106,13 +71,33 @@ const renderSecondColumn = (version) => {
 };
 
 const renderThirdColumn = (version) => {
+  const passengersField = version.find(({ propName }) => propName === 'passengers');
+  const isValidToRender = isPassengerValidToRender(passengersField);
+  const occupants = isValidToRender && passengersField.childSets.length > 0 && versionLayoutBuilder.renderOccupantsSection(passengersField);
+  const driverField = version.find(({ propName }) => propName === 'driver');
+  const driver = (driverField !== null && driverField !== undefined) && versionLayoutBuilder.renderVersionSection(driverField);
   return (
     <>
       <div>
-        {}
+        <div className="task-details-container">
+          <h3 className="title-heading">Occupants</h3>
+          <div className="govuk-task-details-grid-row">
+            <span className="govuk-grid-key font__light">Total occupants</span>
+          </div>
+          <div className="govuk-task-details-grid-row">
+            <span className="govuk-grid-key font__bold">{isValidToRender ? passengersField.childSets.length : 0}</span>
+          </div>
+          {occupants}
+        </div>
+        {driver}
       </div>
     </>
   );
+};
+
+const renderRulesSection = (version) => {
+  const rulesField = version.find(({ propName }) => propName === 'rules');
+  return versionLayoutBuilder.renderRulesSection(rulesField);
 };
 
 /**
@@ -121,17 +106,22 @@ const renderThirdColumn = (version) => {
  */
 const renderVersionSection = (version) => {
   return (
-    <div className="govuk-main-indicator-grid">
-      <div className="grid-item">
-        {renderFirstColumn(version)}
+    <>
+      <div className="govuk-main-task-details-grid">
+        <div className="grid-item">
+          {renderFirstColumn(version)}
+        </div>
+        <div className="grid-item verticel-dotted-line">
+          {renderSecondColumn(version)}
+        </div>
+        <div className="grid-item verticel-dotted-line">
+          {renderThirdColumn(version)}
+        </div>
       </div>
-      <div className="grid-item verticel-dotted-line">
-        {renderSecondColumn(version)}
+      <div>
+        {renderRulesSection(version)}
       </div>
-      <div className="grid-item verticel-dotted-line">
-        {renderThirdColumn(version)}
-      </div>
-    </div>
+    </>
   );
 };
 
