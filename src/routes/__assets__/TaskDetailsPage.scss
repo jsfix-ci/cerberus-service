@@ -58,26 +58,6 @@
     margin: 0 0 0.5em 0;
 }
 
-.govuk-summary-list__key {
-    &.font__light {
-        font-weight: lighter;
-        color: #505a5f;
-    }
-    &.font__bold {
-        font-weight: bold;
-    }
-}
-
-.govuk-summary-list__value {
-    &.font__light {
-        font-weight: lighter;
-        color: #505a5f;
-    }
-    &.font__bold {
-        font-weight: bold;
-    }
-}
-
 .govuk-summary-list__row {
     &.font__light {
         font-weight: lighter;
@@ -85,5 +65,136 @@
     }
     &.font__bold {
         font-weight: bold;
+    }
+}
+
+// Start work
+// Targeting Indicator
+.govuk-main-indicator-grid {
+    display: grid;
+    padding: 5px;
+    grid-template-columns: 33.3333% 33.3333% 33.3333%;
+    grid-gap: 2em;
+    padding: 5px;
+    .govuk-indicator-grid-row {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        grid-gap: 5px;
+        padding: 5px;
+        &.bottom-border {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #b1b4b6;
+        }
+    }
+    .govuk-indicator-grid-row::after {
+        content: "";
+        clear: both;
+    }
+    &.task-versions--highlight {
+        border-bottom: 3px solid #ffbf47;
+        margin-right: 1px;
+        background-color: #fff2d3;
+        padding: 2px 0 0;
+    }
+    .targeting-indicator-container {
+        font-family: "GDS Transport", arial, sans-serif;
+        .title-heading {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #b1b4b6;
+        }
+        .govuk-grid-key {
+            //font-size: 15px;
+            font-size: 0.9em;
+            float: left;
+            &.font__light {
+                font-weight: lighter;
+                color: #505a5f;
+            }
+            &.font__bold {
+                font-weight: bold;
+            }
+        }
+        .govuk-grid-value {
+            //font-size: 15px;
+            font-size: 0.9em;
+            float: right;
+            &.font__light {
+                font-weight: lighter;
+                color: #505a5f;
+            }
+            &.font__bold {
+                font-weight: bold;
+            }
+        }
+    }
+    .task-details-container {
+        font-family: "GDS Transport", arial, sans-serif;
+        border-bottom: 1px solid #b1b4b6;
+        &.title-heading {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+        }
+        .govuk-vehicle-grid-col {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            column-gap: 2em;
+        }
+        .govuk-vehicle-grid-item {
+            display: flex;
+            grid-template-columns: auto;
+            grid-gap: 5px;
+            &.bottom-border {
+                margin-bottom: 5px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #b1b4b6;
+            }
+        }
+        .govuk-grid-key {
+            font-size: 15px;
+            float: left;
+            margin-bottom: 2px;
+            &.font__light {
+                font-weight: lighter;
+                color: #505a5f;
+            }
+            &.font__bold {
+                font-weight: bold;
+            }
+            .data-field-font {
+                font-size: 12px;
+            }
+        }
+        .govuk-grid-value {
+            font-size: 15px;
+            float: right;
+            &.font__light {
+                font-weight: lighter;
+                color: #505a5f;
+            }
+            &.font__bold {
+                font-weight: bold;
+            }
+            .data-field-font {
+                font-size: 12px;
+            }
+        }
+        /* Remove govuk default padding for ul */
+        ul {
+            margin-block-start: 0px;
+            padding-inline-start: 0px;
+            display: grid;
+            li {
+                list-style-type: none;
+            }
+        }
+    }
+    .grid-item {
+        &.verticel-dotted-line {
+            height: 100%;
+            border-left: 4px dotted #b1b4b6;
+            padding-left: 15px;
+        }
     }
 }

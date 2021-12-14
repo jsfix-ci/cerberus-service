@@ -7,7 +7,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import config from '../config';
 import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
 
-export default (fieldType, content) => {
+const formatField = (fieldType, content) => {
   dayjs.extend(utc);
   dayjs.extend(relativeTime);
   dayjs.extend(updateLocale);
@@ -54,3 +54,13 @@ export default (fieldType, content) => {
   }
   return result;
 };
+
+const formatKey = (fieldType, content) => {
+  return (
+    <>
+      {fieldType.includes('CHANGED') ? <span className="govuk-grid-key font__light task-versions--highlight">{content}</span> : <span className="govuk-grid-key font__light">{content}</span>}
+    </>
+  );
+};
+
+export { formatField, formatKey };
