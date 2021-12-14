@@ -26,44 +26,6 @@ import Tabs from '../../govuk/Tabs';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
-const targetStatusConfig = (filtersToApply) => {
-  return ({
-    new: {
-      url: '/task',
-      variableUrl: '/variable-instance',
-      statusRules: {
-        processVariables: `processState_neq_Complete,${filtersToApply}`,
-        unassigned: true,
-        sortBy: 'dueDate',
-        sortOrder: 'asc',
-      },
-    },
-    inProgress: {
-      url: '/task',
-      variableUrl: '/variable-instance',
-      statusRules: {
-        processVariables: `processState_neq_Complete,${filtersToApply}`,
-        assigned: true,
-      },
-    },
-    issued: {
-      url: '/process-instance',
-      variableUrl: '/variable-instance',
-      statusRules: {
-        variables: `processState_eq_Issued,${filtersToApply}`,
-      },
-    },
-    complete: {
-      url: '/history/process-instance',
-      variableUrl: '/history/variable-instance',
-      statusRules: {
-        variables: `processState_eq_Complete,${filtersToApply}`,
-        processDefinitionKey: 'assignTarget',
-      },
-    },
-  });
-};
-
 const filterListConfig = [
   {
     filterName: 'movementModes',
@@ -113,18 +75,16 @@ const filterListConfig = [
   },
 ];
 
-const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
+const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
   const location = useLocation();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const camundaClientV1 = useAxiosInstance(keycloak, config.camundaApiUrlV1);
   const source = axios.CancelToken.source();
 
   const [activePage, setActivePage] = useState(0);
-  // const [authorisedGroup, setAuthorisedGroup] = useState();
   const [targetTasks, setTargetTasks] = useState([]);
-  const [targetTaskCount, setTargetTaskCount] = useState(0);
 
   const [isLoading, setLoading] = useState(true);
 
@@ -137,7 +97,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
   // STATUS SETTINGS
   const currentUser = keycloak.tokenParsed.email;
   const activeTab = taskStatus;
-  const targetStatus = (targetStatusConfig(filtersToApply));
 
   const formatTargetRisk = (target) => {
     if (target.risks.length >= 1) {
@@ -495,7 +454,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
 const TaskListPage = () => {
   const history = useHistory();
   const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const camundaClientV1 = useAxiosInstance(keycloak, config.camundaApiUrlV1);
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
@@ -503,43 +462,7 @@ const TaskListPage = () => {
   const [filtersToApply, setFiltersToApply] = useState('');
   const [updateTaskCount, setUpdateTaskCount] = useState(false);
   const [storedFilters, setStoredFilters] = useState(localStorage?.getItem('filters')?.split(',') || '');
-  const [taskCountsByStatus, setTaskCountsByStatus] = useState({});
-  const targetStatus = (targetStatusConfig(filtersToApply));
-
-  const getTaskCountsByTab = async () => {
-    try {
-      const [
-        countNew, countInProgress, countIssued, countCompleted,
-      ] = await Promise.all([
-        camundaClient.get(
-          `${targetStatus[TASK_STATUS_NEW].url}/count`,
-          { params: targetStatus[TASK_STATUS_NEW].statusRules },
-        ),
-        camundaClient.get(
-          `${targetStatus[TASK_STATUS_IN_PROGRESS].url}/count`,
-          { params: targetStatus[TASK_STATUS_IN_PROGRESS].statusRules },
-        ),
-        camundaClient.get(
-          `${targetStatus[TASK_STATUS_TARGET_ISSUED].url}/count`,
-          { params: targetStatus[TASK_STATUS_TARGET_ISSUED].statusRules },
-        ),
-        camundaClient.get(
-          `${targetStatus[TASK_STATUS_COMPLETED].url}/count`,
-          { params: targetStatus[TASK_STATUS_COMPLETED].statusRules },
-        ),
-      ]);
-
-      setTaskCountsByStatus({
-        TASK_STATUS_NEW: countNew.data.count.toString(),
-        TASK_STATUS_IN_PROGRESS: countInProgress.data.count.toString(),
-        TASK_STATUS_TARGET_ISSUED: countIssued.data.count.toString(),
-        TASK_STATUS_COMPLETED: countCompleted.data.count.toString(),
-      });
-      setUpdateTaskCount(false);
-    } catch (e) {
-      setError(e.message);
-    }
-  };
+  const [taskCountsByStatus, setTaskCountsByStatus] = useState();
 
   const handleFilterChange = (e, code, type, name) => {
     // map over radios and uncheck anything not selected
