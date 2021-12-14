@@ -96,7 +96,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const currentUser = keycloak.tokenParsed.email;
   const activeTab = taskStatus;
 
-  const getTaskList = async (activeFilters) => {
+  const getTaskList = async () => {
     if (camundaClientV1) {
       const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
       const sortParams = (taskStatus === 'new' || taskStatus === 'inProgress')
@@ -110,7 +110,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       try {
         const tasks = await camundaClientV1.post('/targeting-tasks/pages', {
           status: tab,
-          filterParams: { activeFilters },
+          filterParams: filtersToApply,
           sortParams,
           pageParams: {
             limit: itemsPerPage,
@@ -420,7 +420,6 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
-  // const [filtersSelected, setFiltersSelected] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState(localStorage?.getItem('filters')?.split(',') || '');
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
@@ -467,21 +466,19 @@ const TaskListPage = () => {
 
   const handleFilterApply = (e) => {
     localStorage.removeItem('filters');
-    e.preventDefault();
-    const storeFilters = [hasSelectors, ...movementModesSelected];
+    if (e) { e.preventDefault(); }
+    const storeFilters = [hasSelectors, movementModesSelected];
     localStorage.setItem('filters', storeFilters);
-    const apiParams = [];
+    let apiParams = [];
     if (movementModesSelected && movementModesSelected.length > 0) {
-      movementModesSelected.map((item) => {
-        apiParams.push({
-          movementModes: [item],
-          hasSelectors,
-        });
-      });
-    } else {
-      apiParams.push({
+      apiParams = {
+        movementModes: movementModesSelected,
         hasSelectors,
-      });
+      };
+    } else {
+      apiParams = {
+        hasSelectors,
+      };
     }
     setFiltersToApply(apiParams);
   };
@@ -490,8 +487,7 @@ const TaskListPage = () => {
     e.preventDefault();
     setHasSelectors(null);
     setMovementModesSelected([]);
-    // setFiltersToApply(''); // reset to null
-    // setFiltersSelected([]); // reset to null
+    setFiltersToApply(''); // reset to null
     setFilterList(filters); // reset to default
     localStorage.removeItem('filters');
 
@@ -516,8 +512,7 @@ const TaskListPage = () => {
       setStoredFilters(hasStoredFilters?.split(',') || '');
       setAuthorisedGroup(true);
       setFilterList(filters);
-      setFiltersToApply(storedFilters);
-      // setFiltersSelected(storedFilters);
+      handleFilterApply();
       getTaskCount();
     }
   }, []);
