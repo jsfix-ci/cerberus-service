@@ -1,0 +1,207 @@
+[
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "assignee": "",
+    "status": "NEW",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "business:key=a_b_c"
+      },
+      "threatIndicators": [
+        {
+          "userfacingtext": "Paid by cash",
+          "score": 21
+        },
+        {
+          "userfacingtext": "Late booking tourist (24-72 hours)",
+          "score": 4
+        }
+      ],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [
+        {
+          "contents": {
+            "category": "B",
+            "groupReference": "Local ref",
+            "threatType": "National Security at the Border",
+            "selectorId": 6
+          },
+          "childSets": []
+        },
+        {
+          "name": "Paid by Cash",
+          "rulePriority": "Tier 1",
+          "ruleVersion": 1,
+          "abuseType": "National Security at the Border",
+          "agencyCode": "",
+          "description": "Test",
+          "ruleId": 293
+        },
+        {
+          "name": "Paid by cash1",
+          "rulePriority": "Tier 1",
+          "ruleVersion": 1,
+          "abuseType": "Class A Drugs",
+          "agencyCode": "",
+          "description": "Paid by cash",
+          "ruleId": 346
+        }
+      ],
+      "numberOfVersions": 2,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "vehicle": {},
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  },
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "assignee": "test",
+    "status": "IN_PROGRESS",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "business:key=d_e_f"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "vehicle": {},
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  },
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "assignee": "test",
+    "status": "ISSUED",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "ghi"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "vehicle": {},
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  },
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "status": "COMPLETE",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "jkl"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "vehicle": {},
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  },
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "status": "NEW",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "business:key=m_n_o"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [
+        {
+          "name": "Paid by Cash",
+          "rulePriority": "Tier 1",
+          "ruleVersion": 1,
+          "abuseType": "Class A Drugs",
+          "agencyCode": "",
+          "description": "Test",
+          "ruleId": 293
+        }
+      ],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "vehicle": {},
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  }
+]
