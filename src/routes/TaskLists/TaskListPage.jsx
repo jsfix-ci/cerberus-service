@@ -6,7 +6,6 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
-import _ from 'lodash';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 // Config
@@ -26,7 +25,7 @@ import Tabs from '../../govuk/Tabs';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
-const filterListConfig = [
+const filters = [
   {
     filterName: 'movementModes',
     filterType: 'checkbox',
@@ -223,7 +222,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                       <p className="govuk-body task-risk-statement">{formatTargetRisk(target.summary)}</p>
                     </div>
                     <div className="govuk-grid-column">
-                      {hasUpdatedStatus(target)}
+                      {hasUpdatedStatus(target.summary)}
                     </div>
                   </div>
                   <div className="govuk-grid-item">
@@ -421,52 +420,83 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
-  const [filtersSelected, setFiltersSelected] = useState([]);
+  // const [filtersSelected, setFiltersSelected] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
-  const [updateTaskCount, setUpdateTaskCount] = useState(false);
   const [storedFilters, setStoredFilters] = useState(localStorage?.getItem('filters')?.split(',') || '');
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
 
-  const handleFilterChange = (e, code, type, name) => {
-    // map over radios and uncheck anything not selected
-    if (type === 'radio') {
-      // add currently selected code
-      const filtersSelectedArray = code === 'noCode' ? [...filtersSelected] : [...filtersSelected, code];
-      // Remove codes from deselected radio buttons
-      const filterSetArray = filterListConfig.find((set) => set.filterName === name);
-      const filterSetOptionCodes = filterSetArray.filterOptions.map((option) => {
-        return option.code;
-      });
-      const filtersToRemove = _.remove(filterSetOptionCodes, (item) => {
-        return item !== code;
-      });
-      const updatedArray = filtersSelectedArray.filter((item) => !filtersToRemove.includes(item));
-      setFiltersSelected(updatedArray);
+  const [hasSelectors, setHasSelectors] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [movementModesSelected, setMovementModesSelected] = useState([]);
+
+  const getTaskCount = async (activeFilters) => {
+    setLoading(true);
+    setTaskCountsByStatus();
+    if (camundaClientV1) {
+      try {
+        const count = await camundaClientV1.post('/targeting-tasks/status-counts', [{ activeFilters }]);
+        setTaskCountsByStatus(count.data[0].statusCounts);
+      } catch (e) {
+        setError(e.message);
+        setTaskCountsByStatus();
+      }
+    }
+    setLoading(false);
+  };
+
+  const handleFilterChange = (e, option, filterSet) => {
+    // check selectors
+    if (filterSet.filterName === 'hasSelectors') {
+      if (option.optionName !== 'any') {
+        setHasSelectors(option.optionName);
+      } else {
+        setHasSelectors(null);
+      }
+    }
+    // check movementModes
+    if (filterSet.filterName === 'movementModes') {
+      if (e.target.checked) {
+        setMovementModesSelected([...movementModesSelected, option.optionName]);
+      } else {
+        const adjustedMovementModeSelected = [...movementModesSelected];
+        adjustedMovementModeSelected.splice(movementModesSelected.indexOf(option.optionName), 1);
+        setMovementModesSelected(adjustedMovementModeSelected);
+      }
     }
   };
 
   const handleFilterApply = (e) => {
     localStorage.removeItem('filters');
     e.preventDefault();
-    setUpdateTaskCount(true);
-    if (filtersSelected.length > 0) {
-      localStorage.setItem('filters', filtersSelected);
-      setFiltersToApply(filtersSelected);
+    const storeFilters = [hasSelectors, ...movementModesSelected];
+    localStorage.setItem('filters', storeFilters);
+    const apiParams = [];
+    if (movementModesSelected && movementModesSelected.length > 0) {
+      movementModesSelected.map((item) => {
+        apiParams.push({
+          movementModes: [item],
+          hasSelectors,
+        });
+      });
     } else {
-      setFiltersToApply(''); // show all targets
+      apiParams.push({
+        hasSelectors,
+      });
     }
+    setFiltersToApply(apiParams);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
-    setFiltersToApply(''); // reset to null
-    setFiltersSelected([]); // reset to null
-    setFilterList(filterListConfig); // reset to default
+    setHasSelectors(null);
+    setMovementModesSelected([]);
+    // setFiltersToApply(''); // reset to null
+    // setFiltersSelected([]); // reset to null
+    setFilterList(filters); // reset to default
     localStorage.removeItem('filters');
-    setUpdateTaskCount(true);
 
     filterList.map((filterSet) => {
-      const optionItem = document.getElementsByName(filterSet.filterName);
+      const optionItem = document.getElementsByName(filterSet.filterLabel);
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < optionItem.length; i++) {
         if (optionItem[i].checked) {
@@ -475,12 +505,6 @@ const TaskListPage = () => {
       }
     });
   };
-
-  // useEffect(() => {
-  //   if (updateTaskCount) {
-  //     getTaskCountsByTab();
-  //   }
-  // }, [updateTaskCount]);
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
@@ -491,11 +515,10 @@ const TaskListPage = () => {
     if (isTargeter) {
       setStoredFilters(hasStoredFilters?.split(',') || '');
       setAuthorisedGroup(true);
-      setUpdateTaskCount(true);
-      setFilterList(filterListConfig);
+      setFilterList(filters);
       setFiltersToApply(storedFilters);
-      setFiltersSelected(storedFilters);
-      // if (!hasStoredFilters) { getTaskCountsByTab(); }
+      // setFiltersSelected(storedFilters);
+      getTaskCount();
     }
   }, []);
 
@@ -503,7 +526,7 @@ const TaskListPage = () => {
     <>
       <h1 className="govuk-heading-xl">Task management</h1>
       {!authorisedGroup && (<p>You are not authorised to view these tasks.</p>)}
-
+      {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
       {error && (
         <ErrorSummary
           title="There is a problem"
@@ -513,7 +536,7 @@ const TaskListPage = () => {
         />
       )}
 
-      {authorisedGroup && (
+      {!isLoading && authorisedGroup && (
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter">
             <div className="cop-filters-container">
@@ -531,49 +554,49 @@ const TaskListPage = () => {
                 </button>
               </div>
 
-              {filterList.length > 0 && filterList
-                .map((filterSet) => {
-                  return (
-                    <div className="govuk-form-group" key={filterSet.filterName}>
-                      <fieldset className="govuk-fieldset">
-                        <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
-                          <h4 className="govuk-fieldset__heading">{filterSet.filterName}</h4>
-                        </legend>
-                        <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
-                          {filterSet.filterOptions.map((filterItem) => {
-                            let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === filterItem.code)));
-                            return (
-                              <li
-                                className={`govuk-${filterSet.filterClassPrefix}__item`}
-                                key={filterItem.optionName}
+              {filters.length > 0 && filters.map((filterSet) => {
+                return (
+                  <div className="govuk-form-group" key={filterSet.filterLabel}>
+                    <fieldset className="govuk-fieldset">
+                      <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        <h4 className="govuk-fieldset__heading">{filterSet.filterLabel}</h4>
+                      </legend>
+                      <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
+                        {filterSet.filterOptions.map((option) => {
+                          console.log(option)
+                          let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
+                          return (
+                            <li
+                              className={`govuk-${filterSet.filterClassPrefix}__item`}
+                              key={option.optionName}
+                            >
+                              <input
+                                className={`govuk-${filterSet.filterClassPrefix}__input`}
+                                id={option.optionName}
+                                name={filterSet.filterName}
+                                type={filterSet.filterType}
+                                value={option.optionName}
+                                defaultChecked={checked}
+                                onChange={(e) => {
+                                  checked = !checked;
+                                  handleFilterChange(e, option, filterSet);
+                                }}
+                                data-testid={`${filterSet.filterLabel}-${option.optionName}`}
+                              />
+                              <label
+                                className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                htmlFor={option.optionName}
                               >
-                                <input
-                                  className={`govuk-${filterSet.filterClassPrefix}__input`}
-                                  id={filterItem.optionName}
-                                  name={filterSet.filterName}
-                                  type={filterSet.filterType}
-                                  value={filterItem.name}
-                                  defaultChecked={checked}
-                                  onChange={(e) => {
-                                    checked = !checked;
-                                    handleFilterChange(e, filterItem.optionName, filterSet.filterType, filterSet.filterName);
-                                  }}
-                                  data-testid={`${filterSet.filterName}-${filterItem.optionName}`}
-                                />
-                                <label
-                                  className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
-                                  htmlFor={filterItem.optionName}
-                                >
-                                  {filterItem.label}
-                                </label>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </fieldset>
-                    </div>
-                  );
-                })}
+                                {option.optionLabel}
+                              </label>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </fieldset>
+                  </div>
+                );
+              })}
             </div>
             <button
               className="govuk-button"
@@ -595,41 +618,61 @@ const TaskListPage = () => {
               items={[
                 {
                   id: TASK_STATUS_NEW,
-                  label: `New (${taskCountsByStatus?.TASK_STATUS_NEW || '0'})`,
+                  label: `New (${taskCountsByStatus?.new})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">New tasks</h2>
-                      <TasksTab taskStatus={TASK_STATUS_NEW} filtersToApply={filtersToApply} setError={setError} />
+                      <TasksTab
+                        taskStatus={TASK_STATUS_NEW}
+                        filtersToApply={filtersToApply}
+                        targetTaskCount={taskCountsByStatus?.new}
+                        setError={setError}
+                      />
                     </>
                   ),
                 },
                 {
                   id: TASK_STATUS_IN_PROGRESS,
-                  label: `In progress (${taskCountsByStatus?.TASK_STATUS_IN_PROGRESS || '0'})`,
+                  label: `In progress (${taskCountsByStatus?.inProgress})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">In progress tasks</h2>
-                      <TasksTab taskStatus={TASK_STATUS_IN_PROGRESS} filtersToApply={filtersToApply} setError={setError} />
+                      <TasksTab
+                        taskStatus={TASK_STATUS_IN_PROGRESS}
+                        filtersToApply={filtersToApply}
+                        targetTaskCount={taskCountsByStatus?.inProgress}
+                        setError={setError}
+                      />
                     </>
                   ),
                 },
                 {
                   id: TASK_STATUS_TARGET_ISSUED,
-                  label: `Issued (${taskCountsByStatus?.TASK_STATUS_TARGET_ISSUED || '0'})`,
+                  label: `Issued (${taskCountsByStatus?.issued})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
-                      <TasksTab taskStatus={TASK_STATUS_TARGET_ISSUED} filtersToApply={filtersToApply} setError={setError} />
+                      <TasksTab
+                        taskStatus={TASK_STATUS_TARGET_ISSUED}
+                        filtersToApply={filtersToApply}
+                        targetTaskCount={taskCountsByStatus?.issued}
+                        setError={setError}
+                      />
                     </>
                   ),
                 },
                 {
                   id: TASK_STATUS_COMPLETED,
-                  label: `Complete (${taskCountsByStatus?.TASK_STATUS_COMPLETED || '0'})`,
+                  label: `Complete (${taskCountsByStatus?.complete})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Completed tasks</h2>
-                      <TasksTab taskStatus={TASK_STATUS_COMPLETED} filtersToApply={filtersToApply} setError={setError} />
+                      <TasksTab
+                        taskStatus={TASK_STATUS_COMPLETED}
+                        filtersToApply={filtersToApply}
+                        targetTaskCount={taskCountsByStatus?.complete}
+                        setError={setError}
+                      />
                     </>
                   ),
                 },
