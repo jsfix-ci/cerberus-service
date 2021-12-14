@@ -66,51 +66,47 @@ const targetStatusConfig = (filtersToApply) => {
 
 const filterListConfig = [
   {
-    filterName: 'Mode',
-    filterType: 'radio',
-    filterClassPrefix: 'radios',
+    filterName: 'movementModes',
+    filterType: 'checkbox',
+    filterClassPrefix: 'checkboxes',
+    filterLabel: 'Modes',
     filterOptions: [
       {
-        name: 'roro-unaccompanied-freight',
-        code: 'movementMode_eq_roro-unaccompanied-freight',
-        label: 'RoRo unaccompanied freight',
+        optionName: 'RORO_UNACCOMPANIED_FREIGHT',
+        optionLabel: 'RoRo unaccompanied freight',
         checked: false,
       },
       {
-        name: 'roro-accompanied-freight',
-        code: 'movementMode_eq_roro-accompanied-freight',
-        label: 'RoRo accompanied freight',
+        optionName: 'RORO_ACCOMPANIED_FREIGHT',
+        optionLabel: 'RoRo accompanied freight',
         checked: false,
       },
       {
-        name: 'roro-tourist',
-        code: 'movementMode_eq_roro-tourist',
-        label: 'RoRo tourist',
+        optionName: 'RORO_TOURIST',
+        optionLabel: 'RoRo Tourist',
         checked: false,
       },
     ],
   },
   {
-    filterName: 'Selectors',
+    filterName: 'hasSelectors',
     filterType: 'radio',
     filterClassPrefix: 'radios',
+    filterLabel: 'Selectors',
     filterOptions: [
       {
-        name: 'has-no-selector',
-        code: 'hasSelectors_eq_no',
-        label: 'Not present',
+        optionName: 'true',
+        optionLabel: 'Present',
         checked: false,
       },
       {
-        name: 'has-selector',
-        code: 'hasSelectors_eq_yes',
-        label: 'Present',
+        optionName: 'false',
+        optionLabel: 'Not present',
         checked: false,
       },
       {
-        name: 'both',
-        code: 'noCode', // as 'both' is all tasks we return a word we can set to null in the call
-        label: 'Any',
+        optionName: 'any',
+        optionLabel: 'Any',
         checked: false,
       },
     ],
