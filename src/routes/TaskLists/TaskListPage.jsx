@@ -333,7 +333,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
                   <div className="govuk-grid-row">
                     <div className="govuk-grid-column">
                       <ul className="govuk-list govuk-body-s content-line-one">
-                        <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}{', '}arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow()}</li>
+                        <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}
+                          {target.roro.details.vessel.name}{', '}arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow()}
+                        </li>
                       </ul>
                       <ul className="govuk-list content-line-two">
                         <li>

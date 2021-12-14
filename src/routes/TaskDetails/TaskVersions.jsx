@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
 import * as pluralise from 'pluralise';
-import { v4 as uuidv4 } from 'uuid';
 import Accordion from '../../govuk/Accordion';
 import { LONG_DATE_FORMAT } from '../../constants';
-import { formatField } from '../../utils/formatField';
+import TaskSummary from './TaskSummary';
 import * as versionLayoutBuilder from '../../utils/versionLayoutBuilder';
 import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
 
@@ -104,9 +103,12 @@ const renderRulesSection = (version) => {
  * This will handle portions of the movement data and apply the neccessary changes
  * before they are rendered.
  */
-const renderVersionSection = (version) => {
+const renderVersionSection = (taskSummaryBasedOnTIS, version) => {
   return (
     <>
+      <div>
+        <TaskSummary taskSummaryData={taskSummaryBasedOnTIS} />
+      </div>
       <div className="govuk-main-task-details-grid">
         <div className="grid-item">
           {renderFirstColumn(version)}
@@ -138,7 +140,7 @@ const stripOutSectionsByMovementMode = (version, movementMode) => {
   }
 };
 
-const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
+const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
   /*
    * There can be multiple versions of the data
    * We need to display each version
@@ -160,7 +162,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts,
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
           const filteredVersion = stripOutSectionsByMovementMode(version, movementMode);
-          const detailSectionTest = renderVersionSection(filteredVersion);
+          const detailSectionTest = renderVersionSection(taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
             heading: `Version ${versionNumber}`,

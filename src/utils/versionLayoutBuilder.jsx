@@ -264,7 +264,7 @@ const renderHiddenPassengersChildsets = (otherPassengers) => {
       <details className="govuk-details" data-module="govuk-details">
         <summary className="govuk-details__summary">
           <span className="govuk-details__summary-text">
-            Show more
+            Other passengers
           </span>
         </summary>
         <div className="govuk-hidden-passengers">

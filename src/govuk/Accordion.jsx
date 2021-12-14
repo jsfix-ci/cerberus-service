@@ -26,7 +26,7 @@ const Accordion = ({
     <div className={classNames('govuk-accordion', className)} data-module="govuk-accordion" id={id} {...attributes} ref={accordionRef}>
       {items.map((item, index) => (
         <div key={item.reactListKey || index} className={classNames('govuk-accordion__section', { 'govuk-accordion__section--expanded': item.expanded })}>
-          <div className="govuk-accordion__section-header">
+          <div className="govuk-accordion__section-header task-details-accordion">
             <Heading className="govuk-accordion__section-heading">
               <span className="govuk-accordion__section-button" id={`${id}-heading-${index + 1}`}>
                 {item.heading}

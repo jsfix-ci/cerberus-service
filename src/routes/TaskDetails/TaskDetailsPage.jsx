@@ -17,7 +17,6 @@ import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import TaskNotes from './TaskNotes';
-import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
 // Styling
 import Button from '../../govuk/Button';
@@ -238,7 +237,7 @@ const TaskDetailsPage = () => {
           <div className="govuk-grid-row govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{businessKey}</span>
-              <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
+              <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
               {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
                 <p className="govuk-body">
                   {getAssignee()}
@@ -292,7 +291,6 @@ const TaskDetailsPage = () => {
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={targetData.taskSummaryBasedOnTIS} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
@@ -335,6 +333,7 @@ const TaskDetailsPage = () => {
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
                 <TaskVersions
+                  taskSummaryBasedOnTIS={targetData.taskSummaryBasedOnTIS}
                   taskVersions={targetData.taskDetails}
                   businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                   taskVersionDifferencesCounts={targetData.taskVersionDifferencesCounts}
