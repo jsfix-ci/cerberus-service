@@ -134,79 +134,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   };
 
-  const loadTasks = async () => {
-    if (camundaClient) {
-      try {
-        setLoading(true);
-        /*
-        * For pagination rules we need to get a count of total tasks that match the criteria for that status
-        * the same criteria is then used to create the target summary below
-        */
-        const getTargetTaskCount = await camundaClient.get(
-          `${targetStatus[activeTab].url}/count`,
-          { params: targetStatus[activeTab].statusRules },
-        );
-        setTargetTaskCount(getTargetTaskCount.data.count);
-
-        /*
-        * To provide a user with a summary and the ability to claim/unclaim (when correct conditions are met)
-        * We need to get the targets that match the criteria for that status
-        * then use the processInstanceIds (when the url is /tasks) or the ids (when the url is /process-instance) from the targetTaskList data to get the targetTaskSummary data
-        */
-        const targetTaskList = await camundaClient.get(
-          targetStatus[activeTab].url,
-          { params: { ...targetStatus[activeTab].statusRules, firstResult: offset, maxResults: itemsPerPage } },
-        );
-        const processInstanceIds = _.uniq(targetTaskList.data.map(({ processInstanceId, id }) => processInstanceId || id)).join(',');
-        const targetTaskListItems = await camundaClient.get(
-          targetStatus[activeTab].variableUrl,
-          { params: { variableName: 'taskSummaryBasedOnTIS', processInstanceIdIn: processInstanceIds, deserializeValues: false } },
-        );
-        const targetTaskListData = targetTaskListItems.data.map((task) => {
-          return {
-            processInstanceId: task.processInstanceId,
-            ...JSON.parse(task.value),
-          };
-        });
-
-        /*
-        * If the targetStatus is 'new' or 'in progress' we must include the task id and assignee
-        * so we can show/hide claim details AND allow tasks to be claimed/unclaimed
-        */
-        let parsedTargetTaskListData;
-        if (activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS) {
-          const mergedTargetData = targetTaskListData.map((task) => {
-            const matchedTargetTask = targetTaskList.data.find((v) => task.processInstanceId === v.processInstanceId);
-            return {
-              ...task,
-              ...matchedTargetTask,
-            };
-          });
-          parsedTargetTaskListData = mergedTargetData;
-        } else {
-          parsedTargetTaskListData = targetTaskListData;
-        }
-
-        /*
-         * We initially grab the tasks from camunda in a sorted order (by 'due' asc)
-         * However after using the tasks data to query the variable endpoint we lose the
-         * sorting we had before. As a result, the amalgamation of /tasks and /variable api calls
-         * is sorted by the 'due' property to ensure the task list is in asc order
-        */
-        setTargetTasks(parsedTargetTaskListData.sort((a, b) => {
-          const dateA = new Date(a.due);
-          const dateB = new Date(b.due);
-          return (a.due === null) - (b.due === null) || +(dateA > dateB) || -(dateA < dateB);
-        }));
-      } catch (e) {
-        setError(e.message);
-        setTargetTasks([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
   useEffect(() => {
     const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
     const newActivePage = parseInt(page || 1, 10);
@@ -214,7 +141,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   }, [location.search]);
 
   useEffect(() => {
-    loadTasks();
     return () => {
       source.cancel('Cancelling request');
     };
@@ -224,7 +150,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
     if (isTargeter) {
       setLoading(true);
-      loadTasks();
       return () => {
         source.cancel('Cancelling request');
       };
