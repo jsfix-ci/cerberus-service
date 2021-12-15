@@ -63,11 +63,11 @@
 
 // Start work
 // Targeting Indicator
-.govuk-main-task-details-grid {
+.govuk-task-details-grid {
     font-family: "GDS Transport", arial, sans-serif;
     display: flex;
     padding: 5px;
-    grid-template-columns: 33.3333% 33.3333% 33.3333%;
+    grid-template-columns: auto;
     grid-gap: 2em;
     border-bottom: 2px solid #b1b4b6;
     margin-bottom: 10px;
@@ -188,11 +188,6 @@
     .govuk-grid-column-one-third {
         padding: 0 0;
         width: 100%;
-        &.verticel-dotted-line {
-            height: inherit;
-            border-left: 4px dotted #b1b4b6;
-            padding-left: 15px;
-        }
     }
     .task-versions-details-notes {
         font-family: "GDS Transport", arial, sans-serif;
@@ -209,7 +204,7 @@
 
 .govuk-task-summary-grid {
     font-family: "GDS Transport", arial, sans-serif;
-    display: grid;
+    display: flex;
     grid-template-columns: 50% 50%;
     grid-gap: auto;
     padding-right: 15px;
@@ -316,5 +311,45 @@
         .govuk-accordion__section {
             margin-bottom: 5px;
         }
+    }
+}
+
+.data-container {
+    padding-left: 10px;
+}
+
+.vertical-dotted-line-one {
+    height: inherit;
+    border-left: 4px dotted #b1b4b6;
+    margin: 0 15px 0 0;
+}
+
+.vertical-dotted-line-two {
+    height: inherit;
+    border-left: 4px dotted #b1b4b6;
+    margin: 0 15px 0 0;
+}
+
+// If screen is less than 1300px, reduce to 2 columns
+@media only screen and (max-width: 1300px) {
+    .govuk-task-details-grid {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+    .vertical-dotted-line-two {
+        border-left: 0px none#b1b4b6;
+        padding-left: 15px;
+    }
+}
+
+// If screen is less than 800px
+@media only screen and (max-width: 800px) {
+    .govuk-task-details-grid {
+        display: grid;
+        grid-template-columns: auto;
+    }
+    .vertical-dotted-line-one {
+        border-left: 0px none#b1b4b6;
+        padding-left: 15px;
     }
 }

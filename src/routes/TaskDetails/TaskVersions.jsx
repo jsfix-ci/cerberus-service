@@ -113,15 +113,19 @@ const renderVersionSection = (taskSummaryBasedOnTIS, version) => {
       <div>
         <TaskSummary taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
-      <div className="govuk-main-task-details-grid">
+      <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
           {renderFirstColumn(version)}
         </div>
-        <div className="govuk-grid-column-one-third verticel-dotted-line">
-          {renderSecondColumn(version)}
+        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+          <div className="data-container">
+            {renderSecondColumn(version)}
+          </div>
         </div>
-        <div className="govuk-grid-column-one-third verticel-dotted-line">
-          {renderThirdColumn(version)}
+        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+          <div className="data-container">
+            {renderThirdColumn(version)}
+          </div>
         </div>
       </div>
       <div>
