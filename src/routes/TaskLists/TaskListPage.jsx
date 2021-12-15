@@ -84,7 +84,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
 
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
+
   const [isLoading, setLoading] = useState(true);
+  const [refreshTaskList, setRefreshTaskList] = useState(false);
 
   // PAGINATION SETTINGS
   const index = activePage - 1;
@@ -97,6 +99,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const activeTab = taskStatus;
 
   const getTaskList = async () => {
+    setLoading(true);
     if (camundaClientV1) {
       const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
       const sortParams = (taskStatus === 'new' || taskStatus === 'inProgress')
@@ -121,6 +124,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       } catch (e) {
         setError(e.message);
         setTargetTasks([]);
+      } finally {
+        setLoading(false);
+        setRefreshTaskList(false);
       }
     }
   };
@@ -161,32 +167,24 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   };
 
-  const getTasksForPage = () => {
-    setLoading(true);
-    const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
-    if (isTargeter) {
-      getTaskList();
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
     const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
     const newActivePage = parseInt(page || 1, 10);
     setActivePage(newActivePage);
+    setRefreshTaskList(true);
   }, [location.search]);
 
   useEffect(() => {
-    setLoading(true);
-    getTasksForPage();
-    return () => {
-      source.cancel('Cancelling request');
-    };
-  }, [activePage, filtersToApply]);
+    if (refreshTaskList === true) {
+      getTaskList();
+      return () => {
+        source.cancel('Cancelling request');
+      };
+    }
+  }, [refreshTaskList]);
 
   useInterval(() => {
-    setLoading(true);
-    getTasksForPage();
+    getTaskList();
     return () => {
       source.cancel('Cancelling request');
     };
@@ -420,13 +418,13 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
-  const [filtersToApply, setFiltersToApply] = useState('');
-  const [storedFilters, setStoredFilters] = useState(localStorage?.getItem('filters')?.split(',') || '');
+  // const [filtersToApply, setFiltersToApply] = useState('');
+  const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
 
-  const [hasSelectors, setHasSelectors] = useState(null);
+  // const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const [movementModesSelected, setMovementModesSelected] = useState([]);
+  // const [movementModesSelected, setMovementModesSelected] = useState([]);
 
   const getTaskCount = async (activeFilters) => {
     setLoading(true);
@@ -443,76 +441,88 @@ const TaskListPage = () => {
     setLoading(false);
   };
 
-  const handleFilterChange = (e, option, filterSet) => {
-    // check selectors
-    if (filterSet.filterName === 'hasSelectors') {
-      if (option.optionName !== 'any') {
-        setHasSelectors(option.optionName);
-      } else {
-        setHasSelectors(null);
-      }
-    }
-    // check movementModes
-    if (filterSet.filterName === 'movementModes') {
-      if (e.target.checked) {
-        setMovementModesSelected([...movementModesSelected, option.optionName]);
-      } else {
-        const adjustedMovementModeSelected = [...movementModesSelected];
-        adjustedMovementModeSelected.splice(movementModesSelected.indexOf(option.optionName), 1);
-        setMovementModesSelected(adjustedMovementModeSelected);
-      }
-    }
+  // const handleFilterChange = (e, option, filterSet) => {
+  //   // check selectors
+  //   if (filterSet.filterName === 'hasSelectors') {
+  //     if (option.optionName !== 'any') {
+  //       setHasSelectors(option.optionName);
+  //     } else {
+  //       setHasSelectors(null);
+  //     }
+  //   }
+  //   // check movementModes
+  //   if (filterSet.filterName === 'movementModes') {
+  //     if (e.target.checked) {
+  //       setMovementModesSelected([...movementModesSelected, option.optionName]);
+  //     } else {
+  //       const adjustedMovementModeSelected = [...movementModesSelected];
+  //       adjustedMovementModeSelected.splice(movementModesSelected.indexOf(option.optionName), 1);
+  //       setMovementModesSelected(adjustedMovementModeSelected);
+  //     }
+  //   }
+  // };
+
+  // const handleFilterApply = (e) => {
+  //   localStorage.removeItem('filters');
+  //   if (e) { e.preventDefault(); }
+  //   const storeFilters = [hasSelectors, movementModesSelected];
+  //   localStorage.setItem('filters', storeFilters);
+  //   let apiParams = [];
+  //   if (movementModesSelected && movementModesSelected.length > 0) {
+  //     apiParams = {
+  //       movementModes: movementModesSelected,
+  //       hasSelectors,
+  //     };
+  //   } else {
+  //     apiParams = {
+  //       hasSelectors,
+  //     };
+  //   }
+  //   setFiltersToApply(apiParams);
+  // };
+
+  // const handleFilterReset = (e) => {
+  //   e.preventDefault();
+  //   setHasSelectors(null);
+  //   setMovementModesSelected([]);
+  //   setFiltersToApply(''); // reset to null
+  //   setFilterList(filters); // reset to default
+  //   localStorage.removeItem('filters');
+
+  //   filterList.map((filterSet) => {
+  //     const optionItem = document.getElementsByName(filterSet.filterLabel);
+  //     // eslint-disable-next-line no-plusplus
+  //     for (let i = 0; i < optionItem.length; i++) {
+  //       if (optionItem[i].checked) {
+  //         optionItem[i].checked = !optionItem[i].checked;
+  //       }
+  //     }
+  //   });
+  // };
+
+  const handleFilterChange = () => {
+    console.log('change');
   };
 
-  const handleFilterApply = (e) => {
-    localStorage.removeItem('filters');
-    if (e) { e.preventDefault(); }
-    const storeFilters = [hasSelectors, movementModesSelected];
-    localStorage.setItem('filters', storeFilters);
-    let apiParams = [];
-    if (movementModesSelected && movementModesSelected.length > 0) {
-      apiParams = {
-        movementModes: movementModesSelected,
-        hasSelectors,
-      };
-    } else {
-      apiParams = {
-        hasSelectors,
-      };
-    }
-    setFiltersToApply(apiParams);
+  const handleFilterApply = () => {
+    console.log('apply');
   };
 
-  const handleFilterReset = (e) => {
-    e.preventDefault();
-    setHasSelectors(null);
-    setMovementModesSelected([]);
-    setFiltersToApply(''); // reset to null
-    setFilterList(filters); // reset to default
-    localStorage.removeItem('filters');
-
-    filterList.map((filterSet) => {
-      const optionItem = document.getElementsByName(filterSet.filterLabel);
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < optionItem.length; i++) {
-        if (optionItem[i].checked) {
-          optionItem[i].checked = !optionItem[i].checked;
-        }
-      }
-    });
+  const handleFilterReset = () => {
+    console.log('reset');
   };
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
-    const hasStoredFilters = localStorage?.getItem('filters');
+    // const hasStoredFilters = localStorage?.getItem('filters');
     if (!isTargeter) {
       setAuthorisedGroup(false);
     }
     if (isTargeter) {
-      setStoredFilters(hasStoredFilters?.split(',') || '');
+      // setStoredFilters(hasStoredFilters?.split(',') || ''); // allows checkboxes/radios to be checked/unchecked on page refresh
       setAuthorisedGroup(true);
       setFilterList(filters);
-      handleFilterApply();
+      // handleFilterApply();
       getTaskCount();
     }
   }, []);
@@ -618,7 +628,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">New tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_NEW}
-                        filtersToApply={filtersToApply}
+                        // filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.new}
                         setError={setError}
                       />
@@ -633,7 +643,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">In progress tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_IN_PROGRESS}
-                        filtersToApply={filtersToApply}
+                        // filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.inProgress}
                         setError={setError}
                       />
@@ -648,7 +658,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_TARGET_ISSUED}
-                        filtersToApply={filtersToApply}
+                        // filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.issued}
                         setError={setError}
                       />
@@ -663,7 +673,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Completed tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_COMPLETED}
-                        filtersToApply={filtersToApply}
+                        // filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.complete}
                         setError={setError}
                       />
