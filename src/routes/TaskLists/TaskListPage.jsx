@@ -435,7 +435,7 @@ const TaskListPage = () => {
     setTaskCountsByStatus();
     if (camundaClientV1) {
       try {
-        const count = await camundaClientV1.post('/targeting-tasks/status-counts', [{ activeFilters }]);
+        const count = await camundaClientV1.post('/targeting-tasks/status-counts', [activeFilters || {}]);
         setTaskCountsByStatus(count.data[0].statusCounts);
       } catch (e) {
         setError(e.message);
@@ -481,6 +481,7 @@ const TaskListPage = () => {
       };
     }
     setFiltersToApply(apiParams);
+    getTaskCount(apiParams);
   };
 
   const handleFilterReset = (e) => {
