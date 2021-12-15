@@ -422,9 +422,9 @@ const TaskListPage = () => {
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
 
-  // const [hasSelectors, setHasSelectors] = useState(null);
+  const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  // const [movementModesSelected, setMovementModesSelected] = useState([]);
+  const [movementModesSelected, setMovementModesSelected] = useState([]);
 
   const getTaskCount = async (activeFilters) => {
     setLoading(true);
@@ -500,32 +500,52 @@ const TaskListPage = () => {
   //   });
   // };
 
-  const handleFilterChange = () => {
-    console.log('change');
+  const handleFilterChange = (e, option, filterSet) => {
+    // check selectors
+    if (filterSet.filterName === 'hasSelectors') {
+      if (option.optionName !== 'any') {
+        setHasSelectors(option.optionName);
+      } else {
+        setHasSelectors(null);
+      }
+    }
+    // check movementModes
+    if (filterSet.filterName === 'movementModes') {
+      if (e.target.checked) {
+        setMovementModesSelected([...movementModesSelected, option.optionName]);
+      } else {
+        const adjustedMovementModeSelected = [...movementModesSelected];
+        adjustedMovementModeSelected.splice(movementModesSelected.indexOf(option.optionName), 1);
+        setMovementModesSelected(adjustedMovementModeSelected);
+      }
+    }
   };
 
   const handleFilterApply = () => {
     console.log('apply');
+    localStorage.setItem('filters', [hasSelectors, movementModesSelected]);
   };
 
   const handleFilterReset = () => {
     console.log('reset');
+    localStorage.removeItem('filters');
   };
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
-    // const hasStoredFilters = localStorage?.getItem('filters');
     if (!isTargeter) {
       setAuthorisedGroup(false);
     }
     if (isTargeter) {
-      // setStoredFilters(hasStoredFilters?.split(',') || ''); // allows checkboxes/radios to be checked/unchecked on page refresh
+      setStoredFilters(localStorage?.getItem('filters')?.split(',') || ''); // allows checkboxes/radios to be checked/unchecked on page refresh
       setAuthorisedGroup(true);
       setFilterList(filters);
       // handleFilterApply();
       getTaskCount();
     }
   }, []);
+
+  console.log(storedFilters)
 
   return (
     <>
