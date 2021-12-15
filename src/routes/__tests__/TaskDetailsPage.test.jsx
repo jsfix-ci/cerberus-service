@@ -85,7 +85,7 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.getByText(/Task details/i)).toBeInTheDocument();
+    expect(screen.getByText(/Overview/i)).toBeInTheDocument();
     expect(screen.getByText(/Assigned to you/i)).toBeInTheDocument();
     expect(screen.getByText(/Issue target/i)).toBeInTheDocument();
 

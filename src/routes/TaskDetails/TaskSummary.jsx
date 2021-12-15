@@ -1,12 +1,14 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { LONG_DATE_FORMAT } from '../../constants';
 
 import '../__assets__/TaskDetailsPage.scss';
 
 const TaskSummary = ({ taskSummaryData }) => {
   dayjs.extend(utc);
+  dayjs.extend(relativeTime);
   const roroData = taskSummaryData.roro.details;
 
   return (
@@ -33,8 +35,13 @@ const TaskSummary = ({ taskSummaryData }) => {
         <div className="grid-item-col-2">
           <ul className="summary-data-list">
             <li><span>{roroData.vessel?.company && `${roroData.vessel?.company} voyage of `}{roroData.vessel.name}</span></li>
-            <li><span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}  <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span>{' - '}</span> <span className="font__bold">{roroData.arrivalLocation && `${roroData.arrivalLocation} `} </span>  <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}</li>
-            <li><span>Arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</span></li>
+            <li>
+              <span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
+                <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span>{' - '}
+              </span> <span className="font__bold">{roroData.arrivalLocation && `${roroData.arrivalLocation} `} </span>{'  '}
+              <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
+            </li>
+            <li><span>Arrival {!roroData.eta ? 'unknown' : (dayjs.utc(roroData.eta).fromNow())}</span></li>
           </ul>
         </div>
       </div>
