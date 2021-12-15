@@ -431,7 +431,6 @@ const TaskListPage = () => {
   const [movementModesSelected, setMovementModesSelected] = useState([]);
 
   const getTaskCount = async (activeFilters) => {
-    setLoading(true);
     setTaskCountsByStatus();
     if (camundaClientV1) {
       try {
@@ -442,7 +441,6 @@ const TaskListPage = () => {
         setTaskCountsByStatus();
       }
     }
-    setLoading(false);
   };
 
   const handleFilterChange = (e, option, filterSet) => {
@@ -466,42 +464,49 @@ const TaskListPage = () => {
     }
   };
 
-  const handleFilterApply = (e) => {
+  const handleFilterApply = (e, resetToDefault) => {
+    setLoading(true);
     if (e) { e.preventDefault(); }
-    localStorage.setItem('filters', [hasSelectors, movementModesSelected]);
     let apiParams = [];
-    if (movementModesSelected && movementModesSelected.length > 0) {
+    if (!resetToDefault) {
       apiParams = {
-        movementModes: movementModesSelected,
+        movementModes: movementModesSelected || [],
         hasSelectors,
       };
     } else {
       apiParams = {
-        hasSelectors,
+        movementModes: [],
+        hasSelectors: null,
       };
     }
-    setFiltersToApply(apiParams);
     getTaskCount(apiParams);
+    setFiltersToApply(apiParams);
+    setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
-    setHasSelectors(null);
-    setMovementModesSelected([]);
-    handleFilterApply(); // run with default params
-    setFilterList(filters); // reset to default
-    localStorage.removeItem('filters');
-
-    filterList.map((filterSet) => {
-      const optionItem = document.getElementsByName(filterSet.filterLabel);
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < optionItem.length; i++) {
-        if (optionItem[i].checked) {
-          optionItem[i].checked = !optionItem[i].checked;
-        }
-      }
-    });
+    // Clear checked options
+    if (hasSelectors) {
+      document.getElementById(hasSelectors).checked = false;
+      setHasSelectors(null);
+    }
+    if (movementModesSelected) {
+      movementModesSelected.map((mode) => {
+        document.getElementById(mode).checked = false;
+      });
+      setMovementModesSelected([]);
+    }
+    setStoredFilters([]);
+    handleFilterApply(e, 'resetToDefault'); // run with default params
   };
+
+  useEffect(() => {
+    const selectedArray = [];
+    selectedArray.push(hasSelectors);
+    selectedArray.push(...movementModesSelected);
+    setStoredFilters(selectedArray);
+  }, [hasSelectors, movementModesSelected]);
 
   useEffect(() => {
     const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
@@ -509,11 +514,9 @@ const TaskListPage = () => {
       setAuthorisedGroup(false);
     }
     if (isTargeter) {
-      setStoredFilters(localStorage?.getItem('filters')?.split(',') || ''); // allows checkboxes/radios to be checked/unchecked on page refresh
       setAuthorisedGroup(true);
       setFilterList(filters);
       handleFilterApply();
-      getTaskCount();
     }
   }, []);
 
@@ -612,7 +615,7 @@ const TaskListPage = () => {
               items={[
                 {
                   id: TASK_STATUS_NEW,
-                  label: `New (${taskCountsByStatus?.new})`,
+                  label: `New (${taskCountsByStatus?.new || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">New tasks</h2>
@@ -627,7 +630,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_IN_PROGRESS,
-                  label: `In progress (${taskCountsByStatus?.inProgress})`,
+                  label: `In progress (${taskCountsByStatus?.inProgress || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">In progress tasks</h2>
@@ -642,7 +645,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_TARGET_ISSUED,
-                  label: `Issued (${taskCountsByStatus?.issued})`,
+                  label: `Issued (${taskCountsByStatus?.issued || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
@@ -657,7 +660,7 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_COMPLETED,
-                  label: `Complete (${taskCountsByStatus?.complete})`,
+                  label: `Complete (${taskCountsByStatus?.complete || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Completed tasks</h2>
