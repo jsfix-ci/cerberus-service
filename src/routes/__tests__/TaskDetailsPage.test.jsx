@@ -113,7 +113,7 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Task not assigned')).toBeInTheDocument();
-    expect(screen.queryByText('Claim task')).toBeInTheDocument();
+    expect(screen.queryByText('Claim')).toBeInTheDocument();
     expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
 

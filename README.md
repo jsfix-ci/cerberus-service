@@ -70,7 +70,7 @@ docker run --name cerberus-service -p 8080:8080 \
   --env KEYCLOAK_REALM=cop-local \
   --env FORM_API_URL=https://form-api-server.dev.cop.homeoffice.gov.uk \
   --env REFDATA_API_URL=https://api.dev.refdata.homeoffice.gov.uk \
-  --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/engine-rest/ \
+  --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
   cerberus-service
 ```
 

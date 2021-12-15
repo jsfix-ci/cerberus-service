@@ -59,7 +59,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, T
     return <CommonButton onClick={handleUnclaim} {...props}>Unclaim task</CommonButton>;
   }
   if (!assignee) {
-    return <CommonButton onClick={handleClaim} {...props}>Claim task</CommonButton>;
+    return <CommonButton onClick={handleClaim} {...props}>Claim</CommonButton>;
   }
   if (assignee !== currentUser) {
     return <span className="govuk-body task-list--email">{`Assigned to ${assignee}`}</span>;

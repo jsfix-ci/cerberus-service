@@ -13,7 +13,8 @@ const config = {
   },
   refdataApiUrl: process.env.REFDATA_API_URL,
   formApiUrl: process.env.FORM_API_URL,
-  camundaApiUrl: '/camunda',
+  camundaApiUrl: '/camunda/engine-rest',
+  camundaApiUrlV1: '/camunda/v1',
   dayjsConfig: {
     relativeTime: {
       future: '%s before travel',
