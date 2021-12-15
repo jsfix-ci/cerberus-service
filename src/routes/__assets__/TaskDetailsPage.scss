@@ -28,7 +28,7 @@
 }
 
 .card {
-    font-size: 1em;
+    //font-size: 1em;
     background-color: #f3f2f1;
     border-top: 1px solid #b1b4b6;
     border-bottom: 1px solid #b1b4b6;
@@ -248,6 +248,37 @@
 }
 
 .task-details-accordion {
-    border: 2px solid #505a5f;
+    border: 2px solid #b1b4b6;
     padding: 5px;
+}
+
+.govuk-heading-m {
+    &.task-details-notes-heading {
+        background-color: #f3f2f1;
+        border-bottom: 1px solid #b1b4b6;
+        padding-right: 0.25em;
+        padding-left: 0.25em;
+        margin-top: 0.8em;
+    }
+}
+
+.activity-body-container {
+    border-left: 5px solid #505a5f;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    .govuk-body {
+        margin-bottom: -15px;
+    }
+}
+
+.govuk-grid-column-one-third {
+    .govuk-section-break--m {
+        margin-bottom: 5px;
+    }
+    .govuk-heading-m {
+        margin-bottom: 10px;
+    }
+    .govuk-section-break--visible {
+        border-bottom: 2px solid #b1b4b6;
+    }
 }
