@@ -443,7 +443,6 @@ const TaskListPage = () => {
   };
 
   const handleFilterChange = (e, option, filterSet) => {
-    // check selectors
     if (filterSet.filterName === 'hasSelectors') {
       if (option.optionName !== 'any') {
         setHasSelectors(option.optionName);
@@ -451,7 +450,6 @@ const TaskListPage = () => {
         setHasSelectors(null);
       }
     }
-    // check movementModes
     if (filterSet.filterName === 'movementModes') {
       if (e.target.checked) {
         setMovementModesSelected([...movementModesSelected, option.optionName]);
