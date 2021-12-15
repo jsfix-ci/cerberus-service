@@ -421,7 +421,6 @@ const TaskListPage = () => {
   const camundaClientV1 = useAxiosInstance(keycloak, config.camundaApiUrlV1);
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
-  const [filterList, setFilterList] = useState([]);
   const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
@@ -515,7 +514,6 @@ const TaskListPage = () => {
     }
     if (isTargeter) {
       setAuthorisedGroup(true);
-      setFilterList(filters);
       handleFilterApply();
     }
   }, []);
