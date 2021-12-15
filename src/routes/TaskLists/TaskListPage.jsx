@@ -175,6 +175,10 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   }, [location.search]);
 
   useEffect(() => {
+    setRefreshTaskList(true);
+  }, [filtersToApply]);
+
+  useEffect(() => {
     if (refreshTaskList === true) {
       getTaskList();
       return () => {
@@ -418,7 +422,7 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filterList, setFilterList] = useState([]);
-  // const [filtersToApply, setFiltersToApply] = useState('');
+  const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
 
@@ -440,46 +444,6 @@ const TaskListPage = () => {
     }
     setLoading(false);
   };
-
-  // const handleFilterChange = (e, option, filterSet) => {
-  //   // check selectors
-  //   if (filterSet.filterName === 'hasSelectors') {
-  //     if (option.optionName !== 'any') {
-  //       setHasSelectors(option.optionName);
-  //     } else {
-  //       setHasSelectors(null);
-  //     }
-  //   }
-  //   // check movementModes
-  //   if (filterSet.filterName === 'movementModes') {
-  //     if (e.target.checked) {
-  //       setMovementModesSelected([...movementModesSelected, option.optionName]);
-  //     } else {
-  //       const adjustedMovementModeSelected = [...movementModesSelected];
-  //       adjustedMovementModeSelected.splice(movementModesSelected.indexOf(option.optionName), 1);
-  //       setMovementModesSelected(adjustedMovementModeSelected);
-  //     }
-  //   }
-  // };
-
-  // const handleFilterApply = (e) => {
-  //   localStorage.removeItem('filters');
-  //   if (e) { e.preventDefault(); }
-  //   const storeFilters = [hasSelectors, movementModesSelected];
-  //   localStorage.setItem('filters', storeFilters);
-  //   let apiParams = [];
-  //   if (movementModesSelected && movementModesSelected.length > 0) {
-  //     apiParams = {
-  //       movementModes: movementModesSelected,
-  //       hasSelectors,
-  //     };
-  //   } else {
-  //     apiParams = {
-  //       hasSelectors,
-  //     };
-  //   }
-  //   setFiltersToApply(apiParams);
-  // };
 
   // const handleFilterReset = (e) => {
   //   e.preventDefault();
@@ -521,9 +485,22 @@ const TaskListPage = () => {
     }
   };
 
-  const handleFilterApply = () => {
+  const handleFilterApply = (e) => {
     console.log('apply');
+    if (e) { e.preventDefault(); }
     localStorage.setItem('filters', [hasSelectors, movementModesSelected]);
+    let apiParams = [];
+    if (movementModesSelected && movementModesSelected.length > 0) {
+      apiParams = {
+        movementModes: movementModesSelected,
+        hasSelectors,
+      };
+    } else {
+      apiParams = {
+        hasSelectors,
+      };
+    }
+    setFiltersToApply(apiParams);
   };
 
   const handleFilterReset = () => {
@@ -540,12 +517,10 @@ const TaskListPage = () => {
       setStoredFilters(localStorage?.getItem('filters')?.split(',') || ''); // allows checkboxes/radios to be checked/unchecked on page refresh
       setAuthorisedGroup(true);
       setFilterList(filters);
-      // handleFilterApply();
+      handleFilterApply();
       getTaskCount();
     }
   }, []);
-
-  console.log(storedFilters)
 
   return (
     <>
@@ -648,7 +623,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">New tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_NEW}
-                        // filtersToApply={filtersToApply}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.new}
                         setError={setError}
                       />
@@ -663,7 +638,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">In progress tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_IN_PROGRESS}
-                        // filtersToApply={filtersToApply}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.inProgress}
                         setError={setError}
                       />
@@ -678,7 +653,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_TARGET_ISSUED}
-                        // filtersToApply={filtersToApply}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.issued}
                         setError={setError}
                       />
@@ -693,7 +668,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Completed tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_COMPLETED}
-                        // filtersToApply={filtersToApply}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.complete}
                         setError={setError}
                       />
