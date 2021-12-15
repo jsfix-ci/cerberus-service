@@ -445,25 +445,6 @@ const TaskListPage = () => {
     setLoading(false);
   };
 
-  // const handleFilterReset = (e) => {
-  //   e.preventDefault();
-  //   setHasSelectors(null);
-  //   setMovementModesSelected([]);
-  //   setFiltersToApply(''); // reset to null
-  //   setFilterList(filters); // reset to default
-  //   localStorage.removeItem('filters');
-
-  //   filterList.map((filterSet) => {
-  //     const optionItem = document.getElementsByName(filterSet.filterLabel);
-  //     // eslint-disable-next-line no-plusplus
-  //     for (let i = 0; i < optionItem.length; i++) {
-  //       if (optionItem[i].checked) {
-  //         optionItem[i].checked = !optionItem[i].checked;
-  //       }
-  //     }
-  //   });
-  // };
-
   const handleFilterChange = (e, option, filterSet) => {
     // check selectors
     if (filterSet.filterName === 'hasSelectors') {
@@ -486,7 +467,6 @@ const TaskListPage = () => {
   };
 
   const handleFilterApply = (e) => {
-    console.log('apply');
     if (e) { e.preventDefault(); }
     localStorage.setItem('filters', [hasSelectors, movementModesSelected]);
     let apiParams = [];
@@ -503,9 +483,23 @@ const TaskListPage = () => {
     setFiltersToApply(apiParams);
   };
 
-  const handleFilterReset = () => {
-    console.log('reset');
+  const handleFilterReset = (e) => {
+    e.preventDefault();
+    setHasSelectors(null);
+    setMovementModesSelected([]);
+    handleFilterApply(); // run with default params
+    setFilterList(filters); // reset to default
     localStorage.removeItem('filters');
+
+    filterList.map((filterSet) => {
+      const optionItem = document.getElementsByName(filterSet.filterLabel);
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < optionItem.length; i++) {
+        if (optionItem[i].checked) {
+          optionItem[i].checked = !optionItem[i].checked;
+        }
+      }
+    });
   };
 
   useEffect(() => {
