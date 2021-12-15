@@ -112,9 +112,9 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryByText('Unassigned')).toBeInTheDocument();
-    expect(screen.queryByText('Claim')).toBeInTheDocument();
-    expect(screen.queryByText('Unclaim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Task not assigned')).toBeInTheDocument();
+    expect(screen.queryByText('Claim task')).toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
 
   it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
@@ -135,8 +135,8 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
-    expect(screen.queryByText('Unclaim')).toBeInTheDocument();
-    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
+    expect(screen.queryByText('Claim task')).not.toBeInTheDocument();
   });
 
   it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not been completed or issued', async () => {
@@ -223,7 +223,7 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
-    expect(screen.queryByText('Unclaim')).toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
     expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
@@ -362,5 +362,27 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryAllByText('Indicator')).toHaveLength(0);
+  });
+
+  it('should indicate that a version is the latest', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Version 1 (latest)')).toBeInTheDocument();
   });
 });

@@ -212,7 +212,7 @@ const TaskDetailsPage = () => {
   */
   const getAssignee = () => {
     if (!assignee) {
-      return 'Unassigned ';
+      return 'Task not assigned ';
     }
     if (assignee === currentUser) {
       return 'Assigned to you ';
@@ -239,16 +239,19 @@ const TaskDetailsPage = () => {
               <span className="govuk-caption-xl">{businessKey}</span>
               <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
               {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
-                <p className="govuk-body">
-                  {getAssignee()}
-                  <ClaimButton
-                    assignee={assignee}
-                    taskId={processInstanceData.id}
-                    setError={setError}
-                    businessKey={businessKey}
-                    TaskAssignedWarning={() => TaskAssignedWarning()}
-                  />
-                </p>
+                <>
+                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && <p className="govuk-tag govuk-tag--updatedTarget">New</p>}
+                  <p className="govuk-body">
+                    {getAssignee()}
+                    <ClaimButton
+                      assignee={assignee}
+                      taskId={processInstanceData.id}
+                      setError={setError}
+                      businessKey={businessKey}
+                      TaskAssignedWarning={() => TaskAssignedWarning()}
+                    />
+                  </p>
+                </>
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
@@ -288,7 +291,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
           </div>
-
+          <hr className="govuk-section-divider" />
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
               {isCompleteFormOpen && (
@@ -341,7 +344,6 @@ const TaskDetailsPage = () => {
                 />
               )}
             </div>
-
             <TaskNotes
               displayForm={assignee === currentUser}
               businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}

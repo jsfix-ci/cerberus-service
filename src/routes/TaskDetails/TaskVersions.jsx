@@ -99,6 +99,10 @@ const renderRulesSection = (version) => {
   return versionLayoutBuilder.renderRulesSection(rulesField);
 };
 
+const determineLatest = (index) => {
+  return index === 0 ? '(latest)' : '';
+};
+
 /**
  * This will handle portions of the movement data and apply the neccessary changes
  * before they are rendered.
@@ -110,13 +114,13 @@ const renderVersionSection = (taskSummaryBasedOnTIS, version) => {
         <TaskSummary taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
       <div className="govuk-main-task-details-grid">
-        <div className="grid-item">
+        <div className="govuk-grid-column-one-third">
           {renderFirstColumn(version)}
         </div>
-        <div className="grid-item verticel-dotted-line">
+        <div className="govuk-grid-column-one-third verticel-dotted-line">
           {renderSecondColumn(version)}
         </div>
-        <div className="grid-item verticel-dotted-line">
+        <div className="govuk-grid-column-one-third verticel-dotted-line">
           {renderThirdColumn(version)}
         </div>
       </div>
@@ -165,7 +169,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const detailSectionTest = renderVersionSection(taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
-            heading: `Version ${versionNumber}`,
+            heading: `Version ${versionNumber} ${determineLatest(index, taskVersions)}`,
             summary: (
               <>
                 <div className="task-versions--left">

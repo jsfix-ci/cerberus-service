@@ -176,7 +176,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    expect(screen.getAllByText('Claim')).toHaveLength(3);
+    expect(screen.getAllByText('Claim task')).toHaveLength(3);
   });
 
   it('should render tasks assigned to the current user with an Unclaim button', async () => {
@@ -196,8 +196,8 @@ describe('TaskListPage', () => {
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
 
-    await waitFor(() => expect(screen.getAllByText('Unclaim')).toHaveLength(1));
-    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.getAllByText('Unclaim task')).toHaveLength(1));
+    await waitFor(() => expect(screen.queryByText('Claim task')).not.toBeInTheDocument());
   });
 
   it('should render issued tasks with no claim buttons', async () => {
