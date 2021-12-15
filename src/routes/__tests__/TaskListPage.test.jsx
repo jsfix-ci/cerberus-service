@@ -219,14 +219,10 @@ describe('TaskListPage', () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
       .reply(200, [countResponse])
-      .onPost('/targeting-tasks/pages',
-        { status: 'NEW',
-          filterParams: {},
-          sortParams: [{ field: 'arrival-date', order: 'desc' }],
-          pageParams: { limit: 100, offset: 0 } })
+      .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn() }, 'new')));
 
     expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 2 other rules')).toHaveLength(1);
     expect(screen.getAllByText('Paid by Cash, Tier 1, Class A Drugs and 0 other rules')).toHaveLength(1);
@@ -236,14 +232,10 @@ describe('TaskListPage', () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
       .reply(200, [countResponse])
-      .onPost('/targeting-tasks/pages',
-        { status: 'NEW',
-          filterParams: {},
-          sortParams: [{ field: 'arrival-date', order: 'desc' }],
-          pageParams: { limit: 100, offset: 0 } })
+      .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn() }, 'new')));
 
     expect(screen.getAllByText('2 indicators')).toHaveLength(1);
     expect(screen.getAllByText('Paid by cash')).toHaveLength(1);
@@ -254,14 +246,10 @@ describe('TaskListPage', () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
       .reply(200, [countResponse])
-      .onPost('/targeting-tasks/pages',
-        { status: 'NEW',
-          filterParams: {},
-          sortParams: [{ field: 'arrival-date', order: 'desc' }],
-          pageParams: { limit: 100, offset: 0 } })
+      .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn() }, 'new')));
 
     expect(screen.getAllByText('Risk Score: 25')).toHaveLength(1);
   });
