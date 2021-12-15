@@ -88,7 +88,7 @@ spec:
           - name: REFDATA_API_URL
             value: "https://{{.REFDATA_API_URL}}"
           - name: CERBERUS_API_URL
-            value: "https://{{.CERBERUS_WORKFLOW_SERVICE_URL}}/camunda/engine-rest/"
+            value: "https://{{.CERBERUS_WORKFLOW_SERVICE_URL}}/camunda/"
       volumes:
       - name: certs
         secret:
