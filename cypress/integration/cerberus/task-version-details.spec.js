@@ -259,6 +259,20 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
+      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+          cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
+
+        cy.getTaskDetails().then((details) => {
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        });
+      });
+
       cy.contains('h2', 'Rules matched').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.rules);
