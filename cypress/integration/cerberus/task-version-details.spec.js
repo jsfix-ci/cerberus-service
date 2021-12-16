@@ -276,12 +276,12 @@ describe('Task Details of different tasks on task details Page', () => {
       });
 
       cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-          cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
-          });
-          cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
-          });
+        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+        });
+        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+        });
 
         cy.getTaskDetails().then((details) => {
           delete details.Indicator;
@@ -695,12 +695,12 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     const expectedDetails = {
-      "Total Score": "50",
-      "Total Indicators": "2",
-      "indicators": {
-        "Quick turnaround tourist (24-72 hours)": "20",
-        "Paid by cash": "30",
-      }
+      'Total Score': '50',
+      'Total Indicators': '2',
+      'indicators': {
+        'Quick turnaround tourist (24-72 hours)': '20',
+        'Paid by cash': '30',
+      },
     };
 
     cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
@@ -774,13 +774,13 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     const expectedDetails = {
-      "Total Score": "80",
-      "Total Indicators": "3",
-      "indicators": {
-        "UK port hop inbound": "20",
-        "First use of account (Driver)": "30",
-        "First time through this UK port (Trailer)": "30"
-      }
+      'Total Score': '80',
+      'Total Indicators': '3',
+      'indicators': {
+        'UK port hop inbound': '20',
+        'First use of account (Driver)': '30',
+        'First time through this UK port (Trailer)': '30',
+      },
     };
 
     cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
@@ -826,26 +826,26 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     const expectedDetails = {
-      "Total Score": "4140",
-      "Total Indicators": "16",
-      "indicators": {
-        'UK port hop inbound':'20',
-        'First use of account (Driver)':'30',
-        'First time through this UK port (Trailer)':'30',
-        'Intelligence Received - Account':'500',
-        'Intelligence Received - Consignee':'500',
-        'Intelligence Received - Consignor':'500',
-        'Intelligence Received - Driver':'500',
-        'Intelligence Received - Haulier':'500',
-        'Intelligence Received - Passenger':'500',
-        'Intelligence Received - Trailer':'500',
-        'Intelligence Received - Vehicle':'500',
-        'Empty trailer':'20',
-        'Has previously travelled as tourist (vehicle)':'10',
-        'Has previously travelled as freight (person)':'10',
-        'Has previously travelled as freight (vehicle)':'10',
-        'Has previously travelled as tourist (person)':'10'
-      }
+      'Total Score': '4140',
+      'Total Indicators': '16',
+      'indicators': {
+        'UK port hop inbound': '20',
+        'First use of account (Driver)': '30',
+        'First time through this UK port (Trailer)': '30',
+        'Intelligence Received - Account': '500',
+        'Intelligence Received - Consignee': '500',
+        'Intelligence Received - Consignor': '500',
+        'Intelligence Received - Driver': '500',
+        'Intelligence Received - Haulier': '500',
+        'Intelligence Received - Passenger': '500',
+        'Intelligence Received - Trailer': '500',
+        'Intelligence Received - Vehicle': '500',
+        'Empty trailer': '20',
+        'Has previously travelled as tourist (vehicle)': '10',
+        'Has previously travelled as freight (person)': '10',
+        'Has previously travelled as freight (vehicle)': '10',
+        'Has previously travelled as tourist (person)': '10',
+      },
     };
 
     cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
