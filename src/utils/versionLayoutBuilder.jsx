@@ -19,7 +19,7 @@ const renderVersionSection = ({ fieldSetName, contents }) => {
     return (
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">{fieldSetName}</h3>
-        <div className="govuk-vehicle-grid-col">
+        <div className="govuk-task-details-grid-column">
           {jsxElement}
         </div>
       </div>
@@ -44,7 +44,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
     if (targetingIndicators.length > 0) {
       return (
         <>
-          <div className="targeting-indicator-container">
+          <div className="govuk-task-details-indicator-container">
             <div className="govuk-task-details-grid-row bottom-border">
               <span className="govuk-grid-key font__light">Indicator</span>
               <span className="govuk-grid-value font__light">Score</span>
@@ -70,7 +70,7 @@ const renderVehicleSection = ({ contents }) => {
     return (
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">Vehicle</h3>
-        <div className="govuk-vehicle-grid-col">
+        <div className="govuk-task-details-grid-column">
           <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(vehicleVrn.type, 'VRN')}</li>
@@ -136,7 +136,7 @@ const renderTrailerSection = ({ contents }) => {
     return (
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">Trailer</h3>
-        <div className="govuk-vehicle-grid-col">
+        <div className="govuk-task-details-grid-column">
           <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(trailerRegistrationNumber.type, 'Trailer Registration Number')}</li>
@@ -188,7 +188,7 @@ const renderHaulierSection = ({ contents }) => {
     return (
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">Haulier</h3>
-        <div className="govuk-vehicle-grid-col">
+        <div className="govuk-task-details-grid-column">
           <div className="govuk-task-details-grid-item">
             <ul>
               <li className="govuk-grid-key font__light">{formatKey(haulierName.type, 'Name')}</li>
@@ -236,7 +236,7 @@ const renderPassengersSection = (fieldSetName, passenger) => {
     return (
       <div className="task-details-container border-bottom">
         <h3 className="title-heading">{fieldSetName}</h3>
-        <div className="govuk-vehicle-grid-col">
+        <div className="govuk-task-details-grid-column">
           {jsxPassengerElement}
         </div>
       </div>

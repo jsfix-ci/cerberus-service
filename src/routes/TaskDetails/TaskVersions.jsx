@@ -31,7 +31,7 @@ const renderFirstColumn = (version) => {
   return (
     <>
       <div>
-        <div className="targeting-indicator-container">
+        <div className="govuk-task-details-indicator-container">
           <h3 className="title-heading">{targIndicatorsField[0].fieldSetName}</h3>
           <div className="govuk-task-details-grid-row bottom-border">
             <span className="govuk-grid-key font__bold">Indicators</span>
