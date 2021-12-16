@@ -25,6 +25,7 @@ import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
 // Styling
 import '../__assets__/TaskListPage.scss';
+import { getNumberSeparators } from 'formiojs/utils/utils';
 
 const targetStatusConfig = (filtersToApply) => {
   return ({
@@ -284,6 +285,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
+        console.log("Target", target);
+        // target.roro.details.vehicle
+        // target.roro.details.vehicle.trailer  --> Lorry
         const passengers = target.roro.details.passengers;
         return (
           <div className="govuk-task-list-card" key={target.parentBusinessKey.businessKey}>
@@ -330,20 +334,22 @@ const TasksTab = ({ taskStatus, filtersToApply, setError }) => {
               </section>
               <section className="task-list--item-2">
                 <div>
-                  <div className="govuk-grid-row">
-                    <div className="govuk-grid-column">
-                      <ul className="govuk-list govuk-body-s content-line-one">
-                        <li>{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}{', '}arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow()}</li>
-                      </ul>
-                      <ul className="govuk-list content-line-two">
-                        <li>
+                  <div className="govuk-grid-row grid-background--greyed">
+                    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8 c-icon-van">
+                      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0">{!target.roro.details.vehicle.make ? 'Unknown' : target.roro.details.vehicle.make} {target.roro.details.vehicle.model}</p>
+                      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{!target.roro.details.vehicle.registrationNumber ? 'UNKNOWN' : target.roro.details.vehicle.registrationNumber.toUpperCase()}</p>
+                    </div>
+
+                    <div className="govuk-grid-column-three-quarters govuk-!-padding-right-8 align-right c-icon-ship">
+                      <p className="content-line-one">{target.roro.details.vessel.company && `${target.roro.details.vessel.company} voyage of `}{target.roro.details.vessel.name}{', '}arrival {!target.roro.details.eta ? 'unknown' : dayjs.utc(target.roro.details.eta).fromNow()}</p>
+                      <p className="govuk-body-s content-line-two">
                           {!target.roro.details.departureTime ? 'unknown' : dayjs.utc(target.roro.details.departureTime).format(LONG_DATE_FORMAT)}{' '}
                           <span className="govuk-!-font-weight-bold">{target.roro.details.departureLocation || 'unknown'}</span>{' '}-{' '}
                           <span className="govuk-!-font-weight-bold">{target.roro.details.arrivalLocation || 'unknown'}</span> {!target.roro.details.eta ? 'unknown'
                             : dayjs.utc(target.roro.details.eta).format(LONG_DATE_FORMAT)}
-                        </li>
-                      </ul>
+                      </p>
                     </div>
+
                   </div>
                 </div>
               </section>
