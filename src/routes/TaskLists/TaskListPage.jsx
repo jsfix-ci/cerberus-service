@@ -194,16 +194,24 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     };
   }, 60000);
 
+  const getVehicleIcon = (movementMode, vehicle) => {
+    if (movementMode === 'RORO_TOURIST') return 'c-icon-car';
+    if (vehicle && !vehicle.trailer) return 'c-icon-van';
+    if (vehicle && vehicle.trailer) return 'c-icon-hgv';
+    return 'c-icon-car';
+  };
+
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
       {!isLoading && targetTasks.length === 0 && (
-        <p className="govuk-body-l">No tasks available</p>
+        <p className="govuk-body-l">No more tasks available</p>
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const roroData = target.summary.roro.details;
         const passengers = roroData.passengers;
+        const vehicleIcon = getVehicleIcon(target.movementMode, roroData.vehicle);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
@@ -249,20 +257,24 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
               </section>
               <section className="task-list--item-2">
                 <div>
-                  <div className="govuk-grid-row">
-                    <div className="govuk-grid-column">
-                      <ul className="govuk-list govuk-body-s content-line-one">
-                        <li>{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</li>
-                      </ul>
-                      <ul className="govuk-list content-line-two">
-                        <li>
-                          {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
-                          <span className="govuk-!-font-weight-bold">{roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
-                          <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> {!roroData.eta ? 'unknown'
-                            : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
-                        </li>
-                      </ul>
+                  <div className="govuk-grid-row grid-background--greyed">
+                    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
+                      <i className={`icon-position--left ${vehicleIcon}`} />
+                      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
+                      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
                     </div>
+
+                    <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
+                      <i className="c-icon-ship" />
+                      <p className="content-line-one">{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</p>
+                      <p className="govuk-body-s content-line-two">
+                        {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
+                        <span className="govuk-!-font-weight-bold">{roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
+                        <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> {!roroData.eta ? 'unknown'
+                          : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
+                      </p>
+                    </div>
+
                   </div>
                 </div>
               </section>
