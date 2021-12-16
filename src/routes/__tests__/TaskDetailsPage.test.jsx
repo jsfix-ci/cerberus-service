@@ -294,7 +294,7 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryAllByText('Passenger')).toHaveLength(0);
+    expect(screen.queryAllByText('Passengers')).toHaveLength(0);
   });
 
   it('should handle form service errors gracefully', async () => {
@@ -384,5 +384,49 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Version 1 (latest)')).toBeInTheDocument();
+  });
+
+  it('should indicate task as new when task is new', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('New')).toHaveLength(1);
+  });
+
+  it('should render total occupants', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: { test },
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Total occupants')).toHaveLength(1);
   });
 });

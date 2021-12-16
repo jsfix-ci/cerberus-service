@@ -234,7 +234,7 @@ const TaskDetailsPage = () => {
 
       {targetData && (
         <>
-          <div className="govuk-grid-row govuk-!-padding-bottom-9">
+          <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{businessKey}</span>
               <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
@@ -291,7 +291,6 @@ const TaskDetailsPage = () => {
               )}
             </div>
           </div>
-          <hr className="govuk-section-divider" />
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
               {isCompleteFormOpen && (
