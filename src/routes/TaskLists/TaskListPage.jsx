@@ -266,6 +266,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                         </li>
                       </ul>
                     </div>
+
                   </div>
                 </div>
               </section>
