@@ -71,7 +71,7 @@
     margin-bottom: 10px;
     .govuk-task-details-grid-row {
         display: grid;
-        grid-template-columns: 70% 30%;
+        grid-template-columns: 50% 50%;
         grid-gap: 5px;
         padding: 5px;
         &.bottom-border {
@@ -216,10 +216,11 @@
 .govuk-task-summary-grid {
     font-family: "GDS Transport", arial, sans-serif;
     display: grid;
-    grid-template-columns: 3% 47% 47% 5%;
+    grid-template-columns: 50% 50%;
     padding-right: 2em;
     .grid-item-col-1 {
-        padding-left: 2em;
+        padding-left: 1em;
+        align-self: center;
         li {
             text-align: left;
             list-style: none;
@@ -227,7 +228,6 @@
     }
     .grid-item-col-2 {
         align-self: center;
-        padding-right: 1em;
         li {
             text-align: right;
             list-style: none;
@@ -266,6 +266,16 @@
 .govuk-task-summary-grid::after {
     content: "";
     clear: both;
+}
+
+.rules-header,
+.other-rules-header {
+    background-color: #f3f2f1;
+    padding: 2px 0 2px 0;
+}
+
+.govuk-rules-section {
+    margin: 0 15px 0 15px;
 }
 
 .hidden {
@@ -361,5 +371,3 @@
 .govuk-task-details-divider {
     border-bottom: 0.5px solid #b1b4b6;
 }
-
-//govuk-section-divider

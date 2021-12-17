@@ -2,31 +2,11 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT } from '../../constants';
+import { LONG_DATE_FORMAT } from '../../constants';
 
 import '../__assets__/TaskDetailsPage.scss';
 
-const getMovementModeIcon = (movementMode, roroData) => {
-  const vehicle = roroData?.vehicle;
-  const trailer = roroData.vehicle?.trailer?.regNumber;
-  let className;
-  if (movementMode.toUpperCase() === RORO_ACCOMPANIED_FREIGHT.toUpperCase() || movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
-    if (vehicle === undefined && trailer !== undefined) {
-      className = 'c-icon-trailer';
-    } if (vehicle !== undefined && trailer === undefined) {
-      className = 'c-icon-van';
-    } if (vehicle !== undefined && trailer !== undefined) {
-      className = 'c-icon-hgv';
-    }
-  } else {
-    className = 'c-icon-car';
-  }
-  return (
-    <i className={className} />
-  );
-};
-
-const TaskSummary = ({ movementMode, taskSummaryData }) => {
+const TaskSummary = ({ taskSummaryData }) => {
   dayjs.extend(utc);
   dayjs.extend(relativeTime);
   const roroData = taskSummaryData.roro.details;
@@ -34,9 +14,6 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
   return (
     <section className="card">
       <div className="govuk-task-summary-grid">
-        <div className="movement-mode-icon">
-          {getMovementModeIcon(movementMode, roroData)}
-        </div>
         <div className="grid-item-col-1">
           <ul className="summary-data-list">
             <li>
@@ -66,9 +43,6 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
             </li>
             <li><span>Arrival {!roroData.eta ? 'unknown' : (dayjs.utc(roroData.eta).fromNow())}</span></li>
           </ul>
-        </div>
-        <div className="freight-icon">
-          <i className="c-icon-ship" />
         </div>
       </div>
 

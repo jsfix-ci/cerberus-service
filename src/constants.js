@@ -8,4 +8,5 @@ export const TASK_STATUS_COMPLETED = 'complete';
 export const TARGETER_GROUP = '/bf-intel-targeters';
 export const RORO_TOURIST = 'RORO Tourist';
 export const RORO_UNACCOMPANIED_FREIGHT = 'RORO Unaccompanied Freight';
+// eslint-disable-next-line eol-last
 export const RORO_ACCOMPANIED_FREIGHT = 'RORO Accompanied Freight';

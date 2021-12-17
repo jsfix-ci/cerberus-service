@@ -14,9 +14,9 @@ const renderRulesSection = (version) => {
     const firstRule = field.childSets[0];
     const otherRules = field.childSets.slice(1);
     return (
-      <div>
+      <div className="govuk-rules-section">
         <div>
-          <h2 className="govuk-heading-m">{field.fieldSetName}</h2>
+          <h2 className="govuk-heading-m rules-header">{field.fieldSetName}</h2>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-quarter">
               <h4 className="govuk-heading-s">Rule name</h4>
@@ -52,7 +52,7 @@ const renderRulesSection = (version) => {
 
         { otherRules && (
           <div className="govuk-!-margin-top-9">
-            <h2 className="govuk-heading-m">Other rule matches ({otherRules.length})</h2>
+            <h2 className="govuk-heading-m other-rules-header">Other rule matches ({otherRules.length})</h2>
             {otherRules.map((rule, index) => (
               <div key={index}>
                 <div className="govuk-grid-row">
@@ -134,7 +134,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
       if (!type.includes('HIDDEN')) {
         return (
           <div className="govuk-task-details-grid-row bottom-border" key={uuidv4()}>
-            {type.includes('CHANGED') ? <span className="govuk-grid-key font__light task-versions--highlight">{indicator}</span> : <span className="govuk-grid-key font__light">{indicator}</span>}
+            {type.includes('CHANGED') ? <span className="govuk-grid-key list-bullet font__light task-versions--highlight">{indicator}</span> : <span className="govuk-grid-key list-bullet font__light">{indicator}</span>}
             <span className="govuk-grid-value font__bold">{formatField(type, score)}</span>
           </div>
         );
@@ -216,61 +216,63 @@ const renderVehicleSection = ({ contents }) => {
   }
 };
 
-const renderTrailerSection = ({ contents }) => {
-  if (contents.length > 0) {
-    const trailerArray = contents.filter(({ propName }) => {
-      return propName === 'trailerRegistrationNumber' || propName === 'trailerType' || propName === 'trailerRegistrationNationality'
-      || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded';
-    });
-    const trailerRegistrationNumber = trailerArray[0];
-    const trailerType = trailerArray[1];
-    const trailerCountryOfRegistration = trailerArray[2];
-    const trailerEmptyOrLoaded = trailerArray[3];
-    const trailerLength = trailerArray[4];
-    const trailerHeight = trailerArray[5];
-    return (
-      <div className="task-details-container bottom-border-thick">
-        <h3 className="title-heading">Trailer</h3>
-        <div className="govuk-task-details-grid-column">
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(trailerRegistrationNumber.type, 'Trailer Registration Number')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(trailerRegistrationNumber.type, trailerRegistrationNumber.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(trailerType.type, 'Type')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(trailerType.type, trailerType.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(trailerLength.type, 'Length')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(trailerLength.type, trailerLength.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(trailerHeight.type, 'Height')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(trailerHeight.type, trailerHeight.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(trailerCountryOfRegistration.type, 'Country of registration')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(trailerCountryOfRegistration.type, trailerCountryOfRegistration.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(trailerEmptyOrLoaded.type, 'Empty or loaded')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(trailerEmptyOrLoaded.type, trailerEmptyOrLoaded.content)}</li>
-            </ul>
+const renderTrailerSection = ({ contents }, movementMode) => {
+  if (movementMode !== RORO_TOURIST) {
+    if (contents.length > 0) {
+      const trailerArray = contents.filter(({ propName }) => {
+        return propName === 'trailerRegistrationNumber' || propName === 'trailerType' || propName === 'trailerRegistrationNationality'
+        || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded';
+      });
+      const trailerRegistrationNumber = trailerArray[0];
+      const trailerType = trailerArray[1];
+      const trailerCountryOfRegistration = trailerArray[2];
+      const trailerEmptyOrLoaded = trailerArray[3];
+      const trailerLength = trailerArray[4];
+      const trailerHeight = trailerArray[5];
+      return (
+        <div className="task-details-container bottom-border-thick">
+          <h3 className="title-heading">Trailer</h3>
+          <div className="govuk-task-details-grid-column">
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(trailerRegistrationNumber.type, 'Trailer Registration Number')}</li>
+                <li className="govuk-grid-value font__bold">{formatField(trailerRegistrationNumber.type, trailerRegistrationNumber.content)}</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(trailerType.type, 'Type')}</li>
+                <li className="govuk-grid-value font__bold">{formatField(trailerType.type, trailerType.content)}</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(trailerLength.type, 'Length')}</li>
+                <li className="govuk-grid-value font__bold">{formatField(trailerLength.type, trailerLength.content)}</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(trailerHeight.type, 'Height')}</li>
+                <li className="govuk-grid-value font__bold">{formatField(trailerHeight.type, trailerHeight.content)}</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(trailerCountryOfRegistration.type, 'Country of registration')}</li>
+                <li className="govuk-grid-value font__bold">{formatField(trailerCountryOfRegistration.type, trailerCountryOfRegistration.content)}</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(trailerEmptyOrLoaded.type, 'Empty or loaded')}</li>
+                <li className="govuk-grid-value font__bold">{formatField(trailerEmptyOrLoaded.type, trailerEmptyOrLoaded.content)}</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 };
 
@@ -351,13 +353,13 @@ const isOccupantValidToRender = (passengers) => {
   return isValidToRender;
 };
 
-const renderFirstColumn = (version) => {
+const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
   const vehicleField = version.find(({ propName }) => propName === 'vehicle');
   const goodsField = version.find(({ propName }) => propName === 'goods');
   const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField, true);
   const vehicle = (vehicleField !== null && vehicleField !== undefined) && renderVehicleSection(vehicleField, true);
-  const trailer = (vehicleField !== null && vehicleField !== undefined) && renderTrailerSection(vehicleField, true);
+  const trailer = (vehicleField !== null && vehicleField !== undefined) && renderTrailerSection(vehicleField, movementMode);
   const goods = (goodsField !== null && goodsField !== undefined) && renderVersionSection(goodsField, false);
   return (
     <div>
@@ -435,7 +437,7 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       </div>
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
-          {renderFirstColumn(version)}
+          {renderFirstColumn(version, movementMode)}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
           {renderSecondColumn(version)}
