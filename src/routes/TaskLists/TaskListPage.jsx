@@ -466,6 +466,8 @@ const TaskListPage = () => {
     if (e) { e.preventDefault(); }
     let apiParams = [];
     if (!resetToDefault) {
+      localStorage.setItem('filterMovementMode', movementModesSelected);
+      localStorage.setItem('hasSelector', hasSelectors);
       apiParams = {
         movementModes: movementModesSelected || [],
         hasSelectors,
@@ -483,6 +485,9 @@ const TaskListPage = () => {
 
   const handleFilterReset = (e) => {
     e.preventDefault();
+    // Clear localStorage
+    localStorage.removeItem('filterMovementMode');
+    localStorage.removeItem('hasSelector');
     // Clear checked options
     if (hasSelectors) {
       document.getElementById(hasSelectors).checked = false;
@@ -498,10 +503,31 @@ const TaskListPage = () => {
     handleFilterApply(e, 'resetToDefault'); // run with default params
   };
 
+  const applySavedFiltersOnLoad = () => {
+    const selectors = localStorage.getItem('hasSelector');
+    const movementModes = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
+    setHasSelectors(selectors);
+    setMovementModesSelected(movementModes);
+
+    const selectedArray = [];
+    if (selectors) { selectedArray.push(selectors); }
+    if (movementModes?.length > 0) { selectedArray.push(...movementModes); }
+    setStoredFilters(selectedArray);
+
+    const apiParams = {
+      movementModes,
+      hasSelectors: selectors,
+    };
+
+    getTaskCount(apiParams);
+    setFiltersToApply(apiParams);
+    setLoading(false);
+  };
+
   useEffect(() => {
     const selectedArray = [];
-    selectedArray.push(hasSelectors);
-    selectedArray.push(...movementModesSelected);
+    if (hasSelectors) { selectedArray.push(hasSelectors); }
+    if (movementModesSelected?.length > 0) { selectedArray.push(...movementModesSelected); }
     setStoredFilters(selectedArray);
   }, [hasSelectors, movementModesSelected]);
 
@@ -512,7 +538,7 @@ const TaskListPage = () => {
     }
     if (isTargeter) {
       setAuthorisedGroup(true);
-      handleFilterApply();
+      applySavedFiltersOnLoad();
     }
   }, []);
 

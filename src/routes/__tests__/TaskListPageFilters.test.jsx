@@ -58,16 +58,20 @@ describe('TaskListFilters', () => {
     expect(screen.getByLabelText('Present')).not.toBeChecked(); // this is reset to 'not' when 'has no' is selected
   });
 
-  // it('should store selection to localstorage when apply filters button is clicked', async () => {
-  //   fireEvent.click(screen.getByLabelText('RoRo accompanied freight'));
-  //   fireEvent.click(screen.getByLabelText('Present'));
-  //   fireEvent.click(screen.getByText('Apply filters'));
+  it('should store selection to localstorage when apply filters button is clicked', async () => {
+    fireEvent.click(screen.getByLabelText('RoRo accompanied freight'));
+    fireEvent.click(screen.getByLabelText('Present'));
+    fireEvent.click(screen.getByText('Apply filters'));
 
-  //   expect(localStorage.getItem('filters')).toBe('true,RORO_ACCOMPANIED_FREIGHT');
-  // });
+    expect(localStorage.getItem('hasSelector')).toBe('true');
+    expect(localStorage.getItem('filterMovementMode')).toBe('RORO_ACCOMPANIED_FREIGHT');
+  });
 
   it('should clear filters when clearAll is clicked', async () => {
-    // localStorage.setItem('filters', 'true,RORO_ACCOMPANIED_FREIGHT');
+    localStorage.setItem('hasSelector', 'true');
+    localStorage.getItem('filterMovementMode', 'RORO_ACCOMPANIED_FREIGHT');
+    expect(localStorage.getItem('hasSelector')).toBe('true');
+    expect(localStorage.getItem('filterMovementMode')).toBe('RORO_ACCOMPANIED_FREIGHT');
 
     fireEvent.click(screen.getByText('Clear all filters'));
 
@@ -76,16 +80,17 @@ describe('TaskListFilters', () => {
     expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
     expect(screen.getByLabelText('Not present')).not.toBeChecked();
     expect(screen.getByLabelText('Present')).not.toBeChecked();
-    // expect(localStorage.getItem('filters')).toBeFalsy();
+    expect(localStorage.getItem('hasSelector')).toBeFalsy();
+    expect(localStorage.getItem('filterMovementMode')).toBeFalsy();
   });
 
-  // it('should persist filters when they exist in local storage', async () => {
-  //   localStorage.setItem('filters', 'RORO_ACCOMPANIED_FREIGHT');
+  it('should persist filters when they exist in local storage', async () => {
+    localStorage.setItem('filterMovementMode', 'RORO_ACCOMPANIED_FREIGHT');
 
-  //   expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
-  //   expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
-  //   expect(screen.getByLabelText('Not present')).not.toBeChecked();
-  //   expect(screen.getByLabelText('Present')).not.toBeChecked();
-  //   expect(localStorage.getItem('filters')).toBe('RORO_ACCOMPANIED_FREIGHT');
-  // });
+    expect(screen.getByLabelText('RoRo unaccompanied freight')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist')).not.toBeChecked();
+    expect(screen.getByLabelText('Not present')).not.toBeChecked();
+    expect(screen.getByLabelText('Present')).not.toBeChecked();
+    expect(localStorage.getItem('filterMovementMode')).toBe('RORO_ACCOMPANIED_FREIGHT');
+  });
 });
