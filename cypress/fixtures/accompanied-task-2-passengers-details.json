@@ -106,8 +106,12 @@
     }
   ],
   "TargetingIndicators": {
-    "Name": "Paid by cash",
-    "Name": "Empty trailer for round trip",
-    "Name": "Empty vehicle"
+     "Total Score": "80",
+     "Total Indicators": "3",
+     "indicators": {
+        "Paid by cash": "30",
+        "Empty trailer for round trip": "30",
+        "Empty vehicle": "20"
+     }
   }
 }
