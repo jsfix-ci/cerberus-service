@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 import Accordion from '../../govuk/Accordion';
-import { LONG_DATE_FORMAT } from '../../constants';
+import { RORO_TOURIST, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT } from '../../constants';
 import TaskSummary from './TaskSummary';
 import { formatKey, formatField } from '../../utils/formatField';
 import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
@@ -427,11 +427,11 @@ const determineLatest = (index) => {
  * This will handle portions of the movement data and apply the neccessary changes
  * before they are rendered.
  */
-const renderSectionsBasedOnTIS = (taskSummaryBasedOnTIS, version) => {
+const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) => {
   return (
     <>
       <div>
-        <TaskSummary taskSummaryData={taskSummaryBasedOnTIS} />
+        <TaskSummary movementMode={movementMode} taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
@@ -452,12 +452,10 @@ const renderSectionsBasedOnTIS = (taskSummaryBasedOnTIS, version) => {
 };
 
 const stripOutSectionsByMovementMode = (version, movementMode) => {
-  const roroTourist = 'RORO Tourist';
-  const roroUnaccompFreight = 'RORO Unaccompanied Freight';
   switch (true) {
-    case movementMode.toUpperCase() === roroTourist.toUpperCase():
+    case movementMode.toUpperCase() === RORO_TOURIST.toUpperCase():
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
-    case movementMode.toUpperCase() === roroUnaccompFreight.toUpperCase():
+    case movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase():
       return version.filter(({ propName }) => propName !== 'vehicle');
     default:
       return version;
@@ -486,7 +484,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
           const filteredVersion = stripOutSectionsByMovementMode(version, movementMode);
-          const detailSectionTest = renderSectionsBasedOnTIS(taskSummaryBasedOnTIS, filteredVersion);
+          const detailSectionTest = renderSectionsBasedOnTIS(movementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
             heading: `Version ${versionNumber} ${determineLatest(index, taskVersions)}`,

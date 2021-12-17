@@ -2,11 +2,48 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { LONG_DATE_FORMAT } from '../../constants';
+import { RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT } from '../../constants';
 
 import '../__assets__/TaskDetailsPage.scss';
 
-const TaskSummary = ({ taskSummaryData }) => {
+const getMovementModeIcon = (movementMode, roroData) => {
+  const vehicle = roroData?.vehicle;
+  const trailer = roroData.vehicle?.trailer?.regNumber;
+
+  if (movementMode.toUpperCase() === RORO_ACCOMPANIED_FREIGHT.toUpperCase()
+  || movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
+    if (vehicle === undefined && trailer !== undefined) {
+      // 'This is a TRAILER icon';
+      return (
+        <div className="movement-mode-icon">
+          <i className="c-icon-ship" />
+        </div>
+      );
+    } if (vehicle !== undefined && trailer === undefined) {
+      // return 'This is a VAN icon';
+      return (
+        <div className="movement-mode-icon">
+          <i className="c-icon-ship" />
+        </div>
+      );
+    } if (vehicle !== undefined && trailer !== undefined) {
+      // return 'This is a LORRY with TRAILER icon';
+      return (
+        <div className="movement-mode-icon">
+          <i className="c-icon-ship" />
+        </div>
+      );
+    }
+  }
+  // 'Default to RORO Tourist icon';
+  return (
+    <div className="movement-mode-icon">
+      <i className="c-icon-car" />
+    </div>
+  );
+};
+
+const TaskSummary = ({ movementMode, taskSummaryData }) => {
   dayjs.extend(utc);
   dayjs.extend(relativeTime);
   const roroData = taskSummaryData.roro.details;
@@ -14,6 +51,7 @@ const TaskSummary = ({ taskSummaryData }) => {
   return (
     <section className="card">
       <div className="govuk-task-summary-grid">
+        {getMovementModeIcon(movementMode, roroData)}
         <div className="grid-item-col-1">
           <ul className="summary-data-list">
             <li>
@@ -44,7 +82,11 @@ const TaskSummary = ({ taskSummaryData }) => {
             <li><span>Arrival {!roroData.eta ? 'unknown' : (dayjs.utc(roroData.eta).fromNow())}</span></li>
           </ul>
         </div>
+        <div className="freight-icon">
+          <i className="c-icon-ship" />
+        </div>
       </div>
+
     </section>
   );
 };
