@@ -87,6 +87,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.typeTodaysDateTime('eta');
 
+      cy.verifySelectedDropdownValue('category', 'A');
+
       cy.multiSelectDropDown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
 
       cy.verifyMultiSelectDropdown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
@@ -192,6 +194,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
       cy.typeTodaysDateTime('eta');
+
+      cy.verifySelectedDropdownValue('category', 'B');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
@@ -326,6 +330,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
       cy.typeTodaysDateTime('eta');
+
+      cy.verifySelectedDropdownValue('category', 'C');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
