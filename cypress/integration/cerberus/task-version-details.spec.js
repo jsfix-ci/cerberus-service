@@ -58,9 +58,17 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', 'Targeting indicators').next().within(() => {
+      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+        });
+        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+        });
+
         cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.TargetingIndicators);
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
         });
       });
 
@@ -143,9 +151,17 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', 'Targeting indicators').next().within(() => {
+      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+        });
+        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+        });
+
         cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.TargetingIndicators);
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
         });
       });
     });
@@ -259,6 +275,20 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
+      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+        });
+        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+        });
+
+        cy.getTaskDetails().then((details) => {
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        });
+      });
+
       cy.contains('h2', 'Rules matched').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.rules);
@@ -350,7 +380,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
-    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
       cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
         expect(taskUpdated).to.be.equal('Updated');
       });
@@ -472,7 +502,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
 
     cy.visit('/tasks');
-    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
       cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
         expect(taskUpdated).to.be.equal('Updated');
       });
@@ -605,7 +635,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
 
     cy.visit('/tasks');
-    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
       cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
         expect(taskUpdated).to.be.equal('Updated');
       });
@@ -665,18 +695,30 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     const expectedDetails = {
-      'Name': 'Quick turnaround tourist (24-72 hours)',
-      'Name': 'Paid by cash',
+      'Total Score': '50',
+      'Total Indicators': '2',
+      'indicators': {
+        'Quick turnaround tourist (24-72 hours)': '20',
+        'Paid by cash': '30',
+      },
     };
 
-    cy.contains('h2', 'Targeting indicators').next().within(() => {
+    cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+      cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+        expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
+      });
+      cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+        expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+      });
+
       cy.getTaskDetails().then((details) => {
-        expect(details).to.deep.equal(expectedDetails);
+        delete details.Indicator;
+        expect(details).to.deep.equal(expectedDetails.indicators);
       });
     });
 
     cy.visit('/tasks');
-    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+    cy.get('.govuk-task-list-card').contains('AUTOTEST-16-12-2021-RORO-Accompanied-Freight-target-indicators-same-version_981578:CMID=TEST').closest('section').then((element) => {
       cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
     });
   });
@@ -722,6 +764,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
     });
+
     cy.get('.govuk-accordion__section-heading').should('have.length', 2);
 
     cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').then((value) => {
@@ -731,19 +774,31 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     const expectedDetails = {
-      'Name': 'UK port hop inbound',
-      'Name': 'First use of account (Driver)',
-      'Name': 'First time through this UK port (Trailer)',
+      'Total Score': '80',
+      'Total Indicators': '3',
+      'indicators': {
+        'UK port hop inbound': '20',
+        'First use of account (Driver)': '30',
+        'First time through this UK port (Trailer)': '30',
+      },
     };
 
-    cy.contains('h2', 'Targeting indicators').next().within(() => {
+    cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+      cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+        expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
+      });
+      cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+        expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+      });
+
       cy.getTaskDetails().then((details) => {
-        expect(details).to.deep.equal(expectedDetails);
+        delete details.Indicator;
+        expect(details).to.deep.equal(expectedDetails.indicators);
       });
     });
 
     cy.visit('/tasks');
-    cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
+    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
       cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
         expect(taskUpdated).to.be.equal('Updated');
       });
@@ -771,27 +826,39 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     const expectedDetails = {
-      'Name': 'UK port hop inbound',
-      'Name': 'First use of account (Driver)',
-      'Name': 'First time through this UK port (Trailer)',
-      'Name': 'Intelligence Received - Account',
-      'Name': 'Intelligence Received - Consignee',
-      'Name': 'Intelligence Received - Consignor',
-      'Name': 'Intelligence Received - Driver',
-      'Name': 'Intelligence Received - Haulier',
-      'Name': 'Intelligence Received - Passenger',
-      'Name': 'Intelligence Received - Trailer',
-      'Name': 'Intelligence Received - Vehicle',
-      'Name': 'Empty trailer',
-      'Name': 'Has previously travelled as tourist (vehicle)',
-      'Name': 'Has previously travelled as freight (person)',
-      'Name': 'Has previously travelled as freight (vehicle)',
-      'Name': 'Has previously travelled as tourist (person)',
+      'Total Score': '4140',
+      'Total Indicators': '16',
+      'indicators': {
+        'UK port hop inbound': '20',
+        'First use of account (Driver)': '30',
+        'First time through this UK port (Trailer)': '30',
+        'Intelligence Received - Account': '500',
+        'Intelligence Received - Consignee': '500',
+        'Intelligence Received - Consignor': '500',
+        'Intelligence Received - Driver': '500',
+        'Intelligence Received - Haulier': '500',
+        'Intelligence Received - Passenger': '500',
+        'Intelligence Received - Trailer': '500',
+        'Intelligence Received - Vehicle': '500',
+        'Empty trailer': '20',
+        'Has previously travelled as tourist (vehicle)': '10',
+        'Has previously travelled as freight (person)': '10',
+        'Has previously travelled as freight (vehicle)': '10',
+        'Has previously travelled as tourist (person)': '10',
+      },
     };
 
-    cy.contains('h2', 'Targeting indicators').next().within(() => {
+    cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
+      cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+        expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
+      });
+      cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+        expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+      });
+
       cy.getTaskDetails().then((details) => {
-        expect(details).to.deep.equal(expectedDetails);
+        delete details.Indicator;
+        expect(details).to.deep.equal(expectedDetails.indicators);
       });
     });
   });
