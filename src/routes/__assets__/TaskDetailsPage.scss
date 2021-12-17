@@ -216,10 +216,10 @@
 .govuk-task-summary-grid {
     font-family: "GDS Transport", arial, sans-serif;
     display: grid;
-    grid-template-columns: 3% auto auto 3%;
+    grid-template-columns: 3% 47% 47% 5%;
     padding-right: 2em;
     .grid-item-col-1 {
-        padding-left: 25px;
+        padding-left: 2em;
         li {
             text-align: left;
             list-style: none;
@@ -227,6 +227,7 @@
     }
     .grid-item-col-2 {
         align-self: center;
+        padding-right: 1em;
         li {
             text-align: right;
             list-style: none;
@@ -246,16 +247,19 @@
     .summary-data-list {
         padding-left: 10px;
     }
-    .icon-container-1 {
-        align-items: left;
-    }
-    .icon-container-2 {
-        align-items: right;
-    }
     .freight-icon,
     .movement-mode-icon {
-        margin: auto;
+        margin: auto 0 auto 0;
         padding-bottom: 2.5em;
+    }
+    .c-icon-trailer::before,
+    .c-icon-van::before,
+    .c-icon-car::before,
+    .c-icon-hgv::before {
+        left: 10px;
+    }
+    .c-icon-ship::before {
+        left: 5px;
     }
 }
 

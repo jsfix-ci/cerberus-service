@@ -9,37 +9,20 @@ import '../__assets__/TaskDetailsPage.scss';
 const getMovementModeIcon = (movementMode, roroData) => {
   const vehicle = roroData?.vehicle;
   const trailer = roroData.vehicle?.trailer?.regNumber;
-
-  if (movementMode.toUpperCase() === RORO_ACCOMPANIED_FREIGHT.toUpperCase()
-  || movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
+  let className;
+  if (movementMode.toUpperCase() === RORO_ACCOMPANIED_FREIGHT.toUpperCase() || movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
     if (vehicle === undefined && trailer !== undefined) {
-      // 'This is a TRAILER icon';
-      return (
-        <div className="movement-mode-icon">
-          <i className="c-icon-ship" />
-        </div>
-      );
+      className = 'c-icon-trailer';
     } if (vehicle !== undefined && trailer === undefined) {
-      // return 'This is a VAN icon';
-      return (
-        <div className="movement-mode-icon">
-          <i className="c-icon-ship" />
-        </div>
-      );
+      className = 'c-icon-van';
     } if (vehicle !== undefined && trailer !== undefined) {
-      // return 'This is a LORRY with TRAILER icon';
-      return (
-        <div className="movement-mode-icon">
-          <i className="c-icon-ship" />
-        </div>
-      );
+      className = 'c-icon-hgv';
     }
+  } else {
+    className = 'c-icon-car';
   }
-  // 'Default to RORO Tourist icon';
   return (
-    <div className="movement-mode-icon">
-      <i className="c-icon-car" />
-    </div>
+    <i className={className} />
   );
 };
 
@@ -51,7 +34,9 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
   return (
     <section className="card">
       <div className="govuk-task-summary-grid">
-        {getMovementModeIcon(movementMode, roroData)}
+        <div className="movement-mode-icon">
+          {getMovementModeIcon(movementMode, roroData)}
+        </div>
         <div className="grid-item-col-1">
           <ul className="summary-data-list">
             <li>
