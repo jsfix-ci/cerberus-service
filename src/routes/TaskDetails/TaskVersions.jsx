@@ -298,13 +298,13 @@ const renderOccupantsSection = ({ fieldSetName, childSets }) => {
 
     if (otherPassengers.length > 0) {
       otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger) => {
-        const passengerJsxBlock = otherPassenger.contents.map((passenger) => {
-          if (!passenger.type.includes('HIDDEN')) {
+        const passengerJsxElement = otherPassenger.contents.map((field) => {
+          if (!field.type.includes('HIDDEN')) {
             return (
-              <div className="govuk-task-details-grid-item" key={uuidv4()}>
+              <div className="govuk-task-details-grid-item">
                 <ul>
-                  <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
-                  <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
+                  <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
+                  <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
                 </ul>
               </div>
             );
@@ -312,18 +312,19 @@ const renderOccupantsSection = ({ fieldSetName, childSets }) => {
         });
         return (
           <div className="govuk-task-details-grid-column bottom-border" key={uuidv4()}>
-            {passengerJsxBlock}
+            {passengerJsxElement}
           </div>
         );
       });
-      return (
-        <>
-          <div className="task-details-container">
-            <h3 className="title-heading">{fieldSetName}</h3>
-            <div className="govuk-task-details-grid-column">
-              {firstPassengerJsxElement}
-            </div>
+    }
+    return (
+      <>
+        <div className="task-details-container">
+          <h3 className="title-heading">{fieldSetName}</h3>
+          <div className="govuk-task-details-grid-column">
+            {firstPassengerJsxElement}
           </div>
+          {otherPassengersJsxElementBlock && (
           <details className="govuk-details" data-module="govuk-details">
             <summary className="govuk-details__summary">
               <span className="govuk-details__summary-text">
@@ -334,9 +335,10 @@ const renderOccupantsSection = ({ fieldSetName, childSets }) => {
               {otherPassengersJsxElementBlock}
             </div>
           </details>
-        </>
-      );
-    }
+          )}
+        </div>
+      </>
+    );
   }
 };
 
