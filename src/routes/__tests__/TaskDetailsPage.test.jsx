@@ -7,6 +7,7 @@ import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
 import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
+import { debug } from 'webpack';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -269,13 +270,17 @@ describe('TaskDetailsPage', () => {
       noteFormResponse: { test },
     });
 
-    // await waitFor(() => render(<TaskDetailsPage />));
-    const { container } = render(<TaskDetailsPage />);
+    await waitFor(() => render(<TaskDetailsPage />));
 
-    const taskDetailsVehicleElement = container.querySelector('h3.title-heading');
-
-    expect(screen.getByText('Vehicle')).not.toBeInTheDocument();
-    // expect(screen.getByText('Trailer Registration Number')).toBeInTheDocument();
+    // Test against vehicle/trailer fields
+    expect(screen.queryByLabelText('VRN')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Model')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Colour')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Make')).not.toBeInTheDocument();
+    expect(screen.queryAllByText('Trailer type')).toHaveLength(1);
+    expect(screen.queryAllByText('Trailer length')).toHaveLength(1);
+    expect(screen.queryAllByText('Trailer height')).toHaveLength(1);
+    expect(screen.queryAllByText('Empty or loaded')).toHaveLength(1);
   });
 
   it('should not render passenger section', async () => {

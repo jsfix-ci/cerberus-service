@@ -130,6 +130,10 @@
                 font-weight: bold;
             }
         }
+        &.bottom-border-thick {
+            margin-bottom: 10px;
+            border-bottom: 3px solid #b1b4b6;
+        }
     }
     .task-details-container {
         &.title-heading {
