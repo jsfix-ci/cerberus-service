@@ -7,7 +7,6 @@ import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
 import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
-import { debug } from 'webpack';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
