@@ -61,6 +61,16 @@
     }
 }
 
+.govuk-grid-row {
+    .govuk-grid-column-two-thirds {
+        width: 70%;
+    }
+    .govuk-grid-column-one-third {
+        width: 30%;
+        float: right;
+    }
+}
+
 .govuk-task-details-grid {
     font-family: "GDS Transport", arial, sans-serif;
     display: flex;
@@ -189,11 +199,6 @@
             padding-left: 15px;
         }
     }
-    .govuk-grid-column-one-third {
-        padding-right: 15px;
-        padding-left: 15px;
-        width: 100%;
-    }
     .task-versions-details-notes {
         font-family: "GDS Transport", arial, sans-serif;
         display: flex;
@@ -217,9 +222,8 @@
     font-family: "GDS Transport", arial, sans-serif;
     display: grid;
     grid-template-columns: 50% 50%;
-    padding-right: 2em;
+    padding-right: 0.75em;
     .grid-item-col-1 {
-        padding-left: 1em;
         align-self: center;
         li {
             text-align: left;

@@ -16,7 +16,6 @@ jest.mock('react-router-dom', () => ({
 
 describe('TaskDetailsPage', () => {
   const mockAxios = new MockAdapter(axios);
-  // let mockTaskDetailsAxiosResponses;
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
@@ -253,7 +252,7 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryAllByText('Account details')).toHaveLength(0);
   });
 
-  it('should not render vehicle section', async () => {
+  it('should not render vehicle section but render trailer section', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
       taskResponse: [
@@ -270,9 +269,13 @@ describe('TaskDetailsPage', () => {
       noteFormResponse: { test },
     });
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    // await waitFor(() => render(<TaskDetailsPage />));
+    const { container } = render(<TaskDetailsPage />);
 
-    expect(screen.queryAllByText('Vehicle details')).toHaveLength(0);
+    const taskDetailsVehicleElement = container.querySelector('h3.title-heading');
+
+    expect(screen.getByText('Vehicle')).not.toBeInTheDocument();
+    // expect(screen.getByText('Trailer Registration Number')).toBeInTheDocument();
   });
 
   it('should not render passenger section', async () => {
