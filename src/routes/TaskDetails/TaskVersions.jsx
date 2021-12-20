@@ -3,10 +3,79 @@ import dayjs from 'dayjs';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 import Accordion from '../../govuk/Accordion';
-import { RORO_TOURIST, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT } from '../../constants';
+import { RORO_TOURIST, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT, RORO_ACCOMPANIED_FREIGHT } from '../../constants';
 import TaskSummary from './TaskSummary';
 import { formatKey, formatField } from '../../utils/formatField';
 import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
+
+const isLatest = (index) => {
+  return index === 0 ? '(latest)' : '';
+};
+
+const hasPassenger = (passengers) => {
+  let isPassenger = false;
+  for (const passengerChildSets of passengers.childSets) {
+    for (const passengerDataFieldObj of passengerChildSets.contents) {
+      if (passengerDataFieldObj.content !== null) {
+        isPassenger = true;
+        break;
+      }
+    }
+  }
+  return isPassenger;
+};
+
+const stripOutSectionsByMovementMode = (version, movementMode) => {
+  switch (true) {
+    case movementMode.toUpperCase() === RORO_TOURIST.toUpperCase():
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
+    default:
+      return version;
+  }
+};
+
+const renderVersionSection = ({ fieldSetName, contents }) => {
+  if (contents.length > 0 && contents !== null && contents !== undefined) {
+    const jsxElement = contents.map((content) => {
+      if (!content.type.includes('HIDDEN')) {
+        return (
+          <div className="govuk-task-details-grid-item" key={uuidv4()}>
+            <ul>
+              <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
+              <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
+            </ul>
+          </div>
+        );
+      }
+    });
+    return (
+      <div className="task-details-container bottom-border-thick">
+        <h3 className="title-heading">{fieldSetName}</h3>
+        <div className="govuk-task-details-grid-column">
+          {jsxElement}
+        </div>
+      </div>
+    );
+  }
+};
+
+const renderVersionSectionBody = (fieldSet) => {
+  if (fieldSet.length > 0 && fieldSet !== null && fieldSet !== undefined) {
+    const jsxElement = fieldSet.map((content) => {
+      if (!content.type.includes('HIDDEN')) {
+        return (
+          <div key={uuidv4()}>
+            <ul>
+              <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
+              <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
+            </ul>
+          </div>
+        );
+      }
+    });
+    return jsxElement;
+  }
+};
 
 const renderRulesSection = (version) => {
   const field = version.find(({ propName }) => propName === 'rules');
@@ -51,7 +120,7 @@ const renderRulesSection = (version) => {
         </div>
 
         { otherRules && (
-          <div className="govuk-!-margin-top-9">
+          <div>
             <h2 className="govuk-heading-m other-rules-header">Other rule matches ({otherRules.length})</h2>
             {otherRules.map((rule, index) => (
               <div key={index}>
@@ -101,39 +170,15 @@ const renderRulesSection = (version) => {
   }
 };
 
-const renderVersionSection = ({ fieldSetName, contents }) => {
-  if (contents.length > 0) {
-    const jsxElement = contents.map((content) => {
-      if (!content.type.includes('HIDDEN')) {
-        return (
-          <div className="govuk-task-details-grid-item" key={uuidv4()}>
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
-              <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
-            </ul>
-          </div>
-        );
-      }
-    });
-    return (
-      <div className="task-details-container bottom-border-thick">
-        <h3 className="title-heading">{fieldSetName}</h3>
-        <div className="govuk-task-details-grid-column">
-          {jsxElement}
-        </div>
-      </div>
-    );
-  }
-};
-
 const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
   if (hasChildSet) {
-    const targetingIndicators = childSets.map((childSet) => {
+    const targetingIndicators = childSets.map((childSet, index) => {
       const indicator = childSet.contents.filter(({ propName }) => propName === 'userfacingtext')[0].content;
       const score = childSet.contents.filter(({ propName }) => propName === 'score')[0].content;
       if (!type.includes('HIDDEN')) {
+        const className = index !== childSets.length - 1 ? 'govuk-task-details-grid-row bottom-border' : 'govuk-task-details-grid-row';
         return (
-          <div className="govuk-task-details-grid-row bottom-border" key={uuidv4()}>
+          <div className={className} key={uuidv4()}>
             {type.includes('CHANGED') ? <span className="govuk-grid-key list-bullet font__light task-versions--highlight">{indicator}</span> : <span className="govuk-grid-key list-bullet font__light">{indicator}</span>}
             <span className="govuk-grid-value font__bold">{formatField(type, score)}</span>
           </div>
@@ -148,7 +193,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
               <span className="govuk-grid-key font__light">Indicator</span>
               <span className="govuk-grid-value font__light">Score</span>
             </div>
-            <div className="task-details-container bottom-border-thick">
+            <div className="task-details-container">
               {targetingIndicators}
             </div>
           </div>
@@ -158,117 +203,40 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
   }
 };
 
-const renderVehicleSection = ({ contents }) => {
-  if (contents.length > 0) {
-    const vehicleArray = contents.filter(({ propName }) => {
-      return propName === 'registrationNumber' || propName === 'make' || propName === 'model'
-      || propName === 'type' || propName === 'registrationNationality' || propName === 'colour';
-    });
-    const vehicleVrn = vehicleArray[0];
-    const vehicleType = vehicleArray[1];
-    const vehicleMake = vehicleArray[2];
-    const vehicleModel = vehicleArray[3];
-    const vehicleCountryOfReg = vehicleArray[4];
-    const vehicleColour = vehicleArray[5];
-    return (
-      <div className="task-details-container bottom-border-thick">
-        <h3 className="title-heading">Vehicle</h3>
-        <div className="govuk-task-details-grid-column">
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(vehicleVrn.type, 'VRN')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(vehicleVrn.type, vehicleVrn.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(vehicleType.type, 'Type')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(vehicleType.type, vehicleType.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(vehicleMake.type, 'Make')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(vehicleMake.type, vehicleMake.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(vehicleModel.type, 'Model')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(vehicleModel.type, vehicleModel.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(vehicleCountryOfReg.type, 'Country of registration')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(vehicleCountryOfReg.type, vehicleCountryOfReg.content)}</li>
-            </ul>
-          </div>
-          <div className="govuk-task-details-grid-item">
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(vehicleColour.type, 'Colour')}</li>
-              <li className="govuk-grid-value font__bold">{formatField(vehicleColour.type, vehicleColour.content)}</li>
-            </ul>
+const renderVehicleSection = ({ contents }, movementMode) => {
+  if (movementMode !== RORO_UNACCOMPANIED_FREIGHT) {
+    if (contents.length > 0) {
+      const vehicleArray = contents.filter(({ propName }) => {
+        return propName === 'registrationNumber' || propName === 'make' || propName === 'model'
+        || propName === 'type' || propName === 'registrationNationality' || propName === 'colour';
+      });
+      const vehicleSection = renderVersionSectionBody(vehicleArray);
+      return (
+        <div className="task-details-container bottom-border-thick">
+          <h3 className="title-heading">Vehicle</h3>
+          <div className="govuk-task-details-grid-column">
+            {vehicleSection}
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 };
 
 const renderTrailerSection = ({ contents }, movementMode) => {
-  if (movementMode !== RORO_TOURIST) {
-    if (contents.length > 0) {
-      const trailerArray = contents.filter(({ propName }) => {
-        return propName === 'trailerRegistrationNumber' || propName === 'trailerType' || propName === 'trailerRegistrationNationality'
-        || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded';
-      });
-      const trailerRegistrationNumber = trailerArray[0];
-      const trailerType = trailerArray[1];
-      const trailerCountryOfRegistration = trailerArray[2];
-      const trailerEmptyOrLoaded = trailerArray[3];
-      const trailerLength = trailerArray[4];
-      const trailerHeight = trailerArray[5];
+  if (movementMode === RORO_UNACCOMPANIED_FREIGHT || movementMode === RORO_ACCOMPANIED_FREIGHT) {
+    const trailerDataArray = contents.filter(({ propName }) => {
+      return propName === 'trailerRegistrationNumber' || propName === 'trailerType' || propName === 'trailerRegistrationNationality'
+      || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded';
+    });
+    // Check that trailer registration exists
+    if (trailerDataArray[0].content !== null) {
+      const trailerSection = renderVersionSectionBody(trailerDataArray);
       return (
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Trailer</h3>
           <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(trailerRegistrationNumber.type, 'Trailer Registration Number')}</li>
-                <li className="govuk-grid-value font__bold">{formatField(trailerRegistrationNumber.type, trailerRegistrationNumber.content)}</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(trailerType.type, 'Type')}</li>
-                <li className="govuk-grid-value font__bold">{formatField(trailerType.type, trailerType.content)}</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(trailerLength.type, 'Length')}</li>
-                <li className="govuk-grid-value font__bold">{formatField(trailerLength.type, trailerLength.content)}</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(trailerHeight.type, 'Height')}</li>
-                <li className="govuk-grid-value font__bold">{formatField(trailerHeight.type, trailerHeight.content)}</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(trailerCountryOfRegistration.type, 'Country of registration')}</li>
-                <li className="govuk-grid-value font__bold">{formatField(trailerCountryOfRegistration.type, trailerCountryOfRegistration.content)}</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(trailerEmptyOrLoaded.type, 'Empty or loaded')}</li>
-                <li className="govuk-grid-value font__bold">{formatField(trailerEmptyOrLoaded.type, trailerEmptyOrLoaded.content)}</li>
-              </ul>
-            </div>
+            {trailerSection}
           </div>
         </div>
       );
@@ -297,11 +265,11 @@ const renderOccupantsSection = ({ fieldSetName, childSets }) => {
     });
 
     if (otherPassengers.length > 0) {
-      otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger) => {
+      otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
         const passengerJsxElement = otherPassenger.contents.map((field) => {
           if (!field.type.includes('HIDDEN')) {
             return (
-              <div className="govuk-task-details-grid-item">
+              <div className="govuk-task-details-grid-item" key={uuidv4()}>
                 <ul>
                   <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
                   <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
@@ -310,8 +278,9 @@ const renderOccupantsSection = ({ fieldSetName, childSets }) => {
             );
           }
         });
+        const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
         return (
-          <div className="govuk-task-details-grid-column bottom-border" key={uuidv4()}>
+          <div className={className} key={uuidv4()}>
             {passengerJsxElement}
           </div>
         );
@@ -342,30 +311,17 @@ const renderOccupantsSection = ({ fieldSetName, childSets }) => {
   }
 };
 
-const isOccupantValidToRender = (passengers) => {
-  let isValidToRender = false;
-  for (const passengerChildSets of passengers.childSets) {
-    for (const passengerDataFieldObj of passengerChildSets.contents) {
-      if (passengerDataFieldObj.content !== null) {
-        isValidToRender = true;
-        break;
-      }
-    }
-  }
-  return isValidToRender;
-};
-
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
   const vehicleField = version.find(({ propName }) => propName === 'vehicle');
   const goodsField = version.find(({ propName }) => propName === 'goods');
-  const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField, true);
-  const vehicle = (vehicleField !== null && vehicleField !== undefined) && renderVehicleSection(vehicleField, true);
+  const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
+  const vehicle = (vehicleField !== null && vehicleField !== undefined) && renderVehicleSection(vehicleField, movementMode);
   const trailer = (vehicleField !== null && vehicleField !== undefined) && renderTrailerSection(vehicleField, movementMode);
-  const goods = (goodsField !== null && goodsField !== undefined) && renderVersionSection(goodsField, false);
+  const goods = (goodsField !== null && goodsField !== undefined) && renderVersionSection(goodsField);
   return (
     <div>
-      <div className="govuk-task-details-indicator-container">
+      <div className="govuk-task-details-indicator-container  bottom-border-thick">
         <h3 className="title-heading">{targIndicatorsField.fieldSetName}</h3>
         <div className="govuk-task-details-grid-row bottom-border">
           <span className="govuk-grid-key font__bold">Indicators</span>
@@ -402,7 +358,7 @@ const renderSecondColumn = (version) => {
 
 const renderThirdColumn = (version) => {
   const passengersField = version.find(({ propName }) => propName === 'passengers');
-  const isValidToRender = isOccupantValidToRender(passengersField);
+  const isValidToRender = hasPassenger(passengersField);
   const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
   const driverField = version.find(({ propName }) => propName === 'driver');
   const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField);
@@ -421,10 +377,6 @@ const renderThirdColumn = (version) => {
       {driver}
     </div>
   );
-};
-
-const determineLatest = (index) => {
-  return index === 0 ? '(latest)' : '';
 };
 
 /**
@@ -455,17 +407,6 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
   );
 };
 
-const stripOutSectionsByMovementMode = (version, movementMode) => {
-  switch (true) {
-    case movementMode.toUpperCase() === RORO_TOURIST.toUpperCase():
-      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
-    case movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase():
-      return version.filter(({ propName }) => propName !== 'vehicle');
-    default:
-      return version;
-  }
-};
-
 const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
   /*
    * There can be multiple versions of the data
@@ -491,7 +432,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const detailSectionTest = renderSectionsBasedOnTIS(movementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
-            heading: `Version ${versionNumber} ${determineLatest(index, taskVersions)}`,
+            heading: `Version ${versionNumber} ${isLatest(index, taskVersions)}`,
             summary: (
               <>
                 <div className="task-versions--left">

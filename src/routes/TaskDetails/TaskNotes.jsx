@@ -115,8 +115,8 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
 
       {activityLog.map((activity) => {
         return (
-          <>
-            <div className="activity-body-container" key={activity.id}>
+          <div key={activity.id}>
+            <div className="activity-body-container">
               <p className="govuk-body-s govuk-!-margin-bottom-2">
                 <span className="govuk-!-font-weight-bold">
                   {new Date(activity.date).toLocaleDateString()}
@@ -127,7 +127,7 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
               <p className="govuk-body">{hyperlinkify(activity.note)}</p>
             </div>
             <hr className="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-          </>
+          </div>
         );
       })}
     </div>

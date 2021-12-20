@@ -16,7 +16,6 @@ jest.mock('react-router-dom', () => ({
 
 describe('TaskDetailsPage', () => {
   const mockAxios = new MockAdapter(axios);
-  // let mockTaskDetailsAxiosResponses;
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
@@ -253,7 +252,7 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryAllByText('Account details')).toHaveLength(0);
   });
 
-  it('should not render vehicle section', async () => {
+  it('should not render vehicle section but render trailer section', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
       taskResponse: [
@@ -272,7 +271,15 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryAllByText('Vehicle details')).toHaveLength(0);
+    // Test against vehicle/trailer fields
+    expect(screen.queryByLabelText('VRN')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Model')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Colour')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Make')).not.toBeInTheDocument();
+    expect(screen.queryAllByText('Trailer type')).toHaveLength(1);
+    expect(screen.queryAllByText('Trailer length')).toHaveLength(1);
+    expect(screen.queryAllByText('Trailer height')).toHaveLength(1);
+    expect(screen.queryAllByText('Empty or loaded')).toHaveLength(1);
   });
 
   it('should not render passenger section', async () => {
