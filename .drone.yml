@@ -267,7 +267,7 @@ steps:
     TEST_ENV: dev
   when:
     branch:
-       - main
+       - release-candidate
     event:
        - push
 
