@@ -30,9 +30,11 @@ describe('Create task with different payload from Cerberus', () => {
     cy.createCerberusTask('RoRo-Tourist.json', 'TOURIST-WITH-PASSENGERS').then(() => {
       cy.wait(2000);
       cy.expandTaskDetails(0).then(() => {
-        cy.contains('h2', 'Rules matched').next().contains('.govuk-summary-list__key', 'Abuse type')
-          .next()
-          .should('have.text', 'Obscene Material');
+        cy.contains('h2', 'Rules matched').nextAll().within(() => {
+          cy.getAllRuleMatches().then((actualRuleMatches) => {
+            expect(actualRuleMatches['Abuse Type']).to.be.equal('Obscene Material');
+          });
+        });
       });
     });
   });

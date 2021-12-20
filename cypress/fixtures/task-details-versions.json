@@ -69,7 +69,11 @@
         "Check-in": "3 Aug 2020 at 12:05"
       },
       "TargetingIndicators": {
-        "Name": "Paid by cash"
+        "Total Score": "30",
+        "Total Indicators": "1",
+        "indicators": {
+          "Paid by cash": "30"
+        }
       },
       "selectorMatch": {
         "Attribute": "",
@@ -91,18 +95,12 @@
         "Warnings": "Supplemental warnings"
       },
       "rulesMatched": {
-        "Name": "Paid by Cash",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "National Security at the Border",
+        "Rule name": "Paid by Cash",
+        "Threat": "Tier 1",
+        "Rule verison": "1",
+        "Abuse Type": "National Security at the Border",
         "Agency": "",
-        "Description": "Test",
-        "Name": "Paid by cash1",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "Class A Drugs",
-        "Agency": "",
-        "Description": "Paid by cash"
+        "Description": "Test"
       }
     },
     {
@@ -174,7 +172,11 @@
         "Check-in": "3 Aug 2020 at 12:05"
       },
       "TargetingIndicators": {
-        "Name": "Tractor unit only"
+        "Total Score": "30",
+        "Total Indicators": "1",
+        "indicators": {
+          "Paid by cash": "30"
+        }
       },
       "selectorMatch": {
         "Attribute": "",
@@ -279,7 +281,11 @@
         "Check-in": "3 Aug 2021 at 12:05"
       },
       "TargetingIndicators": {
-        "Name": "Paid by cash"
+        "Total Score": "30",
+        "Total Indicators": "1",
+        "indicators": {
+          "Paid by cash": "30"
+        }
       },
       "selectorMatch": {
         "Attribute": "",
@@ -301,18 +307,12 @@
         "Warnings": "Supplemental warnings"
       },
       "rulesMatched": {
-        "Name": "cash paid rule",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "National Security at the Border",
+        "Rule name": "Paid by Cash",
+        "Threat": "Tier 1",
+        "Rule verison": "1",
+        "Abuse Type": "National Security at the Border",
         "Agency": "",
-        "Description": "Test",
-        "Name": "Paid by cash1",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "Class A Drugs",
-        "Agency": "",
-        "Description": "Paid by cash"
+        "Description": "Test"
       }
     }
   ]

@@ -755,13 +755,33 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
     cy.verifyTaskDetailSection(expectedDetails.booking, versionInRow, sectionHeading.get('booking'));
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'rulesMatched')) {
-    cy.verifyTaskDetailSection(expectedDetails.rulesMatched, versionInRow, sectionHeading.get('rulesMatched'));
+    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
+      cy.contains('h2', 'Rules matched').nextAll().within(() => {
+        cy.getAllRuleMatches().then((actualRuleMatches) => {
+          expect(actualRuleMatches).to.deep.equal(expectedDetails.rulesMatched);
+        });
+      });
+    });
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
     cy.verifyTaskDetailSection(expectedDetails.selectorMatch, versionInRow, sectionHeading.get('selectorMatch'));
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'TargetingIndicators')) {
-    cy.verifyTaskDetailSection(expectedDetails.TargetingIndicators, versionInRow, sectionHeading.get('TargetingIndicators'));
+    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
+      cy.contains('h2', sectionHeading.get('TargetingIndicators')).nextAll().within(() => {
+        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+        });
+        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+        });
+
+        cy.getTaskDetails().then((details) => {
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        });
+      });
+    });
   }
 });
 
@@ -1056,4 +1076,36 @@ Cypress.Commands.add('backToTaskList', (element, tabName) => {
   cy.wait(1000);
   cy.contains('Back to task list').click();
   cy.get('.govuk-tabs__list-item--selected').should('contain.text', tabName).and('be.visible');
+});
+
+Cypress.Commands.add('getAllRuleMatches', () => {
+  let actualRuleMatches = {};
+  cy.get('.govuk-heading-s').each((item) => {
+    cy.wrap(item).invoke('text').then((header) => {
+      cy.wrap(item).next().invoke('text').then((value) => {
+        actualRuleMatches[header] = value;
+      });
+    });
+  }).then(() => {
+    return actualRuleMatches;
+  });
+});
+
+Cypress.Commands.add('getAllSelectorMatches', (locator) => {
+  let actualSelectorMatches = [];
+  cy.wrap(locator).nextAll().find('.govuk-\\!-margin-bottom-6').each((selector) => {
+    let obj = {};
+    cy.wrap(selector).find('.govuk-summary-list__row').each((item) => {
+      cy.wrap(item).find('dt').invoke('text').then((key) => {
+        cy.wrap(item).find('dd').invoke('text').then((value) => {
+          obj[key] = value;
+        });
+      });
+    }).then(() => {
+      actualSelectorMatches.push(obj);
+    });
+  })
+    .then(() => {
+      return actualSelectorMatches;
+    });
 });
