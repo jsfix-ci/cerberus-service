@@ -120,7 +120,7 @@ const renderRulesSection = (version) => {
         </div>
 
         { otherRules && (
-          <div className="govuk-!-margin-top-9">
+          <div>
             <h2 className="govuk-heading-m other-rules-header">Other rule matches ({otherRules.length})</h2>
             {otherRules.map((rule, index) => (
               <div key={index}>
