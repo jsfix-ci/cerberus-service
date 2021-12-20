@@ -205,7 +205,7 @@ steps:
       from_secret: DEV_CERBERUS_SERVICE_URL
   when:
     branch:
-    - christmas-code
+    - release-candidate
     event:
     - push
 
