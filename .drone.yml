@@ -208,6 +208,8 @@ steps:
     - release-candidate
     event:
     - promote
+    target:
+    - dev
 
 
 - name: create_testjob_dev
@@ -271,6 +273,8 @@ steps:
        - release-candidate
     event:
        - promote
+    target:
+       - dev
 
 - name: create_testjob_sit
   pull: always
