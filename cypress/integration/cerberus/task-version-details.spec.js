@@ -72,9 +72,9 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', '1 selector matches').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.selector_matches);
+      cy.contains('h2', '2 selector matches').then((locator) => {
+        cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
+          expect(actualSelectorMatches).to.deep.equal(expectedDetails.selector_matches);
         });
       });
       // COP-6433 : Auto-expand current task version
@@ -289,9 +289,9 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', 'Rules matched').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.rules);
+      cy.contains('h2', 'Rules matched').nextAll().within(() => {
+        cy.getAllRuleMatches().then((actualRuleMatches) => {
+          expect(actualRuleMatches).to.deep.equal(expectedDetails.rules);
         });
       });
     });
@@ -718,7 +718,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
-    cy.get('.govuk-task-list-card').contains('AUTOTEST-16-12-2021-RORO-Accompanied-Freight-target-indicators-same-version_981578:CMID=TEST').closest('section').then((element) => {
+    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
       cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
     });
   });
