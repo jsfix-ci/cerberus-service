@@ -439,7 +439,7 @@ Cypress.Commands.add('collapseTaskDetails', () => {
 Cypress.Commands.add('navigateToTaskDetailsPage', (task) => {
   const processInstanceId = task.map((item) => item.processInstanceId);
   expect(processInstanceId.length).to.not.equal(0);
-  cy.intercept('GET', `/camunda/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
+  cy.intercept('GET', `/camunda/engine-rest/task?processInstanceId=${processInstanceId[0]}`).as('tasksDetails');
   cy.getBusinessKeyByProcessInstanceId(processInstanceId[0]).then((businessKey) => {
     cy.visit(`/tasks/${businessKey}`);
     cy.wait('@tasksDetails').then(({ response }) => {
@@ -1083,6 +1083,17 @@ Cypress.Commands.add('backToTaskList', (element, tabName) => {
   cy.wait(1000);
   cy.contains('Back to task list').click();
   cy.get('.govuk-tabs__list-item--selected').should('contain.text', tabName).and('be.visible');
+});
+
+Cypress.Commands.add('getActivityLogs', () => {
+  let activityLog = [];
+  cy.get('p.govuk-body:not(.govuk-tag--positiveTarget)').each((item) => {
+    cy.wrap(item).invoke('text').then((activity) => {
+      activityLog.push(activity);
+    });
+  }).then(() => {
+    return activityLog;
+  });
 });
 
 Cypress.Commands.add('getAllRuleMatches', () => {
