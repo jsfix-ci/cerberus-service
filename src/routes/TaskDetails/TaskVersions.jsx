@@ -179,7 +179,9 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
         const className = index !== childSets.length - 1 ? 'govuk-task-details-grid-row bottom-border' : 'govuk-task-details-grid-row';
         return (
           <div className={className} key={uuidv4()}>
-            {type.includes('CHANGED') ? <span className="govuk-grid-key list-bullet font__light task-versions--highlight">{indicator}</span> : <span className="govuk-grid-key list-bullet font__light">{indicator}</span>}
+            <ul className="list-bullet-container">
+              {type.includes('CHANGED') ? <li className="govuk-grid-key list-bullet font__light task-versions--highlight">{indicator}</li> : <li className="govuk-grid-key list-bullet font__light">{indicator}</li>}
+            </ul>
             <span className="govuk-grid-value font__bold">{formatField(type, score)}</span>
           </div>
         );
@@ -320,7 +322,7 @@ const renderFirstColumn = (version, movementMode) => {
   const trailer = (vehicleField !== null && vehicleField !== undefined) && renderTrailerSection(vehicleField, movementMode);
   const goods = (goodsField !== null && goodsField !== undefined) && renderVersionSection(goodsField);
   return (
-    <div>
+    <div className="govuk-task-details-col-1">
       <div className="govuk-task-details-indicator-container  bottom-border-thick">
         <h3 className="title-heading">{targIndicatorsField.fieldSetName}</h3>
         <div className="govuk-task-details-grid-row bottom-border">
@@ -348,7 +350,7 @@ const renderSecondColumn = (version) => {
   const account = (accountField !== null && accountField !== undefined) && renderVersionSection(accountField);
   const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
   return (
-    <div>
+    <div className="govuk-task-details-col-2">
       {haulier}
       {account}
       {booking}
@@ -363,7 +365,7 @@ const renderThirdColumn = (version) => {
   const driverField = version.find(({ propName }) => propName === 'driver');
   const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField);
   return (
-    <div>
+    <div className="govuk-task-details-col-3">
       <div className="task-details-container bottom-border-thick">
         <h3 className="title-heading">Occupants</h3>
         <div className="govuk-task-details-grid-row">
