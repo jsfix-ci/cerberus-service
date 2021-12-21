@@ -2,6 +2,8 @@
 @import '~formiojs/dist/formio.full.css';
 @import "~govuk-frontend/govuk/all";
 @import "formio";
+@import "utilities";
+@import "c-icons";
 
 .govuk-width-container {
   max-width: 90%;

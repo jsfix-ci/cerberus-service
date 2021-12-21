@@ -56,7 +56,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, T
   };
 
   if (assignee === currentUser) {
-    return <CommonButton onClick={handleUnclaim} {...props}>Unclaim</CommonButton>;
+    return <CommonButton onClick={handleUnclaim} {...props}>Unclaim task</CommonButton>;
   }
   if (!assignee) {
     return <CommonButton onClick={handleClaim} {...props}>Claim</CommonButton>;

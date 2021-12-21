@@ -17,7 +17,6 @@ import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import TaskNotes from './TaskNotes';
-import TaskSummary from './TaskSummary';
 import TaskVersions from './TaskVersions';
 // Styling
 import Button from '../../govuk/Button';
@@ -213,7 +212,7 @@ const TaskDetailsPage = () => {
   */
   const getAssignee = () => {
     if (!assignee) {
-      return 'Unassigned ';
+      return 'Task not assigned ';
     }
     if (assignee === currentUser) {
       return 'Assigned to you ';
@@ -235,21 +234,24 @@ const TaskDetailsPage = () => {
 
       {targetData && (
         <>
-          <div className="govuk-grid-row govuk-!-padding-bottom-9">
+          <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{businessKey}</span>
-              <h1 className="govuk-heading-xl govuk-!-margin-bottom-0">Task details</h1>
+              <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
               {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
-                <p className="govuk-body">
-                  {getAssignee()}
-                  <ClaimButton
-                    assignee={assignee}
-                    taskId={processInstanceData.id}
-                    setError={setError}
-                    businessKey={businessKey}
-                    TaskAssignedWarning={() => TaskAssignedWarning()}
-                  />
-                </p>
+                <>
+                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && <p className="govuk-tag govuk-tag--updatedTarget">New</p>}
+                  <p className="govuk-body">
+                    {getAssignee()}
+                    <ClaimButton
+                      assignee={assignee}
+                      taskId={processInstanceData.id}
+                      setError={setError}
+                      businessKey={businessKey}
+                      TaskAssignedWarning={() => TaskAssignedWarning()}
+                    />
+                  </p>
+                </>
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
@@ -289,10 +291,8 @@ const TaskDetailsPage = () => {
               )}
             </div>
           </div>
-
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">
-              <TaskSummary taskSummaryData={targetData.taskSummaryBasedOnTIS} />
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
@@ -335,6 +335,7 @@ const TaskDetailsPage = () => {
               )}
               {!isCompleteFormOpen && !isDismissFormOpen && !isIssueTargetFormOpen && (
                 <TaskVersions
+                  taskSummaryBasedOnTIS={targetData.taskSummaryBasedOnTIS}
                   taskVersions={targetData.taskDetails}
                   businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                   taskVersionDifferencesCounts={targetData.taskVersionDifferencesCounts}
@@ -342,7 +343,6 @@ const TaskDetailsPage = () => {
                 />
               )}
             </div>
-
             <TaskNotes
               displayForm={assignee === currentUser}
               businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
