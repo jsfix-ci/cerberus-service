@@ -1,4 +1,17 @@
 import 'cypress-keycloak-commands';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import config from '../../src/config';
+
+const duration = require('dayjs/plugin/duration');
+
+dayjs.extend(duration);
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
 let token;
 
@@ -23,9 +36,7 @@ Cypress.Commands.add('navigation', (option) => {
 });
 
 Cypress.Commands.add('waitForTaskManagementPageToLoad', () => {
-  cy.intercept('GET', '/camunda/variable-instance?variableName=taskSummaryBasedOnTIS&processInstanceIdIn=**').as('tasks');
-
-  cy.navigation('Tasks');
+  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
 
   cy.wait('@tasks').then(({ response }) => {
     expect(response.statusCode).to.equal(200);
@@ -53,7 +64,7 @@ Cypress.Commands.add('getTasksAssignedToOtherUsers', () => {
   const authorization = `bearer ${token}`;
   const options = {
     method: 'GET',
-    url: '/camunda/task?**',
+    url: '/camunda/engine-rest/task?**',
     headers: {
       authorization,
     },
@@ -68,7 +79,7 @@ Cypress.Commands.add('getTasksAssignedToSpecificUser', (user) => {
   const authorization = `bearer ${token}`;
   const options = {
     method: 'GET',
-    url: '/camunda/task?**',
+    url: '/camunda/engine-rest/task?**',
     headers: {
       authorization,
     },
@@ -83,7 +94,7 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
   const authorization = `bearer ${token}`;
   const options = {
     method: 'GET',
-    url: '/camunda/task?**',
+    url: '/camunda/engine-rest/task?**',
     headers: {
       authorization,
     },
@@ -95,15 +106,13 @@ Cypress.Commands.add('getTasksAssignedToMe', () => {
 });
 
 Cypress.Commands.add('claimTask', () => {
-  cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-
-  cy.get('.title-container').eq(0).within(() => {
-    cy.get('a').invoke('text').as('taskName');
-    cy.get('a').click();
+  cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+  cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
+    cy.get('.govuk-task-list-card a').eq(0).click();
+    cy.get('.govuk-caption-xl').should('have.text', text);
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
   });
-  cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
-
-  cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
   cy.wait('@claim').then(({ response }) => {
     expect(response.statusCode).to.equal(204);
@@ -166,9 +175,9 @@ function findItem(taskName, action, taskdetails) {
         cy.contains('Next').click();
         cy.wait(1000);
       }
-      cy.get('.govuk-link--no-visited-state').each((item) => {
+      cy.get('.govuk-task-list-card').each((item) => {
         if (action === null) {
-          cy.wrap(item).invoke('text').then((text) => {
+          cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
             cy.log('task text', text);
             if (taskName === text) {
               if (taskdetails !== null) {
@@ -178,7 +187,7 @@ function findItem(taskName, action, taskdetails) {
             }
           });
         } else {
-          cy.wrap(item).invoke('text').then((text) => {
+          cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
             if (taskName === text) {
               cy.wait(2000);
               cy.contains(action).click();
@@ -206,16 +215,14 @@ Cypress.Commands.add('findTaskInAllThePages', (taskName, action, taskdetails) =>
 Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
   cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
     cy.wrap(element).invoke('attr', 'id').then((value) => {
-      cy.wrap(item).parents('.title-container').then((taskElement) => {
-        if (value === 'in-progress') {
+      cy.wrap(item).find('.claim-button-container').then((taskElement) => {
+        if (value === 'inProgress') {
           cy.wrap(taskElement).find('.task-list--email').invoke('text').then((assignee) => {
             expect(assignee).to.equal(taskdetails);
           });
         } else if (value === 'new') {
-          cy.wrap(taskElement).next('.govuk-grid-row').then((riskStatementElement) => {
-            cy.wrap(riskStatementElement).find('.task-risk-statement').invoke('text').then((selector) => {
-              expect(selector).to.equal(taskdetails);
-            });
+          cy.wrap(item).find('.task-risk-statement').invoke('text').then((selector) => {
+            expect(selector).to.equal(taskdetails);
           });
         }
       });
@@ -346,9 +353,9 @@ Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
 
 Cypress.Commands.add('findTaskInSinglePage', (taskName, action, taskdetails) => {
   let found = false;
-  cy.get('.govuk-link--no-visited-state').each((item) => {
+  cy.get('.govuk-task-list-card').each((item) => {
     if (action === null) {
-      cy.wrap(item).invoke('text').then((text) => {
+      cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
         cy.log('task text', text);
         if (taskName === text) {
           if (taskdetails !== null) {
@@ -358,7 +365,7 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action, taskdetails) => 
         }
       });
     } else {
-      cy.wrap(item).invoke('text').then((text) => {
+      cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
         if (taskName === text) {
           cy.wait(2000);
           cy.contains(action).click();
@@ -473,7 +480,7 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
 Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) => {
   if (registrationNumber !== null) {
     cy.get('.card').within(() => {
-      cy.get('.govuk-heading-m').should('contain.text', registrationNumber);
+      cy.get('.govuk-heading-s').should('contain.text', registrationNumber);
     });
   }
 
@@ -567,8 +574,8 @@ Cypress.Commands.add('verifyTaskSummary', (taskSummary) => {
 Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
   let taskSummary = {};
   cy.visit('/tasks');
-  cy.get('.task-list--item').contains(businessKey).closest('section').then((element) => {
-    cy.wrap(element).find('h4.task-heading').invoke('text').then((mode) => {
+  cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+    cy.wrap(element).find('h3.task-heading').invoke('text').then((mode) => {
       taskSummary.mode = mode;
     });
     cy.wrap(element).find('.task-risk-statement').invoke('text').then((rules) => {
@@ -793,17 +800,19 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
 });
 
 Cypress.Commands.add('checkTaskSummaryDetails', () => {
-  let taskSummary = {};
-  cy.get('.govuk-grid-row dl.mode-details dt').each((keyElement) => {
-    cy.wrap(keyElement).invoke('text').then((key) => {
-      cy.log('key', key);
-      cy.wrap(keyElement).next().invoke('text').then((value) => {
-        cy.log('value', value);
-        taskSummary[key] = value;
-      });
+  let taskSummary = [];
+  cy.get('.summary-data-list li').each((summary, index) => {
+    cy.wrap(summary).invoke('text').then((value) => {
+      if (index === 2) {
+        taskSummary.push(value.split('-')[0].trim());
+        taskSummary.push(value.split('-')[1].trim());
+      } else {
+        taskSummary.push(value);
+      }
     });
   }).then(() => {
-    return taskSummary;
+    const [vehicle, Ferry, Departure, Arrival, Account] = taskSummary;
+    return { vehicle, Ferry, Departure, Arrival, Account };
   });
 });
 
@@ -865,26 +874,29 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = {};
   let date = new Date();
-  let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+  let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+  let bookingDateTime;
   const dateFormat = 'D MMM YYYY [at] HH:mm';
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
     const rndInt = Math.floor(Math.random() * 20) + 1;
     date.setDate(date.getDate() + rndInt);
     task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
-    let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+    bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
     bookingDateTime = Cypress.dayjs(bookingDateTime).format(dateFormat);
     let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
     if (taskName.includes('TSV')) {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
+      let vehicle = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle;
+      let person = task.variables.rbtPayload.value.data.movement.persons[0].person;
       let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).utc().format(dateFormat);
       let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format(dateFormat);
-      cy.log('departure and arrival time', departureDateTime, arrivalDateTime);
+      let diff = Cypress.dayjs(voyage.actualArrivalTimestamp).from(Cypress.dayjs());
+      expectedTaskSummary.vehicle = `Vehicle${vehicle.registrationNumber} driven by ${person.fullName}`;
       expectedTaskSummary.Ferry = `${voyage.carrier} voyage of ${voyage.craftId}`;
-      expectedTaskSummary.Departure = `${voyage.departureLocation}, ${departureDateTime}`;
-      expectedTaskSummary.Arrival = `${voyage.arrivalLocation}, ${arrivalDateTime}`;
-      expectedTaskSummary.Account = `unknown, booked on ${bookingDateTime}`;
-      expectedTaskSummary.Haulier = 'unknown';
+      expectedTaskSummary.Departure = `${departureDateTime}   ${voyage.departureLocation}`;
+      expectedTaskSummary.Arrival = `${voyage.arrivalLocation}      ${arrivalDateTime}`;
+      expectedTaskSummary.Account = `Arrival ${diff}`;
     }
     task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
     cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-${taskName}`).then((response) => {
@@ -892,7 +904,7 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
       cy.checkTaskDisplayed(`${response.businessKey}`);
       if (taskName.includes('TSV')) {
         cy.checkTaskSummaryDetails().then((taskSummary) => {
-          expect(expectedTaskSummary).to.deep.equal(taskSummary);
+          expect(taskSummary).to.deep.equal(expectedTaskSummary);
         });
       }
       cy.checkTaskSummary(registrationNumber, bookingDateTime);
@@ -900,124 +912,69 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   });
 });
 
-Cypress.Commands.add('getNumberOfTasksByMode', (modeName, taskStatus) => {
-  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=movementMode_eq_${modeName},`;
-  let url;
-
-  if (taskStatus === 'New') {
-    url = `${baseUrl}processState_neq_Complete&unassigned=true`;
-  } else if (taskStatus === 'In Progress') {
-    url = `${baseUrl}processState_neq_Complete&assigned=true`;
-  } else if (taskStatus === 'Issued') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=movementMode_eq_${modeName},processState_eq_Issued`;
-  } else if (taskStatus === 'Completed') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=movementMode_eq_${modeName},processState_eq_Complete&processDefinitionKey=assignTarget`;
-  }
-  cy.request({
-    method: 'GET',
-    url,
-    headers: { Authorization: `Bearer ${token}` },
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-    console.log(response.body);
-    return response.body.filter((item) => item.id).length;
-  });
-});
-
-Cypress.Commands.add('getNumberOfTasksWithoutFilter', (taskStatus) => {
-  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=`;
-  let url;
-
-  if (taskStatus === 'New') {
-    url = `${baseUrl}processState_neq_Complete&unassigned=true`;
-  } else if (taskStatus === 'In Progress') {
-    url = `${baseUrl}processState_neq_Complete&assigned=true`;
-  } else if (taskStatus === 'Issued') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Issued`;
-  } else if (taskStatus === 'Completed') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=processState_eq_Complete&processDefinitionKey=assignTarget`;
-  }
-  cy.request({
-    method: 'GET',
-    url,
-    headers: { Authorization: `Bearer ${token}` },
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-    console.log(response.body);
-    return response.body.filter((item) => item.id).length;
-  });
-});
-
-Cypress.Commands.add('getNumberOfTasksByModeAndSelectors', (modeName, selector, taskStatus) => {
-  if (selector === 'has-no-selector') {
-    selector = 'hasSelectors_eq_no';
-  } else if (selector === 'has-selector') {
-    selector = 'hasSelectors_eq_yes';
+Cypress.Commands.add('getTaskCount', (modeName, selector) => {
+  let payload;
+  if (modeName === null && selector !== 'any') {
+    payload = [
+      {
+        'movementModes': [],
+        'hasSelectors': selector,
+      },
+    ];
+  } else if (selector === 'any') {
+    payload = [
+      {
+        'movementModes': [],
+        'hasSelectors': null,
+      },
+    ];
   } else {
-    selector = '';
+    payload = [
+      {
+        'movementModes': [modeName],
+        'hasSelectors': selector,
+      },
+    ];
   }
-  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=movementMode_eq_${modeName},`;
-  let url;
-
-  if (taskStatus === 'New') {
-    url = `${baseUrl}processState_neq_Complete,${selector}&unassigned=true`;
-  } else if (taskStatus === 'In Progress') {
-    url = `${baseUrl}processState_neq_Complete,${selector}&assigned=true`;
-  } else if (taskStatus === 'Issued') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=movementMode_eq_${modeName},processState_eq_Issued,${selector}`;
-  } else if (taskStatus === 'Completed') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=movementMode_eq_${modeName},processState_eq_Complete,${selector}&processDefinitionKey=assignTarget`;
-  }
+  const baseUrl = '/camunda/v1/targeting-tasks/status-counts';
   cy.request({
-    method: 'GET',
-    url,
+    method: 'POST',
+    url: baseUrl,
     headers: { Authorization: `Bearer ${token}` },
+    body: payload,
   }).then((response) => {
     expect(response.status).to.eq(200);
     console.log(response.body);
-    return response.body.filter((item) => item.id).length;
+    return response.body[0].statusCounts;
   });
 });
 
-Cypress.Commands.add('getNumberOfTasksBySelectors', (selector, taskStatus) => {
-  if (selector === 'has-no-selector') {
-    selector = 'hasSelectors_eq_no';
-  } else if (selector === 'has-selector') {
-    selector = 'hasSelectors_eq_yes';
-  } else {
-    selector = '';
-  }
-  const baseUrl = `https://${cerberusServiceUrl}/camunda/engine-rest/task?processVariables=processState_neq_Complete,${selector}&`;
-  let url;
-
-  if (taskStatus === 'New') {
-    url = `${baseUrl}unassigned=true`;
-  } else if (taskStatus === 'In Progress') {
-    url = `${baseUrl}assigned=true`;
-  } else if (taskStatus === 'Issued') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance?variables=processState_eq_Issued,${selector}&firstResult=0&maxResults=100`;
-  } else if (taskStatus === 'Completed') {
-    url = `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance?variables=processState_eq_Complete,${selector}&processDefinitionKey=assignTarget`;
-  }
-  cy.request({
-    method: 'GET',
-    url,
-    headers: { Authorization: `Bearer ${token}` },
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-    console.log(response.body);
-    return response.body.filter((item) => item.id).length;
-  });
-});
-
-Cypress.Commands.add('applyFilter', (filterOptions, taskType) => {
+Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
-      cy.get(`.govuk-radios [value=${option}]`)
+      cy.get(`.govuk-checkboxes [value=${option}]`)
         .click({ force: true });
     });
   } else {
-    cy.get(`.govuk-radios [value=${filterOptions}]`)
+    cy.get(`.govuk-checkboxes [value=${filterOptions}]`)
+      .click({ force: true });
+  }
+
+  cy.contains('Apply filters').click();
+  cy.wait(2000);
+  cy.get(`a[href="#${taskType}"]`).invoke('text').then((targets) => {
+    return parseInt(targets.match(/\d+/)[0], 10);
+  });
+});
+
+Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
+  if (filterOptions instanceof Array) {
+    filterOptions.forEach((option) => {
+      cy.get(`.govuk-radios__item [value=${option}]`)
+        .click({ force: true });
+    });
+  } else {
+    cy.get(`.govuk-radios__item [value=${filterOptions}]`)
       .click({ force: true });
   }
 
