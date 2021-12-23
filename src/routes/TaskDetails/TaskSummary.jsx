@@ -22,8 +22,8 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
               <ul>
                 <li>
                   <span className="govuk-caption-m">
-                    {roroData.vehicle && 'Vehicle'}
-                    {(roroData.vehicle && roroData.vehicle?.trailer?.regNumber) && ' with '}
+                    {roroData.vehicle?.registrationNumber && 'Vehicle'}
+                    {(roroData.vehicle?.registrationNumber && roroData.vehicle?.trailer?.regNumber) && ' with '}
                     {roroData?.vehicle?.trailer?.regNumber && 'Trailer'}
                   </span>
                   <h3 className="govuk-heading-s">

@@ -12,3 +12,6 @@ export const RORO_ACCOMPANIED_FREIGHT = 'RORO_Accompanied_Freight';
 export const RORO_TOURIST_CAR_ICON = 'c-icon-car';
 export const RORO_TOURIST_INDIVIDUAL_ICON = 'c-icon-person';
 export const RORO_TOURIST_GROUP_ICON = 'c-icon-group';
+export const RORO_UNACCOMPANIED_ICON = 'c-icon-trailer';
+export const RORO_ACCOMPANIED_ICON = 'c-icon-hgv';
+export const RORO_VAN_ICON = 'c-icon-van';

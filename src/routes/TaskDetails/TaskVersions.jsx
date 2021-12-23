@@ -206,7 +206,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
 };
 
 const renderVehicleSection = ({ contents }, movementMode) => {
-  if (movementMode !== RORO_UNACCOMPANIED_FREIGHT) {
+  if (movementMode !== RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
     if (contents.length > 0) {
       const vehicleArray = contents.filter(({ propName }) => {
         return propName === 'registrationNumber' || propName === 'make' || propName === 'model'
@@ -226,7 +226,7 @@ const renderVehicleSection = ({ contents }, movementMode) => {
 };
 
 const renderTrailerSection = ({ contents }, movementMode) => {
-  if (movementMode === RORO_UNACCOMPANIED_FREIGHT || movementMode === RORO_ACCOMPANIED_FREIGHT) {
+  if (movementMode === RORO_UNACCOMPANIED_FREIGHT.toUpperCase() || movementMode === RORO_ACCOMPANIED_FREIGHT.toUpperCase()) {
     const trailerDataArray = contents.filter(({ propName }) => {
       return propName === 'trailerRegistrationNumber' || propName === 'trailerType' || propName === 'trailerRegistrationNationality'
       || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded';
@@ -430,7 +430,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
-          const filteredVersion = stripOutSectionsByMovementMode(version, movementMode);
+          const filteredVersion = stripOutSectionsByMovementMode(version, movementMode.toUpperCase().replaceAll(' ', '_'));
           const detailSectionTest = renderSectionsBasedOnTIS(movementMode.toUpperCase().replaceAll(' ', '_'), taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
