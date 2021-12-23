@@ -2,29 +2,10 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT } from '../../constants';
+import { LONG_DATE_FORMAT } from '../../constants';
+import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 
 import '../__assets__/TaskDetailsPage.scss';
-
-const getMovementModeIcon = (movementMode, roroData) => {
-  const vehicle = roroData?.vehicle;
-  const trailer = roroData.vehicle?.trailer?.regNumber;
-  let className;
-  if (movementMode.toUpperCase() === RORO_ACCOMPANIED_FREIGHT.toUpperCase() || movementMode.toUpperCase() === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
-    if (vehicle === undefined && trailer !== undefined) {
-      className = 'c-icon-trailer';
-    } if (vehicle !== undefined && trailer === undefined) {
-      className = 'c-icon-van';
-    } if (vehicle !== undefined && trailer !== undefined) {
-      className = 'c-icon-hgv';
-    }
-  } else {
-    className = 'c-icon-car';
-  }
-  return (
-    <i className={`icon-position--left align-middle ${className}`} />
-  );
-};
 
 const TaskSummary = ({ movementMode, taskSummaryData }) => {
   dayjs.extend(utc);
@@ -37,7 +18,7 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
         <div className="govuk-grid-row grid-background--greyed">
           <div className="govuk-grid-column-one-half">
             <div className="summary-data-list">
-              {getMovementModeIcon(movementMode, roroData)}
+              <i className={`icon-position--left align-middle ${getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers)}`} />
               <ul>
                 <li>
                   <span className="govuk-caption-m">

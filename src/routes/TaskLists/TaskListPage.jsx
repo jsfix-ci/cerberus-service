@@ -15,6 +15,7 @@ import config from '../../config';
 import useAxiosInstance from '../../utils/axiosInstance';
 import { useKeycloak } from '../../utils/keycloak';
 import { calculateTaskListTotalRiskScore } from '../../utils/rickScoreCalculator';
+import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
@@ -194,13 +195,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     };
   }, 60000);
 
-  const getMovementModeIcon = (movementMode, vehicle) => {
-    if (movementMode === 'RORO_TOURIST') return 'c-icon-car';
-    if (vehicle && !vehicle.trailer) return 'c-icon-van';
-    if (vehicle && vehicle.trailer) return 'c-icon-hgv';
-    return 'c-icon-car';
-  };
-
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
@@ -210,8 +204,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const roroData = target.summary.roro.details;
-        const passengers = roroData.passengers;
-        const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle);
+        const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
@@ -255,7 +248,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                   </div>
                 </div>
               </section>
-              <TaskListModeCard roroData={roroData} target={target} vehicleIcon={movementModeIcon} />
+              <TaskListModeCard roroData={roroData} target={target} movementModeIcon={movementModeIcon} />
               <section className="task-list--item-4">
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-item">

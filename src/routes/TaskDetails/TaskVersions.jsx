@@ -431,7 +431,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
           const filteredVersion = stripOutSectionsByMovementMode(version, movementMode);
-          const detailSectionTest = renderSectionsBasedOnTIS(movementMode, taskSummaryBasedOnTIS, filteredVersion);
+          const detailSectionTest = renderSectionsBasedOnTIS(movementMode.toUpperCase().replaceAll(' ', '_'), taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
             heading: `Version ${versionNumber} ${isLatest(index, taskVersions)}`,
