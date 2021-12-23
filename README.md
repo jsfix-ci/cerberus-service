@@ -1,7 +1,6 @@
 # cerberus-service
 Cerberus frontend service for cerberus-api
 
-
 ## Requirements
 * npm 6.9.0
 * node v8.10.0

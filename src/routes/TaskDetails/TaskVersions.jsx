@@ -430,8 +430,10 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
-          const filteredVersion = stripOutSectionsByMovementMode(version, movementMode.toUpperCase().replaceAll(' ', '_'));
-          const detailSectionTest = renderSectionsBasedOnTIS(movementMode.toUpperCase().replaceAll(' ', '_'), taskSummaryBasedOnTIS, filteredVersion);
+          const regexToReplace = /\s/g;
+          const formattedMovementMode = movementMode.replace(regexToReplace, '_').toUpperCase();
+          const filteredVersion = stripOutSectionsByMovementMode(version, formattedMovementMode);
+          const detailSectionTest = renderSectionsBasedOnTIS(formattedMovementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
             heading: `Version ${versionNumber} ${isLatest(index, taskVersions)}`,
