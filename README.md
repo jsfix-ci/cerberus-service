@@ -1,18 +1,25 @@
 # cerberus-service
 Cerberus frontend service for cerberus-api
 
+
 ## Requirements
 * npm 6.9.0
 * node v8.10.0
 
 ## Index
-* [Terminology](#terminology)
-* [Getting started](#getting-started)
-* [Native development](#native-development)
-* [Development with docker](#development-with-docker)
-*  [Tests in native development](#tests-in-native-development)
-* [Linter in native development](#linter-in-native-development)
-* [E2E tests in native development](#e2e-tests-in-native-development)
+- [cerberus-service](#cerberus-service)
+  - [Requirements](#requirements)
+  - [Index](#index)
+  - [Terminology](#terminology)
+  - [Getting started](#getting-started)
+    - [Native development](#native-development)
+    - [Development with docker](#development-with-docker)
+  - [Tests in native development](#tests-in-native-development)
+  - [Linter in native development](#linter-in-native-development)
+  - [E2E tests in native development](#e2e-tests-in-native-development)
+      - [Setup Environment to run the tests against different environment from local machine](#setup-environment-to-run-the-tests-against-different-environment-from-local-machine)
+      - [Running cypress test runner](#running-cypress-test-runner)
+      - [Running cypress tests using the command line](#running-cypress-tests-using-the-command-line)
 
 ----
 
