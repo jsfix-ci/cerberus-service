@@ -1,0 +1,106 @@
+[
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "status": "COMPLETE",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "jkl"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "driver": {
+            "name": "Joe Brown",
+            "dob": "12/03/1971",
+            "gender": "M",
+            "docNumber": "244746NL",
+            "docExpiry": "01/02/2021",
+            "poleId": "ROROXML:P=33f544d684db9e59150ae84406709122",
+            "firstName": "Joe",
+            "lastName": "Brown",
+            "middleName": ""
+          },
+          "vehicle": {
+            "registrationNumber": "ABCD EFG",
+            "trailer": {
+              "regNumber": "KR-875A"
+            }
+          },
+          "passengers": [
+            {
+              "name": "Ben Bailey",
+              "dob": "27/10/1969",
+              "gender": "M",
+              "docNumber": "",
+              "docExpiry": "",
+              "poleId": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+              "firstName": "Ben",
+              "lastName": "Bailey",
+              "middleName": ""
+            },
+            {
+              "name": "John Doe",
+              "dob": "27/10/1970",
+              "gender": "M",
+              "docNumber": "",
+              "docExpiry": "",
+              "poleId": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+              "firstName": "John",
+              "lastName": "Doe",
+              "middleName": ""
+            },
+            {
+              "name": "Billy Bob",
+              "dob": "27/10/1962",
+              "gender": "M",
+              "docNumber": "",
+              "docExpiry": "",
+              "poleId": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+              "firstName": "Billy",
+              "lastName": "Bob",
+              "middleName": ""
+            },
+            {
+              "name": "Tony Bob",
+              "dob": "27/10/1962",
+              "gender": "M",
+              "docNumber": "",
+              "docExpiry": "",
+              "poleId": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+              "firstName": "Billy",
+              "lastName": "Bob",
+              "middleName": ""
+            },
+            {
+              "name": "Joe Bob",
+              "dob": "27/10/1962",
+              "gender": "M",
+              "docNumber": "",
+              "docExpiry": "",
+              "poleId": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+              "firstName": "Billy",
+              "lastName": "Bob",
+              "middleName": ""
+            }
+          ],
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  }
+]

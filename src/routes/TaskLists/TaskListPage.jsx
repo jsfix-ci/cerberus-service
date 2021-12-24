@@ -22,7 +22,7 @@ import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
-import TaskListModeCard from './TaskListModeCard';
+import TaskListMode from './TaskListMode';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
@@ -248,7 +248,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                   </div>
                 </div>
               </section>
-              <TaskListModeCard roroData={roroData} target={target} movementModeIcon={movementModeIcon} />
+              <TaskListMode roroData={roroData} target={target} movementModeIcon={movementModeIcon} />
               <section className="task-list--item-4">
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-item">

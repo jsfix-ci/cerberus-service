@@ -8,6 +8,9 @@ import taskListData from '../__fixtures__/taskListData.fixture.json';
 import taskListDataComplete from '../__fixtures__/taskListData_COMPLETE.fixture.json';
 import taskListDataInProgress from '../__fixtures__/taskListData_IN_PROGRESS.fixture.json';
 import taskListDataIssued from '../__fixtures__/taskListData_ISSUED.fixture.json';
+import taskListDataRoroTouristNoVehicleOnePax from '../__fixtures__/roro-tourist-no-vehicle-single-passenger/taskListData_RoRoTourist.fixture.json';
+import taskListDataRoroTouristNoVehicleTwoPax from '../__fixtures__/roro-tourist-no-vehicle-group-passengers/taskListData_RoRoTourist.fixture.json';
+import taskListDataRoroTouristVehicleThreePax from '../__fixtures__/roro-tourist-vehicle-3-passengers/taskListData_RoRoTourist.fixture.json';
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 
 describe('TaskListPage', () => {
@@ -264,6 +267,79 @@ describe('TaskListPage', () => {
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.getAllByText('Updated')).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist by vehicle', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('Driver')).toBeInTheDocument();
+    expect(screen.getByText('Vehicle')).toBeInTheDocument();
+    expect(screen.getByText('ABCD EFG')).toBeInTheDocument();
+    expect(screen.queryAllByText('foot passenger')).toHaveLength(0);
+    expect(screen.queryAllByText('Group')).toHaveLength(0);
+  });
+
+  it('should indicate for RORO Tourist by vehicle when more than 4 passengers has been displayed', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    expect(screen.getAllByText(/plus 1 more/i)).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist single foot passenger', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleOnePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('Individual')).toBeInTheDocument();
+    expect(screen.getByText('Primary traveller')).toBeInTheDocument();
+    expect(screen.getByText('1 foot passenger')).toBeInTheDocument();
+    expect(screen.queryAllByText('Vehicle')).toHaveLength(0);
+    expect(screen.getAllByText(/Ben Bailey/i)).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist group foot passengers', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleTwoPax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('Group')).toBeInTheDocument();
+    expect(screen.getByText('7 foot passengers')).toBeInTheDocument();
+    expect(screen.getByText('Primary traveller')).toBeInTheDocument();
+    expect(screen.getByText('Co-travellers')).toBeInTheDocument();
+    expect(screen.queryAllByText('Driver')).toHaveLength(0);
+    expect(screen.getAllByText(/plus 2 more/i)).toHaveLength(1);
+    expect(screen.getAllByText(/Ben Bailey/i)).toHaveLength(1);
+  });
+
+  it('should not indicate there are more passengers when RORO Tourist group foot passengers are less than 4', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleTwoPax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.queryAllByText(/plus 1 more/i)).toHaveLength(0);
   });
 
   it('should handle errors gracefully', async () => {

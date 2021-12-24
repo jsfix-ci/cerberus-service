@@ -26,7 +26,9 @@
           "departureLocation": "NEW",
           "vehicle": {},
           "load": {},
-          "account": {}
+          "account": {},
+          "passengers":[
+          ]
         }
       }
     }
