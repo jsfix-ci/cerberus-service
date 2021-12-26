@@ -36,15 +36,15 @@ const getMomvementModeTypeContent = (roroData, movementModeIcon, passengers) => 
 };
 
 const createCoTravellers = (coTravellers, movementModeIcon) => {
-  let modifiedCoTravellers;
+  let remainingCoTravellers;
   if (movementModeIcon === constants.RORO_TOURIST_GROUP_ICON) {
-    modifiedCoTravellers = coTravellers.splice(1);
+    remainingCoTravellers = coTravellers.splice(1);
   } else {
-    modifiedCoTravellers = coTravellers;
+    remainingCoTravellers = coTravellers;
   }
   const maxToDisplay = 4;
-  const remaining = modifiedCoTravellers.length > maxToDisplay ? modifiedCoTravellers.length - maxToDisplay : 0;
-  const coTravellersJsx = modifiedCoTravellers.map((coTraveller, index) => {
+  const remaining = remainingCoTravellers.length > maxToDisplay ? remainingCoTravellers.length - maxToDisplay : 0;
+  const coTravellersJsx = remainingCoTravellers.map((coTraveller, index) => {
     if (index < maxToDisplay) {
       return (
         <li key={uuidv4()}>{coTraveller?.firstName} {coTraveller?.lastName}{index !== maxToDisplay - 1 ? ',' : ''} {(remaining > 0 && index + 1 === maxToDisplay) ? ` plus ${remaining} more` : ''}</li>
