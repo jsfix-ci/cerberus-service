@@ -1120,3 +1120,14 @@ Cypress.Commands.add('getAllSelectorMatches', (locator) => {
       return actualSelectorMatches;
     });
 });
+
+Cypress.Commands.add('verifyTaskHasMultipleVersion', (businessKey) => {
+  cy.visit('/tasks');
+  cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
+        expect(taskUpdated).to.be.equal('Updated');
+      });
+    });
+  });
+});

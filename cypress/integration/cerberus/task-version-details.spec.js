@@ -408,12 +408,7 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.wrap(version).invoke('attr', 'aria-expanded').should('equal', expectedDefaultExpandStatus[index]);
     });
 
-    cy.visit('/tasks');
-    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-        expect(taskUpdated).to.be.equal('Updated');
-      });
-    });
+    cy.verifyTaskHasMultipleVersion(businessKey);
   });
 
   it('Should verify task details on each version retained', () => {
@@ -522,20 +517,14 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.postTasksInParallel(tasks).then((response) => {
       cy.wait(15000);
       cy.checkTaskDisplayed(`${response.businessKey}`);
-      let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
-      cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
+      cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
         expect(res.body.length).to.not.equal(0);
         expect(res.body.length).to.equal(1);
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
 
-    cy.visit('/tasks');
-    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-        expect(taskUpdated).to.be.equal('Updated');
-      });
-    });
+    cy.verifyTaskHasMultipleVersion(businessKey);
   });
 
   it('Should verify single task created for the same target with different versions when Failed Cerberus payloads sent without delay', () => {
@@ -661,12 +650,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
 
-    cy.visit('/tasks');
-    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-        expect(taskUpdated).to.be.equal('Updated');
-      });
-    });
+    cy.verifyTaskHasMultipleVersion(businessKey);
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
@@ -749,8 +733,10 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
-    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-      cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+    cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+      cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+        cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+      });
     });
   });
 
