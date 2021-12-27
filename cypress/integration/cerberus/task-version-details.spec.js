@@ -23,56 +23,64 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
 
+    cy.visit('/tasks/AUTOTEST-24-12-2021-RORO-Unaccompanied-Freight-VERSION-DETAILS_454991:CMID=TEST');
+
     cy.wait(2000);
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails(0);
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
-      cy.contains('h2', 'Account details').next().within(() => {
+      cy.contains('h3', 'Account details').next().within(() => {
         cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.account);
+          console.log(expectedDetails.account);
+          console.log('actual', details);
+          expect(expectedDetails.account).to.deep.equal(details);
         });
       });
 
-      cy.contains('h2', 'Haulier details').next().within(() => {
+      cy.contains('h3', 'Haulier details').next().within(() => {
         cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.haulier);
+          expect(expectedDetails.haulier).to.deep.equal(details);
         });
       });
 
-      cy.contains('h2', 'Driver').next().within(() => {
+      cy.contains('h3', 'Driver').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.driver);
         });
       });
 
-      cy.contains('h2', 'Goods').next().within(() => {
+      cy.contains('h3', 'Goods').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.goods);
         });
       });
 
-      cy.contains('h2', 'Booking and check-in').next().within(() => {
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
         });
       });
 
-      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
-        });
-        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
         });
 
-        cy.getTaskDetails().then((details) => {
-          delete details.Indicator;
-          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
         });
       });
 
-      cy.contains('h2', '2 selector matches').then((locator) => {
+      cy.contains('h3', '2 selector matches').then((locator) => {
         cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
           expect(actualSelectorMatches).to.deep.equal(expectedDetails.selector_matches);
         });
@@ -115,53 +123,57 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
-      cy.contains('h2', 'Vehicle details').next().within(() => {
-        cy.getTaskDetails().then((details) => {
+      cy.contains('h3', 'Vehicle').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });
       });
 
-      cy.contains('h2', 'Account details').next().within(() => {
+      cy.contains('h3', 'Account details').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.account);
         });
       });
 
-      cy.contains('h2', 'Haulier details').next().within(() => {
+      cy.contains('h3', 'Haulier details').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.haulier);
         });
       });
 
-      cy.contains('h2', 'Driver').next().within(() => {
+      cy.contains('h3', 'Driver').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.driver);
         });
       });
 
-      cy.contains('h2', 'Goods').next().within(() => {
+      cy.contains('h3', 'Goods').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.goods);
         });
       });
 
-      cy.contains('h2', 'Booking and check-in').next().within(() => {
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
         });
       });
 
-      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
-        });
-        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
         });
 
-        cy.getTaskDetails().then((details) => {
-          delete details.Indicator;
-          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
         });
       });
     });
@@ -186,25 +198,32 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('tourist-task-details.json').then((expectedDetails) => {
-      cy.contains('h2', 'Vehicle details').next().within(() => {
-        cy.getTaskDetails().then((details) => {
+      cy.contains('h3', 'Vehicle').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });
       });
 
-      cy.contains('h2', 'Driver').next().within(() => {
+      cy.contains('h3', 'Driver').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.driver);
         });
       });
 
-      cy.contains('h2', 'Passengers').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.passengers);
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.contains('h3', 'Passengers').next().within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails.passengers[0]);
+          });
+        });
+        cy.get('.govuk-hidden-passengers').within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails.passengers[1]);
+          });
         });
       });
 
-      cy.contains('h2', 'Booking and check-in').next().within(() => {
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
         });
@@ -233,59 +252,70 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('accompanied-task-2-passengers-details.json').then((expectedDetails) => {
-      cy.contains('h2', 'Vehicle details').next().within(() => {
-        cy.getTaskDetails().then((details) => {
+      cy.contains('h3', 'Vehicle').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });
       });
 
-      cy.contains('h2', 'Account details').next().within(() => {
+      cy.contains('h3', 'Account details').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.account);
         });
       });
 
-      cy.contains('h2', 'Haulier details').next().within(() => {
+      cy.contains('h3', 'Haulier details').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.haulier);
         });
       });
 
-      cy.contains('h2', 'Driver').next().within(() => {
+      cy.contains('h3', 'Driver').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.driver);
         });
       });
 
-      cy.contains('h2', 'Passengers').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.passengers);
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.contains('h3', 'Passengers').next().within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails.passengers[0]);
+          });
+        });
+        cy.get('.govuk-hidden-passengers').within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails.passengers[1]);
+          });
         });
       });
 
-      cy.contains('h2', 'Goods').next().within(() => {
+      cy.contains('h3', 'Goods').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.goods);
         });
       });
 
-      cy.contains('h2', 'Booking and check-in').next().within(() => {
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
         });
       });
 
-      cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
-        });
-        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
         });
 
-        cy.getTaskDetails().then((details) => {
-          delete details.Indicator;
-          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
         });
       });
 
@@ -335,8 +365,7 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
-        cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
+        cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
           expect(res.body.length).to.not.equal(0);
           expect(res.body.length).to.equal(1);
         });
@@ -565,7 +594,6 @@ describe('Task Details of different tasks on task details Page', () => {
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-passenger-info_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     let departureDateTime;
     let arrivalDataTime;
-    let bookingDateTime;
     const dateFormat = 'D MMM YYYY [at] HH:mm';
 
     date.setDate(date.getDate() + 8);
@@ -607,7 +635,6 @@ describe('Task Details of different tasks on task details Page', () => {
       departureDateTime = Cypress.dayjs(departureDateTime).utc().format(dateFormat);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(13, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().format('YYYY-MM-DDThh:mm:ss');
-      bookingDateTime = Cypress.dayjs(task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime).utc().format(dateFormat);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
@@ -620,10 +647,10 @@ describe('Task Details of different tasks on task details Page', () => {
         // COP-9368 Latest departure date/time should be displayed in UI for tasks with multiple versions
         let expectedTaskSummary = {
           'Ferry': 'DFDS voyage of DOVER SEAWAYS',
-          'Departure': `DOV, ${departureDateTime}`,
-          'Arrival': `CAL, ${arrivalDataTime}`,
-          'Account': `Univeral Printers Ltd, booked on ${bookingDateTime}`,
-          'Haulier': 'Matthesons',
+          'Departure': `${departureDateTime}   DOV`,
+          'Arrival': `CAL      ${arrivalDataTime}`,
+          'vehicle': 'Vehicle with TrailerGB09KLT-10685 with NL-234-392 driven by Bobby Brownshoes',
+          'Account': 'Arrival 8 days before travel',
         };
 
         cy.checkTaskSummaryDetails().then((taskSummary) => {
@@ -703,17 +730,21 @@ describe('Task Details of different tasks on task details Page', () => {
       },
     };
 
-    cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-      cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-        expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
-      });
-      cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-        expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+    cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+      cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+        cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
+        });
+        cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+        });
       });
 
-      cy.getTaskDetails().then((details) => {
-        delete details.Indicator;
-        expect(details).to.deep.equal(expectedDetails.indicators);
+      cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+        cy.getTargetIndicatorDetails().then((details) => {
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.indicators);
+        });
       });
     });
 
@@ -783,17 +814,21 @@ describe('Task Details of different tasks on task details Page', () => {
       },
     };
 
-    cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-      cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-        expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
-      });
-      cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-        expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+    cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+      cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+        cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
+        });
+        cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+        });
       });
 
-      cy.getTaskDetails().then((details) => {
-        delete details.Indicator;
-        expect(details).to.deep.equal(expectedDetails.indicators);
+      cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+        cy.getTargetIndicatorDetails().then((details) => {
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.indicators);
+        });
       });
     });
 
@@ -848,17 +883,21 @@ describe('Task Details of different tasks on task details Page', () => {
       },
     };
 
-    cy.contains('h2', 'Targeting indicators').nextAll().within(() => {
-      cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-        expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
-      });
-      cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-        expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+    cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+      cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+        cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+          expect(numberOfIndicators).to.be.equal(expectedDetails['Total Indicators']);
+        });
+        cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+          expect(totalScore).to.be.equal(expectedDetails['Total Score']);
+        });
       });
 
-      cy.getTaskDetails().then((details) => {
-        delete details.Indicator;
-        expect(details).to.deep.equal(expectedDetails.indicators);
+      cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+        cy.getTargetIndicatorDetails().then((details) => {
+          delete details.Indicator;
+          expect(details).to.deep.equal(expectedDetails.indicators);
+        });
       });
     });
   });

@@ -416,10 +416,38 @@ Cypress.Commands.add('getBusinessKey', (partOfTheBusinessKey) => {
 
 Cypress.Commands.add('getTaskDetails', () => {
   const obj = {};
-  cy.get('.govuk-summary-list__row').each((item) => {
-    cy.wrap(item).find('dt').invoke('text').then((key) => {
-      cy.wrap(item).find('dd').invoke('text').then((value) => {
+  cy.get('.govuk-task-details-grid-item').each((item) => {
+    cy.wrap(item).find('span.govuk-grid-key').invoke('text').then((key) => {
+      cy.wrap(item).find('.govuk-grid-value').invoke('text').then((value) => {
         obj[key] = value;
+      });
+    });
+  }).then(() => {
+    return obj;
+  });
+});
+
+Cypress.Commands.add('getTargetIndicatorDetails', () => {
+  const obj = {};
+  cy.get('.govuk-task-details-grid-row').each((item) => {
+    cy.wrap(item).find('.govuk-grid-key').invoke('text').then((key) => {
+      cy.wrap(item).find('.govuk-grid-value').invoke('text').then((value) => {
+        obj[key] = value;
+      });
+    });
+  }).then(() => {
+    return obj;
+  });
+});
+
+Cypress.Commands.add(('getVehicleDetails'), (elements) => {
+  const obj = {};
+  cy.wrap(elements).each((item) => {
+    cy.wrap(item).find('div ul').each((detail) => {
+      cy.wrap(detail).find('span.govuk-grid-key').invoke('text').then((key) => {
+        cy.wrap(detail).find('.govuk-grid-value').invoke('text').then((value) => {
+          obj[key] = value;
+        });
       });
     });
   }).then(() => {
@@ -698,7 +726,7 @@ Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionn
     versionInRow = 1;
   }
   cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-    cy.contains('h2', sectionname)
+    cy.contains('h3', sectionname)
       .next()
       .within(() => {
         cy.getTaskDetails()
@@ -714,7 +742,7 @@ Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionn
 
 Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInRow) => {
   const sectionHeading = new Map();
-  sectionHeading.set('vehicle', 'Vehicle details');
+  sectionHeading.set('vehicle', 'Vehicle');
   sectionHeading.set('account', 'Account details');
   sectionHeading.set('haulier', 'Haulier details');
   sectionHeading.set('driver', 'Driver');
@@ -741,7 +769,13 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   });
 
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'vehicle')) {
-    cy.verifyTaskDetailSection(expectedDetails.vehicle, versionInRow, sectionHeading.get('vehicle'));
+    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
+      cy.contains('h3', 'Vehicle').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails.vehicle);
+        });
+      });
+    });
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'account')) {
     cy.verifyTaskDetailSection(expectedDetails.account, versionInRow, sectionHeading.get('account'));
@@ -773,7 +807,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
     let regex = new RegExp('^[0-9]+ selector matches$', 'g');
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h2', regex).then((locator) => {
+      cy.contains('h3', regex).then((locator) => {
         cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
           expect(actualSelectorMatches).to.deep.equal(expectedDetails.selectorMatch);
         });
@@ -782,17 +816,21 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'TargetingIndicators')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h2', sectionHeading.get('TargetingIndicators')).nextAll().within(() => {
-        cy.get('.govuk-summary-list__key').eq(1).invoke('text').then((numberOfIndicators) => {
-          expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
-        });
-        cy.get('.govuk-summary-list__value').eq(1).invoke('text').then((totalScore) => {
-          expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
         });
 
-        cy.getTaskDetails().then((details) => {
-          delete details.Indicator;
-          expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
         });
       });
     });
@@ -995,39 +1033,37 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
 });
 
 Cypress.Commands.add('getTaskVersionsDifference', (version, index) => {
-  let valueLocator = '.govuk-summary-list__value .task-versions--highlight';
+  let valueLocator = '.govuk-grid-value .task-versions--highlight';
   let difference = {};
   cy.expandTaskDetails(index).then(() => {
-    cy.wrap(version).find('.govuk-summary-list__key .task-versions--highlight').each((item) => {
-      cy.wrap(item).parents('.govuk-summary-list__row').then((valueElement) => {
-        if (valueElement.find(valueLocator).length > 0) {
-          cy.wrap(item).invoke('text').then((key) => {
-            cy.wrap(valueElement).find(valueLocator).invoke('text').then((value) => {
-              if (key in difference) {
-                if (`${key}-dup` in difference) {
-                  difference[`${key}-dup-${1}`] = value;
-                } else {
-                  difference[`${key}-dup`] = value;
-                }
-              } else {
-                difference[key] = value;
-              }
-            });
-          });
-        } else {
-          cy.wrap(item).invoke('text').then((key) => {
+    cy.wrap(version).find('.govuk-grid-key .task-versions--highlight').each((item) => {
+      if (cy.wrap(item).parents().find(valueLocator).length > 0) {
+        cy.wrap(item).invoke('text').then((key) => {
+          cy.wrap(item).find(valueLocator).invoke('text').then((value) => {
             if (key in difference) {
               if (`${key}-dup` in difference) {
-                difference[`${key}-dup-${1}`] = '';
+                difference[`${key}-dup-${1}`] = value;
               } else {
-                difference[`${key}-dup`] = '';
+                difference[`${key}-dup`] = value;
               }
             } else {
-              difference[key] = '';
+              difference[key] = value;
             }
           });
-        }
-      });
+        });
+      } else {
+        cy.wrap(item).invoke('text').then((key) => {
+          if (key in difference) {
+            if (`${key}-dup` in difference) {
+              difference[`${key}-dup-${1}`] = '';
+            } else {
+              difference[`${key}-dup`] = '';
+            }
+          } else {
+            difference[key] = '';
+          }
+        });
+      }
     });
   }).then(() => {
     return difference;
