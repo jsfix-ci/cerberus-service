@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import { RORO_ACCOMPANIED_ICON, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_INDIVIDUAL_ICON,
   RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../../constants';
 import getMovementModeIcon from '../getVehicleModeIcon';
