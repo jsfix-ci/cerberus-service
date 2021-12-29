@@ -602,123 +602,117 @@ Cypress.Commands.add('verifyTaskSummary', (taskSummary) => {
 Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
   let taskSummary = {};
   cy.visit('/tasks');
-  cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-    cy.wrap(element).find('h3.task-heading').invoke('text').then((mode) => {
-      taskSummary.mode = mode;
-    });
-    cy.wrap(element).find('.task-risk-statement').invoke('text').then((rules) => {
-      taskSummary.rules = rules;
-    });
-
-    cy.wrap(element).find('.content-line-one li').each((section, index) => {
-      cy.wrap(section).invoke('text').then((info) => {
-        if (index === 0) {
-          taskSummary.voyage = info;
-        } else {
-          taskSummary.arrival = info;
-        }
+  cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+    cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within((element) => {
+      cy.wrap(element).find('h3.task-heading').invoke('text').then((mode) => {
+        taskSummary.mode = mode;
       });
-    });
-
-    cy.wrap(element).find('.content-line-two li').each((section, index) => {
-      cy.wrap(section).invoke('text').then((info) => {
-        if (index === 0) {
-          taskSummary.departurePort = info;
-        } else if (index === 1) {
-          taskSummary.departureDateTime = info;
-        } else if (index === 2) {
-          taskSummary.arrivalPort = info;
-        } else {
-          taskSummary.arrivalDateTime = info;
-        }
+      cy.wrap(element).find('.task-risk-statement').invoke('text').then((rules) => {
+        taskSummary.rules = rules;
       });
-    });
 
-    cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
-      cy.wrap(driverDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.driverFirstName = info;
-          } else if (index === 1) {
-            taskSummary.driverLastName = info;
-          } else {
-            taskSummary.driverNumberOfTrips = info;
-          }
+      cy.wrap(element).find('.content-line-one').then(($voyage) => {
+        let value = $voyage.text();
+        taskSummary.voyage = (value.split(',')[0].trim());
+        taskSummary.arrival = (value.split(',')[1].trim());
+      });
+
+      cy.wrap(element).find('.content-line-two').then(($dateTime) => {
+        let value = $dateTime.text();
+        let departure = (value.split('-')[0].trim());
+        let arrival = (value.split('-')[1].trim());
+        taskSummary.departurePort = departure.slice(-3).trim();
+        taskSummary.departureDateTime = departure.slice(0, departure.length - 3).trim();
+        taskSummary.arrivalPort = arrival.slice(0, 3).trim();
+        taskSummary.arrivalDateTime = arrival.slice(3, arrival.length).trim();
+      });
+
+      cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
+        cy.wrap(driverDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.driverFirstName = info;
+            } else if (index === 1) {
+              taskSummary.driverLastName = info;
+            } else {
+              taskSummary.driverNumberOfTrips = info;
+            }
+          });
         });
       });
-    });
 
-    cy.wrap(element).contains('Vehicle details').next().then((vehicleDetails) => {
-      cy.wrap(vehicleDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.vehicleRegistration = info;
-          } else if (index === 1) {
-            taskSummary.vehicleMake = info;
-          } else if (index === 2) {
-            taskSummary.vehicleModel = info;
-          } else {
-            taskSummary.vehicleNumberOfTrips = info;
-          }
+      cy.wrap(element).contains('Vehicle details').next().then((vehicleDetails) => {
+        cy.wrap(vehicleDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.vehicleRegistration = info;
+            } else if (index === 1) {
+              taskSummary.vehicleMake = info;
+            } else if (index === 2) {
+              taskSummary.vehicleModel = info;
+            } else {
+              taskSummary.vehicleNumberOfTrips = info;
+            }
+          });
         });
       });
-    });
 
-    cy.wrap(element).contains('Account details').next().then((accountDetails) => {
-      cy.wrap(accountDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.bookedDateTime = info;
-          } else {
-            taskSummary.bookedDetails = info;
-          }
+      cy.wrap(element).contains('Account details').next().then((accountDetails) => {
+        cy.wrap(accountDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.bookedDateTime = info;
+            } else {
+              taskSummary.bookedDetails = info;
+            }
+          });
         });
       });
-    });
 
-    cy.wrap(element).contains('Haulier details').next().then((haulierDetails) => {
-      cy.wrap(haulierDetails).find('li').each((details) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          taskSummary.haulier = info;
+      cy.wrap(element).contains('Haulier details').next().then((haulierDetails) => {
+        cy.wrap(haulierDetails).find('li').each((details) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            taskSummary.haulier = info;
+          });
         });
       });
-    });
 
-    cy.wrap(element).contains('Goods description').next().then((goodsDetails) => {
-      cy.wrap(goodsDetails).find('li').each((details) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          taskSummary.goods = info;
+      cy.wrap(element).contains('Goods description').next().then((goodsDetails) => {
+        cy.wrap(goodsDetails).find('li').each((details) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            taskSummary.goods = info;
+          });
         });
       });
-    });
 
-    cy.wrap(element).contains('Passenger details').next().then((passengerDetails) => {
-      cy.wrap(passengerDetails).find('li').each((details) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          taskSummary.passengerDetails = info;
+      cy.wrap(element).contains('Passenger details').next().then((passengerDetails) => {
+        cy.wrap(passengerDetails).find('li').each((details) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            taskSummary.passengerDetails = info;
+          });
         });
       });
-    });
 
-    cy.wrap(element).contains('Trailer details').next().then((trailerDetails) => {
-      cy.wrap(trailerDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.trailerRegitration = info;
-          } else {
-            taskSummary.trailerTrips = info;
-          }
+      cy.wrap(element).contains('Trailer details').next().then((trailerDetails) => {
+        cy.wrap(trailerDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.trailerRegitration = info;
+            } else {
+              taskSummary.trailerTrips = info;
+            }
+          });
         });
       });
-    });
 
-    cy.wrap(element).find('.task-labels-item strong').invoke('text').then((riskScore) => {
-      taskSummary.riskScore = riskScore;
-    });
-  })
-    .then(() => {
-      return taskSummary;
-    });
+      cy.wrap(element).find('.task-labels-item strong').invoke('text').then((riskScore) => {
+        taskSummary.riskScore = riskScore;
+      });
+    })
+      .then(() => {
+        return taskSummary;
+      });
+  });
 });
 
 Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionname) => {
@@ -1024,7 +1018,7 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
 });
 
 Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
-  cy.contains('h2', 'Booking and check-in').next().within(() => {
+  cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
       const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
       expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);

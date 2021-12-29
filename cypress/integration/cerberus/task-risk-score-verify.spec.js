@@ -8,6 +8,7 @@ describe('View total Risk score from Targeting Indicators in the task list Page'
     cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-same-version_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+        console.log(taskListDetails);
         expect('Risk Score: 50').to.deep.equal(taskListDetails.riskScore);
       });
     });
@@ -38,7 +39,7 @@ describe('View total Risk score from Targeting Indicators in the task list Page'
     cy.getBusinessKey('-RORO-Unaccompanied-Freight-RoRo-UNACC-SBT_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
-        expect('Risk Score:').to.deep.equal(taskListDetails.riskScore);
+        expect('Risk Score: 0').to.deep.equal(taskListDetails.riskScore);
       });
     });
   });

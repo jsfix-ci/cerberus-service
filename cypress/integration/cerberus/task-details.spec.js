@@ -426,7 +426,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it.skip('Vehicle and Trailer - Unknown values in Task List & Task Summary', () => {
+  it('Vehicle and Trailer - Unknown values in Task List & Task Summary', () => {
     cy.fixture('taskInfo-unknown/RoRo-Acc-VehWithTrail-expected.json').as('expTestData');
     cy.fixture('taskInfo-unknown/RoRo-Acc-VehWithTrail.json')
       .then((task) => {
@@ -466,7 +466,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it.skip('Vehicle - Unknown values in Task List and Task summary', () => {
+  it('Vehicle - Unknown values in Task List and Task summary', () => {
     cy.fixture('taskInfo-unknown/RoRo-Acc-VehOnly-expected.json').as('expTestData');
     cy.fixture('/taskInfo-unknown/RoRo-Acc-VehOnly.json')
       .then((task) => {
@@ -505,7 +505,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it.skip('Should display correct values for PERFDRIVER Driver, Booking, Vehicle, tasklist, task summary', () => {
+  it('Should display correct values for PERFDRIVER Driver, Booking, Vehicle, tasklist, task summary', () => {
     cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-expected.json').as('expTestData');
     cy.fixture('/taskInfo-known/RoRo-Acc-TaskDetails-known.json')
       .then((task) => {
@@ -581,7 +581,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it.skip('Setting drivers when no driver or multiple drivers exist', () => {
+  it('Setting drivers when no driver or multiple drivers exist', () => {
     let jsonFolder = '/drivers/';
     let expDriverForPayload = [
       ['driverAndMultiplePass.json', 'Joanne Flower'],

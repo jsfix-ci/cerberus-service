@@ -13,6 +13,11 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
   });
 
   it('Should view filter tasks by pre-arrival modes', () => {
+    let filterNames = [
+      'RoRo unaccompanied freight',
+      'RoRo accompanied freight',
+      'RoRo Tourist',
+    ];
     cy.get('a[href="#new"]').invoke('text').as('total-tasks').then((totalTargets) => {
       cy.log('Total number of Targets', parseInt(totalTargets.match(/\d+/)[0], 10));
     });
@@ -22,7 +27,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
       cy.get('.govuk-checkboxes li').each((element) => {
         cy.wrap(element).invoke('text').then((value) => {
-          expect(filterOptions).to.include(value);
+          expect(filterNames).to.include(value);
         });
       });
     });
@@ -33,7 +38,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyFilter(mode, 'new').then((actualTargets) => {
+      cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getTaskCount(mode, null).then((response) => {
@@ -62,7 +67,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyFilter(mode, 'inProgress').then((actualTargets) => {
+      cy.applyModesFilter(mode, 'inProgress').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getTaskCount(mode, null).then((response) => {
@@ -91,7 +96,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyFilter(mode, 'issued').then((actualTargets) => {
+      cy.applyModesFilter(mode, 'issued').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getTaskCount(mode, null).then((response) => {
@@ -120,7 +125,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
-      cy.applyFilter(mode, 'complete').then((actualTargets) => {
+      cy.applyModesFilter(mode, 'complete').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
         cy.getTaskCount(mode, null).then((response) => {
@@ -145,8 +150,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
   it('Should retain applied filter after page reload & navigating between pages', () => {
     // COP-5715 switch between the tabs, filter should be retained
     filterOptions.forEach((mode) => {
-      cy.applyFilter(mode, 'new').then((actualTargets) => {
-        cy.getTaskCount(mode, 'New').then((response) => {
+      cy.applyModesFilter(mode, 'new').then((actualTargets) => {
+        cy.getTaskCount(mode, null).then((response) => {
           expect(response.new).be.equal(actualTargets);
         });
         cy.contains('Clear all filters').click();
@@ -161,7 +166,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-5715 reload the page after filter applied on the page, filter should be retained
     filterOptions.forEach((mode) => {
-      cy.applyFilter(mode, 'new').then((actualTargets) => {
+      cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.getTaskCount(mode, null).then((response) => {
           expect(response.new).be.equal(actualTargets);
         });
