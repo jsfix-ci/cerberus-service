@@ -717,15 +717,11 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
   cy.visit('/tasks');
   if (Cypress.$(nextPage).length > 0) {
     cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-      getTaskSummary(businessKey).then((taskSummary) => {
-        return taskSummary;
-      });
+      return getTaskSummary(businessKey);
     });
   } else {
     cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-      getTaskSummary(businessKey).then((taskSummary) => {
-        return taskSummary;
-      });
+      return getTaskSummary(businessKey);
     });
   }
 });
