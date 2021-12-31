@@ -23,8 +23,6 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
 
-    cy.visit('/tasks/AUTOTEST-24-12-2021-RORO-Unaccompanied-Freight-VERSION-DETAILS_454991:CMID=TEST');
-
     cy.wait(2000);
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails(0);
@@ -732,12 +730,21 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
 
+    const nextPage = 'a[data-test="next"]';
     cy.visit('/tasks');
-    cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-      cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-        cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+    if (Cypress.$(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+          cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+        });
       });
-    });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+          cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+        });
+      });
+    }
   });
 
   // COP-6905 Scenario-3
