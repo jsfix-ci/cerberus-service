@@ -8,37 +8,37 @@ const isIndividualPassenger = (passengers) => {
   return passengers && passengers?.length === 1;
 };
 
+const hasTrailer = (vehicle) => {
+  return vehicle?.trailer?.regNumber && vehicle?.trailer?.regNumber !== '' && vehicle?.trailer?.regNumber !== null;
+};
+
 const getTouristIcon = (vehicle, passengers) => {
   if (isVehiclePresent(vehicle)) {
     return RORO_TOURIST_CAR_ICON;
   }
 
-  if (isIndividualPassenger(passengers)) {
+  if (!isVehiclePresent(vehicle) && isIndividualPassenger(passengers)) {
     return RORO_TOURIST_INDIVIDUAL_ICON;
   }
 
   return RORO_TOURIST_GROUP_ICON;
 };
 
-const hasTrailer = (vehicle) => {
-  return vehicle?.trailer?.regNumber && vehicle?.trailer?.regNumber !== '' && vehicle?.trailer?.regNumber !== null;
-};
-
 const getMovementModeIcon = (movementMode, vehicle, passengers) => {
-  if (!isVehiclePresent(vehicle) && hasTrailer(vehicle)) {
-    return RORO_UNACCOMPANIED_ICON;
-  }
-
   if (movementMode === RORO_TOURIST.toUpperCase()) {
     return getTouristIcon(vehicle, passengers);
   }
 
-  if (isVehiclePresent(vehicle) && hasTrailer(vehicle)) {
-    return RORO_ACCOMPANIED_ICON;
+  if (!isVehiclePresent(vehicle) && hasTrailer(vehicle)) {
+    return RORO_UNACCOMPANIED_ICON;
   }
 
   if (isVehiclePresent(vehicle) && !hasTrailer(vehicle)) {
     return RORO_VAN_ICON;
+  }
+
+  if (isVehiclePresent(vehicle) && hasTrailer(vehicle)) {
+    return RORO_ACCOMPANIED_ICON;
   }
 
   return RORO_TOURIST_CAR_ICON;
