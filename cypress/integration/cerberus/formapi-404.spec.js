@@ -14,7 +14,7 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
   });
 
   it('should show an error when Form API does not respond', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
 
     cy.intercept('GET', `https://${formApiUrl}/form/name/*`, {
       statusCode: 404,
@@ -26,7 +26,7 @@ describe('Cerberus-UI handles the exception if Form API server is unresponsive',
       cy.navigateToTaskDetailsPage(tasks);
     });
 
-    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
