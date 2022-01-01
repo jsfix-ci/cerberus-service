@@ -21,7 +21,7 @@ const getMovementModeTypeText = (movementModeIcon) => {
   }
 };
 
-const getMomvementModeTypeContent = (roroData, movementModeIcon, passengers) => {
+const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
   switch (movementModeIcon) {
     case constants.RORO_TOURIST_CAR_ICON: {
       return !roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase();
@@ -63,7 +63,7 @@ const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) =>
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
       <i className={`icon-position--left ${movementModeIcon}`} />
       <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0">{getMovementModeTypeText(movementModeIcon)}</p>
-      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{getMomvementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
+      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{getMovementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
     </div>
   );
 };
@@ -94,7 +94,7 @@ const renderRoroVoyageSection = (roroData) => {
   );
 };
 
-const renderRoRoTouristCardBody = (roroData, passengers, movementModeIcon) => {
+const renderRoRoTouristSingleAndGroupCardBody = (roroData, passengers, movementModeIcon) => {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-item">
@@ -113,7 +113,8 @@ const renderRoRoTouristCardBody = (roroData, passengers, movementModeIcon) => {
             Document
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-            <li className="govuk-!-font-weight-bold">TBC</li>
+            {passengers[0]?.docNumber ? (<li className="govuk-!-font-weight-bold">{passengers[0].docNumber}</li>)
+              : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
           </ul>
         </div>
       </div>
@@ -167,8 +168,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   {roroData.driver ? (
                     <>
                       <li className="govuk-!-font-weight-bold">
-                        {roroData.driver.firstName && roroData.driver.firstName}{' '}
-                        {roroData.driver.lastName && roroData.driver.lastName}
+                        {roroData.driver.firstName && roroData.driver.firstName}{' '}{roroData.driver.lastName && roroData.driver.lastName}
                       </li>
                       {roroData.driver.gender && <br />}
                       <li>
@@ -186,7 +186,8 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   Document
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  <li className="govuk-!-font-weight-bold">TBC</li>
+                  {roroData.driver.docNumber ? (<li className="govuk-!-font-weight-bold">{roroData.driver.docNumber}</li>)
+                    : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
               </div>
             </div>
@@ -230,7 +231,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
           </div>
         </section>
         <section className="task-list--item-3">
-          {renderRoRoTouristCardBody(roroData, passengers, movementModeIcon)}
+          {renderRoRoTouristSingleAndGroupCardBody(roroData, passengers, movementModeIcon)}
         </section>
       </>
     );
@@ -246,7 +247,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
           </div>
         </section>
         <section className="task-list--item-3">
-          {renderRoRoTouristCardBody(roroData, passengers, movementModeIcon)}
+          {renderRoRoTouristSingleAndGroupCardBody(roroData, passengers, movementModeIcon)}
         </section>
       </>
     );
