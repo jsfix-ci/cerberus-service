@@ -285,6 +285,23 @@ describe('TaskListPage', () => {
     expect(screen.queryAllByText('Group')).toHaveLength(0);
   });
 
+  it('should render card for RORO Tourist by vehicle and only driver doc number', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getAllByText(/244746NL/i)).toHaveLength(1);
+    expect(screen.queryByText('PAX0001')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0002')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0003')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0004')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0005')).not.toBeInTheDocument();
+  });
+
   it('should indicate for RORO Tourist by vehicle when more than 4 passengers has been displayed', async () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
@@ -308,6 +325,7 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Individual')).toBeInTheDocument();
     expect(screen.getByText('Primary traveller')).toBeInTheDocument();
     expect(screen.getByText('1 foot passenger')).toBeInTheDocument();
+    expect(screen.getByText('PAX0001')).toBeInTheDocument();
     expect(screen.queryAllByText('Vehicle')).toHaveLength(0);
     expect(screen.getAllByText(/Ben Bailey/i)).toHaveLength(1);
   });
@@ -324,10 +342,29 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Group')).toBeInTheDocument();
     expect(screen.getByText('7 foot passengers')).toBeInTheDocument();
     expect(screen.getByText('Primary traveller')).toBeInTheDocument();
+    expect(screen.getByText('PAX0001')).toBeInTheDocument();
     expect(screen.getByText('Co-travellers')).toBeInTheDocument();
     expect(screen.queryAllByText('Driver')).toHaveLength(0);
     expect(screen.getAllByText(/plus 2 more/i)).toHaveLength(1);
     expect(screen.getAllByText(/Ben Bailey/i)).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist group foot passengers and doc numebr for primary traveller only', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleTwoPax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('PAX0001')).toBeInTheDocument();
+    expect(screen.queryByText('PAX0002')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0003')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0004')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0005')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0006')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0007')).not.toBeInTheDocument();
   });
 
   it('should not indicate there are more passengers when RORO Tourist group foot passengers are less than 4', async () => {
