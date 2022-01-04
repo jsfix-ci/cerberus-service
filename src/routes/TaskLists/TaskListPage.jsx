@@ -436,7 +436,7 @@ const TaskListPage = () => {
   const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
-  const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState({});
+  const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
 
   const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -595,6 +595,14 @@ const TaskListPage = () => {
     }
   }, []);
 
+  const showFilterAndSelectorCount = (parentIndex, index) => {
+    let count = 0;
+    if (filtersAndSelectorsCount) {
+      count = filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+    }
+    return count;
+  };
+
   return (
     <>
       <h1 className="govuk-heading-xl">Task management</h1>
@@ -656,13 +664,12 @@ const TaskListPage = () => {
                                 data-testid={`${filterSet.filterLabel}-${option.optionName}`}
                               />
                               <label
-                                className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
                                 {option.optionLabel}
                               </label>
-                              <span className="govuk-!-margin-top-2 inline-block">({(filtersAndSelectorsCount && filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3].statusCounts.total)})
-                              </span>
+                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}
