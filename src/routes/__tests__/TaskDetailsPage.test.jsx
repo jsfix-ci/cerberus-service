@@ -371,7 +371,7 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryAllByText('Indicator')).toHaveLength(0);
   });
-  
+
   it('should indicate that a version is the latest', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
@@ -437,7 +437,7 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryAllByText('Total occupants')).toHaveLength(1);
   });
-  
+
   it('should not render notes form when task not assigned', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
@@ -456,7 +456,7 @@ describe('TaskDetailsPage', () => {
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
-                  
+
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
@@ -478,7 +478,7 @@ describe('TaskDetailsPage', () => {
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
-                  
+
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 });
