@@ -194,12 +194,17 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
             <div className="govuk-grid-item verticel-dotted-line">
               <div>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                  Document
+                  VRN
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {roroData.driver?.docNumber
-                    ? (<li className="govuk-!-font-weight-bold">{roroData.driver.docNumber}</li>)
-                    : (<li className="govuk-!-font-weight-bold">{(roroData.passengers && roroData.passengers.length > 0) && roroData.passengers[0].docNumber}</li>
+                  {roroData.vehicle?.registrationNumber
+                    ? (
+                      <>
+                        <li className="govuk-!-font-weight-bold">{roroData.vehicle.registrationNumber}</li>
+                        {roroData.vehicle.make && <br />}
+                      </>
+                    )
+                    : (<li className="govuk-!-font-weight-bold">Unknown</li>
                     )}
 
                 </ul>
