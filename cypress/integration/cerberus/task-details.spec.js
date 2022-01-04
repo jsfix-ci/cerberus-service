@@ -152,8 +152,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('a[href="#inProgress"]').click();
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.get('@taskName').then((value) => {
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {

@@ -239,6 +239,65 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
   });
 
+  it('Should apply more than one pre-arrival filter modes on newly created tasks', () => {
+    let actualTotalTargets = 0;
+
+    cy.getTaskCount(null, 'any').then((numberOfTasks) => {
+      actualTotalTargets = numberOfTasks.new;
+    });
+
+    const filters = [
+      'RORO_UNACCOMPANIED_FREIGHT',
+      'RORO_ACCOMPANIED_FREIGHT',
+    ];
+
+    // COP-9210 Apply more than one pre-arrival filter, compare the expected number of targets
+    cy.applyModesFilter(filters, 'new').then((actualTargets) => {
+      cy.getTaskCount(filters, null).then((response) => {
+        expect(response.new).be.equal(actualTargets);
+      });
+    });
+
+    // clear the filter
+    cy.contains('Clear all filters').click();
+
+    cy.wait(1000);
+
+    // COP-9210 check the status of  pre-arrival filter modes, after clear filter
+    cy.get('.cop-filters-container').within(() => {
+      cy.get('.govuk-checkboxes li').each((element) => {
+        cy.wrap(element).should('not.be.checked');
+      });
+    });
+
+    // compare total number of expected and actual targets
+    cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
+      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+      expect(totalTargets).be.equal(actualTotalTargets);
+    });
+  });
+
+  it('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
+    let actualTotalTargets = 0;
+
+    cy.getTaskCount(null, 'any').then((numberOfTasks) => {
+      actualTotalTargets = numberOfTasks.new;
+    });
+
+    // COP-9210 select pre-arrival filter modes, but don't click on apply
+    cy.get('.cop-filters-container').within(() => {
+      cy.get('.govuk-checkboxes li input').each((element) => {
+        cy.wrap(element).check();
+      });
+    });
+
+    // compare total number of expected and actual targets
+    cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
+      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+      expect(totalTargets).be.equal(actualTotalTargets);
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
