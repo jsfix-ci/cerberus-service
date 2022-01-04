@@ -436,6 +436,7 @@ const TaskListPage = () => {
   const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
+  const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
 
   const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -450,6 +451,44 @@ const TaskListPage = () => {
       } catch (e) {
         setError(e.message);
         setTaskCountsByStatus();
+      }
+    }
+  };
+
+  const getFiltersAndSelectorsCount = async () => {
+    setFiltersAndSelectorsCount();
+    if (camundaClientV1) {
+      try {
+        const filtersSelectorsCount = await camundaClientV1.post('/targeting-tasks/status-counts', [
+          {
+            movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: ['RORO_TOURIST'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: [],
+            hasSelectors: true,
+          },
+          {
+            movementModes: [],
+            hasSelectors: false,
+          },
+          {
+            movementModes: [],
+            hasSelectors: null,
+          },
+        ]);
+        setFiltersAndSelectorsCount(filtersSelectorsCount.data);
+      } catch (e) {
+        setError(e.message);
+        setFiltersAndSelectorsCount();
       }
     }
   };
@@ -492,6 +531,7 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount();
     setLoading(false);
   };
 
@@ -533,6 +573,7 @@ const TaskListPage = () => {
 
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount();
     setLoading(false);
   };
 
@@ -553,6 +594,14 @@ const TaskListPage = () => {
       applySavedFiltersOnLoad();
     }
   }, []);
+
+  const showFilterAndSelectorCount = (parentIndex, index) => {
+    let count = 0;
+    if (filtersAndSelectorsCount) {
+      count = filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+    }
+    return count;
+  };
 
   return (
     <>
@@ -586,7 +635,7 @@ const TaskListPage = () => {
                 </button>
               </div>
 
-              {filters.length > 0 && filters.map((filterSet) => {
+              {filters.length > 0 && filters.map((filterSet, parentIndex) => {
                 return (
                   <div className="govuk-form-group" key={filterSet.filterLabel}>
                     <fieldset className="govuk-fieldset">
@@ -594,7 +643,7 @@ const TaskListPage = () => {
                         <h4 className="govuk-fieldset__heading">{filterSet.filterLabel}</h4>
                       </legend>
                       <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
-                        {filterSet.filterOptions.map((option) => {
+                        {filterSet.filterOptions.map((option, index) => {
                           let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
                           return (
                             <li
@@ -615,11 +664,12 @@ const TaskListPage = () => {
                                 data-testid={`${filterSet.filterLabel}-${option.optionName}`}
                               />
                               <label
-                                className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
                                 {option.optionLabel}
                               </label>
+                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}
