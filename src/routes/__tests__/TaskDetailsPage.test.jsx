@@ -406,6 +406,6 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryByText("Add a new note")).toBeInTheDocument();
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 });
