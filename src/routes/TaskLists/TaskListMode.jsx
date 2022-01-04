@@ -165,7 +165,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   Driver
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {roroData.driver ? (
+                  {roroData?.driver ? (
                     <>
                       <li className="govuk-!-font-weight-bold">
                         {roroData.driver.firstName && roroData.driver.firstName}{' '}{roroData.driver.lastName && roroData.driver.lastName}
@@ -176,7 +176,18 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                         {roroData.driver.gender === 'F' && 'Female'}
                       </li>
                     </>
-                  ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                  ) : (
+                    <>
+                      <li className="govuk-!-font-weight-bold">
+                        {(roroData.passengers && roroData.passengers.length > 0) && roroData.passengers[0].name}
+                      </li>
+                      {(roroData.passengers && roroData.passengers.length > 0) && <br />}
+                      <li>
+                        {roroData.passengers && roroData.passengers[0].gender === 'M' && 'Male'}
+                        {roroData.passengers && roroData.passengers[0].gender === 'F' && 'Female'}
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
@@ -186,8 +197,11 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   Document
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {roroData.driver.docNumber ? (<li className="govuk-!-font-weight-bold">{roroData.driver.docNumber}</li>)
-                    : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
+                  {roroData.driver?.docNumber
+                    ? (<li className="govuk-!-font-weight-bold">{roroData.driver.docNumber}</li>)
+                    : (<li className="govuk-!-font-weight-bold">{(roroData.passengers && roroData.passengers.length > 0) && roroData.passengers[0].docNumber}</li>
+                    )}
+
                 </ul>
               </div>
             </div>
