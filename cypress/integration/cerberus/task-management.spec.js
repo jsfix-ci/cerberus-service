@@ -7,7 +7,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.intercept('GET', '/camunda/variable-instance?variableName=taskSummaryBasedOnTIS&processInstanceIdIn=**').as('tasks');
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
     cy.navigation('Tasks');
   });
 
@@ -66,12 +66,12 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should maintain the page links count', () => {
-    cy.get('.task-list--item').should('have.length.lessThan', MAX_TASK_PER_PAGE);
+    cy.get('.govuk-task-list-card').should('have.length.lessThan', MAX_TASK_PER_PAGE);
 
     if (Cypress.$(nextPage).length > 0) {
       cy.get('a[data-test="page-number"]').each((item) => {
         cy.wrap(item).click();
-        cy.get('.task-list--item').should('have.length.lessThan', MAX_TASK_PER_PAGE);
+        cy.get('.govuk-task-list-card').should('have.length.lessThan', MAX_TASK_PER_PAGE);
       });
     }
   });
@@ -98,12 +98,13 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should verify tasks are sorted in arrival time on task management page', () => {
     let arrivalDate;
-    cy.get('.task-list--item .content-line-two').each((item, index) => {
+    cy.get('.task-list--item-2 .content-line-two').each((item, index) => {
       let dates;
-      cy.wrap(item).find('li').last().then((element) => {
-        if (element.text() !== 'unknown') {
-          dates = element.text().split('at');
-          const d = new Date(dates[0]);
+      cy.wrap(item).invoke('text').then((element) => {
+        if (element !== 'unknown') {
+          dates = element.split('-')[1];
+          dates = dates.slice(5, dates.length).split('at')[0];
+          const d = new Date(dates);
           if (index === 0) {
             arrivalDate = d.getTime();
           } else {
@@ -116,8 +117,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
 
     cy.fixture('tasks.json').then((task) => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -158,7 +159,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.waitForTaskManagementPageToLoad();
 
     cy.get('@taskName').then((value) => {
-      cy.intercept('POST', '/camunda/task/*/unclaim').as('unclaim');
+      cy.intercept('POST', '/camunda/engine-rest/task/*/unclaim').as('unclaim');
       if (Cypress.$(nextPage).length > 0) {
         cy.findTaskInAllThePages(value, 'Unclaim', null).then((returnValue) => {
           expect(returnValue).to.equal(true);
@@ -178,8 +179,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should check rule matches details on task management page', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -198,7 +198,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.reload();
 
-    cy.waitForTaskManagementPageToLoad();
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
@@ -215,8 +217,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should check selector matches details on task management page', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-only.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -252,8 +254,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should check selector & rule matches details on task management page', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -272,7 +273,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.reload();
 
-    cy.waitForTaskManagementPageToLoad();
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
@@ -289,8 +292,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should hide rule matches details on task management page', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules-hide.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -309,7 +311,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.reload();
 
-    cy.waitForTaskManagementPageToLoad();
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
@@ -328,7 +332,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   it('Should check selector & rule matches details for more than one version on task management page', () => {
     let date = new Date();
     date.setDate(date.getDate() + 8);
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules-v2.json').then((task) => {
@@ -364,16 +368,18 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.reload();
 
-    cy.waitForTaskManagementPageToLoad();
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }

@@ -46,27 +46,56 @@
     "shippingCompany": "Brittany Ferries"
   },
   "TargetingIndicators": {
-    "Name": "Paid by cash",
-    "Name": "Empty trailer for round trip",
-    "Name": "Empty vehicle"
+    "Total Score": "80",
+    "Total Indicators": "3",
+    "indicators": {
+      "Paid by cash": "30",
+      "Empty trailer for round trip": "30",
+      "Empty vehicle": "20"
+    }
   },
-  "selector_matches": {
-    "Attribute": "",
-    "Category": "B",
-    "Creator": "Joe Jones",
-    "Entity": "",
-    "Group number": "2020-6",
-    "Group reference": "Local ref",
-    "Inbound action": "Advise originator",
-    "Notes": "Supplemental notes",
-    "Operator": "",
-    "Outbound action": "Full attention",
-    "Point of contact": "poc",
-    "Point of contact message": "Message for the POC",
-    "Requesting officer": "Peter Price",
-    "Source reference": "intel source",
-    "Threat type": "National Security at the Border",
-    "Value": "",
-    "Warnings": "Supplemental warnings"
-  }
+  "selector_matches": [
+    {
+      "Attribute": "",
+      "Category": "B",
+      "Creator": "Joe Jones",
+      "Entity": "",
+      "Group number": "2020-6",
+      "Group reference": "Local ref",
+      "Inbound action": "Advise originator",
+      "Notes": "Supplemental notes",
+      "Operator": "",
+      "Outbound action": "Full attention",
+      "Point of contact": "poc",
+      "Point of contact message": "Message for the POC",
+      "Requesting officer": "Peter Price",
+      "Source reference": "intel source",
+      "Threat type": "National Security at the Border",
+      "Value": "",
+      "Warnings": "Supplemental warnings"
+    },
+    {
+      "Attribute": "registrationNumber",
+      "Category": "C",
+      "Creator": "user",
+      "Entity": "Trailer",
+      "Group number": "2021-281",
+      "Group reference": "SR-222",
+      "Inbound action": "No action required",
+      "Notes": "notes",
+      "Operator": "equal",
+      "Outbound action": "No action required",
+      "Point of contact": "ewfe",
+      "Point of contact message": "effew",
+      "Requesting officer": "efew",
+      "Source reference": "ffew",
+      "Threat type": "National Security at the Border",
+      "Value": "qwerty",
+      "Warnings": "fewfwe",
+      "Entity": "Message",
+      "Attribute": "mode",
+      "Operator": "in",
+      "Value": "RORO Unaccompanied Freight"
+    }
+  ]
 }

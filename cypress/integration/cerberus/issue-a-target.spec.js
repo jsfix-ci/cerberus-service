@@ -8,7 +8,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   });
 
   it('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
 
     cy.fixture('target-information.json').as('inputData');
 
@@ -25,7 +25,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       });
     });
 
-    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
@@ -49,7 +49,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifyElementText('model', targetData.vehicle.Model);
       cy.verifyElementText('colour', targetData.vehicle.Colour);
       cy.verifyElementText('registrationNumber', targetData.vehicle['Vehicle registration']);
-      cy.verifyElementText('regNumber', targetData.vehicle['Trailer registration number']);
+      cy.verifyElementText('regNumber', 'IR-6457');
       cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
       cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
       cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
@@ -86,6 +86,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
       cy.typeTodaysDateTime('eta');
+
+      cy.verifySelectedDropdownValue('category', 'A');
 
       cy.multiSelectDropDown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
 
@@ -132,8 +134,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('a[href="#issued"]').click();
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.get('@taskName').then((value) => {
       cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
@@ -150,7 +150,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   });
 
   it('Should submit a target successfully from a RoRo-Unaccompanied task and it should be moved to target issued tab', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
 
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       date.setDate(date.getDate() + 6);
@@ -165,7 +165,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       });
     });
 
-    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
@@ -192,6 +192,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
       cy.typeTodaysDateTime('eta');
+
+      cy.verifySelectedDropdownValue('category', 'B');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
@@ -232,8 +234,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('a[href="#issued"]').click();
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.get('@taskName').then((value) => {
       cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
@@ -250,7 +250,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   });
 
   it('Should submit a target successfully from a RoRo-Tourist task and it should be moved to target issued tab', () => {
-    cy.intercept('POST', '/camunda/task/*/claim').as('claim');
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
 
     cy.fixture('RoRo-Tourist-2-passengers.json').then((task) => {
       date.setDate(date.getDate() + 6);
@@ -267,7 +267,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       });
     });
 
-    cy.get('p.govuk-body').eq(0).should('contain.text', 'Unassigned');
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
@@ -327,6 +327,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.typeTodaysDateTime('eta');
 
+      cy.verifySelectedDropdownValue('category', 'C');
+
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
       cy.selectDropDownValue('nominalType', 'Account');
@@ -366,8 +368,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('a[href="#issued"]').click();
 
-    cy.waitForTaskManagementPageToLoad();
-
     cy.get('@taskName').then((value) => {
       cy.log('Task Name to be searched', value);
       const nextPage = 'a[data-test="next"]';
@@ -386,9 +386,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
   it('Should verify all the action buttons not available when task loaded from Issued tab', () => {
     cy.get('a[href="#issued"]').click();
 
-    cy.get('.title-container').eq(0).within(() => {
-      cy.get('a').click();
-    });
+    cy.get('.govuk-task-list-card a').eq(0).click();
 
     cy.get('.task-actions--buttons button').should('not.exist');
 

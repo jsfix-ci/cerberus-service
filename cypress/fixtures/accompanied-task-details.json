@@ -5,15 +5,7 @@
     "Make": "",
     "Model": "",
     "Country of registration": "DK",
-    "Colour": "",
-    "Net weight": "3455kg",
-    "Gross weight": "43623kg",
-    "Trailer registration number": "",
-    "Trailer type": "",
-    "Trailer country of registration": "",
-    "Empty or loaded": "Empty",
-    "Trailer length": "36m",
-    "Trailer height": "3.6m"
+    "Colour": ""
   },
   "account": {
     "Full name": "DPE logistics",
@@ -58,13 +50,17 @@
     "Check-in": "4 Aug 2020 at 11:05"
   },
   "TargetingIndicators": {
-    "Name": "Quick turnaround freight (under 24 hours)",
-    "Name": "Change of driver",
-    "Name": "First use of account (Trailer)",
-    "Name": "New account",
-    "Name": "Empty vehicle",
-    "Name": "Change of account (Vehicle)",
-    "Name": "Same load for round trip (Trailer)",
-    "Name": "First time across border (Trailer)"
+    "Total Score": "200",
+    "Total Indicators": "8",
+    "indicators": {
+      "Quick turnaround freight (under 24 hours)": "30",
+      "Change of driver": "20",
+      "First use of account (Trailer)": "30",
+      "New account": "30",
+      "Empty vehicle": "20",
+      "Change of account (Vehicle)": "20",
+      "Same load for round trip (Trailer)": "20",
+      "First time across border (Trailer)": "30"
+    }
   }
 }

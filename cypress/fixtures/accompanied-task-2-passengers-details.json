@@ -5,15 +5,7 @@
     "Make": "BMW",
     "Model": "520D",
     "Country of registration": "GB",
-    "Trailer registration number": "IR-6457",
-    "Colour": "Red",
-    "Net weight": "0kg",
-    "Gross weight": "2889kg",
-    "Trailer type": "",
-    "Trailer country of registration": "GB",
-    "Empty or loaded": "L",
-    "Trailer length": "36m",
-    "Trailer height": "3.6m"
+    "Colour": "Red"
   },
   "account": {
     "Full name": "Product of France Wines",
@@ -39,22 +31,26 @@
     "Travel document number": "566746DL",
     "Travel document expiry": "29/10/2023"
   },
-  "passengers": {
-    "Name": "Fred Flintstone",
-    "Date of birth": "15/07/1991",
-    "Gender": "F",
-    "Nationality": "DE",
-    "Travel document type": "Passport",
-    "Travel document number": "875786876",
-    "Travel document expiry": "22/03/2022",
-    "Name": "Barney Rubble",
-    "Date of birth": "12/07/1991",
-    "Gender": "M",
-    "Nationality": "GB",
-    "Travel document type": "OBJDOCPAS",
-    "Travel document number": "244746NL",
-    "Travel document expiry": "01/02/2021"
-  },
+  "passengers": [
+    {
+      "Name": "Fred Flintstone",
+      "Date of birth": "15/07/1991",
+      "Gender": "F",
+      "Nationality": "DE",
+      "Travel document type": "OBJDOCPAS",
+      "Travel document number": "875786876",
+      "Travel document expiry": "22/03/2022"
+      },
+      {
+      "Name": "Barney Rubble",
+      "Date of birth": "12/07/1991",
+      "Gender": "M",
+      "Nationality": "GB",
+      "Travel document type": "OBJDOCPAS",
+      "Travel document number": "244746NL",
+      "Travel document expiry": "01/02/2021"
+    }
+  ],
   "goods": {
     "Description": "Wine",
     "Is cargo hazardous?": "No",
@@ -74,12 +70,12 @@
     "Check-in": ""
   },
   "rules": {
-    "Name": "Paid by cash1",
-    "Priority": "Tier 1",
-    "Version": "1",
-    "Abuse type": "Class A Drugs",
+    "Rule name": "Paid by Cash",
+    "Threat": "Tier 1",
+    "Rule verison": "1",
+    "Abuse Type": "National Security at the Border",
     "Agency": "",
-    "Description": "Paid by cash"
+    "Description": "Test"
   },
   "vessel": {
     "name": "PRIDE OF CANTERBURY",
@@ -106,8 +102,12 @@
     }
   ],
   "TargetingIndicators": {
-    "Name": "Paid by cash",
-    "Name": "Empty trailer for round trip",
-    "Name": "Empty vehicle"
+     "Total Score": "80",
+     "Total Indicators": "3",
+     "indicators": {
+        "Paid by cash": "30",
+        "Empty trailer for round trip": "30",
+        "Empty vehicle": "20"
+     }
   }
 }

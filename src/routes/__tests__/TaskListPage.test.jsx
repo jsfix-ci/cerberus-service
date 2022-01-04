@@ -61,7 +61,7 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Complete (19)')).toBeInTheDocument();
   });
 
-  it('should render no tasks available message when New, In Progress, Target Issued and Complete tabs are clicked and there are no tasks', async () => {
+  it('should render no more tasks available message when New, In Progress, Target Issued and Complete tabs are clicked and there are no tasks', async () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
       .reply(200, [
@@ -87,22 +87,22 @@ describe('TaskListPage', () => {
     expect(screen.getByText('New (0)')).toBeInTheDocument();
     expect(screen.getByText('Issued (0)')).toBeInTheDocument();
 
-    expect(screen.getByText('No tasks available')).toBeInTheDocument();
+    expect(screen.getByText('No more tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
-    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('No more tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('No more tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
-    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('No more tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
   });
@@ -166,6 +166,7 @@ describe('TaskListPage', () => {
       .reply(200, taskListData);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
     expect(screen.getAllByText('Claim')).toHaveLength(3);
   });
 
@@ -180,9 +181,8 @@ describe('TaskListPage', () => {
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
 
-    await waitFor(() => expect(screen.getAllByText('Unclaim')).toHaveLength(3));
+    await waitFor(() => expect(screen.queryByText('Claim task')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.getAllByText('Assigned to anotheruser')).toHaveLength(1));
-    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 
   it('should render issued tasks with no claim buttons', async () => {
@@ -275,7 +275,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    expect(screen.getByText('No tasks available')).toBeInTheDocument();
+    expect(screen.getByText('No more tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });

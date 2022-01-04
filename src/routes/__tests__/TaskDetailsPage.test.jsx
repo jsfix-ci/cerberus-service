@@ -17,7 +17,6 @@ jest.mock('react-router-dom', () => ({
 
 describe('TaskDetailsPage', () => {
   const mockAxios = new MockAdapter(axios);
-  // let mockTaskDetailsAxiosResponses;
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
@@ -86,7 +85,7 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.getByText(/Task details/i)).toBeInTheDocument();
+    expect(screen.getByText(/Overview/i)).toBeInTheDocument();
     expect(screen.getByText(/Assigned to you/i)).toBeInTheDocument();
     expect(screen.getByText(/Issue target/i)).toBeInTheDocument();
 
@@ -113,9 +112,9 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryByText('Unassigned')).toBeInTheDocument();
+    expect(screen.queryByText('Task not assigned')).toBeInTheDocument();
     expect(screen.queryByText('Claim')).toBeInTheDocument();
-    expect(screen.queryByText('Unclaim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
 
   it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
@@ -136,8 +135,8 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
-    expect(screen.queryByText('Unclaim')).toBeInTheDocument();
-    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
+    expect(screen.queryByText('Claim task')).not.toBeInTheDocument();
   });
 
   it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not been completed or issued', async () => {
@@ -224,7 +223,7 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
-    expect(screen.queryByText('Unclaim')).toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
     expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
@@ -254,7 +253,7 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryAllByText('Account details')).toHaveLength(0);
   });
 
-  it('should not render vehicle section', async () => {
+  it('should not render vehicle section but render trailer section', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
       taskResponse: [
@@ -273,7 +272,15 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryAllByText('Vehicle details')).toHaveLength(0);
+    // Test against vehicle/trailer fields
+    expect(screen.queryByLabelText('VRN')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Model')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Colour')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Make')).not.toBeInTheDocument();
+    expect(screen.queryAllByText('Trailer type')).toHaveLength(1);
+    expect(screen.queryAllByText('Trailer length')).toHaveLength(1);
+    expect(screen.queryAllByText('Trailer height')).toHaveLength(1);
+    expect(screen.queryAllByText('Empty or loaded')).toHaveLength(1);
   });
 
   it('should not render passenger section', async () => {
@@ -295,7 +302,7 @@ describe('TaskDetailsPage', () => {
 
     await waitFor(() => render(<TaskDetailsPage />));
 
-    expect(screen.queryAllByText('Passenger')).toHaveLength(0);
+    expect(screen.queryAllByText('Passengers')).toHaveLength(0);
   });
 
   it('should handle form service errors gracefully', async () => {
@@ -364,7 +371,73 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryAllByText('Indicator')).toHaveLength(0);
   });
+  
+  it('should indicate that a version is the latest', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+    });
 
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Version 1 (latest)')).toBeInTheDocument();
+  });
+
+  it('should indicate task as new when task is new', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('New')).toHaveLength(1);
+  });
+
+  it('should render total occupants', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryAllByText('Total occupants')).toHaveLength(1);
+  });
+  
   it('should not render notes form when task not assigned', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
@@ -383,7 +456,7 @@ describe('TaskDetailsPage', () => {
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
-
+                  
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
@@ -405,7 +478,7 @@ describe('TaskDetailsPage', () => {
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
-
+                  
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import formatField from '../formatField';
+import { formatField } from '../formatField';
 
 describe('formatField', () => {
   describe('BOOKING_DATETIME type', () => {

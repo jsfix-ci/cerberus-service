@@ -106,7 +106,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
         ? [
           {
             field: 'arrival-date',
-            order: 'desc',
+            order: 'asc',
           },
         ]
         : null;
@@ -194,16 +194,24 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     };
   }, 60000);
 
+  const getVehicleIcon = (movementMode, vehicle) => {
+    if (movementMode === 'RORO_TOURIST') return 'c-icon-car';
+    if (vehicle && !vehicle.trailer) return 'c-icon-van';
+    if (vehicle && vehicle.trailer) return 'c-icon-hgv';
+    return 'c-icon-car';
+  };
+
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
       {!isLoading && targetTasks.length === 0 && (
-        <p className="govuk-body-l">No tasks available</p>
+        <p className="govuk-body-l">No more tasks available</p>
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const roroData = target.summary.roro.details;
         const passengers = roroData.passengers;
+        const vehicleIcon = getVehicleIcon(target.movementMode, roroData.vehicle);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
@@ -249,20 +257,24 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
               </section>
               <section className="task-list--item-2">
                 <div>
-                  <div className="govuk-grid-row">
-                    <div className="govuk-grid-column">
-                      <ul className="govuk-list govuk-body-s content-line-one">
-                        <li>{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</li>
-                      </ul>
-                      <ul className="govuk-list content-line-two">
-                        <li>
-                          {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
-                          <span className="govuk-!-font-weight-bold">{roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
-                          <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> {!roroData.eta ? 'unknown'
-                            : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
-                        </li>
-                      </ul>
+                  <div className="govuk-grid-row grid-background--greyed">
+                    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
+                      <i className={`icon-position--left ${vehicleIcon}`} />
+                      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
+                      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
                     </div>
+
+                    <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
+                      <i className="c-icon-ship" />
+                      <p className="content-line-one">{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</p>
+                      <p className="govuk-body-s content-line-two">
+                        {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
+                        <span className="govuk-!-font-weight-bold">{roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
+                        <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> {!roroData.eta ? 'unknown'
+                          : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
+                      </p>
+                    </div>
+
                   </div>
                 </div>
               </section>
@@ -424,6 +436,7 @@ const TaskListPage = () => {
   const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
+  const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
 
   const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -438,6 +451,44 @@ const TaskListPage = () => {
       } catch (e) {
         setError(e.message);
         setTaskCountsByStatus();
+      }
+    }
+  };
+
+  const getFiltersAndSelectorsCount = async () => {
+    setFiltersAndSelectorsCount();
+    if (camundaClientV1) {
+      try {
+        const filtersSelectorsCount = await camundaClientV1.post('/targeting-tasks/status-counts', [
+          {
+            movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: ['RORO_TOURIST'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: [],
+            hasSelectors: true,
+          },
+          {
+            movementModes: [],
+            hasSelectors: false,
+          },
+          {
+            movementModes: [],
+            hasSelectors: null,
+          },
+        ]);
+        setFiltersAndSelectorsCount(filtersSelectorsCount.data);
+      } catch (e) {
+        setError(e.message);
+        setFiltersAndSelectorsCount();
       }
     }
   };
@@ -466,6 +517,8 @@ const TaskListPage = () => {
     if (e) { e.preventDefault(); }
     let apiParams = [];
     if (!resetToDefault) {
+      localStorage.setItem('filterMovementMode', movementModesSelected);
+      localStorage.setItem('hasSelector', hasSelectors);
       apiParams = {
         movementModes: movementModesSelected || [],
         hasSelectors,
@@ -478,11 +531,15 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount();
     setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
+    // Clear localStorage
+    localStorage.removeItem('filterMovementMode');
+    localStorage.removeItem('hasSelector');
     // Clear checked options
     if (hasSelectors) {
       document.getElementById(hasSelectors).checked = false;
@@ -498,10 +555,32 @@ const TaskListPage = () => {
     handleFilterApply(e, 'resetToDefault'); // run with default params
   };
 
+  const applySavedFiltersOnLoad = () => {
+    const selectors = localStorage.getItem('hasSelector');
+    const movementModes = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
+    setHasSelectors(selectors);
+    setMovementModesSelected(movementModes);
+
+    const selectedArray = [];
+    if (selectors) { selectedArray.push(selectors); }
+    if (movementModes?.length > 0) { selectedArray.push(...movementModes); }
+    setStoredFilters(selectedArray);
+
+    const apiParams = {
+      movementModes,
+      hasSelectors: selectors,
+    };
+
+    getTaskCount(apiParams);
+    setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount();
+    setLoading(false);
+  };
+
   useEffect(() => {
     const selectedArray = [];
-    selectedArray.push(hasSelectors);
-    selectedArray.push(...movementModesSelected);
+    if (hasSelectors) { selectedArray.push(hasSelectors); }
+    if (movementModesSelected?.length > 0) { selectedArray.push(...movementModesSelected); }
     setStoredFilters(selectedArray);
   }, [hasSelectors, movementModesSelected]);
 
@@ -512,9 +591,17 @@ const TaskListPage = () => {
     }
     if (isTargeter) {
       setAuthorisedGroup(true);
-      handleFilterApply();
+      applySavedFiltersOnLoad();
     }
   }, []);
+
+  const showFilterAndSelectorCount = (parentIndex, index) => {
+    let count = 0;
+    if (filtersAndSelectorsCount) {
+      count = filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+    }
+    return count;
+  };
 
   return (
     <>
@@ -548,7 +635,7 @@ const TaskListPage = () => {
                 </button>
               </div>
 
-              {filters.length > 0 && filters.map((filterSet) => {
+              {filters.length > 0 && filters.map((filterSet, parentIndex) => {
                 return (
                   <div className="govuk-form-group" key={filterSet.filterLabel}>
                     <fieldset className="govuk-fieldset">
@@ -556,7 +643,7 @@ const TaskListPage = () => {
                         <h4 className="govuk-fieldset__heading">{filterSet.filterLabel}</h4>
                       </legend>
                       <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
-                        {filterSet.filterOptions.map((option) => {
+                        {filterSet.filterOptions.map((option, index) => {
                           let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
                           return (
                             <li
@@ -577,11 +664,12 @@ const TaskListPage = () => {
                                 data-testid={`${filterSet.filterLabel}-${option.optionName}`}
                               />
                               <label
-                                className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
                                 {option.optionLabel}
                               </label>
+                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}

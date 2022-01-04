@@ -155,39 +155,84 @@
           ],
           "matchedSelectors":[
             {
-              "selectorId":6,
-              "selectorReference":"2020-6",
-              "startDate":"2021-01-18T01:00:00Z",
-              "endDate":"2021-12-28T23:00:00Z",
-              "category":"B",
-              "agencyCode":"code A",
-              "intelligenceSource":"intel source",
-              "pointOfContact":"poc",
-              "pocMessage":"Message for the POC",
-              "priority":"Tier 2",
-              "inboundActionCode":"Advise originator",
-              "outboundActionCode":"Full attention",
-              "threatType":"National Security at the Border",
-              "notes":"Supplemental notes",
-              "creator":"Joe Jones",
-              "approver":"Henry Hamlet",
-              "securityLabels":[
+              "selectorId": 279,
+              "selectorReference": "2021-279",
+              "startDate": "2021-12-08T08:23:40.257Z",
+              "endDate": "2022-01-19T23:59:59Z",
+              "category": "A",
+              "agencyCode": "Counter Terrorism Police (CTP)",
+              "intelligenceSource": "fefe",
+              "pointOfContact": "bfb",
+              "pocMessage": "fdvdfb",
+              "priority": "Selector",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "threatType": "Class A Drugs",
+              "notes": "notes",
+              "creator": "user",
+              "approver": "bfbfdbf",
+              "securityLabels": [
                 "DATA_RISK_PREARRIVAL"
               ],
-              "localReference":"Local ref",
-              "warnings":"Supplemental warnings",
-              "requestingOfficer":"Peter Price",
-              "requestingTeam":"RoRo accompanied",
-              "selectorMatchedOnDate":"Mon Jan 18 15:10:13 GMT 2021",
-              "indicatorMatches":[
+              "localReference": "SR-220",
+              "warnings": "bdfbdfbf",
+              "requestingOfficer": "fe",
+              "requestingTeam": "MAH gateway",
+              "indicatorMatches": [
                 {
-                  "indicatorType":"BASIC",
-                  "index":0,
-                  "values":[
-                    "NL-234-392"
-                  ]
+                  "entity": "Trailer",
+                  "descriptor": "registrationNumber",
+                  "operator": "equal",
+                  "value": "qwerty"
+                },
+                {
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Unaccompanied Freight"
                 }
-              ]
+              ],
+              "selectorMatchedOnDate": "2021-12-08T09:19:33.097Z"
+            },
+            {
+              "selectorId": 278,
+              "selectorReference": "2021-278",
+              "startDate": "2021-12-02T16:48:51.203Z",
+              "endDate": "2022-01-13T23:59:59Z",
+              "category": "B",
+              "agencyCode": "Food Standards Agency (FSA)",
+              "intelligenceSource": "yjjt",
+              "pointOfContact": "yjt",
+              "pocMessage": "jyjt",
+              "priority": "Selector",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "threatType": "National Security at the Border",
+              "notes": "notes",
+              "creator": "user",
+              "approver": "jyjyt",
+              "securityLabels": [
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference": "SR-219",
+              "warnings": "jtyj",
+              "requestingOfficer": "ytjtj",
+              "requestingTeam": "MAH gateway",
+              "indicatorMatches": [
+                {
+                  "entity": "Vehicle",
+                  "descriptor": "registrationNumber",
+                  "operator": "equal",
+                  "value": "ABC123"
+                },
+                {
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+                }
+              ],
+              "selectorMatchedOnDate": "2021-12-08T09:19:33.097Z"
             }
           ],
           "movement": {

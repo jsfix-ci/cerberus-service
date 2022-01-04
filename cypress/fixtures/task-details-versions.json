@@ -3,19 +3,11 @@
     {
       "vehicle": {
         "Colour": "Red",
-        "Net weight": "4000kg",
-        "Gross weight": "43680kg",
         "Vehicle registration": "GB09KLT-2000",
         "Type": "",
         "Make": "LandRover",
         "Model": "",
-        "Country of registration": "DE",
-        "Trailer registration number": "NL-234-392",
-        "Trailer type": "TR",
-        "Trailer country of registration": "NL",
-        "Empty or loaded": "Loaded",
-        "Trailer length": "46m",
-        "Trailer height": "4.6m"
+        "Country of registration": "DE"
       },
       "account": {
         "Full name": "Testing Printers Ltd",
@@ -69,40 +61,40 @@
         "Check-in": "3 Aug 2020 at 12:05"
       },
       "TargetingIndicators": {
-        "Name": "Paid by cash"
+        "Total Score": "30",
+        "Total Indicators": "1",
+        "indicators": {
+          "Paid by cash": "30"
+        }
       },
-      "selectorMatch": {
-        "Attribute": "",
-        "Category": "B",
-        "Creator": "Joe Jones",
-        "Entity": "",
-        "Group number": "2020-6",
-        "Group reference": "Local ref",
-        "Inbound action": "Advise originator",
-        "Notes": "Supplemental notes",
-        "Operator": "",
-        "Outbound action": "Full attention",
-        "Point of contact": "poc",
-        "Point of contact message": "Message for the POC",
-        "Requesting officer": "Peter Price",
-        "Source reference": "intel source",
-        "Threat type": "National Security at the Border",
-        "Value": "",
-        "Warnings": "Supplemental warnings"
-      },
+      "selectorMatch": [
+        {
+          "Attribute": "",
+          "Category": "B",
+          "Creator": "Joe Jones",
+          "Entity": "",
+          "Group number": "2020-6",
+          "Group reference": "Local ref",
+          "Inbound action": "Advise originator",
+          "Notes": "Supplemental notes",
+          "Operator": "",
+          "Outbound action": "Full attention",
+          "Point of contact": "poc",
+          "Point of contact message": "Message for the POC",
+          "Requesting officer": "Peter Price",
+          "Source reference": "intel source",
+          "Threat type": "National Security at the Border",
+          "Value": "",
+          "Warnings": "Supplemental warnings"
+        }
+      ],
       "rulesMatched": {
-        "Name": "Paid by Cash",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "National Security at the Border",
+        "Rule name": "Paid by Cash",
+        "Threat": "Tier 1",
+        "Rule verison": "1",
+        "Abuse Type": "National Security at the Border",
         "Agency": "",
-        "Description": "Test",
-        "Name": "Paid by cash1",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "Class A Drugs",
-        "Agency": "",
-        "Description": "Paid by cash"
+        "Description": "Test"
       }
     },
     {
@@ -174,7 +166,11 @@
         "Check-in": "3 Aug 2020 at 12:05"
       },
       "TargetingIndicators": {
-        "Name": "Tractor unit only"
+        "Total Score": "30",
+        "Total Indicators": "1",
+        "indicators": {
+          "Paid by cash": "30"
+        }
       },
       "selectorMatch": {
         "Attribute": "",
@@ -213,19 +209,11 @@
     {
       "vehicle": {
         "Colour": "",
-        "Net weight": "3455kg",
-        "Gross weight": "43623kg",
         "Vehicle registration": "GB09KLT-10684",
         "Type": "",
         "Make": "",
         "Model": "Discovery",
-        "Country of registration": "GB",
-        "Trailer registration number": "NL-234-392",
-        "Trailer type": "TR",
-        "Trailer country of registration": "",
-        "Empty or loaded": "Empty",
-        "Trailer length": "36m",
-        "Trailer height": "3.6m"
+        "Country of registration": "GB"
       },
       "account": {
         "Full name": "Univeral Printers Ltd",
@@ -279,40 +267,59 @@
         "Check-in": "3 Aug 2021 at 12:05"
       },
       "TargetingIndicators": {
-        "Name": "Paid by cash"
+        "Total Score": "30",
+        "Total Indicators": "1",
+        "indicators": {
+          "Paid by cash": "30"
+        }
       },
-      "selectorMatch": {
-        "Attribute": "",
-        "Category": "B",
-        "Creator": "Joe Jones",
-        "Entity": "",
-        "Group number": "2020-6",
-        "Group reference": "Local ref",
-        "Inbound action": "Advise originator",
-        "Notes": "Supplemental notes",
-        "Operator": "",
-        "Outbound action": "Full attention",
-        "Point of contact": "poc",
-        "Point of contact message": "Message for the POC",
-        "Requesting officer": "Peter Price",
-        "Source reference": "intel source",
-        "Threat type": "National Security at the Border",
-        "Value": "",
-        "Warnings": "Supplemental warnings"
-      },
+      "selectorMatch": [
+        {
+          "Group number":"2021-278",
+          "Requesting officer":"ytjtj",
+          "Source reference":"yjjt",
+          "Group reference":"SR-219",
+          "Category":"B",
+          "Threat type":"National Security at the Border",
+          "Point of contact message":"jyjt",
+          "Point of contact":"yjt",
+          "Inbound action":"No action required",
+          "Outbound action":"No action required",
+          "Warnings":"jtyj",
+          "Notes":"notes",
+          "Creator":"user",
+          "Entity":"Message",
+          "Attribute":"mode",
+          "Operator":"in",
+          "Value":"RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+        },
+        {
+          "Group number":"2021-279",
+          "Requesting officer":"fe",
+          "Source reference":"fefe",
+          "Group reference":"SR-220",
+          "Category":"A",
+          "Threat type":"Class A Drugs",
+          "Point of contact message":"fdvdfb",
+          "Point of contact":"bfb",
+          "Inbound action":"No action required",
+          "Outbound action":"No action required",
+          "Warnings":"bdfbdfbf",
+          "Notes":"notes",
+          "Creator":"user",
+          "Entity":"Message",
+          "Attribute":"mode",
+          "Operator":"in",
+          "Value":"RORO Unaccompanied Freight"
+        }
+      ],
       "rulesMatched": {
-        "Name": "cash paid rule",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "National Security at the Border",
+        "Rule name": "Paid by Cash",
+        "Threat": "Tier 1",
+        "Rule verison": "1",
+        "Abuse Type": "National Security at the Border",
         "Agency": "",
-        "Description": "Test",
-        "Name": "Paid by cash1",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "Class A Drugs",
-        "Agency": "",
-        "Description": "Paid by cash"
+        "Description": "Test"
       }
     }
   ]
