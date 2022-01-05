@@ -179,6 +179,7 @@ function findItem(taskName, action, taskdetails) {
         if (action === null) {
           cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
             cy.log('task text', text);
+            cy.log('inside multiple pages');
             if (taskName === text) {
               if (taskdetails !== null) {
                 cy.verifyTaskManagementPage(item, taskdetails);
@@ -357,6 +358,7 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action, taskdetails) => 
     if (action === null) {
       cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
         cy.log('task text', text);
+        cy.log('inside Single pages');
         if (taskName === text) {
           if (taskdetails !== null) {
             cy.verifyTaskManagementPage(item, taskdetails);
@@ -971,6 +973,13 @@ Cypress.Commands.add('getTaskCount', (modeName, selector) => {
         'hasSelectors': null,
       },
     ];
+  } else if (modeName instanceof Array) {
+    payload = [
+      {
+        'movementModes': modeName,
+        'hasSelectors': selector,
+      },
+    ];
   } else {
     payload = [
       {
@@ -1126,24 +1135,26 @@ Cypress.Commands.add('getAllSelectorMatches', (locator) => {
     });
 });
 
+function getTaskUpdatedStatus(businessKey) {
+  cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+    cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
+      expect(taskUpdated).to.be.equal('Updated');
+    });
+  });
+}
+
 Cypress.Commands.add('verifyTaskHasMultipleVersion', (businessKey) => {
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
-  if (Cypress.$(nextPage).length > 0) {
-    cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-      cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-        cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-          expect(taskUpdated).to.be.equal('Updated');
-        });
+  cy.get('body').then(($el) => {
+    if ($el.find(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        getTaskUpdatedStatus(businessKey);
       });
-    });
-  } else {
-    cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-      cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-        cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-          expect(taskUpdated).to.be.equal('Updated');
-        });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        getTaskUpdatedStatus(businessKey);
       });
-    });
-  }
+    }
+  });
 });
