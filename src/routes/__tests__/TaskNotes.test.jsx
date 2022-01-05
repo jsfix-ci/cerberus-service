@@ -6,7 +6,9 @@ import '../../__mocks__/keycloakMock';
 
 import TaskNotes from '../TaskDetails/TaskNotes';
 
-import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
+import operationsHistoryResponseClaim from '../__fixtures__/operationsHistoryResponse_USER_CLAIM.fixture.json';
+import operationsHistoryResponseUnclaim from '../__fixtures__/operationsHistoryResponse_USER_UNCLAIM.fixture.json';
+import operationsHistoryResponsePropertyChanged from '../__fixtures__/operationsHistoryResponse_PROPERTY_CHANGED.fixture.json';
 import noteFormFixture from '../__fixtures__/noteFormResponse.fixture.json';
 
 // mock useParams
@@ -22,40 +24,73 @@ describe('TaskNotes', () => {
     mockAxios.reset();
   });
 
-  const operationsHistoryFixture = [{
-    operationType: 'Claim',
-    property: 'assignee',
-    orgValue: null,
-    timestamp: '2021-04-06T15:30:42.420+0000',
-    userId: 'testuser@email.com',
-  }];
-  const taskHistoryFixture = [{
-    assignee: 'testuser@email.com',
-    startTime: '2021-04-20T10:50:25.869+0000',
-    name: 'Investigate Error',
-  }];
+  const variableInstanceResponse_EMPTY = [{
+    type: 'Json',
+    value: "[]",
+    name: "notes",
+  }]
 
   const mockTaskNotesAxiosCalls = ({
-    variableInstanceResponse,
+    variableInstanceResponse = variableInstanceResponse_EMPTY,
+    operationsHistoryResponse = [],
+    taskHistoryResponse = [],
   }) => {
     mockAxios
       .onGet('/history/variable-instance', { params: { processInstanceIdIn: '123', deserializeValues: false } })
       .reply(200, variableInstanceResponse)
       .onGet('/history/user-operation', { params: { processInstanceId: '123', deserializeValues: false } })
-      .reply(200, operationsHistoryFixture)
+      .reply(200, operationsHistoryResponse)
       .onGet('/history/task', { params: { processInstanceId: '123', deserializeValues: false } })
-      .reply(200, taskHistoryFixture)
+      .reply(200, taskHistoryResponse)
       .onGet('/form/name/noteCerberus')
       .reply(200, noteFormFixture);
   };
 
-  it('Should render task notes form when displayFrom=true', async () => {
-    mockTaskNotesAxiosCalls({
-      variableInstanceResponse: variableInstanceStatusNew,
-    });
+  it('should render task notes form when displayForm is true', async () => {
+    mockTaskNotesAxiosCalls({});
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+    expect(screen.queryByText('Task activity')).toBeInTheDocument();
+  });
+
+  it('should not render task notes form when displayForm is false', async () => {
+    mockTaskNotesAxiosCalls({});
+
+    await waitFor(() => render(<TaskNotes displayForm={false} businessKey="ghi" processInstanceId="123" />));
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+    expect(screen.queryByText('Task activity')).toBeInTheDocument();
+  });
+
+  it('should display user claimed task', async () => {
+    mockTaskNotesAxiosCalls({
+      operationsHistoryResponse: operationsHistoryResponseClaim,
+    });
+
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+
+    expect(screen.queryByText('User has claimed the task')).toBeInTheDocument();
+  });
+
+  it('should display user unclaimed task', async () => {
+    mockTaskNotesAxiosCalls({
+      operationsHistoryResponse: operationsHistoryResponseUnclaim,
+    });
+
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+
+    expect(screen.queryByText('User has unclaimed the task')).toBeInTheDocument();
+  });
+
+  it('should display property changed operation', async () => {
+    mockTaskNotesAxiosCalls({
+      operationsHistoryResponse: operationsHistoryResponsePropertyChanged,
+    });
+
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+
+    expect(screen.queryByText('Property delete changed from false to true')).toBeInTheDocument();
   });
 });

@@ -1,0 +1,10 @@
+[
+  {
+    "operationType": "Assign",
+    "property": "assignee",
+    "orgValue": null,
+    "newValue": "testuser@email.com",
+    "timestamp": "2021-04-06T15:30:42.420+0000",
+    "userId": "testuser@email.com"
+  }
+]
