@@ -7,6 +7,7 @@ import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
 import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
+import noteFormFixure from '../__fixtures__/noteFormResponse.fixture.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -79,7 +80,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -106,7 +107,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -128,7 +129,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -150,7 +151,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -172,7 +173,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusComplete,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -194,7 +195,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusIssued,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -216,7 +217,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -242,7 +243,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -266,7 +267,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusIssued,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -296,7 +297,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusComplete,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -316,7 +317,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
@@ -341,7 +342,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusComplete,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -363,7 +364,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusIssued,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -385,7 +386,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -407,7 +408,7 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -429,11 +430,55 @@ describe('TaskDetailsPage', () => {
       variableInstanceResponse: variableInstanceStatusNew,
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: { test },
+      noteFormResponse: noteFormFixure,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryAllByText('Total occupants')).toHaveLength(1);
+  });
+
+  it('should not render notes form when task not assigned', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: null,
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
+
+  it('should render notes form when task is assigned to any user', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [
+        {
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'otherType',
+        },
+      ],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 });
