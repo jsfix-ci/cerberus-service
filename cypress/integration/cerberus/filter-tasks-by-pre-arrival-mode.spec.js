@@ -27,7 +27,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
       cy.get('.govuk-checkboxes li').each((element) => {
         cy.wrap(element).invoke('text').then((value) => {
-          expect(filterNames).to.include(value);
+          let expectedFilterName = value.slice(0, value.indexOf('('));
+          expect(filterNames).to.contains(expectedFilterName);
         });
       });
     });
