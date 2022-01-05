@@ -1,4 +1,4 @@
-import { RORO_ACCOMPANIED_ICON, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_INDIVIDUAL_ICON,
+import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_INDIVIDUAL_ICON,
   RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../../constants';
 import getMovementModeIcon from '../getVehicleModeIcon';
 import { roroTouristNoVehicleHasPax, roroTouristVehicleHasPax, roroTouristNoVehicleOnePax, roroAccompVehicleNoTrailerHasPax,
@@ -27,10 +27,10 @@ describe('vehicleModeIcon', () => {
     expect(resultIcon).toEqual(RORO_VAN_ICON);
   });
 
-  it('should return a car icon for RoRo Accompanied freight with no vehicle, no trailer', () => {
+  it('should not return any icon for RoRo Accompanied freight with no vehicle, no trailer', () => {
     const resultIcon = getMovementModeIcon(roroAccompNoVehicleNoTrailer.movementMode, roroAccompNoVehicleNoTrailer.vehicle,
       roroAccompNoVehicleNoTrailer.passengers);
-    expect(resultIcon).toEqual(RORO_TOURIST_CAR_ICON);
+    expect(resultIcon).toEqual(RORO_NO_ICON);
   });
 
   it('should return a hgv icon for RoRo Accompanied freight with vehicle and a trailer', () => {
@@ -45,10 +45,10 @@ describe('vehicleModeIcon', () => {
     expect(resultIcon).toEqual(RORO_UNACCOMPANIED_ICON);
   });
 
-  it('should return a car icon for RoRo Unaccompanied freight with no vehicle, no trailer', () => {
+  it('should not return any icon for RoRo Unaccompanied freight with no vehicle, no trailer', () => {
     const resultIcon = getMovementModeIcon(roroUnaccompNoVehicleNoTrailer.movementMode, roroUnaccompNoVehicleNoTrailer.vehicle,
       roroUnaccompNoVehicleNoTrailer.passengers);
-    expect(resultIcon).toEqual(RORO_TOURIST_CAR_ICON);
+    expect(resultIcon).toEqual(RORO_NO_ICON);
   });
 
   it('should return a car icon for RoRo Unaccompanied freight with vehicle, no trailer', () => {

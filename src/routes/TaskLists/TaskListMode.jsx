@@ -30,7 +30,7 @@ const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
       return '1 foot passenger';
     }
     default: {
-      return `${passengers.length} foot passengers`;
+      return passengers !== undefined ? `${passengers.length} foot passengers` : '0';
     }
   }
 };
@@ -47,7 +47,7 @@ const createCoTravellers = (coTravellers, movementModeIcon) => {
   const coTravellersJsx = remainingCoTravellers.map((coTraveller, index) => {
     if (index < maxToDisplay) {
       return (
-        <li key={uuidv4()}>{coTraveller?.firstName} {coTraveller?.lastName}{index !== maxToDisplay - 1 ? ',' : ''} {(remaining > 0 && index + 1 === maxToDisplay) ? ` plus ${remaining} more` : ''}</li>
+        <li key={uuidv4()}>{coTraveller?.firstName} {coTraveller?.lastName}{(index !== maxToDisplay - 1) && (index !== remainingCoTravellers.length - 1) ? ',' : ''} {(remaining > 0 && index + 1 === maxToDisplay) ? ` plus ${remaining} more` : ''}</li>
       );
     }
   });

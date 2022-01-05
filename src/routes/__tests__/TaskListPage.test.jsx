@@ -280,26 +280,9 @@ describe('TaskListPage', () => {
 
     expect(screen.getByText('Driver')).toBeInTheDocument();
     expect(screen.getByText('Vehicle')).toBeInTheDocument();
-    expect(screen.getByText('ABCD EFG')).toBeInTheDocument();
+    expect(screen.queryAllByText('ABCD EFG')).toHaveLength(2);
     expect(screen.queryAllByText('foot passenger')).toHaveLength(0);
     expect(screen.queryAllByText('Group')).toHaveLength(0);
-  });
-
-  it('should render card for RORO Tourist by vehicle and only driver doc number', async () => {
-    mockAxios
-      .onPost('/targeting-tasks/status-counts')
-      .reply(200, [countResponse])
-      .onPost('/targeting-tasks/pages')
-      .reply(200, taskListDataRoroTouristVehicleThreePax);
-
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
-
-    expect(screen.getAllByText(/244746NL/i)).toHaveLength(1);
-    expect(screen.queryByText('PAX0001')).not.toBeInTheDocument();
-    expect(screen.queryByText('PAX0002')).not.toBeInTheDocument();
-    expect(screen.queryByText('PAX0003')).not.toBeInTheDocument();
-    expect(screen.queryByText('PAX0004')).not.toBeInTheDocument();
-    expect(screen.queryByText('PAX0005')).not.toBeInTheDocument();
   });
 
   it('should indicate for RORO Tourist by vehicle when more than 4 passengers has been displayed', async () => {
