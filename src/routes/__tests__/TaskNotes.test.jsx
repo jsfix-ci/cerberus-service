@@ -97,7 +97,7 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
-    expect(screen.queryByText('Property delete changed from false to true')).toBeInTheDocument();
+    expect(screen.queryByText('Property delete changed from false to true')).not.toBeInTheDocument();
   });
 
   it('should display develop the task activity', async () => {
