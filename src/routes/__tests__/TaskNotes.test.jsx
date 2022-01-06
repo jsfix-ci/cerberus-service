@@ -24,14 +24,26 @@ describe('TaskNotes', () => {
     mockAxios.reset();
   });
 
-  const variableInstanceResponse_EMPTY = [{
+  const variableInstanceResponseEmpty = [{
     type: 'Json',
-    value: "[]",
-    name: "notes",
-  }]
+    value: '[]',
+    name: 'notes',
+  }];
+
+  const variableInstanceFixture = [{
+    type: 'Json',
+    value: '[{"note":"Task received","timeStamp":1641378056264,"userId":"testuser@email.com"}]',
+    name: 'notes',
+  }];
+
+  const taskHistoryFixture = [{
+    name: 'Develop the task',
+    assignee: 'testuser@email.com',
+    startTime: '2022-01-05T10:20:56.318+0000',
+  }];
 
   const mockTaskNotesAxiosCalls = ({
-    variableInstanceResponse = variableInstanceResponse_EMPTY,
+    variableInstanceResponse = variableInstanceResponseEmpty,
     operationsHistoryResponse = [],
     taskHistoryResponse = [],
   }) => {
@@ -50,7 +62,6 @@ describe('TaskNotes', () => {
     mockTaskNotesAxiosCalls({});
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
-
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
     expect(screen.queryByText('Task activity')).toBeInTheDocument();
   });
@@ -59,38 +70,52 @@ describe('TaskNotes', () => {
     mockTaskNotesAxiosCalls({});
 
     await waitFor(() => render(<TaskNotes displayForm={false} businessKey="ghi" processInstanceId="123" />));
-
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
     expect(screen.queryByText('Task activity')).toBeInTheDocument();
   });
 
-  it('should display user claimed task', async () => {
+  it('should display task received activity', async () => {
+    mockTaskNotesAxiosCalls({
+      variableInstanceResponse: variableInstanceFixture,
+    });
+
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+    expect(screen.queryByText('Task received')).toBeInTheDocument();
+  });
+
+  it('should display user claimed task activity', async () => {
     mockTaskNotesAxiosCalls({
       operationsHistoryResponse: operationsHistoryResponseClaim,
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
-
     expect(screen.queryByText('User has claimed the task')).toBeInTheDocument();
   });
 
-  it('should display user unclaimed task', async () => {
+  it('should display user unclaimed task activity', async () => {
     mockTaskNotesAxiosCalls({
       operationsHistoryResponse: operationsHistoryResponseUnclaim,
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
-
     expect(screen.queryByText('User has unclaimed the task')).toBeInTheDocument();
   });
 
-  it('should display property changed operation', async () => {
+  it('should display property changed activity', async () => {
     mockTaskNotesAxiosCalls({
       operationsHistoryResponse: operationsHistoryResponsePropertyChanged,
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
-
     expect(screen.queryByText('Property delete changed from false to true')).toBeInTheDocument();
+  });
+
+  it('should display develop the task activity', async () => {
+    mockTaskNotesAxiosCalls({
+      taskHistoryResponse: taskHistoryFixture,
+    });
+
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+    expect(screen.queryByText('Develop the task')).toBeInTheDocument();
   });
 });
