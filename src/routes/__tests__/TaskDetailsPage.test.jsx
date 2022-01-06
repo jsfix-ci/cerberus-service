@@ -28,6 +28,13 @@ describe('TaskDetailsPage', () => {
     orgValue: null,
     timestamp: '2021-04-06T15:30:42.420+0000',
     userId: 'testuser@email.com',
+  },
+  {
+    operationType: 'Complete',
+    property: 'assignee',
+    orgValue: null,
+    timestamp: '2021-04-06T15:30:42.420+0000',
+    userId: 'testuser@email.com',
   }];
   const taskHistoryFixture = [{
     assignee: 'testuser@email.com',
@@ -480,5 +487,25 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+  });
+
+  it('should not render any note that has value null', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: null,
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusComplete,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('test.user@digital.homeoffice.gov.uk')).not.toBeInTheDocument();
   });
 });

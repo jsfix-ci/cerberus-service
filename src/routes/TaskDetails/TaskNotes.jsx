@@ -63,7 +63,11 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
         if ([OPERATION_TYPE_CLAIM, OPERATION_TYPE_ASSIGN].includes(operation.operationType)) {
           return operation.newValue ? 'User has claimed the task' : 'User has unclaimed the task';
         }
-        return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
+        /*
+         * Line below left as commented out in the event that line affected other parts of the system
+         */
+        // return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
+        return null;
       };
       return {
         id: uuidv4(),
@@ -114,21 +118,23 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
       <h3 className="govuk-heading-m task-details-notes-heading">Task activity</h3>
 
       {activityLog.map((activity) => {
-        return (
-          <div key={activity.id}>
-            <div className="activity-body-container">
-              <p className="govuk-body-s govuk-!-margin-bottom-2">
-                <span className="govuk-!-font-weight-bold">
-                  {new Date(activity.date).toLocaleDateString()}
-                </span>
-              &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
-                {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
-              </p>
-              <p className="govuk-body">{hyperlinkify(activity.note)}</p>
+        if (activity.note !== null) {
+          return (
+            <div key={activity.id}>
+              <div className="activity-body-container">
+                <p className="govuk-body-s govuk-!-margin-bottom-2">
+                  <span className="govuk-!-font-weight-bold">
+                    {new Date(activity.date).toLocaleDateString()}
+                  </span>
+                &nbsp;at <span className="govuk-!-font-weight-bold">{new Date(activity.date).toLocaleTimeString()}</span>
+                  {activity.user && <>&nbsp;by <a href={`mailto:${activity.user}`}>{activity.user}</a></>}
+                </p>
+                <p className="govuk-body">{hyperlinkify(activity.note)}</p>
+              </div>
+              <hr className="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
             </div>
-            <hr className="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-          </div>
-        );
+          );
+        }
       })}
     </div>
   );
