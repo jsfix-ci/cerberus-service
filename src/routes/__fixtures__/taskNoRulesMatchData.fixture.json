@@ -1,0 +1,662 @@
+[
+    [
+    {
+        "fieldSetName": "Vehicle details",
+        "hasChildSet": false,
+        "contents": [
+            {
+                "fieldName": "Vehicle registration",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "registrationNumber"
+            },
+            {
+                "fieldName": "Type",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "type"
+            },
+            {
+                "fieldName": "Make",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "make"
+            },
+            {
+                "fieldName": "Model",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "model"
+            },
+            {
+                "fieldName": "Country of registration",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "registrationNationality"
+            },
+            {
+                "fieldName": "Colour",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "colour"
+            },
+            {
+                "fieldName": "Net weight",
+                "type": "WEIGHT",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "netWeight"
+            },
+            {
+                "fieldName": "Gross weight",
+                "type": "WEIGHT",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "grossWeight"
+            },
+            {
+                "fieldName": "Trailer registration number",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "trailerRegistrationNumber"
+            },
+            {
+                "fieldName": "Trailer type",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "trailerType"
+            },
+            {
+                "fieldName": "Trailer country of registration",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "trailerRegistrationNationality"
+            },
+            {
+                "fieldName": "Empty or loaded",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "trailerEmptyOrLoaded"
+            },
+            {
+                "fieldName": "Trailer length",
+                "type": "DISTANCE",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "trailerLength"
+            },
+            {
+                "fieldName": "Trailer height",
+                "type": "DISTANCE",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "trailerHeight"
+            }
+        ],
+        "type": "null",
+        "propName": "vehicle"
+    },
+    {
+        "fieldSetName": "Haulier details",
+        "hasChildSet": false,
+        "contents": [
+            {
+                "fieldName": "Name",
+                "type": "STRING",
+                "content": "Matthesons",
+                "versionLastUpdated": null,
+                "propName": "name"
+            },
+            {
+                "fieldName": "Address",
+                "type": "STRING",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "address"
+            },
+            {
+                "fieldName": "Telephone",
+                "type": "TELEPHONE",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "telephone"
+            },
+            {
+                "fieldName": "Mobile",
+                "type": "TELEPHONE",
+                "content": "01243785239",
+                "versionLastUpdated": null,
+                "propName": "mobile"
+            },
+            {
+                "fieldName": "Address line 1",
+                "type": "HIDDEN",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "addressLine1"
+            },
+            {
+                "fieldName": "Address line 2",
+                "type": "HIDDEN",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "addressLine2"
+            },
+            {
+                "fieldName": "City",
+                "type": "HIDDEN",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "city"
+            },
+            {
+                "fieldName": "Postcode",
+                "type": "HIDDEN",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "postcode"
+            },
+            {
+                "fieldName": "Country",
+                "type": "HIDDEN",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "country"
+            }
+        ],
+        "type": "null",
+        "propName": "haulier"
+    },
+    {
+        "fieldSetName": "Account details",
+        "hasChildSet": false,
+        "contents": [
+            {
+                "fieldName": "Full name",
+                "type": "STRING",
+                "content": "Univeral Printers Ltd",
+                "versionLastUpdated": null,
+                "propName": "name"
+            },
+            {
+                "fieldName": "Short name",
+                "type": "STRING",
+                "content": "short name",
+                "versionLastUpdated": null,
+                "propName": "shortName"
+            },
+            {
+                "fieldName": "Reference number",
+                "type": "STRING",
+                "content": "PO000359675",
+                "versionLastUpdated": null,
+                "propName": "referenceNumber"
+            },
+            {
+                "fieldName": "Address",
+                "type": "STRING",
+                "content": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
+                "versionLastUpdated": null,
+                "propName": "address"
+            },
+            {
+                "fieldName": "Telephone",
+                "type": "TELEPHONE",
+                "content": "01234 56723737",
+                "versionLastUpdated": null,
+                "propName": "telephone"
+            },
+            {
+                "fieldName": "Mobile",
+                "type": "TELEPHONE",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "mobile"
+            },
+            {
+                "fieldName": "Email",
+                "type": "EMAIL",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "email"
+            }
+        ],
+        "type": "null",
+        "propName": "account"
+    },
+    {
+        "fieldSetName": "Driver",
+        "hasChildSet": false,
+        "contents": [
+            {
+                "fieldName": "Name",
+                "type": "STRING",
+                "content": "Bob Brown",
+                "versionLastUpdated": null,
+                "propName": "name"
+            },
+            {
+                "fieldName": "Date of birth",
+                "type": "SHORT_DATE",
+                "content": 435,
+                "versionLastUpdated": null,
+                "propName": "dob"
+            },
+            {
+                "fieldName": "Gender",
+                "type": "STRING",
+                "content": "M",
+                "versionLastUpdated": null,
+                "propName": "gender"
+            },
+            {
+                "fieldName": "Nationality",
+                "type": "STRING",
+                "content": "NL",
+                "versionLastUpdated": null,
+                "propName": "nationality"
+            },
+            {
+                "fieldName": "Travel document type",
+                "type": "STRING",
+                "content": "OBJDOCPAS",
+                "versionLastUpdated": null,
+                "propName": "docType"
+            },
+            {
+                "fieldName": "Travel document number",
+                "type": "STRING",
+                "content": "244746NL",
+                "versionLastUpdated": null,
+                "propName": "docNumber"
+            },
+            {
+                "fieldName": "Travel document expiry",
+                "type": "SHORT_DATE",
+                "content": 18659,
+                "versionLastUpdated": null,
+                "propName": "docExpiry"
+            },
+            {
+                "fieldName": "Pole ID",
+                "type": "HIDDEN",
+                "content": "ROROXML:P=33f544d684db9e59150ae84406709122",
+                "versionLastUpdated": null,
+                "propName": "poleId"
+            },
+            {
+                "fieldName": "First name",
+                "type": "HIDDEN",
+                "content": "Bob",
+                "versionLastUpdated": null,
+                "propName": "firstName"
+            },
+            {
+                "fieldName": "Last name",
+                "type": "HIDDEN",
+                "content": "Brown",
+                "versionLastUpdated": null,
+                "propName": "lastName"
+            },
+            {
+                "fieldName": "Middle name",
+                "type": "HIDDEN",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "middleName"
+            }
+        ],
+        "type": "null",
+        "propName": "driver"
+    },
+    {
+        "fieldSetName": "Passengers",
+        "hasChildSet": true,
+        "contents": [],
+        "childSets": [
+            {
+                "fieldSetName": "",
+                "hasChildSet": false,
+                "contents": [
+                    {
+                        "fieldName": "Name",
+                        "type": "STRING",
+                        "content": "Ben Bailey",
+                        "versionLastUpdated": null,
+                        "propName": "name"
+                    },
+                    {
+                        "fieldName": "Date of birth",
+                        "type": "SHORT_DATE",
+                        "content": -66,
+                        "versionLastUpdated": null,
+                        "propName": "dob"
+                    },
+                    {
+                        "fieldName": "Gender",
+                        "type": "STRING",
+                        "content": "M",
+                        "versionLastUpdated": null,
+                        "propName": "gender"
+                    },
+                    {
+                        "fieldName": "Nationality",
+                        "type": "STRING",
+                        "content": "GB",
+                        "versionLastUpdated": null,
+                        "propName": "nationality"
+                    },
+                    {
+                        "fieldName": "Travel document type",
+                        "type": "STRING",
+                        "content": null,
+                        "versionLastUpdated": null,
+                        "propName": "docType"
+                    },
+                    {
+                        "fieldName": "Travel document number",
+                        "type": "STRING",
+                        "content": null,
+                        "versionLastUpdated": null,
+                        "propName": "docNumber"
+                    },
+                    {
+                        "fieldName": "Travel document expiry",
+                        "type": "SHORT_DATE",
+                        "content": null,
+                        "versionLastUpdated": null,
+                        "propName": "docExpiry"
+                    },
+                    {
+                        "fieldName": "Pole ID",
+                        "type": "HIDDEN",
+                        "content": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+                        "versionLastUpdated": null,
+                        "propName": "poleId"
+                    },
+                    {
+                        "fieldName": "First name",
+                        "type": "HIDDEN",
+                        "content": "Ben",
+                        "versionLastUpdated": null,
+                        "propName": "firstName"
+                    },
+                    {
+                        "fieldName": "Last name",
+                        "type": "HIDDEN",
+                        "content": "Bailey",
+                        "versionLastUpdated": null,
+                        "propName": "lastName"
+                    },
+                    {
+                        "fieldName": "Middle name",
+                        "type": "HIDDEN",
+                        "content": null,
+                        "versionLastUpdated": null,
+                        "propName": "middleName"
+                    }
+                ],
+                "type": "null",
+                "propName": ""
+            }
+        ],
+        "type": "STANDARD",
+        "propName": "passengers"
+    },
+    {
+        "fieldSetName": "Goods",
+        "hasChildSet": false,
+        "contents": [
+            {
+                "fieldName": "Description",
+                "type": "STRING",
+                "content": "Printed Paper",
+                "versionLastUpdated": null,
+                "propName": "description"
+            },
+            {
+                "fieldName": "Is cargo hazardous?",
+                "type": "STRING",
+                "content": "No",
+                "versionLastUpdated": null,
+                "propName": "isHazardous"
+            },
+            {
+                "fieldName": "Weight of goods",
+                "type": "WEIGHT",
+                "content": null,
+                "versionLastUpdated": null,
+                "propName": "weight"
+            }
+        ],
+        "type": "null",
+        "propName": "goods"
+    },
+    {
+        "fieldSetName": "Booking and check-in",
+        "hasChildSet": false,
+        "contents": [
+            {
+                "fieldName": "Reference",
+                "type": "STRING",
+                "content": "357485636",
+                "versionLastUpdated": null,
+                "propName": "reference"
+            },
+            {
+                "fieldName": "Ticket number",
+                "type": "STRING",
+                "content": "1234567",
+                "versionLastUpdated": null,
+                "propName": "ticketNumber"
+            },
+            {
+                "fieldName": "Type",
+                "type": "STRING",
+                "content": "Test",
+                "versionLastUpdated": null,
+                "propName": "bookingType"
+            },
+            {
+                "fieldName": "Name",
+                "type": "STRING",
+                "content": "test",
+                "versionLastUpdated": null,
+                "propName": "name"
+            },
+            {
+                "fieldName": "Address",
+                "type": "STRING",
+                "content": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
+                "versionLastUpdated": null,
+                "propName": "address"
+            },
+            {
+                "fieldName": "Date and time",
+                "type": "BOOKING_DATETIME",
+                "content": "2020-08-02T09:15:00,2020-08-03T13:05:00",
+                "versionLastUpdated": null,
+                "propName": "dateBooked"
+            },
+            {
+                "fieldName": "Country",
+                "type": "STRING",
+                "content": "GB",
+                "versionLastUpdated": null,
+                "propName": "country"
+            },
+            {
+                "fieldName": "Payment method",
+                "type": "STRING",
+                "content": "Cash",
+                "versionLastUpdated": null,
+                "propName": "paymentMethod"
+            },
+            {
+                "fieldName": "Ticket price",
+                "type": "CURRENCY",
+                "content": "30 quid",
+                "versionLastUpdated": null,
+                "propName": "ticketPrice"
+            },
+            {
+                "fieldName": "Ticket type",
+                "type": "STRING",
+                "content": "Return",
+                "versionLastUpdated": null,
+                "propName": "ticketType"
+            },
+            {
+                "fieldName": "Check-in",
+                "type": "DATETIME",
+                "content": "2020-08-03T12:05:00",
+                "versionLastUpdated": null,
+                "propName": "checkIn"
+            }
+        ],
+        "type": "null",
+        "propName": "booking"
+    },
+    {
+        "fieldSetName": "Targeting indicators",
+        "hasChildSet": true,
+        "contents": [],
+        "childSets": [
+            {
+                "fieldSetName": "",
+                "hasChildSet": false,
+                "contents": [
+                    {
+                        "fieldName": "Name",
+                        "type": "STRING",
+                        "content": "Paid by cash",
+                        "versionLastUpdated": null,
+                        "propName": "userfacingtext"
+                    },
+                    {
+                        "fieldName": "ID",
+                        "type": "HIDDEN",
+                        "content": 10,
+                        "versionLastUpdated": null,
+                        "propName": "id"
+                    },
+                    {
+                        "fieldName": "Feature name",
+                        "type": "HIDDEN",
+                        "content": "STANDARDISED:cashPaid",
+                        "versionLastUpdated": null,
+                        "propName": "featurename"
+                    },
+                    {
+                        "fieldName": "Vehicle",
+                        "type": "HIDDEN",
+                        "content": false,
+                        "versionLastUpdated": null,
+                        "propName": "vehicle"
+                    },
+                    {
+                        "fieldName": "Driver",
+                        "type": "HIDDEN",
+                        "content": false,
+                        "versionLastUpdated": null,
+                        "propName": "driver"
+                    },
+                    {
+                        "fieldName": "Person",
+                        "type": "HIDDEN",
+                        "content": false,
+                        "versionLastUpdated": null,
+                        "propName": "person"
+                    },
+                    {
+                        "fieldName": "Haulier",
+                        "type": "HIDDEN",
+                        "content": false,
+                        "versionLastUpdated": null,
+                        "propName": "haulier"
+                    },
+                    {
+                        "fieldName": "Movement",
+                        "type": "HIDDEN",
+                        "content": true,
+                        "versionLastUpdated": null,
+                        "propName": "movement"
+                    },
+                    {
+                        "fieldName": "Booking",
+                        "type": "HIDDEN",
+                        "content": false,
+                        "versionLastUpdated": null,
+                        "propName": "booking"
+                    },
+                    {
+                        "fieldName": "Organisation",
+                        "type": "HIDDEN",
+                        "content": false,
+                        "versionLastUpdated": null,
+                        "propName": "organisation"
+                    },
+                    {
+                        "fieldName": "Score",
+                        "type": "HIDDEN",
+                        "content": 30,
+                        "versionLastUpdated": null,
+                        "propName": "score"
+                    },
+                    {
+                        "fieldName": "Valid from",
+                        "type": "HIDDEN",
+                        "content": "2021-06-03T00:00:01.000Z",
+                        "versionLastUpdated": null,
+                        "propName": "validfrom"
+                    },
+                    {
+                        "fieldName": "Valid to",
+                        "type": "HIDDEN",
+                        "content": null,
+                        "versionLastUpdated": null,
+                        "propName": "validto"
+                    },
+                    {
+                        "fieldName": "Updated by",
+                        "type": "HIDDEN",
+                        "content": "Mohammed Abdul Odud",
+                        "versionLastUpdated": null,
+                        "propName": "updatedby"
+                    }
+                ],
+                "type": "null",
+                "propName": ""
+            }
+        ],
+        "type": "STANDARD",
+        "propName": "targetingIndicators"
+    },
+    {
+        "fieldSetName": "0 selector matches",
+        "hasChildSet": true,
+        "contents": [],
+        "childSets": [],
+        "type": "STANDARD",
+        "propName": "selectors"
+    },
+    {
+        "fieldSetName": "Rules matched",
+        "hasChildSet": true,
+        "contents": [],
+        "childSets": [],
+        "type": "STANDARD",
+        "propName": "rules"
+    }
+    ]
+]

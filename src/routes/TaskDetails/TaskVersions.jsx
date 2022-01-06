@@ -7,6 +7,9 @@ import { RORO_TOURIST, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT, RORO_ACCOMP
 import TaskSummary from './TaskSummary';
 import { formatKey, formatField } from '../../utils/formatField';
 import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
+import capitalizeFirstLetter from '../../utils/stringConversion';
+
+let threatLevel;
 
 const isLatest = (index) => {
   return index === 0 ? '(latest)' : '';
@@ -77,11 +80,21 @@ const renderVersionSectionBody = (fieldSet) => {
   }
 };
 
+const renderSelectorsSection = (version) => {
+  const selectors = version.find(({ propName }) => propName === 'selectors');
+  threatLevel = null;
+  if (selectors.childSets.length > 0) {
+    const selector = selectors.childSets[0].contents.find(({ propName }) => propName === 'category');
+    threatLevel = `${capitalizeFirstLetter(selector.propName)} ${selector.content}`;
+  }
+};
+
 const renderRulesSection = (version) => {
   const field = version.find(({ propName }) => propName === 'rules');
   if (field.childSets.length > 0) {
     const firstRule = field.childSets[0];
     const otherRules = field.childSets.slice(1);
+    threatLevel = threatLevel || firstRule.contents.find((item) => item.propName === 'rulePriority')?.content;
     return (
       <div className="govuk-rules-section">
         <div>
@@ -402,6 +415,9 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
           {renderThirdColumn(version)}
         </div>
       </div>
+      <div className="hidden">
+        {renderSelectorsSection(version)}
+      </div>
       <div>
         {renderRulesSection(version)}
       </div>
@@ -445,6 +461,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
                 <div className="task-versions--right">
                   <ul className="govuk-list">
                     <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
+                    {threatLevel ? <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{threatLevel}</span></li> : <li>No rule matches</li>}
                   </ul>
                 </div>
               </>
