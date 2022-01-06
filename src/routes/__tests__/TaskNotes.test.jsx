@@ -24,26 +24,12 @@ describe('TaskNotes', () => {
     mockAxios.reset();
   });
 
-  const variableInstanceResponseEmpty = [{
-    type: 'Json',
-    value: '[]',
-    name: 'notes',
-  }];
-
-  const variableInstanceFixture = [{
-    type: 'Json',
-    value: '[{"note":"Task received","timeStamp":1641378056264,"userId":"testuser@email.com"}]',
-    name: 'notes',
-  }];
-
-  const taskHistoryFixture = [{
-    name: 'Develop the task',
-    assignee: 'testuser@email.com',
-    startTime: '2022-01-05T10:20:56.318+0000',
-  }];
-
   const mockTaskNotesAxiosCalls = ({
-    variableInstanceResponse = variableInstanceResponseEmpty,
+    variableInstanceResponse = [{
+      type: 'Json',
+      value: '[]',
+      name: 'notes',
+    }],
     operationsHistoryResponse = [],
     taskHistoryResponse = [],
   }) => {
@@ -76,7 +62,11 @@ describe('TaskNotes', () => {
 
   it('should display task received activity', async () => {
     mockTaskNotesAxiosCalls({
-      variableInstanceResponse: variableInstanceFixture,
+      variableInstanceResponse: [{
+        type: 'Json',
+        value: '[{"note":"Task received","timeStamp":1641378056264,"userId":"testuser@email.com"}]',
+        name: 'notes',
+      }],
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
@@ -112,7 +102,11 @@ describe('TaskNotes', () => {
 
   it('should display develop the task activity', async () => {
     mockTaskNotesAxiosCalls({
-      taskHistoryResponse: taskHistoryFixture,
+      taskHistoryResponse: [{
+        name: 'Develop the task',
+        assignee: 'testuser@email.com',
+        startTime: '2022-01-05T10:20:56.318+0000',
+      }],
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
