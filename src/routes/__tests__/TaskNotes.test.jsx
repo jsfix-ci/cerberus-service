@@ -97,6 +97,8 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+
+    expect(screen.queryByText('testuser@email.com')).not.toBeInTheDocument();
     expect(screen.queryByText('Property delete changed from false to true')).not.toBeInTheDocument();
   });
 

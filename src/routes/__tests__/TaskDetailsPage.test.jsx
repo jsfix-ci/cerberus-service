@@ -488,24 +488,4 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
-
-  it('should not render any note that has value null', async () => {
-    mockTaskDetailsAxiosCalls({
-      processInstanceResponse: [{ id: '123' }],
-      taskResponse: [{
-        processInstanceId: '123',
-        assignee: null,
-        id: 'task123',
-        taskDefinitionKey: 'developTarget',
-      }],
-      variableInstanceResponse: variableInstanceStatusComplete,
-      operationsHistoryResponse: operationsHistoryFixture,
-      taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: noteFormFixure,
-    });
-
-    await waitFor(() => render(<TaskDetailsPage />));
-
-    expect(screen.queryByText('test.user@digital.homeoffice.gov.uk')).not.toBeInTheDocument();
-  });
 });

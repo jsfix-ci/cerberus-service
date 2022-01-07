@@ -91,7 +91,7 @@
   },
   {
     "type": "Json",
-    "value": "[{\"note\":null,\"timeStamp\":1619171257457,\"userId\":\"test.user@digital.homeoffice.gov.uk\"}, {\"note\":\"Target received\",\"timeStamp\":1619171257457,\"userId\":\"Cerberus - Rules Based Targetting\"}]",
+    "value": "[{\"note\":\"Target received\",\"timeStamp\":1619171257457,\"userId\":\"Cerberus - Rules Based Targetting\"}]",
     "name": "notes"
   },
   {
