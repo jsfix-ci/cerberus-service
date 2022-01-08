@@ -12,16 +12,24 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
     const movementModeIcon = getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers);
     if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON) {
       return (
-        <h3 className="govuk-heading-s">
-          <span className="govuk-!-font-weight-regular">Foot Passenger</span>
-        </h3>
+        <>
+          <span className="govuk-caption-m">Foot Passenger</span>
+          <h3 className="govuk-heading-s">
+            <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
+          </h3>
+          <span className="govuk-!-font-weight-regular">(Primary traveller)</span>
+        </>
       );
     }
     if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
       return (
-        <h3 className="govuk-heading-s">
-          <span className="govuk-!-font-weight-regular">Group Passengers</span>
-        </h3>
+        <>
+          <span className="govuk-caption-m">Group Foot Passengers</span>
+          <h3 className="govuk-heading-s">
+            <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
+          </h3>
+          <span className="govuk-!-font-weight-regular">(Primary traveller)</span>
+        </>
       );
     }
   }
