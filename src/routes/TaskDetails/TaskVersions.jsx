@@ -1,13 +1,17 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
 import Accordion from '../../govuk/Accordion';
-import { RORO_TOURIST, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT, RORO_ACCOMPANIED_FREIGHT } from '../../constants';
 import TaskSummary from './TaskSummary';
+// config
+import { RORO_TOURIST, RORO_UNACCOMPANIED_FREIGHT, LONG_DATE_FORMAT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_CAR_ICON,
+  RORO_TOURIST_INDIVIDUAL_ICON, RORO_TOURIST_GROUP_ICON } from '../../constants';
+// utils
 import { formatKey, formatField } from '../../utils/formatField';
 import { calculateTaskVersionTotalRiskScore } from '../../utils/rickScoreCalculator';
 import capitalizeFirstLetter from '../../utils/stringConversion';
+import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 
 let threatLevel;
 
@@ -29,12 +33,23 @@ const hasPassenger = (passengers) => {
 };
 
 const stripOutSectionsByMovementMode = (version, movementMode) => {
-  switch (true) {
-    case movementMode.toUpperCase() === RORO_TOURIST.toUpperCase():
+  if (movementMode.toUpperCase() === RORO_TOURIST.toUpperCase()) {
+    const vehicle = {
+      registrationNumber: version.find(({ propName }) => propName === 'vehicle').contents.find(({ propName }) => propName === 'registrationNumber').content,
+    };
+    const passengers = version.find(({ propName }) => propName === 'passengers').childSets;
+    const movementModeIcon = getMovementModeIcon(movementMode, vehicle, passengers);
+    if (movementModeIcon === RORO_TOURIST_CAR_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
-    default:
-      return version;
+    }
+    if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON) {
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
+    }
+    if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
+    }
   }
+  return version;
 };
 
 const renderVersionSection = ({ fieldSetName, contents }) => {
@@ -452,7 +467,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const detailSectionTest = renderSectionsBasedOnTIS(formattedMovementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {
             expanded: index === 0,
-            heading: `Version ${versionNumber} ${isLatest(index, taskVersions)}`,
+            heading: `Version ${versionNumber} ${isLatest(index)}`,
             summary: (
               <>
                 <div className="task-versions--left">
