@@ -216,5 +216,10 @@ ul.item-list--bulleted {
     &.govuk-tag--relistedTarget {
         background-color:	#f47738;
         margin-bottom: 0.25em;
-  }
+    }
+    &.govuk-tag--riskTier {
+        background-color: #BC2410;
+        margin-right: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
 }
