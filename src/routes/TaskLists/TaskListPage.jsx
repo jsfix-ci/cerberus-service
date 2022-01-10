@@ -409,8 +409,11 @@ const TaskListPage = () => {
     // Clear localStorage
     localStorage.removeItem('filterMovementMode');
     localStorage.removeItem('hasSelector');
-    // Clear checked options
-    if (hasSelectors) {
+    /* Clear checked options :
+     * when hasSelectors was not selected, it stores 'null' as a string in the
+     * localStorage so needs to be excluded in the if condition
+    */
+    if (hasSelectors && hasSelectors !== 'null') {
       document.getElementById(hasSelectors).checked = false;
       setHasSelectors(null);
     }

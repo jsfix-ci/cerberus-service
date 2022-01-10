@@ -96,24 +96,12 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     }
   });
 
-  it('Should verify tasks are sorted in arrival time on task management page', () => {
-    let arrivalDate;
-    cy.get('.task-list--item-2 .content-line-two').each((item, index) => {
-      let dates;
-      cy.wrap(item).invoke('text').then((element) => {
-        if (element !== 'unknown') {
-          dates = element.split('-')[1];
-          dates = dates.slice(5, dates.length).split('at')[0];
-          const d = new Date(dates);
-          if (index === 0) {
-            arrivalDate = d.getTime();
-          } else {
-            expect(arrivalDate).to.be.lte(d.getTime());
-            arrivalDate = d.getTime();
-          }
-        }
-      });
-    });
+  it('Should verify tasks are sorted in arrival time for new and InProgress tabs on task management page', () => {
+    cy.get('a[href="#new"]').click();
+    cy.verifyTasksSortedOnArrivalDateTime();
+
+    cy.get('a[href="#inProgress"]').click();
+    cy.verifyTasksSortedOnArrivalDateTime();
   });
 
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
@@ -383,6 +371,22 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
           expect(taskFound).to.equal(true);
         });
       }
+    });
+  });
+
+  it('Should check empty task list fallback message on task management page', () => {
+    cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
+      .click({ force: true });
+
+    cy.get('.govuk-radios__item [value="false"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.get('.govuk-tabs__list li a').each((navigationItem) => {
+      cy.wrap(navigationItem).click();
+
+      cy.get('.govuk-tabs__panel p').should('contain.text', 'No more tasks available');
     });
   });
 

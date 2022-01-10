@@ -1158,3 +1158,23 @@ Cypress.Commands.add('verifyTaskHasMultipleVersion', (businessKey) => {
     }
   });
 });
+
+Cypress.Commands.add('verifyTasksSortedOnArrivalDateTime', () => {
+  let arrivalDate;
+  cy.get('.task-list--item-2 .content-line-two').each((item, index) => {
+    let dates;
+    cy.wrap(item).invoke('text').then((element) => {
+      if (element !== 'unknown') {
+        dates = element.split('-')[1];
+        dates = dates.slice(5, dates.length).split('at')[0];
+        const d = new Date(dates);
+        if (index === 0) {
+          arrivalDate = d.getTime();
+        } else {
+          expect(arrivalDate).to.be.lte(d.getTime());
+          arrivalDate = d.getTime();
+        }
+      }
+    });
+  });
+});
