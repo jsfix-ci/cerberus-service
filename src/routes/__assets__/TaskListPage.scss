@@ -61,6 +61,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         /* reduces the GDS header margin */
         float: left;
         display: block;
+        word-break: break-word;
     }
     .claim-button-container {
         display: flex;
