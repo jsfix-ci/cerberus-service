@@ -224,16 +224,20 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                         <h4 className="govuk-heading-s task-heading">
                           {target.summary.parentBusinessKey.businessKey}
                           <span className="dot" />
+                          {target.summary.risks[0] && (
                           <span className="govuk-body">
                             {target.summary.risks[0].contents ? target.summary.risks[0].contents.groupReference : target.summary.risks[0].name}
                           </span>
+                          )}
                         </h4>
                       </div>
                     </div>
                     <div className="govuk-grid-column">
+                      {target.summary.risks[0] && (
                       <span className="govuk-tag govuk-tag--riskTier">
                         {target.summary.risks[0].contents ? target.summary.risks[0].contents.category : target.summary.risks[0].rulePriority}
                       </span>
+                      )}
                       <span className="govuk-body task-risk-statement">
                         {formatTargetRisk(target.summary)}
                       </span>
