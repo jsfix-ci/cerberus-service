@@ -135,8 +135,8 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const formatTargetRisk = (target) => {
     if (target.risks.length >= 1) {
       const topRisk = target.risks[0].contents
-        ? `SELECTOR: ${target.risks[0].contents.groupReference}, ${target.risks[0].contents.category}, ${target.risks[0].contents.threatType}`
-        : `${target.risks[0].name}, ${target.risks[0].rulePriority}, ${target.risks[0].abuseType}`;
+        ? target.risks[0].contents.threatType
+        : target.risks[0].abuseType;
       const count = target.risks.length - 1;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
@@ -221,16 +221,22 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                   <div className="govuk-grid-item">
                     <div className="title-container">
                       <div className="heading-container">
-                        <h4 className="govuk-heading-m task-heading">
+                        <h4 className="govuk-heading-s task-heading">
                           {target.summary.parentBusinessKey.businessKey}
+                          <span className="dot" />
+                          <span className="govuk-body">
+                            {target.summary.risks[0].contents ? target.summary.risks[0].contents.groupReference : target.summary.risks[0].name}
+                          </span>
                         </h4>
-                        <h3 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
-                          {roroData.movementStatus}
-                        </h3>
                       </div>
                     </div>
                     <div className="govuk-grid-column">
-                      <p className="govuk-body task-risk-statement">{formatTargetRisk(target.summary)}</p>
+                      <span className="govuk-tag govuk-tag--riskTier">
+                        {target.summary.risks[0].contents ? target.summary.risks[0].contents.category : target.summary.risks[0].rulePriority}
+                      </span>
+                      <span className="govuk-body task-risk-statement">
+                        {formatTargetRisk(target.summary)}
+                      </span>
                     </div>
                     <div className="govuk-grid-column">
                       {hasUpdatedStatus(target.summary)}
