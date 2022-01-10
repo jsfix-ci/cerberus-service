@@ -269,6 +269,18 @@ describe('TaskListPage', () => {
     expect(screen.getAllByText('Updated')).toHaveLength(1);
   });
 
+  it('should render relisted on task where isRelisted is equal to true', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListData);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getAllByText('Relisted')).toHaveLength(1);
+  });
+
   it('should render card for RORO Tourist by vehicle', async () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
