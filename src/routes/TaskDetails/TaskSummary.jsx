@@ -16,8 +16,8 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
           <span className="govuk-caption-m">Foot Passenger</span>
           <h3 className="govuk-heading-s">
             <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
+            <span className="govuk-!-font-weight-regular"> (Primary traveller)</span>
           </h3>
-          <span className="govuk-!-font-weight-regular">(Primary traveller)</span>
         </>
       );
     }
@@ -27,8 +27,8 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
           <span className="govuk-caption-m">Group Foot Passengers</span>
           <h3 className="govuk-heading-s">
             <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
+            <span className="govuk-!-font-weight-regular"> (Primary traveller)</span>
           </h3>
-          <span className="govuk-!-font-weight-regular">(Primary traveller)</span>
         </>
       );
     }
@@ -63,24 +63,28 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
           <div className="govuk-grid-column-one-half">
             <div className="summary-data-list">
               <i className={`icon-position--left align-middle ${getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers)}`} />
-              <ul>
-                {getSummaryFirstHalf(movementMode, roroData)}
-              </ul>
+              <div className="first-half">
+                <ul>
+                  {getSummaryFirstHalf(movementMode, roroData)}
+                </ul>
+              </div>
             </div>
           </div>
           <div className="govuk-grid-column-one-half align-right">
             <div className="summary-data-list">
               <i className="c-icon-ship align-middle" />
-              <ul>
-                <li><span>{roroData.vessel?.company && `${roroData.vessel?.company} voyage of `}{roroData.vessel.name}</span></li>
-                <li>
-                  <span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
-                    <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span>{' - '}
-                  </span> <span className="font__bold">{roroData.arrivalLocation && `${roroData.arrivalLocation} `} </span>{'  '}
-                  <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
-                </li>
-                <li><span>Arrival {!roroData.eta ? 'unknown' : (dayjs.utc(roroData.eta).fromNow())}</span></li>
-              </ul>
+              <div className="second-half">
+                <ul>
+                  <li><span>{roroData.vessel?.company && `${roroData.vessel?.company} voyage of `}{roroData.vessel.name}</span></li>
+                  <li>
+                    <span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
+                      <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span>{' - '}
+                    </span> <span className="font__bold">{roroData.arrivalLocation && `${roroData.arrivalLocation} `} </span>{'  '}
+                    <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
+                  </li>
+                  <li><span>Arrival {!roroData.eta ? 'unknown' : (dayjs.utc(roroData.eta).fromNow())}</span></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
