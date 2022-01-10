@@ -7,29 +7,28 @@ import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 
 import '../__assets__/TaskDetailsPage.scss';
 
+const getCaptionText = (movementModeIcon) => {
+  if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON) {
+    return 'Foot Passenger';
+  }
+  if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+    return 'Group Foot Passengers';
+  }
+};
+
 const getSummaryFirstHalf = (movementMode, roroData) => {
+  const movementModeIcon = getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers);
   if (movementMode === RORO_TOURIST) {
-    const movementModeIcon = getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers);
-    if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON) {
+    if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON || movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+      const captionText = getCaptionText(movementModeIcon);
       return (
-        <>
-          <span className="govuk-caption-m">Foot Passenger</span>
+        <li>
+          <span className="govuk-caption-m">{captionText}</span>
           <h3 className="govuk-heading-s">
             <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
             <span className="govuk-!-font-weight-regular"> (Primary traveller)</span>
           </h3>
-        </>
-      );
-    }
-    if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
-      return (
-        <>
-          <span className="govuk-caption-m">Group Foot Passengers</span>
-          <h3 className="govuk-heading-s">
-            <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
-            <span className="govuk-!-font-weight-regular"> (Primary traveller)</span>
-          </h3>
-        </>
+        </li>
       );
     }
   }
@@ -78,7 +77,7 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
                   <li><span>{roroData.vessel?.company && `${roroData.vessel?.company} voyage of `}{roroData.vessel.name}</span></li>
                   <li>
                     <span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
-                      <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span>{' - '}
+                      <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span><span className="arrow font__bold">&#8594;</span>
                     </span> <span className="font__bold">{roroData.arrivalLocation && `${roroData.arrivalLocation} `} </span>{'  '}
                     <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
                   </li>

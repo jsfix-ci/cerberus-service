@@ -62,8 +62,8 @@ const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) =>
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
       <i className={`icon-position--left ${movementModeIcon}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0">{getMovementModeTypeText(movementModeIcon)}</p>
-      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{getMovementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{getMovementModeTypeText(movementModeIcon)}</p>
+      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{getMovementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
     </div>
   );
 };
@@ -72,8 +72,8 @@ const renderRoroModeSection = (roroData, movementModeIcon) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
       <i className={`icon-position--left ${movementModeIcon}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
-      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
+      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
     </div>
   );
 };
@@ -82,8 +82,8 @@ const renderRoroVoyageSection = (roroData) => {
   return (
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-ship" />
-      <p className="content-line-one">{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</p>
-      <p className="govuk-body-s content-line-two">
+      <p className="content-line-one govuk-!-padding-right-2">{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</p>
+      <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
         {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(constants.LONG_DATE_FORMAT)}{' '}
         <span className="dot" />
         <span className="govuk-!-font-weight-bold"> {roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
