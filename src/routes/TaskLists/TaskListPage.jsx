@@ -168,6 +168,14 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   };
 
+  const hasRelistedStatus = (target) => {
+    if (target.isRelisted) {
+      return (
+        <p className="govuk-body govuk-tag govuk-tag--relistedTarget">Relisted</p>
+      );
+    }
+  };
+
   useEffect(() => {
     const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
     const newActivePage = parseInt(page || 1, 10);
@@ -226,6 +234,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                     </div>
                     <div className="govuk-grid-column">
                       {hasUpdatedStatus(target.summary)}
+                      {hasRelistedStatus(target.summary)}
                     </div>
                   </div>
                   <div className="govuk-grid-item">
