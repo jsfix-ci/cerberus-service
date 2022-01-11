@@ -9,16 +9,16 @@ const hasPassengers = (passengers) => {
 // Driver if available, will now be included in the passengers list
 // therefore making person at index 0 the primary traveller.
 const generateTotalPassengers = (driver, passengers) => {
-  let newPassengersArray = [];
+  let totalPassengers = [];
   if (isDriverPresent(driver)) {
-    newPassengersArray.push(driver);
+    totalPassengers.push(driver);
   }
   if (hasPassengers(passengers)) {
     passengers.map((passenger) => {
-      newPassengersArray.push(passenger);
+      totalPassengers.push(passenger);
     });
   }
-  return newPassengersArray;
+  return totalPassengers;
 };
 
 export default generateTotalPassengers;
