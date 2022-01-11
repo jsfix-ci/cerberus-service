@@ -4,13 +4,14 @@ import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { LONG_DATE_FORMAT } from '../../constants';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
+import modify from '../../utils/roroDataUtil';
 
 import '../__assets__/TaskDetailsPage.scss';
 
 const TaskSummary = ({ movementMode, taskSummaryData }) => {
   dayjs.extend(utc);
   dayjs.extend(relativeTime);
-  const roroData = taskSummaryData.roro.details;
+  const roroData = modify({ ...taskSummaryData.roro.details });
 
   return (
     <section className="card">

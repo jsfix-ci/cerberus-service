@@ -16,6 +16,7 @@ import useAxiosInstance from '../../utils/axiosInstance';
 import { useKeycloak } from '../../utils/keycloak';
 import { calculateTaskListTotalRiskScore } from '../../utils/rickScoreCalculator';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
+import modify from '../../utils/roroDataUtil';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
@@ -211,7 +212,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
-        const roroData = target.summary.roro.details;
+        const roroData = modify({ ...target.summary.roro.details });
         const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
