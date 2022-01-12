@@ -13,6 +13,16 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     background: #ffffff;
 }
 
+.dot {
+  height: 4px;
+  width: 4px;
+  background-color: #000000;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0.2rem;
+}
+
 .heading-container {
     display: flex;
     justify-content: flex-start;
@@ -99,15 +109,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     }
     .content-line-two {
         margin-bottom: 0;
-        .dot {
-            height: 4px;
-            width: 4px;
-            background-color: #000000;
-            border-radius: 50%;
-            display: inline-block;
-            vertical-align: middle;
-            margin-bottom: 2px;
-        }
     }
     .govuk-grid-column {
         background-color: #f3f2f1;
@@ -215,5 +216,10 @@ ul.item-list--bulleted {
     &.govuk-tag--relistedTarget {
         background-color:	#f47738;
         margin-bottom: 0.25em;
-  }
+    }
+    &.govuk-tag--riskTier {
+        background-color: #BC2410;
+        margin-right: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
 }
