@@ -35,13 +35,8 @@ const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
   }
 };
 
-const createCoTravellers = (coTravellers, movementModeIcon) => {
-  let remainingCoTravellers;
-  if (movementModeIcon === constants.RORO_TOURIST_GROUP_ICON) {
-    remainingCoTravellers = coTravellers.splice(1);
-  } else {
-    remainingCoTravellers = coTravellers;
-  }
+const createCoTravellers = (coTravellers) => {
+  let remainingCoTravellers = coTravellers.splice(1); // Return remainder of array (passenger at index 0 is primary traveller)
   const maxToDisplay = 4;
   const remaining = remainingCoTravellers.length > maxToDisplay ? remainingCoTravellers.length - maxToDisplay : 0;
   const coTravellersJsx = remainingCoTravellers.map((coTraveller, index) => {
@@ -94,7 +89,7 @@ const renderRoroVoyageSection = (roroData) => {
   );
 };
 
-const renderRoRoTouristSingleAndGroupCardBody = (roroData, passengers, movementModeIcon) => {
+const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-item">
@@ -103,7 +98,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData, passengers, movementM
             Primary traveller
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-            <li className="govuk-!-font-weight-bold">{passengers[0]?.firstName} {passengers[0]?.lastName}</li>
+            <li className="govuk-!-font-weight-bold">{roroData?.passengers[0]?.name}</li>
           </ul>
         </div>
       </div>
@@ -113,7 +108,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData, passengers, movementM
             Document
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-            {passengers[0]?.docNumber ? (<li className="govuk-!-font-weight-bold">{passengers[0].docNumber}</li>)
+            {roroData.passengers[0]?.docNumber ? (<li className="govuk-!-font-weight-bold">{roroData.passengers[0].docNumber}</li>)
               : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
           </ul>
         </div>
@@ -137,7 +132,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData, passengers, movementM
           Co-travellers
         </h3>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-          {passengers.length > 1 ? createCoTravellers([...passengers], movementModeIcon) : <li className="govuk-!-font-weight-bold">None</li>}
+          {roroData?.passengers.length > 1 ? createCoTravellers([...roroData.passengers]) : <li className="govuk-!-font-weight-bold">None</li>}
         </ul>
       </div>
     </div>
@@ -168,17 +163,6 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   {roroData?.driver ? (
                     <>
                       <li className="govuk-!-font-weight-bold">
-                        {roroData.driver.firstName && roroData.driver.firstName}{' '}{roroData.driver.lastName && roroData.driver.lastName}
-                      </li>
-                      {roroData.driver.gender && <br />}
-                      <li>
-                        {roroData.driver.gender === 'M' && 'Male'}
-                        {roroData.driver.gender === 'F' && 'Female'}
-                      </li>
-                    </>
-                  ) : (
-                    <>
-                      <li className="govuk-!-font-weight-bold">
                         {(roroData.passengers && roroData.passengers.length > 0) && roroData.passengers[0].name}
                       </li>
                       {(roroData.passengers && roroData.passengers.length > 0) && <br />}
@@ -187,6 +171,8 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                         {roroData.passengers && roroData.passengers[0].gender === 'F' && 'Female'}
                       </li>
                     </>
+                  ) : (
+                    <li className="govuk-!-font-weight-bold">Unknown</li>
                   )}
                 </ul>
               </div>
@@ -230,7 +216,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
               </h3>
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                 {roroData.passengers ? (
-                  createCoTravellers(roroData.passengers)
+                  createCoTravellers([...roroData.passengers])
                 ) : (<li className="govuk-!-font-weight-bold">None</li>)}
               </ul>
             </div>
@@ -238,7 +224,8 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
         </section>
       </>
     );
-  } if (movementModeIcon === constants.RORO_TOURIST_INDIVIDUAL_ICON) {
+  }
+  if (movementModeIcon === constants.RORO_TOURIST_INDIVIDUAL_ICON) {
     return (
       <>
         <section className="task-list--item-2">
@@ -250,11 +237,12 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
           </div>
         </section>
         <section className="task-list--item-3">
-          {renderRoRoTouristSingleAndGroupCardBody(roroData, passengers, movementModeIcon)}
+          {renderRoRoTouristSingleAndGroupCardBody(roroData)}
         </section>
       </>
     );
-  } if (movementModeIcon === constants.RORO_TOURIST_GROUP_ICON) {
+  }
+  if (movementModeIcon === constants.RORO_TOURIST_GROUP_ICON) {
     return (
       <>
         <section className="task-list--item-2">
@@ -266,7 +254,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
           </div>
         </section>
         <section className="task-list--item-3">
-          {renderRoRoTouristSingleAndGroupCardBody(roroData, passengers, movementModeIcon)}
+          {renderRoRoTouristSingleAndGroupCardBody(roroData)}
         </section>
       </>
     );
