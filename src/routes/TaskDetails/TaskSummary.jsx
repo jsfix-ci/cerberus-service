@@ -4,6 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { LONG_DATE_FORMAT, RORO_TOURIST, RORO_TOURIST_INDIVIDUAL_ICON, RORO_TOURIST_GROUP_ICON } from '../../constants';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
+import modify from '../../utils/roroDataUtil';
 
 import '../__assets__/TaskDetailsPage.scss';
 
@@ -53,7 +54,7 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
 const TaskSummary = ({ movementMode, taskSummaryData }) => {
   dayjs.extend(utc);
   dayjs.extend(relativeTime);
-  const roroData = taskSummaryData.roro.details;
+  const roroData = modify({ ...taskSummaryData.roro.details });
 
   return (
     <section className="card">
