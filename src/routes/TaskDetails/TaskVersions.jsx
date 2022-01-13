@@ -21,6 +21,63 @@ const isLatest = (index) => {
   return index === 0 ? '(latest)' : '';
 };
 
+<<<<<<< HEAD
+=======
+const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
+  if (!type.includes('HIDDEN')) {
+    return (
+      <div className="govuk-summary-list__row" key={uuidv4()}>
+        <dt className="govuk-summary-list__key">{type.includes('CHANGED') ? <span className="task-versions--highlight">{fieldName}</span> : fieldName}</dt>
+        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
+      </div>
+    );
+  }
+});
+
+const renderChildSets = (childSets) => {
+  return childSets.map((child) => {
+    if (child.hasChildSet) {
+      return (
+        <div key={uuidv4()} className="govuk-!-margin-bottom-6">
+          {renderFieldSetContents(child.contents)}
+          {renderChildSets(child.childSets)}
+        </div>
+      );
+    }
+    return (
+      <Fragment key={uuidv4()}>
+        {renderFieldSetContents(child.contents)}
+      </Fragment>
+    );
+  });
+};
+
+const renderFieldSets = (fieldSet) => {
+  if (fieldSet.hasChildSet) {
+    return (
+      <Fragment key={uuidv4()}>
+        {renderFieldSetContents(fieldSet.contents)}
+        {renderChildSets(fieldSet.childSets)}
+      </Fragment>
+    );
+  }
+  return renderFieldSetContents(fieldSet.contents);
+};
+
+const hasPassenger = (passengers) => {
+  let isPassenger = false;
+  for (const passengerChildSets of passengers.childSets) {
+    for (const passengerDataFieldObj of passengerChildSets.contents) {
+      if (passengerDataFieldObj.content !== null) {
+        isPassenger = true;
+        break;
+      }
+    }
+  }
+  return isPassenger;
+};
+
+>>>>>>> COP-9825: Bring back Selector matches to the task details
 const stripOutSectionsByMovementMode = (version, movementMode) => {
   if (movementMode.toUpperCase() === RORO_TOURIST.toUpperCase()) {
     const vehicle = {
@@ -47,6 +104,14 @@ const renderSelectorsSection = (version) => {
   if (selectors.childSets.length > 0) {
     const selector = selectors.childSets[0].contents.find(({ propName }) => propName === 'category');
     threatLevel = `${capitalizeFirstLetter(selector.propName)} ${selector.content}`;
+    return (
+      <div className={selectors.propName}>
+        <h2 className="govuk-heading-m">{selectors.fieldSetName}</h2>
+        <dl className="govuk-summary-list govuk-!-margin-bottom-9">
+          {renderFieldSets(selectors)}
+        </dl>
+      </div>
+    );
   }
 };
 
@@ -159,10 +224,25 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       <div>
         <TaskSummary movementMode={movementMode} taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
+<<<<<<< HEAD
       {movementMode === RORO_ACCOMPANIED_FREIGHT && <RoRoAccompaniedTaskVersion version={version} movementMode={movementMode} />}
       {movementMode === RORO_UNACCOMPANIED_FREIGHT && <RoRoUnaccompaniedTaskVersion version={version} movementMode={movementMode} />}
       {movementMode === RORO_TOURIST && <RoRoTouristTaskVersion version={version} movementMode={movementMode} movementModeIcon={movementModeIcon} />}
       <div className="hidden">
+=======
+      <div className="govuk-task-details-grid">
+        <div className="govuk-grid-column-one-third">
+          {renderFirstColumn(version, movementMode)}
+        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+          {renderSecondColumn(version)}
+        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+          {renderThirdColumn(version)}
+        </div>
+      </div>
+      <div className="">
+>>>>>>> COP-9825: Bring back Selector matches to the task details
         {renderSelectorsSection(version)}
       </div>
       <div>
