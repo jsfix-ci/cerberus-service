@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
+import { v4 as uuidv4 } from 'uuid';
 import Accordion from '../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
+import { formatField } from '../../utils/formatField';
 import RoRoAccompaniedTaskVersion from './TaskVersionsMode/RoRoAccompaniedMode';
 import RoRoUnaccompaniedTaskVersion from './TaskVersionsMode/RoRoUnaccompaniedMode';
 import RoRoTouristTaskVersion from './TaskVersionsMode/RoRoTouristMode';
@@ -19,6 +21,47 @@ let threatLevel;
 
 const isLatest = (index) => {
   return index === 0 ? '(latest)' : '';
+};
+
+const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
+  if (!type.includes('HIDDEN')) {
+    return (
+      <div className="govuk-summary-list__row" key={uuidv4()}>
+        <dt className="govuk-summary-list__key">{type.includes('CHANGED') ? <span className="task-versions--highlight">{fieldName}</span> : fieldName}</dt>
+        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
+      </div>
+    );
+  }
+});
+
+const renderChildSets = (childSets) => {
+  return childSets.map((child) => {
+    if (child.hasChildSet) {
+      return (
+        <div key={uuidv4()} className="govuk-!-margin-bottom-6">
+          {renderFieldSetContents(child.contents)}
+          {renderChildSets(child.childSets)}
+        </div>
+      );
+    }
+    return (
+      <Fragment key={uuidv4()}>
+        {renderFieldSetContents(child.contents)}
+      </Fragment>
+    );
+  });
+};
+
+const renderFieldSets = (fieldSet) => {
+  if (fieldSet.hasChildSet) {
+    return (
+      <Fragment key={uuidv4()}>
+        {renderFieldSetContents(fieldSet.contents)}
+        {renderChildSets(fieldSet.childSets)}
+      </Fragment>
+    );
+  }
+  return renderFieldSetContents(fieldSet.contents);
 };
 
 const stripOutSectionsByMovementMode = (version, movementMode) => {
@@ -47,6 +90,14 @@ const renderSelectorsSection = (version) => {
   if (selectors.childSets.length > 0) {
     const selector = selectors.childSets[0].contents.find(({ propName }) => propName === 'category');
     threatLevel = `${capitalizeFirstLetter(selector.propName)} ${selector.content}`;
+    return (
+      <div className={selectors.propName}>
+        <h2 className="govuk-heading-m">{selectors.fieldSetName}</h2>
+        <dl className="govuk-summary-list govuk-!-margin-bottom-9">
+          {renderFieldSets(selectors)}
+        </dl>
+      </div>
+    );
   }
 };
 
@@ -162,7 +213,7 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       {movementMode === RORO_ACCOMPANIED_FREIGHT && <RoRoAccompaniedTaskVersion version={version} movementMode={movementMode} />}
       {movementMode === RORO_UNACCOMPANIED_FREIGHT && <RoRoUnaccompaniedTaskVersion version={version} movementMode={movementMode} />}
       {movementMode === RORO_TOURIST && <RoRoTouristTaskVersion version={version} movementMode={movementMode} movementModeIcon={movementModeIcon} />}
-      <div className="hidden">
+      <div className="">
         {renderSelectorsSection(version)}
       </div>
       <div>
