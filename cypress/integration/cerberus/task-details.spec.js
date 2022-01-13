@@ -71,7 +71,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.wait(2000);
   });
 
-  it('Should hide Notes Textarea for the tasks assigned to others', () => {
+  it('Should add Notes for the tasks assigned to others', () => {
+    const notesText = 'adding notes on someone else task';
     cy.fixture('tasks.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -89,7 +90,16 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('.govuk-heading-xl').should('have.text', 'Overview');
 
-    cy.get('.formio-component-note textarea').should('not.exist');
+    cy.wait(2000);
+
+    cy.typeValueInTextArea('note', notesText);
+
+    cy.get('button[name="data[submit]"]').click();
+
+    cy.wait(2000);
+    cy.getActivityLogs().then((activities) => {
+      expect(activities).to.contain(notesText);
+    });
   });
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
@@ -261,7 +271,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
         cy.clickNext();
 
-        cy.typeValueInTextArea('addANote', 'This is for testing');
+        cy.typeValueInTextArea('note', 'This is for testing');
 
         cy.clickSubmit();
 
@@ -328,7 +338,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
         cy.waitForNoErrors();
 
-        cy.typeValueInTextArea('addANote', 'This is for testing');
+        cy.typeValueInTextArea('note', 'This is for testing');
 
         cy.clickSubmit();
 
