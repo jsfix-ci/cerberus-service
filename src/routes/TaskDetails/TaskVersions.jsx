@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
-
 import Accordion from '../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
 import RoRoAccompaniedTaskVersion from './TaskVersionsMode/RoRoAccompaniedMode';
@@ -173,6 +173,7 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
 };
 
 const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
+  dayjs.extend(utc);
   /*
    * There can be multiple versions of the data
    * We need to display each version

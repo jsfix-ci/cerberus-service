@@ -124,55 +124,58 @@ const renderTrailerSection = ({ contents }, movementMode) => {
 
 const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) => {
   const remainingTravellers = childSets.slice(1);
-  const secondPassenger = remainingTravellers[0].contents;
-  const otherPassengers = remainingTravellers.slice(1);
+  const secondPassenger = remainingTravellers[0]?.contents;
+  const otherPassengers = remainingTravellers ? remainingTravellers.slice(1) : undefined;
   let firstPassengerJsxElement;
   let otherPassengersJsxElementBlock;
 
-  if (secondPassenger.length > 0) {
-    firstPassengerJsxElement = secondPassenger.map((passenger) => {
-      if (!passenger.type.includes('HIDDEN')) {
-        return (
-          <div className="govuk-task-details-grid-item" key={uuidv4()}>
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
-              <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
-            </ul>
-          </div>
-        );
-      }
-    });
+  if (secondPassenger !== null && secondPassenger !== undefined) {
+    if (secondPassenger.length > 0) {
+      firstPassengerJsxElement = secondPassenger.map((passenger) => {
+        if (!passenger.type.includes('HIDDEN')) {
+          return (
+            <div className="govuk-task-details-grid-item" key={uuidv4()}>
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
+                <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
+              </ul>
+            </div>
+          );
+        }
+      });
 
-    if (otherPassengers.length > 0) {
-      otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
-        const passengerJsxElement = otherPassenger.contents.map((field) => {
-          if (!field.type.includes('HIDDEN')) {
+      if (otherPassengers !== null && otherPassengers !== undefined) {
+        if (otherPassengers.length > 0) {
+          otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
+            const passengerJsxElement = otherPassenger.contents.map((field) => {
+              if (!field.type.includes('HIDDEN')) {
+                return (
+                  <div className="govuk-task-details-grid-item" key={uuidv4()}>
+                    <ul>
+                      <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
+                      <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
+                    </ul>
+                  </div>
+                );
+              }
+            });
+            const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
             return (
-              <div className="govuk-task-details-grid-item" key={uuidv4()}>
-                <ul>
-                  <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
-                  <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
-                </ul>
+              <div className={className} key={uuidv4()}>
+                {passengerJsxElement}
               </div>
             );
-          }
-        });
-        const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
-        return (
-          <div className={className} key={uuidv4()}>
-            {passengerJsxElement}
-          </div>
-        );
-      });
-    }
-    return (
-      <>
-        <div className="task-details-container">
-          {movementModeIcon !== RORO_TOURIST_GROUP_ICON && <h3 className="title-heading">{fieldSetName}</h3>}
-          <div className="govuk-task-details-grid-column">
-            {firstPassengerJsxElement}
-          </div>
-          {otherPassengersJsxElementBlock && (
+          });
+        }
+      }
+      return (
+        <>
+          <div className="task-details-container">
+            {movementModeIcon !== RORO_TOURIST_GROUP_ICON && <h3 className="title-heading">{fieldSetName}</h3>}
+            <div className="govuk-task-details-grid-column">
+              {firstPassengerJsxElement}
+            </div>
+            {otherPassengersJsxElementBlock && (
             <details className="govuk-details" data-module="govuk-details">
               <summary className="govuk-details__summary">
                 <span className="govuk-details__summary-text">
@@ -183,10 +186,11 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
                 {otherPassengersJsxElementBlock}
               </div>
             </details>
-          )}
-        </div>
-      </>
-    );
+            )}
+          </div>
+        </>
+      );
+    }
   }
 };
 
