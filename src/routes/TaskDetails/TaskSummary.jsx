@@ -2,14 +2,14 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { LONG_DATE_FORMAT, RORO_TOURIST, RORO_TOURIST_INDIVIDUAL_ICON, RORO_TOURIST_GROUP_ICON } from '../../constants';
+import { LONG_DATE_FORMAT, RORO_TOURIST, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON } from '../../constants';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
-import modify from '../../utils/roroDataUtil';
+import { modifyRoRoPassengersTaskList } from '../../utils/roroDataUtil';
 
 import '../__assets__/TaskDetailsPage.scss';
 
 const getCaptionText = (movementModeIcon) => {
-  if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON) {
+  if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
     return 'Foot Passenger';
   }
   if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
@@ -20,7 +20,7 @@ const getCaptionText = (movementModeIcon) => {
 const getSummaryFirstHalf = (movementMode, roroData) => {
   const movementModeIcon = getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers);
   if (movementMode === RORO_TOURIST) {
-    if (movementModeIcon === RORO_TOURIST_INDIVIDUAL_ICON || movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+    if (movementModeIcon === RORO_TOURIST_SINGLE_ICON || movementModeIcon === RORO_TOURIST_GROUP_ICON) {
       const captionText = getCaptionText(movementModeIcon);
       return (
         <li>
@@ -54,7 +54,7 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
 const TaskSummary = ({ movementMode, taskSummaryData }) => {
   dayjs.extend(utc);
   dayjs.extend(relativeTime);
-  const roroData = modify({ ...taskSummaryData.roro.details });
+  const roroData = modifyRoRoPassengersTaskList({ ...taskSummaryData.roro.details });
 
   return (
     <section className="card">

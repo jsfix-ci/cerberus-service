@@ -12,7 +12,7 @@ const getMovementModeTypeText = (movementModeIcon) => {
     case constants.RORO_TOURIST_CAR_ICON: {
       return 'Vehicle';
     }
-    case constants.RORO_TOURIST_INDIVIDUAL_ICON: {
+    case constants.RORO_TOURIST_SINGLE_ICON: {
       return 'Individual';
     }
     default: {
@@ -26,7 +26,7 @@ const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
     case constants.RORO_TOURIST_CAR_ICON: {
       return !roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase();
     }
-    case constants.RORO_TOURIST_INDIVIDUAL_ICON: {
+    case constants.RORO_TOURIST_SINGLE_ICON: {
       return '1 foot passenger';
     }
     default: {
@@ -225,7 +225,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.RORO_TOURIST_INDIVIDUAL_ICON) {
+  if (movementModeIcon === constants.RORO_TOURIST_SINGLE_ICON) {
     return (
       <>
         <section className="task-list--item-2">
