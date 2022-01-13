@@ -294,8 +294,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
         cy.verifyElementText('model', targetData.vehicle.Model);
         cy.verifyElementText('colour', targetData.vehicle.Colour);
         cy.verifyElementText('registrationNumber', targetData.vehicle['Vehicle registration']);
-        cy.verifyElementText('regNumber', targetData.vehicle['Trailer registration number']);
-
         cy.get('.formio-component-driver').within(() => {
           cy.verifyElementText('firstName', driverFirstName.split(' ')[0]);
           cy.verifyElementText('lastName', driverFirstName.split(' ')[1]);
