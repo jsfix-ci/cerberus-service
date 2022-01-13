@@ -13,7 +13,7 @@ const getMovementModeTypeText = (movementModeIcon) => {
       return 'Vehicle';
     }
     case constants.RORO_TOURIST_SINGLE_ICON: {
-      return 'Individual';
+      return 'Single passenger';
     }
     default: {
       return 'Group';

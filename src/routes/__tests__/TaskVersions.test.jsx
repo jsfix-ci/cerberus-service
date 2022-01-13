@@ -3,7 +3,8 @@ import { screen, render } from '@testing-library/react';
 
 import TaskVersions from '../TaskDetails/TaskVersions';
 import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
-  taskSummaryBasedOnTISData } from '../__fixtures__/taskVersions';
+  taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData,
+  noVehicleTwoPaxTsBasedOnTISData } from '../__fixtures__/taskVersions';
 
 describe('TaskVersions', () => {
   it('should render the selector with Highest threat level is Category', () => {
@@ -48,7 +49,7 @@ describe('TaskVersions', () => {
 
   it('should render headers for RORO Tourist foot passenger', () => {
     render(<TaskVersions
-      taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
+      taskSummaryBasedOnTIS={noVehicleSinglePaxTsBasedOnTISData}
       taskVersions={taskFootPassengerSingleVersion}
       taskVersionDifferencesCounts={[0]}
       movementMode="RORO Tourist"
@@ -57,6 +58,8 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Targeting indicators')).toBeInTheDocument();
     expect(screen.queryByText('Booking and check-in')).toBeInTheDocument();
     expect(screen.queryByText('Primary Traveller')).toBeInTheDocument();
+    expect(screen.queryByText('Single passenger')).toBeInTheDocument();
+    expect(screen.queryByText('1 foot passenger')).toBeInTheDocument();
     expect(screen.queryByText('Occupants')).not.toBeInTheDocument();
     expect(screen.queryByText('Passengers')).not.toBeInTheDocument();
     expect(screen.queryByText('Driver')).not.toBeInTheDocument();
@@ -67,7 +70,7 @@ describe('TaskVersions', () => {
 
   it('should render headers for RORO Tourist foot passengers', () => {
     render(<TaskVersions
-      taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
       taskVersions={taskFootPassengersSingleVersion}
       taskVersionDifferencesCounts={[0]}
       movementMode="RORO Tourist"
@@ -78,6 +81,8 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Document')).toBeInTheDocument();
     expect(screen.queryByText('Booking and check-in')).toBeInTheDocument();
     expect(screen.queryByText('Other travellers')).toBeInTheDocument();
+    expect(screen.queryByText('Group')).toBeInTheDocument();
+    expect(screen.queryByText('2 foot passengers')).toBeInTheDocument();
     expect(screen.queryByText('Occupants')).not.toBeInTheDocument();
     expect(screen.queryByText('Passengers')).not.toBeInTheDocument();
     expect(screen.queryByText('Driver')).not.toBeInTheDocument();

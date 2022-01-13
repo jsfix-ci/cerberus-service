@@ -3110,4 +3110,202 @@ const taskSummaryBasedOnTISData = {
   },
 };
 
-export { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion, taskSummaryBasedOnTISData };
+const noVehicleSinglePaxTsBasedOnTISData = {
+  parentBusinessKey: {
+    businessKey: 'AUTOTEST-06-01-2022-CLAIM-TASK-MANAGEMENT_495516:CMID=TEST',
+  },
+  threatIndicators: [],
+  category: 'target_B',
+  eventPort: '',
+  risks: [
+    {
+      contents: {
+        groupNumber: '2020-6',
+        requestingOfficer: 'Peter Price',
+        sourceReference: 'intel source',
+        groupReference: 'Local ref',
+        category: 'B',
+        threatType: 'National Security at the Border',
+        pointOfContactMessage: 'Message for the POC',
+        pointOfContact: 'poc',
+        inboundActionCode: 'Advise originator',
+        outboundActionCode: 'Full attention',
+        warnings: 'Supplemental warnings',
+        notes: 'Supplemental notes',
+        creator: 'Joe Jones',
+        selectorId: 6,
+      },
+      childSets: [],
+    },
+    {
+      name: 'Paid by Cash',
+      rulePriority: 'Tier 1',
+      ruleVersion: 1,
+      abuseType: 'National Security at the Border',
+      agencyCode: '',
+      description: 'Test',
+      ruleId: 293,
+    },
+    {
+      name: 'Paid by cash1',
+      rulePriority: 'Tier 1',
+      ruleVersion: 1,
+      abuseType: 'Class A Drugs',
+      agencyCode: '',
+      description: 'Paid by cash',
+      ruleId: 346,
+    },
+  ],
+  numberOfVersions: 1,
+  roro: {
+    roroFreightType: 'unaccompanied',
+    details: {
+      movementStatus: 'Pre-Arrival',
+      bookingDateTime: '202008041619,2020-08-05T14:00:00',
+      vessel: {
+        name: 'VALENTINE',
+        company: 'COBELFRET FERRIES NV',
+      },
+      eta: '2020-08-02T14:30:00Z',
+      departureTime: '2020-08-05T14:00:00Z',
+      arrivalLocation: 'ARA',
+      departureLocation: 'DAG',
+      vehicle: {
+        colour: '',
+        model: '',
+        make: '',
+        registrationNumber: '',
+        type: '',
+      },
+      passengers: [
+        {
+          name: 'Ben Bailey',
+          dob: '27/10/1969',
+          gender: 'M',
+          docNumber: 'PAX0001',
+          docExpiry: '',
+          poleId: 'ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c',
+          firstName: 'Ben',
+          lastName: 'Bailey',
+          middleName: '',
+        },
+      ],
+      load: {
+        manifestedLoad: 'car parts',
+        manifestedWeight: '',
+        countryOfDestination: '',
+      },
+      account: {
+        name: 'IF Logistics',
+        number: 'IF-123482',
+      },
+    },
+  },
+};
+
+const noVehicleTwoPaxTsBasedOnTISData = {
+  parentBusinessKey: {
+    businessKey: 'AUTOTEST-06-01-2022-CLAIM-TASK-MANAGEMENT_495516:CMID=TEST',
+  },
+  threatIndicators: [],
+  category: 'target_B',
+  eventPort: '',
+  risks: [
+    {
+      contents: {
+        groupNumber: '2020-6',
+        requestingOfficer: 'Peter Price',
+        sourceReference: 'intel source',
+        groupReference: 'Local ref',
+        category: 'B',
+        threatType: 'National Security at the Border',
+        pointOfContactMessage: 'Message for the POC',
+        pointOfContact: 'poc',
+        inboundActionCode: 'Advise originator',
+        outboundActionCode: 'Full attention',
+        warnings: 'Supplemental warnings',
+        notes: 'Supplemental notes',
+        creator: 'Joe Jones',
+        selectorId: 6,
+      },
+      childSets: [],
+    },
+    {
+      name: 'Paid by Cash',
+      rulePriority: 'Tier 1',
+      ruleVersion: 1,
+      abuseType: 'National Security at the Border',
+      agencyCode: '',
+      description: 'Test',
+      ruleId: 293,
+    },
+    {
+      name: 'Paid by cash1',
+      rulePriority: 'Tier 1',
+      ruleVersion: 1,
+      abuseType: 'Class A Drugs',
+      agencyCode: '',
+      description: 'Paid by cash',
+      ruleId: 346,
+    },
+  ],
+  numberOfVersions: 1,
+  roro: {
+    roroFreightType: 'unaccompanied',
+    details: {
+      movementStatus: 'Pre-Arrival',
+      bookingDateTime: '202008041619,2020-08-05T14:00:00',
+      vessel: {
+        name: 'VALENTINE',
+        company: 'COBELFRET FERRIES NV',
+      },
+      eta: '2020-08-02T14:30:00Z',
+      departureTime: '2020-08-05T14:00:00Z',
+      arrivalLocation: 'ARA',
+      departureLocation: 'DAG',
+      vehicle: {
+        colour: '',
+        model: '',
+        make: '',
+        registrationNumber: '',
+        type: '',
+      },
+      passengers: [
+        {
+          name: 'Ben Bailey',
+          dob: '27/10/1969',
+          gender: 'M',
+          docNumber: 'PAX0001',
+          docExpiry: '',
+          poleId: 'ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c',
+          firstName: 'Ben',
+          lastName: 'Bailey',
+          middleName: '',
+        },
+        {
+          name: 'Todd Bailey',
+          dob: '27/10/1969',
+          gender: 'M',
+          docNumber: 'PAX0001',
+          docExpiry: '',
+          poleId: 'ROROXML:P=26ebab6d805c7a2c44b5f47ff0b4a58c',
+          firstName: 'Ben',
+          lastName: 'Bailey',
+          middleName: '',
+        },
+      ],
+      load: {
+        manifestedLoad: 'car parts',
+        manifestedWeight: '',
+        countryOfDestination: '',
+      },
+      account: {
+        name: 'IF Logistics',
+        number: 'IF-123482',
+      },
+    },
+  },
+};
+
+export { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
+  taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData, noVehicleTwoPaxTsBasedOnTISData };

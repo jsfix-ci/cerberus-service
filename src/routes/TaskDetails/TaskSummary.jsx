@@ -10,10 +10,10 @@ import '../__assets__/TaskDetailsPage.scss';
 
 const getCaptionText = (movementModeIcon) => {
   if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
-    return 'Foot Passenger';
+    return 'Single passenger';
   }
   if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
-    return 'Group Foot Passengers';
+    return 'Group';
   }
 };
 
@@ -26,8 +26,8 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
         <li>
           <span className="govuk-caption-m">{captionText}</span>
           <h3 className="govuk-heading-s">
-            <span className="govuk-!-font-weight-bold">{roroData.passengers[0].firstName} {roroData.passengers[0].lastName}</span>
-            <span className="govuk-!-font-weight-regular"> (Primary traveller)</span>
+            {roroData.passengers.length === 1 && <span className="govuk-!-font-weight-bold">1 foot passenger</span>}
+            {roroData.passengers.length > 1 && <span className="govuk-!-font-weight-bold">{roroData.passengers.length} foot passengers</span>}
           </h3>
         </li>
       );
