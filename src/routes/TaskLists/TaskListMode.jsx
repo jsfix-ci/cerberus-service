@@ -12,8 +12,8 @@ const getMovementModeTypeText = (movementModeIcon) => {
     case constants.RORO_TOURIST_CAR_ICON: {
       return 'Vehicle';
     }
-    case constants.RORO_TOURIST_INDIVIDUAL_ICON: {
-      return 'Individual';
+    case constants.RORO_TOURIST_SINGLE_ICON: {
+      return 'Single passenger';
     }
     default: {
       return 'Group';
@@ -26,7 +26,7 @@ const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
     case constants.RORO_TOURIST_CAR_ICON: {
       return !roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase();
     }
-    case constants.RORO_TOURIST_INDIVIDUAL_ICON: {
+    case constants.RORO_TOURIST_SINGLE_ICON: {
       return '1 foot passenger';
     }
     default: {
@@ -98,7 +98,8 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
             Primary traveller
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-            <li className="govuk-!-font-weight-bold">{roroData?.passengers[0]?.name}</li>
+            {roroData.passengers ? (<li className="govuk-!-font-weight-bold">{roroData?.passengers[0]?.name}</li>)
+              : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
           </ul>
         </div>
       </div>
@@ -132,7 +133,8 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
           Co-travellers
         </h3>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-          {roroData?.passengers.length > 1 ? createCoTravellers([...roroData.passengers]) : <li className="govuk-!-font-weight-bold">None</li>}
+          {roroData?.passengers && roroData?.passengers.length > 1
+            ? (createCoTravellers([...roroData.passengers])) : (<li className="govuk-!-font-weight-bold">None</li>) }
         </ul>
       </div>
     </div>
@@ -160,7 +162,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   Driver
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {roroData?.driver ? (
+                  {roroData?.passengers ? (
                     <>
                       <li className="govuk-!-font-weight-bold">
                         {(roroData.passengers && roroData.passengers.length > 0) && roroData.passengers[0].name}
@@ -215,9 +217,8 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                 Co-travellers
               </h3>
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                {roroData.passengers ? (
-                  createCoTravellers([...roroData.passengers])
-                ) : (<li className="govuk-!-font-weight-bold">None</li>)}
+                {roroData.passengers && roroData.passengers.length > 1
+                  ? (createCoTravellers([...roroData.passengers])) : (<li className="govuk-!-font-weight-bold">None</li>)}
               </ul>
             </div>
           </div>
@@ -225,7 +226,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.RORO_TOURIST_INDIVIDUAL_ICON) {
+  if (movementModeIcon === constants.RORO_TOURIST_SINGLE_ICON) {
     return (
       <>
         <section className="task-list--item-2">
@@ -300,7 +301,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.passengers && roroData.passengers.length > 0 ? (
                       <>
-                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
+                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length - 1, '% passenger', '% passengers')}</li>
                       </>
                     ) : (<li className="govuk-!-font-weight-bold">None</li>)}
                   </ul>
@@ -397,7 +398,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.passengers && roroData.passengers.length > 0 ? (
                       <>
-                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
+                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length - 1, '% passenger', '% passengers')}</li>
                       </>
                     ) : (<li className="govuk-!-font-weight-bold">None</li>)}
                   </ul>

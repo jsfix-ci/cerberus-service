@@ -30,6 +30,20 @@
     }
 }
 
+@media (min-width: 40.0625em){
+    .govuk-grid-column-two-thirds {
+        width: 70%;
+        float: left;
+    }
+}
+
+@media (min-width: 40.0625em){
+    .govuk-grid-column-one-third {
+        width: 30%;
+        float: left;
+    }
+}
+
 .card {
     //font-size: 1em;
     background-color: #f3f2f1;
@@ -53,6 +67,9 @@
     .grid-background--greyed {
         background-color: #f3f2f1;
         padding: 20px 10px 5px 0px;
+    }
+    .right-arrow {
+        font-size: 20px;
     }
 }
 
@@ -278,12 +295,15 @@
     }
     .c-icon-ship::before {
         left: 5px;
-    }
+    }  
     .second-half {
         padding-right: 10px;
     }
     .first-half {
         padding-left: 10px;
+    }  
+    .second-half {
+        padding-right: 10px;
     }
 }
 

@@ -321,7 +321,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    expect(screen.getByText('Individual')).toBeInTheDocument();
+    expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('Primary traveller')).toBeInTheDocument();
     expect(screen.getByText('1 foot passenger')).toBeInTheDocument();
     expect(screen.getByText('PAX0001')).toBeInTheDocument();

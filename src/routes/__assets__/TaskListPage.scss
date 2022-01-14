@@ -78,6 +78,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         justify-content: center;
         align-items: center;
         margin-bottom: 1em;
+        padding-right: 10px;
         .task-list--email {
             word-break: break-all;
             padding-right: 0.5em;
@@ -156,6 +157,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-right: 10px;
     }
     ul li {
         display: inline-block;
