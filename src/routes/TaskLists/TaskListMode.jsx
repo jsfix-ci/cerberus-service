@@ -55,7 +55,7 @@ const createCoTravellers = (coTravellers) => {
 
 const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) => {
   return (
-    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
+    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${movementModeIcon}`} />
       <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{getMovementModeTypeText(movementModeIcon)}</p>
       <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{getMovementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
@@ -65,7 +65,7 @@ const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) =>
 
 const renderRoroModeSection = (roroData, movementModeIcon) => {
   return (
-    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
+    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${movementModeIcon}`} />
       <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
       <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
