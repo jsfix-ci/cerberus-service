@@ -5,7 +5,7 @@ import { renderTargetingIndicatorsSection, renderTrailerSection, renderVersionSe
   renderOccupantsSection } from './SectionRenderer';
 import { hasTaskVersionPassengers } from '../../../utils/roroDataUtil';
 
-const firstColumn = (version, movementMode) => {
+const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
   const vehicleField = version.find(({ propName }) => propName === 'vehicle');
   const goodsField = version.find(({ propName }) => propName === 'goods');
@@ -32,7 +32,7 @@ const firstColumn = (version, movementMode) => {
   );
 };
 
-const secondColumn = (version) => {
+const renderSecondColumn = (version) => {
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
   const bookingField = version.find(({ propName }) => propName === 'booking');
@@ -48,7 +48,7 @@ const secondColumn = (version) => {
   );
 };
 
-const thirdColumn = (version) => {
+const renderThirdColumn = (version) => {
   const passengersField = version.find(({ propName }) => propName === 'passengers');
   const isValidToRender = hasTaskVersionPassengers(passengersField);
   const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
@@ -76,13 +76,13 @@ const RoRoUnaccompaniedTaskVersion = ({ version, movementMode }) => {
     <div className="govuk-task-details-grid">
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
-          {firstColumn(version, movementMode)}
+          {renderFirstColumn(version, movementMode)}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {secondColumn(version)}
+          {renderSecondColumn(version)}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {thirdColumn(version)}
+          {renderThirdColumn(version)}
         </div>
       </div>
     </div>

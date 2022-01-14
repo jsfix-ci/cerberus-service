@@ -7,7 +7,7 @@ import { renderTargetingIndicatorsSection, renderVehicleSection, renderVersionSe
 import { hasTaskVersionPassengers } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementModeIcon) => {
-  const firstColumn = () => {
+  const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
     const passengersField = version.find(({ propName }) => propName === 'passengers');
@@ -33,7 +33,7 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
     );
   };
 
-  const secondColumn = () => {
+  const renderSecondColumn = () => {
     const bookingField = version.find(({ propName }) => propName === 'booking');
     const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
     return (
@@ -43,7 +43,7 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
     );
   };
 
-  const thirdColumn = () => {
+  const renderThirdColumn = () => {
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon);
@@ -61,13 +61,13 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
     <div className="govuk-task-details-grid">
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
-          {firstColumn()}
+          {renderFirstColumn()}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {secondColumn()}
+          {renderSecondColumn()}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {thirdColumn()}
+          {renderThirdColumn()}
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
 };
 
 const footPassengerTaskVersion = (version, movementModeIcon) => {
-  const firstColumn = () => {
+  const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
     return (
@@ -96,7 +96,7 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
     );
   };
 
-  const secondColumn = () => {
+  const renderSecondColumn = () => {
     const bookingField = version.find(({ propName }) => propName === 'booking');
     const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
     return (
@@ -106,7 +106,7 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
     );
   };
 
-  const thirdColumn = () => {
+  const renderThirdColumn = () => {
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const primaryTraveller = (passengersField !== null && passengersField !== undefined) && renderPrimaryTraveller(passengersField, movementModeIcon);
     return (
@@ -120,13 +120,13 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
     <div className="govuk-task-details-grid">
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
-          {firstColumn()}
+          {renderFirstColumn()}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {secondColumn()}
+          {renderSecondColumn()}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {thirdColumn()}
+          {renderThirdColumn()}
         </div>
       </div>
     </div>
@@ -134,7 +134,7 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
 };
 
 const touristCarTaskVersion = (version, movementMode) => {
-  const firstColumn = () => {
+  const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const vehicleField = version.find(({ propName }) => propName === 'vehicle');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
@@ -158,7 +158,7 @@ const touristCarTaskVersion = (version, movementMode) => {
     );
   };
 
-  const secondColumn = () => {
+  const renderSecondColumn = () => {
     const bookingField = version.find(({ propName }) => propName === 'booking');
     const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
     return (
@@ -168,7 +168,7 @@ const touristCarTaskVersion = (version, movementMode) => {
     );
   };
 
-  const thirdColumn = () => {
+  const renderThirdColumn = () => {
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
@@ -195,13 +195,13 @@ const touristCarTaskVersion = (version, movementMode) => {
     <div className="govuk-task-details-grid">
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
-          {firstColumn()}
+          {renderFirstColumn()}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {secondColumn()}
+          {renderSecondColumn()}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {thirdColumn()}
+          {renderThirdColumn()}
         </div>
       </div>
     </div>
