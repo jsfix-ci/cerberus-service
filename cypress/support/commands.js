@@ -109,7 +109,9 @@ Cypress.Commands.add('claimTask', () => {
   cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
   cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
     cy.get('.govuk-task-list-card a').eq(0).click();
-    cy.get('.govuk-caption-xl').should('have.text', text);
+    cy.get('.govuk-caption-xl').invoke('text').then((taskTitle) => {
+      expect(text).to.contain(taskTitle);
+    });
     cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
     cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
   });
@@ -180,7 +182,7 @@ function findItem(taskName, action, taskdetails) {
           cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
             cy.log('task text', text);
             cy.log('inside multiple pages');
-            if (taskName === text) {
+            if (text.includes(taskName)) {
               if (taskdetails !== null) {
                 cy.verifyTaskManagementPage(item, taskdetails);
               }
@@ -189,7 +191,7 @@ function findItem(taskName, action, taskdetails) {
           });
         } else {
           cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
-            if (taskName === text) {
+            if (text.includes(taskName)) {
               cy.wait(2000);
               cy.contains(action).click();
               found = true;
@@ -359,7 +361,7 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action, taskdetails) => 
       cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
         cy.log('task text', text);
         cy.log('inside Single pages');
-        if (taskName === text) {
+        if (text.includes(taskName)) {
           if (taskdetails !== null) {
             cy.verifyTaskManagementPage(item, taskdetails);
           }
@@ -368,7 +370,7 @@ Cypress.Commands.add('findTaskInSinglePage', (taskName, action, taskdetails) => 
       });
     } else {
       cy.wrap(item).find('h4.task-heading').invoke('text').then((text) => {
-        if (taskName === text) {
+        if (text.includes(taskName)) {
           cy.wait(2000);
           cy.contains(action).click();
           found = true;
@@ -604,14 +606,11 @@ Cypress.Commands.add('verifyTaskSummary', (taskSummary) => {
 function getTaskSummary(businessKey) {
   let taskSummary = {};
   cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within((element) => {
-    cy.wrap(element).find('h3.task-heading').invoke('text').then((mode) => {
-      taskSummary.mode = mode;
-    });
     cy.wrap(element).find('.task-risk-statement').invoke('text').then((rules) => {
       taskSummary.rules = rules;
     });
 
-    cy.wrap(element).find('.content-line-one').then(($voyage) => {
+    cy.wrap(element).find('.content-line-one').eq(1).then(($voyage) => {
       let value = $voyage.text();
       taskSummary.voyage = (value.split(',')[0].trim());
       taskSummary.arrival = (value.split(',')[1].trim());
@@ -621,10 +620,21 @@ function getTaskSummary(businessKey) {
       let value = $dateTime.text();
       let departure = (value.split('-')[0].trim());
       let arrival = (value.split('-')[1].trim());
-      taskSummary.departurePort = departure.slice(-3).trim();
-      taskSummary.departureDateTime = departure.slice(0, departure.length - 3).trim();
-      taskSummary.arrivalPort = arrival.slice(0, 3).trim();
-      taskSummary.arrivalDateTime = arrival.slice(3, arrival.length).trim();
+      if (departure.includes('unknown')) {
+        taskSummary.departurePort = departure.slice(-7).trim();
+        taskSummary.departureDateTime = departure.slice(0, departure.length - 7).trim();
+      } else {
+        taskSummary.departurePort = departure.slice(-3).trim();
+        taskSummary.departureDateTime = departure.slice(0, departure.length - 3).trim();
+      }
+
+      if (arrival.includes('unknown')) {
+        taskSummary.arrivalPort = arrival.slice(0, 7).trim();
+        taskSummary.arrivalDateTime = arrival.slice(7, arrival.length).trim();
+      } else {
+        taskSummary.arrivalPort = arrival.slice(0, 3).trim();
+        taskSummary.arrivalDateTime = arrival.slice(3, arrival.length).trim();
+      }
     });
 
     cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
