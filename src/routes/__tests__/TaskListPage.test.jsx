@@ -28,6 +28,94 @@ describe('TaskListPage', () => {
       new: 76,
     },
   };
+
+  const countsFiltersAndSelectorsResponse = [
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 6,
+        new: 6,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 21,
+        new: 21,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 21,
+        new: 21,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: [],
+        hasSelectors: true,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 38,
+        new: 38,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: [],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 10,
+        new: 10,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: [],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 48,
+        new: 48,
+      },
+    },
+  ];
+
   let tabData = {};
 
   const setTabAndTaskValues = (value, taskStatus = 'new') => {
@@ -457,5 +545,20 @@ describe('TaskListPage', () => {
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.queryAllByText('Unknown')).toHaveLength(1);
+  });
+
+  it('should render counts for filters and selectors', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsFiltersAndSelectorsResponse)
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getByText('RoRo unaccompanied freight (6)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo accompanied freight (21)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo Tourist (21)')).toBeInTheDocument();
+    expect(screen.getByText('New (6)')).toBeInTheDocument();
   });
 });

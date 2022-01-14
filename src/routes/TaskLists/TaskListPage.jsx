@@ -76,6 +76,13 @@ const filters = [
   },
 ];
 
+const TabStatusMapping = {
+  new: 'NEW',
+  inProgress: 'IN_PROGRESS',
+  issued: 'ISSUED',
+  complete: 'COMPLETE',
+};
+
 const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
@@ -380,32 +387,38 @@ const TaskListPage = () => {
     }
   };
 
-  const getFiltersAndSelectorsCount = async () => {
+  const getFiltersAndSelectorsCount = async (tabId = 'new') => {
     setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
         const filtersSelectorsCount = await camundaClientV1.post('/targeting-tasks/status-counts', [
           {
+            taskStatuses: [TabStatusMapping[tabId]],
             movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
             hasSelectors: null,
           },
           {
+            taskStatuses: [TabStatusMapping[tabId]],
             movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
             hasSelectors: null,
           },
           {
+            taskStatuses: [TabStatusMapping[tabId]],
             movementModes: ['RORO_TOURIST'],
             hasSelectors: null,
           },
           {
+            taskStatuses: [TabStatusMapping[tabId]],
             movementModes: [],
             hasSelectors: true,
           },
           {
+            taskStatuses: [TabStatusMapping[tabId]],
             movementModes: [],
             hasSelectors: false,
           },
           {
+            taskStatuses: [TabStatusMapping[tabId]],
             movementModes: [],
             hasSelectors: null,
           },
@@ -595,9 +608,8 @@ const TaskListPage = () => {
                                 className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
-                                {option.optionLabel}
+                                {option.optionLabel} ({showFilterAndSelectorCount(parentIndex, index)})
                               </label>
-                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}
@@ -623,7 +635,10 @@ const TaskListPage = () => {
             <Tabs
               title="Title"
               id="tasks"
-              onTabClick={() => { history.push(); }}
+              onTabClick={(e) => {
+                history.push();
+                getFiltersAndSelectorsCount(e.id);
+              }}
               items={[
                 {
                   id: TASK_STATUS_NEW,
