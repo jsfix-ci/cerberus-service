@@ -6,6 +6,7 @@ import * as pluralise from 'pluralise';
 import * as constants from '../../constants';
 // Utils
 import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
+import formatGender from '../../utils/genderFormatter';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
@@ -141,16 +142,6 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
   );
 };
 
-const getGender = (gender) => {
-  if (gender === 'M') {
-    return 'Male';
-  }
-  if (gender === 'F') {
-    return 'Female';
-  }
-  return 'Unknown';
-};
-
 const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
   const passengers = roroData?.passengers;
   if (movementModeIcon === constants.RORO_TOURIST_CAR_ICON) {
@@ -179,7 +170,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                       </li>
                       {(roroData.passengers && roroData.passengers.length > 0) && <br />}
                       <li>
-                        {getGender(passengers[0]?.gender)}
+                        {formatGender(passengers[0]?.gender)}
                       </li>
                     </>
                   ) : (
