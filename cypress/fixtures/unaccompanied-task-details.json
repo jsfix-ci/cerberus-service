@@ -1,4 +1,12 @@
 {
+  "vehicle": {
+    "Trailer registration number": "GB07GYT",
+    "Trailer type": "Tanker",
+    "Trailer country of registration": "DK",
+    "Empty or loaded": "Empty",
+    "Trailer length": "36m",
+    "Trailer height": "3.6m"
+  },
   "account": {
     "Full name": "DPE logistics",
     "Short name": "",
