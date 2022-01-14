@@ -9,7 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 // Config
-import { TARGETER_GROUP, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import { TARGETER_GROUP, TASK_OUTCOME_INSUFFICIENT_RESOURCES, TASK_OUTCOME_MISSED, TASK_OUTCOME_NEGATIVE, TASK_OUTCOME_NO_SHOW, TASK_OUTCOME_POSITIVE, TASK_OUTCOME_TARGET_WITHDRAWN, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
@@ -169,6 +169,41 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   };
 
+  const getOutcome = (outcome) => {
+    let outcomeText;
+    let outcomeClass = 'genericOutcome';
+    switch (outcome) {
+      case TASK_OUTCOME_POSITIVE:
+        outcomeText = 'Positive';
+        outcomeClass = 'positiveOutcome';
+        break;
+      case TASK_OUTCOME_NEGATIVE:
+        outcomeText = 'Negative';
+        break;
+      case TASK_OUTCOME_NO_SHOW:
+        outcomeText = 'No Show';
+        break;
+      case TASK_OUTCOME_MISSED:
+        outcomeText = 'Missed';
+        break;
+      case TASK_OUTCOME_INSUFFICIENT_RESOURCES:
+        outcomeText = 'Insufficient Resources';
+        break;
+      case TASK_OUTCOME_TARGET_WITHDRAWN:
+        outcomeText = 'Target Withdrawn';
+        break;
+      default:
+        break;
+    }
+    return outcomeText && <p className={`govuk-body govuk-tag govuk-tag--${outcomeClass}`}>{outcomeText}</p>;
+  };
+
+  const hasOutcome = (target) => {
+    if (target.status.toUpperCase() === TASK_STATUS_COMPLETED.toUpperCase()) {
+      return getOutcome(target.outcome);
+    }
+  };
+
   const hasRelistedStatus = (target) => {
     if (target.isRelisted) {
       return (
@@ -246,6 +281,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                     <div className="govuk-grid-column">
                       {hasUpdatedStatus(target.summary)}
                       {hasRelistedStatus(target.summary)}
+                      {hasOutcome(target)}
                     </div>
                   </div>
                   <div className="govuk-grid-item">
