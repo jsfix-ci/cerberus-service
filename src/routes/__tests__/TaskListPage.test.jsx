@@ -392,6 +392,48 @@ describe('TaskListPage', () => {
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });
 
+  it('should render No Show label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataComplete);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn() }, 'complete')));
+
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
+
+    await waitFor(() => expect(screen.getByText('No Show')).toBeInTheDocument());
+  });
+
+  it('should render Target Withdrawn label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataComplete);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn() }, 'complete')));
+
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
+
+    await waitFor(() => expect(screen.getByText('Target Withdrawn')).toBeInTheDocument());
+  });
+
+  it('should not render Target Widthdrawn label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataIssued);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 2, selectTabIndex: jest.fn() }, 'issued')));
+
+    fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
+
+    await waitFor(() => expect(screen.queryAllByText('Target Widthrawn')).toHaveLength(0));
+  });
+
   it('should handle count errors gracefully', async () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
