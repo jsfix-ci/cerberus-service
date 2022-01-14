@@ -36,6 +36,12 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
+      cy.contains('h3', 'Trailer').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails.vehicle);
+        });
+      });
+
       cy.contains('h3', 'Haulier details').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(expectedDetails.haulier).to.deep.equal(details);
@@ -99,6 +105,38 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.wait(2000);
 
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
+    });
+  });
+
+  it('Should verify task version details of RoRo-unaccompanied with only trailer task on task details page', () => {
+    let date = new Date();
+    const expectedDetails = {
+      'Trailer registration number': 'GB07GYT',
+      'Trailer type': 'SUV',
+      'Trailer country of registration': 'DK',
+      'Empty or loaded': '',
+      'Trailer length': '',
+      'Trailer height': '',
+    };
+    cy.fixture('RoRo-Unaccompanied-Trailer-only.json').then((task) => {
+      date.setDate(date.getDate() + 8);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-VERSION-DETAILS`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
+    cy.expandTaskDetails(0);
+
+    cy.contains('h3', 'Trailer').next().within((elements) => {
+      cy.getVehicleDetails(elements).then((details) => {
+        expect(details).to.deep.equal(expectedDetails);
+      });
     });
   });
 
