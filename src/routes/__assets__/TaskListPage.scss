@@ -214,10 +214,12 @@ ul.item-list--bulleted {
     &.govuk-tag--updatedTarget {
         background-color: #00703c;
         margin-bottom: 0.25em;
+        margin-right: 5px;
     }
     &.govuk-tag--relistedTarget {
         background-color:	#f47738;
         margin-bottom: 0.25em;
+        margin-right: 5px;
     }
     &.govuk-tag--riskTier {
         background-color: #BC2410;
@@ -227,9 +229,11 @@ ul.item-list--bulleted {
     &.govuk-tag--positiveOutcome {
         background-color: #00703c;
         margin-bottom: 0.25em;
+        margin-right: 5px;
     }
     &.govuk-tag--genericOutcome {
         background-color: 	#505a5f;
         margin-bottom: 0.25em;
+        margin-right: 5px;
     }
 }
