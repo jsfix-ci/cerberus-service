@@ -11,7 +11,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should navigate to task details page', () => {
     cy.get('h4.task-heading').eq(1).invoke('text').then((text) => {
       cy.get('.govuk-task-list-card a').eq(1).click();
-      cy.get('.govuk-caption-xl').should('have.text', text);
+      cy.get('.govuk-caption-xl').invoke('text').then((taskTitle) => {
+        expect(text).to.contain(taskTitle);
+      });
     });
     cy.wait(2000);
     cy.get('.govuk-accordion__open-all').click();
@@ -71,7 +73,9 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.wait(2000);
   });
 
-  it('Should hide Notes Textarea for the tasks assigned to others', () => {
+  it('Should add Notes for the tasks assigned to others', () => {
+    const notesText = 'adding notes on someone else task';
+    cy.intercept('POST', '/camunda/engine-rest/process-definition/key/noteSubmissionWrapper/submit-form').as('submitNotes');
     cy.fixture('tasks.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -89,7 +93,19 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('.govuk-heading-xl').should('have.text', 'Overview');
 
-    cy.get('.formio-component-note textarea').should('not.exist');
+    cy.wait(2000);
+
+    cy.typeValueInTextArea('note', notesText);
+
+    cy.get('button[name="data[submit]"]').click();
+
+    cy.wait('@submitNotes').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
+
+    cy.getActivityLogs().then((activities) => {
+      expect(activities).to.contain(notesText);
+    });
   });
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
@@ -273,6 +289,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.getActivityLogs().then((activities) => {
       expect(activities).to.contain(expectedActivity);
+      expect(activities).not.to.contain('Property delete changed from false to true');
     });
   });
 
@@ -340,6 +357,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.getActivityLogs().then((activities) => {
       expect(activities).to.contain(expectedActivity);
+      expect(activities).not.to.contain('Property delete changed from false to true');
     });
   });
 
@@ -454,8 +472,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           });
       });
 
-    cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle with Trailer');
-    cy.get('.card .govuk-heading-m').should('contain.text', 'NL-234-392');
+    cy.get('.card .govuk-caption-m').should('contain.text', 'Trailer');
+    cy.get('.card .govuk-heading-s').should('contain.text', 'NL-234-392');
 
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
@@ -494,8 +512,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           });
       });
 
-    cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle');
-
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
         expect(taskSummary).to.deep.equal(expTestData.taskSummary);
@@ -526,7 +542,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       });
 
     cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle with Trailer');
-    cy.get('.card .govuk-heading-m').should('contain.text', 'NL-234-392');
+    cy.get('.card .govuk-heading-s').should('contain.text', 'NL-234-392');
 
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
@@ -600,14 +616,11 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             .then((response) => {
               cy.wait(4000);
               cy.checkTaskDisplayed(`${response.businessKey}`);
-              cy.get('h3:contains(Driver)')
-                .parent('div')
-                .within(() => {
-                  cy.get('dt')
-                    .contains('Name')
-                    .next()
-                    .should('have.text', expDriver);
+              cy.contains('h3', 'Driver').next().within(() => {
+                cy.getTaskDetails().then((details) => {
+                  expect(details.Name).to.be.equal(expDriver);
                 });
+              });
             });
         });
     });

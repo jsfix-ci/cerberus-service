@@ -180,6 +180,22 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
         cy.contains('Clear all filters').click();
       });
     });
+
+    // COP-9661 Multi-select modes persist selection on page refresh
+    filterOptions.forEach((mode) => {
+      cy.applyModesFilter(mode, 'new').then((actualTargets) => {
+        cy.getTaskCount(mode, null).then((response) => {
+          expect(response.new).be.equal(actualTargets);
+        });
+        cy.reload();
+        cy.contains('Clear all filters').click();
+        cy.wait(2000);
+        cy.getTaskCount(mode, null).then((response) => {
+          expect(response.new).be.equal(actualTargets);
+        });
+        cy.contains('Clear all filters').click();
+      });
+    });
   });
 
   it('Should apply filter tasks by roro-unaccompanied mode & has selectors on New tasks', () => {
