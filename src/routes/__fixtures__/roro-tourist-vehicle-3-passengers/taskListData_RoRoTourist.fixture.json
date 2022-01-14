@@ -26,7 +26,7 @@
           "driver": {
             "name": "Joe Brown",
             "dob": "12/03/1971",
-            "gender": "M",
+            "gender": null,
             "docNumber": "244746NL",
             "docExpiry": "01/02/2021",
             "poleId": "ROROXML:P=33f544d684db9e59150ae84406709122",

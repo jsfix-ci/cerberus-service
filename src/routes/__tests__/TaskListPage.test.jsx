@@ -446,4 +446,16 @@ describe('TaskListPage', () => {
     expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });
+
+  it('should render Unknown for gender when payload field is empty', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.queryAllByText('Unknown')).toHaveLength(1);
+  });
 });
