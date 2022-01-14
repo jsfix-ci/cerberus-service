@@ -141,6 +141,16 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
   );
 };
 
+const getGender = (gender) => {
+  if (gender === 'M') {
+    return 'Male';
+  }
+  if (gender === 'F') {
+    return 'Female';
+  }
+  return 'Unknown';
+};
+
 const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
   const passengers = roroData?.passengers;
   if (movementModeIcon === constants.RORO_TOURIST_CAR_ICON) {
@@ -169,8 +179,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                       </li>
                       {(roroData.passengers && roroData.passengers.length > 0) && <br />}
                       <li>
-                        {roroData.passengers && roroData.passengers[0].gender === 'M' && 'Male'}
-                        {roroData.passengers && roroData.passengers[0].gender === 'F' && 'Female'}
+                        {getGender(passengers[0]?.gender)}
                       </li>
                     </>
                   ) : (
