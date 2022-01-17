@@ -25,6 +25,7 @@ describe('Gender Formatter', () => {
     const gender = formatGender(undefined);
     expect(gender).toEqual('Unknown');
   });
+
   it('should return Unknown for an integer given', () => {
     const gender = formatGender(1);
     expect(gender).toEqual('Unknown');
