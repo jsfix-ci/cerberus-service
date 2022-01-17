@@ -39,13 +39,18 @@ describe('Filter tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
-    filterOptions.forEach((selector) => {
+    filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'new').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
         cy.getTaskCount(null, selector).then((numberOfTasks) => {
+          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
+          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks.total);
+          });
           expect(numberOfTasks.new).be.equal(actualTargets);
         });
       });
@@ -69,13 +74,18 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.get('a[href="#inProgress"]').click();
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
-    filterOptions.forEach((selector) => {
+    filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'inProgress').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
         cy.getTaskCount(null, selector).then((numberOfTasks) => {
+          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
+          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks.total);
+          });
           expect(numberOfTasks.inProgress).be.equal(actualTargets);
         });
       });
@@ -99,13 +109,18 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.get('a[href="#issued"]').click();
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
-    filterOptions.forEach((selector) => {
+    filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'issued').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
         cy.getTaskCount(null, selector).then((numberOfTasks) => {
+          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
+          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks.total);
+          });
           expect(numberOfTasks.issued).be.equal(actualTargets);
         });
       });
@@ -129,13 +144,18 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.get('a[href="#complete"]').click();
 
     // COP-9191 Apply each pre-arrival filter, compare the expected number of targets
-    filterOptions.forEach((selector) => {
+    filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'complete').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
         cy.getTaskCount(null, selector).then((numberOfTasks) => {
+          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
+          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks.total);
+          });
           expect(numberOfTasks.complete).be.equal(actualTargets);
         });
       });
