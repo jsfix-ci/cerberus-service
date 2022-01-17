@@ -1188,3 +1188,91 @@ Cypress.Commands.add('verifyTasksSortedOnArrivalDateTime', () => {
     });
   });
 });
+
+function getTouristTaskSummary(businessKey) {
+  let taskSummary = {};
+  cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within((element) => {
+    cy.get('.task-list--item-2 i').invoke('attr', 'class').then((value) => {
+      taskSummary.icon = value;
+
+      if (value.includes('car')) {
+        cy.wrap(element).contains('Driver').next().then((primary) => {
+          cy.wrap(primary).find('li').each((details, index) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              if (index === 0) {
+                taskSummary.driverName = info;
+              } else if (index === 1) {
+                taskSummary.driverGender = info;
+              }
+            });
+          });
+        });
+
+        cy.wrap(element).contains('VRN').next().then((document) => {
+          cy.wrap(document).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.vrn = info;
+            });
+          });
+        });
+      } else {
+        cy.wrap(element).contains('Primary traveller').next().then((primary) => {
+          cy.wrap(primary).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.primaryTravellerName = info;
+            });
+          });
+        });
+
+        cy.wrap(element).contains('Document').next().then((document) => {
+          cy.wrap(document).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.documentDetails = info;
+            });
+          });
+        });
+      }
+    });
+
+    cy.wrap(element).contains('Booking').next().then((booking) => {
+      cy.wrap(booking).find('li').each((details, index) => {
+        cy.wrap(details).invoke('text').then((info) => {
+          if (index === 0) {
+            taskSummary.bookedOn = info;
+          } else if (index === 1) {
+            taskSummary.booked = info;
+          }
+        });
+      });
+    });
+
+    cy.wrap(element).contains('Co-travellers').next().then((travellers) => {
+      let passengers = [];
+      cy.wrap(travellers).find('li').each((details) => {
+        cy.wrap(details).invoke('text').then((info) => {
+          passengers.push(info);
+          taskSummary.travellers = passengers;
+        });
+      });
+    });
+  })
+    .then(() => {
+      return taskSummary;
+    });
+}
+
+Cypress.Commands.add('verifyTouristTaskSummary', (businessKey) => {
+  const nextPage = 'a[data-test="next"]';
+  cy.visit('/tasks');
+  cy.get('body').then(($el) => {
+    if ($el.find(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        return getTouristTaskSummary(businessKey);
+      });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        return getTouristTaskSummary(businessKey);
+      });
+    }
+  });
+});

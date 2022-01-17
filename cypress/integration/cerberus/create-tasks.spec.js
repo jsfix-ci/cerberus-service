@@ -108,6 +108,84 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
+  it('Should create a RoRo task with payload contains multiple passengers', () => {
+    let expectedDetails = {
+      'icon': 'icon-position--left c-icon-group',
+      'primaryTravellerName': 'Isiaih Ford',
+      'documentDetails': '566746DL',
+      'bookedOn': 'Booked on 02/08/2020',
+      'booked': 'Booked 5 days before travel',
+      'travellers': [
+        'Donald Donald Duck, ',
+        'Fred Flintstone, ',
+        'Micky MickyMouse, ',
+        'Barney Rubble ',
+      ],
+    };
+    cy.fixture('RoRo-Tourist-muliple-passengers.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULIPLE-PASSENGERS`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
+          expect(taskDetails).to.deep.equal(expectedDetails);
+        });
+      });
+    });
+  });
+
+  it('Should create a RoRo task with payload contains Single passenger', () => {
+    let expectedDetails = {
+      'icon': 'icon-position--left c-icon-person',
+      'primaryTravellerName': 'Isiaih Ford',
+      'documentDetails': '566746DL',
+      'bookedOn': 'Booked on 02/08/2020',
+      'booked': 'Booked 5 days before travel',
+      'travellers': [
+        'None',
+      ],
+    };
+
+    cy.fixture('RoRo-Tourist-single-passengers.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-SINGLE-PASSENGER`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
+          expect(taskDetails).to.deep.equal(expectedDetails);
+        });
+      });
+    });
+  });
+
+  it('Should verify the RoRo Tourist task with Vehicle Details', () => {
+    let expectedDetails = {
+      'icon': 'icon-position--left c-icon-car',
+      'driverName': 'Daisy Flower',
+      'driverGender': 'Female',
+      'vrn': 'HL09YXR',
+      'bookedOn': 'Booked on 03/08/2020',
+      'booked': 'Booked a day before travel',
+      'travellers': [
+        'Darren Ball ',
+      ],
+    };
+    cy.getBusinessKey('-TOURIST-RBT-SBT_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${businessKeys[0]}`);
+      cy.verifyTouristTaskSummary(`${businessKeys[0]}`).then((taskDetails) => {
+        expect(taskDetails).to.deep.equal(expectedDetails);
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
