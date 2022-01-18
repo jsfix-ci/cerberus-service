@@ -806,19 +806,21 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.wait(2000);
 
     const nextPage = 'a[data-test="next"]';
-    if (Cypress.$(nextPage).length > 0) {
-      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-        cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-          cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+    cy.get('body').then(($el) => {
+      if ($el.find(nextPage).length > 0) {
+        cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+          cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+            cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+          });
         });
-      });
-    } else {
-      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-        cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-          cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+      } else {
+        cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+          cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+            cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+          });
         });
-      });
-    }
+      }
+    });
   });
 
   // COP-6905 Scenario-3
