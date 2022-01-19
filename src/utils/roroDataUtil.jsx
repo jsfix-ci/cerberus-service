@@ -70,4 +70,8 @@ const modifyRoRoPassengersTaskDetails = (version) => {
   return version;
 };
 
-export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers };
+const hasCheckinDate = (checkinDate) => {
+  return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
+};
+
+export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers, hasCheckinDate };

@@ -4,9 +4,9 @@ import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICO
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderVehicleSection, renderVersionSection,
   renderOccupantsSection, renderPrimaryTraveller, renderPrimaryTravellerDocument } from './SectionRenderer';
-import { hasTaskVersionPassengers } from '../../../utils/roroDataUtil';
+import { hasTaskVersionPassengers, hasCheckinDate } from '../../../utils/roroDataUtil';
 
-const footPassengersTaskVersion = (version, movementModeIcon) => {
+const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
@@ -34,7 +34,12 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
   };
 
   const renderSecondColumn = () => {
-    const bookingField = version.find(({ propName }) => propName === 'booking');
+    const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+    const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+    if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+    }
     const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
@@ -74,7 +79,7 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
   );
 };
 
-const footPassengerTaskVersion = (version, movementModeIcon) => {
+const footPassengerTaskVersion = (version, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
@@ -97,7 +102,12 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
   };
 
   const renderSecondColumn = () => {
-    const bookingField = version.find(({ propName }) => propName === 'booking');
+    const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+    const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+    if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+    }
     const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
@@ -133,7 +143,7 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
   );
 };
 
-const touristCarTaskVersion = (version, movementMode) => {
+const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
   const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const vehicleField = version.find(({ propName }) => propName === 'vehicle');
@@ -159,7 +169,12 @@ const touristCarTaskVersion = (version, movementMode) => {
   };
 
   const renderSecondColumn = () => {
-    const bookingField = version.find(({ propName }) => propName === 'booking');
+    const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+    const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+    if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+    }
     const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
@@ -208,15 +223,15 @@ const touristCarTaskVersion = (version, movementMode) => {
   );
 };
 
-const RoRoTouristTaskVersion = ({ version, movementMode, movementModeIcon }) => {
+const RoRoTouristTaskVersion = ({ version, movementMode, movementModeIcon, taskSummaryData }) => {
   if (movementModeIcon === RORO_TOURIST_CAR_ICON) {
-    return touristCarTaskVersion(version, movementMode);
+    return touristCarTaskVersion(version, movementMode, taskSummaryData);
   }
   if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
-    return footPassengerTaskVersion(version, movementModeIcon);
+    return footPassengerTaskVersion(version, movementModeIcon, taskSummaryData);
   }
   if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
-    return footPassengersTaskVersion(version, movementModeIcon);
+    return footPassengersTaskVersion(version, movementModeIcon, taskSummaryData);
   }
 };
 

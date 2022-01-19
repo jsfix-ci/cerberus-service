@@ -90,4 +90,26 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Haulier details')).not.toBeInTheDocument();
     expect(screen.queryByText('Account details')).not.toBeInTheDocument();
   });
+
+  it('should render check-in relative time for RORO Tourist foot passengers', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskFootPassengersSingleVersion}
+      taskVersionDifferencesCounts={[0]}
+      movementMode="RORO Tourist"
+    />);
+
+    expect(screen.queryByText('3 Aug 2020 at 12:05, a day after travel')).toBeInTheDocument();
+  });
+
+  it('should not render check-in relative time for RORO Tourist foot passengers', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskFootPassengerSingleVersion}
+      taskVersionDifferencesCounts={[0]}
+      movementMode="RORO Tourist"
+    />);
+
+    expect(screen.queryAllByText('3 Aug 2020 at 12:05, a day after travel')).toHaveLength(0);
+  });
 });
