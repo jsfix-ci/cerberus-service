@@ -148,7 +148,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     #branch:
-    #- release-*
+    #- release-candidate
     event:
     - push
 
@@ -167,7 +167,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     #branch:
-    #   - release-*
+    #   - release-candidate
     event:
        - push
 
@@ -211,8 +211,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: DEV_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - release-candidate
+    #branch:
+    #- release-candidate
     event:
     - push
 
@@ -275,7 +275,7 @@ steps:
     TEST_ENV: dev
   when:
     #branch:
-    #   - release-*
+    #   - release-candidate
     event:
        - push
 
@@ -337,7 +337,7 @@ steps:
     TEST_ENV: sit
   when:
     #branch:
-    #   - release-*
+    #  - main
     event:
       - push
 
@@ -398,6 +398,8 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests-staging\""
     TEST_ENV: staging
   when:
+    #branch:
+    #  - main
     event:
       - promote
 #    ref:
@@ -445,8 +447,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: SIT_CERBERUS_SERVICE_URL
   when:
-    #branch:
-    #   - release-*
+  #  branch:
+  #  - main
     event:
     - promote
     target:
@@ -492,6 +494,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: STAGING_CERBERUS_SERVICE_URL
   when:
+  #  branch:
+  #  - main
     event:
     - promote
  #   ref:
@@ -539,6 +543,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: PRODUCTION_CERBERUS_SERVICE_URL
   when:
+  #  branch:
+  #  - main
     event:
     - promote
  #   ref:
@@ -557,6 +563,8 @@ steps:
     SLACK_WEBHOOK:
       from_secret: SLACK_WEBHOOK
   when:
+    #branch:
+    #- main
     event:
     - promote
  #   ref:
