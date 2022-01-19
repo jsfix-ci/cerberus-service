@@ -1,4 +1,4 @@
-import { modifyRoRoPassengersTaskList, hasCheckinDate } from '../roroDataUtil';
+import { modifyRoRoPassengersTaskList, hasCheckinDate, hasEta } from '../roroDataUtil';
 
 import testRoroData from '../__fixtures__/roroData.fixture';
 
@@ -25,6 +25,26 @@ describe('RoRoData Util', () => {
 
   it('should return true if given not null, undefined or empty', () => {
     const result = hasCheckinDate('2022-01-22T10:12:55');
+    expect(result).toBeTruthy();
+  });
+
+  it('should return false for hasEta if given empty', () => {
+    const result = hasEta('');
+    expect(result).toBeFalsy();
+  });
+
+  it('should return false for hasEta if given null', () => {
+    const result = hasEta(null);
+    expect(result).toBeFalsy();
+  });
+
+  it('should return false for hasEta if given undefined', () => {
+    const result = hasEta(undefined);
+    expect(result).toBeFalsy();
+  });
+
+  it('should return true for hasEta if given not null, undefined or empty', () => {
+    const result = hasEta('2022-01-22T10:12:55');
     expect(result).toBeTruthy();
   });
 });

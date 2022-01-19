@@ -3,7 +3,7 @@ import React from 'react';
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderTrailerSection, renderVersionSection,
   renderOccupantsSection } from './SectionRenderer';
-import { hasTaskVersionPassengers, hasCheckinDate } from '../../../utils/roroDataUtil';
+import { hasTaskVersionPassengers, hasCheckinDate, hasEta } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -33,7 +33,10 @@ const renderFirstColumn = (version, movementMode) => {
 };
 
 const renderSecondColumn = (version, taskSummaryData) => {
-  const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+  let eta = taskSummaryData.roro.details.eta;
+  if (hasEta(eta)) {
+    eta = eta.substring(0, eta.length - 1);
+  }
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
   const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));

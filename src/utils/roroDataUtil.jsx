@@ -74,4 +74,8 @@ const hasCheckinDate = (checkinDate) => {
   return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
 };
 
-export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers, hasCheckinDate };
+const hasEta = (eta) => {
+  return eta !== null && eta !== undefined && eta !== '';
+};
+
+export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers, hasCheckinDate, hasEta };

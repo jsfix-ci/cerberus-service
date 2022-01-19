@@ -4,7 +4,7 @@ import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICO
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderVehicleSection, renderVersionSection,
   renderOccupantsSection, renderPrimaryTraveller, renderPrimaryTravellerDocument } from './SectionRenderer';
-import { hasTaskVersionPassengers, hasCheckinDate } from '../../../utils/roroDataUtil';
+import { hasTaskVersionPassengers, hasCheckinDate, hasEta } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
@@ -34,7 +34,10 @@ const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) =
   };
 
   const renderSecondColumn = () => {
-    const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+    let eta = taskSummaryData.roro.details.eta;
+    if (hasEta(eta)) {
+      eta = eta.substring(0, eta.length - 1);
+    }
     const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
     bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
     if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
@@ -100,7 +103,10 @@ const footPassengerTaskVersion = (version, movementModeIcon, taskSummaryData) =>
   };
 
   const renderSecondColumn = () => {
-    const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+    let eta = taskSummaryData.roro.details.eta;
+    if (hasEta(eta)) {
+      eta = eta.substring(0, eta.length - 1);
+    }
     const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
     bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
     if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
@@ -165,7 +171,10 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
   };
 
   const renderSecondColumn = () => {
-    const eta = taskSummaryData.roro.details.eta.substring(0, taskSummaryData.roro.details.eta.length - 1);
+    let eta = taskSummaryData.roro.details.eta;
+    if (hasEta(eta)) {
+      eta = eta.substring(0, eta.length - 1);
+    }
     const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
     bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
     if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
