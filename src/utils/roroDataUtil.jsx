@@ -70,4 +70,16 @@ const modifyRoRoPassengersTaskDetails = (version) => {
   return version;
 };
 
-export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers };
+const hasVehicle = (vehicleRegistration) => {
+  return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
+};
+
+const hasTrailer = (trailerRegistration) => {
+  return trailerRegistration !== null && trailerRegistration !== undefined && trailerRegistration !== '';
+};
+
+const hasDriver = (driverName) => {
+  return driverName !== null && driverName !== undefined && driverName !== '';
+};
+
+export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers, hasVehicle, hasTrailer, hasDriver };
