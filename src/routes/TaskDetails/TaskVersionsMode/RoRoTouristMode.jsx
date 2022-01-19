@@ -59,16 +59,14 @@ const footPassengersTaskVersion = (version, movementModeIcon) => {
 
   return (
     <div className="govuk-task-details-grid">
-      <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          {renderFirstColumn()}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {renderSecondColumn()}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {renderThirdColumn()}
-        </div>
+      <div className="govuk-grid-column-one-third">
+        {renderFirstColumn()}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+        {renderSecondColumn()}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+        {renderThirdColumn()}
       </div>
     </div>
   );
@@ -118,16 +116,14 @@ const footPassengerTaskVersion = (version, movementModeIcon) => {
 
   return (
     <div className="govuk-task-details-grid">
-      <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          {renderFirstColumn()}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {renderSecondColumn()}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {renderThirdColumn()}
-        </div>
+      <div className="govuk-grid-column-one-third">
+        {renderFirstColumn()}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+        {renderSecondColumn()}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+        {renderThirdColumn()}
       </div>
     </div>
   );
@@ -193,16 +189,14 @@ const touristCarTaskVersion = (version, movementMode) => {
 
   return (
     <div className="govuk-task-details-grid">
-      <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          {renderFirstColumn()}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {renderSecondColumn()}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {renderThirdColumn()}
-        </div>
+      <div className="govuk-grid-column-one-third">
+        {renderFirstColumn()}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+        {renderSecondColumn()}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+        {renderThirdColumn()}
       </div>
     </div>
   );

@@ -74,16 +74,14 @@ const renderThirdColumn = (version) => {
 const RoRoUnaccompaniedTaskVersion = ({ version, movementMode }) => {
   return (
     <div className="govuk-task-details-grid">
-      <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          {renderFirstColumn(version, movementMode)}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          {renderSecondColumn(version)}
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {renderThirdColumn(version)}
-        </div>
+      <div className="govuk-grid-column-one-third">
+        {renderFirstColumn(version, movementMode)}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+        {renderSecondColumn(version)}
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+        {renderThirdColumn(version)}
       </div>
     </div>
   );
