@@ -390,6 +390,33 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
+  it('should display selector,rule and tier in the task header', () => {
+    let jsonFolder = '';
+    let expIconForPayload = [
+      ['RoRo-Tourist-muliple-passengers.json', 'group', 'ship'],
+    ];
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    expIconForPayload.forEach((item) => {
+      let payloadFile = jsonFolder + item[0];
+      cy.fixture(payloadFile)
+        .then((task) => {
+          let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+          const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}-Header`;
+          task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+          cy.postTasks(task, businessKey)
+            .then((response) => {
+              cy.wait(4000);
+              cy.visit('/tasks');
+              cy.get('.govuk-task-list-card').contains(`${response.businessKey}`).parents('.card-container').within(() => {
+                cy.get('.task-risk-statement').invoke('text').should('equal', 'National Security at the Border and 1 other rule');
+                cy.get('.govuk-tag--riskTier').invoke('text').should('equal', 'Tier 1');
+                cy.get('h4 .govuk-body').invoke('text').should('equal', 'Paid by Cash');
+              });
+            });
+        });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
