@@ -127,7 +127,7 @@ steps:
   when:
     event:
     - push
-    
+
 - name: sonarqube_scan
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/sonar-scanner-node:latest
@@ -147,8 +147,8 @@ steps:
     DOCKER_USERNAME:
       from_secret: QUAY_USERNAME
   when:
-    branch:
-    - release-candidate
+    #branch:
+    #- release-candidate
     event:
     - push
 
@@ -166,8 +166,8 @@ steps:
     DOCKER_USERNAME:
       from_secret: QUAY_USERNAME
   when:
-    branch:
-       - release-candidate
+    #branch:
+    #   - release-candidate
     event:
        - push
 
@@ -211,8 +211,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: DEV_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - release-candidate
+    #branch:
+    #- release-candidate
     event:
     - push
 
@@ -274,8 +274,8 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests\""
     TEST_ENV: dev
   when:
-    branch:
-       - release-candidate
+    #branch:
+    #   - release-candidate
     event:
        - push
 
@@ -336,8 +336,8 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests-sit\""
     TEST_ENV: sit
   when:
-    branch:
-      - main
+    #branch:
+    #  - main
     event:
       - promote
     target:
@@ -400,8 +400,8 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests-staging\""
     TEST_ENV: staging
   when:
-    branch:
-      - main
+    #branch:
+    #  - main
     event:
       - promote
     target:
@@ -447,8 +447,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: SIT_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - main
+  #  branch:
+  #  - main
     event:
     - promote
     target:
@@ -494,8 +494,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: STAGING_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - main
+  #  branch:
+  #  - main
     event:
     - promote
     target:
@@ -541,8 +541,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: PRODUCTION_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - main
+  #  branch:
+  #  - main
     event:
     - promote
     target:
@@ -559,8 +559,8 @@ steps:
     SLACK_WEBHOOK:
       from_secret: SLACK_WEBHOOK
   when:
-    branch:
-    - main
+    #branch:
+    #- main
     event:
     - promote
     status:
