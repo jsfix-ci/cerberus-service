@@ -444,6 +444,15 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.wrap(version).invoke('attr', 'aria-expanded').should('equal', expectedDefaultExpandStatus[index]);
     });
 
+    cy.visit('/tasks');
+
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
     cy.verifyTaskHasMultipleVersion(businessKey);
   });
 
@@ -502,9 +511,10 @@ describe('Task Details of different tasks on task details Page', () => {
 
     // COP-8704 Verify number of difference between the versions displayed & highlighted
     cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
-      cy.wrap(element).find('.task-versions--right .govuk-list li').invoke('text').then((value) => {
-        expect(versionDiff[index]).to.be.equal(value);
-      });
+      cy.wrap(element).find('.task-versions--right .govuk-list li').eq(0).invoke('text')
+        .then((value) => {
+          expect(versionDiff[index]).to.be.equal(value);
+        });
 
       if (index !== firstVersionIndex) {
         cy.getTaskVersionsDifference(element, index).then((differences) => {
@@ -551,7 +561,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.postTasksInParallel(tasks).then((response) => {
-      cy.wait(15000);
+      cy.wait(20000);
       cy.checkTaskDisplayed(`${response.businessKey}`);
       cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
         expect(res.body.length).to.not.equal(0);
@@ -559,6 +569,15 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+
+    cy.visit('/tasks');
+
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
 
     cy.verifyTaskHasMultipleVersion(businessKey);
   });
@@ -686,6 +705,15 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
 
+    cy.visit('/tasks');
+
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
     cy.verifyTaskHasMultipleVersion(businessKey);
   });
 
@@ -768,21 +796,31 @@ describe('Task Details of different tasks on task details Page', () => {
       });
     });
 
-    const nextPage = 'a[data-test="next"]';
     cy.visit('/tasks');
-    if (Cypress.$(nextPage).length > 0) {
-      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-        cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-          cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
+    const nextPage = 'a[data-test="next"]';
+    cy.get('body').then(($el) => {
+      if ($el.find(nextPage).length > 0) {
+        cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+          cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+            cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+          });
         });
-      });
-    } else {
-      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-        cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-          cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+      } else {
+        cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+          cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
+            cy.wrap(element).find('.govuk-tag--updatedTarget').should('not.exist');
+          });
         });
-      });
-    }
+      }
+    });
   });
 
   // COP-6905 Scenario-3
@@ -864,11 +902,15 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
-    cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-      cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-        expect(taskUpdated).to.be.equal('Updated');
-      });
-    });
+
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
+    cy.verifyTaskHasMultipleVersion(businessKey);
   });
 
   it('Should verify all the target indicators received in the payload displayed on UI', () => {

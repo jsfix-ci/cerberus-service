@@ -651,21 +651,23 @@ function getTaskSummary(businessKey) {
       });
     });
 
-    cy.wrap(element).contains('Vehicle details').next().then((vehicleDetails) => {
-      cy.wrap(vehicleDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.vehicleRegistration = info;
-          } else if (index === 1) {
-            taskSummary.vehicleMake = info;
-          } else if (index === 2) {
-            taskSummary.vehicleModel = info;
-          } else {
-            taskSummary.vehicleNumberOfTrips = info;
-          }
+    if (businessKey.includes('Accompanied')) {
+      cy.wrap(element).contains('Vehicle details').next().then((vehicleDetails) => {
+        cy.wrap(vehicleDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.vehicleRegistration = info;
+            } else if (index === 1) {
+              taskSummary.vehicleMake = info;
+            } else if (index === 2) {
+              taskSummary.vehicleModel = info;
+            } else {
+              taskSummary.vehicleNumberOfTrips = info;
+            }
+          });
         });
       });
-    });
+    }
 
     cy.wrap(element).contains('Account details').next().then((accountDetails) => {
       cy.wrap(accountDetails).find('li').each((details, index) => {
@@ -859,8 +861,8 @@ Cypress.Commands.add('checkTaskSummaryDetails', () => {
   cy.get('.summary-data-list li').each((summary, index) => {
     cy.wrap(summary).invoke('text').then((value) => {
       if (index === 2) {
-        taskSummary.push(value.split('-')[0].trim());
-        taskSummary.push(value.split('-')[1].trim());
+        taskSummary.push(value.split('→')[0].trim());
+        taskSummary.push(value.split('→')[1].trim());
       } else {
         taskSummary.push(value);
       }
@@ -1061,35 +1063,38 @@ Cypress.Commands.add('getTaskVersionsDifference', (version, index) => {
   let difference = {};
   cy.expandTaskDetails(index).then(() => {
     cy.wrap(version).find('.govuk-grid-key .task-versions--highlight').each((item) => {
-      if (cy.wrap(item).parents().find(valueLocator).length > 0) {
-        cy.wrap(item).invoke('text').then((key) => {
-          cy.wrap(item).find(valueLocator).invoke('text').then((value) => {
+      cy.wrap(item).parents('ul').then((valueElement) => {
+        if (valueElement.find(valueLocator).length > 0) {
+          cy.wrap(item).invoke('text').then((key) => {
+            cy.wrap(valueElement).find(valueLocator).invoke('text').then((value) => {
+              if (key in difference) {
+                if (`${key}-dup` in difference) {
+                  difference[`${key}-dup-${1}`] = value;
+                } else {
+                  difference[`${key}-dup`] = value;
+                }
+              } else {
+                difference[key] = value;
+              }
+            });
+          });
+        } else {
+          cy.wrap(item).invoke('text').then((key) => {
             if (key in difference) {
               if (`${key}-dup` in difference) {
-                difference[`${key}-dup-${1}`] = value;
+                difference[`${key}-dup-${1}`] = '';
               } else {
-                difference[`${key}-dup`] = value;
+                difference[`${key}-dup`] = '';
               }
             } else {
-              difference[key] = value;
+              difference[key] = '';
             }
           });
-        });
-      } else {
-        cy.wrap(item).invoke('text').then((key) => {
-          if (key in difference) {
-            if (`${key}-dup` in difference) {
-              difference[`${key}-dup-${1}`] = '';
-            } else {
-              difference[`${key}-dup`] = '';
-            }
-          } else {
-            difference[key] = '';
-          }
-        });
-      }
+        }
+      });
     });
   }).then(() => {
+    console.log(difference);
     return difference;
   });
 });
@@ -1155,7 +1160,6 @@ function getTaskUpdatedStatus(businessKey) {
 
 Cypress.Commands.add('verifyTaskHasMultipleVersion', (businessKey) => {
   const nextPage = 'a[data-test="next"]';
-  cy.visit('/tasks');
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
       cy.findTaskInAllThePages(businessKey, null, null).then(() => {

@@ -14,7 +14,7 @@ describe('TaskVersions', () => {
       taskVersionDifferencesCounts={[]}
       movementMode="RORO Unaccompanied Freight"
     />);
-    expect(screen.queryByText(/Category/)).toBeInTheDocument();
+    expect(screen.queryByText('Category')).toBeInTheDocument();
   });
 
   it('should render No rule matches', () => {
