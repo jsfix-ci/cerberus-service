@@ -173,8 +173,10 @@ const renderRulesSection = (version) => {
                 </div>
               )
               : (
-                <div className="govuk-grid-column-full">
-                  <h4 className="govuk-heading-s">Risk indicators (0)</h4>
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-full">
+                    <h4 className="govuk-heading-s">Risk indicators (0)</h4>
+                  </div>
                 </div>
               )
           }
