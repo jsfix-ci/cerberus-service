@@ -90,4 +90,5 @@ export { modifyRoRoPassengersTaskList,
   modifyRoRoPassengersTaskDetails,
   hasTaskVersionPassengers,
   hasEta,
+  hasCheckinDate,
   extractTaskVersionsBookingField };
