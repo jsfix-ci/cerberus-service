@@ -15,7 +15,7 @@ import { RORO_TOURIST, LONG_DATE_FORMAT, RORO_TOURIST_CAR_ICON,
 // utils
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskDetails } from '../../utils/roroDataUtil';
-import capitalizeFirstLetter from '../../utils/stringConversion';
+import { capitalizeFirstLetter } from '../../utils/stringConversion';
 
 let threatLevel;
 

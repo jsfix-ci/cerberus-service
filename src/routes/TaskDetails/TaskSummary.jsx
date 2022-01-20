@@ -5,6 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { LONG_DATE_FORMAT, RORO_TOURIST, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON } from '../../constants';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskList, hasVehicle, hasTrailer, hasDriver } from '../../utils/roroDataUtil';
+import { formatTaskIconText } from '../../utils/stringConversion';
 
 import '../__assets__/TaskDetailsPage.scss';
 
@@ -36,16 +37,14 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
   return (
     <li>
       <span className="govuk-caption-m">
-        {hasVehicle(roroData.vehicle?.registrationNumber) && 'Vehicle'}
-        {(hasVehicle(roroData.vehicle?.registrationNumber) && hasTrailer(roroData.vehicle?.trailer?.regNumber)) && ' with '}
-        {hasTrailer(roroData?.vehicle?.trailer?.regNumber) && 'Trailer'}
+        {formatTaskIconText(roroData)}
       </span>
       <h3 className="govuk-heading-s">
-        {hasVehicle(roroData.vehicle.registrationNumber) && roroData.vehicle.registrationNumber}
-        {(hasVehicle(roroData.vehicle?.registrationNumber) && hasTrailer(roroData.vehicle?.trailer?.regNumber)) && <span className="govuk-!-font-weight-regular"> with </span>}
-        {hasTrailer(roroData.vehicle?.trailer?.regNumber) && roroData.vehicle.trailer.regNumber}
-        {hasDriver(roroData.driver?.name) && <span className="govuk-!-font-weight-regular"> driven by </span>}
-        {hasDriver(roroData.driver?.name) && roroData.driver.name}
+        {hasVehicle(roroData.vehicle.registrationNumber) ? roroData.vehicle.registrationNumber : ''}
+        {(hasVehicle(roroData.vehicle?.registrationNumber) && hasTrailer(roroData.vehicle?.trailer?.regNumber)) ? <span className="govuk-!-font-weight-regular"> with </span> : ''}
+        {hasTrailer(roroData.vehicle?.trailer?.regNumber) ? roroData.vehicle.trailer.regNumber : ''}
+        {hasVehicle(roroData.vehicle.registrationNumber) && hasDriver(roroData.driver?.name) ? <span className="govuk-!-font-weight-regular"> driven by </span> : ''}
+        {hasVehicle(roroData.vehicle.registrationNumber) && hasDriver(roroData.driver?.name) ? roroData.driver.name : ''}
       </h3>
     </li>
   );
