@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
@@ -22,6 +22,97 @@ describe('TaskListFilters', () => {
   beforeEach(() => {
     render(<TaskSelectedTabContext.Provider value={tabData}><TaskListPage /></TaskSelectedTabContext.Provider>);
   });
+
+  const setTabAndTaskValues = (value, taskStatus = 'inProgress') => {
+    return (<TaskSelectedTabContext.Provider value={value}><TaskListPage taskStatus={taskStatus} setError={() => { }} /></TaskSelectedTabContext.Provider>);
+  };
+
+  const countsFiltersAndSelectorsResponse = [
+    {
+      filterParams: {
+        taskStatuses: ['IN_PROGRESS'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 5,
+        issued: 0,
+        complete: 0,
+        total: 5,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['IN_PROGRESS'],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 9,
+        issued: 0,
+        complete: 0,
+        total: 9,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['IN_PROGRESS'],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 3,
+        issued: 0,
+        complete: 0,
+        total: 3,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['IN_PROGRESS'],
+        movementModes: [],
+        hasSelectors: true,
+      },
+      statusCounts: {
+        inProgress: 15,
+        issued: 0,
+        complete: 0,
+        total: 15,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['IN_PROGRESS'],
+        movementModes: [],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 2,
+        issued: 0,
+        complete: 0,
+        total: 2,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['IN_PROGRESS'],
+        movementModes: [],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 17,
+        issued: 0,
+        complete: 0,
+        total: 17,
+        new: 0,
+      },
+    },
+  ];
 
   it('should display filter options based on filter config (filters.js)', () => {
     // Titles & Actions
@@ -92,5 +183,22 @@ describe('TaskListFilters', () => {
     expect(screen.getByLabelText('Not present (0)')).not.toBeChecked();
     expect(screen.getByLabelText('Present (0)')).not.toBeChecked();
     expect(localStorage.getItem('filterMovementMode')).toBe('RORO_ACCOMPANIED_FREIGHT');
+  });
+
+  it('should render counts for filters and selectors for IN_PROGRESS', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsFiltersAndSelectorsResponse)
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'IN_PROGRESS')));
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getByText('RoRo unaccompanied freight (0)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo accompanied freight (0)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo Tourist (0)')).toBeInTheDocument();
+    expect(screen.getByText('Present (0)')).toBeInTheDocument();
+    expect(screen.getByText('Not present (0)')).toBeInTheDocument();
+    expect(screen.getByText('Any (0)')).toBeInTheDocument();
   });
 });
