@@ -3,7 +3,7 @@ import React from 'react';
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderTrailerSection, renderVersionSection,
   renderOccupantsSection } from './SectionRenderer';
-import { hasTaskVersionPassengers, hasCheckinDate, hasEta } from '../../../utils/roroDataUtil';
+import { hasTaskVersionPassengers, extractTaskVersionsBookingField, hasEta } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -39,11 +39,9 @@ const renderSecondColumn = (version, taskSummaryData) => {
   }
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
-  const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
-  bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
-  if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
-    bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
-  }
+  const bookingField = extractTaskVersionsBookingField(
+    JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking'))), eta,
+  );
   const haulier = (haulierField !== null && haulierField !== undefined) && renderVersionSection(haulierField);
   const account = (accountField !== null && accountField !== undefined) && renderVersionSection(accountField);
   const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);

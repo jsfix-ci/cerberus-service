@@ -1,3 +1,11 @@
+const hasCheckinDate = (checkinDate) => {
+  return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
+};
+
+const hasEta = (eta) => {
+  return eta !== null && eta !== undefined && eta !== '';
+};
+
 const hasTaskVersionPassengers = (passengers) => {
   let hasValidPassengers = false;
   for (const passengerChildSets of passengers.childSets) {
@@ -70,12 +78,16 @@ const modifyRoRoPassengersTaskDetails = (version) => {
   return version;
 };
 
-const hasCheckinDate = (checkinDate) => {
-  return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
+const extractTaskVersionsBookingField = (bookingField, eta) => {
+  if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+  }
+  return bookingField;
 };
 
-const hasEta = (eta) => {
-  return eta !== null && eta !== undefined && eta !== '';
-};
-
-export { modifyRoRoPassengersTaskList, modifyRoRoPassengersTaskDetails, hasTaskVersionPassengers, hasCheckinDate, hasEta };
+export { modifyRoRoPassengersTaskList,
+  modifyRoRoPassengersTaskDetails,
+  hasTaskVersionPassengers,
+  hasEta,
+  extractTaskVersionsBookingField };
