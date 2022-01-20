@@ -19,15 +19,15 @@ const hasTaskVersionPassengers = (passengers) => {
   return hasValidPassengers;
 };
 
-const modifyRoRoPassengerTaskDetails = (passenger) => {
-  let hasValidPassenger = false;
+const isTaskDetailsPassenger = (passenger) => {
+  let validPassenger = false;
   for (const passengerDataFieldObj of passenger.contents) {
     if (passengerDataFieldObj.content !== null) {
-      hasValidPassenger = true;
+      validPassenger = true;
       break;
     }
   }
-  return hasValidPassenger;
+  return validPassenger;
 };
 
 // Driver if available, will now be included in the passengers list
@@ -70,7 +70,7 @@ const modifyRoRoPassengersTaskDetails = (version) => {
 
   newPassengersJsonNode.push(driverToPassengerNode);
   passengersChildsets.map((passengerChildset) => {
-    if (modifyRoRoPassengerTaskDetails(passengerChildset)) {
+    if (isTaskDetailsPassenger(passengerChildset)) {
       newPassengersJsonNode.push(passengerChildset);
     }
   });
@@ -78,10 +78,15 @@ const modifyRoRoPassengersTaskDetails = (version) => {
   return version;
 };
 
-const extractTaskVersionsBookingField = (bookingField, eta) => {
+const extractTaskVersionsBookingField = (version, taskSummaryData) => {
+  const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
+  let eta = taskSummaryData.roro.details?.eta;
   if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
-    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
-    bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+    if (hasEta(eta)) {
+      eta = eta.substring(0, eta.length - 1);
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+    }
   }
   return bookingField;
 };
