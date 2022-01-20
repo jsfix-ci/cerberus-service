@@ -159,14 +159,24 @@ const renderRulesSection = (version) => {
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-column-full">
                     <h4 className="govuk-heading-s">Risk indicators ({firstRule.childSets.length})</h4>
-                    <Table
-                      headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
-                      rows={translateRiskIndicators(firstRule.childSets)}
-                    />
+                    {
+                      firstRule.childSets.length > 0
+                        ? (
+                          <Table
+                            headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
+                            rows={translateRiskIndicators(firstRule.childSets)}
+                          />
+                        )
+                        : null
+                    }
                   </div>
                 </div>
               )
-              : null
+              : (
+                <div className="govuk-grid-column-full">
+                  <h4 className="govuk-heading-s">Risk indicators (0)</h4>
+                </div>
+              )
           }
         </div>
 
@@ -215,13 +225,23 @@ const renderRulesSection = (version) => {
                       ? (
                         <div className="govuk-grid-column-full">
                           <h4 className="govuk-heading-s">Risk indicators ({rule.childSets.length})</h4>
-                          <Table
-                            headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
-                            rows={translateRiskIndicators(rule.childSets)}
-                          />
+                          {
+                            rule.childSets.length > 0
+                              ? (
+                                <Table
+                                  headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
+                                  rows={translateRiskIndicators(rule.childSets)}
+                                />
+                              )
+                              : null
+                          }
                         </div>
                       )
-                      : null
+                      : (
+                        <div className="govuk-grid-column-full">
+                          <h4 className="govuk-heading-s">Risk indicators (0)</h4>
+                        </div>
+                      )
                     }
                 </div>
               </details>

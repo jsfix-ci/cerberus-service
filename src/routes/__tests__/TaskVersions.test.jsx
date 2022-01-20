@@ -28,6 +28,7 @@ describe('TaskVersions', () => {
     expect(screen.queryByText(/Category/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Tier/)).not.toBeInTheDocument();
   });
+
   it('should render headers for RORO Tourist with vehicle', () => {
     render(<TaskVersions
       taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
@@ -37,7 +38,7 @@ describe('TaskVersions', () => {
     />);
 
     expect(screen.queryByText('Targeting indicators')).toBeInTheDocument();
-    expect(screen.queryAllByText('Vehicle')).toHaveLength(2);
+    expect(screen.queryAllByText('Vehicle')).toHaveLength(3);
     expect(screen.queryByText('Booking and check-in')).toBeInTheDocument();
     expect(screen.queryByText('Occupants')).toBeInTheDocument();
     expect(screen.queryByText('Passengers')).toBeInTheDocument();
@@ -89,5 +90,23 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Goods')).not.toBeInTheDocument();
     expect(screen.queryByText('Haulier details')).not.toBeInTheDocument();
     expect(screen.queryByText('Account details')).not.toBeInTheDocument();
+  });
+
+  it('should render rule matches with risk indicators', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
+      taskVersions={taskSingleVersion}
+      taskVersionDifferencesCounts={[0]}
+      movementMode="RORO Tourist"
+    />);
+    expect(screen.queryByText('Rules matched')).toBeInTheDocument();
+    expect(screen.queryByText('Paid by Cash')).toBeInTheDocument();
+    expect(screen.queryByText('Risk indicators (2)')).toBeInTheDocument();
+    expect(screen.queryByText('Vehicle is empty')).toBeInTheDocument();
+    expect(screen.queryByText('Mode')).toBeInTheDocument();
+
+    expect(screen.queryByText('Other rule matches (1)')).toBeInTheDocument();
+    expect(screen.queryByText('Paid by cash1')).toBeInTheDocument();
+    expect(screen.queryByText('Risk indicators (0)')).toBeInTheDocument();
   });
 });
