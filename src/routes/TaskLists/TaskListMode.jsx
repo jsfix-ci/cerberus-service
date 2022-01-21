@@ -8,7 +8,6 @@ import * as constants from '../../constants';
 import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
 import formatGender from '../../utils/genderFormatter';
 import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer } from '../../utils/roroDataUtil';
-import { formatTaskIconText } from '../../utils/stringConversion';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
@@ -71,9 +70,7 @@ const renderRoroModeSection = (roroData, movementModeIcon) => {
     return (
       <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
         <i className={`icon-position--left ${movementModeIcon}`} />
-        <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
-          {formatTaskIconText(roroData)}
-        </p>
+        <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{'\xa0'}</p>
         <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
           {hasTrailer(roroData.vehicle?.trailer?.regNumber) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
         </p>

@@ -5,7 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { LONG_DATE_FORMAT, RORO_TOURIST, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON } from '../../constants';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskList, hasVehicle, hasTrailer, hasDriver } from '../../utils/roroDataUtil';
-import { formatTaskIconText } from '../../utils/stringConversion';
+import { formatMovementModeIconText } from '../../utils/stringConversion';
 
 import '../__assets__/TaskDetailsPage.scss';
 
@@ -37,7 +37,7 @@ const getSummaryFirstHalf = (movementMode, roroData) => {
   return (
     <li>
       <span className="govuk-caption-m">
-        {formatTaskIconText(roroData)}
+        {formatMovementModeIconText(roroData, movementMode)}
       </span>
       <h3 className="govuk-heading-s">
         {hasVehicle(roroData.vehicle.registrationNumber) ? roroData.vehicle.registrationNumber : ''}
