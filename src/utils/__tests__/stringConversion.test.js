@@ -40,7 +40,7 @@ describe('String Conversion', () => {
   });
 
   it('should return expected text when movement is accompanied freight with no vehicle & trailer', () => {
-    const output = formatMovementModeIconText(testRoroDataAccompaniedFreightNoVehicleNoTrailer, RORO_UNACCOMPANIED_FREIGHT);
+    const output = formatMovementModeIconText(testRoroDataAccompaniedFreightNoVehicleNoTrailer, RORO_ACCOMPANIED_FREIGHT);
     expect(output).toEqual('');
   });
 });
