@@ -377,17 +377,17 @@ const TaskListPage = () => {
   const defaultMovementModes = [
     {
       taskStatuses: [],
-      movementModes: [],
+      movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
       hasSelectors: null,
     },
     {
       taskStatuses: [],
-      movementModes: [],
+      movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
       hasSelectors: null,
     },
     {
       taskStatuses: [],
-      movementModes: [],
+      movementModes: ['RORO_TOURIST'],
       hasSelectors: null,
     },
   ];
@@ -413,7 +413,7 @@ const TaskListPage = () => {
   const getAppliedFilters = () => {
     const taskId = localStorage.getItem('taskId') !== 'null' ? localStorage.getItem('taskId') : 'new';
     if (localStorage.getItem('filterMovementMode')) {
-      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: movementModesSelected, hasSelectors: mode.hasSelectors }));
+      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: mode.hasSelectors }));
       const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: movementModesSelected, hasSelectors: selector.hasSelectors }));
       return movementModes.concat(selectors);
     }
@@ -593,14 +593,15 @@ const TaskListPage = () => {
   };
 
   const renderSelectedFiltersCount = (filter, filterType) => {
-    const found = filtersAndSelectorsCount.find((f) => {
+    let totalCount;
+    const found = filtersAndSelectorsCount.find((f, index) => {
       if (filterType === 'radio' && ['true', 'false', 'any'].includes(filter)) {
-        const type = filter === 'any' ? null : JSON.parse(filter);
-        return f.filterParams.hasSelectors === type;
+        if (filter !== 'any') return f.filterParams.hasSelectors === JSON.parse(filter);
+        totalCount = (filtersAndSelectorsCount.length - 1) === index && f;
       }
       return f.filterParams.movementModes[0] === filter;
     });
-    return found?.statusCounts?.total;
+    return totalCount ? totalCount?.statusCounts?.total : found?.statusCounts?.total;
   };
 
   const showFilterAndSelectorCount = (parentIndex, index, filter, filterType) => {
