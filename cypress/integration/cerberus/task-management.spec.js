@@ -193,11 +193,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'Paid by Cash', risk: 'National Security at the Border and 1 other rule', riskTier: 'Tier 1' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'Paid by Cash', risk: 'National Security at the Border and 1 other rule', riskTier: 'Tier 1' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -230,11 +230,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'Class B&C Drugs inc. Cannabis and 2 other rules').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'Class B&C Drugs inc. Cannabis and 2 other rules').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -268,11 +268,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 4 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 4 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -306,11 +306,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { risk: 'National Security at the Border and 1 other rule' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { risk: 'National Security at the Border and 1 other rule' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -363,11 +363,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { risk: 'National Security at the Border and 1 other rule' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { risk: 'National Security at the Border and 1 other rule' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -387,33 +387,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       cy.wrap(navigationItem).click();
 
       cy.get('.govuk-tabs__panel p').should('contain.text', 'No more tasks available');
-    });
-  });
-
-  it('should display selector,rule and tier in the task header', () => {
-    let jsonFolder = '';
-    let expIconForPayload = [
-      ['RoRo-Tourist-muliple-passengers.json', 'group', 'ship'],
-    ];
-    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
-    expIconForPayload.forEach((item) => {
-      let payloadFile = jsonFolder + item[0];
-      cy.fixture(payloadFile)
-        .then((task) => {
-          let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
-          const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}-Header`;
-          task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-          cy.postTasks(task, businessKey)
-            .then((response) => {
-              cy.wait(4000);
-              cy.visit('/tasks');
-              cy.get('.govuk-task-list-card').contains(`${response.businessKey}`).parents('.card-container').within(() => {
-                cy.get('.task-risk-statement').invoke('text').should('equal', 'National Security at the Border and 1 other rule');
-                cy.get('.govuk-tag--riskTier').invoke('text').should('equal', 'Tier 1');
-                cy.get('h4 .govuk-body').invoke('text').should('equal', 'Paid by Cash');
-              });
-            });
-        });
     });
   });
 
