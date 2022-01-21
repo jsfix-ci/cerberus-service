@@ -11,7 +11,8 @@ const formatMovementModeIconText = (roroData, movementMode) => {
     output += hasVehicle(roroData.vehicle?.registrationNumber) ? 'Vehicle' : '';
   } else {
     output += hasVehicle(roroData.vehicle?.registrationNumber) ? 'Vehicle' : '';
-    output += (hasVehicle(roroData.vehicle?.registrationNumber) && hasTrailer(roroData.vehicle?.trailer?.regNumber)) ? ' with ' : '';
+    output += (hasVehicle(roroData.vehicle?.registrationNumber) && hasTrailer(roroData.vehicle?.trailer?.regNumber))
+      ? ' with ' : '';
     output += hasTrailer(roroData?.vehicle?.trailer?.regNumber) ? 'Trailer' : '';
   }
   return output;

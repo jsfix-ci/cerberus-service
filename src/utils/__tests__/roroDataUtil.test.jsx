@@ -1,6 +1,6 @@
 import { modifyRoRoPassengersTaskList, hasCheckinDate, hasEta } from '../roroDataUtil';
 
-import testRoroData from '../__fixtures__/roroData.fixture';
+import { testRoroData } from '../__fixtures__/roroData.fixture';
 
 describe('RoRoData Util', () => {
   it('should return a modified roroData object with a list of 2 passengers', () => {
