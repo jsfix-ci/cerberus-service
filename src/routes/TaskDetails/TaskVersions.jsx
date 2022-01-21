@@ -210,9 +210,28 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       <div>
         <TaskSummary movementMode={movementMode} taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
-      {movementMode === RORO_ACCOMPANIED_FREIGHT && <RoRoAccompaniedTaskVersion version={version} movementMode={movementMode} />}
-      {movementMode === RORO_UNACCOMPANIED_FREIGHT && <RoRoUnaccompaniedTaskVersion version={version} movementMode={movementMode} />}
-      {movementMode === RORO_TOURIST && <RoRoTouristTaskVersion version={version} movementMode={movementMode} movementModeIcon={movementModeIcon} />}
+      {movementMode === RORO_ACCOMPANIED_FREIGHT && (
+      <RoRoAccompaniedTaskVersion
+        version={version}
+        movementMode={movementMode}
+        taskSummaryData={taskSummaryBasedOnTIS}
+      />
+      )}
+      {movementMode === RORO_UNACCOMPANIED_FREIGHT && (
+      <RoRoUnaccompaniedTaskVersion
+        version={version}
+        movementMode={movementMode}
+        taskSummaryData={taskSummaryBasedOnTIS}
+      />
+      )}
+      {movementMode === RORO_TOURIST && (
+      <RoRoTouristTaskVersion
+        version={version}
+        movementMode={movementMode}
+        movementModeIcon={movementModeIcon}
+        taskSummaryData={taskSummaryBasedOnTIS}
+      />
+      )}
       <div className="">
         {renderSelectorsSection(version)}
       </div>
