@@ -1,3 +1,31 @@
+const hasVehicle = (vehicleRegistration) => {
+  return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
+};
+
+const hasVehicleMake = (vehicleMake) => {
+  return vehicleMake !== null && vehicleMake !== undefined && vehicleMake !== '';
+};
+
+const hasVehicleModel = (vehicleModel) => {
+  return vehicleModel !== null && vehicleModel !== undefined && vehicleModel !== '';
+};
+
+const hasTrailer = (trailerRegistration) => {
+  return trailerRegistration !== null && trailerRegistration !== undefined && trailerRegistration !== '';
+};
+
+const hasDriver = (driverName) => {
+  return driverName !== null && driverName !== undefined && driverName !== '';
+};
+
+const hasCheckinDate = (checkinDate) => {
+  return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
+};
+
+const hasEta = (eta) => {
+  return eta !== null && eta !== undefined && eta !== '';
+};
+
 const hasTaskVersionPassengers = (passengers) => {
   let hasValidPassengers = false;
   for (const passengerChildSets of passengers.childSets) {
@@ -11,15 +39,15 @@ const hasTaskVersionPassengers = (passengers) => {
   return hasValidPassengers;
 };
 
-const modifyRoRoPassengerTaskDetails = (passenger) => {
-  let hasValidPassenger = false;
+const isTaskDetailsPassenger = (passenger) => {
+  let validPassenger = false;
   for (const passengerDataFieldObj of passenger.contents) {
     if (passengerDataFieldObj.content !== null) {
-      hasValidPassenger = true;
+      validPassenger = true;
       break;
     }
   }
-  return hasValidPassenger;
+  return validPassenger;
 };
 
 // Driver if available, will now be included in the passengers list
@@ -62,7 +90,7 @@ const modifyRoRoPassengersTaskDetails = (version) => {
 
   newPassengersJsonNode.push(driverToPassengerNode);
   passengersChildsets.map((passengerChildset) => {
-    if (modifyRoRoPassengerTaskDetails(passengerChildset)) {
+    if (isTaskDetailsPassenger(passengerChildset)) {
       newPassengersJsonNode.push(passengerChildset);
     }
   });
@@ -70,24 +98,17 @@ const modifyRoRoPassengersTaskDetails = (version) => {
   return version;
 };
 
-const hasVehicle = (vehicleRegistration) => {
-  return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
-};
-
-const hasVehicleMake = (vehicleMake) => {
-  return vehicleMake !== null && vehicleMake !== undefined && vehicleMake !== '';
-};
-
-const hasVehicleModel = (vehicleModel) => {
-  return vehicleModel !== null && vehicleModel !== undefined && vehicleModel !== '';
-};
-
-const hasTrailer = (trailerRegistration) => {
-  return trailerRegistration !== null && trailerRegistration !== undefined && trailerRegistration !== '';
-};
-
-const hasDriver = (driverName) => {
-  return driverName !== null && driverName !== undefined && driverName !== '';
+const extractTaskVersionsBookingField = (version, taskSummaryData) => {
+  const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
+  let eta = taskSummaryData.roro.details?.eta;
+  if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+    if (hasEta(eta)) {
+      eta = eta.substring(0, eta.length - 1);
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
+    }
+  }
+  return bookingField;
 };
 
 export { modifyRoRoPassengersTaskList,
@@ -97,4 +118,7 @@ export { modifyRoRoPassengersTaskList,
   hasVehicleMake,
   hasVehicleModel,
   hasTrailer,
-  hasDriver };
+  hasDriver,
+  hasEta,
+  hasCheckinDate,
+  extractTaskVersionsBookingField };

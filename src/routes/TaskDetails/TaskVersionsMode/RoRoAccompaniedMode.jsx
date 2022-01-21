@@ -3,7 +3,7 @@ import React from 'react';
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderVehicleSection, renderTrailerSection, renderVersionSection,
   renderOccupantsSection } from './SectionRenderer';
-import { hasTaskVersionPassengers } from '../../../utils/roroDataUtil';
+import { hasTaskVersionPassengers, extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -34,10 +34,10 @@ const renderFirstColumn = (version, movementMode) => {
   );
 };
 
-const renderSecondColumn = (version) => {
+const renderSecondColumn = (version, taskSummaryData) => {
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
-  const bookingField = version.find(({ propName }) => propName === 'booking');
+  const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
   const haulier = (haulierField !== null && haulierField !== undefined) && renderVersionSection(haulierField);
   const account = (accountField !== null && accountField !== undefined) && renderVersionSection(accountField);
   const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
@@ -73,14 +73,14 @@ const renderThirdColumn = (version) => {
   );
 };
 
-const RoRoAccompaniedTaskVersion = ({ version, movementMode }) => {
+const RoRoAccompaniedTaskVersion = ({ version, movementMode, taskSummaryData }) => {
   return (
     <div className="govuk-task-details-grid">
       <div className="govuk-grid-column-one-third">
         {renderFirstColumn(version, movementMode)}
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-        {renderSecondColumn(version)}
+        {renderSecondColumn(version, taskSummaryData)}
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line-two">
         {renderThirdColumn(version)}
