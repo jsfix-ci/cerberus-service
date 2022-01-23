@@ -1150,24 +1150,30 @@ Cypress.Commands.add('getAllSelectorMatches', (locator) => {
     });
 });
 
-function getTaskUpdatedStatus(businessKey) {
+function verifyTaskUpdatedStatus(businessKey, status) {
+  let locator;
+  if (status === 'Updated') {
+    locator = '.govuk-tag--updatedTarget';
+  } else {
+    locator = '.govuk-tag--relistedTarget';
+  }
   cy.get('.govuk-task-list-card').contains(businessKey).closest('section').then((element) => {
-    cy.wrap(element).find('.govuk-tag--updatedTarget').invoke('text').then((taskUpdated) => {
-      expect(taskUpdated).to.be.equal('Updated');
+    cy.wrap(element).find(locator).invoke('text').then((taskUpdated) => {
+      expect(taskUpdated).to.be.equal(status);
     });
   });
 }
 
-Cypress.Commands.add('verifyTaskHasMultipleVersion', (businessKey) => {
+Cypress.Commands.add('verifyTaskHasUpdated', (businessKey, status) => {
   const nextPage = 'a[data-test="next"]';
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
       cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-        getTaskUpdatedStatus(businessKey);
+        verifyTaskUpdatedStatus(businessKey, status);
       });
     } else {
       cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-        getTaskUpdatedStatus(businessKey);
+        verifyTaskUpdatedStatus(businessKey, status);
       });
     }
   });
