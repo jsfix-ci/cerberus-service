@@ -1,3 +1,23 @@
+const hasVehicle = (vehicleRegistration) => {
+  return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
+};
+
+const hasVehicleMake = (vehicleMake) => {
+  return vehicleMake !== null && vehicleMake !== undefined && vehicleMake !== '';
+};
+
+const hasVehicleModel = (vehicleModel) => {
+  return vehicleModel !== null && vehicleModel !== undefined && vehicleModel !== '';
+};
+
+const hasTrailer = (trailerRegistration) => {
+  return trailerRegistration !== null && trailerRegistration !== undefined && trailerRegistration !== '';
+};
+
+const hasDriver = (driverName) => {
+  return driverName !== null && driverName !== undefined && driverName !== '';
+};
+
 const hasCheckinDate = (checkinDate) => {
   return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
 };
@@ -94,6 +114,11 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
 export { modifyRoRoPassengersTaskList,
   modifyRoRoPassengersTaskDetails,
   hasTaskVersionPassengers,
+  hasVehicle,
+  hasVehicleMake,
+  hasVehicleModel,
+  hasTrailer,
+  hasDriver,
   hasEta,
   hasCheckinDate,
   extractTaskVersionsBookingField };
