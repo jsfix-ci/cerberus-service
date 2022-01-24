@@ -114,6 +114,180 @@ describe('TaskListFilters', () => {
     },
   ];
 
+  const countsRoroUnaccompaniedFrieghtSelected = [
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 12,
+        new: 12,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 20,
+        new: 20,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 38,
+        new: 38,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: true,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 12,
+        new: 12,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 0,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 12,
+        new: 12,
+      },
+    },
+  ];
+
+  const countsRoroUnaccompaniedAndAccompaniedFrieghtWithPresentSelectorSelected = [
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 12,
+        new: 12,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 20,
+        new: 20,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 38,
+        new: 38,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT', 'RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: true,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 27,
+        new: 27,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT', 'RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 5,
+        new: 5,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT', 'RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 32,
+        new: 32,
+      },
+    },
+  ];
+
   it('should display filter options based on filter config (filters.js)', () => {
     // Titles & Actions
     expect(screen.getByText('Filters')).toBeInTheDocument();
@@ -200,5 +374,51 @@ describe('TaskListFilters', () => {
     expect(screen.getByText('Present (0)')).toBeInTheDocument();
     expect(screen.getByText('Not present (0)')).toBeInTheDocument();
     expect(screen.getByText('Any (0)')).toBeInTheDocument();
+  });
+
+  it('should render counts for filter Roro unaccompanied freight selected for NEW TAB state', async () => {
+    localStorage.setItem('hasSelector', 'null');
+    localStorage.setItem('filterMovementMode', 'RORO_UNACCOMPANIED_FREIGHT');
+    expect(localStorage.getItem('hasSelector')).toBe('null');
+    expect(localStorage.getItem('filterMovementMode')).toBe('RORO_UNACCOMPANIED_FREIGHT');
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsRoroUnaccompaniedFrieghtSelected)
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    fireEvent.click(screen.getByText('Apply filters'));
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getAllByText('RoRo unaccompanied freight (12)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('RoRo accompanied freight (20)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('RoRo Tourist (38)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Present (12)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Not present (0)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Any (12)')[0]).toBeInTheDocument();
+  });
+
+  it('Filters counts for Roro unaccompanied & Roro accompanied freight with Present selector', async () => {
+    localStorage.setItem('hasSelector', 'true');
+    localStorage.setItem('filterMovementMode', 'RORO_UNACCOMPANIED_FREIGHT,RORO_ACCOMPANIED_FREIGHT');
+    expect(localStorage.getItem('hasSelector')).toBe('true');
+    expect(localStorage.getItem('filterMovementMode')).toBe('RORO_UNACCOMPANIED_FREIGHT,RORO_ACCOMPANIED_FREIGHT');
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsRoroUnaccompaniedAndAccompaniedFrieghtWithPresentSelectorSelected)
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    fireEvent.click(screen.getByText('Apply filters'));
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getAllByText('RoRo unaccompanied freight (12)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('RoRo accompanied freight (20)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('RoRo Tourist (38)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Present (27)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Not present (5)')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Any (32)')[0]).toBeInTheDocument();
   });
 });
