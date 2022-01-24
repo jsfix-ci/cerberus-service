@@ -76,6 +76,13 @@ const filters = [
   },
 ];
 
+const TabStatusMapping = {
+  new: 'NEW',
+  inProgress: 'IN_PROGRESS',
+  issued: 'ISSUED',
+  complete: 'COMPLETE',
+};
+
 const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
@@ -367,6 +374,84 @@ const TaskListPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [movementModesSelected, setMovementModesSelected] = useState([]);
 
+  const defaultMovementModes = [
+    {
+      taskStatuses: [],
+      movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+      hasSelectors: null,
+    },
+    {
+      taskStatuses: [],
+      movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+      hasSelectors: null,
+    },
+    {
+      taskStatuses: [],
+      movementModes: ['RORO_TOURIST'],
+      hasSelectors: null,
+    },
+  ];
+
+  const defaultHasSelectors = [
+    {
+      taskStatuses: [],
+      movementModes: [],
+      hasSelectors: true,
+    },
+    {
+      taskStatuses: [],
+      movementModes: [],
+      hasSelectors: false,
+    },
+    {
+      taskStatuses: [],
+      movementModes: [],
+      hasSelectors: null,
+    },
+  ];
+
+  const getAppliedFilters = () => {
+    const taskId = localStorage.getItem('taskId') !== 'null' ? localStorage.getItem('taskId') : 'new';
+    if (localStorage.getItem('filterMovementMode')) {
+      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: mode.hasSelectors }));
+      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: movementModesSelected, hasSelectors: selector.hasSelectors }));
+      return movementModes.concat(selectors);
+    }
+
+    return [
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: null,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: [],
+        hasSelectors: true,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: [],
+        hasSelectors: false,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: [],
+        hasSelectors: null,
+      },
+    ];
+  };
+
   const getTaskCount = async (activeFilters) => {
     setTaskCountsByStatus();
     if (camundaClientV1) {
@@ -380,37 +465,13 @@ const TaskListPage = () => {
     }
   };
 
-  const getFiltersAndSelectorsCount = async () => {
+  const getFiltersAndSelectorsCount = async (taskId = 'new') => {
+    localStorage.setItem('taskId', taskId);
     setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
-        const filtersSelectorsCount = await camundaClientV1.post('/targeting-tasks/status-counts', [
-          {
-            movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
-            hasSelectors: null,
-          },
-          {
-            movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
-            hasSelectors: null,
-          },
-          {
-            movementModes: ['RORO_TOURIST'],
-            hasSelectors: null,
-          },
-          {
-            movementModes: [],
-            hasSelectors: true,
-          },
-          {
-            movementModes: [],
-            hasSelectors: false,
-          },
-          {
-            movementModes: [],
-            hasSelectors: null,
-          },
-        ]);
-        setFiltersAndSelectorsCount(filtersSelectorsCount.data);
+        const countsResponse = await camundaClientV1.post('/targeting-tasks/status-counts', getAppliedFilters());
+        setFiltersAndSelectorsCount(countsResponse.data);
       } catch (e) {
         setError(e.message);
         setFiltersAndSelectorsCount();
@@ -456,7 +517,7 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount();
+    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
     setLoading(false);
   };
 
@@ -501,7 +562,7 @@ const TaskListPage = () => {
 
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount();
+    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
     setLoading(false);
   };
 
@@ -523,12 +584,36 @@ const TaskListPage = () => {
     }
   }, []);
 
-  const showFilterAndSelectorCount = (parentIndex, index) => {
+  useEffect(() => {
+    localStorage.removeItem('taskId');
+  }, []);
+
+  const getDefaultFiltersAndSelectorsCount = (parentIndex, index) => {
+    return filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+  };
+
+  const renderSelectedFiltersCount = (filter, filterType) => {
+    let totalCount;
+    const found = filtersAndSelectorsCount.find((f, index) => {
+      if (filterType === 'radio' && ['true', 'false', 'any'].includes(filter)) {
+        if (filter !== 'any') return f.filterParams.hasSelectors === JSON.parse(filter);
+        totalCount = (filtersAndSelectorsCount.length - 1) === index && f;
+      }
+      return f.filterParams.movementModes[0] === filter;
+    });
+    return totalCount ? totalCount?.statusCounts?.total : found?.statusCounts?.total;
+  };
+
+  const showFilterAndSelectorCount = (parentIndex, index, filter, filterType) => {
     let count = 0;
     if (filtersAndSelectorsCount) {
-      count = filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+      if (!localStorage.getItem('filterMovementMode')) {
+        count = getDefaultFiltersAndSelectorsCount(parentIndex, index);
+      } else {
+        count = renderSelectedFiltersCount(filter, filterType);
+      }
     }
-    return count;
+    return count || 0;
   };
 
   return (
@@ -595,9 +680,8 @@ const TaskListPage = () => {
                                 className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
-                                {option.optionLabel}
+                                {option.optionLabel} ({showFilterAndSelectorCount(parentIndex, index, option.optionName, filterSet.filterType)})
                               </label>
-                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}
@@ -623,7 +707,10 @@ const TaskListPage = () => {
             <Tabs
               title="Title"
               id="tasks"
-              onTabClick={() => { history.push(); }}
+              onTabClick={(e) => {
+                history.push();
+                getFiltersAndSelectorsCount(e.id);
+              }}
               items={[
                 {
                   id: TASK_STATUS_NEW,
