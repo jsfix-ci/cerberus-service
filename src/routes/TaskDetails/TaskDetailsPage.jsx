@@ -344,7 +344,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <TaskNotes
-              displayForm={assignee}
+              displayForm={assignee === currentUser}
               businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
               processInstanceId={processInstanceId}
             />
