@@ -465,7 +465,7 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
-    expect(screen.queryByText('Assigned to ANOTHER_USER')).not.toBeInTheDocument();
+    expect(screen.queryByText('Task not assigned')).toBeInTheDocument();
   });
 
   it('should render notes form when task is assigned to a current user', async () => {
@@ -488,6 +488,6 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
-    expect(screen.queryByText('Assigned to ANOTHER_USER')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
   });
 });
