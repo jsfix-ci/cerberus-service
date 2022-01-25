@@ -127,7 +127,7 @@ describe('Create task with different payload from Cerberus', () => {
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULIPLE-PASSENGERS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
