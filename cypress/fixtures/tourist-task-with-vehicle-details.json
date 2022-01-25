@@ -1,0 +1,48 @@
+{
+  "vehicle": {
+  "Vehicle registration": "HL09YXR",
+  "Type": "HGV",
+  "Make": "Ford",
+  "Model": "Fiesta",
+  "Country of registration": "GB",
+  "Colour": ""
+  },
+  "driver": {
+    "Name": "Daisy Flower",
+    "Date of birth": "13/05/1978",
+    "Gender": "F",
+    "Nationality": "GB",
+    "Travel document type": "OBJDOCPAS",
+    "Travel document number": "ST453786",
+    "Travel document expiry": "01/02/2021"
+  },
+  "passengers": {
+    "Name": "Darren Ball",
+    "Date of birth": "16/03/1990",
+    "Gender": "M",
+    "Nationality": "GB",
+    "Travel document type": "ST2447631",
+    "Travel document number": "18659",
+    "Travel document expiry": ""
+  },
+  "Booking-and-check-in": {
+    "Reference": "DFDS347376",
+    "Ticket number": "DFDS-1000974",
+    "Type": "Online",
+    "Name": "Dean Fulton",
+    "Address": "",
+    "Date and time": "3 Aug 2020 at 11:25, a day before travel",
+    "Country": "",
+    "Payment method": "Other",
+    "Ticket price": "",
+    "Ticket type": "Single",
+    "Check-in": "4 Aug 2020 at 18:40, 2 years before travel"
+  },
+  "TargetingIndicators": {
+    "Total Score": "20",
+    "Total Indicators": "1",
+    "indicators": {
+      "Late booking tourist (24-72 hours)": "20"
+    }
+  }
+}

@@ -224,7 +224,28 @@
                   "driverCount": "1"
                 }
               },
-              "features": null,
+              "features": {
+                "feats" : {
+                  "VEHICLE-PORT-HOP-IN2OUT": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "FIRST-TIME-ACCOUNT-DRIVER": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  }
+                }
+              },
               "changeHistory": null
             },
             "voyage": {
