@@ -224,9 +224,21 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             expect(assignee).to.equal(taskdetails);
           });
         } else if (value === 'new') {
-          cy.wrap(item).find('.task-risk-statement').invoke('text').then((selector) => {
-            expect(selector).to.equal(taskdetails);
-          });
+          if (taskdetails.risk != null) {
+            cy.wrap(item).find('.task-risk-statement').invoke('text').then((risk) => {
+              expect(risk).to.equal(taskdetails.risk);
+            });
+          }
+          if (taskdetails.riskTier != null) {
+            cy.wrap(item).find('.govuk-tag--riskTier').invoke('text').then((riskTier) => {
+              expect(riskTier).to.equal(taskdetails.riskTier);
+            });
+          }
+          if (taskdetails.selector != null) {
+            cy.wrap(item).find('h4 .govuk-body').invoke('text').then((selector) => {
+              expect(selector).to.equal(taskdetails.selector);
+            });
+          }
         }
       });
     });
