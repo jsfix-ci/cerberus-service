@@ -465,9 +465,10 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to ANOTHER_USER')).not.toBeInTheDocument();
   });
 
-  it('should render notes form when task is assigned to any user', async () => {
+  it('should render notes form when task is assigned to a current user', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
       taskResponse: [
@@ -487,5 +488,6 @@ describe('TaskDetailsPage', () => {
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+    expect(screen.queryByText('Assigned to ANOTHER_USER')).not.toBeInTheDocument();
   });
 });
