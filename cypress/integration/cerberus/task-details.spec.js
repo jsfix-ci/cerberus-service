@@ -285,11 +285,50 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
         cy.visit(`/tasks/${businessKey}`);
       });
-    });
 
-    cy.getActivityLogs().then((activities) => {
-      expect(activities).to.contain(expectedActivity);
-      expect(activities).not.to.contain('Property delete changed from false to true');
+      cy.getActivityLogs().then((activities) => {
+        expect(activities).to.contain(expectedActivity);
+        expect(activities).not.to.contain('Property delete changed from false to true');
+      });
+
+      // COP-8703 Display updated tasks that had previously completed assessment
+      cy.fixture('tasks.json').then((reListTask) => {
+        reListTask.businessKey = businessKey;
+        reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+        reListTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'ABC123';
+        reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+        cy.postTasks(reListTask, null).then((taskResponse) => {
+          cy.wait(10000);
+
+          businessKey = taskResponse.businessKey;
+          cy.visit('/tasks');
+
+          cy.contains('Clear all filters').click();
+
+          cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
+            .click({ force: true });
+
+          cy.contains('Apply filters').click({ force: true });
+
+          cy.wait(2000);
+
+          cy.verifyTaskHasUpdated(businessKey, 'Updated');
+          cy.verifyTaskHasUpdated(businessKey, 'Relisted');
+        });
+      });
+
+      // COP-8703 Check Task is no more listed on completed tab
+      cy.get('a[href="#complete"]').click();
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(businessKey, null, null).then((taskFound) => {
+          expect(taskFound).to.equal(false);
+        });
+      } else {
+        cy.findTaskInSinglePage(businessKey, null, null).then((taskFound) => {
+          expect(taskFound).to.equal(false);
+        });
+      }
     });
   });
 

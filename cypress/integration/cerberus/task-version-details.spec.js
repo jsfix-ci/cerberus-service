@@ -453,7 +453,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   it('Should verify task details on each version retained', () => {
@@ -579,7 +579,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   it('Should verify single task created for the same target with different versions when Failed Cerberus payloads sent without delay', () => {
@@ -714,7 +714,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
@@ -910,7 +910,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   it('Should verify all the target indicators received in the payload displayed on UI', () => {
