@@ -187,7 +187,7 @@ describe('Create task with different payload from Cerberus', () => {
   });
 
   it('Should create a task with a payload contains RoRo Tourist - no vehicle but has a lead and another passenger', () => {
-    cy.fixture('RoRo-Tourist-DriverAndPassenger.json').then((task) => {
+    cy.fixture('RoRo-Tourist-NoVehicle.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);

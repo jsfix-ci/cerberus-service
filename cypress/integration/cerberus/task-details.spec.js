@@ -667,7 +667,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Display Vehicle and Vessel Icons in Task List and Task Summary', () => {
     let taskIcons = [
-      ['MULIPLE-PASSENGERS', 'group', 'ship'],
+      ['MULTIPLE-PASSENGERS', 'group', 'ship'],
       ['TOURIST-NO-VEHICLE', 'group', 'ship'],
       ['TOURIST-WITH-PASSENGERS', 'car', 'ship'],
       ['RoRo-UNACC-RBT-SBT', 'hgv', 'ship'],
