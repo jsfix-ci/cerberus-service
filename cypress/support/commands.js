@@ -271,7 +271,7 @@ Cypress.Commands.add('postTasks', (task, name) => {
     body: task,
   }).then((response) => {
     expect(response.status).to.eq(200);
-    expect(response.body.businessKey).to.eq(task.businessKey);
+    expect(response.body.businessKey).to.eq((task.businessKey).replace(/\//g, '_'));
     return response.body;
   });
 });

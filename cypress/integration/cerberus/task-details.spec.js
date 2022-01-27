@@ -243,17 +243,17 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       'Other',
     ];
 
-    let businessKey;
+    let businessKey = `AUTOTEST-${dateNowFormatted}/RORO-Accompanied-Freight/ASSESSMENT_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     const expectedActivity = 'Assessment complete, the reason is \'vesselArrived\'. Accompanying note: \'This is for testing\'';
 
     cy.fixture('tasks.json').then((task) => {
-      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSESSMENT`).then((taskResponse) => {
+      cy.postTasks(task, null).then((taskResponse) => {
         cy.wait(4000);
-        businessKey = taskResponse.businessKey;
-        cy.getTasksByBusinessKey(businessKey).then((tasks) => {
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
         });
 
@@ -283,7 +283,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
         cy.verifySuccessfulSubmissionHeader('Task has been completed');
 
-        cy.visit(`/tasks/${businessKey}`);
+        cy.visit(`/tasks/${taskResponse.businessKey}`);
       });
 
       cy.getActivityLogs().then((activities) => {
@@ -300,7 +300,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.postTasks(reListTask, null).then((taskResponse) => {
           cy.wait(10000);
 
-          businessKey = taskResponse.businessKey;
           cy.visit('/tasks');
 
           cy.contains('Clear all filters').click();
@@ -312,8 +311,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
           cy.wait(2000);
 
-          cy.verifyTaskHasUpdated(businessKey, 'Updated');
-          cy.verifyTaskHasUpdated(businessKey, 'Relisted');
+          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Relisted');
         });
       });
 
@@ -321,11 +320,11 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.get('a[href="#complete"]').click();
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(businessKey, null, null).then((taskFound) => {
+        cy.findTaskInAllThePages(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
           expect(taskFound).to.equal(false);
         });
       } else {
-        cy.findTaskInSinglePage(businessKey, null, null).then((taskFound) => {
+        cy.findTaskInSinglePage(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
           expect(taskFound).to.equal(false);
         });
       }
