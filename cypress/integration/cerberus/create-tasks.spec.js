@@ -186,6 +186,18 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
+  it('Should create a task with a payload contains RoRo Tourist - no vehicle but has a lead and another passenger', () => {
+    cy.fixture('RoRo-Tourist-NoVehicle.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-TOURIST-NO-VEHICLE`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
