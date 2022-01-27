@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
 import Accordion from '../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
 import { formatField } from '../../utils/formatField';
@@ -266,7 +267,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const versionNumber = taskVersions.length - index;
           const regexToReplace = /\s/g;
           const formattedMovementMode = movementMode.replace(regexToReplace, '_').toUpperCase();
-          const modifiedVersion = modifyRoRoPassengersTaskDetails([...version]); // Added our driver details into passengers array (similar to task list page)
+          const modifiedVersion = modifyRoRoPassengersTaskDetails(_.cloneDeep(version)); // Added our driver details into passengers array (similar to task list page)
           const filteredVersion = stripOutSectionsByMovementMode(modifiedVersion, formattedMovementMode);
           const detailSectionTest = renderSectionsBasedOnTIS(formattedMovementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {

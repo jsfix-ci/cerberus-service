@@ -71,6 +71,11 @@ const modifyRoRoPassengersTaskList = (roroData) => {
   return roroData;
 };
 
+/*
+* This method would add an additional object for the Driver
+* into the passengers list as BE always nominating a driver
+*  even in scenarios when there is no vehicles
+*/
 const modifyRoRoPassengersTaskDetails = (version) => {
   const newPassengersJsonNode = [];
   const driverNodeContents = version.find((fieldset) => fieldset.propName === 'driver').contents;
