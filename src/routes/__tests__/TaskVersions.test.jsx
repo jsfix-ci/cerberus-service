@@ -7,7 +7,7 @@ import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, ta
   noVehicleTwoPaxTsBasedOnTISData } from '../__fixtures__/taskVersions';
 
 describe('TaskVersions', () => {
-  it('should render the selector with Highest threat level is Category', () => {
+  it('should render the selector with Highest threat Category level', () => {
     render(<TaskVersions
       taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
       taskVersions={taskSingleVersion}
@@ -15,6 +15,7 @@ describe('TaskVersions', () => {
       movementMode="RORO Unaccompanied Freight"
     />);
     expect(screen.queryByText('Category')).toBeInTheDocument();
+    expect(screen.queryByText('B')).toBeInTheDocument();
   });
 
   it('should render No rule matches', () => {
