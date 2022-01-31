@@ -24,7 +24,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 3",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -59,7 +59,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 3",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -94,7 +94,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 3",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -129,7 +129,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 3",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -159,7 +159,7 @@
               "selectorReference":"2020-6",
               "startDate":"2021-01-18T01:00:00Z",
               "endDate":"2021-12-28T23:00:00Z",
-              "category":"B",
+              "category":"C",
               "agencyCode":"code A",
               "intelligenceSource":"intel source",
               "pointOfContact":"poc",
@@ -188,7 +188,88 @@
                   ]
                 }
               ]
+            },
+            {
+              "selectorId": 50,
+              "selectorReference": "2021-50",
+              "startDate": "2021-07-09T13:42:43.639Z",
+              "endDate": "2021-08-20T22:59:59Z",
+              "category": "B",
+              "agencyCode": "Counter Terrorism Police (CTP)",
+              "intelligenceSource": "ffhtr",
+              "pointOfContact": "hrth",
+              "pocMessage": "selector auto testing",
+              "priority": "Selector",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "threatType": "Class B&C Drugs inc. Cannabis",
+              "notes": "notes",
+              "creator": "user",
+              "approver": "selector auto testing",
+              "securityLabels": [
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference": "selector auto testing",
+              "warnings": "rtht",
+              "requestingOfficer": "bffg",
+              "requestingTeam": "BFNIH",
+              "indicatorMatches": [
+                {
+                  "entity": "Organisation",
+                  "descriptor": "telephone",
+                  "operator": "equal",
+                  "value": "01234 56723737"
+                },
+                {
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+                }
+              ],
+              "selectorMatchedOnDate": "2021-07-13T09:30:02.896Z"
+            },
+            {
+              "selectorId": 52,
+              "selectorReference": "2021-52",
+              "startDate": "2021-07-09T13:43:10.327Z",
+              "endDate": "2021-08-20T22:59:59Z",
+              "category": "A",
+              "agencyCode": "Counter Terrorism Police (CTP)",
+              "intelligenceSource": "grre",
+              "pointOfContact": "greg",
+              "pocMessage": "gregre",
+              "priority": "Selector",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "threatType": "Class B&C Drugs inc. Cannabis",
+              "notes": "notes",
+              "creator": "user",
+              "approver": "gerger",
+              "securityLabels": [
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference": "greger",
+              "warnings": "rgeger",
+              "requestingOfficer": "srg",
+              "requestingTeam": "BFNIH",
+              "indicatorMatches": [
+                {
+                  "entity": "Organisation",
+                  "descriptor": "telephone",
+                  "operator": "equal",
+                  "value": "01234 56723737"
+                },
+                {
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+                }
+              ],
+              "selectorMatchedOnDate": "2021-07-13T09:30:02.896Z"
             }
+
           ],
           "movement": {
             "cerberusMovementId": "ROROXML:CMID=5cab661edbc124203d7c148bec9eb092/7419e5ac95e32a620efa03b80e8961c2/2f9a5d455992ca1932cd818be3a74d5c",
