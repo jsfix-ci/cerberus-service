@@ -243,6 +243,20 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
   );
 };
 
+const renderHighestThreatLevel = (version) => {
+  let threatsArray = [];
+  const childSets = version.find(({ propName }) => propName === 'selectors').childSets;
+  if (childSets && childSets.length) {
+    childSets.map((set) => {
+      set.contents.map((c) => {
+        if (c.propName === 'category') threatsArray.push(c.content);
+      });
+    });
+  }
+
+  return threatsArray.length ? `CATEGORY ${threatsArray.sort()[0]}` : threatLevel;
+};
+
 const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
   dayjs.extend(utc);
   /*
@@ -281,7 +295,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
                 <div className="task-versions--right">
                   <ul className="govuk-list">
                     <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
-                    {threatLevel ? <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{threatLevel}</span></li> : <li>No rule matches</li>}
+                    {threatLevel ? <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{renderHighestThreatLevel(version)}</span></li> : <li>No rule matches</li>}
                   </ul>
                 </div>
               </>
