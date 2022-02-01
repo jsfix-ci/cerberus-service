@@ -1131,8 +1131,8 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify task Display highest threat level in task details', () => {
     const highestThreatLevel = [
-      'CATEGORY A',
-      'TIER 1',
+      'CATEGORY B',
+      'Tier 1',
       'CATEGORY A',
     ];
 
