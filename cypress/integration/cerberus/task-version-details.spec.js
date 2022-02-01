@@ -1129,6 +1129,27 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
+  it('Should verify task Display highest threat level in task details', () => {
+    const highestThreatLevel = [
+      'CATEGORY B',
+      'Tier 1',
+      'CATEGORY A',
+    ];
+
+    cy.getBusinessKey('RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${businessKeys[0]}`);
+    });
+
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect(highestThreatLevel[index]).to.be.equal(value);
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
