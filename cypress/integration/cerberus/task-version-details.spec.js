@@ -469,7 +469,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
-      if (assignee.includes('Unassigned')) {
+      if (assignee.includes('Task not assigned')) {
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
       }
     });

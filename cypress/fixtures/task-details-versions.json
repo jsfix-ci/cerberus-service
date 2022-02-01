@@ -58,7 +58,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05"
+        "Check-in": "3 Aug 2020 at 12:05, 2 years before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
@@ -163,7 +163,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05"
+        "Check-in": "3 Aug 2020 at 12:05, 2 years before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
@@ -264,7 +264,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2021 at 12:05"
+        "Check-in": "3 Aug 2021 at 12:05, 6 months before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
