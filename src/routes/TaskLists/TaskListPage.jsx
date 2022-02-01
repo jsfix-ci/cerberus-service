@@ -410,11 +410,14 @@ const TaskListPage = () => {
     },
   ];
 
+  let filterPosition = 0;
+
   const getAppliedFilters = () => {
     const taskId = localStorage.getItem('taskId') !== 'null' ? localStorage.getItem('taskId') : 'new';
-    if (localStorage.getItem('filterMovementMode')) {
-      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: mode.hasSelectors }));
-      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: movementModesSelected, hasSelectors: selector.hasSelectors }));
+    if (localStorage.getItem('filterMovementMode') || localStorage.getItem('hasSelector')) {
+      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: localStorage.getItem('hasSelector') ? localStorage.getItem('hasSelector') : mode.hasSelectors }));
+      const selectedFilters = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
+      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: selectedFilters, hasSelectors: selector.hasSelectors }));
       return movementModes.concat(selectors);
     }
 
@@ -592,25 +595,19 @@ const TaskListPage = () => {
     return filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
   };
 
-  const renderSelectedFiltersCount = (filter, filterType) => {
-    let totalCount;
-    const found = filtersAndSelectorsCount.find((f, index) => {
-      if (filterType === 'radio' && ['true', 'false', 'any'].includes(filter)) {
-        if (filter !== 'any') return f.filterParams.hasSelectors === JSON.parse(filter);
-        totalCount = (filtersAndSelectorsCount.length - 1) === index && f;
-      }
-      return f.filterParams.movementModes[0] === filter;
-    });
-    return totalCount ? totalCount?.statusCounts?.total : found?.statusCounts?.total;
+  const renderSelectedFiltersCount = () => {
+    const totalCount = filtersAndSelectorsCount[filterPosition]?.statusCounts?.total;
+    filterPosition += 1;
+    return totalCount;
   };
 
-  const showFilterAndSelectorCount = (parentIndex, index, filter, filterType) => {
+  const showFilterAndSelectorCount = (parentIndex, index) => {
     let count = 0;
     if (filtersAndSelectorsCount) {
       if (!localStorage.getItem('filterMovementMode')) {
         count = getDefaultFiltersAndSelectorsCount(parentIndex, index);
       } else {
-        count = renderSelectedFiltersCount(filter, filterType);
+        count = renderSelectedFiltersCount();
       }
     }
     return count || 0;
@@ -680,7 +677,7 @@ const TaskListPage = () => {
                                 className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
-                                {option.optionLabel} ({showFilterAndSelectorCount(parentIndex, index, option.optionName, filterSet.filterType)})
+                                {option.optionLabel} ({showFilterAndSelectorCount(parentIndex, index)})
                               </label>
                             </li>
                           );

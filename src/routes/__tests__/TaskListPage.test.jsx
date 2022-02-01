@@ -116,6 +116,93 @@ describe('TaskListPage', () => {
     },
   ];
 
+  const countsSelectorsResponse = [
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 0,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 6,
+        new: 6,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 2,
+        new: 2,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: [],
+        hasSelectors: true,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 29,
+        new: 29,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: [],
+        hasSelectors: false,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 8,
+        new: 8,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: ['NEW'],
+        movementModes: [],
+        hasSelectors: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        total: 37,
+        new: 37,
+      },
+    },
+  ];
+
   let tabData = {};
 
   const setTabAndTaskValues = (value, taskStatus = 'new') => {
@@ -560,5 +647,22 @@ describe('TaskListPage', () => {
     expect(screen.getByText('RoRo accompanied freight (21)')).toBeInTheDocument();
     expect(screen.getByText('RoRo Tourist (21)')).toBeInTheDocument();
     expect(screen.getByText('New (6)')).toBeInTheDocument();
+  });
+
+  it('should render counts for a selector only selection', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsSelectorsResponse)
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
+    expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getByText('RoRo unaccompanied freight (0)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo accompanied freight (6)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo Tourist (2)')).toBeInTheDocument();
+    expect(screen.getByText('Present (29)')).toBeInTheDocument();
+    expect(screen.getByText('Not present (8)')).toBeInTheDocument();
+    expect(screen.getByText('Any (37)')).toBeInTheDocument();
   });
 });
