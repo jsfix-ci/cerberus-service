@@ -416,7 +416,8 @@ const TaskListPage = () => {
     const taskId = localStorage.getItem('taskId') !== 'null' ? localStorage.getItem('taskId') : 'new';
     if (localStorage.getItem('filterMovementMode') || localStorage.getItem('hasSelector')) {
       const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: localStorage.getItem('hasSelector') ? localStorage.getItem('hasSelector') : mode.hasSelectors }));
-      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: movementModesSelected, hasSelectors: selector.hasSelectors }));
+      const selectedFilters = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
+      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: selectedFilters, hasSelectors: selector.hasSelectors }));
       return movementModes.concat(selectors);
     }
 
