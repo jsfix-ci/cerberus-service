@@ -981,11 +981,14 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   });
 });
 
-Cypress.Commands.add('getTaskCount', (modeName, selector) => {
+Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
   let payload;
   if (modeName === null && selector !== 'any') {
     payload = [
       {
+        'taskStatuses': [
+          statusTab,
+        ],
         'movementModes': [],
         'hasSelectors': selector,
       },
@@ -993,6 +996,9 @@ Cypress.Commands.add('getTaskCount', (modeName, selector) => {
   } else if (selector === 'any') {
     payload = [
       {
+        'taskStatuses': [
+          statusTab,
+        ],
         'movementModes': [],
         'hasSelectors': null,
       },
@@ -1000,6 +1006,9 @@ Cypress.Commands.add('getTaskCount', (modeName, selector) => {
   } else if (modeName instanceof Array) {
     payload = [
       {
+        'taskStatuses': [
+          statusTab,
+        ],
         'movementModes': modeName,
         'hasSelectors': selector,
       },
@@ -1007,6 +1016,9 @@ Cypress.Commands.add('getTaskCount', (modeName, selector) => {
   } else {
     payload = [
       {
+        'taskStatuses': [
+          statusTab,
+        ],
         'movementModes': [modeName],
         'hasSelectors': selector,
       },

@@ -8,6 +8,13 @@ describe('Filter tasks by Selectors on task management Page', () => {
     'any',
   ];
 
+  const statusTab = {
+    'new': 'NEW',
+    'inProgress': 'IN_PROGRESS',
+    'issued': 'ISSUED',
+    'complete': 'COMPLETE',
+  };
+
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.navigation('Tasks');
@@ -15,10 +22,11 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   it('Should view filter tasks by selectors', () => {
     const filterNames = [
-      'Not present',
       'Present',
+      'Not present',
       'Any',
     ];
+    let expectedFilterNames = [];
 
     cy.get('a[href="#new"]').invoke('text').as('total-tasks').then((totalTargets) => {
       cy.log('Total number of Targets', parseInt(totalTargets.match(/\d+/)[0], 10));
@@ -29,8 +37,10 @@ describe('Filter tasks by Selectors on task management Page', () => {
       cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
       cy.get('.govuk-radios__item [name="hasSelectors"]').next().each((element) => {
         cy.wrap(element).invoke('text').then((value) => {
-          expect(filterNames).to.include(value);
+          expectedFilterNames.push(value.substring(0, value.indexOf('(')).trim());
         });
+      }).then(() => {
+        expect(expectedFilterNames).to.deep.equal(filterNames);
       });
     });
   });
@@ -45,13 +55,13 @@ describe('Filter tasks by Selectors on task management Page', () => {
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
           // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
-          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+          cy.get('.govuk-radios__item label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
-            expect(targets).be.equal(numberOfTasks.total);
+            expect(targets).be.equal(numberOfTasks.new);
           });
-          expect(numberOfTasks.new).be.equal(actualTargets);
+          expect(numberOfTasks.total).be.equal(actualTotalTargets);
         });
       });
     });
@@ -80,9 +90,9 @@ describe('Filter tasks by Selectors on task management Page', () => {
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'IN_PROGRESS').then((numberOfTasks) => {
           // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
-          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+          cy.get('.govuk-radios__item label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.total);
           });
@@ -115,9 +125,9 @@ describe('Filter tasks by Selectors on task management Page', () => {
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'ISSUED').then((numberOfTasks) => {
           // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
-          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+          cy.get('.govuk-radios__item label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.total);
           });
@@ -150,9 +160,9 @@ describe('Filter tasks by Selectors on task management Page', () => {
         if (selector !== 'any') {
           actualTotalTargets += actualTargets;
         }
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'COMPLETE').then((numberOfTasks) => {
           // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
-          cy.get('.govuk-radios__item span').eq(index).invoke('text').then((selectorTargets) => {
+          cy.get('.govuk-radios__item label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.total);
           });
@@ -177,12 +187,12 @@ describe('Filter tasks by Selectors on task management Page', () => {
     // COP-9191 switch between the tabs, filter should be retained
     filterOptions.forEach((selector) => {
       cy.applySelectorFilter(selector, 'new').then((actualTargets) => {
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
           expect(numberOfTasks.new).be.equal(actualTargets);
         });
         cy.get('a[href="#complete"]').click();
         cy.get('a[href="#new"]').click();
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
           expect(numberOfTasks.new).be.equal(actualTargets);
         });
       });
@@ -191,13 +201,76 @@ describe('Filter tasks by Selectors on task management Page', () => {
     // COP-9191 reload the page after filter applied on the page, filter should be retained
     filterOptions.forEach((selector) => {
       cy.applySelectorFilter(selector, 'new').then((actualTargets) => {
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
           expect(numberOfTasks.new).be.equal(actualTargets);
         });
         cy.reload();
         cy.wait(2000);
-        cy.getTaskCount(null, selector).then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
           expect(numberOfTasks.new).be.equal(actualTargets);
+        });
+      });
+    });
+  });
+
+  it.skip('Should apply filter tasks by selectors present and check count on each of the tab', () => {
+    // COP-9796 Apply selectors Present filter, compare the Count next to the Filter & count on the status Tab
+    cy.applySelectorFilter('true', 'new').then(() => {
+      Object.keys(statusTab).forEach((key) => {
+        cy.get(`a[href="#${key}"]`).click();
+        cy.getTaskCount(null, 'true', statusTab[key]).then((numberOfTasks) => {
+          // COP-9796 Number of tasks per selector filter on each of the status tab
+          cy.wait(1000);
+          cy.get('.govuk-radios__item label').eq(0).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks[key]);
+            cy.get(`a[href="#${key}"]`).invoke('text').then((totalTargets) => {
+              totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+              expect(totalTargets).be.equal(targets);
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it.skip('Should apply filter tasks by selectors Not Present and check count on each of the tab', () => {
+    // COP-9796 Apply selectors Not Present filter, compare the Count next to the Filter & count on the status Tab
+    cy.applySelectorFilter('false', 'new').then(() => {
+      Object.keys(statusTab).forEach((key) => {
+        cy.get(`a[href="#${key}"]`).click();
+        cy.getTaskCount(null, 'false', statusTab[key]).then((numberOfTasks) => {
+          // COP-9796 Number of tasks per selector filter on each of the status tab
+          cy.wait(1000);
+          cy.get('.govuk-radios__item label').eq(1).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks[key]);
+            cy.get(`a[href="#${key}"]`).invoke('text').then((totalTargets) => {
+              totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+              expect(totalTargets).be.equal(targets);
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it.skip('Should apply filter tasks by selectors Any and check count on each of the tab', () => {
+    // COP-9796 Apply selectors Not Present filter, compare the Count next to the Filter & count on the status Tab
+    cy.applySelectorFilter('any', 'new').then(() => {
+      Object.keys(statusTab).forEach((key) => {
+        cy.get(`a[href="#${key}"]`).click();
+        cy.getTaskCount(null, 'any', statusTab[key]).then((numberOfTasks) => {
+          // COP-9796 Number of tasks per selector filter on each of the status tab
+          cy.wait(1000);
+          cy.get('.govuk-radios__item label').eq(2).invoke('text').then((selectorTargets) => {
+            let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
+            expect(targets).be.equal(numberOfTasks[key]);
+            cy.get(`a[href="#${key}"]`).invoke('text').then((totalTargets) => {
+              totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+              expect(totalTargets).be.equal(targets);
+            });
+          });
         });
       });
     });
