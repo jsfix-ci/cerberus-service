@@ -8,6 +8,9 @@ import taskListData from '../__fixtures__/taskListData.fixture.json';
 import taskListDataComplete from '../__fixtures__/taskListData_COMPLETE.fixture.json';
 import taskListDataInProgress from '../__fixtures__/taskListData_IN_PROGRESS.fixture.json';
 import taskListDataIssued from '../__fixtures__/taskListData_ISSUED.fixture.json';
+import taskListDataRoroTouristNoVehicleOnePax from '../__fixtures__/roro-tourist-no-vehicle-single-passenger/taskListData_RoRoTourist.fixture.json';
+import taskListDataRoroTouristNoVehicleTwoPax from '../__fixtures__/roro-tourist-no-vehicle-group-passengers/taskListData_RoRoTourist.fixture.json';
+import taskListDataRoroTouristVehicleThreePax from '../__fixtures__/roro-tourist-vehicle-3-passengers/taskListData_RoRoTourist.fixture.json';
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 
 describe('TaskListPage', () => {
@@ -61,7 +64,7 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Complete (19)')).toBeInTheDocument();
   });
 
-  it('should render no tasks available message when New, In Progress, Target Issued and Complete tabs are clicked and there are no tasks', async () => {
+  it('should render no more tasks available message when New, In Progress, Target Issued and Complete tabs are clicked and there are no tasks', async () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
       .reply(200, [
@@ -87,22 +90,22 @@ describe('TaskListPage', () => {
     expect(screen.getByText('New (0)')).toBeInTheDocument();
     expect(screen.getByText('Issued (0)')).toBeInTheDocument();
 
-    expect(screen.getByText('No tasks available')).toBeInTheDocument();
+    expect(screen.getByText('No more tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
-    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('No more tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('No more tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
-    await waitFor(() => expect(screen.getByText('No tasks available')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('No more tasks available')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
   });
@@ -166,6 +169,7 @@ describe('TaskListPage', () => {
       .reply(200, taskListData);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
     expect(screen.getAllByText('Claim')).toHaveLength(3);
   });
 
@@ -180,9 +184,8 @@ describe('TaskListPage', () => {
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
 
-    await waitFor(() => expect(screen.getAllByText('Unclaim')).toHaveLength(3));
+    await waitFor(() => expect(screen.queryByText('Claim task')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.getAllByText('Assigned to anotheruser')).toHaveLength(1));
-    await waitFor(() => expect(screen.queryByText('Claim')).not.toBeInTheDocument());
   });
 
   it('should render issued tasks with no claim buttons', async () => {
@@ -224,8 +227,12 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn() }, 'new')));
 
-    expect(screen.getAllByText('SELECTOR: Local ref, B, National Security at the Border and 2 other rules')).toHaveLength(1);
-    expect(screen.getAllByText('Paid by Cash, Tier 1, Class A Drugs and 0 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('Local ref')).toHaveLength(1);
+    expect(screen.getAllByText('B')).toHaveLength(1);
+    expect(screen.getAllByText('National Security at the Border and 2 other rules')).toHaveLength(1);
+    expect(screen.getAllByText('Paid by Cash')).toHaveLength(1);
+    expect(screen.getAllByText('Tier 1')).toHaveLength(1);
+    expect(screen.getAllByText('Class A Drugs and 0 other rules')).toHaveLength(1);
   });
 
   it('should display a count and list of targeting indicators', async () => {
@@ -266,6 +273,111 @@ describe('TaskListPage', () => {
     expect(screen.getAllByText('Updated')).toHaveLength(1);
   });
 
+  it('should render relisted on task where isRelisted is equal to true', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListData);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getAllByText('Relisted')).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist by vehicle', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('Driver')).toBeInTheDocument();
+    expect(screen.getByText('Vehicle')).toBeInTheDocument();
+    expect(screen.queryAllByText('ABCD EFG')).toHaveLength(2);
+    expect(screen.queryAllByText('foot passenger')).toHaveLength(0);
+    expect(screen.queryAllByText('Group')).toHaveLength(0);
+  });
+
+  it('should indicate for RORO Tourist by vehicle when more than 4 passengers has been displayed', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    expect(screen.getAllByText(/plus 1 more/i)).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist single foot passenger', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleOnePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('Single passenger')).toBeInTheDocument();
+    expect(screen.getByText('Primary traveller')).toBeInTheDocument();
+    expect(screen.getByText('1 foot passenger')).toBeInTheDocument();
+    expect(screen.getByText('PAX0001')).toBeInTheDocument();
+    expect(screen.queryAllByText('Vehicle')).toHaveLength(0);
+    expect(screen.getAllByText(/Ben Bailey/i)).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist group foot passengers', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleTwoPax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('Group')).toBeInTheDocument();
+    expect(screen.getByText('7 foot passengers')).toBeInTheDocument();
+    expect(screen.getByText('Primary traveller')).toBeInTheDocument();
+    expect(screen.getByText('PAX0001')).toBeInTheDocument();
+    expect(screen.getByText('Co-travellers')).toBeInTheDocument();
+    expect(screen.queryAllByText('Driver')).toHaveLength(0);
+    expect(screen.getAllByText(/plus 2 more/i)).toHaveLength(1);
+    expect(screen.getAllByText(/Ben Bailey/i)).toHaveLength(1);
+  });
+
+  it('should render card for RORO Tourist group foot passengers and doc numebr for primary traveller only', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleTwoPax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.getByText('PAX0001')).toBeInTheDocument();
+    expect(screen.queryByText('PAX0002')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0003')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0004')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0005')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0006')).not.toBeInTheDocument();
+    expect(screen.queryByText('PAX0007')).not.toBeInTheDocument();
+  });
+
+  it('should not indicate there are more passengers when RORO Tourist group foot passengers are less than 4', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristNoVehicleTwoPax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.queryAllByText(/plus 1 more/i)).toHaveLength(0);
+  });
+
   it('should handle errors gracefully', async () => {
     mockAxios
       .onPost('/targeting-tasks/status-counts')
@@ -275,9 +387,51 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    expect(screen.getByText('No tasks available')).toBeInTheDocument();
+    expect(screen.getByText('No more tasks available')).toBeInTheDocument();
     expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+  });
+
+  it('should render No Show label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataComplete);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn() }, 'complete')));
+
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
+
+    await waitFor(() => expect(screen.getByText('No Show')).toBeInTheDocument());
+  });
+
+  it('should render Target Withdrawn label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataComplete);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn() }, 'complete')));
+
+    fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
+
+    await waitFor(() => expect(screen.getByText('Target Withdrawn')).toBeInTheDocument());
+  });
+
+  it('should not render Target Widthdrawn label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataIssued);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 2, selectTabIndex: jest.fn() }, 'issued')));
+
+    fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
+
+    await waitFor(() => expect(screen.queryAllByText('Target Widthrawn')).toHaveLength(0));
   });
 
   it('should handle count errors gracefully', async () => {
@@ -291,5 +445,17 @@ describe('TaskListPage', () => {
 
     expect(screen.queryByText('Request failed with status code 500')).toBeInTheDocument();
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+  });
+
+  it('should render Unknown for gender when payload field is empty', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataRoroTouristVehicleThreePax);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.queryAllByText('Unknown')).toHaveLength(1);
   });
 });

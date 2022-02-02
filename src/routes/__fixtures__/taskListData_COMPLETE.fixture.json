@@ -1,6 +1,7 @@
 [
   {
     "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "outcome": "noShow",
     "status": "COMPLETE",
     "arrivalDate": "2022-01-02T10:12:35Z",
     "movementMode": "RORO_TOURIST",
@@ -25,7 +26,43 @@
           "departureLocation": "NEW",
           "vehicle": {},
           "load": {},
-          "account": {}
+          "account": {},
+          "passengers":[
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "21af5345-5ljd-22ec-f745-66e520b0c21r",
+    "outcome": "targetWithdrawn",
+    "status": "COMPLETE",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_ACCOMPANIED_FREIGHT",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "jkl"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "vehicle": {},
+          "load": {},
+          "account": {},
+          "passengers":[
+          ]
         }
       }
     }

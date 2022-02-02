@@ -5,15 +5,7 @@
     "Make": "AUDI",
     "Model": "V9",
     "Country of registration": "GB",
-    "Colour": "WHITE",
-    "Net weight": "0kg",
-    "Gross weight": "2889kg",
-    "Trailer registration number": "IR-6457",
-    "Trailer type": "",
-    "Trailer country of registration": "GB",
-    "Empty or loaded": "L",
-    "Trailer length": "",
-    "Trailer height": ""
+    "Colour": "WHITE"
   },
   "driver": {
     "Name": "Isiaih Ford",
@@ -24,22 +16,26 @@
     "Travel document number": "566746DL",
     "Travel document expiry": "29/10/2023"
   },
-  "passengers": {
-    "Name": "Fred Flintstone",
-    "Date of birth": "22/11/1991",
-    "Gender": "F",
-    "Nationality": "DE",
-    "Travel document type": "OBJDOCPAS",
-    "Travel document number": "875786876",
-    "Travel document expiry": "22/03/2022",
-    "Name": "Barney Rubble",
-    "Date of birth": "01/03/1989",
-    "Gender": "M",
-    "Nationality": "GB",
-    "Travel document type": "OBJDOCPAS",
-    "Travel document number": "244746NL",
-    "Travel document expiry": "01/02/2021"
-  },
+  "passengers": [
+    {
+      "Name": "Fred Flintstone",
+      "Date of birth": "22/11/1991",
+      "Gender": "F",
+      "Nationality": "DE",
+      "Travel document type": "OBJDOCPAS",
+      "Travel document number": "875786876",
+      "Travel document expiry": "22/03/2022"
+    },
+    {
+      "Name": "Barney Rubble",
+      "Date of birth": "01/03/1989",
+      "Gender": "M",
+      "Nationality": "GB",
+      "Travel document type": "OBJDOCPAS",
+      "Travel document number": "244746NL",
+      "Travel document expiry": "01/02/2021"
+    }
+  ],
   "Booking-and-check-in": {
     "Reference": "AB555412781",
     "Ticket number": "1234567",

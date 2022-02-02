@@ -1,0 +1,10 @@
+[
+  {
+    "operationType": "Complete",
+    "property": "delete",
+    "orgValue": "false",
+    "newValue": "true",
+    "timestamp": "2022-01-05T16:16:31.693+0000",
+    "userId": "testuser@email.com"
+  }
+]

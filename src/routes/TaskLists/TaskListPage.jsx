@@ -9,19 +9,21 @@ import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 // Config
-import { SHORT_DATE_FORMAT, LONG_DATE_FORMAT, TARGETER_GROUP, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import { TARGETER_GROUP, TASK_OUTCOME_INSUFFICIENT_RESOURCES, TASK_OUTCOME_MISSED, TASK_OUTCOME_NEGATIVE, TASK_OUTCOME_NO_SHOW, TASK_OUTCOME_POSITIVE, TASK_OUTCOME_TARGET_WITHDRAWN, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
-import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
 import { useKeycloak } from '../../utils/keycloak';
 import { calculateTaskListTotalRiskScore } from '../../utils/rickScoreCalculator';
+import getMovementModeIcon from '../../utils/getVehicleModeIcon';
+import { modifyRoRoPassengersTaskList } from '../../utils/roroDataUtil';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import Tabs from '../../govuk/Tabs';
+import TaskListMode from './TaskListMode';
 // Styling
 import '../__assets__/TaskListPage.scss';
 
@@ -106,7 +108,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
         ? [
           {
             field: 'arrival-date',
-            order: 'desc',
+            order: 'asc',
           },
         ]
         : null;
@@ -134,8 +136,8 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const formatTargetRisk = (target) => {
     if (target.risks.length >= 1) {
       const topRisk = target.risks[0].contents
-        ? `SELECTOR: ${target.risks[0].contents.groupReference}, ${target.risks[0].contents.category}, ${target.risks[0].contents.threatType}`
-        : `${target.risks[0].name}, ${target.risks[0].rulePriority}, ${target.risks[0].abuseType}`;
+        ? target.risks[0].contents.threatType
+        : target.risks[0].abuseType;
       const count = target.risks.length - 1;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
@@ -163,6 +165,49 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (target.numberOfVersions > 1) {
       return (
         <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
+      );
+    }
+  };
+
+  const getOutcome = (outcome) => {
+    let outcomeText;
+    let outcomeClass = 'genericOutcome';
+    switch (outcome) {
+      case TASK_OUTCOME_POSITIVE:
+        outcomeText = 'Positive';
+        outcomeClass = 'positiveOutcome';
+        break;
+      case TASK_OUTCOME_NEGATIVE:
+        outcomeText = 'Negative';
+        break;
+      case TASK_OUTCOME_NO_SHOW:
+        outcomeText = 'No Show';
+        break;
+      case TASK_OUTCOME_MISSED:
+        outcomeText = 'Missed';
+        break;
+      case TASK_OUTCOME_INSUFFICIENT_RESOURCES:
+        outcomeText = 'Insufficient Resources';
+        break;
+      case TASK_OUTCOME_TARGET_WITHDRAWN:
+        outcomeText = 'Target Withdrawn';
+        break;
+      default:
+        break;
+    }
+    return outcomeText && <p className={`govuk-body govuk-tag govuk-tag--${outcomeClass}`}>{outcomeText}</p>;
+  };
+
+  const hasOutcome = (target) => {
+    if (target.status.toUpperCase() === TASK_STATUS_COMPLETED.toUpperCase()) {
+      return getOutcome(target.outcome);
+    }
+  };
+
+  const hasRelistedStatus = (target) => {
+    if (target.isRelisted) {
+      return (
+        <p className="govuk-body govuk-tag govuk-tag--relistedTarget">Relisted</p>
       );
     }
   };
@@ -198,12 +243,12 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
       {!isLoading && targetTasks.length === 0 && (
-        <p className="govuk-body-l">No tasks available</p>
+        <p className="govuk-body-l">No more tasks available</p>
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
-        const roroData = target.summary.roro.details;
-        const passengers = roroData.passengers;
+        const roroData = modifyRoRoPassengersTaskList({ ...target.summary.roro.details });
+        const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
@@ -212,19 +257,31 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                   <div className="govuk-grid-item">
                     <div className="title-container">
                       <div className="heading-container">
-                        <h4 className="govuk-heading-m task-heading">
+                        <h4 className="govuk-heading-s task-heading">
                           {target.summary.parentBusinessKey.businessKey}
+                          <span className="dot" />
+                          {target.summary.risks[0] && (
+                          <span className="govuk-body">
+                            {target.summary.risks[0].contents ? target.summary.risks[0].contents.groupReference : target.summary.risks[0].name}
+                          </span>
+                          )}
                         </h4>
-                        <h3 className="govuk-heading-m govuk-!-font-weight-regular task-heading">
-                          {roroData.movementStatus}
-                        </h3>
                       </div>
                     </div>
                     <div className="govuk-grid-column">
-                      <p className="govuk-body task-risk-statement">{formatTargetRisk(target.summary)}</p>
+                      {target.summary.risks[0] && (
+                      <span className="govuk-tag govuk-tag--riskTier">
+                        {target.summary.risks[0].contents ? target.summary.risks[0].contents.category : target.summary.risks[0].rulePriority}
+                      </span>
+                      )}
+                      <span className="govuk-body task-risk-statement">
+                        {formatTargetRisk(target.summary)}
+                      </span>
                     </div>
                     <div className="govuk-grid-column">
                       {hasUpdatedStatus(target.summary)}
+                      {hasRelistedStatus(target.summary)}
+                      {hasOutcome(target)}
                     </div>
                   </div>
                   <div className="govuk-grid-item">
@@ -247,127 +304,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                   </div>
                 </div>
               </section>
-              <section className="task-list--item-2">
-                <div>
-                  <div className="govuk-grid-row">
-                    <div className="govuk-grid-column">
-                      <ul className="govuk-list govuk-body-s content-line-one">
-                        <li>{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</li>
-                      </ul>
-                      <ul className="govuk-list content-line-two">
-                        <li>
-                          {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
-                          <span className="govuk-!-font-weight-bold">{roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
-                          <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> {!roroData.eta ? 'unknown'
-                            : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section className="task-list--item-3">
-                <div className="govuk-grid-row">
-                  <div className="govuk-grid-item">
-                    <div>
-                      <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                        Driver details
-                      </h3>
-                      <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                        {roroData.driver ? (
-                          <>
-                            {roroData.driver.firstName && <li className="govuk-!-font-weight-bold">{roroData.driver.firstName}</li>}
-                            {roroData.driver.middleName && <li className="govuk-!-font-weight-bold">{roroData.driver.middleName}</li>}
-                            {roroData.driver.lastName && <li className="govuk-!-font-weight-bold">{roroData.driver.lastName}</li>}
-                            {roroData.driver.dob && <li>DOB: {roroData.driver.dob}</li>}
-                            <li>{pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}</li>
-                          </>
-                        ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                      </ul>
-                      <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                        Passenger details
-                      </h3>
-                      <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                        {roroData.passengers && roroData.passengers.length > 0 ? (
-                          <>
-                            <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
-                          </>
-                        ) : (<li className="govuk-!-font-weight-bold">None</li>)}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="govuk-grid-item verticel-dotted-line">
-                    <div>
-                      <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                        Vehicle details
-                      </h3>
-                      <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                        {roroData.vehicle ? (
-                          <>
-                            {roroData.vehicle.registrationNumber && <li className="govuk-!-font-weight-bold">{roroData.vehicle.registrationNumber}</li>}
-                            {roroData.vehicle.colour && <li>{roroData.vehicle.colour}</li>}
-                            {roroData.vehicle.make && <li>{roroData.vehicle.make}</li>}
-                            {roroData.vehicle.model && <li>{roroData.vehicle.model}</li>}
-                            <li>{pluralise.withCount(target.aggregateVehicleTrips || 0, '% trip', '% trips')}</li>
-                          </>
-                        ) : (<li className="govuk-!-font-weight-bold">No vehicle</li>)}
-                      </ul>
-                      <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                        Trailer details
-                      </h3>
-                      <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                        {roroData.vehicle.trailer ? (
-                          <>
-                            {roroData.vehicle.trailer.regNumber && <li className="govuk-!-font-weight-bold">{roroData.vehicle.trailer.regNumber}</li>}
-                            {roroData.vehicle.trailerType && <li>{roroData.vehicle.trailerType}</li>}
-                            <li>{pluralise.withCount(target.aggregateTrailerTrips || 0, '% trip', '% trips')}</li>
-                          </>
-                        ) : (<li className="govuk-!-font-weight-bold">No trailer</li>)}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="govuk-grid-item verticel-dotted-line">
-                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                      Haulier details
-                    </h3>
-                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                      {roroData.haulier?.name ? (
-                        <>
-                          {roroData.haulier.name && <li className="govuk-!-font-weight-bold">{roroData.haulier.name}</li>}
-                        </>
-                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                    </ul>
-                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                      Account details
-                    </h3>
-                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                      {roroData.account ? (
-                        <>
-                          {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                          {roroData.bookingDateTime && <li>Booked on {dayjs.utc(roroData.bookingDateTime.split(',')[0]).format(SHORT_DATE_FORMAT)}</li>}
-                          {roroData.bookingDateTime && <br />}
-                          {roroData.bookingDateTime && <li>{targetDatetimeDifference(roroData.bookingDateTime)}</li>}
-                        </>
-                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                    </ul>
-                  </div>
-
-                  <div className="govuk-grid-item verticel-dotted-line">
-                    <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                      Goods description
-                    </h3>
-                    <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                      {roroData.load.manifestedLoad ? (
-                        <>
-                          {roroData.load.manifestedLoad && <li className="govuk-!-font-weight-bold">{roroData.load.manifestedLoad}</li>}
-                        </>
-                      ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                    </ul>
-                  </div>
-                </div>
-              </section>
+              <TaskListMode roroData={roroData} target={target} movementModeIcon={movementModeIcon} />
               <section className="task-list--item-4">
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-item">
@@ -424,6 +361,7 @@ const TaskListPage = () => {
   const [filtersToApply, setFiltersToApply] = useState('');
   const [storedFilters, setStoredFilters] = useState();
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
+  const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
 
   const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -438,6 +376,44 @@ const TaskListPage = () => {
       } catch (e) {
         setError(e.message);
         setTaskCountsByStatus();
+      }
+    }
+  };
+
+  const getFiltersAndSelectorsCount = async () => {
+    setFiltersAndSelectorsCount();
+    if (camundaClientV1) {
+      try {
+        const filtersSelectorsCount = await camundaClientV1.post('/targeting-tasks/status-counts', [
+          {
+            movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: ['RORO_TOURIST'],
+            hasSelectors: null,
+          },
+          {
+            movementModes: [],
+            hasSelectors: true,
+          },
+          {
+            movementModes: [],
+            hasSelectors: false,
+          },
+          {
+            movementModes: [],
+            hasSelectors: null,
+          },
+        ]);
+        setFiltersAndSelectorsCount(filtersSelectorsCount.data);
+      } catch (e) {
+        setError(e.message);
+        setFiltersAndSelectorsCount();
       }
     }
   };
@@ -480,6 +456,7 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount();
     setLoading(false);
   };
 
@@ -488,8 +465,11 @@ const TaskListPage = () => {
     // Clear localStorage
     localStorage.removeItem('filterMovementMode');
     localStorage.removeItem('hasSelector');
-    // Clear checked options
-    if (hasSelectors) {
+    /* Clear checked options :
+     * when hasSelectors was not selected, it stores 'null' as a string in the
+     * localStorage so needs to be excluded in the if condition
+    */
+    if (hasSelectors && hasSelectors !== 'null') {
       document.getElementById(hasSelectors).checked = false;
       setHasSelectors(null);
     }
@@ -521,6 +501,7 @@ const TaskListPage = () => {
 
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount();
     setLoading(false);
   };
 
@@ -541,6 +522,14 @@ const TaskListPage = () => {
       applySavedFiltersOnLoad();
     }
   }, []);
+
+  const showFilterAndSelectorCount = (parentIndex, index) => {
+    let count = 0;
+    if (filtersAndSelectorsCount) {
+      count = filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+    }
+    return count;
+  };
 
   return (
     <>
@@ -574,7 +563,7 @@ const TaskListPage = () => {
                 </button>
               </div>
 
-              {filters.length > 0 && filters.map((filterSet) => {
+              {filters.length > 0 && filters.map((filterSet, parentIndex) => {
                 return (
                   <div className="govuk-form-group" key={filterSet.filterLabel}>
                     <fieldset className="govuk-fieldset">
@@ -582,7 +571,7 @@ const TaskListPage = () => {
                         <h4 className="govuk-fieldset__heading">{filterSet.filterLabel}</h4>
                       </legend>
                       <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
-                        {filterSet.filterOptions.map((option) => {
+                        {filterSet.filterOptions.map((option, index) => {
                           let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
                           return (
                             <li
@@ -603,11 +592,12 @@ const TaskListPage = () => {
                                 data-testid={`${filterSet.filterLabel}-${option.optionName}`}
                               />
                               <label
-                                className={`govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
                                 {option.optionLabel}
                               </label>
+                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}

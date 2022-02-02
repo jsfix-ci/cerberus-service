@@ -1,0 +1,52 @@
+[
+  {
+    "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
+    "status": "COMPLETE",
+    "arrivalDate": "2022-01-02T10:12:35Z",
+    "movementMode": "RORO_TOURIST",
+    "summary": {
+      "parentBusinessKey": {
+        "businessKey": "jkl"
+      },
+      "threatIndicators": [],
+      "category": "target_B",
+      "eventPort": "",
+      "risks": [],
+      "numberOfVersions": 1,
+      "roro": {
+        "roroFreightType": "unaccompanied",
+        "details": {
+          "movementStatus": "Pre-Arrival",
+          "bookingDateTime": "2020-08-03T11:25:00,2020-08-04T20:00:00",
+          "vessel": {},
+          "eta": "2022-01-02T10:12:35Z",
+          "departureTime": "2020-08-04T20:00:00Z",
+          "arrivalLocation": "POO",
+          "departureLocation": "NEW",
+          "driver":{},
+          "vehicle": {
+            "registrationNumber": null,
+            "trailer": {
+              "regNumber": null
+            }
+          },
+          "passengers": [
+            {
+              "name": "Ben Bailey",
+              "dob": "27/10/1969",
+              "gender": "M",
+              "docNumber": "PAX0001",
+              "docExpiry": "",
+              "poleId": "ROROXML:P=26ebab61705c7a2c44b5f47ff0b4a58c",
+              "firstName": "Ben",
+              "lastName": "Bailey",
+              "middleName": ""
+            }
+          ],
+          "load": {},
+          "account": {}
+        }
+      }
+    }
+  }
+]

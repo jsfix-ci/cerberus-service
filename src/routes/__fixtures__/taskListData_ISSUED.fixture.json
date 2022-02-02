@@ -2,6 +2,7 @@
   {
     "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
     "assignee": "test",
+    "outcome": "targetWithdrawn",
     "status": "ISSUED",
     "arrivalDate": "2022-01-02T10:12:35Z",
     "movementMode": "RORO_TOURIST",
@@ -26,7 +27,9 @@
           "departureLocation": "NEW",
           "vehicle": {},
           "load": {},
-          "account": {}
+          "account": {},
+          "passengers":[
+          ]
         }
       }
     }

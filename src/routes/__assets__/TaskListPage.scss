@@ -13,8 +13,14 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     background: #ffffff;
 }
 
-.govuk-task-list-card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1.0);
+.dot {
+  height: 4px;
+  width: 4px;
+  background-color: #000000;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0.2rem;
 }
 
 .heading-container {
@@ -65,12 +71,14 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         /* reduces the GDS header margin */
         float: left;
         display: block;
+        word-break: break-word;
     }
     .claim-button-container {
         display: flex;
         justify-content: center;
         align-items: center;
         margin-bottom: 1em;
+        padding-right: 10px;
         .task-list--email {
             word-break: break-all;
             padding-right: 0.5em;
@@ -97,7 +105,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     padding: 5px;
     .content-line-one {
         margin-bottom: 0.25em;
-        font-size: small;
+        font-size: x-small;
         color: #505a5f;
     }
     .content-line-two {
@@ -108,6 +116,11 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         padding: 10px 15px 5px 0px;
         text-align: right;
     }
+}
+
+.grid-background--greyed {
+    background-color: #f3f2f1;
+    padding: 10px 15px 5px 0px;
 }
 
 .task-list--item-3 {
@@ -125,8 +138,8 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     }
     .govuk-grid-row {
         display: grid;
-        margin-right: 15px;
-        margin-left: 15px;
+        margin-right: 1.5em;
+        margin-left: 1.5em;
         grid-template-columns: 25% 25% 25% 25%;
         grid-gap: 10px;
         padding: 5px;
@@ -144,6 +157,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-right: 10px;
     }
     ul li {
         display: inline-block;
@@ -200,5 +214,26 @@ ul.item-list--bulleted {
     &.govuk-tag--updatedTarget {
         background-color: #00703c;
         margin-bottom: 0.25em;
+        margin-right: 5px;
+    }
+    &.govuk-tag--relistedTarget {
+        background-color:	#f47738;
+        margin-bottom: 0.25em;
+        margin-right: 5px;
+    }
+    &.govuk-tag--riskTier {
+        background-color: #BC2410;
+        margin-right: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    &.govuk-tag--positiveOutcome {
+        background-color: #00703c;
+        margin-bottom: 0.25em;
+        margin-right: 5px;
+    }
+    &.govuk-tag--genericOutcome {
+        background-color: 	#505a5f;
+        margin-bottom: 0.25em;
+        margin-right: 5px;
     }
 }

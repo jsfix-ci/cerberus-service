@@ -47,20 +47,27 @@
   ],
   "groups": [
     "Calais Frontline",
+    "Cairnryan Frontline",
     "Coquelles Frontline",
     "Dover Frontline",
+    "Immingham/Killingholme",
     "Felixstowe Frontline",
     "Fishguard Frontline",
     "Harwich Frontline",
     "Holyhead Frontline",
+    "Heysham Frontline ",
     "Hull Frontline",
     "Newhaven Frontline",
     "Pembroke Frontline",
     "PNC Cleared",
     "Poole Frontline",
     "Portsmouth Frontline",
+    "Purfleet Frontline",
+    "Port of Tyne Frontline",
+    "Port of Liverpool Frontline",
     "Teesport Frontline",
-    "Tilbury Frontline"
+    "Tilbury Frontline",
+    "Plymouth Frontline"
   ],
   "strategy": [
     "Alcohol",
