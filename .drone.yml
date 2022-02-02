@@ -25,7 +25,7 @@ steps:
     event:
     - promote
     target:
-    - secrets
+    - dev_secrets
 
 - name: synch_sit_secrets
   pull: if-not-exists
@@ -44,7 +44,7 @@ steps:
     event:
     - promote
     target:
-    - secrets
+    - sit_secrets
 
 - name: synch_staging_secrets
   pull: if-not-exists
@@ -63,7 +63,7 @@ steps:
     event:
     - promote
     target:
-    - secrets
+    - staging_secrets
 
 - name: synch_production_secrets
   pull: if-not-exists
@@ -82,7 +82,7 @@ steps:
     event:
     - promote
     target:
-    - secrets
+    - production_secrets
 
 - name: unit_tests
   pull: if-not-exists
@@ -124,13 +124,6 @@ steps:
     LOCAL_IMAGE: true
     TOLERATE: low
     WHITELIST_FILE: whitelist
-  when:
-    event:
-    - push
-    
-- name: sonarqube_scan
-  pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/sonar-scanner-node:latest
   when:
     event:
     - push
@@ -337,7 +330,7 @@ steps:
     TEST_ENV: sit
   when:
     branch:
-      - main
+      - release-candidate
     event:
       - promote
     target:
@@ -400,10 +393,10 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests-staging\""
     TEST_ENV: staging
   when:
-    branch:
-      - main
     event:
       - promote
+    ref:
+      - refs/tags/*
     target:
       - staging
 
@@ -448,7 +441,7 @@ steps:
       from_secret: SIT_CERBERUS_SERVICE_URL
   when:
     branch:
-    - main
+    - release-candidate
     event:
     - promote
     target:
@@ -494,10 +487,10 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: STAGING_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - main
     event:
     - promote
+    ref:
+    - refs/tags/*
     target:
     - staging
 
@@ -541,10 +534,10 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: PRODUCTION_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - main
     event:
     - promote
+    ref:
+    - refs/tags/*
     target:
     - production
 
@@ -559,10 +552,10 @@ steps:
     SLACK_WEBHOOK:
       from_secret: SLACK_WEBHOOK
   when:
-    branch:
-    - main
     event:
     - promote
+    ref:
+    - refs/tags/*
     status:
     - success
     - failure
