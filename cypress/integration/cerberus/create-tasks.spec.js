@@ -20,8 +20,26 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
         cy.wait(4000);
-        cy.checkTaskDisplayed(`${response.businessKey}`);
+        let businessKey = response.businessKey;
+        cy.checkTaskDisplayed(businessKey);
         cy.checkTaskSummary(null, bookingDateTime);
+        const nextPage = 'a[data-test="next"]';
+        cy.visit('/tasks');
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+              cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                cy.get('.task-list--item-2 .govuk-grid-column-one-quarter').find('[class^=c-icon-]').should('not.exist');
+              });
+            });
+          } else {
+            cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+              cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                cy.get('.task-list--item-2 .govuk-grid-column-one-quarter').find('[class^=c-icon-]').should('not.exist');
+              });
+            });
+          }
+        });
       });
     });
   });
