@@ -32,11 +32,11 @@ const formatField = (fieldType, content) => {
       break;
     case fieldType.includes('BOOKING_DATETIME'): {
       const splitBookingDateTime = content.split(',');
-      const bookingDateTime = dayjs.utc(splitBookingDateTime[0]);
+      const bookingDateTime = dayjs.utc(splitBookingDateTime[0]); // This can also act as the check-in time
       if (splitBookingDateTime.length < 2) {
         result = bookingDateTime.format(LONG_DATE_FORMAT);
       } else {
-        const scheduledDepartureTime = dayjs.utc(splitBookingDateTime[1]);
+        const scheduledDepartureTime = dayjs.utc(splitBookingDateTime[1]); // This can also act as the eta
         const difference = scheduledDepartureTime.from(bookingDateTime);
         result = `${bookingDateTime.format(LONG_DATE_FORMAT)}, ${difference}`;
       }

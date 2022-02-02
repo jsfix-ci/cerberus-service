@@ -103,6 +103,14 @@ describe('Create task with different payload from Cerberus', () => {
         cy.navigation('Tasks');
         cy.get('.govuk-heading-xl').should('have.text', 'Task management');
         cy.checkTaskDisplayed(`${response.businessKey}`);
+
+        // COP-9672 Display No Rule matches in task details if there are no Rule / Selector
+        cy.get('.task-versions .govuk-accordion__section').each((element) => {
+          cy.wrap(element).find('.task-versions--right .govuk-list li').eq(1).invoke('text')
+            .then((value) => {
+              expect('No rule matches').to.be.equal(value);
+            });
+        });
         cy.contains('0 selector matches');
       });
     });
@@ -127,7 +135,7 @@ describe('Create task with different payload from Cerberus', () => {
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULIPLE-PASSENGERS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
@@ -182,6 +190,18 @@ describe('Create task with different payload from Cerberus', () => {
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
       cy.verifyTouristTaskSummary(`${businessKeys[0]}`).then((taskDetails) => {
         expect(taskDetails).to.deep.equal(expectedDetails);
+      });
+    });
+  });
+
+  it('Should create a task with a payload contains RoRo Tourist - no vehicle but has a lead and another passenger', () => {
+    cy.fixture('RoRo-Tourist-NoVehicle.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-TOURIST-NO-VEHICLE`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });

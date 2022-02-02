@@ -7,7 +7,7 @@ import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, ta
   noVehicleTwoPaxTsBasedOnTISData } from '../__fixtures__/taskVersions';
 
 describe('TaskVersions', () => {
-  it('should render the selector with Highest threat level is Category', () => {
+  it('should render the selector with Highest threat Category level', () => {
     render(<TaskVersions
       taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
       taskVersions={taskSingleVersion}
@@ -15,6 +15,7 @@ describe('TaskVersions', () => {
       movementMode="RORO Unaccompanied Freight"
     />);
     expect(screen.queryByText('Category')).toBeInTheDocument();
+    expect(screen.queryByText('B')).toBeInTheDocument();
   });
 
   it('should render No rule matches', () => {
@@ -108,5 +109,27 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Other rule matches (1)')).toBeInTheDocument();
     expect(screen.queryByText('Paid by cash1')).toBeInTheDocument();
     expect(screen.queryByText('Risk indicators (0)')).toBeInTheDocument();
+  });
+
+  it('should render check-in relative time for RORO Tourist foot passengers', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskFootPassengersSingleVersion}
+      taskVersionDifferencesCounts={[0]}
+      movementMode="RORO Tourist"
+    />);
+
+    expect(screen.queryByText('3 Aug 2020 at 12:05, a day after travel')).toBeInTheDocument();
+  });
+
+  it('should not render check-in relative time for RORO Tourist foot passengers', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskFootPassengerSingleVersion}
+      taskVersionDifferencesCounts={[0]}
+      movementMode="RORO Tourist"
+    />);
+
+    expect(screen.queryAllByText('3 Aug 2020 at 12:05, a day after travel')).toHaveLength(0);
   });
 });

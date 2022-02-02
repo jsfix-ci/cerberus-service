@@ -73,9 +73,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.wait(2000);
   });
 
-  it('Should add Notes for the tasks assigned to others', () => {
-    const notesText = 'adding notes on someone else task';
-    cy.intercept('POST', '/camunda/engine-rest/process-definition/key/noteSubmissionWrapper/submit-form').as('submitNotes');
+  it('Should hide Notes Textarea for the tasks assigned to others', () => {
     cy.fixture('tasks.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -93,19 +91,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('.govuk-heading-xl').should('have.text', 'Overview');
 
-    cy.wait(2000);
-
-    cy.typeValueInTextArea('note', notesText);
-
-    cy.get('button[name="data[submit]"]').click();
-
-    cy.wait('@submitNotes').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
-    });
-
-    cy.getActivityLogs().then((activities) => {
-      expect(activities).to.contain(notesText);
-    });
+    cy.get('.formio-component-note textarea').should('not.exist');
   });
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
@@ -243,17 +229,17 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       'Other',
     ];
 
-    let businessKey;
+    let businessKey = `AUTOTEST-${dateNowFormatted}/RORO-Accompanied-Freight/ASSESSMENT_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     const expectedActivity = 'Assessment complete, the reason is \'vesselArrived\'. Accompanying note: \'This is for testing\'';
 
     cy.fixture('tasks.json').then((task) => {
-      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-ASSESSMENT`).then((taskResponse) => {
+      cy.postTasks(task, null).then((taskResponse) => {
         cy.wait(4000);
-        businessKey = taskResponse.businessKey;
-        cy.getTasksByBusinessKey(businessKey).then((tasks) => {
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
         });
 
@@ -283,13 +269,51 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
         cy.verifySuccessfulSubmissionHeader('Task has been completed');
 
-        cy.visit(`/tasks/${businessKey}`);
+        cy.visit(`/tasks/${taskResponse.businessKey}`);
       });
-    });
 
-    cy.getActivityLogs().then((activities) => {
-      expect(activities).to.contain(expectedActivity);
-      expect(activities).not.to.contain('Property delete changed from false to true');
+      cy.getActivityLogs().then((activities) => {
+        expect(activities).to.contain(expectedActivity);
+        expect(activities).not.to.contain('Property delete changed from false to true');
+      });
+
+      // COP-8703 Display updated tasks that had previously completed assessment
+      cy.fixture('tasks.json').then((reListTask) => {
+        reListTask.businessKey = businessKey;
+        reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+        reListTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'ABC123';
+        reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+        cy.postTasks(reListTask, null).then((taskResponse) => {
+          cy.wait(10000);
+
+          cy.visit('/tasks');
+
+          cy.contains('Clear all filters').click();
+
+          cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
+            .click({ force: true });
+
+          cy.contains('Apply filters').click({ force: true });
+
+          cy.wait(2000);
+
+          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Relisted');
+        });
+      });
+
+      // COP-8703 Check Task is no more listed on completed tab
+      cy.get('a[href="#complete"]').click();
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
+          expect(taskFound).to.equal(false);
+        });
+      } else {
+        cy.findTaskInSinglePage(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
+          expect(taskFound).to.equal(false);
+        });
+      }
     });
   });
 
@@ -626,34 +650,28 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it('Indicate vessel and vehicle type Icons for tasks in task list', () => {
-    let jsonFolder = '';
-    let expIconForPayload = [
-      ['RoRo-Tourist.json', 'car', 'ship'],
-      ['RoRo-Unaccompanied-RBT-SBT.json', 'hgv', 'ship'],
-      ['tasks-hazardous-cargo.json', 'van', 'ship'],
-      ['RoRo-Unaccompanied-Freight.json', 'trailer', 'ship'],
+  it('Display Vehicle and Vessel Icons in Task List and Task Summary', () => {
+    let taskIcons = [
+      ['MULTIPLE-PASSENGERS', 'group', 'ship'],
+      ['TOURIST-NO-VEHICLE', 'group', 'ship'],
+      ['TOURIST-WITH-PASSENGERS', 'car', 'ship'],
+      ['RoRo-UNACC-RBT-SBT', 'hgv', 'ship'],
+      ['HAZARDOUS', 'van', 'ship'],
+      ['RoRo-UNACC-SBT', 'trailer', 'ship'],
     ];
-    expIconForPayload.forEach((item) => {
-      let payloadFile = jsonFolder + item[0];
-      cy.fixture(payloadFile)
-        .then((task) => {
-          let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
-          const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}-ICONS`;
-          task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-          cy.postTasks(task, businessKey)
-            .then((response) => {
-              cy.wait(4000);
-              cy.visit('/tasks');
-              cy.get('.govuk-task-list-card').contains(`${response.businessKey}`).parents('.card-container').within(() => {
-                cy.get('i').eq(0).invoke('attr', 'class').should('contain', item[1]);
-                cy.get('i').eq(1).invoke('attr', 'class').should('contain', item[2]);
-              });
-              cy.checkTaskDisplayed(`${response.businessKey}`);
-              cy.get('i').eq(0).invoke('attr', 'class').should('contain', item[1]);
-              cy.get('i').eq(1).invoke('attr', 'class').should('contain', item[2]);
-            });
+    taskIcons.forEach((taskDetail) => {
+      cy.visit('/tasks');
+      cy.getBusinessKey(taskDetail[0]).then((businessKeys) => {
+        expect(businessKeys.length).to.not.equal(0);
+        cy.get('.govuk-task-list-card').contains(businessKeys[0]).parents('.card-container').within(() => {
+          cy.get('i').eq(0).invoke('attr', 'class').should('contain', taskDetail[1]);
+          cy.get('i').eq(1).invoke('attr', 'class').should('contain', taskDetail[2]);
         });
+        cy.wait(5000);
+        cy.checkTaskDisplayed(businessKeys[0]);
+        cy.get('i').eq(0).invoke('attr', 'class').should('contain', taskDetail[1]);
+        cy.get('i').eq(1).invoke('attr', 'class').should('contain', taskDetail[2]);
+      });
     });
   });
 

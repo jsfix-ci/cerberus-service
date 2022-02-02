@@ -7,6 +7,7 @@ import * as constants from '../../constants';
 // Utils
 import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
 import formatGender from '../../utils/genderFormatter';
+import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer } from '../../utils/roroDataUtil';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
@@ -65,11 +66,27 @@ const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) =>
 };
 
 const renderRoroModeSection = (roroData, movementModeIcon) => {
+  if (movementModeIcon === constants.RORO_UNACCOMPANIED_ICON) {
+    return (
+      <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
+        <i className={`icon-position--left ${movementModeIcon}`} />
+        <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{'\xa0'}</p>
+        <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
+          {hasTrailer(roroData.vehicle?.trailer?.regNumber) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${movementModeIcon}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
-      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
+        {hasVehicleMake(roroData.vehicle?.make) ? roroData.vehicle.make : '\xa0'}{' '}
+        {hasVehicleModel(roroData.vehicle?.model) ? roroData.vehicle.model : '\xa0'}
+      </p>
+      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
+        {hasVehicle(roroData.vehicle?.registrationNumber) ? roroData.vehicle.registrationNumber.toUpperCase() : '\xa0'}
+      </p>
     </div>
   );
 };

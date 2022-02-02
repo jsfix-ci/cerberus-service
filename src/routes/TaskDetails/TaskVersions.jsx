@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
 import Accordion from '../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
 import { formatField } from '../../utils/formatField';
@@ -15,8 +16,8 @@ import { RORO_TOURIST, LONG_DATE_FORMAT, RORO_TOURIST_CAR_ICON,
 // utils
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskDetails } from '../../utils/roroDataUtil';
-import capitalizeFirstLetter from '../../utils/stringConversion';
 import Table from '../../govuk/Table';
+import { capitalizeFirstLetter } from '../../utils/stringConversion';
 
 let threatLevel;
 
@@ -271,9 +272,28 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       <div>
         <TaskSummary movementMode={movementMode} taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
-      {movementMode === RORO_ACCOMPANIED_FREIGHT && <RoRoAccompaniedTaskVersion version={version} movementMode={movementMode} />}
-      {movementMode === RORO_UNACCOMPANIED_FREIGHT && <RoRoUnaccompaniedTaskVersion version={version} movementMode={movementMode} />}
-      {movementMode === RORO_TOURIST && <RoRoTouristTaskVersion version={version} movementMode={movementMode} movementModeIcon={movementModeIcon} />}
+      {movementMode === RORO_ACCOMPANIED_FREIGHT && (
+      <RoRoAccompaniedTaskVersion
+        version={version}
+        movementMode={movementMode}
+        taskSummaryData={taskSummaryBasedOnTIS}
+      />
+      )}
+      {movementMode === RORO_UNACCOMPANIED_FREIGHT && (
+      <RoRoUnaccompaniedTaskVersion
+        version={version}
+        movementMode={movementMode}
+        taskSummaryData={taskSummaryBasedOnTIS}
+      />
+      )}
+      {movementMode === RORO_TOURIST && (
+      <RoRoTouristTaskVersion
+        version={version}
+        movementMode={movementMode}
+        movementModeIcon={movementModeIcon}
+        taskSummaryData={taskSummaryBasedOnTIS}
+      />
+      )}
       <div className="">
         {renderSelectorsSection(version)}
       </div>
@@ -282,6 +302,20 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       </div>
     </>
   );
+};
+
+const renderHighestThreatLevel = (version) => {
+  let threatsArray = [];
+  const childSets = version.find(({ propName }) => propName === 'selectors').childSets;
+  if (childSets && childSets.length) {
+    childSets.map((set) => {
+      set.contents.map((c) => {
+        if (c.propName === 'category') threatsArray.push(c.content);
+      });
+    });
+  }
+
+  return threatsArray.length ? `CATEGORY ${threatsArray.sort()[0]}` : threatLevel;
 };
 
 const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
@@ -308,7 +342,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const versionNumber = taskVersions.length - index;
           const regexToReplace = /\s/g;
           const formattedMovementMode = movementMode.replace(regexToReplace, '_').toUpperCase();
-          const modifiedVersion = modifyRoRoPassengersTaskDetails([...version]); // Added our driver details into passengers array (similar to task list page)
+          const modifiedVersion = modifyRoRoPassengersTaskDetails(_.cloneDeep(version)); // Added our driver details into passengers array (similar to task list page)
           const filteredVersion = stripOutSectionsByMovementMode(modifiedVersion, formattedMovementMode);
           const detailSectionTest = renderSectionsBasedOnTIS(formattedMovementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {
@@ -322,7 +356,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
                 <div className="task-versions--right">
                   <ul className="govuk-list">
                     <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
-                    {threatLevel ? <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{threatLevel}</span></li> : <li>No rule matches</li>}
+                    {threatLevel ? <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{renderHighestThreatLevel(version)}</span></li> : <li>No rule matches</li>}
                   </ul>
                 </div>
               </>

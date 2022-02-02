@@ -453,7 +453,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   it('Should verify task details on each version retained', () => {
@@ -579,7 +579,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   it('Should verify single task created for the same target with different versions when Failed Cerberus payloads sent without delay', () => {
@@ -714,7 +714,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
@@ -910,7 +910,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait(2000);
 
-    cy.verifyTaskHasMultipleVersion(businessKey);
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
   });
 
   it('Should verify all the target indicators received in the payload displayed on UI', () => {
@@ -971,6 +971,181 @@ describe('Task Details of different tasks on task details Page', () => {
           delete details.Indicator;
           expect(details).to.deep.equal(expectedDetails.indicators);
         });
+      });
+    });
+  });
+
+  it('Should verify task details of RoRo-Tourist with Vehicle', () => {
+    cy.getBusinessKey('-TOURIST-RBT-SBT_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${businessKeys[0]}`);
+    });
+
+    cy.fixture('tourist-task-with-vehicle-details.json').then((expectedDetails) => {
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
+        });
+
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
+        });
+      });
+
+      cy.contains('h3', 'Vehicle').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails.vehicle);
+        });
+      });
+
+      cy.contains('h3', 'Driver').next().within(() => {
+        cy.getTaskDetails().then((details) => {
+          expect(details).to.deep.equal(expectedDetails.driver);
+        });
+      });
+
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.contains('h3', 'Passengers').next().within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails.passengers);
+          });
+        });
+      });
+
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
+        cy.getTaskDetails().then((details) => {
+          expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
+        });
+      });
+    });
+  });
+
+  it('Should verify task details of RoRo-Tourist with Single Passenger', () => {
+    cy.getBusinessKey('-SINGLE-PASSENGER').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${businessKeys[0]}`);
+    });
+
+    cy.fixture('tourist-task-with-single-passenger.json').then((expectedDetails) => {
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
+        });
+
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
+        });
+      });
+
+      cy.contains('h3', 'Primary Traveller').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails['primary traveller']);
+        });
+      });
+
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
+        cy.getTaskDetails().then((details) => {
+          expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
+        });
+      });
+    });
+  });
+
+  it('Should verify task details of RoRo-Tourist with Multiple Passenger', () => {
+    cy.getBusinessKey('-MULTIPLE-PASSENGERS').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${businessKeys[0]}`);
+    });
+
+    let passengers = [];
+
+    cy.fixture('tourist-task-with-multiple-passengers.json').then((expectedDetails) => {
+      cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
+        cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
+          cy.get('.govuk-grid-key').eq(0).invoke('text').then((numberOfIndicators) => {
+            expect(numberOfIndicators).to.be.equal(expectedDetails.TargetingIndicators['Total Indicators']);
+          });
+          cy.get('.govuk-grid-key').eq(1).invoke('text').then((totalScore) => {
+            expect(totalScore).to.be.equal(expectedDetails.TargetingIndicators['Total Score']);
+          });
+        });
+
+        cy.wrap(elements).filter('.govuk-task-details-indicator-container').within(() => {
+          cy.getTargetIndicatorDetails().then((details) => {
+            delete details.Indicator;
+            expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
+          });
+        });
+      });
+
+      cy.contains('h3', 'Document').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails.Document);
+        });
+      });
+
+      cy.contains('h3', 'Primary Traveller').next().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails['primary traveller']);
+        });
+      });
+
+      cy.contains('h3', 'Other travellers').nextAll().within((elements) => {
+        cy.wrap(elements).find('.govuk-task-details-grid-column').each((element) => {
+          cy.wrap(element).within(() => {
+            cy.getTaskDetails().then((details) => {
+              passengers.push(details);
+            });
+          });
+        }).then(() => {
+          expect(passengers).to.deep.equal(expectedDetails.passengers);
+        });
+      });
+
+      cy.contains('h3', 'Booking and check-in').next().within(() => {
+        cy.getTaskDetails().then((details) => {
+          expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
+        });
+      });
+    });
+  });
+
+  it('Should verify task Display highest threat level in task details', () => {
+    const highestThreatLevel = [
+      'CATEGORY B',
+      'Tier 1',
+      'CATEGORY A',
+    ];
+
+    cy.getBusinessKey('RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.wait(4000);
+      cy.checkTaskDisplayed(`${businessKeys[0]}`);
+    });
+
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect(highestThreatLevel[index]).to.be.equal(value);
       });
     });
   });

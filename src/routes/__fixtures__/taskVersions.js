@@ -1936,7 +1936,7 @@ const taskFootPassengerSingleVersion = [
         {
           fieldName: 'Check-in',
           type: 'DATETIME',
-          content: '2020-08-03T12:05:00',
+          content: '',
           versionLastUpdated: null,
           propName: 'checkIn',
         },
