@@ -213,7 +213,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     });
   });
 
-  it.skip('Should apply filter tasks by selectors present and check count on each of the tab', () => {
+  it('Should apply filter tasks by selectors present and check count on each of the tab', () => {
     // COP-9796 Apply selectors Present filter, compare the Count next to the Filter & count on the status Tab
     cy.applySelectorFilter('true', 'new').then(() => {
       Object.keys(statusTab).forEach((key) => {
@@ -234,7 +234,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     });
   });
 
-  it.skip('Should apply filter tasks by selectors Not Present and check count on each of the tab', () => {
+  it('Should apply filter tasks by selectors Not Present and check count on each of the tab', () => {
     // COP-9796 Apply selectors Not Present filter, compare the Count next to the Filter & count on the status Tab
     cy.applySelectorFilter('false', 'new').then(() => {
       Object.keys(statusTab).forEach((key) => {
@@ -255,7 +255,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     });
   });
 
-  it.skip('Should apply filter tasks by selectors Any and check count on each of the tab', () => {
+  it('Should apply filter tasks by selectors Any and check count on each of the tab', () => {
     // COP-9796 Apply selectors Not Present filter, compare the Count next to the Filter & count on the status Tab
     cy.applySelectorFilter('any', 'new').then(() => {
       Object.keys(statusTab).forEach((key) => {
