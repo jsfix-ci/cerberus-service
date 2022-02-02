@@ -802,7 +802,7 @@ const taskSingleVersion = [
       childSets: [
         {
           fieldSetName: '',
-          hasChildSet: false,
+          hasChildSet: true,
           contents: [
             {
               fieldName: 'Name',
@@ -852,6 +852,80 @@ const taskSingleVersion = [
               content: 293,
               versionLastUpdated: null,
               propName: 'ruleId',
+            },
+          ],
+          childSets: [
+            {
+              fieldSetName: 'Indicator matches',
+              hasChildSet: false,
+              contents: [
+                {
+                  fieldName: 'Entity',
+                  type: 'TEXT_CELL',
+                  content: 'Vehicle',
+                  versionLastUpdated: null,
+                  propName: 'entity',
+                },
+                {
+                  fieldName: 'Attribute',
+                  type: 'TEXT_CELL',
+                  content: 'Vehicle is empty',
+                  versionLastUpdated: null,
+                  propName: 'attribute',
+                },
+                {
+                  fieldName: 'Operator',
+                  type: 'TEXT_CELL',
+                  content: 'equals',
+                  versionLastUpdated: null,
+                  propName: 'operator',
+                },
+                {
+                  fieldName: 'Value',
+                  type: 'BOOLEAN_CELL',
+                  content: 'true',
+                  versionLastUpdated: null,
+                  propName: 'indicatorValue',
+                },
+              ],
+              type: 'STANDARD',
+              propName: 'indicatorMatches',
+            },
+            {
+              fieldSetName: 'Indicator matches',
+              hasChildSet: false,
+              contents: [
+                {
+                  fieldName: 'Entity',
+                  type: 'TEXT_CELL',
+                  content: 'Message',
+                  versionLastUpdated: null,
+                  propName: 'entity',
+                },
+                {
+                  fieldName: 'Attribute',
+                  type: 'TEXT_CELL',
+                  content: 'Mode',
+                  versionLastUpdated: null,
+                  propName: 'attribute',
+                },
+                {
+                  fieldName: 'Operator',
+                  type: 'TEXT_CELL',
+                  content: 'is one of',
+                  versionLastUpdated: null,
+                  propName: 'operator',
+                },
+                {
+                  fieldName: 'Value',
+                  type: 'BOOLEAN_CELL',
+                  content: 'RORO Accompanied Freight,RORO Unaccompanied Freight',
+                  versionLastUpdated: null,
+                  propName: 'indicatorValue',
+                },
+              ],
+              type: 'STANDARD',
+              propName: 'indicatorMatches',
             },
           ],
           type: 'null',
@@ -3307,5 +3381,7 @@ const noVehicleTwoPaxTsBasedOnTISData = {
   },
 };
 
-export { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
-  taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData, noVehicleTwoPaxTsBasedOnTISData };
+export {
+  taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
+  taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData, noVehicleTwoPaxTsBasedOnTISData,
+};

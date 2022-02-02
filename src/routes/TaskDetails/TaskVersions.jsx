@@ -16,6 +16,7 @@ import { RORO_TOURIST, LONG_DATE_FORMAT, RORO_TOURIST_CAR_ICON,
 // utils
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskDetails } from '../../utils/roroDataUtil';
+import Table from '../../govuk/Table';
 import { capitalizeFirstLetter } from '../../utils/stringConversion';
 
 let threatLevel;
@@ -23,6 +24,16 @@ let threatLevel;
 const isLatest = (index) => {
   return index === 0 ? '(latest)' : '';
 };
+
+const translateRiskIndicators = (riskIndicators) => riskIndicators.map((riskIndicator) => {
+  let result = [4];
+  result[0] = riskIndicator.contents.find((item) => item.propName === 'entity').content;
+  result[1] = riskIndicator.contents.find((item) => item.propName === 'attribute').content;
+  result[2] = riskIndicator.contents.find((item) => item.propName === 'operator').content;
+  result[3] = riskIndicator.contents.find((item) => item.propName === 'indicatorValue').content;
+
+  return result;
+});
 
 const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
   if (!type.includes('HIDDEN')) {
@@ -143,6 +154,33 @@ const renderRulesSection = (version) => {
               <p>{firstRule.contents.find((item) => item.propName === 'agencyCode').content}</p>
             </div>
           </div>
+          {
+            firstRule.hasChildSet
+              ? (
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-full">
+                    <h4 className="govuk-heading-s">Risk indicators ({firstRule.childSets.length})</h4>
+                    {
+                      firstRule.childSets.length > 0
+                        ? (
+                          <Table
+                            headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
+                            rows={translateRiskIndicators(firstRule.childSets)}
+                          />
+                        )
+                        : null
+                    }
+                  </div>
+                </div>
+              )
+              : (
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-full">
+                    <h4 className="govuk-heading-s">Risk indicators (0)</h4>
+                  </div>
+                </div>
+              )
+          }
         </div>
 
         { otherRules.length > 0 && (
@@ -185,6 +223,29 @@ const renderRulesSection = (version) => {
                     <h4 className="govuk-heading-s">Agency</h4>
                     <p>{rule.contents.find((item) => item.propName === 'agencyCode').content}</p>
                   </div>
+                  {
+                    rule.hasChildSet
+                      ? (
+                        <div className="govuk-grid-column-full">
+                          <h4 className="govuk-heading-s">Risk indicators ({rule.childSets.length})</h4>
+                          {
+                            rule.childSets.length > 0
+                              ? (
+                                <Table
+                                  headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
+                                  rows={translateRiskIndicators(rule.childSets)}
+                                />
+                              )
+                              : null
+                          }
+                        </div>
+                      )
+                      : (
+                        <div className="govuk-grid-column-full">
+                          <h4 className="govuk-heading-s">Risk indicators (0)</h4>
+                        </div>
+                      )
+                    }
                 </div>
               </details>
             </div>
