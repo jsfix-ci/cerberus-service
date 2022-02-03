@@ -24,7 +24,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 3",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -59,7 +59,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 2",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",

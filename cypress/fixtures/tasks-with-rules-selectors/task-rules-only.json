@@ -23,7 +23,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-11T09:40:39Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 3",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -58,7 +58,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-11T09:40:39Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 2",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -75,6 +75,76 @@
                     "true"
                   ],
                   "field": "cashPaid"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            },
+            {
+              "ruleId": 100,
+              "ruleName": "Selector matched",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 1",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "selectorsMatched"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
+                }
+              ],
+              "abuseTypes": [
+                "Class A Drugs"
+              ]
+            },
+            {
+              "ruleId": 10000,
+              "ruleName": "Task exists",
+              "ruleType": "Pre-arrival",
+              "ruleVersion": 1,
+              "ruleDescription": "Paid by cash",
+              "securityLabels": [
+                "null",
+                "null",
+                "null"
+              ],
+              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+              "rulePriority": "Tier 2",
+              "indicatorMatches": [
+                {
+                  "indicatorType": "BASIC",
+                  "index": 0,
+                  "values": [
+                    "true"
+                  ],
+                  "field": "taskExists"
+                },
+                {
+                  "indicatorType": "BASIC",
+                  "index": 1,
+                  "values": [
+                    "RORO Unaccompanied Freight"
+                  ],
+                  "field": "mode"
                 }
               ],
               "abuseTypes": [
