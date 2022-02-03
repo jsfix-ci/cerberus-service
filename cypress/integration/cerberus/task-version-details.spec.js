@@ -570,6 +570,28 @@ describe('Task Details of different tasks on task details Page', () => {
     });
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
 
+    cy.fixture('expected-risk-indicators-versions.json').as('expectedRiskIndicatorMatches');
+
+    cy.get('.govuk-accordion__open-all').invoke('text').then(($text) => {
+      if ($text === 'Close all') {
+        cy.get('.govuk-accordion__open-all').click();
+      }
+    });
+
+    for (let index = 1; index < 4; index += 1) {
+      cy.get(`[id$=-content-${index}]`).within(() => {
+        cy.get('.govuk-rules-section').within(() => {
+          cy.get('table').each((table, indexOfRisk) => {
+            cy.wrap(table).getTable().then((tableData) => {
+              cy.get('@expectedRiskIndicatorMatches').then((expectedData) => {
+                expectedData[`riskIndicatorsV-${index}`][indexOfRisk].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
+              });
+            });
+          });
+        });
+      });
+    }
+
     cy.visit('/tasks');
 
     cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
