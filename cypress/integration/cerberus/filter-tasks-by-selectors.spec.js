@@ -61,7 +61,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.new);
           });
-          expect(numberOfTasks.total).be.equal(actualTotalTargets);
+          expect(numberOfTasks.new).be.equal(actualTargets);
         });
       });
     });
