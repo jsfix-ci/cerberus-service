@@ -163,7 +163,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
     return contents.threatType ? contents.threatType : contents.abuseType;
   };
-  
+
   const formatTargetRisk = (target) => {
     if (target.risks.length >= 1) {
       const topRisk = extractRiskType(target.risks[0]);
