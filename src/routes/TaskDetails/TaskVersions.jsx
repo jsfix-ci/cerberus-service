@@ -113,45 +113,63 @@ const renderSelectorsSection = (version) => {
   }
 };
 
+/**
+ * Applying sorting to Rules by threat level at the frontend side
+ */
+const sortRulesByThreat = (rulesArray) => {
+  let sortedRules = [];
+  rulesArray.map((rule) => {
+    const position = rule.contents.find(({ propName }) => propName === 'rulePriority').content.split(' ')[1];
+    // Creating an associative array for sorting
+    if (sortedRules[position]) sortedRules[parseInt(position, 10) + 1] = rule;
+    else sortedRules[parseInt(position, 10)] = rule;
+  });
+  // Creating a filtered array removign off empty array elements
+  sortedRules = sortedRules.filter((i) => i === 0 || i);
+  return sortedRules;
+};
+
 const renderRulesSection = (version) => {
-  const field = version.find(({ propName }) => propName === 'rules');
-  if (field.childSets.length > 0) {
-    const firstRule = field.childSets[0];
-    const otherRules = field.childSets.slice(1);
+  let rules = version.find(({ propName }) => propName === 'rules').childSets;
+
+  rules = (rules && rules.length > 1) && sortRulesByThreat(rules);
+  if (rules.length > 0) {
+    const firstRule = rules[0];
+    const otherRules = rules.slice(1);
     threatLevel = threatLevel || firstRule.contents.find((item) => item.propName === 'rulePriority')?.content;
     return (
       <div className="govuk-rules-section">
         <div>
-          <h2 className="govuk-heading-m rules-header">{field.fieldSetName}</h2>
+          <h2 className="govuk-heading-m rules-header">Rules matched</h2>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-quarter">
               <h4 className="govuk-heading-s">Rule name</h4>
-              <p>{firstRule.contents.find((item) => item.propName === 'name').content}</p>
+              <p>{firstRule.contents?.find((item) => item.propName === 'name').content}</p>
             </div>
             <div className="govuk-grid-column-one-quarter">
               <h4 className="govuk-heading-s">Threat</h4>
               <p className="govuk-body govuk-tag govuk-tag--positiveTarget">
-                {firstRule.contents.find((item) => item.propName === 'rulePriority').content}
+                {firstRule.contents?.find((item) => item.propName === 'rulePriority').content}
               </p>
             </div>
 
             <div className="govuk-grid-column-one-quarter">
               <h4 className="govuk-heading-s">Rule verison</h4>
-              <p>{firstRule.contents.find((item) => item.propName === 'ruleVersion').content}</p>
+              <p>{firstRule.contents?.find((item) => item.propName === 'ruleVersion').content}</p>
             </div>
             <div className="govuk-grid-column-one-quarter">
               <h4 className="govuk-heading-s">Abuse Type</h4>
-              <p>{firstRule.contents.find((item) => item.propName === 'abuseType').content}</p>
+              <p>{firstRule.contents?.find((item) => item.propName === 'abuseType').content}</p>
             </div>
           </div>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <h4 className="govuk-heading-s">Description</h4>
-              <p>{firstRule.contents.find((item) => item.propName === 'description').content}</p>
+              <p>{firstRule.contents?.find((item) => item.propName === 'description').content}</p>
             </div>
             <div className="govuk-grid-column-one-quarter">
               <h4 className="govuk-heading-s">Agency</h4>
-              <p>{firstRule.contents.find((item) => item.propName === 'agencyCode').content}</p>
+              <p>{firstRule.contents?.find((item) => item.propName === 'agencyCode').content}</p>
             </div>
           </div>
           {
@@ -191,22 +209,22 @@ const renderRulesSection = (version) => {
               <div className="govuk-grid-row">
                 <div className="govuk-grid-column-one-quarter">
                   <h4 className="govuk-heading-s">Rule name</h4>
-                  <p>{rule.contents.find((item) => item.propName === 'name').content}</p>
+                  <p>{rule.contents?.find((item) => item.propName === 'name').content}</p>
                 </div>
                 <div className="govuk-grid-column-one-quarter">
                   <h4 className="govuk-heading-s">Threat</h4>
                   <p className="govuk-body govuk-tag govuk-tag--positiveTarget">
-                    {rule.contents.find((item) => item.propName === 'rulePriority').content}
+                    {rule.contents?.find((item) => item.propName === 'rulePriority').content}
                   </p>
                 </div>
 
                 <div className="govuk-grid-column-one-quarter">
                   <h4 className="govuk-heading-s">Rule verison</h4>
-                  <p>{rule.contents.find((item) => item.propName === 'ruleVersion').content}</p>
+                  <p>{rule.contents?.find((item) => item.propName === 'ruleVersion').content}</p>
                 </div>
                 <div className="govuk-grid-column-one-quarter">
                   <h4 className="govuk-heading-s">Abuse Type</h4>
-                  <p>{rule.contents.find((item) => item.propName === 'abuseType').content}</p>
+                  <p>{rule.contents?.find((item) => item.propName === 'abuseType').content}</p>
                 </div>
               </div>
 
@@ -217,11 +235,11 @@ const renderRulesSection = (version) => {
                 <div className="govuk-details__text" style={{ overflow: 'hidden' }}>
                   <div className="govuk-grid-column-three-quarters">
                     <h4 className="govuk-heading-s">Description</h4>
-                    <p>{rule.contents.find((item) => item.propName === 'description').content}</p>
+                    <p>{rule.contents?.find((item) => item.propName === 'description').content}</p>
                   </div>
                   <div className="govuk-grid-column-one-quarter">
                     <h4 className="govuk-heading-s">Agency</h4>
-                    <p>{rule.contents.find((item) => item.propName === 'agencyCode').content}</p>
+                    <p>{rule.contents?.find((item) => item.propName === 'agencyCode').content}</p>
                   </div>
                   {
                     rule.hasChildSet
@@ -304,18 +322,30 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
   );
 };
 
+const getThreatArray = (list, filterType) => {
+  let threats = [];
+  list.map((item) => {
+    item.contents.map((i) => {
+      if (i.propName === filterType) {
+        // eslint-disable-next-line no-unused-expressions
+        (filterType === 'category') ? threats.push(`Category ${i.content}`) : threats.push(i.content);
+      }
+    });
+  });
+  return threats;
+};
+
 const renderHighestThreatLevel = (version) => {
   let threatsArray = [];
-  const childSets = version.find(({ propName }) => propName === 'selectors').childSets;
-  if (childSets && childSets.length) {
-    childSets.map((set) => {
-      set.contents.map((c) => {
-        if (c.propName === 'category') threatsArray.push(c.content);
-      });
-    });
+  const selectors = version.find(({ propName }) => propName === 'selectors').childSets;
+  if (selectors && selectors.length) threatsArray = getThreatArray(selectors, 'category');
+
+  if (!selectors?.length) {
+    const rules = version.find(({ propName }) => propName === 'rules').childSets;
+    if (rules && rules.length) threatsArray = getThreatArray(rules, 'rulePriority');
   }
 
-  return threatsArray.length ? `CATEGORY ${threatsArray.sort()[0]}` : threatLevel;
+  return threatsArray.length ? threatsArray.sort()[0] : threatLevel;
 };
 
 const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVersionDifferencesCounts, movementMode }) => {
@@ -337,7 +367,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
          * there is only ever one item in the array
          */
         taskVersions.map((version, index) => {
-          const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
+          const booking = version?.find((fieldset) => fieldset.propName === 'booking') || null;
           const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
           const versionNumber = taskVersions.length - index;
           const regexToReplace = /\s/g;
@@ -369,4 +399,4 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
   );
 };
 
-export default TaskVersions;
+export { TaskVersions, sortRulesByThreat };

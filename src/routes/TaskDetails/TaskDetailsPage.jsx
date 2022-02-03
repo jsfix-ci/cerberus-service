@@ -17,7 +17,7 @@ import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
 import LoadingSpinner from '../../forms/LoadingSpinner';
 import TaskNotes from './TaskNotes';
-import TaskVersions from './TaskVersions';
+import { TaskVersions } from './TaskVersions';
 // Styling
 import Button from '../../govuk/Button';
 import ErrorSummary from '../../govuk/ErrorSummary';

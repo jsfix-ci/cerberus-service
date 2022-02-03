@@ -1,10 +1,10 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
 
-import TaskVersions from '../TaskDetails/TaskVersions';
+import { TaskVersions, sortRulesByThreat } from '../TaskDetails/TaskVersions';
 import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
   taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData,
-  noVehicleTwoPaxTsBasedOnTISData } from '../__fixtures__/taskVersions';
+  noVehicleTwoPaxTsBasedOnTISData, taskVersionNoRuleMatches, taskVersionWithRules } from '../__fixtures__/taskVersions';
 
 describe('TaskVersions', () => {
   it('should render the selector with Highest threat Category level', () => {
@@ -131,5 +131,71 @@ describe('TaskVersions', () => {
     />);
 
     expect(screen.queryAllByText('3 Aug 2020 at 12:05, a day after travel')).toHaveLength(0);
+  });
+
+  it('should return sorted Rules by threat level', () => {
+    const rulesArray = [
+      {
+        fieldSetName: '',
+        hasChildSet: true,
+        contents: [
+          {
+            fieldName: 'Priority',
+            type: 'STRING',
+            content: 'Tier 3',
+            versionLastUpdated: null,
+            propName: 'rulePriority',
+          },
+        ],
+        childSets: [],
+        type: 'STANDARD',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: true,
+        contents: [
+          {
+            fieldName: 'Priority',
+            type: 'STRING',
+            content: 'Tier 1',
+            versionLastUpdated: null,
+            propName: 'rulePriority',
+          },
+        ],
+        childSets: [],
+        type: 'STANDARD',
+        propName: '',
+      },
+    ];
+    const defaultFirstPosition = rulesArray[0].contents.find(({ propName }) => propName === 'rulePriority').content;
+    expect(defaultFirstPosition).toBe('Tier 3');
+
+    const sortedRules = sortRulesByThreat(rulesArray);
+    const sortedFirstPosition = sortedRules[0].contents.find(({ propName }) => propName === 'rulePriority').content;
+    expect(sortedFirstPosition).toBe('Tier 1');
+    expect(sortedRules).toHaveLength(2);
+  });
+
+  it('should return "No rule matches" if there are no selectors and rules', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskVersionNoRuleMatches}
+      taskVersionDifferencesCounts={[1, 0]}
+      movementMode="RORO Unaccompanied Freight"
+    />);
+
+    expect(screen.queryByText('No rule matches')).toBeInTheDocument();
+  });
+
+  it('should return the highest rule for rule array sorted by threat level', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskVersionWithRules}
+      taskVersionDifferencesCounts={[1, 0]}
+      movementMode="RORO Unaccompanied Freight"
+    />);
+
+    expect(screen.queryByText('Tier 1')).toBeInTheDocument();
   });
 });
