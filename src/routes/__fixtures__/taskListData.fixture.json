@@ -32,13 +32,16 @@
           "childSets": []
         },
         {
-          "name": "Paid by Cash",
-          "rulePriority": "Tier 1",
-          "ruleVersion": 1,
-          "abuseType": "National Security at the Border",
-          "agencyCode": "",
-          "description": "Test",
-          "ruleId": 293
+          "contents": {
+            "name": "Paid by Cash",
+            "rulePriority": "Tier 1",
+            "ruleVersion": 1,
+            "abuseType": "National Security at the Border",
+            "agencyCode": "",
+            "description": "Test",
+            "ruleId": 293
+          },
+          "childSets": []
         },
         {
           "name": "Paid by cash1",
@@ -65,8 +68,7 @@
           "vehicle": {},
           "load": {},
           "account": {},
-          "passengers": [
-          ]
+          "passengers": []
         }
       }
     }
@@ -100,8 +102,7 @@
           "vehicle": {},
           "load": {},
           "account": {},
-          "passengers": [
-          ]
+          "passengers": []
         }
       }
     }
@@ -135,8 +136,7 @@
           "vehicle": {},
           "load": {},
           "account": {},
-          "passengers": [
-          ]
+          "passengers": []
         }
       }
     }
@@ -169,8 +169,7 @@
           "vehicle": {},
           "load": {},
           "account": {},
-          "passengers": [
-          ]
+          "passengers": []
         }
       }
     }
@@ -213,8 +212,7 @@
           "vehicle": {},
           "load": {},
           "account": {},
-          "passengers": [
-          ]
+          "passengers": []
         }
       }
     }

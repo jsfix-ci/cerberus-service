@@ -140,11 +140,33 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   };
 
+  const extractDescription = (risk) => {
+    const contents = risk.contents;
+    if (!contents) {
+      return risk.name;
+    }
+    return contents.groupReference ? contents.groupReference : contents.name;
+  };
+
+  const extractThreatLevel = (risk) => {
+    const contents = risk.contents;
+    if (!contents) {
+      return risk.rulePriority;
+    }
+    return contents.category ? contents.category : contents.rulePriority;
+  };
+
+  const extractRiskType = (risk) => {
+    const contents = risk.contents;
+    if (!contents) {
+      return risk.abuseType;
+    }
+    return contents.threatType ? contents.threatType : contents.abuseType;
+  };
+  
   const formatTargetRisk = (target) => {
     if (target.risks.length >= 1) {
-      const topRisk = target.risks[0].contents
-        ? target.risks[0].contents.threatType
-        : target.risks[0].abuseType;
+      const topRisk = extractRiskType(target.risks[0]);
       const count = target.risks.length - 1;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
@@ -256,6 +278,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const roroData = modifyRoRoPassengersTaskList({ ...target.summary.roro.details });
         const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
+        const highestRisk = target.summary.risks[0];
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
@@ -267,18 +290,18 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                         <h4 className="govuk-heading-s task-heading">
                           {target.summary.parentBusinessKey.businessKey}
                           <span className="dot" />
-                          {target.summary.risks[0] && (
+                          {highestRisk && (
                           <span className="govuk-body">
-                            {target.summary.risks[0].contents ? target.summary.risks[0].contents.groupReference : target.summary.risks[0].name}
+                            {extractDescription(highestRisk)}
                           </span>
                           )}
                         </h4>
                       </div>
                     </div>
                     <div className="govuk-grid-column">
-                      {target.summary.risks[0] && (
+                      {highestRisk && (
                       <span className="govuk-tag govuk-tag--riskTier">
-                        {target.summary.risks[0].contents ? target.summary.risks[0].contents.category : target.summary.risks[0].rulePriority}
+                        {extractThreatLevel(highestRisk)}
                       </span>
                       )}
                       <span className="govuk-body task-risk-statement">
