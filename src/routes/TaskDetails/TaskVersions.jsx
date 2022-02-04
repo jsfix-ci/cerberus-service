@@ -131,8 +131,7 @@ const sortRulesByThreat = (rulesArray) => {
 
 const renderRulesSection = (version) => {
   let rules = version.find(({ propName }) => propName === 'rules').childSets;
-
-  rules = (rules && rules.length > 1) && sortRulesByThreat(rules);
+  rules = (rules && rules.length > 1) ? sortRulesByThreat(rules) : rules;
   if (rules.length > 0) {
     const firstRule = rules[0];
     const otherRules = rules.slice(1);
