@@ -70,7 +70,7 @@ const filters = [
       {
         optionName: 'any',
         optionLabel: 'Any',
-        checked: false,
+        checked: true,
       },
     ],
   },
@@ -389,7 +389,7 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filtersToApply, setFiltersToApply] = useState('');
-  const [storedFilters, setStoredFilters] = useState();
+  const [storedFilters, setStoredFilters] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
 
@@ -594,7 +594,7 @@ const TaskListPage = () => {
 
   useEffect(() => {
     const selectedArray = [];
-    if (hasSelectors) { selectedArray.push(hasSelectors); }
+    if (hasSelectors) { selectedArray.push(hasSelectors); } else { selectedArray.push('null'); }
     if (movementModesSelected?.length > 0) { selectedArray.push(...movementModesSelected); }
     setStoredFilters(selectedArray);
   }, [hasSelectors, movementModesSelected]);
@@ -677,7 +677,10 @@ const TaskListPage = () => {
                       </legend>
                       <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
                         {filterSet.filterOptions.map((option, index) => {
-                          let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
+                          let checked = !!((storedFilters && !!storedFilters.find((filter) => {
+                            if (filter === 'null' && option.optionName === 'any') return true;
+                            return filter === option.optionName;
+                          })));
                           return (
                             <li
                               className={`govuk-${filterSet.filterClassPrefix}__item`}
@@ -689,7 +692,7 @@ const TaskListPage = () => {
                                 name={filterSet.filterName}
                                 type={filterSet.filterType}
                                 value={option.optionName}
-                                defaultChecked={checked}
+                                checked={checked}
                                 onChange={(e) => {
                                   checked = !checked;
                                   handleFilterChange(e, option, filterSet);
