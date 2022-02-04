@@ -49,6 +49,7 @@ const TaskDetailsPage = () => {
   dayjs.extend(utc);
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
   const currentUser = keycloak.tokenParsed.email;
   const source = axios.CancelToken.source();
 
@@ -64,6 +65,34 @@ const TaskDetailsPage = () => {
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [isLoading, setLoading] = useState(true);
+
+  const toModeCode = (mode) => {
+    if (/RORO [A-Z]* Freight/i.test(mode)) {
+      return 'rorofrei';
+    }
+    if (/RORO Tourist/i.test(mode)) {
+      return 'rorotour';
+    }
+    return null;
+  };
+
+  const populateMode = async (parsedTaskVariables) => {
+    let modeCode = toModeCode(parsedTaskVariables.serviceMovement.movement.mode);
+
+    return modeCode
+      ? refDataClient.get(
+        '/v2/entities/targetmode',
+        { params: { mode: 'dataOnly', filter: `modecode=eq.${modeCode}` } },
+      ).then((response) => response.data.data[0])
+      : null;
+  };
+
+  const populateTIS = async (parsedTaskVariables) => {
+    let targetInformationSheet = parsedTaskVariables.targetInformationSheet;
+    targetInformationSheet.mode = await populateMode(parsedTaskVariables);
+
+    return targetInformationSheet;
+  };
 
   const loadTask = async () => {
     try {
@@ -143,6 +172,7 @@ const TaskDetailsPage = () => {
 
       setProcessInstanceData(taskResponse.data.length === 0 ? {} : taskResponse.data[0]);
 
+      parsedTaskVariables.targetInformationSheet = await populateTIS(parsedTaskVariables);
       parsedTaskVariables.taskDetails.reverse();
 
       // findAndUpdateTaskVersionDifferences is a mutable function

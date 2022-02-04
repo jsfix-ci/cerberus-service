@@ -102,5 +102,10 @@
         "type": "Json",
         "value": "{\"parentBusinessKey\":{\"businessKey\":\"ghi\"},\"roro\":{\"details\":{\"vessel\":{},\"vehicle\":{\"trailer\":{}},\"load\":{},\"account\":{},\"passengers\":[{}],\"haulier\":{\"address\":{}}}}}",
         "name": "taskSummaryBasedOnTIS"
+    },
+    {
+        "type": "Json",
+        "value": "{\"roro\":{\"details\":{}}}",
+        "name": "targetInformationSheet"
     }
 ]
