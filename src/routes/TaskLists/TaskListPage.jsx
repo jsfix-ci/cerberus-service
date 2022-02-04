@@ -203,17 +203,17 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     let outcomeClass = 'genericOutcome';
     switch (outcome) {
       case TASK_OUTCOME_POSITIVE:
-        outcomeText = 'Positive';
+        outcomeText = 'Positive Exam';
         outcomeClass = 'positiveOutcome';
         break;
       case TASK_OUTCOME_NEGATIVE:
-        outcomeText = 'Negative';
+        outcomeText = 'Negative Exam';
         break;
       case TASK_OUTCOME_NO_SHOW:
         outcomeText = 'No Show';
         break;
       case TASK_OUTCOME_MISSED:
-        outcomeText = 'Missed';
+        outcomeText = 'Missed Target';
         break;
       case TASK_OUTCOME_INSUFFICIENT_RESOURCES:
         outcomeText = 'Insufficient Resources';
