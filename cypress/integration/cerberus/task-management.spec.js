@@ -182,6 +182,13 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect('Tier 2').to.be.equal(value);
+      });
+    });
+
     cy.contains('Back to task list').click();
 
     cy.reload();
@@ -193,11 +200,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, { selector: 'Paid by Cash', risk: 'National Security at the Border and 1 other rule', riskTier: 'Tier 1' }).then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'Paid by Cash', risk: 'National Security at the Border and 1 other rule', riskTier: 'Tier 2' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, { selector: 'Paid by Cash', risk: 'National Security at the Border and 1 other rule', riskTier: 'Tier 1' }).then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'Paid by Cash', risk: 'National Security at the Border and 1 other rule', riskTier: 'Tier 2' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
