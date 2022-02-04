@@ -1,5 +1,7 @@
 import './commands';
 
+require('cypress-get-table');
+
 const addContext = require('mochawesome/addContext');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');

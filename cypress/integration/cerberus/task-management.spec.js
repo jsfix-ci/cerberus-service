@@ -8,7 +8,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
-    cy.navigation('Tasks');
+    // cy.navigation('Tasks');
   });
 
   it('Should render all the tabs on task management page', () => {
@@ -244,6 +244,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   it('Should check selector & rule matches details on task management page', () => {
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
 
+    cy.fixture('expected-risk-indicators.json').as('expectedRiskIndicatorMatches');
+
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -256,6 +258,14 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.wait(2000);
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.get('table').each((table, index) => {
+      cy.wrap(table).getTable().then((tableData) => {
+        cy.get('@expectedRiskIndicatorMatches').then((expectedData) => {
+          expectedData.riskIndicators[index].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
+        });
+      });
+    });
 
     cy.contains('Back to task list').click();
 

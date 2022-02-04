@@ -1,0 +1,28 @@
+{
+  "riskIndicators" :[
+    [
+      {
+        "Type": "telephone",
+        "Condition 1": "equal",
+        "Expression": "01234 56723737"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+      }
+    ],
+    [
+      {
+        "Type": "Vehicle is empty",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+      }
+    ]
+  ]
+}

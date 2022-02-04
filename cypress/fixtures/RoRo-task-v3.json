@@ -27,20 +27,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity": "Vehicle",
+                  "descriptor": "Vehicle Empty",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -62,20 +58,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity": "CashPaid",
+                  "descriptor": "CashPaid",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -97,20 +89,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "selectorsMatched"
+                  "entity": "CashPaid",
+                  "descriptor": "CashPaid",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -132,20 +120,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "taskExists"
+                  "entity": "CashPaid",
+                  "descriptor": "CashPaid",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
