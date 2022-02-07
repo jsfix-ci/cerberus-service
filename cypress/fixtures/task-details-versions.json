@@ -29,7 +29,7 @@
         "Date of birth": "",
         "Gender": "",
         "Nationality": "FR",
-        "Travel document type": "OBJDOCPAS",
+        "Travel document type": "Passport",
         "Travel document number": "244746NL",
         "Travel document expiry": "14/03/2021"
       },
@@ -58,7 +58,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05"
+        "Check-in": "3 Aug 2020 at 12:05, 2 years before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
@@ -89,12 +89,12 @@
         }
       ],
       "rulesMatched": {
-        "Rule name": "Paid by Cash",
+        "Rule name": "Selector matched",
         "Threat": "Tier 1",
         "Rule verison": "1",
-        "Abuse Type": "National Security at the Border",
+        "Abuse Type": "Class A Drugs",
         "Agency": "",
-        "Description": "Test"
+        "Description": "Paid by cash"
       }
     },
     {
@@ -163,7 +163,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05"
+        "Check-in": "3 Aug 2020 at 12:05, 2 years before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
@@ -192,16 +192,10 @@
         "Warnings": "Supplemental warnings"
       },
       "rulesMatched": {
-        "Name": "Paid by Cash",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "National Security at the Border",
-        "Agency": "",
-        "Description": "Test",
-        "Name": "Paid by cash1",
-        "Priority": "Tier 1",
-        "Version": "1",
-        "Abuse type": "Class A Drugs",
+        "Rule name": "Selector matched",
+        "Threat": "Tier 1",
+        "Rule verison": "1",
+        "Abuse Type": "National Security at the Border",
         "Agency": "",
         "Description": "Paid by cash"
       }
@@ -235,7 +229,7 @@
         "Date of birth": "12/03/1971",
         "Gender": "M",
         "Nationality": "NL",
-        "Travel document type": "OBJDOCPAS",
+        "Travel document type": "Passport",
         "Travel document number": "244746NL",
         "Travel document expiry": "01/02/2021"
       },
@@ -264,7 +258,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2021 at 12:05"
+        "Check-in": "3 Aug 2021 at 12:05, 6 months before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
@@ -314,12 +308,12 @@
         }
       ],
       "rulesMatched": {
-        "Rule name": "Paid by Cash",
+        "Rule name": "Selector matched",
         "Threat": "Tier 1",
         "Rule verison": "1",
-        "Abuse Type": "National Security at the Border",
+        "Abuse Type": "Class A Drugs",
         "Agency": "",
-        "Description": "Test"
+        "Description": "Paid by cash"
       }
     }
   ]
