@@ -306,7 +306,7 @@ describe('TaskListFilters', () => {
     expect(screen.getAllByRole('radio').length).toBe(3);
     expect(screen.getByLabelText('Not present (0)')).not.toBeChecked();
     expect(screen.getByLabelText('Present (0)')).not.toBeChecked();
-    expect(screen.getByLabelText('Any (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Any (0)')).toBeChecked();
   });
 
   it('should allow user to select a single radio button in each group', () => {

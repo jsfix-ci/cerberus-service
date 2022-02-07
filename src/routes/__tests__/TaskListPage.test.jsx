@@ -665,4 +665,18 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Not present (8)')).toBeInTheDocument();
     expect(screen.getByText('Any (37)')).toBeInTheDocument();
   });
+
+  it('should select any radio by default', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsSelectorsResponse)
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
+    expect(screen.getByLabelText('Present (29)')).not.toBeChecked();
+    expect(screen.getByLabelText('Not present (8)')).not.toBeChecked();
+    expect(screen.getByText('Any (37)')).toBeInTheDocument();
+    expect(screen.getByLabelText('Any (37)')).toBeChecked();
+  });
 });
