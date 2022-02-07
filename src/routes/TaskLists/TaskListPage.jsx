@@ -261,12 +261,12 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   }, [refreshTaskList]);
 
-  useInterval(() => {
-    getTaskList();
-    return () => {
-      source.cancel('Cancelling request');
-    };
-  }, 60000);
+  // useInterval(() => {
+  //   getTaskList();
+  //   return () => {
+  //     source.cancel('Cancelling request');
+  //   };
+  // }, 60000);
 
   return (
     <>
@@ -289,14 +289,15 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                       <div className="heading-container">
                         <h4 className="govuk-heading-s task-heading">
                           {target.summary.parentBusinessKey.businessKey}
-                          <span className="dot" />
-                          {highestRisk && (
-                          <span className="govuk-body">
-                            {extractDescription(highestRisk)}
-                          </span>
-                          )}
                         </h4>
                       </div>
+                    </div>
+                    <div className="govuk-grid-column task-highest-risk">
+                      {highestRisk && (
+                      <span className="govuk-body">
+                        {extractDescription(highestRisk)}
+                      </span>
+                      )}
                     </div>
                     <div className="govuk-grid-column">
                       {highestRisk && (
