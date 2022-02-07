@@ -261,12 +261,12 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   }, [refreshTaskList]);
 
-  // useInterval(() => {
-  //   getTaskList();
-  //   return () => {
-  //     source.cancel('Cancelling request');
-  //   };
-  // }, 60000);
+  useInterval(() => {
+    getTaskList();
+    return () => {
+      source.cancel('Cancelling request');
+    };
+  }, 60000);
 
   return (
     <>
