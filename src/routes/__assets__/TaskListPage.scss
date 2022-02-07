@@ -28,7 +28,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     justify-content: flex-start;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 1em;
 }
 
 .title-container {
@@ -97,6 +96,11 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     }
     .govuk-button {
         margin-bottom: 0px;
+    }
+    .govuk-grid-column {
+        &.task-highest-risk {
+            margin-top: 15px;
+        }
     }
 }
 
