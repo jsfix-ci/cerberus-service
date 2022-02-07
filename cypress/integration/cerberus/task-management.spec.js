@@ -183,7 +183,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
     // COP-9672 Display highest threat level in task details
-    cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
+    cy.get('.task-versions .govuk-accordion__section').each((element) => {
       cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
         expect('Tier 2').to.be.equal(value);
       });
