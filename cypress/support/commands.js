@@ -567,7 +567,7 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'processInstanceBusinessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
+      'processInstanceBusinessKeyLike': `%AUTOverifyTaskDetailAllSectionsTEST-${dateNowFormatted}-%`,
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);
@@ -828,7 +828,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'rulesMatched')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h2', 'Rules matched').nextAll().within(() => {
+      cy.contains('h2', 'Rules matched').nextAll(() => {
         cy.getAllRuleMatches().then((actualRuleMatches) => {
           expect(actualRuleMatches).to.deep.equal(expectedDetails.rulesMatched);
         });
@@ -1144,14 +1144,18 @@ Cypress.Commands.add('getActivityLogs', () => {
 
 Cypress.Commands.add('getAllRuleMatches', () => {
   let actualRuleMatches = {};
-  cy.get('.govuk-heading-s').each((item) => {
-    cy.wrap(item).invoke('text').then((header) => {
-      cy.wrap(item).next().invoke('text').then((value) => {
-        actualRuleMatches[header] = value;
+  cy.get('.govuk-grid-row').each((element, index) => {
+    if (index < 2) {
+      cy.wrap(element).find('.govuk-heading-s').each((item) => {
+        cy.wrap(item).invoke('text').then((header) => {
+          cy.wrap(item).next().invoke('text').then((value) => {
+            actualRuleMatches[header] = value;
+          });
+        });
+      }).then(() => {
+        return actualRuleMatches;
       });
-    });
-  }).then(() => {
-    return actualRuleMatches;
+    }
   });
 });
 
