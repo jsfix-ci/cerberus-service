@@ -268,6 +268,42 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     };
   }, 60000);
 
+  const categoryThreatMapping = {
+    A: 1,
+    B: 2,
+    C: 3,
+    D: 4,
+    E: 5,
+    F: 6,
+    G: 7,
+  };
+
+  const getHighestThreatLevel = (risks) => {
+    let sortedThreatsArray = [];
+    const selectors = risks.selectors;
+    const rules = risks.rules;
+
+    if (selectors && selectors.length) {
+      selectors.map((selector) => {
+        const category = selector.contents.category;
+        if (sortedThreatsArray[categoryThreatMapping[category]]) sortedThreatsArray[parseInt(categoryThreatMapping[category], 10) + 1] = selector;
+        else sortedThreatsArray[parseInt(categoryThreatMapping[category], 10)] = selector;
+      });
+    }
+
+    if (!selectors?.length && (rules && rules.length)) {
+      rules.map((rule) => {
+        const position = rule.contents.rulePriority.split(' ')[1];
+        if (sortedThreatsArray[position]) sortedThreatsArray[parseInt(position, 10) + 1] = rule;
+        else sortedThreatsArray[parseInt(position, 10)] = rule;
+      });
+    }
+
+    // Creating a filtered array removign off empty array elements
+    sortedThreatsArray = sortedThreatsArray.filter((i) => i === 0 || i);
+    return sortedThreatsArray[0];
+  };
+
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
@@ -278,7 +314,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
         const roroData = modifyRoRoPassengersTaskList({ ...target.summary.roro.details });
         const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
-        const highestRisk = target.summary.risks[0];
+        const highestRisk = target.summary.risks[0] || getHighestThreatLevel(target.summary.risks);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
