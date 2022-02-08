@@ -499,6 +499,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.get('.card .govuk-caption-m').should('contain.text', 'Trailer');
     cy.get('.card .govuk-heading-s').should('contain.text', 'NL-234-392');
 
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect('Tier 3').to.be.equal(value);
+      });
+    });
+
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
         expect(taskSummary).to.deep.equal(expTestData.taskSummary);
@@ -536,6 +543,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           });
       });
 
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect('Tier 3').to.be.equal(value);
+      });
+    });
+
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {
         expect(taskSummary).to.deep.equal(expTestData.taskSummary);
@@ -567,6 +581,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('.card .govuk-caption-m').should('contain.text', 'Vehicle with Trailer');
     cy.get('.card .govuk-heading-s').should('contain.text', 'NL-234-392');
+
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect('Tier 3').to.be.equal(value);
+      });
+    });
 
     cy.get('@expTestData').then((expTestData) => {
       cy.checkTaskSummaryDetails().then((taskSummary) => {

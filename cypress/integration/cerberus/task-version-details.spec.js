@@ -1153,9 +1153,9 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify task Display highest threat level in task details', () => {
     const highestThreatLevel = [
-      'CATEGORY B',
+      'Category B',
       'Tier 1',
-      'CATEGORY A',
+      'Category A',
     ];
 
     cy.getBusinessKey('RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
