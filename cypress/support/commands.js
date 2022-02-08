@@ -235,7 +235,7 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             });
           }
           if (taskdetails.selector != null) {
-            cy.wrap(item).find('h4 .govuk-body').invoke('text').then((selector) => {
+            cy.wrap(item).find('.task-highest-risk .govuk-body').invoke('text').then((selector) => {
               expect(selector).to.equal(taskdetails.selector);
             });
           }

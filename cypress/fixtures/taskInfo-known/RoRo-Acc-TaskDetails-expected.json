@@ -2,7 +2,7 @@
   "taskListDetails": {
     "rules": "Class A Drugs and 0 other rules",
     "voyage": "Brittany Ferries voyage of BARFLEUR",
-    "arrival": "arrival 2 years after travel",
+    "arrival": "arrival 2 years ago",
     "departurePort": "DOV",
     "departureDateTime": "4 Aug 2020 at 13:05",
     "arrivalPort": "CAL",
@@ -27,7 +27,7 @@
     "Ferry": "Brittany Ferries voyage of BARFLEUR",
     "Departure": "4 Aug 2020 at 13:05   DOV",
     "Arrival": "CAL      4 Aug 2020 at 13:35",
-    "Account": "Arrival 2 years after travel",
+    "Account": "Arrival 2 years ago",
     "vehicle": "Vehicle with TrailerCOP1 with NL-234-392 driven by Ben Bailey"
   },
   "versions": [

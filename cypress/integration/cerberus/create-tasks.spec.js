@@ -129,7 +129,6 @@ describe('Create task with different payload from Cerberus', () => {
               expect('No rule matches').to.be.equal(value);
             });
         });
-        cy.contains('0 selector matches');
       });
     });
   });
