@@ -7,7 +7,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.login(Cypress.env('userName'));
   });
 
-  it.only('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {
+  it('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {
     cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
 
     cy.fixture('target-information.json').as('inputData');
