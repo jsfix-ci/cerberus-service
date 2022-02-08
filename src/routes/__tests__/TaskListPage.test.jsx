@@ -679,4 +679,16 @@ describe('TaskListPage', () => {
     expect(screen.getByText('Any (37)')).toBeInTheDocument();
     expect(screen.getByLabelText('Any (37)')).toBeChecked();
   });
+
+  it('should render the word SELECTOR next to category label on task', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataIssued);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(screen.queryAllByText('SELECTOR')).toHaveLength(1);
+  });
 });

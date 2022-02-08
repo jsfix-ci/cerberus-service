@@ -153,7 +153,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (!contents) {
       return risk.rulePriority;
     }
-    return contents.category ? contents.category : contents.rulePriority;
+    return contents.category ? <span className="govuk-body">SELECTOR <span className="govuk-tag govuk-tag--riskTier">{contents.category}</span></span> : <span className="govuk-tag govuk-tag--riskTier">{contents.rulePriority}</span>;
   };
 
   const extractRiskType = (risk) => {
@@ -299,7 +299,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       });
     }
 
-    // Creating a filtered array removign off empty array elements
+    // Creating a filtered array removing off empty array elements
     sortedThreatsArray = sortedThreatsArray.filter((i) => i === 0 || i);
     return sortedThreatsArray[0];
   };
@@ -337,9 +337,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                     </div>
                     <div className="govuk-grid-column">
                       {highestRisk && (
-                      <span className="govuk-tag govuk-tag--riskTier">
-                        {extractThreatLevel(highestRisk)}
-                      </span>
+                        extractThreatLevel(highestRisk)
                       )}
                       <span className="govuk-body task-risk-statement">
                         {formatTargetRisk(target.summary, highestRisk)}

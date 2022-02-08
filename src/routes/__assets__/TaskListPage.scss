@@ -102,6 +102,9 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
             margin-top: 15px;
         }
     }
+    .govuk-tag {
+        padding-bottom: 2px;
+    }
 }
 
 .task-list--item-2 {
@@ -227,7 +230,7 @@ ul.item-list--bulleted {
     }
     &.govuk-tag--riskTier {
         background-color: #BC2410;
-        margin-right: 0.5rem;
+        margin-right: 0.25rem;
         margin-bottom: 0.25rem;
     }
     &.govuk-tag--positiveOutcome {
