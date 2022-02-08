@@ -164,10 +164,10 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     return contents.threatType ? contents.threatType : contents.abuseType;
   };
 
-  const formatTargetRisk = (target) => {
-    if (target.risks.length >= 1) {
-      const topRisk = extractRiskType(target.risks[0]);
-      const count = target.risks.length - 1;
+  const formatTargetRisk = (target, highestRisk) => {
+    if (highestRisk) {
+      const topRisk = extractRiskType(highestRisk);
+      const count = highestRisk.contents?.rulePriority ? target.risks?.rules?.length - 1 : target.risks?.rules?.length;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
     return null;
@@ -342,7 +342,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                       </span>
                       )}
                       <span className="govuk-body task-risk-statement">
-                        {formatTargetRisk(target.summary)}
+                        {formatTargetRisk(target.summary, highestRisk)}
                       </span>
                     </div>
                     <div className="govuk-grid-column">

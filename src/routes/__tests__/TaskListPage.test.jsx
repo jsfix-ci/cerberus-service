@@ -404,10 +404,10 @@ describe('TaskListPage', () => {
 
     expect(screen.getAllByText('Local ref')).toHaveLength(1);
     expect(screen.getAllByText('B')).toHaveLength(1);
-    expect(screen.getAllByText('National Security at the Border and 2 other rules')).toHaveLength(1);
+    expect(screen.getAllByText(/National Security at the Border/i)).toHaveLength(1);
     expect(screen.getAllByText('Paid by Cash')).toHaveLength(1);
     expect(screen.getAllByText('Tier 1')).toHaveLength(1);
-    expect(screen.getAllByText('Class A Drugs and 0 other rules')).toHaveLength(1);
+    expect(screen.getAllByText(/Class A Drugs/i)).toHaveLength(1);
   });
 
   it('should display a count and list of targeting indicators', async () => {
