@@ -691,4 +691,40 @@ describe('TaskListPage', () => {
 
     expect(screen.queryAllByText('SELECTOR')).toHaveLength(1);
   });
+
+  it('should render localReference when groupReference is not in taskListData', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataIssued);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'issued')));
+
+    expect(screen.queryAllByText('Local ref')).toHaveLength(1);
+  });
+
+  it('should render the groupReference when groupReference & localReference is in targetListData', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataComplete);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'complete')));
+
+    expect(screen.queryAllByText('SR-56')).toHaveLength(1);
+  });
+
+  it('should render the name when groupReference & localReference is not in targetListData', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListDataInProgress);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'inProgress')));
+
+    expect(screen.queryAllByText('Scenario 1 Rule')).toHaveLength(1);
+  });
 });
