@@ -145,7 +145,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (!contents) {
       return risk.name;
     }
-    return contents.groupReference ? contents.groupReference : contents.name;
+    return contents.groupReference ? contents.groupReference : contents.localReference || contents.name;
   };
 
   const extractThreatLevel = (risk) => {
