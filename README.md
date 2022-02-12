@@ -51,6 +51,14 @@ npm install
 npm run build:dev
 ```
 **4. Start the application** *(optional)*
+To run locally pointing at the dev environment you will need the following:
+
+```sh
+nvm use 14.18.1
+```
+
+Assuming you have nvm installed to manage your node versions of course!
+
 ```sh
   \
   REACT_APP_AUTH_CLIENT_ID=your-client-id \
@@ -63,27 +71,7 @@ npm run build:dev
   npm run start
 ```
 
-To run locally pointing at the dev environment you will need the following:
-
-```sh
-nvm use 14.18.1
-```
-
-Assuming you have nvm installed to manage your node versions of course!
-
-```sh
- \
-REACT_APP_AUTH_CLIENT_ID=your-client-id \
-FORM_API_URL=https://form-api-server.dev.cop.homeoffice.gov.uk \
-REFDATA_API_URL=https://api.dev.refdata.homeoffice.gov.uk \
-KEYCLOAK_AUTH_URL=https://sso-dev.notprod.homeoffice.gov.uk/auth \
-KEYCLOAK_CLIENT_ID=cerberus \
-KEYCLOAK_REALM=cop-dev \
-CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
-npm run start
-```
-
-The `REACT_APP_AUTH_CLIENT_ID` value needs to be replaced with the actual value. The leading slash
+All the variables above need to be replaced with the actual value. The leading slash
 is important, for some reason if it is not included you will be told you are not authorized to
 view any tasks when you log into the running UI!
 
