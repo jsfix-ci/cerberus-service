@@ -4,7 +4,8 @@ import { screen, render } from '@testing-library/react';
 import { TaskVersions, sortRulesByThreat } from '../TaskDetails/TaskVersions';
 import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
   taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData,
-  noVehicleTwoPaxTsBasedOnTISData, taskVersionNoRuleMatches, taskVersionWithRules } from '../__fixtures__/taskVersions';
+  noVehicleTwoPaxTsBasedOnTISData, taskVersionNoRuleMatches, taskVersionWithRules,
+  taskWithThreeVersions } from '../__fixtures__/taskVersions';
 
 describe('TaskVersions', () => {
   it('should render the selector with Highest threat Category level', () => {
@@ -192,10 +193,23 @@ describe('TaskVersions', () => {
     render(<TaskVersions
       taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
       taskVersions={taskVersionWithRules}
-      taskVersionDifferencesCounts={[1, 0]}
+      taskVersionDifferencesCounts={[32, 6, 0]}
       movementMode="RORO Unaccompanied Freight"
     />);
 
     expect(screen.queryByText('Tier 1')).toBeInTheDocument();
+  });
+
+  it('should have a version where check-in has been updated and has highlight class', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskWithThreeVersions}
+      taskVersionDifferencesCounts={[1, 0]}
+      movementMode="RORO Accompanied Freight"
+    />);
+
+    const element = screen.getAllByText(/Check-in/);
+
+    expect(element[1]).toHaveAttribute('class', 'govuk-grid-key font__light task-versions--highlight');
   });
 });

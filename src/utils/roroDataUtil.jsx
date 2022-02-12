@@ -109,7 +109,11 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
     if (hasEta(eta)) {
       eta = eta.substring(0, eta.length - 1);
-      bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+      if (bookingField.contents.find(({ propName }) => propName === 'checkIn').type.includes('CHANGED')) {
+        bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME-CHANGED';
+      } else {
+        bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+      }
       bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
     }
   }
