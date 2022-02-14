@@ -19,6 +19,8 @@ import { modifyRoRoPassengersTaskDetails } from '../../utils/roroDataUtil';
 import Table from '../../govuk/Table';
 import { capitalizeFirstLetter } from '../../utils/stringConversion';
 
+import { SelectorMatchesTaskVersion } from './TaskVersionsMode/SelectorMatchesTaskVersion';
+
 let threatLevel;
 
 const isLatest = (index) => {
@@ -311,7 +313,10 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
         taskSummaryData={taskSummaryBasedOnTIS}
       />
       )}
-      <div className="">
+      <SelectorMatchesTaskVersion
+        version={version}
+      />
+      <div className="hidden">
         {renderSelectorsSection(version)}
       </div>
       <div>
