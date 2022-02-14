@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '../../__mocks__/keycloakMock';
 
 import TaskNotes from '../TaskDetails/TaskNotes';
@@ -41,7 +42,9 @@ describe('TaskNotes', () => {
       .onGet('/history/task', { params: { processInstanceId: '123', deserializeValues: false } })
       .reply(200, taskHistoryResponse)
       .onGet('/form/name/noteCerberus')
-      .reply(200, noteFormFixture);
+      .reply(200, noteFormFixture)
+      .onPost()
+      .reply(200);
   };
 
   it('should render task notes form when displayForm is true', async () => {
@@ -113,5 +116,22 @@ describe('TaskNotes', () => {
 
     await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('Develop the task')).toBeInTheDocument();
+  });
+
+  it('request notes content within request payload should be JSON escaped on network post call', async () => {
+    const input = '\nthis \\is a "test" \nnote';
+    const expectedPayload = '\\nthis \\\\is a \\"test\\" \\nnote';
+
+    mockTaskNotesAxiosCalls({});
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+    await waitFor(() => userEvent.type(screen.getByRole('textbox', { name: /Add a new note/i }), input));
+
+    await waitFor(() => userEvent.click(screen.getByRole('button', { name: /Save/i })));
+
+    const requestPayload = mockAxios.history.post[0].data;
+    const parsedPayload = JSON.parse(JSON.parse(requestPayload).variables.noteCerberus.value).note;
+    expect(parsedPayload).toEqual(expectedPayload);
   });
 });
