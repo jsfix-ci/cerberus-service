@@ -293,6 +293,7 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       <RoRoAccompaniedTaskVersion
         version={version}
         movementMode={movementMode}
+        movementModeIcon={movementModeIcon}
         taskSummaryData={taskSummaryBasedOnTIS}
       />
       )}

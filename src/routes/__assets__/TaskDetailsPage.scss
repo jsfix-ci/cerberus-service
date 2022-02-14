@@ -108,7 +108,7 @@
         display: grid;
         grid-template-columns: 50% 50%;
         grid-gap: 5px;
-        padding: 5px;
+        padding: 5px 5px 5px 0px;
         &.bottom-border {
             margin-bottom: 5px;
             padding-bottom: 5px;
@@ -170,6 +170,69 @@
             content: "\25A0  ";
             color: #d53880;
             margin-left: -15px;
+        }
+    }
+
+    .govuk-task-details-counts-container {
+        .govuk-task-details-grid-row {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-gap: 5px;
+            height: 15px;
+            padding: 0px 0px 10px 0px;
+            &.bottom-border {
+                margin-bottom: 5px;
+                border-bottom: 1px solid #b1b4b6;
+            }
+        }
+        .title-heading {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #b1b4b6;
+        }
+        .govuk-grid-key {
+            font-size: 0.9em;
+            float: left;
+            &.font__light {
+                font-weight: lighter;
+                color: #505a5f;
+            }
+            &.font__grey {
+                color: #505a5f;
+            }
+            &.font__bold {
+                font-weight: bold;
+            }
+            &.task-versions--highlight {
+                border-bottom: 3px solid #ffbf47;
+                margin-right: 1px;
+                background-color: #fff2d3;
+                padding: 2px 0 0;
+            }
+        }
+        .govuk-grid-value {
+            font-size: 0.9em;
+            float: right;
+            &.font__light {
+                font-weight: lighter;
+                color: #505a5f;
+            }
+            &.font__bold {
+                font-weight: bold;
+            }
+            &.font__grey {
+                color: #505a5f;
+            }
+            &.task-versions--highlight {
+                border-bottom: 3px solid #ffbf47;
+                margin-right: 1px;
+                background-color: #fff2d3;
+                padding: 2px 0 0;
+            }
+        }
+        &.bottom-border-thick {
+            margin-bottom: 10px;
+            border-bottom: 3px solid #b1b4b6;
         }
     }
     .task-details-container {
@@ -260,6 +323,15 @@
     .govuk-task-details-col-2,
     .govuk-task-details-col-3 {
         padding-left: 10px;
+        .total-occupants-header {
+            margin-bottom: -10px;
+        }
+        .total-occupants-count {
+            margin-bottom: 5px;
+        }
+        .primary-traveller-header {
+            margin-top: 10px;
+        }
     }
 }
 

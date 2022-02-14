@@ -1,3 +1,11 @@
+const hasZeroCount = (content) => {
+  return content === '0';
+};
+
+const isValid = (obj) => {
+  return obj !== null && obj !== undefined && obj !== '';
+};
+
 const hasVehicle = (vehicleRegistration) => {
   return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
 };
@@ -123,6 +131,8 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
 export { modifyRoRoPassengersTaskList,
   modifyRoRoPassengersTaskDetails,
   hasTaskVersionPassengers,
+  hasZeroCount,
+  isValid,
   hasVehicle,
   hasVehicleMake,
   hasVehicleModel,

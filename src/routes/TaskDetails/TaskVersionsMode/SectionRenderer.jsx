@@ -2,6 +2,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { formatKey, formatField } from '../../../utils/formatField';
 import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
+import { isValid, hasZeroCount } from '../../../utils/roroDataUtil';
 
 const renderVersionSection = ({ fieldSetName, contents }) => {
   if (contents.length > 0 && contents !== null && contents !== undefined) {
@@ -30,7 +31,7 @@ const renderVersionSection = ({ fieldSetName, contents }) => {
 
 const renderVersionSectionBody = (fieldSet) => {
   if (fieldSet.length > 0 && fieldSet !== null && fieldSet !== undefined) {
-    const jsxElement = fieldSet.map((content) => {
+    return fieldSet.map((content) => {
       if (!content.type.includes('HIDDEN')) {
         return (
           <div key={uuidv4()}>
@@ -42,7 +43,6 @@ const renderVersionSectionBody = (fieldSet) => {
         );
       }
     });
-    return jsxElement;
   }
 };
 
@@ -120,6 +120,46 @@ const renderTrailerSection = ({ contents }, movementMode) => {
       );
     }
   }
+};
+
+const renderOccupantsCountSection = ({ contents }) => {
+  const orderedDataToRender = [
+    contents.find(({ propName }) => propName === 'infantCount'),
+    contents.find(({ propName }) => propName === 'childCount'),
+    contents.find(({ propName }) => propName === 'adultCount'),
+    contents.find(({ propName }) => propName === 'oapCount'),
+    contents.find(({ propName }) => propName === 'unknownCount'),
+  ];
+  const occupantsCountJsxElement = orderedDataToRender.map((dataToRender, index) => {
+    if (isValid(dataToRender)) {
+      if (!dataToRender.type.includes('HIDDEN')) {
+        const className = (index !== orderedDataToRender.length - 1 ? 'govuk-task-details-grid-row bottom-border' : 'govuk-task-details-grid-row');
+        return (
+          <div className={className} key={uuidv4()}>
+            <ul>
+              {dataToRender.type.includes('CHANGED')
+                ? (<li className={`govuk-grid-value font__bold ${hasZeroCount(dataToRender.content) && 'font__grey'} task-versions--highlight`}>{dataToRender.fieldName}</li>)
+                : (<li className={`govuk-grid-value  ${hasZeroCount(dataToRender.content) && 'font__grey'} font__bold`}>{dataToRender.fieldName}</li>)}
+            </ul>
+            {dataToRender.type.includes('CHANGED')
+              ? (<span className={`govuk-grid-value font__bold ${hasZeroCount(dataToRender.content) && 'font__grey'} task-versions--highlight`}>{formatField(dataToRender.type, dataToRender.content)}</span>)
+              : (<span className={`govuk-grid-value font__bold ${hasZeroCount(dataToRender.content) && 'font__grey'}`}>{formatField(dataToRender.type, dataToRender.content)}</span>)}
+          </div>
+        );
+      }
+    }
+  });
+  return (
+    <div className="govuk-task-details-counts-container">
+      <div className="govuk-task-details-grid-row bottom-border">
+        <span className="govuk-grid-key font__light">Category</span>
+        <span className="govuk-grid-value font__light">Number</span>
+      </div>
+      <div className="task-details-container">
+        {occupantsCountJsxElement}
+      </div>
+    </div>
+  );
 };
 
 const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) => {
@@ -246,5 +286,6 @@ export { renderVersionSection,
   renderVehicleSection,
   renderTrailerSection,
   renderOccupantsSection,
+  renderOccupantsCountSection,
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument };
