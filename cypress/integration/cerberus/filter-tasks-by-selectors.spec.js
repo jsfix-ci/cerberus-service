@@ -48,6 +48,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
   it('Should apply filter tasks by selectors on newly created tasks', () => {
     let actualTotalTargets = 0;
 
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
+
     // COP-9191 Apply each selectors filter, compare the expected number of targets
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'new').then((actualTargets) => {
@@ -71,6 +73,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
     cy.wait(1000);
 
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
+
     // compare total number of expected and actual targets
     cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
       totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
@@ -82,6 +86,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#inProgress"]').click();
+
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
     filterOptions.forEach((selector, index) => {
@@ -106,6 +112,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
     cy.wait(1000);
 
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
+
     // compare total number of expected and actual targets
     cy.get('a[href="#inProgress"]').invoke('text').then((totalTargets) => {
       totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
@@ -117,6 +125,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#issued"]').click();
+
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
     filterOptions.forEach((selector, index) => {
@@ -141,6 +151,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
     cy.wait(1000);
 
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
+
     // compare total number of expected and actual targets
     cy.get('a[href="#issued"]').invoke('text').then((totalTargets) => {
       totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
@@ -152,6 +164,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#complete"]').click();
+
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
 
     // COP-9191 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((selector, index) => {
@@ -175,6 +189,8 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.contains('Clear all filters').click();
 
     cy.wait(1000);
+
+    cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
 
     // compare total number of expected and actual targets
     cy.get('a[href="#complete"]').invoke('text').then((totalTargets) => {
