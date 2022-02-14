@@ -1,13 +1,10 @@
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
-import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Accordion from '../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
-import { formatField } from '../../utils/formatField';
 import RoRoAccompaniedTaskVersion from './TaskVersionsMode/RoRoAccompaniedMode';
 import RoRoUnaccompaniedTaskVersion from './TaskVersionsMode/RoRoUnaccompaniedMode';
 import RoRoTouristTaskVersion from './TaskVersionsMode/RoRoTouristMode';
@@ -37,35 +34,6 @@ const translateRiskIndicators = (riskIndicators) => riskIndicators.map((riskIndi
 
   return result;
 });
-
-const renderFieldSetContents = (contents) => contents.map(({ fieldName, content, type }) => {
-  if (!type.includes('HIDDEN')) {
-    return (
-      <div className="govuk-summary-list__row" key={uuidv4()}>
-        <dt className="govuk-summary-list__key">{type.includes('CHANGED') ? <span className="task-versions--highlight">{fieldName}</span> : fieldName}</dt>
-        <dd className="govuk-summary-list__value">{formatField(type, content)}</dd>
-      </div>
-    );
-  }
-});
-
-const renderChildSets = (childSets) => {
-  return childSets.map((child) => {
-    if (child.hasChildSet) {
-      return (
-        <div key={uuidv4()} className="govuk-!-margin-bottom-6">
-          {renderFieldSetContents(child.contents)}
-          {renderChildSets(child.childSets)}
-        </div>
-      );
-    }
-    return (
-      <Fragment key={uuidv4()}>
-        {renderFieldSetContents(child.contents)}
-      </Fragment>
-    );
-  });
-};
 
 const stripOutSectionsByMovementMode = (version, movementMode) => {
   if (movementMode.toUpperCase() === RORO_TOURIST.toUpperCase()) {
@@ -162,13 +130,12 @@ const renderRulesSection = (version) => {
                     <h4 className="govuk-heading-s">Risk indicators ({firstRule.childSets.length})</h4>
                     {
                       firstRule.childSets.length > 0
-                        ? (
+                        && (
                           <Table
                             headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
                             rows={translateRiskIndicators(firstRule.childSets)}
                           />
                         )
-                        : null
                     }
                   </div>
                 </div>
@@ -230,13 +197,12 @@ const renderRulesSection = (version) => {
                           <h4 className="govuk-heading-s">Risk indicators ({rule.childSets.length})</h4>
                           {
                             rule.childSets.length > 0
-                              ? (
+                              && (
                                 <Table
                                   headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
                                   rows={translateRiskIndicators(rule.childSets)}
                                 />
                               )
-                              : null
                           }
                         </div>
                       )
