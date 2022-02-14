@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -66,18 +67,6 @@ const renderChildSets = (childSets) => {
   });
 };
 
-const renderFieldSets = (fieldSet) => {
-  if (fieldSet.hasChildSet) {
-    return (
-      <Fragment key={uuidv4()}>
-        {renderFieldSetContents(fieldSet.contents)}
-        {renderChildSets(fieldSet.childSets)}
-      </Fragment>
-    );
-  }
-  return renderFieldSetContents(fieldSet.contents);
-};
-
 const stripOutSectionsByMovementMode = (version, movementMode) => {
   if (movementMode.toUpperCase() === RORO_TOURIST.toUpperCase()) {
     const vehicle = {
@@ -104,14 +93,6 @@ const renderSelectorsSection = (version) => {
   if (selectors.childSets.length > 0) {
     const selector = selectors.childSets[0].contents.find(({ propName }) => propName === 'category');
     threatLevel = `${capitalizeFirstLetter(selector.propName)} ${selector.content}`;
-    return (
-      <div className={selectors.propName}>
-        <h2 className="govuk-heading-m">{selectors.fieldSetName}</h2>
-        <dl className="govuk-summary-list govuk-!-margin-bottom-9">
-          {renderFieldSets(selectors)}
-        </dl>
-      </div>
-    );
   }
 };
 
@@ -313,10 +294,10 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
         taskSummaryData={taskSummaryBasedOnTIS}
       />
       )}
-      <SelectorMatchesTaskVersion
-        version={version}
-      />
-      <div className="hidden">
+      <div>
+        <SelectorMatchesTaskVersion
+          version={version}
+        />
         {renderSelectorsSection(version)}
       </div>
       <div>
