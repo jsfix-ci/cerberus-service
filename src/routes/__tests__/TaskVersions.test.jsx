@@ -15,8 +15,8 @@ describe('TaskVersions', () => {
       taskVersionDifferencesCounts={[]}
       movementMode="RORO Unaccompanied Freight"
     />);
-    expect(screen.queryByText('Category')).toBeInTheDocument();
-    expect(screen.queryByText('B')).toBeInTheDocument();
+    expect(screen.queryAllByText('Category B')).toHaveLength(1);
+    expect(screen.queryAllByText('B')).toHaveLength(1);
   });
 
   it('should render No rule matches', () => {
@@ -27,7 +27,7 @@ describe('TaskVersions', () => {
       movementMode="RORO Accompanied Freight"
     />);
     expect(screen.queryByText('No rule matches')).toBeInTheDocument();
-    expect(screen.queryByText(/Category/)).not.toBeInTheDocument();
+    expect(screen.queryAllByText(/Category/)).toHaveLength(0);
     expect(screen.queryByText(/Tier/)).not.toBeInTheDocument();
   });
 
