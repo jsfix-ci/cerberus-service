@@ -41,6 +41,27 @@ const renderVersionSection = ({ fieldSetName, contents }, linkPropNames = {}) =>
   }
 };
 
+const defaultLinkPropNames = { name: 'entitySearchUrl' };
+const renderHaulierSection = (fieldSet) => {
+  return renderVersionSection(fieldSet, defaultLinkPropNames);
+};
+
+const renderAccountSection = (fieldSet) => {
+  return renderVersionSection(fieldSet, defaultLinkPropNames);
+};
+
+const renderDriverSection = (fieldSet) => {
+  return renderVersionSection(fieldSet, defaultLinkPropNames);
+};
+
+const renderGoodsSection = (fieldSet) => {
+  return renderVersionSection(fieldSet);
+};
+
+const renderBookingSection = (fieldSet) => {
+  return renderVersionSection(fieldSet);
+};
+
 const renderVersionSectionBody = (fieldSet, linkPropNames = {}, className = '') => {
   if (fieldSet.length > 0 && fieldSet !== null && fieldSet !== undefined) {
     return renderFields(fieldSet, linkPropNames, className);
@@ -87,7 +108,8 @@ const renderVehicleSection = ({ contents }, movementMode) => {
     if (contents.length > 0) {
       const vehicleArray = contents.filter(({ propName }) => {
         return propName === 'registrationNumber' || propName === 'make' || propName === 'model'
-          || propName === 'type' || propName === 'registrationNationality' || propName === 'colour';
+          || propName === 'type' || propName === 'registrationNationality' || propName === 'colour'
+          || propName === 'vehicleEntitySearchUrl';
       });
       const linkPropNames = { registrationNumber: 'vehicleEntitySearchUrl' };
       const vehicleSection = renderVersionSectionBody(vehicleArray, linkPropNames);
@@ -107,7 +129,8 @@ const renderTrailerSection = ({ contents }, movementMode) => {
   if (movementMode === RORO_UNACCOMPANIED_FREIGHT.toUpperCase() || movementMode === RORO_ACCOMPANIED_FREIGHT.toUpperCase()) {
     const trailerDataArray = contents.filter(({ propName }) => {
       return propName === 'trailerRegistrationNumber' || propName === 'trailerType' || propName === 'trailerRegistrationNationality'
-        || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded';
+        || propName === 'trailerLength' || propName === 'trailerHeight' || propName === 'trailerEmptyOrLoaded'
+        || propName === 'trailerEntitySearchUrl';
     });
       // Check that trailer registration exists
     if (trailerDataArray[0].content !== null) {
@@ -134,12 +157,12 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
 
   if (secondPassenger !== null && secondPassenger !== undefined) {
     if (secondPassenger.length > 0) {
-      firstPassengerJsxElement = renderFields(secondPassenger);
+      firstPassengerJsxElement = renderFields(secondPassenger, defaultLinkPropNames);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
           otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
-            const passengerJsxElement = renderFields(otherPassenger.contents);
+            const passengerJsxElement = renderFields(otherPassenger.contents, defaultLinkPropNames);
             const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
             return (
               <div className={className} key={uuidv4()}>
@@ -183,15 +206,15 @@ const renderPrimaryTraveller = ({ childSets }, movementModeIcon) => {
       primaryTravellerArray = primaryTraveller.filter(({ propName }) => {
         return propName === 'name' || propName === 'dob' || propName === 'gender'
             || propName === 'nationality' || propName === 'docType' || propName === 'docNumber'
-            || propName === 'docExpiry';
+            || propName === 'docExpiry' || propName === 'entitySearchUrl';
       });
     } else {
       primaryTravellerArray = primaryTraveller.filter(({ propName }) => {
         return propName === 'name' || propName === 'dob' || propName === 'gender'
-            || propName === 'nationality';
+            || propName === 'nationality' || propName === 'entitySearchUrl';
       });
     }
-    const primaryTravellerSection = renderVersionSectionBody(primaryTravellerArray);
+    const primaryTravellerSection = renderVersionSectionBody(primaryTravellerArray, defaultLinkPropNames);
     return (
       <div className="task-details-container bottom-border-thick">
         <h3 className="title-heading">Primary Traveller</h3>
@@ -222,7 +245,11 @@ const renderPrimaryTravellerDocument = ({ childSets }) => {
   }
 };
 
-export { renderVersionSection,
+export { renderHaulierSection,
+  renderAccountSection,
+  renderDriverSection,
+  renderGoodsSection,
+  renderBookingSection,
   renderTargetingIndicatorsSection,
   renderVehicleSection,
   renderTrailerSection,

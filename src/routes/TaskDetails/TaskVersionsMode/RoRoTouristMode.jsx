@@ -2,8 +2,15 @@ import React from 'react';
 import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
-import { renderTargetingIndicatorsSection, renderVehicleSection, renderVersionSection,
-  renderOccupantsSection, renderPrimaryTraveller, renderPrimaryTravellerDocument } from './SectionRenderer';
+import {
+  renderTargetingIndicatorsSection,
+  renderVehicleSection,
+  renderOccupantsSection,
+  renderPrimaryTraveller,
+  renderPrimaryTravellerDocument,
+  renderDriverSection,
+  renderBookingSection,
+} from './SectionRenderer';
 import { hasTaskVersionPassengers, extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) => {
@@ -35,7 +42,7 @@ const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) =
 
   const renderSecondColumn = () => {
     const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-    const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+    const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
         {booking}
@@ -96,7 +103,7 @@ const footPassengerTaskVersion = (version, movementModeIcon, taskSummaryData) =>
 
   const renderSecondColumn = () => {
     const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-    const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+    const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
         {booking}
@@ -156,7 +163,7 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
 
   const renderSecondColumn = () => {
     const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-    const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+    const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
         {booking}
@@ -169,8 +176,7 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
     const driverField = version.find(({ propName }) => propName === 'driver');
-    const linkFields = { name: 'entitySearchUrl' };
-    const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField, linkFields);
+    const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField);
     return (
       <div className="govuk-task-details-col-3">
         <div className="task-details-container bottom-border-thick">
