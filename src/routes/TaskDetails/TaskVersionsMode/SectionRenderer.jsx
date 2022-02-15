@@ -28,7 +28,7 @@ const renderFields = (contents, linkPropNames = {}, className = 'govuk-task-deta
 };
 
 const renderVersionSection = ({ fieldSetName, contents }, linkPropNames = {}) => {
-  if (contents.length > 0 && contents !== null && contents !== undefined) {
+  if (contents !== undefined && contents !== null && contents.length > 0) {
     const jsxElement = renderFields(contents, linkPropNames);
     return (
       <div className="task-details-container bottom-border-thick">
