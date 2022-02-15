@@ -1,23 +1,36 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { formatKey, formatField } from '../../../utils/formatField';
+import { formatKey, formatField, formatLinkField } from '../../../utils/formatField';
 import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
 import { isValid, hasZeroCount } from '../../../utils/roroDataUtil';
 
-const renderVersionSection = ({ fieldSetName, contents }) => {
-  if (contents.length > 0 && contents !== null && contents !== undefined) {
-    const jsxElement = contents.map((content) => {
-      if (!content.type.includes('HIDDEN')) {
-        return (
-          <div className="govuk-task-details-grid-item" key={uuidv4()}>
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
-              <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
-            </ul>
-          </div>
-        );
-      }
-    });
+const findLink = (contents, content, linkPropNames) => {
+  const linkPropName = linkPropNames[content.propName];
+  if (!linkPropName) {
+    return null;
+  }
+  return contents.find((field) => field.propName === linkPropName)?.content;
+};
+
+const renderFields = (contents, linkPropNames = {}, className = 'govuk-task-details-grid-item') => {
+  return contents.map((content) => {
+    if (!content.type.includes('HIDDEN')) {
+      const link = findLink(contents, content, linkPropNames);
+      return (
+        <div className={className} key={uuidv4()}>
+          <ul>
+            <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
+            <li className="govuk-grid-value font__bold">{link ? formatLinkField(content.type, content.content, link) : formatField(content.type, content.content)}</li>
+          </ul>
+        </div>
+      );
+    }
+  });
+};
+
+const renderVersionSection = ({ fieldSetName, contents }, linkPropNames = {}) => {
+  if (contents !== undefined && contents !== null && contents.length > 0) {
+    const jsxElement = renderFields(contents, linkPropNames);
     return (
       <div className="task-details-container bottom-border-thick">
         <h3 className="title-heading">{fieldSetName}</h3>
@@ -29,20 +42,9 @@ const renderVersionSection = ({ fieldSetName, contents }) => {
   }
 };
 
-const renderVersionSectionBody = (fieldSet) => {
+const renderVersionSectionBody = (fieldSet, linkPropNames = {}, className = '') => {
   if (fieldSet.length > 0 && fieldSet !== null && fieldSet !== undefined) {
-    return fieldSet.map((content) => {
-      if (!content.type.includes('HIDDEN')) {
-        return (
-          <div key={uuidv4()}>
-            <ul>
-              <li className="govuk-grid-key font__light">{formatKey(content.type, content.fieldName)}</li>
-              <li className="govuk-grid-value font__bold">{formatField(content.type, content.content)}</li>
-            </ul>
-          </div>
-        );
-      }
-    });
+    return renderFields(fieldSet, linkPropNames, className);
   }
 };
 
@@ -88,7 +90,8 @@ const renderVehicleSection = ({ contents }, movementMode) => {
         return propName === 'registrationNumber' || propName === 'make' || propName === 'model'
           || propName === 'type' || propName === 'registrationNationality' || propName === 'colour';
       });
-      const vehicleSection = renderVersionSectionBody(vehicleArray);
+      const linkPropNames = { registrationNumber: 'vehicleEntitySearchUrl' };
+      const vehicleSection = renderVersionSectionBody(vehicleArray, linkPropNames);
       return (
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Vehicle</h3>
@@ -109,7 +112,8 @@ const renderTrailerSection = ({ contents }, movementMode) => {
     });
       // Check that trailer registration exists
     if (trailerDataArray[0].content !== null) {
-      const trailerSection = renderVersionSectionBody(trailerDataArray);
+      const linkPropNames = { trailerRegistrationNumber: 'trailerEntitySearchUrl' };
+      const trailerSection = renderVersionSectionBody(trailerDataArray, linkPropNames);
       return (
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Trailer</h3>
@@ -171,34 +175,12 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
 
   if (secondPassenger !== null && secondPassenger !== undefined) {
     if (secondPassenger.length > 0) {
-      firstPassengerJsxElement = secondPassenger.map((passenger) => {
-        if (!passenger.type.includes('HIDDEN')) {
-          return (
-            <div className="govuk-task-details-grid-item" key={uuidv4()}>
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
-                <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
-              </ul>
-            </div>
-          );
-        }
-      });
+      firstPassengerJsxElement = renderFields(secondPassenger);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
           otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
-            const passengerJsxElement = otherPassenger.contents.map((field) => {
-              if (!field.type.includes('HIDDEN')) {
-                return (
-                  <div className="govuk-task-details-grid-item" key={uuidv4()}>
-                    <ul>
-                      <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
-                      <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
-                    </ul>
-                  </div>
-                );
-              }
-            });
+            const passengerJsxElement = renderFields(otherPassenger.contents);
             const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
             return (
               <div className={className} key={uuidv4()}>

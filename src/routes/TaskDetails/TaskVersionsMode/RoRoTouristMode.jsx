@@ -169,7 +169,8 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
     const driverField = version.find(({ propName }) => propName === 'driver');
-    const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField);
+    const linkFields = { name: 'entitySearchUrl' };
+    const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField, linkFields);
     return (
       <div className="govuk-task-details-col-3">
         <div className="task-details-container bottom-border-thick">

@@ -36,8 +36,9 @@ const renderSecondColumn = (version, taskSummaryData) => {
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
   const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-  const haulier = (haulierField !== null && haulierField !== undefined) && renderVersionSection(haulierField);
-  const account = (accountField !== null && accountField !== undefined) && renderVersionSection(accountField);
+  const linkPropNames = { name: 'entitySearchUrl' };
+  const haulier = (haulierField !== null && haulierField !== undefined) && renderVersionSection(haulierField, linkPropNames);
+  const account = (accountField !== null && accountField !== undefined) && renderVersionSection(accountField, linkPropNames);
   const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
   return (
     <div className="govuk-task-details-col-2">
