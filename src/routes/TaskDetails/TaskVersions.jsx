@@ -443,6 +443,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
          * there is only ever one item in the array
          */
         taskVersions.map((version, index) => {
+          const booking = version.find((fieldset) => fieldset.propName === 'booking') || null;
           const versionDetails = version.find((fieldset) => fieldset.propName === 'versionDetails') || null;
           const creationDate = versionDetails?.contents.find((field) => field.propName === 'createdAt').content || null;
           const versionNumber = taskVersions.length - index;
@@ -473,5 +474,6 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
     />
   );
 };
+
 
 export default TaskVersions;
