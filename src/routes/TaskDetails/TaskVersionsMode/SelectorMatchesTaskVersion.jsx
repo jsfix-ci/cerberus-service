@@ -30,6 +30,8 @@ const SelectorMatchesTaskVersion = ({ version }) => {
         let field;
         return (
           <>
+            <h4 className="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-top-2">{GroupReference}</h4>
+
             { selectors.map((selector, j) => {
               return selector.contents.map((c) => {
                 if (j === 0) {
@@ -37,16 +39,15 @@ const SelectorMatchesTaskVersion = ({ version }) => {
                   if (field) {
                     return (
                       <div className="govuk-grid-row">
-                        <p className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-quarter">{field.fieldName}</p>
-                        <p className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-three-quarters govuk-!-padding-0">{field.content}</p>
+                        <p className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half">{field.fieldName}</p>
+                        <p className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0">{field.content}</p>
                       </div>
                     );
                   }
                 }
               });
             })}
-
-            <h4 className="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-top-2">{GroupReference}</h4>
+            <br />
             <Tabs>
               <TabList key={index}>
                 { selectors.map((selector, selectorKey) => {

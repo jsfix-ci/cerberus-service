@@ -165,9 +165,10 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   };
 
   const formatTargetRisk = (target, highestRisk) => {
+    const risksRules = target.risks.rules?.length + target.risks.selectors?.length;
     if (highestRisk) {
       const topRisk = extractRiskType(highestRisk);
-      const count = highestRisk.contents?.rulePriority ? target.risks?.rules?.length - 1 : target.risks?.rules?.length;
+      const count = risksRules > 0 && risksRules - 1;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
     return null;
