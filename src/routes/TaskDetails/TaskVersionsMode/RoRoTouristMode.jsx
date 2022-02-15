@@ -3,16 +3,18 @@ import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICO
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderVehicleSection, renderVersionSection,
-  renderOccupantsSection, renderPrimaryTraveller, renderPrimaryTravellerDocument } from './SectionRenderer';
-import { hasTaskVersionPassengers, extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
+  renderOccupantsSection, renderPrimaryTraveller, renderPrimaryTravellerDocument,
+  renderOccupantsCategoryCountSection } from './SectionRenderer';
+import { hasTaskVersionPassengers, extractTaskVersionsBookingField,
+  getTaskDetailsTotalOccupants } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
-    const passengersField = version.find(({ propName }) => propName === 'passengers');
-    const primaryTraveller = (passengersField !== null && passengersField !== undefined) && renderPrimaryTraveller(passengersField);
-    const primaryTravellerDocument = (passengersField !== null && passengersField !== undefined) && renderPrimaryTravellerDocument(passengersField);
+    const driverField = version.find(({ propName }) => propName === 'driver');
+    const primaryTraveller = (driverField !== null && driverField !== undefined) && renderPrimaryTraveller(driverField);
+    const primaryTravellerDocument = (driverField !== null && driverField !== undefined) && renderPrimaryTravellerDocument(driverField);
     return (
       <div className="govuk-task-details-col-1">
         <div className="govuk-task-details-indicator-container  bottom-border-thick">
@@ -105,8 +107,8 @@ const footPassengerTaskVersion = (version, movementModeIcon, taskSummaryData) =>
   };
 
   const renderThirdColumn = () => {
-    const passengersField = version.find(({ propName }) => propName === 'passengers');
-    const primaryTraveller = (passengersField !== null && passengersField !== undefined) && renderPrimaryTraveller(passengersField, movementModeIcon);
+    const driverField = version.find(({ propName }) => propName === 'driver');
+    const primaryTraveller = (driverField !== null && driverField !== undefined) && renderPrimaryTraveller(driverField, movementModeIcon);
     return (
       <div className="govuk-task-details-col-2">
         {primaryTraveller}
@@ -167,8 +169,11 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
   const renderThirdColumn = () => {
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
-    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
+    const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const driverField = version.find(({ propName }) => propName === 'driver');
+    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
+    const occupantsCount = renderOccupantsCategoryCountSection(driverField, passengersField, passengersMetadata, movementMode);
+    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
     const linkFields = { name: 'entitySearchUrl' };
     const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField, linkFields);
     return (
@@ -179,8 +184,16 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
             <span className="govuk-grid-key font__light">Total occupants</span>
           </div>
           <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__bold">{isValidToRender ? passengersField.childSets.length : 0}</span>
+            <span className="govuk-grid-key font__bold">{totalCount}</span>
           </div>
+          {occupantsCount
+          && (
+          <div className="govuk-task-details-counts-container">
+            <div className="task-details-container">
+              {occupantsCount}
+            </div>
+          </div>
+          )}
           {occupants}
         </div>
         {driver}

@@ -63,7 +63,7 @@ const renderThirdColumn = (version) => {
           <span className="govuk-grid-key font__light">Total occupants</span>
         </div>
         <div className="govuk-task-details-grid-row">
-          <span className="govuk-grid-key font__bold">{isValidToRender ? passengersField.childSets.length : 0}</span>
+          <span className="govuk-grid-key font__bold">0</span>
         </div>
         {occupants}
       </div>

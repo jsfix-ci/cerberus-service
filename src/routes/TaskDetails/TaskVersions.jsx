@@ -46,10 +46,10 @@ const stripOutSectionsByMovementMode = (version, movementMode) => {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
     }
     if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
-      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle');
     }
     if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
-      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle');
     }
   }
   return version;

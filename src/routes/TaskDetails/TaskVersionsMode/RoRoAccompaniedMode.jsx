@@ -2,8 +2,8 @@ import React from 'react';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderVehicleSection, renderTrailerSection, renderVersionSection,
-  renderOccupantsSection, renderOccupantsCountSection, renderPrimaryTraveller } from './SectionRenderer';
-import { hasTaskVersionPassengers, extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
+  renderOccupantsSection, renderOccupantsCategoryCountSection } from './SectionRenderer';
+import { hasTaskVersionPassengers, extractTaskVersionsBookingField, getTaskDetailsTotalOccupants } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -51,14 +51,14 @@ const renderSecondColumn = (version, taskSummaryData) => {
   );
 };
 
-const renderThirdColumn = (version, movementModeIcon) => {
+const renderThirdColumn = (version, movementMode, movementModeIcon) => {
+  const driverField = version.find(({ propName }) => propName === 'driver');
   const passengersField = version.find(({ propName }) => propName === 'passengers');
   const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
-  const totalCount = passengersMetadata.contents.find(({ propName }) => propName === 'totalOccupants').content;
+  const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
   const isValidToRender = hasTaskVersionPassengers(passengersField);
   const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon);
-  const occupantsCount = renderOccupantsCountSection(passengersMetadata);
-  const driverField = version.find(({ propName }) => propName === 'driver');
+  const occupantsCount = renderOccupantsCategoryCountSection(driverField, passengersField, passengersMetadata, movementMode);
   const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField);
   return (
     <div className="govuk-task-details-col-3">
@@ -95,7 +95,7 @@ const RoRoAccompaniedTaskVersion = ({ version, movementMode, movementModeIcon, t
         {renderSecondColumn(version, taskSummaryData)}
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-        {renderThirdColumn(version, movementModeIcon)}
+        {renderThirdColumn(version, movementMode, movementModeIcon)}
       </div>
     </div>
   );

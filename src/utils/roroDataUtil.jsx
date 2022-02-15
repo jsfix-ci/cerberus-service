@@ -1,3 +1,30 @@
+const hasTaskVersionValidCounts = (suppliedPassengerCounts) => {
+  let result = [];
+  suppliedPassengerCounts.forEach((countObj) => {
+    if (countObj.content !== null) {
+      result.push(true);
+    } else {
+      result.push(false);
+    }
+  });
+  return result.every(Boolean);
+};
+
+const getTaskDetailsTotalOccupants = (passengersMetadata, disregardUnknownCount = true) => {
+  if (passengersMetadata) {
+    const radix = 10;
+    let totalCount = parseInt(passengersMetadata.contents.find(({ propName }) => propName === 'totalOccupants').content, radix);
+    if (disregardUnknownCount) {
+      const unknownCountField = passengersMetadata.contents.find(({ propName }) => propName === 'unknownCount');
+      if (unknownCountField) {
+        const unknownCount = parseInt(unknownCountField.content, radix);
+        return totalCount - unknownCount;
+      }
+    }
+    return totalCount;
+  }
+};
+
 const hasZeroCount = (content) => {
   return content === '0';
 };
@@ -140,4 +167,6 @@ export { modifyRoRoPassengersTaskList,
   hasDriver,
   hasEta,
   hasCheckinDate,
-  extractTaskVersionsBookingField };
+  extractTaskVersionsBookingField,
+  getTaskDetailsTotalOccupants,
+  hasTaskVersionValidCounts };
