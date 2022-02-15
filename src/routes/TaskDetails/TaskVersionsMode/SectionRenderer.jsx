@@ -4,7 +4,7 @@ import { formatKey, formatField } from '../../../utils/formatField';
 import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
 
 const renderVersionSection = ({ fieldSetName, contents }) => {
-  if (contents.length > 0 && contents !== null && contents !== undefined) {
+  if (contents !== undefined && contents !== null && contents.length > 0) {
     const jsxElement = contents.map((content) => {
       if (!content.type.includes('HIDDEN')) {
         return (
