@@ -1,0 +1,128 @@
+{
+  "riskIndicatorsV-1" :[
+    [
+        {
+          "Type": "CashPaid",
+          "Condition 1": "equal",
+          "Expression": "true"
+        },
+        {
+          "Type": "mode",
+          "Condition 1": "in",
+          "Expression": "RORO Accompanied Freight"
+        }
+    ],
+    [
+      {
+        "Type": "Vehicle Empty",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ],
+    [
+      {
+        "Type": "CashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ],
+    [
+      {
+        "Type": "CashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ]
+    ],
+  "riskIndicatorsV-2": [
+    [
+      {
+        "Type": "cashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      },
+      {
+        "Type": "Vehicle Empty",
+        "Condition 1": "equal",
+        "Expression": "true"
+      }
+    ],
+    [
+      {
+        "Type": "Vehicle Empty",
+        "Condition 1": "equal",
+        "Expression": "true"
+      }
+    ],
+    [
+      {
+        "Type": "cashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ],
+    [
+      {
+        "Type": "cashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ]
+  ],
+  "riskIndicatorsV-3": [
+    [
+      {
+        "Type": "cashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ],
+    [
+      {
+        "Type": "cashPaid",
+        "Condition 1": "equal",
+        "Expression": "true"
+      },
+      {
+        "Type": "mode",
+        "Condition 1": "in",
+        "Expression": "RORO Accompanied Freight"
+      }
+    ]
+  ]
+}

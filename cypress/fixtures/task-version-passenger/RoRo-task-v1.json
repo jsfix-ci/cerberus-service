@@ -59,7 +59,7 @@
                 "null"
               ],
               "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
+              "rulePriority": "Tier 2",
               "indicatorMatches": [
                 {
                   "indicatorType": "BASIC",
@@ -83,8 +83,8 @@
               ]
             },
             {
-              "ruleId": 100,
-              "ruleName": "Selector matched",
+              "ruleId": 346,
+              "ruleName": "Paid by cash1",
               "ruleType": "Pre-arrival",
               "ruleVersion": 1,
               "ruleDescription": "Paid by cash",
@@ -97,55 +97,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "selectorsMatched"
+                  "entity": "Organisation",
+                  "descriptor": "telephone",
+                  "operator": "equal",
+                  "value": "01234 56723737"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
-                }
-              ],
-              "abuseTypes": [
-                "Class A Drugs"
-              ]
-            },
-            {
-              "ruleId": 10000,
-              "ruleName": "Task exists",
-              "ruleType": "Pre-arrival",
-              "ruleVersion": 1,
-              "ruleDescription": "Paid by cash",
-              "securityLabels": [
-                "null",
-                "null",
-                "null"
-              ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
-              "indicatorMatches": [
-                {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "taskExists"
-                },
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -188,6 +149,46 @@
                   ]
                 }
               ]
+            },
+            {
+              "selectorId": 50,
+              "selectorReference": "2021-50",
+              "startDate": "2021-07-09T13:42:43.639Z",
+              "endDate": "2021-08-20T22:59:59Z",
+              "category": "A",
+              "agencyCode": "Counter Terrorism Police (CTP)",
+              "intelligenceSource": "ffhtr",
+              "pointOfContact": "hrth",
+              "pocMessage": "selector auto testing",
+              "priority": "Selector",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "threatType": "Class B&C Drugs inc. Cannabis",
+              "notes": "notes",
+              "creator": "user",
+              "approver": "selector auto testing",
+              "securityLabels": [
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference": "selector auto testing",
+              "warnings": "rtht",
+              "requestingOfficer": "bffg",
+              "requestingTeam": "BFNIH",
+              "indicatorMatches": [
+                {
+                  "entity": "Organisation",
+                  "descriptor": "telephone",
+                  "operator": "equal",
+                  "value": "01234 56723737"
+                },
+                {
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+                }
+              ],
+              "selectorMatchedOnDate": "2021-07-13T09:30:02.896Z"
             }
           ],
           "movement": {

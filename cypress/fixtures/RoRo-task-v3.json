@@ -27,20 +27,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity": "Vehicle",
+                  "descriptor": "Vehicle Empty",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -62,20 +58,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity": "CashPaid",
+                  "descriptor": "CashPaid",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -97,20 +89,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "selectorsMatched"
+                  "entity": "CashPaid",
+                  "descriptor": "CashPaid",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -132,20 +120,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "taskExists"
+                  "entity": "CashPaid",
+                  "descriptor": "CashPaid",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -188,6 +172,78 @@
                   ]
                 }
               ]
+            },
+            {
+              "selectorId":225,
+              "selectorReference":"2022-225",
+              "groupReference":"SR-215",
+              "groupVersionNumber":1,
+              "startDate":"2022-01-27T10:23:12.732Z",
+              "endDate":"2022-07-27T10:23:12.732Z",
+              "category":"null",
+              "agencyCode":"BF",
+              "intelligenceSource":"null",
+              "pointOfContact":"null",
+              "pocMessage":"342334",
+              "priority":"Selector",
+              "inboundActionCode":"null",
+              "outboundActionCode":"null",
+              "threatType":"Alcohol",
+              "notes":"null",
+              "creator":"paul.herring",
+              "approver":"null",
+              "securityLabels":[
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference":"null",
+              "warnings":"null",
+              "requestingOfficer":"null",
+              "requestingTeam":"null",
+              "indicatorMatches":[
+                {
+                  "entity":"vehicle",
+                  "descriptor":"registrationNumber",
+                  "operator":"equal",
+                  "value":"DK-45678"
+                }
+              ],
+              "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
+            },
+            {
+              "selectorId":245,
+              "selectorReference":"2022-245",
+              "groupReference":"SR-227",
+              "groupVersionNumber":1,
+              "startDate":"2022-02-01T09:40:27.767Z",
+              "endDate":"2023-02-01T23:59:59Z",
+              "category":"C",
+              "agencyCode":"Borders and Aviation Security Unit Homeland Security Group (HSG)",
+              "intelligenceSource":"Qui adipisci consectetur ullam consequatur a aspernatur in",
+              "pointOfContact":"Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+              "pocMessage":"Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+              "priority":"Selector",
+              "inboundActionCode":"Worthy of attention",
+              "outboundActionCode":"Monitor only",
+              "threatType":"Alcohol",
+              "notes":"notes",
+              "creator":"user",
+              "approver":"Ut adipisci culpa reiciendis dicta ullam vel duis laboriosam eiusmod",
+              "securityLabels":[
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference":"Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
+              "warnings":"null",
+              "requestingOfficer":"Velit in sunt aliquip voluptate tempore consectetur",
+              "requestingTeam":"RoRo tourist",
+              "indicatorMatches":[
+                {
+                  "entity":"Person",
+                  "descriptor":"familyName",
+                  "operator":"equal",
+                  "value":"TURNER"
+                }
+              ],
+              "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
             }
           ],
           "movement": {

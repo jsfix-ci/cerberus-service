@@ -2,6 +2,7 @@
   {
     "id": "31af5396-5bfd-11ec-b723-66e520b0c21b",
     "assignee": "test",
+    "outcome": "targetWithdrawn",
     "status": "ISSUED",
     "arrivalDate": "2022-01-02T10:12:35Z",
     "movementMode": "RORO_TOURIST",
@@ -12,7 +13,121 @@
       "threatIndicators": [],
       "category": "target_B",
       "eventPort": "",
-      "risks": [],
+      "risks": {
+        "selectors": [
+          {
+            "contents": {
+              "groupNumber": "2021-50",
+              "requestingOfficer": "bffg",
+              "sourceReference": "ffhtr",
+              "groupReference": "selector auto testing",
+              "category": "C",
+              "threatType": "Class B&C Drugs inc. Cannabis",
+              "pointOfContactMessage": "selector auto testing",
+              "pointOfContact": "hrth",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "warnings": "rtht",
+              "notes": "notes",
+              "creator": "user",
+              "selectorId": 50
+            },
+            "childSets": [
+              {
+                "entity": "Message",
+                "attribute": "mode",
+                "operator": "in",
+                "indicatorValue": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+              }
+            ]
+          },
+          {
+            "contents": {
+              "groupNumber": "2021-51",
+              "requestingOfficer": "Peter Price",
+              "sourceReference": "intel source",
+              "category": "B",
+              "localReference": "Local ref",
+              "threatType": "National Security at the Border",
+              "pointOfContactMessage": "Message for the POC",
+              "pointOfContact": "Point Of Contact",
+              "inboundActionCode": "Advise originator",
+              "outboundActionCode": "Full attention",
+              "warnings": "Supplemental warnings",
+              "notes": "Supplemental notes",
+              "creator": "Joe Jones",
+              "selectorId": 51
+            },
+            "childSets": [
+              {
+                "entity": "Message",
+                "attribute": "mode",
+                "operator": "in",
+                "indicatorValue": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+              }
+            ]
+          },
+          {
+            "contents": {
+              "groupNumber": "2021-52",
+              "requestingOfficer": "srg",
+              "sourceReference": "grre",
+              "groupReference": "greger",
+              "category": "C",
+              "threatType": "Class B&C Drugs inc. Cannabis",
+              "pointOfContactMessage": "gregre",
+              "pointOfContact": "greg",
+              "inboundActionCode": "No action required",
+              "outboundActionCode": "No action required",
+              "warnings": "rgeger",
+              "notes": "notes",
+              "creator": "user",
+              "selectorId": 52
+            },
+            "childSets": [
+              {
+                "entity": "Message",
+                "attribute": "mode",
+                "operator": "in",
+                "indicatorValue": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "contents": {
+              "name": "Scenario 1 Rule",
+              "rulePriority": "Tier 1",
+              "ruleVersion": 1,
+              "abuseType": "Class A Drugs",
+              "agencyCode": "",
+              "description": "COP Scenario 1",
+              "ruleId": 191
+            },
+            "childSets": [
+              {
+                "contents": {
+                  "entity": "",
+                  "attribute": "",
+                  "operator": "",
+                  "indicatorValue": ""
+                },
+                "childSets": []
+              },
+              {
+                "contents": {
+                  "entity": "",
+                  "attribute": "",
+                  "operator": "",
+                  "indicatorValue": ""
+                },
+                "childSets": []
+              }
+            ]
+          }
+        ]
+      },
       "numberOfVersions": 1,
       "roro": {
         "roroFreightType": "unaccompanied",
@@ -27,8 +142,7 @@
           "vehicle": {},
           "load": {},
           "account": {},
-          "passengers":[
-          ]
+          "passengers": []
         }
       }
     }

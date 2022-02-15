@@ -1,7 +1,9 @@
-import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_INDIVIDUAL_ICON, RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../constants';
+import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON,
+  RORO_TOURIST_SINGLE_ICON, RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../constants';
 
 const isVehiclePresent = (vehicle) => {
-  return vehicle?.registrationNumber && vehicle?.registrationNumber !== '' && vehicle?.registrationNumber !== null;
+  return vehicle?.registrationNumber && vehicle?.registrationNumber !== ''
+    && vehicle?.registrationNumber !== null && vehicle?.registrationNumber !== undefined;
 };
 
 const isIndividualPassenger = (passengers) => {
@@ -9,7 +11,8 @@ const isIndividualPassenger = (passengers) => {
 };
 
 const hasTrailer = (vehicle) => {
-  return vehicle?.trailer?.regNumber && vehicle?.trailer?.regNumber !== '' && vehicle?.trailer?.regNumber !== null;
+  return vehicle?.trailer?.regNumber && vehicle?.trailer?.regNumber !== ''
+    && vehicle?.trailer?.regNumber !== null && vehicle?.trailer?.regNumber !== undefined;
 };
 
 const getTouristIcon = (vehicle, passengers) => {
@@ -18,7 +21,7 @@ const getTouristIcon = (vehicle, passengers) => {
   }
 
   if (!isVehiclePresent(vehicle) && isIndividualPassenger(passengers)) {
-    return RORO_TOURIST_INDIVIDUAL_ICON;
+    return RORO_TOURIST_SINGLE_ICON;
   }
 
   return RORO_TOURIST_GROUP_ICON;

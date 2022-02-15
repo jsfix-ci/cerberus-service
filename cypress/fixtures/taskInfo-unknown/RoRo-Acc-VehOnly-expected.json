@@ -1,9 +1,8 @@
 {
   "taskListDetails": {
-    "mode": "Pre-Arrival",
-    "rules": "Scenario 1 Rule, Tier 1, Class A Drugs and 0 other rules",
+    "rules": "Class A Drugs and 0 other rules",
     "voyage": "Brittany Ferries voyage of BARFLEUR",
-    "arrival": "arrival a year after travel",
+    "arrival": "arrival 2 years ago",
     "departurePort": "unknown",
     "departureDateTime": "4 Aug 2020 at 13:05",
     "arrivalPort": "unknown",
@@ -16,14 +15,14 @@
     "goods": "Unknown",
     "passengerDetails": "None",
     "trailerRegitration": "0 trips",
-    "riskScore": "Risk Score:"
+    "riskScore": "Risk Score: 0"
   },
   "taskSummary": {
     "Ferry": "Brittany Ferries voyage of BARFLEUR",
     "Departure": "4 Aug 2020 at 13:05",
     "Arrival": "4 Aug 2020 at 13:35",
-    "Account": "unknown, booked on 2 Aug 2020 at 09:15",
-    "Haulier": "unknown"
+    "Account": "Arrival 2 years ago",
+    "vehicle": ""
   }
 }
 

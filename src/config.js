@@ -18,7 +18,7 @@ const config = {
   dayjsConfig: {
     relativeTime: {
       future: '%s before travel',
-      past: '%s after travel',
+      past: '%s ago',
       s: 'a few seconds',
       m: 'a minute',
       mm: '%d minutes',

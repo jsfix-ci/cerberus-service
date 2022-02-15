@@ -12,7 +12,42 @@
       "threatIndicators": [],
       "category": "target_B",
       "eventPort": "",
-      "risks": [],
+      "risks": {
+        "selectors": [],
+        "rules": [
+          {
+            "contents": {
+              "name": "Scenario 1 Rule",
+              "rulePriority": "Tier 1",
+              "ruleVersion": 1,
+              "abuseType": "Class A Drugs",
+              "agencyCode": "",
+              "description": "COP Scenario 1",
+              "ruleId": 191
+            },
+            "childSets": [
+              {
+                "contents": {
+                  "entity": "",
+                  "attribute": "",
+                  "operator": "",
+                  "indicatorValue": ""
+                },
+                "childSets": []
+              },
+              {
+                "contents": {
+                  "entity": "",
+                  "attribute": "",
+                  "operator": "",
+                  "indicatorValue": ""
+                },
+                "childSets": []
+              }
+            ]
+          }
+        ]
+      },
       "numberOfVersions": 1,
       "roro": {
         "roroFreightType": "unaccompanied",

@@ -6,14 +6,16 @@ import * as pluralise from 'pluralise';
 import * as constants from '../../constants';
 // Utils
 import targetDatetimeDifference from '../../utils/calculateDatetimeDifference';
+import formatGender from '../../utils/genderFormatter';
+import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer } from '../../utils/roroDataUtil';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
     case constants.RORO_TOURIST_CAR_ICON: {
       return 'Vehicle';
     }
-    case constants.RORO_TOURIST_INDIVIDUAL_ICON: {
-      return 'Individual';
+    case constants.RORO_TOURIST_SINGLE_ICON: {
+      return 'Single passenger';
     }
     default: {
       return 'Group';
@@ -26,7 +28,7 @@ const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
     case constants.RORO_TOURIST_CAR_ICON: {
       return !roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase();
     }
-    case constants.RORO_TOURIST_INDIVIDUAL_ICON: {
+    case constants.RORO_TOURIST_SINGLE_ICON: {
       return '1 foot passenger';
     }
     default: {
@@ -55,7 +57,7 @@ const createCoTravellers = (coTravellers) => {
 
 const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) => {
   return (
-    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
+    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${movementModeIcon}`} />
       <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{getMovementModeTypeText(movementModeIcon)}</p>
       <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{getMovementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
@@ -64,11 +66,27 @@ const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) =>
 };
 
 const renderRoroModeSection = (roroData, movementModeIcon) => {
+  if (movementModeIcon === constants.RORO_UNACCOMPANIED_ICON) {
+    return (
+      <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
+        <i className={`icon-position--left ${movementModeIcon}`} />
+        <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{'\xa0'}</p>
+        <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
+          {hasTrailer(roroData.vehicle?.trailer?.regNumber) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
+        </p>
+      </div>
+    );
+  }
   return (
-    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-8">
+    <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${movementModeIcon}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{!roroData.vehicle.make ? '\xa0' : roroData.vehicle.make} {roroData.vehicle.model}</p>
-      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{!roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase()}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
+        {hasVehicleMake(roroData.vehicle?.make) ? roroData.vehicle.make : '\xa0'}{' '}
+        {hasVehicleModel(roroData.vehicle?.model) ? roroData.vehicle.model : '\xa0'}
+      </p>
+      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
+        {hasVehicle(roroData.vehicle?.registrationNumber) ? roroData.vehicle.registrationNumber.toUpperCase() : '\xa0'}
+      </p>
     </div>
   );
 };
@@ -98,7 +116,8 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
             Primary traveller
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-            <li className="govuk-!-font-weight-bold">{roroData?.passengers[0]?.name}</li>
+            {roroData.passengers ? (<li className="govuk-!-font-weight-bold">{roroData?.passengers[0]?.name}</li>)
+              : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
           </ul>
         </div>
       </div>
@@ -132,7 +151,8 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
           Co-travellers
         </h3>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-          {roroData?.passengers.length > 1 ? createCoTravellers([...roroData.passengers]) : <li className="govuk-!-font-weight-bold">None</li>}
+          {roroData?.passengers && roroData?.passengers.length > 1
+            ? (createCoTravellers([...roroData.passengers])) : (<li className="govuk-!-font-weight-bold">None</li>) }
         </ul>
       </div>
     </div>
@@ -160,15 +180,14 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                   Driver
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                  {roroData?.driver ? (
+                  {roroData?.passengers ? (
                     <>
                       <li className="govuk-!-font-weight-bold">
                         {(roroData.passengers && roroData.passengers.length > 0) && roroData.passengers[0].name}
                       </li>
                       {(roroData.passengers && roroData.passengers.length > 0) && <br />}
                       <li>
-                        {roroData.passengers && roroData.passengers[0].gender === 'M' && 'Male'}
-                        {roroData.passengers && roroData.passengers[0].gender === 'F' && 'Female'}
+                        {formatGender(passengers[0]?.gender)}
                       </li>
                     </>
                   ) : (
@@ -215,9 +234,8 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                 Co-travellers
               </h3>
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                {roroData.passengers ? (
-                  createCoTravellers([...roroData.passengers])
-                ) : (<li className="govuk-!-font-weight-bold">None</li>)}
+                {roroData.passengers && roroData.passengers.length > 1
+                  ? (createCoTravellers([...roroData.passengers])) : (<li className="govuk-!-font-weight-bold">None</li>)}
               </ul>
             </div>
           </div>
@@ -225,7 +243,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.RORO_TOURIST_INDIVIDUAL_ICON) {
+  if (movementModeIcon === constants.RORO_TOURIST_SINGLE_ICON) {
     return (
       <>
         <section className="task-list--item-2">
@@ -300,7 +318,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.passengers && roroData.passengers.length > 0 ? (
                       <>
-                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
+                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length - 1, '% passenger', '% passengers')}</li>
                       </>
                     ) : (<li className="govuk-!-font-weight-bold">None</li>)}
                   </ul>
@@ -397,7 +415,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.passengers && roroData.passengers.length > 0 ? (
                       <>
-                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length, '% passenger', '% passengers')}</li>
+                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length - 1, '% passenger', '% passengers')}</li>
                       </>
                     ) : (<li className="govuk-!-font-weight-bold">None</li>)}
                   </ul>

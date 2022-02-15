@@ -9,14 +9,14 @@ import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 // Config
-import { TARGETER_GROUP, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import { TARGETER_GROUP, TASK_OUTCOME_INSUFFICIENT_RESOURCES, TASK_OUTCOME_MISSED, TASK_OUTCOME_NEGATIVE, TASK_OUTCOME_NO_SHOW, TASK_OUTCOME_POSITIVE, TASK_OUTCOME_TARGET_WITHDRAWN, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
 import { useKeycloak } from '../../utils/keycloak';
 import { calculateTaskListTotalRiskScore } from '../../utils/rickScoreCalculator';
 import getMovementModeIcon from '../../utils/getVehicleModeIcon';
-import modify from '../../utils/roroDataUtil';
+import { modifyRoRoPassengersTaskList } from '../../utils/roroDataUtil';
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import ErrorSummary from '../../govuk/ErrorSummary';
@@ -70,11 +70,18 @@ const filters = [
       {
         optionName: 'any',
         optionLabel: 'Any',
-        checked: false,
+        checked: true,
       },
     ],
   },
 ];
+
+const TabStatusMapping = {
+  new: 'NEW',
+  inProgress: 'IN_PROGRESS',
+  issued: 'ISSUED',
+  complete: 'COMPLETE',
+};
 
 const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 }) => {
   dayjs.extend(relativeTime);
@@ -133,12 +140,35 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     }
   };
 
-  const formatTargetRisk = (target) => {
-    if (target.risks.length >= 1) {
-      const topRisk = target.risks[0].contents
-        ? target.risks[0].contents.threatType
-        : target.risks[0].abuseType;
-      const count = target.risks.length - 1;
+  const extractDescription = (risk) => {
+    const contents = risk.contents;
+    if (!contents) {
+      return risk.name;
+    }
+    return contents.groupReference ? contents.groupReference : contents.localReference || contents.name;
+  };
+
+  const extractThreatLevel = (risk) => {
+    const contents = risk.contents;
+    if (!contents) {
+      return risk.rulePriority;
+    }
+    return contents.category ? <span className="govuk-body">SELECTOR <span className="govuk-tag govuk-tag--riskTier">{contents.category}</span></span> : <span className="govuk-tag govuk-tag--riskTier">{contents.rulePriority}</span>;
+  };
+
+  const extractRiskType = (risk) => {
+    const contents = risk.contents;
+    if (!contents) {
+      return risk.abuseType;
+    }
+    return contents.threatType ? contents.threatType : contents.abuseType;
+  };
+
+  const formatTargetRisk = (target, highestRisk) => {
+    const risksRules = target.risks.rules?.length + target.risks.selectors?.length;
+    if (highestRisk) {
+      const topRisk = extractRiskType(highestRisk);
+      const count = risksRules > 0 && risksRules - 1;
       return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
     }
     return null;
@@ -166,6 +196,41 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       return (
         <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
       );
+    }
+  };
+
+  const getOutcome = (outcome) => {
+    let outcomeText;
+    let outcomeClass = 'genericOutcome';
+    switch (outcome) {
+      case TASK_OUTCOME_POSITIVE:
+        outcomeText = 'Positive Exam';
+        outcomeClass = 'positiveOutcome';
+        break;
+      case TASK_OUTCOME_NEGATIVE:
+        outcomeText = 'Negative Exam';
+        break;
+      case TASK_OUTCOME_NO_SHOW:
+        outcomeText = 'No Show';
+        break;
+      case TASK_OUTCOME_MISSED:
+        outcomeText = 'Missed Target';
+        break;
+      case TASK_OUTCOME_INSUFFICIENT_RESOURCES:
+        outcomeText = 'Insufficient Resources';
+        break;
+      case TASK_OUTCOME_TARGET_WITHDRAWN:
+        outcomeText = 'Target Withdrawn';
+        break;
+      default:
+        break;
+    }
+    return outcomeText && <p className={`govuk-body govuk-tag govuk-tag--${outcomeClass}`}>{outcomeText}</p>;
+  };
+
+  const hasOutcome = (target) => {
+    if (target.status.toUpperCase() === TASK_STATUS_COMPLETED.toUpperCase()) {
+      return getOutcome(target.outcome);
     }
   };
 
@@ -204,6 +269,42 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     };
   }, 60000);
 
+  const categoryThreatMapping = {
+    A: 1,
+    B: 2,
+    C: 3,
+    D: 4,
+    E: 5,
+    F: 6,
+    G: 7,
+  };
+
+  const getHighestThreatLevel = (risks) => {
+    let sortedThreatsArray = [];
+    const selectors = risks.selectors;
+    const rules = risks.rules;
+
+    if (selectors && selectors.length) {
+      selectors.map((selector) => {
+        const category = selector.contents.category;
+        if (sortedThreatsArray[categoryThreatMapping[category]]) sortedThreatsArray[parseInt(categoryThreatMapping[category], 10) + 1] = selector;
+        else sortedThreatsArray[parseInt(categoryThreatMapping[category], 10)] = selector;
+      });
+    }
+
+    if (!selectors?.length && (rules && rules.length)) {
+      rules.map((rule) => {
+        const position = rule.contents.rulePriority.split(' ')[1];
+        if (sortedThreatsArray[position]) sortedThreatsArray[parseInt(position, 10) + 1] = rule;
+        else sortedThreatsArray[parseInt(position, 10)] = rule;
+      });
+    }
+
+    // Creating a filtered array removing off empty array elements
+    sortedThreatsArray = sortedThreatsArray.filter((i) => i === 0 || i);
+    return sortedThreatsArray[0];
+  };
+
   return (
     <>
       {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
@@ -212,8 +313,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       )}
 
       {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
-        const roroData = modify({ ...target.summary.roro.details });
+        const roroData = modifyRoRoPassengersTaskList({ ...target.summary.roro.details });
         const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
+        const highestRisk = target.summary.risks[0] || getHighestThreatLevel(target.summary.risks);
         return (
           <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
             <div className="card-container">
@@ -224,28 +326,28 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
                       <div className="heading-container">
                         <h4 className="govuk-heading-s task-heading">
                           {target.summary.parentBusinessKey.businessKey}
-                          <span className="dot" />
-                          {target.summary.risks[0] && (
-                          <span className="govuk-body">
-                            {target.summary.risks[0].contents ? target.summary.risks[0].contents.groupReference : target.summary.risks[0].name}
-                          </span>
-                          )}
                         </h4>
                       </div>
                     </div>
-                    <div className="govuk-grid-column">
-                      {target.summary.risks[0] && (
-                      <span className="govuk-tag govuk-tag--riskTier">
-                        {target.summary.risks[0].contents ? target.summary.risks[0].contents.category : target.summary.risks[0].rulePriority}
+                    <div className="govuk-grid-column task-highest-risk">
+                      {highestRisk && (
+                      <span className="govuk-body">
+                        {extractDescription(highestRisk)}
                       </span>
                       )}
+                    </div>
+                    <div className="govuk-grid-column">
+                      {highestRisk && (
+                        extractThreatLevel(highestRisk)
+                      )}
                       <span className="govuk-body task-risk-statement">
-                        {formatTargetRisk(target.summary)}
+                        {formatTargetRisk(target.summary, highestRisk)}
                       </span>
                     </div>
                     <div className="govuk-grid-column">
                       {hasUpdatedStatus(target.summary)}
                       {hasRelistedStatus(target.summary)}
+                      {hasOutcome(target)}
                     </div>
                   </div>
                   <div className="govuk-grid-item">
@@ -323,13 +425,94 @@ const TaskListPage = () => {
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [filtersToApply, setFiltersToApply] = useState('');
-  const [storedFilters, setStoredFilters] = useState();
+  const [storedFilters, setStoredFilters] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
 
   const [hasSelectors, setHasSelectors] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [movementModesSelected, setMovementModesSelected] = useState([]);
+
+  const defaultMovementModes = [
+    {
+      taskStatuses: [],
+      movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+      hasSelectors: null,
+    },
+    {
+      taskStatuses: [],
+      movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+      hasSelectors: null,
+    },
+    {
+      taskStatuses: [],
+      movementModes: ['RORO_TOURIST'],
+      hasSelectors: null,
+    },
+  ];
+
+  const defaultHasSelectors = [
+    {
+      taskStatuses: [],
+      movementModes: [],
+      hasSelectors: true,
+    },
+    {
+      taskStatuses: [],
+      movementModes: [],
+      hasSelectors: false,
+    },
+    {
+      taskStatuses: [],
+      movementModes: [],
+      hasSelectors: null,
+    },
+  ];
+
+  let filterPosition = 0;
+
+  const getAppliedFilters = () => {
+    const taskId = localStorage.getItem('taskId') !== 'null' ? localStorage.getItem('taskId') : 'new';
+    if (localStorage.getItem('filterMovementMode') || localStorage.getItem('hasSelector')) {
+      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: localStorage.getItem('hasSelector') ? localStorage.getItem('hasSelector') : mode.hasSelectors }));
+      const selectedFilters = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
+      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: selectedFilters, hasSelectors: selector.hasSelectors }));
+      return movementModes.concat(selectors);
+    }
+
+    return [
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+        hasSelectors: null,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: ['RORO_TOURIST'],
+        hasSelectors: null,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: [],
+        hasSelectors: true,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: [],
+        hasSelectors: false,
+      },
+      {
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: [],
+        hasSelectors: null,
+      },
+    ];
+  };
 
   const getTaskCount = async (activeFilters) => {
     setTaskCountsByStatus();
@@ -344,37 +527,13 @@ const TaskListPage = () => {
     }
   };
 
-  const getFiltersAndSelectorsCount = async () => {
+  const getFiltersAndSelectorsCount = async (taskId = 'new') => {
+    localStorage.setItem('taskId', taskId);
     setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
-        const filtersSelectorsCount = await camundaClientV1.post('/targeting-tasks/status-counts', [
-          {
-            movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
-            hasSelectors: null,
-          },
-          {
-            movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
-            hasSelectors: null,
-          },
-          {
-            movementModes: ['RORO_TOURIST'],
-            hasSelectors: null,
-          },
-          {
-            movementModes: [],
-            hasSelectors: true,
-          },
-          {
-            movementModes: [],
-            hasSelectors: false,
-          },
-          {
-            movementModes: [],
-            hasSelectors: null,
-          },
-        ]);
-        setFiltersAndSelectorsCount(filtersSelectorsCount.data);
+        const countsResponse = await camundaClientV1.post('/targeting-tasks/status-counts', getAppliedFilters());
+        setFiltersAndSelectorsCount(countsResponse.data);
       } catch (e) {
         setError(e.message);
         setFiltersAndSelectorsCount();
@@ -420,7 +579,7 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount();
+    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
     setLoading(false);
   };
 
@@ -465,13 +624,13 @@ const TaskListPage = () => {
 
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount();
+    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
     setLoading(false);
   };
 
   useEffect(() => {
     const selectedArray = [];
-    if (hasSelectors) { selectedArray.push(hasSelectors); }
+    if (hasSelectors) { selectedArray.push(hasSelectors); } else { selectedArray.push('null'); }
     if (movementModesSelected?.length > 0) { selectedArray.push(...movementModesSelected); }
     setStoredFilters(selectedArray);
   }, [hasSelectors, movementModesSelected]);
@@ -487,12 +646,30 @@ const TaskListPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.removeItem('taskId');
+  }, []);
+
+  const getDefaultFiltersAndSelectorsCount = (parentIndex, index) => {
+    return filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+  };
+
+  const renderSelectedFiltersCount = () => {
+    const totalCount = filtersAndSelectorsCount[filterPosition]?.statusCounts?.total;
+    filterPosition += 1;
+    return totalCount;
+  };
+
   const showFilterAndSelectorCount = (parentIndex, index) => {
     let count = 0;
     if (filtersAndSelectorsCount) {
-      count = filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+      if (!localStorage.getItem('filterMovementMode')) {
+        count = getDefaultFiltersAndSelectorsCount(parentIndex, index);
+      } else {
+        count = renderSelectedFiltersCount();
+      }
     }
-    return count;
+    return count || 0;
   };
 
   return (
@@ -536,7 +713,10 @@ const TaskListPage = () => {
                       </legend>
                       <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
                         {filterSet.filterOptions.map((option, index) => {
-                          let checked = !!((storedFilters && !!storedFilters.find((filter) => filter === option.optionName)));
+                          let checked = !!((storedFilters && !!storedFilters.find((filter) => {
+                            if (filter === 'null' && option.optionName === 'any') return true;
+                            return filter === option.optionName;
+                          })));
                           return (
                             <li
                               className={`govuk-${filterSet.filterClassPrefix}__item`}
@@ -548,7 +728,7 @@ const TaskListPage = () => {
                                 name={filterSet.filterName}
                                 type={filterSet.filterType}
                                 value={option.optionName}
-                                defaultChecked={checked}
+                                checked={checked}
                                 onChange={(e) => {
                                   checked = !checked;
                                   handleFilterChange(e, option, filterSet);
@@ -559,9 +739,8 @@ const TaskListPage = () => {
                                 className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
                                 htmlFor={option.optionName}
                               >
-                                {option.optionLabel}
+                                {option.optionLabel} ({showFilterAndSelectorCount(parentIndex, index)})
                               </label>
-                              <span className="govuk-!-margin-top-2 inline-block">({showFilterAndSelectorCount(parentIndex, index)})</span>
                             </li>
                           );
                         })}
@@ -587,7 +766,10 @@ const TaskListPage = () => {
             <Tabs
               title="Title"
               id="tasks"
-              onTabClick={() => { history.push(); }}
+              onTabClick={(e) => {
+                history.push();
+                getFiltersAndSelectorsCount(e.id);
+              }}
               items={[
                 {
                   id: TASK_STATUS_NEW,
