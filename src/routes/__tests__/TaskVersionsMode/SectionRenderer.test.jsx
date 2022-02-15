@@ -11,7 +11,6 @@ import {
 
 describe('SectionRenderer', () => {
   describe('renderVersionSection', () => {
-    // TODO undefined, null and empty scenarios are redundant as far as I can tell and can be removed
     it('should return undefined if contents is undefined', () => {
       const input = {
         fieldSetName: 'field-set-name',
@@ -114,7 +113,6 @@ describe('SectionRenderer', () => {
   });
 
   describe('renderVehicleSection', () => {
-    // TODO this test is redundant so test and if condition in production code can be removed
     it('should return undefined if movement mode is RORO_UNACCOMPANIED_FREIGHT', () => {
       const input = {
         contents: [
