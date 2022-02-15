@@ -64,7 +64,7 @@ const formatKey = (fieldType, content) => {
 };
 
 const formatLinkField = (fieldType, content, linkUrl) => {
-  return (<a href={linkUrl}>{formatField(fieldType, content)}</a>);
+  return (<a href={linkUrl} target="_blank" rel="noreferrer noopener">{formatField(fieldType, content)}</a>);
 };
 
 export { formatLinkField, formatField, formatKey };

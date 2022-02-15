@@ -201,14 +201,14 @@ describe('formatField', () => {
 describe('formatLinkField', () => {
   const link = 'https://host/endpoint';
 
-  const toHref = (output) => {
-    return <a href={link}>{output}</a>;
+  const toNewTabHref = (output) => {
+    return <a href={link} rel="noreferrer noopener" target="_blank">{output}</a>;
   };
 
   describe('STRING type', () => {
     it.each([
-      ['LUKE AYLING', toHref('LUKE AYLING')],
-      ['PABLO HERNANDEZ', toHref('PABLO HERNANDEZ')],
+      ['LUKE AYLING', toNewTabHref('LUKE AYLING')],
+      ['PABLO HERNANDEZ', toNewTabHref('PABLO HERNANDEZ')],
     ])(
       'should format string type fields correctly', (content, expectedOutput) => {
         expect(formatLinkField('STRING', content, link)).toEqual(expectedOutput);
@@ -218,8 +218,8 @@ describe('formatLinkField', () => {
 
   describe('STRING-CHANGED type', () => {
     it.each([
-      ['TONY YEBOAH', toHref(toChangedFieldOutput('TONY YEBOAH'))],
-      ['BILLY BREMNER', toHref(toChangedFieldOutput('BILLY BREMNER'))],
+      ['TONY YEBOAH', toNewTabHref(toChangedFieldOutput('TONY YEBOAH'))],
+      ['BILLY BREMNER', toNewTabHref(toChangedFieldOutput('BILLY BREMNER'))],
     ])(
       'should format changed string type fields correctly', (content, expectedOutput) => {
         expect(formatLinkField('STRING-CHANGED', content, link)).toEqual(expectedOutput);
