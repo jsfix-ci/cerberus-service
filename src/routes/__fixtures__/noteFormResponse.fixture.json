@@ -15,7 +15,7 @@
   "display": "form",
   "components": [
     {
-      "id": "ein56wa",
+      "id": "en2xgco",
       "key": "note",
       "case": "",
       "mask": false,
@@ -183,9 +183,47 @@
       "allowCalculateOverride": false
     }
   ],
-  "versionId": "0df383a3-b901-41ef-96f2-c562c7bdbfcd",
+  "versionId": "ce725542-6b99-45a9-a410-114ac1962539",
   "createdOn": "2021-03-29T16:37:07.161Z",
-  "createdBy": "testuser@email.com",
-  "updatedBy": "testuser@email.com",
-  "updatedOn": "2021-04-07T08:29:14.135Z"
+  "createdBy": null,
+  "updatedBy": null,
+  "updatedOn": "2022-02-08T15:29:46.943Z",
+  "links": [
+    {
+      "rel": "self",
+      "title": "Self",
+      "method": "GET",
+      "href": "http://form-api-server.dev.cop.homeoffice.gov.uk:10443/forms/d508523e-5549-436c-86ac-8ae2523cbc48"
+    },
+    {
+      "rel": "allVersions",
+      "title": "Show all versions",
+      "method": "GET",
+      "href": "http://form-api-server.dev.cop.homeoffice.gov.uk:10443/forms/d508523e-5549-436c-86ac-8ae2523cbc48/versions"
+    },
+    {
+      "rel": "comments",
+      "title": "Show all comments",
+      "method": "GET",
+      "href": "http://form-api-server.dev.cop.homeoffice.gov.uk:10443/forms/d508523e-5549-436c-86ac-8ae2523cbc48/comments"
+    },
+    {
+      "rel": "create-comment",
+      "title": "Add a comment",
+      "method": "POST",
+      "href": "http://form-api-server.dev.cop.homeoffice.gov.uk:10443/forms/d508523e-5549-436c-86ac-8ae2523cbc48/comments"
+    },
+    {
+      "rel": "update",
+      "title": "Update form",
+      "method": "PUT",
+      "href": "http://form-api-server.dev.cop.homeoffice.gov.uk:10443/forms/d508523e-5549-436c-86ac-8ae2523cbc48"
+    },
+    {
+      "rel": "delete",
+      "title": "Delete form",
+      "method": "DELETE",
+      "href": "http://form-api-server.dev.cop.homeoffice.gov.uk:10443/forms/d508523e-5549-436c-86ac-8ae2523cbc48"
+    }
+  ]
 }
