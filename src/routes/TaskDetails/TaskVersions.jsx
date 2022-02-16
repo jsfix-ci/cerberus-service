@@ -318,8 +318,8 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
          * there is only ever one item in the array
          */
         taskVersions.map((version, index) => {
-          const booking = version?.find((fieldset) => fieldset.propName === 'booking') || null;
-          const bookingDate = booking?.contents.find((field) => field.propName === 'dateBooked').content || null;
+          const versionDetails = version.find((fieldset) => fieldset.propName === 'versionDetails') || null;
+          const creationDate = versionDetails?.contents.find((field) => field.propName === 'createdAt').content || null;
           const versionNumber = taskVersions.length - index;
           const regexToReplace = /\s/g;
           const formattedMovementMode = movementMode.replace(regexToReplace, '_').toUpperCase();
@@ -332,7 +332,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(bookingDate ? bookingDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
