@@ -1,8 +1,8 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
 
-import { SelectorMatchesTaskVersion, selectorsByGroupReference } from './TaskDetails/TaskVersionsMode/SelectorMatchesTaskVersion';
-import { taskMultipleGroupSelectors, selectorMatches } from './__fixtures__/taskVersionSelectors';
+import { SelectorMatchesTaskVersion, selectorsByGroupReference } from '../TaskDetails/TaskVersionsMode/SelectorMatchesTaskVersion';
+import { taskMultipleGroupSelectors, selectorMatches } from '../__fixtures__/taskVersionSelectors';
 
 describe('SelectorMatchesTaskVersion', () => {
   it('should combine selectors by group reference', () => {
