@@ -212,4 +212,28 @@ describe('TaskVersions', () => {
 
     expect(element[1]).toHaveAttribute('class', 'govuk-grid-key font__light task-versions--highlight');
   });
+
+  it('should render version date for one version', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
+      taskVersions={taskSingleVersion}
+      taskVersionDifferencesCounts={[]}
+      movementMode="RORO Unaccompanied Freight"
+    />);
+
+    expect(screen.queryAllByText('9 Feb 2022 at 17:03')).toHaveLength(1);
+  });
+
+  it('should render version date for all versions', () => {
+    render(<TaskVersions
+      taskSummaryBasedOnTIS={noVehicleTwoPaxTsBasedOnTISData}
+      taskVersions={taskWithThreeVersions}
+      taskVersionDifferencesCounts={[1, 0]}
+      movementMode="RORO Accompanied Freight"
+    />);
+
+    expect(screen.queryAllByText('9 Feb 2022 at 17:03')).toHaveLength(1);
+    expect(screen.queryAllByText('10 Feb 2022 at 17:03')).toHaveLength(1);
+    expect(screen.queryAllByText('11 Feb 2022 at 17:03')).toHaveLength(1);
+  });
 });
