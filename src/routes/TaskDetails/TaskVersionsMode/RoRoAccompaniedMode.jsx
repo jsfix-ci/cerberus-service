@@ -2,7 +2,7 @@ import React from 'react';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import { renderTargetingIndicatorsSection, renderVehicleSection, renderTrailerSection, renderVersionSection,
-  renderOccupantsSection, renderOccupantsCategoryCountSection } from './SectionRenderer';
+  renderOccupantsSection, renderOccupantCarrierCountsSection } from './SectionRenderer';
 import { hasTaskVersionPassengers, extractTaskVersionsBookingField, getTaskDetailsTotalOccupants } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
@@ -58,7 +58,7 @@ const renderThirdColumn = (version, movementMode, movementModeIcon) => {
   const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
   const isValidToRender = hasTaskVersionPassengers(passengersField);
   const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon);
-  const occupantsCount = renderOccupantsCategoryCountSection(driverField, passengersField, passengersMetadata, movementMode);
+  const carierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
   const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField);
   return (
     <div className="govuk-task-details-col-3">
@@ -68,13 +68,13 @@ const renderThirdColumn = (version, movementMode, movementModeIcon) => {
           <span className="govuk-grid-key font__light">Total occupants</span>
         </div>
         <div className="govuk-task-details-grid-row total-occupants-count">
-          <span className="govuk-grid-key font__bold">{totalCount}</span>
+          <span className="govuk-grid-key font__bold">{totalCount || passengersField.childSets.length}</span>
         </div>
-        {occupantsCount
+        {carierOccupantCounts
         && (
         <div className="govuk-task-details-counts-container">
           <div className="task-details-container">
-            {occupantsCount}
+            {carierOccupantCounts}
           </div>
         </div>
         )}

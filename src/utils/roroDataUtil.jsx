@@ -1,20 +1,20 @@
-const hasTaskVersionValidCounts = (suppliedPassengerCounts) => {
-  let result = [];
+const hasCarrierCounts = (suppliedPassengerCounts) => {
+  const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
+  let hayStack = [];
   suppliedPassengerCounts.forEach((countObj) => {
-    if (countObj.content !== null) {
-      result.push(true);
-    } else {
-      result.push(false);
+    if (countObj.propName === 'oapCount' || countObj.propName === 'adultCount' || countObj.propName === 'childCount'
+    || countObj.propName === 'infantCount') {
+      hayStack.push(countObj.propName);
     }
   });
-  return result.every(Boolean);
+  return expected.every((needle) => hayStack.includes(needle));
 };
 
-const getTaskDetailsTotalOccupants = (passengersMetadata, disregardUnknownCount = true) => {
+const getTaskDetailsTotalOccupants = (passengersMetadata, useUnknownCount = false) => {
   if (passengersMetadata) {
     const radix = 10;
     let totalCount = parseInt(passengersMetadata.contents.find(({ propName }) => propName === 'totalOccupants').content, radix);
-    if (disregardUnknownCount) {
+    if (useUnknownCount) {
       const unknownCountField = passengersMetadata.contents.find(({ propName }) => propName === 'unknownCount');
       if (unknownCountField) {
         const unknownCount = parseInt(unknownCountField.content, radix);
@@ -169,4 +169,4 @@ export { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   extractTaskVersionsBookingField,
   getTaskDetailsTotalOccupants,
-  hasTaskVersionValidCounts };
+  hasCarrierCounts };

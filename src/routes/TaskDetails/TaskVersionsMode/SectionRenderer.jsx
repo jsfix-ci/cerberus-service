@@ -2,7 +2,14 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { formatKey, formatField, formatLinkField } from '../../../utils/formatField';
 import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST } from '../../../constants';
-import { isValid, hasZeroCount, hasDriver, hasTaskVersionPassengers, hasTaskVersionValidCounts } from '../../../utils/roroDataUtil';
+import { isValid, hasZeroCount, hasDriver, hasTaskVersionPassengers, hasCarrierCounts } from '../../../utils/roroDataUtil';
+
+const discardDriver = (passengersField) => {
+  const passengers = passengersField;
+  const passengersWithNoDriver = passengers.childSets.slice(1);
+  passengers.childSets = passengersWithNoDriver;
+  return passengers;
+};
 
 const findLink = (contents, content, linkPropNames) => {
   const linkPropName = linkPropNames[content.propName];
@@ -126,7 +133,7 @@ const renderTrailerSection = ({ contents }, movementMode) => {
   }
 };
 
-const getOccupantsCategoryCountsFields = (manifestOccupantCategoryCounts) => {
+const createOccupantsCarrierCountsFields = (manifestOccupantCategoryCounts) => {
   return manifestOccupantCategoryCounts.map((categoryCount, index) => {
     if (isValid(categoryCount)) {
       if (!categoryCount.type.includes('HIDDEN')) {
@@ -139,8 +146,8 @@ const getOccupantsCategoryCountsFields = (manifestOccupantCategoryCounts) => {
                 : (<li className={`govuk-grid-value  ${hasZeroCount(categoryCount.content) && 'font__grey'} font__bold`}>{categoryCount.fieldName}</li>)}
             </ul>
             {categoryCount.type.includes('CHANGED')
-              ? (<span className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'} task-versions--highlight`}>{formatField(categoryCount.type, categoryCount.content)}</span>)
-              : (<span className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'}`}>{formatField(categoryCount.type, categoryCount.content)}</span>)}
+              ? (<span className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'} task-versions--highlight`}>{parseInt(formatField(categoryCount.type, categoryCount.content), 10)}</span>)
+              : (<span className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'}`}>{parseInt(formatField(categoryCount.type, categoryCount.content), 10)}</span>)}
           </div>
         );
       }
@@ -148,27 +155,38 @@ const getOccupantsCategoryCountsFields = (manifestOccupantCategoryCounts) => {
   });
 };
 
-const renderOccupantsCategoryCountSection = (driverField, passengersField, passengersMetadata, movementMode) => {
+const renderOccupantCarrierCountsSection = (driverField, passengersField, passengersMetadata, movementMode, movementModeIcon = 'any-icon') => {
   if (passengersMetadata) {
-    let occupantsCountJsxElement;
     if (movementMode === RORO_ACCOMPANIED_FREIGHT || movementMode === RORO_TOURIST) {
-      const driverName = driverField.contents.find(({ propName }) => propName === 'name').content;
+    /**
+     * Discard the driver element that was initially added to obtain actual number
+     * of named passengers in the movement
+     */
+      const passengersDiscardedDriver = discardDriver(passengersField);
+      let occupantsCountJsxElement;
+      let driverName;
+      if (movementModeIcon !== RORO_TOURIST_GROUP_ICON && movementModeIcon !== RORO_TOURIST_SINGLE_ICON) {
+        driverName = driverField.contents.find(({ propName }) => propName === 'name').content;
+      }
       let manifestOccupantCategoryCounts = passengersMetadata.contents.filter(({ propName }) => {
         return propName === 'infantCount' || propName === 'childCount'
       || propName === 'adultCount' || propName === 'oapCount';
       }).reverse();
 
-      if (!hasDriver(driverName) && !hasTaskVersionPassengers(passengersField) && hasTaskVersionValidCounts(manifestOccupantCategoryCounts)) {
-        occupantsCountJsxElement = getOccupantsCategoryCountsFields(manifestOccupantCategoryCounts);
+      if (!hasDriver(driverName) && !hasTaskVersionPassengers(passengersDiscardedDriver)
+        && hasCarrierCounts(manifestOccupantCategoryCounts)) {
+        occupantsCountJsxElement = createOccupantsCarrierCountsFields(manifestOccupantCategoryCounts);
       }
 
-      if (hasDriver(driverName) && !hasTaskVersionPassengers(passengersField) && hasTaskVersionValidCounts(manifestOccupantCategoryCounts)) {
-        occupantsCountJsxElement = getOccupantsCategoryCountsFields(manifestOccupantCategoryCounts);
+      if (hasDriver(driverName) && !hasTaskVersionPassengers(passengersDiscardedDriver)
+        && hasCarrierCounts(manifestOccupantCategoryCounts)) {
+        occupantsCountJsxElement = createOccupantsCarrierCountsFields(manifestOccupantCategoryCounts);
       }
 
-      if (hasDriver(driverName) && !hasTaskVersionPassengers(passengersField) && !hasTaskVersionValidCounts(manifestOccupantCategoryCounts)) {
+      if (!hasDriver(driverName) && !hasTaskVersionPassengers(passengersDiscardedDriver)
+        && !hasCarrierCounts(manifestOccupantCategoryCounts)) {
         manifestOccupantCategoryCounts = passengersMetadata.contents.filter(({ propName }) => { return propName === 'unknownCount'; });
-        occupantsCountJsxElement = getOccupantsCategoryCountsFields(manifestOccupantCategoryCounts);
+        occupantsCountJsxElement = createOccupantsCarrierCountsFields(manifestOccupantCategoryCounts);
       }
 
       if (occupantsCountJsxElement) {
@@ -189,19 +207,44 @@ const renderOccupantsCategoryCountSection = (driverField, passengersField, passe
 };
 
 const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) => {
-  const firstPassenger = childSets[0]?.contents;
+  // Passenger at position 0 is driver so they are excluded from the remaining passengers
   const remainingTravellers = childSets.slice(1);
-  const otherPassengers = remainingTravellers.length > 0 ? remainingTravellers : undefined;
+  // Actual passenger
+  const firstPassenger = remainingTravellers[0]?.contents;
+  const otherPassengers = remainingTravellers ? remainingTravellers.slice(1) : undefined;
   let firstPassengerJsxElement;
   let otherPassengersJsxElementBlock;
 
   if (firstPassenger !== null && firstPassenger !== undefined) {
     if (firstPassenger.length > 0) {
-      firstPassengerJsxElement = renderFields(firstPassenger);
+      firstPassengerJsxElement = firstPassenger.map((passenger) => {
+        if (!passenger.type.includes('HIDDEN')) {
+          return (
+            <div className="govuk-task-details-grid-item" key={uuidv4()}>
+              <ul>
+                <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
+                <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
+              </ul>
+            </div>
+          );
+        }
+      });
+
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
           otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
-            const passengerJsxElement = renderFields(otherPassenger.contents);
+            const passengerJsxElement = otherPassenger.contents.map((field) => {
+              if (!field.type.includes('HIDDEN')) {
+                return (
+                  <div className="govuk-task-details-grid-item" key={uuidv4()}>
+                    <ul>
+                      <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
+                      <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
+                    </ul>
+                  </div>
+                );
+              }
+            });
             const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
             return (
               <div className={className} key={uuidv4()}>
@@ -237,8 +280,8 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
   }
 };
 
-const renderPrimaryTraveller = (driverField, movementModeIcon) => {
-  const primaryTraveller = driverField.contents;
+const renderPrimaryTraveller = ({ childSets }, movementModeIcon) => {
+  const primaryTraveller = childSets[0].contents;
   if (primaryTraveller.length > 0) {
     let primaryTravellerArray;
     if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
@@ -265,8 +308,8 @@ const renderPrimaryTraveller = (driverField, movementModeIcon) => {
   }
 };
 
-const renderPrimaryTravellerDocument = (driverField) => {
-  const primaryTraveller = driverField.contents;
+const renderPrimaryTravellerDocument = ({ childSets }) => {
+  const primaryTraveller = childSets[0].contents;
   if (primaryTraveller.length > 0) {
     const primaryTravellerDocumentArray = primaryTraveller.filter(({ propName }) => {
       return propName === 'docType' || propName === 'docNumber'
@@ -289,6 +332,6 @@ export { renderVersionSection,
   renderVehicleSection,
   renderTrailerSection,
   renderOccupantsSection,
-  renderOccupantsCategoryCountSection,
+  renderOccupantCarrierCountsSection,
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument };

@@ -46,10 +46,10 @@ const stripOutSectionsByMovementMode = (version, movementMode) => {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
     }
     if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
-      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle');
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
     }
     if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
-      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle');
+      return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
     }
   }
   return version;
@@ -324,7 +324,8 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const versionNumber = taskVersions.length - index;
           const regexToReplace = /\s/g;
           const formattedMovementMode = movementMode.replace(regexToReplace, '_').toUpperCase();
-          const modifiedVersion = modifyRoRoPassengersTaskDetails(_.cloneDeep(version)); // Added our driver details into passengers array (similar to task list page)
+          // Added our driver details into passengers array (similar to task list page)
+          const modifiedVersion = modifyRoRoPassengersTaskDetails(_.cloneDeep(version));
           const filteredVersion = stripOutSectionsByMovementMode(modifiedVersion, formattedMovementMode);
           const detailSectionTest = renderSectionsBasedOnTIS(formattedMovementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {
