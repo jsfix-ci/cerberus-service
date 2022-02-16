@@ -189,7 +189,9 @@ const renderOccupantCarrierCountsSection = (driverField, passengersField, passen
       let occupantsCountJsxElement;
       let driverName;
       if (movementModeIcon !== RORO_TOURIST_GROUP_ICON && movementModeIcon !== RORO_TOURIST_SINGLE_ICON) {
-        driverName = driverField.contents.find(({ propName }) => propName === 'name').content;
+        if (driverField.contents.length > 0) {
+          driverName = driverField.contents.find(({ propName }) => propName === 'name').content;
+        }
       }
       let manifestOccupantCategoryCounts = passengersMetadata.contents.filter(({ propName }) => {
         return propName === 'infantCount' || propName === 'childCount'

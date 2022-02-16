@@ -2,27 +2,22 @@ const hasCarrierCounts = (suppliedPassengerCounts) => {
   const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
   let hayStack = [];
   suppliedPassengerCounts.forEach((countObj) => {
-    if (countObj.propName === 'oapCount' || countObj.propName === 'adultCount' || countObj.propName === 'childCount'
-    || countObj.propName === 'infantCount') {
+    if ((countObj.propName === 'oapCount' && countObj.content !== null)
+    || (countObj.propName === 'adultCount' && countObj.content !== null)
+    || (countObj.propName === 'childCount' && countObj.content !== null)
+    || (countObj.propName === 'infantCount' && countObj.content !== null)) {
       hayStack.push(countObj.propName);
     }
   });
   return expected.every((needle) => hayStack.includes(needle));
 };
 
-const getTaskDetailsTotalOccupants = (passengersMetadata, useUnknownCount = false) => {
+const getTaskDetailsTotalOccupants = (passengersMetadata) => {
   if (passengersMetadata) {
     const radix = 10;
-    let totalCount = parseInt(passengersMetadata.contents.find(({ propName }) => propName === 'totalOccupants').content, radix);
-    if (useUnknownCount) {
-      const unknownCountField = passengersMetadata.contents.find(({ propName }) => propName === 'unknownCount');
-      if (unknownCountField) {
-        const unknownCount = parseInt(unknownCountField.content, radix);
-        return totalCount - unknownCount;
-      }
-    }
-    return totalCount;
+    return parseInt(passengersMetadata.contents.find(({ propName }) => propName === 'totalOccupants').content, radix);
   }
+  return 0;
 };
 
 const hasZeroCount = (content) => {
