@@ -1,9 +1,25 @@
 import React from 'react';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
-import { renderTargetingIndicatorsSection, renderVehicleSection, renderTrailerSection, renderVersionSection,
-  renderOccupantsSection, renderOccupantCarrierCountsSection } from './SectionRenderer';
-import { hasTaskVersionPassengers, extractTaskVersionsBookingField, getTaskDetailsTotalOccupants } from '../../../utils/roroDataUtil';
+
+import {
+  renderTargetingIndicatorsSection,
+  renderVehicleSection,
+  renderTrailerSection,
+  renderGoodsSection,
+  renderBookingSection,
+  renderOccupantsSection,
+  renderHaulierSection,
+  renderAccountSection,
+  renderVersionSection,
+  renderOccupantCarrierCountsSection,
+} from './SectionRenderer';
+
+import {
+  hasTaskVersionPassengers,
+  extractTaskVersionsBookingField,
+  getTaskDetailsTotalOccupants,
+} from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -12,7 +28,7 @@ const renderFirstColumn = (version, movementMode) => {
   const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
   const vehicle = (vehicleField !== null && vehicleField !== undefined) && renderVehicleSection(vehicleField, movementMode);
   const trailer = (vehicleField !== null && vehicleField !== undefined) && renderTrailerSection(vehicleField, movementMode);
-  const goods = (goodsField !== null && goodsField !== undefined) && renderVersionSection(goodsField);
+  const goods = (goodsField !== null && goodsField !== undefined) && renderGoodsSection(goodsField);
   return (
     <div className="govuk-task-details-col-1">
       <div className="govuk-task-details-indicator-container  bottom-border-thick">
@@ -38,10 +54,9 @@ const renderSecondColumn = (version, taskSummaryData) => {
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
   const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-  const linkPropNames = { name: 'entitySearchUrl' };
-  const haulier = (haulierField !== null && haulierField !== undefined) && renderVersionSection(haulierField, linkPropNames);
-  const account = (accountField !== null && accountField !== undefined) && renderVersionSection(accountField, linkPropNames);
-  const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+  const haulier = (haulierField !== null && haulierField !== undefined) && renderHaulierSection(haulierField);
+  const account = (accountField !== null && accountField !== undefined) && renderAccountSection(accountField);
+  const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
   return (
     <div className="govuk-task-details-col-2">
       {haulier}

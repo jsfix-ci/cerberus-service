@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
+import { v4 as uuidv4 } from 'uuid';
 import '../../../__assets__/ReactTabs.scss';
 
 // Grouping selectors by group reference
@@ -17,7 +18,6 @@ const SelectorMatchesTaskVersion = ({ version }) => {
   const otherFields = ['requestingOfficer', 'sourceReference', 'category', 'threatType', 'pointOfContactMessage', 'pointOfContact', 'inboundActionCode', 'notes', 'creator'];
   const selectorMatches = version.find(({ propName }) => propName === 'selectors');
   const selectorsGroup = selectorsByGroupReference(selectorMatches?.childSets);
-
   return (
     <div>
       <h2 className="govuk-heading-m">{selectorMatches.fieldSetName}</h2>
@@ -29,16 +29,15 @@ const SelectorMatchesTaskVersion = ({ version }) => {
         let groupNumber;
         let field;
         return (
-          <>
+          <div key={uuidv4()}>
             <h4 className="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-top-2">{GroupReference}</h4>
-
             { selectors.map((selector, j) => {
               return selector.contents.map((c) => {
                 if (j === 0) {
                   field = otherFields.includes(c.propName) ? c : false;
                   if (field) {
                     return (
-                      <div className="govuk-grid-row">
+                      <div key={uuidv4()} className="govuk-grid-row">
                         <p className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half">{field.fieldName}</p>
                         <p className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0">{field.content}</p>
                       </div>
@@ -89,7 +88,7 @@ const SelectorMatchesTaskVersion = ({ version }) => {
 
             </Tabs>
             <br /><br />
-          </>
+          </div>
         );
       })}
     </div>

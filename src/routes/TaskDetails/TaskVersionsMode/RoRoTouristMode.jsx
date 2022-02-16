@@ -2,11 +2,23 @@ import React from 'react';
 import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
-import { renderTargetingIndicatorsSection, renderVehicleSection, renderVersionSection,
-  renderOccupantsSection, renderPrimaryTraveller, renderPrimaryTravellerDocument,
-  renderOccupantCarrierCountsSection } from './SectionRenderer';
-import { hasTaskVersionPassengers, extractTaskVersionsBookingField,
-  getTaskDetailsTotalOccupants } from '../../../utils/roroDataUtil';
+
+import {
+  renderTargetingIndicatorsSection,
+  renderVehicleSection,
+  renderVersionSection,
+  renderOccupantsSection,
+  renderPrimaryTraveller,
+  renderPrimaryTravellerDocument,
+  renderBookingSection,
+  renderOccupantCarrierCountsSection,
+} from './SectionRenderer';
+
+import {
+  hasTaskVersionPassengers,
+  extractTaskVersionsBookingField,
+  getTaskDetailsTotalOccupants,
+} from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
@@ -37,7 +49,7 @@ const footPassengersTaskVersion = (version, movementMode, movementModeIcon, task
 
   const renderSecondColumn = () => {
     const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-    const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+    const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
         {booking}
@@ -119,7 +131,7 @@ const footPassengerTaskVersion = (version, movementMode, movementModeIcon, taskS
 
   const renderSecondColumn = () => {
     const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-    const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+    const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
         {booking}
@@ -200,7 +212,7 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
 
   const renderSecondColumn = () => {
     const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-    const booking = (bookingField !== null && bookingField !== undefined) && renderVersionSection(bookingField);
+    const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
         {booking}
