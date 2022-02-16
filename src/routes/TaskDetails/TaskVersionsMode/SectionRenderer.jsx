@@ -240,34 +240,12 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
 
   if (firstPassenger !== null && firstPassenger !== undefined) {
     if (firstPassenger.length > 0) {
-      firstPassengerJsxElement = firstPassenger.map((passenger) => {
-        if (!passenger.type.includes('HIDDEN')) {
-          return (
-            <div className="govuk-task-details-grid-item" key={uuidv4()}>
-              <ul>
-                <li className="govuk-grid-key font__light">{formatKey(passenger.type, passenger.fieldName)}</li>
-                <li className="govuk-grid-value font__bold">{formatField(passenger.type, passenger.content)}</li>
-              </ul>
-            </div>
-          );
-        }
-      });
+      firstPassengerJsxElement = renderFields(firstPassenger, defaultLinkPropNames);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
           otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
-            const passengerJsxElement = otherPassenger.contents.map((field) => {
-              if (!field.type.includes('HIDDEN')) {
-                return (
-                  <div className="govuk-task-details-grid-item" key={uuidv4()}>
-                    <ul>
-                      <li className="govuk-grid-key font__light">{formatKey(field.type, field.fieldName)}</li>
-                      <li className="govuk-grid-value font__bold">{formatField(field.type, field.content)}</li>
-                    </ul>
-                  </div>
-                );
-              }
-            });
+            const passengerJsxElement = renderFields(otherPassenger.contents, defaultLinkPropNames);
             const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
             return (
               <div className={className} key={uuidv4()}>
