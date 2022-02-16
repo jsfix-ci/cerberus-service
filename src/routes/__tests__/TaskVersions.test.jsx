@@ -231,7 +231,7 @@ describe('TaskVersions', () => {
       taskVersionDifferencesCounts={[1, 0]}
       movementMode="RORO Accompanied Freight"
     />);
-    
+
     expect(screen.queryAllByText('9 Feb 2022 at 17:03')).toHaveLength(1);
     expect(screen.queryAllByText('10 Feb 2022 at 17:03')).toHaveLength(1);
     expect(screen.queryAllByText('11 Feb 2022 at 17:03')).toHaveLength(1);
