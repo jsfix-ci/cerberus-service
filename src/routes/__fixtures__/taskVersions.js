@@ -992,6 +992,21 @@ const taskSingleVersion = [
       type: 'STANDARD',
       propName: 'rules',
     },
+    {
+      fieldSetName: 'Task version details',
+      hasChildSet: false,
+      contents: [
+          {
+              fieldName: 'Created date',
+              type: 'HIDDEN',
+              content: '2022-02-09T17:03:56',
+              versionLastUpdated: null,
+              propName: 'createdAt'
+          }
+      ],
+      type: 'HIDDEN',
+      propName: 'versionDetails'
+    },
   ],
 ];
 
@@ -7398,6 +7413,21 @@ const taskWithThreeVersions = [
       type: 'null',
       propName: 'occupants',
     },
+    {
+      fieldSetName: 'Task version details',
+      hasChildSet: false,
+      contents: [
+          {
+              fieldName: 'Created date',
+              type: 'HIDDEN',
+              content: '2022-02-11T17:03:56',
+              versionLastUpdated: null,
+              propName: 'createdAt'
+          }
+      ],
+      type: 'HIDDEN',
+      propName: 'versionDetails'
+    },
   ],
   [
     {
@@ -9123,6 +9153,21 @@ const taskWithThreeVersions = [
       type: 'null',
       propName: 'occupants',
     },
+    {
+      fieldSetName: 'Task version details',
+      hasChildSet: false,
+      contents: [
+          {
+              fieldName: 'Created date',
+              type: 'HIDDEN',
+              content: '2022-02-10T17:03:56',
+              versionLastUpdated: null,
+              propName: 'createdAt'
+          }
+      ],
+      type: 'HIDDEN',
+      propName: 'versionDetails'
+    },
   ],
   [
     {
@@ -10846,6 +10891,21 @@ const taskWithThreeVersions = [
       ],
       type: 'null',
       propName: 'occupants',
+    },
+    {
+      fieldSetName: 'Task version details',
+      hasChildSet: false,
+      contents: [
+          {
+              fieldName: 'Created date',
+              type: 'HIDDEN',
+              content: '2022-02-09T17:03:56',
+              versionLastUpdated: null,
+              propName: 'createdAt'
+          }
+      ],
+      type: 'HIDDEN',
+      propName: 'versionDetails'
     },
   ],
 ];
