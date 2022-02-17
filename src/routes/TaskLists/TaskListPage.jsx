@@ -267,7 +267,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     return () => {
       source.cancel('Cancelling request');
     };
-  }, 60000);
+  }, 180000);
 
   const categoryThreatMapping = {
     A: 1,
