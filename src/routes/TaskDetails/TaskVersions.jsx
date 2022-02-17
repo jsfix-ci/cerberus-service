@@ -242,6 +242,7 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       <RoRoAccompaniedTaskVersion
         version={version}
         movementMode={movementMode}
+        movementModeIcon={movementModeIcon}
         taskSummaryData={taskSummaryBasedOnTIS}
       />
       )}
@@ -323,7 +324,8 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
           const versionNumber = taskVersions.length - index;
           const regexToReplace = /\s/g;
           const formattedMovementMode = movementMode.replace(regexToReplace, '_').toUpperCase();
-          const modifiedVersion = modifyRoRoPassengersTaskDetails(_.cloneDeep(version)); // Added our driver details into passengers array (similar to task list page)
+          // Added our driver details into passengers array (similar to task list page)
+          const modifiedVersion = modifyRoRoPassengersTaskDetails(_.cloneDeep(version));
           const filteredVersion = stripOutSectionsByMovementMode(modifiedVersion, formattedMovementMode);
           const detailSectionTest = renderSectionsBasedOnTIS(formattedMovementMode, taskSummaryBasedOnTIS, filteredVersion);
           return {

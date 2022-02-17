@@ -1,4 +1,4 @@
-import { modifyRoRoPassengersTaskList, hasCheckinDate, hasEta } from '../roroDataUtil';
+import { modifyRoRoPassengersTaskList, hasCheckinDate, hasEta, hasCarrierCounts } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -45,6 +45,25 @@ describe('RoRoData Util', () => {
 
   it('should return true for hasEta if given not null, undefined or empty', () => {
     const result = hasEta('2022-01-22T10:12:55');
+    expect(result).toBeTruthy();
+  });
+
+  it('should true when all counts have non-null content', () => {
+    const suppliedPassengerCounts = [
+      {
+        propName: 'infantCount',
+      },
+      {
+        propName: 'childCount',
+      },
+      {
+        propName: 'adultCount',
+      },
+      {
+        propName: 'oapCount',
+      },
+    ];
+    const result = hasCarrierCounts(suppliedPassengerCounts);
     expect(result).toBeTruthy();
   });
 });

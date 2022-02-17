@@ -63,7 +63,7 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Primary Traveller')).toBeInTheDocument();
     expect(screen.queryByText('Single passenger')).toBeInTheDocument();
     expect(screen.queryByText('1 foot passenger')).toBeInTheDocument();
-    expect(screen.queryByText('Occupants')).not.toBeInTheDocument();
+    expect(screen.queryByText('Occupants')).toBeInTheDocument();
     expect(screen.queryByText('Passengers')).not.toBeInTheDocument();
     expect(screen.queryByText('Driver')).not.toBeInTheDocument();
     expect(screen.queryByText('Goods')).not.toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('TaskVersions', () => {
     expect(screen.queryByText('Other travellers')).toBeInTheDocument();
     expect(screen.queryByText('Group')).toBeInTheDocument();
     expect(screen.queryByText('2 foot passengers')).toBeInTheDocument();
-    expect(screen.queryByText('Occupants')).not.toBeInTheDocument();
+    expect(screen.queryByText('Occupants')).toBeInTheDocument();
     expect(screen.queryByText('Passengers')).not.toBeInTheDocument();
     expect(screen.queryByText('Driver')).not.toBeInTheDocument();
     expect(screen.queryByText('Goods')).not.toBeInTheDocument();

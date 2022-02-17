@@ -1,3 +1,33 @@
+const hasCarrierCounts = (suppliedPassengerCounts) => {
+  const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
+  let hayStack = [];
+  suppliedPassengerCounts.forEach((countObj) => {
+    if ((countObj.propName === 'oapCount' && countObj.content !== null)
+    || (countObj.propName === 'adultCount' && countObj.content !== null)
+    || (countObj.propName === 'childCount' && countObj.content !== null)
+    || (countObj.propName === 'infantCount' && countObj.content !== null)) {
+      hayStack.push(countObj.propName);
+    }
+  });
+  return expected.every((needle) => hayStack.includes(needle));
+};
+
+const getTaskDetailsTotalOccupants = (passengersMetadata) => {
+  if (passengersMetadata) {
+    const radix = 10;
+    return parseInt(passengersMetadata.contents.find(({ propName }) => propName === 'totalOccupants').content, radix);
+  }
+  return 0;
+};
+
+const hasZeroCount = (content) => {
+  return content === '0';
+};
+
+const isValid = (obj) => {
+  return obj !== null && obj !== undefined && obj !== '';
+};
+
 const hasVehicle = (vehicleRegistration) => {
   return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
 };
@@ -123,6 +153,8 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
 export { modifyRoRoPassengersTaskList,
   modifyRoRoPassengersTaskDetails,
   hasTaskVersionPassengers,
+  hasZeroCount,
+  isValid,
   hasVehicle,
   hasVehicleMake,
   hasVehicleModel,
@@ -130,4 +162,6 @@ export { modifyRoRoPassengersTaskList,
   hasDriver,
   hasEta,
   hasCheckinDate,
-  extractTaskVersionsBookingField };
+  extractTaskVersionsBookingField,
+  getTaskDetailsTotalOccupants,
+  hasCarrierCounts };

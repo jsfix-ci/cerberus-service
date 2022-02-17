@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { RORO_ACCOMPANIED_FREIGHT } from '../../../constants';
 import {
   renderBookingSection,
   renderVehicleSection,
@@ -7,7 +8,16 @@ import {
   renderOccupantsSection,
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument,
+  renderOccupantCarrierCountsSection,
 } from '../../TaskDetails/TaskVersionsMode/SectionRenderer';
+
+import {
+  hasDriverNoPaxHasCategoryCounts,
+  noDriverNoPaxHasCategoryCounts,
+  noDriverNoPaxNoCategoryCounts,
+  hasDriverHasPaxHasCategoryCounts,
+  noDriverHasPaxHasCategoryCounts,
+} from '../../__fixtures__/section-renderer/sectionRendererTaskDetails';
 
 describe('SectionRenderer', () => {
   describe('renderBookingSection', () => {
@@ -1311,6 +1321,138 @@ describe('SectionRenderer', () => {
           </div>
         </div>,
       ));
+    });
+  });
+
+  describe('renderOccupantCarrierCountsSection', () => {
+    it('should render category counts when there is a driver, no passengers and counts are available', () => {
+      const driverField = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'driver');
+      const passengersField = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
+      const passengersMetadata = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
+
+      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
+        <div className="govuk-task-details-counts-container">
+          <div className="govuk-task-details-grid-row bottom-border">
+            <span className="govuk-grid-key font__light">Category</span><span className="govuk-grid-value font__light">Number</span>
+          </div>
+          <div className="task-details-container">
+            <div className="govuk-task-details-grid-row bottom-border">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">Infants</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+            <div className="govuk-task-details-grid-row bottom-border">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">Children</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+            <div className="govuk-task-details-grid-row bottom-border">
+              <ul>
+                <li className="govuk-grid-value  false font__bold">Adults</li>
+              </ul>
+              <span className="govuk-grid-value font__bold false">1</span>
+            </div>
+            <div className="govuk-task-details-grid-row">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">OAPs</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+          </div>
+        </div>,
+      ));
+    });
+
+    it('should render category counts when there is no driver, no passengers but category counts are available', () => {
+      const driverField = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'driver');
+      const passengersField = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
+      const passengersMetadata = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
+
+      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
+        <div className="govuk-task-details-counts-container">
+          <div className="govuk-task-details-grid-row bottom-border">
+            <span className="govuk-grid-key font__light">Category</span>
+            <span className="govuk-grid-value font__light">Number</span>
+          </div>
+          <div className="task-details-container">
+            <div className="govuk-task-details-grid-row bottom-border">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">Infants</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+            <div className="govuk-task-details-grid-row bottom-border">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">Children</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+            <div className="govuk-task-details-grid-row bottom-border">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">Adults</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+            <div className="govuk-task-details-grid-row">
+              <ul>
+                <li className="govuk-grid-value  font__grey font__bold">OAPs</li>
+              </ul>
+              <span className="govuk-grid-value font__bold font__grey">0</span>
+            </div>
+          </div>
+        </div>,
+      ));
+    });
+
+    it('should render unknown category count when there is no driver, 0 passengers but no valid category counts are available', () => {
+      const driverField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'driver');
+      const passengersField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'passengers');
+      const passengersMetadata = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'occupants');
+
+      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
+        <div className="govuk-task-details-counts-container">
+          <div className="govuk-task-details-grid-row bottom-border">
+            <span className="govuk-grid-key font__light">Category</span>
+            <span className="govuk-grid-value font__light">Number</span>
+          </div>
+          <div className="task-details-container">
+            <div className="govuk-task-details-grid-row">
+              <ul>
+                <li className="govuk-grid-value  false font__bold">Unknown</li>
+              </ul>
+              <span className="govuk-grid-value font__bold false">1</span>
+            </div>
+          </div>
+        </div>,
+      ));
+    });
+
+    it('should not render category count when there is a driver, 1+ passenger(s) and does/ does not have category counts', () => {
+      const driverField = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'driver');
+      const passengersField = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
+      const passengersMetadata = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
+
+      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
+    });
+
+    it('should not render category count when there is no driver, but have one or more passengers and has category counts', () => {
+      const driverField = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'driver');
+      const passengersField = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
+      const passengersMetadata = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
+
+      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
     });
   });
 });

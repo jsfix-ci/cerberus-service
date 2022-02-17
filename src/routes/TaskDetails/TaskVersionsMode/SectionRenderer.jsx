@@ -1,7 +1,15 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { formatKey, formatField, formatLinkField } from '../../../utils/formatField';
-import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
+import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST } from '../../../constants';
+import { isValid, hasZeroCount, hasDriver, hasTaskVersionPassengers, hasCarrierCounts } from '../../../utils/roroDataUtil';
+
+const discardDriver = (passengersField) => {
+  const passengers = passengersField;
+  const passengersWithNoDriver = passengers.childSets.slice(1);
+  passengers.childSets = passengersWithNoDriver;
+  return passengers;
+};
 
 const findLink = (contents, content, linkPropNames) => {
   const linkPropName = linkPropNames[content.propName];
@@ -148,16 +156,93 @@ const renderTrailerSection = ({ contents }, movementMode) => {
   }
 };
 
+const createOccupantsCarrierCountsFields = (manifestOccupantCategoryCounts) => {
+  return manifestOccupantCategoryCounts.map((categoryCount, index) => {
+    if (isValid(categoryCount)) {
+      if (!categoryCount.type.includes('HIDDEN')) {
+        const className = (index !== manifestOccupantCategoryCounts.length - 1 ? 'govuk-task-details-grid-row bottom-border' : 'govuk-task-details-grid-row');
+        return (
+          <div className={className} key={uuidv4()}>
+            <ul>
+              {categoryCount.type.includes('CHANGED')
+                ? (<li className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'} task-versions--highlight`}>{categoryCount.fieldName}</li>)
+                : (<li className={`govuk-grid-value  ${hasZeroCount(categoryCount.content) && 'font__grey'} font__bold`}>{categoryCount.fieldName}</li>)}
+            </ul>
+            {categoryCount.type.includes('CHANGED')
+              ? (<span className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'} task-versions--highlight`}>{parseInt(formatField(categoryCount.type, categoryCount.content), 10)}</span>)
+              : (<span className={`govuk-grid-value font__bold ${hasZeroCount(categoryCount.content) && 'font__grey'}`}>{parseInt(formatField(categoryCount.type, categoryCount.content), 10)}</span>)}
+          </div>
+        );
+      }
+    }
+  });
+};
+
+const renderOccupantCarrierCountsSection = (driverField, passengersField, passengersMetadata, movementMode, movementModeIcon = 'any-icon') => {
+  if (passengersMetadata) {
+    if (movementMode === RORO_ACCOMPANIED_FREIGHT || movementMode === RORO_TOURIST) {
+    /**
+     * Discard the driver element that was initially added to obtain actual number
+     * of named passengers in the movement
+     */
+      const passengersDiscardedDriver = discardDriver(passengersField);
+      let occupantsCountJsxElement;
+      let driverName;
+      if (movementModeIcon !== RORO_TOURIST_GROUP_ICON && movementModeIcon !== RORO_TOURIST_SINGLE_ICON) {
+        if (driverField.contents.length > 0) {
+          driverName = driverField.contents.find(({ propName }) => propName === 'name').content;
+        }
+      }
+      let manifestOccupantCategoryCounts = passengersMetadata.contents.filter(({ propName }) => {
+        return propName === 'infantCount' || propName === 'childCount'
+      || propName === 'adultCount' || propName === 'oapCount';
+      }).reverse();
+
+      if (!hasDriver(driverName) && !hasTaskVersionPassengers(passengersDiscardedDriver)
+        && hasCarrierCounts(manifestOccupantCategoryCounts)) {
+        occupantsCountJsxElement = createOccupantsCarrierCountsFields(manifestOccupantCategoryCounts);
+      }
+
+      if (hasDriver(driverName) && !hasTaskVersionPassengers(passengersDiscardedDriver)
+        && hasCarrierCounts(manifestOccupantCategoryCounts)) {
+        occupantsCountJsxElement = createOccupantsCarrierCountsFields(manifestOccupantCategoryCounts);
+      }
+
+      if (!hasDriver(driverName) && !hasTaskVersionPassengers(passengersDiscardedDriver)
+        && !hasCarrierCounts(manifestOccupantCategoryCounts)) {
+        manifestOccupantCategoryCounts = passengersMetadata.contents.filter(({ propName }) => { return propName === 'unknownCount'; });
+        occupantsCountJsxElement = createOccupantsCarrierCountsFields(manifestOccupantCategoryCounts);
+      }
+
+      if (occupantsCountJsxElement) {
+        return (
+          <div className="govuk-task-details-counts-container">
+            <div className="govuk-task-details-grid-row bottom-border">
+              <span className="govuk-grid-key font__light">Category</span>
+              <span className="govuk-grid-value font__light">Number</span>
+            </div>
+            <div className="task-details-container">
+              {occupantsCountJsxElement}
+            </div>
+          </div>
+        );
+      }
+    }
+  }
+};
+
 const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) => {
+  // Passenger at position 0 is driver so they are excluded from the remaining passengers
   const remainingTravellers = childSets.slice(1);
-  const secondPassenger = remainingTravellers[0]?.contents;
+  // Actual passenger
+  const firstPassenger = remainingTravellers[0]?.contents;
   const otherPassengers = remainingTravellers ? remainingTravellers.slice(1) : undefined;
   let firstPassengerJsxElement;
   let otherPassengersJsxElementBlock;
 
-  if (secondPassenger !== null && secondPassenger !== undefined) {
-    if (secondPassenger.length > 0) {
-      firstPassengerJsxElement = renderFields(secondPassenger, defaultLinkPropNames);
+  if (firstPassenger !== null && firstPassenger !== undefined) {
+    if (firstPassenger.length > 0) {
+      firstPassengerJsxElement = renderFields(firstPassenger, defaultLinkPropNames);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
@@ -246,6 +331,7 @@ const renderPrimaryTravellerDocument = ({ childSets }) => {
 };
 
 export { renderHaulierSection,
+  renderVersionSection,
   renderAccountSection,
   renderDriverSection,
   renderGoodsSection,
@@ -254,5 +340,6 @@ export { renderHaulierSection,
   renderVehicleSection,
   renderTrailerSection,
   renderOccupantsSection,
+  renderOccupantCarrierCountsSection,
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument };

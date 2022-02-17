@@ -2,18 +2,25 @@ import React from 'react';
 import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
+
 import {
   renderTargetingIndicatorsSection,
   renderVehicleSection,
+  renderVersionSection,
   renderOccupantsSection,
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument,
-  renderDriverSection,
   renderBookingSection,
+  renderOccupantCarrierCountsSection,
 } from './SectionRenderer';
-import { hasTaskVersionPassengers, extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
 
-const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) => {
+import {
+  hasTaskVersionPassengers,
+  extractTaskVersionsBookingField,
+  getTaskDetailsTotalOccupants,
+} from '../../../utils/roroDataUtil';
+
+const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
@@ -51,11 +58,32 @@ const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) =
   };
 
   const renderThirdColumn = () => {
+    const driverField = version.find(({ propName }) => propName === 'driver');
     const passengersField = version.find(({ propName }) => propName === 'passengers');
+    const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon);
+    const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode, movementModeIcon);
+    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
     return (
       <div className="govuk-task-details-col-3">
+        <div className="task-details-container bottom-border-thick">
+          <h3 className="title-heading">Occupants</h3>
+          <div className="govuk-task-details-grid-row">
+            <span className="govuk-grid-key font__light">Total occupants</span>
+          </div>
+          <div className="govuk-task-details-grid-row">
+            <span className="govuk-grid-key font__bold">{totalCount}</span>
+          </div>
+          {carrierOccupantCounts
+          && (
+          <div className="govuk-task-details-counts-container">
+            <div className="task-details-container">
+              {carrierOccupantCounts}
+            </div>
+          </div>
+          )}
+        </div>
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Other travellers</h3>
           {occupants}
@@ -79,7 +107,7 @@ const footPassengersTaskVersion = (version, movementModeIcon, taskSummaryData) =
   );
 };
 
-const footPassengerTaskVersion = (version, movementModeIcon, taskSummaryData) => {
+const footPassengerTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
     const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
     const targetingIndicators = (targIndicatorsField !== null && targIndicatorsField !== undefined) && renderTargetingIndicatorsSection(targIndicatorsField);
@@ -112,10 +140,31 @@ const footPassengerTaskVersion = (version, movementModeIcon, taskSummaryData) =>
   };
 
   const renderThirdColumn = () => {
+    const driverField = version.find(({ propName }) => propName === 'driver');
     const passengersField = version.find(({ propName }) => propName === 'passengers');
+    const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const primaryTraveller = (passengersField !== null && passengersField !== undefined) && renderPrimaryTraveller(passengersField, movementModeIcon);
+    const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode, movementModeIcon);
+    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
     return (
-      <div className="govuk-task-details-col-2">
+      <div className="govuk-task-details-col-3">
+        <div className="task-details-container bottom-border-thick">
+          <h3 className="title-heading">Occupants</h3>
+          <div className="govuk-task-details-grid-row">
+            <span className="govuk-grid-key font__light">Total occupants</span>
+          </div>
+          <div className="govuk-task-details-grid-row">
+            <span className="govuk-grid-key font__bold">{totalCount}</span>
+          </div>
+          {carrierOccupantCounts
+          && (
+          <div className="govuk-task-details-counts-container">
+            <div className="task-details-container">
+              {carrierOccupantCounts}
+            </div>
+          </div>
+          )}
+        </div>
         {primaryTraveller}
       </div>
     );
@@ -174,9 +223,13 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
   const renderThirdColumn = () => {
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
-    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
+    const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const driverField = version.find(({ propName }) => propName === 'driver');
-    const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField);
+    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
+    const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
+    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
+    const linkFields = { name: 'entitySearchUrl' };
+    const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField, linkFields);
     return (
       <div className="govuk-task-details-col-3">
         <div className="task-details-container bottom-border-thick">
@@ -185,8 +238,16 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
             <span className="govuk-grid-key font__light">Total occupants</span>
           </div>
           <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__bold">{isValidToRender ? passengersField.childSets.length : 0}</span>
+            <span className="govuk-grid-key font__bold">{totalCount}</span>
           </div>
+          {carrierOccupantCounts
+          && (
+          <div className="govuk-task-details-counts-container">
+            <div className="task-details-container">
+              {carrierOccupantCounts}
+            </div>
+          </div>
+          )}
           {occupants}
         </div>
         {driver}
@@ -214,10 +275,10 @@ const RoRoTouristTaskVersion = ({ version, movementMode, movementModeIcon, taskS
     return touristCarTaskVersion(version, movementMode, taskSummaryData);
   }
   if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
-    return footPassengerTaskVersion(version, movementModeIcon, taskSummaryData);
+    return footPassengerTaskVersion(version, movementMode, movementModeIcon, taskSummaryData);
   }
   if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
-    return footPassengersTaskVersion(version, movementModeIcon, taskSummaryData);
+    return footPassengersTaskVersion(version, movementMode, movementModeIcon, taskSummaryData);
   }
 };
 
