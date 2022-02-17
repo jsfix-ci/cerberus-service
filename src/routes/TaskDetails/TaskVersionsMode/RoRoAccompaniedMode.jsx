@@ -73,7 +73,7 @@ const renderThirdColumn = (version, movementMode, movementModeIcon) => {
   const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
   const isValidToRender = hasTaskVersionPassengers(passengersField);
   const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon);
-  const carierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
+  const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
   const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField);
   return (
     <div className="govuk-task-details-col-3">
@@ -85,11 +85,11 @@ const renderThirdColumn = (version, movementMode, movementModeIcon) => {
         <div className="govuk-task-details-grid-row total-occupants-count">
           <span className="govuk-grid-key font__bold">{totalCount || passengersField.childSets.length}</span>
         </div>
-        {carierOccupantCounts
+        {carrierOccupantCounts
         && (
         <div className="govuk-task-details-counts-container">
           <div className="task-details-container">
-            {carierOccupantCounts}
+            {carrierOccupantCounts}
           </div>
         </div>
         )}
