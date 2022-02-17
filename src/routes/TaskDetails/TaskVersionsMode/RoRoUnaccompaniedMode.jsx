@@ -89,7 +89,7 @@ const RoRoUnaccompaniedTaskVersion = ({ version, movementMode, taskSummaryData }
         {renderSecondColumn(version, taskSummaryData)}
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-        {renderThirdColumn(version)}
+        { movementMode !== 'RORO_UNACCOMPANIED_FREIGHT' && renderThirdColumn(version) }
       </div>
     </div>
   );
