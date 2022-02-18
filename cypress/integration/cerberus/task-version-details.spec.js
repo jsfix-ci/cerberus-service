@@ -84,7 +84,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', '2 selector matches').then((locator) => {
+      cy.contains('h2', '2 selector matches').then((locator) => {
         cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
           expect(actualSelectorMatches).to.deep.equal(expectedDetails.selector_matches);
         });
@@ -355,7 +355,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', 'Rules matched').nextAll().within(() => {
+      cy.contains('h2', 'Rules matched').nextAll(() => {
         cy.getAllRuleMatches().then((actualRuleMatches) => {
           expect(actualRuleMatches).to.deep.equal(expectedDetails.rules);
         });
@@ -496,7 +496,7 @@ describe('Task Details of different tasks on task details Page', () => {
     const firstVersionIndex = 2;
     const versionDiff = [
       '32 changes in this version',
-      '6 changes in this version',
+      '9 changes in this version',
       'No changes in this version',
     ];
 
@@ -578,7 +578,7 @@ describe('Task Details of different tasks on task details Page', () => {
       }
     });
 
-    for (let index = 1; index < 4; index += 1) {
+    for (let index = 3; index > 0; index -= 1) {
       cy.get(`[id$=-content-${index}]`).within(() => {
         cy.get('.govuk-rules-section').within(() => {
           cy.get('table').each((table, indexOfRisk) => {
@@ -1153,7 +1153,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify task Display highest threat level in task details', () => {
     const highestThreatLevel = [
-      'Category B',
+      'Category C',
       'Tier 1',
       'Category A',
     ];
@@ -1168,6 +1168,47 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.task-versions .govuk-accordion__section').each((element, index) => {
       cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
         expect(highestThreatLevel[index]).to.be.equal(value);
+      });
+    });
+  });
+
+  it('Should verify the Risk Score for a task with 2 Target Indicators', () => {
+    // COP-9051
+    cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-same-version_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+        console.log(taskListDetails);
+        expect('Risk Score: 50').to.deep.equal(taskListDetails.riskScore);
+      });
+    });
+  });
+
+  it('Should verify the Risk Score for Task with multiple versions', () => {
+    // COP-9051 The aggregated score is for the TIs in the latest version and does NOT include the score for TIs in previous 2 versions
+    cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-diff-version_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+        expect('Risk Score: 80').to.deep.equal(taskListDetails.riskScore);
+      });
+    });
+  });
+
+  it('Should verify the Risk Score for Task with 16 TIs displays the correct aggregated score', () => {
+    // COP-9051
+    cy.getBusinessKey('-Target-Indicators-Details').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+        expect('Risk Score: 4140').to.deep.equal(taskListDetails.riskScore);
+      });
+    });
+  });
+
+  it('Should verify the Risk Score for Tasks without TIs present are not displaying a score/value', () => {
+    // COP-9051
+    cy.getBusinessKey('-RORO-Unaccompanied-Freight-RoRo-UNACC-SBT_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+        expect('Risk Score: 0').to.deep.equal(taskListDetails.riskScore);
       });
     });
   });

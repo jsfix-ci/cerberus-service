@@ -9,21 +9,20 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should navigate to task details page', () => {
-    cy.get('h4.task-heading').eq(1).invoke('text').then((text) => {
-      cy.get('.govuk-task-list-card a').eq(1).click();
+    cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
+      cy.get('.govuk-task-list-card a').eq(0).click();
       cy.get('.govuk-caption-xl').invoke('text').then((taskTitle) => {
         expect(text).to.contain(taskTitle);
       });
     });
     cy.wait(2000);
-    cy.get('.govuk-accordion__open-all').click();
-    let headers = [];
-    cy.get('.govuk-task-details-grid .title-heading').each((element) => {
-      cy.wrap(element).invoke('text').then((value) => {
-        headers.push(value);
-      });
-    }).then(() => {
-      expect(headers.some((x) => x.includes('selector matches'))).to.be.true;
+    cy.get('.govuk-accordion__section-button').eq(0).invoke('attr', 'aria-expanded').then((value) => {
+      if (value !== true) {
+        cy.get('.govuk-accordion__section-button').eq(0).click();
+      }
+    });
+    cy.get('.selectors').within(() => {
+      cy.get('.govuk-heading-m').should('contain.text', 'selector matches');
     });
   });
 
@@ -221,6 +220,74 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.wait(2000);
   });
 
+  it('Should dismiss a task with a reason', () => {
+    const reasons = [
+      'Vessel arrived',
+      'False rule match',
+      'Resource redirected',
+      'Other',
+    ];
+
+    let businessKey;
+
+    const expectedActivity = 'Task dismissed, the reason is \'other reason for testing\'. Accompanying note: \'This is for testing\'';
+
+    cy.fixture('tasks.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-DISMISS`).then((taskResponse) => {
+        cy.wait(4000);
+        businessKey = taskResponse.businessKey;
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+        });
+
+        cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+        cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+
+        cy.wait(2000);
+
+        cy.contains('Dismiss').click();
+
+        cy.get('.formio-component-reason .govuk-radios__label').each((reason, index) => {
+          cy.wrap(reason)
+            .should('contain.text', reasons[index]).and('be.visible');
+        });
+
+        cy.clickNext();
+
+        cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for dismissing the task');
+
+        cy.selectRadioButton('reason', 'Other');
+
+        cy.typeValueInTextField('otherReason', 'other reason for testing');
+
+        cy.clickNext();
+
+        cy.waitForNoErrors();
+
+        cy.typeValueInTextArea('addANote', 'This is for testing');
+
+        cy.clickSubmit();
+
+        cy.verifySuccessfulSubmissionHeader('Task has been dismissed');
+
+        cy.visit(`/tasks/${businessKey}`);
+      });
+    });
+
+    cy.getActivityLogs().then((activities) => {
+      expect(activities).to.contain(expectedActivity);
+      expect(activities).not.to.contain('Property delete changed from false to true');
+    });
+  });
+
   it('Should complete assessment of a task with a reason as take no further action', () => {
     const reasons = [
       'Credibility checks carried out no target required',
@@ -314,74 +381,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           expect(taskFound).to.equal(false);
         });
       }
-    });
-  });
-
-  it('Should dismiss a task with a reason', () => {
-    const reasons = [
-      'Vessel arrived',
-      'False rule match',
-      'Resource redirected',
-      'Other',
-    ];
-
-    let businessKey;
-
-    const expectedActivity = 'Task dismissed, the reason is \'other reason for testing\'. Accompanying note: \'This is for testing\'';
-
-    cy.fixture('tasks.json').then((task) => {
-      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
-      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-DISMISS`).then((taskResponse) => {
-        cy.wait(4000);
-        businessKey = taskResponse.businessKey;
-        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
-          cy.navigateToTaskDetailsPage(tasks);
-        });
-
-        cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
-        cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
-
-        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
-
-        cy.wait('@claim').then(({ response }) => {
-          expect(response.statusCode).to.equal(204);
-        });
-
-        cy.wait(2000);
-
-        cy.contains('Dismiss').click();
-
-        cy.get('.formio-component-reason .govuk-radios__label').each((reason, index) => {
-          cy.wrap(reason)
-            .should('contain.text', reasons[index]).and('be.visible');
-        });
-
-        cy.clickNext();
-
-        cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for dismissing the task');
-
-        cy.selectRadioButton('reason', 'Other');
-
-        cy.typeValueInTextField('otherReason', 'other reason for testing');
-
-        cy.clickNext();
-
-        cy.waitForNoErrors();
-
-        cy.typeValueInTextArea('addANote', 'This is for testing');
-
-        cy.clickSubmit();
-
-        cy.verifySuccessfulSubmissionHeader('Task has been dismissed');
-
-        cy.visit(`/tasks/${businessKey}`);
-      });
-    });
-
-    cy.getActivityLogs().then((activities) => {
-      expect(activities).to.contain(expectedActivity);
-      expect(activities).not.to.contain('Property delete changed from false to true');
     });
   });
 
@@ -668,31 +667,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
               });
             });
         });
-    });
-  });
-
-  it('Display Vehicle and Vessel Icons in Task List and Task Summary', () => {
-    let taskIcons = [
-      ['MULTIPLE-PASSENGERS', 'group', 'ship'],
-      ['TOURIST-NO-VEHICLE', 'group', 'ship'],
-      ['TOURIST-WITH-PASSENGERS', 'car', 'ship'],
-      ['RoRo-UNACC-RBT-SBT', 'hgv', 'ship'],
-      ['HAZARDOUS', 'van', 'ship'],
-      ['RoRo-UNACC-SBT', 'trailer', 'ship'],
-    ];
-    taskIcons.forEach((taskDetail) => {
-      cy.visit('/tasks');
-      cy.getBusinessKey(taskDetail[0]).then((businessKeys) => {
-        expect(businessKeys.length).to.not.equal(0);
-        cy.get('.govuk-task-list-card').contains(businessKeys[0]).parents('.card-container').within(() => {
-          cy.get('i').eq(0).invoke('attr', 'class').should('contain', taskDetail[1]);
-          cy.get('i').eq(1).invoke('attr', 'class').should('contain', taskDetail[2]);
-        });
-        cy.wait(5000);
-        cy.checkTaskDisplayed(businessKeys[0]);
-        cy.get('i').eq(0).invoke('attr', 'class').should('contain', taskDetail[1]);
-        cy.get('i').eq(1).invoke('attr', 'class').should('contain', taskDetail[2]);
-      });
     });
   });
 
