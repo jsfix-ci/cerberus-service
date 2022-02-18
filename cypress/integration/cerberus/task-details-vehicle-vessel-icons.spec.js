@@ -7,7 +7,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     cy.visit('/tasks');
     cy.wait(3000);
     cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-        .click({ force: true });
+      .click({ force: true });
 
     cy.contains('Apply filters').click();
 

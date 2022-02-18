@@ -378,7 +378,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
 
     cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-        .click({ force: true });
+      .click({ force: true });
 
     cy.contains('Apply filters').click();
 
