@@ -136,6 +136,16 @@ Cypress.Commands.add('selectCheckBox', (elementName, value) => {
   }
 });
 
+Cypress.Commands.add('verifySelectedCheckBox', (elementName, values) => {
+  for (let value of values) {
+    cy.get(`${formioComponent}${elementName}`)
+      .contains(new RegExp(`^${value}$`, 'g'))
+      .closest('div')
+      .find('input')
+      .should('be.checked');
+  }
+});
+
 Cypress.Commands.add('clickNext', () => {
   cy.get('button[ref$="next"]').should('be.enabled');
   cy.wait(1000);
