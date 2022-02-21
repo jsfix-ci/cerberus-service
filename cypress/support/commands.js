@@ -233,6 +233,11 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             cy.wrap(item).find('.govuk-tag--riskTier').invoke('text').then((riskTier) => {
               expect(riskTier).to.equal(taskdetails.riskTier);
             });
+            if (taskdetails.riskTier === 'B') {
+              cy.wrap(item).find('.govuk-tag--riskTier').then((elem) => {
+                cy.wrap(elem).parent('.govuk-body').should('contains.text', 'SELECTOR');
+              });
+            }
           }
           if (taskdetails.selector != null) {
             cy.wrap(item).find('.task-highest-risk .govuk-body').invoke('text').then((selector) => {
@@ -567,7 +572,7 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/process-instance`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'processInstanceBusinessKeyLike': `%AUTOverifyTaskDetailAllSectionsTEST-${dateNowFormatted}-%`,
+      'processInstanceBusinessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);
@@ -741,15 +746,18 @@ function getTaskSummary(businessKey) {
 Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
-  if (Cypress.$(nextPage).length > 0) {
-    cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-      return getTaskSummary(businessKey);
-    });
-  } else {
-    cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-      return getTaskSummary(businessKey);
-    });
-  }
+  cy.wait(2000);
+  cy.get('body').then(($el) => {
+    if ($el.find(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        return getTaskSummary(businessKey);
+      });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        return getTaskSummary(businessKey);
+      });
+    }
+  });
 });
 
 Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionname) => {
@@ -1212,7 +1220,7 @@ Cypress.Commands.add('verifyTasksSortedOnArrivalDateTime', () => {
   cy.get('.task-list--item-2 .content-line-two').each((item, index) => {
     let dates;
     cy.wrap(item).invoke('text').then((element) => {
-      if (element !== 'unknown') {
+      if (!element.includes('unknown')) {
         dates = element.split('-')[1];
         dates = dates.slice(5, dates.length).split('at')[0];
         const d = new Date(dates);
@@ -1313,4 +1321,29 @@ Cypress.Commands.add('verifyTouristTaskSummary', (businessKey) => {
       });
     }
   });
+});
+
+Cypress.Commands.add('verifyIcons', (businessKey, vehicle, ship) => {
+  const nextPage = 'a[data-test="next"]';
+  cy.get('body').then(($el) => {
+    if ($el.find(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+          cy.get('i').eq(0).invoke('attr', 'class').should('contain', vehicle);
+          cy.get('i').eq(1).invoke('attr', 'class').should('contain', ship);
+        });
+      });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+          cy.get('i').eq(0).invoke('attr', 'class').should('contain', vehicle);
+          cy.get('i').eq(1).invoke('attr', 'class').should('contain', ship);
+        });
+      });
+    }
+  });
+  cy.wait(2000);
+  cy.checkTaskDisplayed(businessKey);
+  cy.get('i').eq(0).invoke('attr', 'class').should('contain', vehicle);
+  cy.get('i').eq(1).invoke('attr', 'class').should('contain', ship);
 });
