@@ -87,6 +87,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
         cy.verifyElementText('city', targetData.haulier.city);
         cy.verifyElementText('country', targetData.haulier.country);
       });
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', targetData.account['Full name']);
+        cy.verifyElementText('number', targetData.account['Reference number']);
+      });
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -206,6 +211,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
         cy.verifyElementText('city', expectedDetails.haulier.city);
         cy.verifyElementText('country', expectedDetails.haulier.country);
       });
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', expectedDetails.account['Full name']);
+        cy.verifyElementText('number', expectedDetails.account['Reference number']);
+      });
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -222,6 +232,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifyElementText('manifestedLoad', 'Corkscrews');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', 'DPE logistics');
+        cy.verifyElementText('number', '000524557');
+      });
 
       cy.selectDropDownValue('nominalType', 'Account');
 
@@ -457,6 +472,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.typeTodaysDateTime('eta');
 
       cy.verifySelectedDropdownValue('category', 'C');
+
+      cy.get('.formio-component-account').should('have.class', 'formio-hidden');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
