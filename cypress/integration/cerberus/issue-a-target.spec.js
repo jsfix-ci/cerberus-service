@@ -233,11 +233,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
-      cy.get('.formio-component-account').within(() => {
-        cy.verifyElementText('name', 'DPE logistics');
-        cy.verifyElementText('number', '000524557');
-      });
-
       cy.selectDropDownValue('nominalType', 'Account');
 
       cy.multiSelectDropDown('threatIndicators', targetInfo['target-indicators']);
