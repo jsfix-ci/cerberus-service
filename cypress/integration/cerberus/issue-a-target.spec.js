@@ -78,6 +78,15 @@ describe('Issue target from cerberus UI using target sheet information form', ()
           cy.verifyDate('docExpiry', passengerDocExpiry[0], passengerDocExpiry[1], passengerDocExpiry[2]);
         });
       }
+
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', targetData.haulier.name);
+        cy.verifyElementText('address', targetData.haulier.address);
+        cy.verifyElementText('city', targetData.haulier.city);
+        cy.verifyElementText('country', targetData.haulier.country);
+      });
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -88,6 +97,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.typeTodaysDateTime('eta');
 
       cy.verifySelectedDropdownValue('category', 'A');
+
+      cy.verifyElementText('manifestedLoad', 'Wine');
 
       cy.multiSelectDropDown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
 
@@ -187,6 +198,14 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.get('.formio-component-registrationNationality').should('be.visible');
       cy.verifyElementText('name', expectedDetails.vessel.name);
       cy.verifyElementText('company', expectedDetails.vessel.shippingCompany);
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', expectedDetails.haulier.name);
+        cy.verifyElementText('address', expectedDetails.haulier.address);
+        cy.verifyElementText('city', expectedDetails.haulier.city);
+        cy.verifyElementText('country', expectedDetails.haulier.country);
+      });
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -199,6 +218,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.typeTodaysDateTime('eta');
 
       cy.verifySelectedDropdownValue('category', 'B');
+
+      cy.verifyElementText('manifestedLoad', 'Corkscrews');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 

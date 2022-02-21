@@ -17,10 +17,10 @@
     "Email": ""
   },
   "haulier": {
-    "Name": "",
-    "Address": "",
-    "Telephone": "",
-    "Mobile": ""
+    "name": "Haulier Auto Test UK",
+    "address": "Unit 100  Dock Lands",
+    "city": "Greater London",
+    "country": "GB"
   },
   "driver": {
     "Name": "",

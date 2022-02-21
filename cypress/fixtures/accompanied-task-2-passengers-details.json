@@ -17,10 +17,10 @@
     "Email": ""
   },
   "haulier": {
-    "Name": "Gondrand UK",
-    "Address": "Unit 82 Central Docks, Canary Wharf, East London, E16 2SR",
-    "Telephone": "020 89637851",
-    "Mobile": ""
+    "name": "Gondrand UK",
+    "address": "Unit 82 Central Docks",
+    "city": "London",
+    "country": "GB"
   },
   "driver": {
     "Name": "Isiaih Ford",
