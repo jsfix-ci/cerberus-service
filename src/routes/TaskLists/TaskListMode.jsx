@@ -299,34 +299,6 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
               <div className="govuk-grid-item">
                 <div>
                   <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                    Driver details
-                  </h3>
-                  <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                    {roroData.driver ? (
-                      <>
-                        {roroData.driver.firstName && <li className="govuk-!-font-weight-bold">{roroData.driver.firstName}</li>}
-                        {roroData.driver.middleName && <li className="govuk-!-font-weight-bold">{roroData.driver.middleName}</li>}
-                        {roroData.driver.lastName && <li className="govuk-!-font-weight-bold">{roroData.driver.lastName}</li>}
-                        {roroData.driver.dob && <li>DOB: {roroData.driver.dob}</li>}
-                        <li>{pluralise.withCount(target.aggregateDriverTrips || '?', '% trip', '% trips')}</li>
-                      </>
-                    ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
-                  </ul>
-                  <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
-                    Passenger details
-                  </h3>
-                  <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
-                    {roroData.passengers && roroData.passengers.length > 0 ? (
-                      <>
-                        <li className="govuk-!-font-weight-bold">{pluralise.withCount(passengers.length - 1, '% passenger', '% passengers')}</li>
-                      </>
-                    ) : (<li className="govuk-!-font-weight-bold">None</li>)}
-                  </ul>
-                </div>
-              </div>
-              <div className="govuk-grid-item verticel-dotted-line">
-                <div>
-                  <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                     Trailer details
                   </h3>
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
@@ -377,6 +349,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
               </div>
+              <div className="govuk-grid-item verticel-dotted-line" />
             </div>
           </section>
         </>

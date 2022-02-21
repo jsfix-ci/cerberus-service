@@ -4,14 +4,12 @@ import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalc
 import {
   renderTargetingIndicatorsSection,
   renderTrailerSection,
-  renderOccupantsSection,
   renderHaulierSection,
   renderAccountSection,
-  renderDriverSection,
   renderGoodsSection,
   renderBookingSection,
 } from './SectionRenderer';
-import { hasTaskVersionPassengers, extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
+import { extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -56,29 +54,6 @@ const renderSecondColumn = (version, taskSummaryData) => {
   );
 };
 
-const renderThirdColumn = (version) => {
-  const passengersField = version.find(({ propName }) => propName === 'passengers');
-  const isValidToRender = hasTaskVersionPassengers(passengersField);
-  const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
-  const driverField = version.find(({ propName }) => propName === 'driver');
-  const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField);
-  return (
-    <div className="govuk-task-details-col-3">
-      <div className="task-details-container bottom-border-thick">
-        <h3 className="title-heading">Occupants</h3>
-        <div className="govuk-task-details-grid-row">
-          <span className="govuk-grid-key font__light">Total occupants</span>
-        </div>
-        <div className="govuk-task-details-grid-row">
-          <span className="govuk-grid-key font__bold">0</span>
-        </div>
-        {occupants}
-      </div>
-      {driver}
-    </div>
-  );
-};
-
 const RoRoUnaccompaniedTaskVersion = ({ version, movementMode, taskSummaryData }) => {
   return (
     <div className="govuk-task-details-grid">
@@ -88,9 +63,7 @@ const RoRoUnaccompaniedTaskVersion = ({ version, movementMode, taskSummaryData }
       <div className="govuk-grid-column-one-third vertical-dotted-line-one">
         {renderSecondColumn(version, taskSummaryData)}
       </div>
-      <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-        {renderThirdColumn(version)}
-      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line-two" />
     </div>
   );
 };

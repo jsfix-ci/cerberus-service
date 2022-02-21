@@ -1,11 +1,21 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
+import ReactDOMServer from 'react-dom/server';
+import { RORO_UNACCOMPANIED_FREIGHT } from '../../constants';
 
 import { TaskVersions, sortRulesByThreat } from '../TaskDetails/TaskVersions';
 import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
   taskSummaryBasedOnTISData, noVehicleSinglePaxTsBasedOnTISData,
   noVehicleTwoPaxTsBasedOnTISData, taskVersionNoRuleMatches, taskVersionWithRules,
   taskWithThreeVersions } from '../__fixtures__/taskVersions';
+
+import {
+  renderOccupantCarrierCountsSection,
+} from '../TaskDetails/TaskVersionsMode/SectionRenderer';
+
+import {
+  noDriverNoPaxNoCategoryCounts,
+} from '../__fixtures__/section-renderer/sectionRendererTaskDetails';
 
 describe('TaskVersions', () => {
   it('should render the selector with Highest threat Category level', () => {
@@ -235,5 +245,15 @@ describe('TaskVersions', () => {
     expect(screen.queryAllByText('9 Feb 2022 at 17:03')).toHaveLength(1);
     expect(screen.queryAllByText('10 Feb 2022 at 17:03')).toHaveLength(1);
     expect(screen.queryAllByText('11 Feb 2022 at 17:03')).toHaveLength(1);
+  });
+
+  it('should not render the thrid column containing the driver and pax details for RorouUnaccompanied freight', () => {
+    const driverField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'driver');
+    const passengersField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'passengers');
+    const passengersMetadata = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'occupants');
+
+    const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_UNACCOMPANIED_FREIGHT);
+
+    expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
   });
 });
