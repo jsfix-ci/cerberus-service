@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useInterval } from 'react-use';
+import { renderHook } from '@testing-library/react-hooks';
 import '../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import taskListData from '../__fixtures__/taskListData.fixture.json';
@@ -726,5 +728,42 @@ describe('TaskListPage', () => {
     await waitFor(() => render(setTabAndTaskValues(tabData, 'inProgress')));
 
     expect(screen.queryAllByText('Scenario 1 Rule')).toHaveLength(1);
+  });
+
+  describe('UseInterval Hook', () => {
+    let callback = jest.fn();
+
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      callback.mockRestore();
+      jest.clearAllTimers();
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
+
+    it('should call provided callback repeatedly with a fixed time delay between each call', () => {
+      renderHook(() => useInterval(callback, 180000));
+      expect(callback).not.toHaveBeenCalled();
+
+      // fast forward just before our first call
+      jest.advanceTimersByTime(179999);
+      expect(callback).not.toHaveBeenCalled();
+
+      // fast forward to our first call
+      jest.advanceTimersToNextTimer(1);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      jest.advanceTimersToNextTimer();
+      expect(callback).toHaveBeenCalledTimes(2);
+
+      // fast forward untill 2 more timers are executed
+      jest.advanceTimersToNextTimer(2);
+      expect(callback).toHaveBeenCalledTimes(4);
+    });
   });
 });
