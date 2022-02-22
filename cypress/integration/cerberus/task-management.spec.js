@@ -92,6 +92,20 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.wait('@tasks').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
+
+    cy.get('body').then(($el) => {
+      if ($el.find(nextPage).length > 0) {
+        cy.get('a[href="/tasks?page=2"]').eq(0).click();
+
+        cy.tick(180000);
+
+        cy.wait('@tasks').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+
+        cy.url().should('contain', 'page=2');
+      }
+    });
   });
 
   it('Should verify tasks are sorted in arrival time for new and InProgress tabs on task management page', () => {
