@@ -5,10 +5,14 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   const MAX_TASK_PER_PAGE = 100;
   const nextPage = 'a[data-test="next"]';
 
+  before(() => {
+    cy.clock();
+  });
+
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
-    // cy.navigation('Tasks');
+    cy.navigation('Tasks');
   });
 
   it('Should render all the tabs on task management page', () => {
@@ -77,23 +81,17 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify refresh task list page', () => {
-    if (Cypress.$(nextPage).length > 0) {
-      cy.clock();
+    cy.tick(180000);
 
-      cy.wait('@tasks').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
-      cy.get('a[href="/tasks?page=2"]').eq(0).click();
+    cy.tick(180000);
 
-      cy.tick(65000);
-
-      cy.wait('@tasks').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
-
-      cy.url().should('contain', 'page=2');
-    }
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
   });
 
   it('Should verify tasks are sorted in arrival time for new and InProgress tabs on task management page', () => {
