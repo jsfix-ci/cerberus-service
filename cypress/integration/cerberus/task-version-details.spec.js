@@ -1271,18 +1271,25 @@ describe('Task Details of different tasks on task details Page', () => {
 
           cy.wait(10000);
 
-          cy.visit('/tasks');
+          cy.get('p.govuk-body').eq(0).invoke('text').then((value) => {
+            if (value !== 'Task not assigned') {
+              cy.visit('/tasks');
+              cy.get('a[href="#inProgress"]').click();
+            } else {
+              cy.visit('/tasks');
+            }
 
-          cy.contains('Clear all filters').click();
+            cy.contains('Clear all filters').click();
 
-          cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-            .click({ force: true });
+            cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
+              .click({ force: true });
 
-          cy.contains('Apply filters').click({ force: true });
+            cy.contains('Apply filters').click({ force: true });
 
-          cy.wait(2000);
+            cy.wait(2000);
 
-          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+            cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+          });
         });
       });
     });
