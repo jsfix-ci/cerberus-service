@@ -1,3 +1,11 @@
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+const duration = require('dayjs/plugin/duration');
+
+dayjs.extend(duration);
+
+dayjs.extend(customParseFormat);
 describe('Task Details of different tasks on task details Page', () => {
   let dateNowFormatted;
   beforeEach(() => {
@@ -1209,6 +1217,157 @@ describe('Task Details of different tasks on task details Page', () => {
       expect(businessKeys.length).to.not.equal(0);
       cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
         expect('Risk Score: 0').to.deep.equal(taskListDetails.riskScore);
+      });
+    });
+  });
+
+  it('Should verify single task created for the same target with different versions with different passengers information', () => {
+    let date = new Date();
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-multiple-version-category_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    let departureDateTime;
+    let arrivalDataTime;
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+
+    date.setDate(date.getDate() + 8);
+    cy.fixture('/tourist-mulitple-versions/RoRo-Tourist-2-passengers-v1.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = Cypress.dayjs().add(15, 'day').valueOf();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(15, 'day').valueOf();
+      task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().subtract(2, 'day').format('YYYY-MM-DDThh:mm:ss');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null);
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('/tourist-mulitple-versions/RoRo-Tourist-2-passengers-v2.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = Cypress.dayjs().add(2, 'month').valueOf();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(2, 'day').valueOf();
+      task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().subtract(1, 'day').format('YYYY-MM-DDThh:mm:ss');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null);
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('/tourist-mulitple-versions/RoRo-Tourist-2-passengers-v3.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      departureDateTime = Cypress.dayjs().add(13, 'day').valueOf();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureDateTime;
+      departureDateTime = Cypress.dayjs(departureDateTime).utc().format(dateFormat);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(13, 'day').valueOf();
+      task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().format('YYYY-MM-DDThh:mm:ss');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null).then((response) => {
+        cy.wait(15000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.getAllProcessInstanceId(`${response.businessKey}`).then((res) => {
+          expect(res.body.length).to.not.equal(0);
+          expect(res.body.length).to.equal(1);
+        });
+
+        // COP-9368 Latest departure date/time should be displayed in UI for tasks with multiple versions
+        // let expectedTaskSummary = {
+        //   'Ferry': 'DFDS voyage of DOVER SEAWAYS',
+        //   'Departure': `${departureDateTime}   DOV`,
+        //   'Arrival': `CAL      ${arrivalDataTime}`,
+        //   'vehicle': 'Vehicle with TrailerGB09KLT-10685 with NL-234-392 driven by Bobby Brownshoes',
+        //   'Account': 'Arrival 8 days before travel',
+        // };
+        //
+        // cy.checkTaskSummaryDetails().then((taskSummary) => {
+        //   expect(taskSummary).to.deep.equal(expectedTaskSummary);
+        // });
+      });
+    });
+
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+
+    cy.visit('/tasks');
+
+    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
+    cy.verifyTaskHasUpdated(businessKey, 'Updated');
+  });
+
+  it('Should verify datetime of the latest version when new version is not created', () => {
+    let date = new Date();
+    let updateDateTime;
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+    updateDateTime = Cypress.dayjs().format(dateFormat);
+    console.log('updateDateTime', updateDateTime);
+    cy.getBusinessKey('RORO-Unaccompanied-Freight-VERSION-DETAILS_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((reListTask) => {
+        date.setDate(date.getDate() + 8);
+        reListTask.businessKey = businessKeys[0];
+        reListTask.variables.rbtPayload.value.data.movementId = businessKeys[0];
+        reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+        reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+        cy.postTasks(reListTask, null).then((taskResponse) => {
+          cy.wait(10000);
+          cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+          cy.get('.task-versions--left .govuk-caption-m').eq(0).should('have.text', updateDateTime);
+        });
+      });
+    });
+  });
+
+  it('Should verify datetime of the update is displayed in the version header when new version is created', () => {
+    let date = new Date();
+    let updateDateTime;
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+    updateDateTime = dayjs().format(dateFormat);
+    cy.getBusinessKey('-RORO-Tourist-DETAILS_').then((businessKeys) => {
+      expect(businessKeys.length).to.not.equal(0);
+      cy.fixture('RoRo-Tourist-2-passengers.json').then((reListTask) => {
+        date.setDate(date.getDate() + 8);
+        reListTask.businessKey = businessKeys[0];
+        reListTask.variables.rbtPayload.value.data.movementId = businessKeys[0];
+        reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+        reListTask.variables.rbtPayload.value.data.movement.persons[1].person.gender = 'M';
+        reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+        cy.postTasks(reListTask, null).then((taskResponse) => {
+          cy.wait(10000);
+          cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+          cy.get('.task-versions--left .govuk-caption-m').eq(0).should('have.text', updateDateTime);
+          cy.get('.task-versions--left .govuk-caption-m').eq(1).invoke('text').then((value) => {
+            let version2 = Cypress.dayjs(updateDateTime, dateFormat);
+            let version1 = Cypress.dayjs(value, dateFormat);
+            let diff = version2.diff(version1, 'minute');
+            expect(diff).to.be.greaterThan(1);
+          });
+
+          cy.wait(10000);
+
+          cy.visit('/tasks');
+
+          cy.contains('Clear all filters').click();
+
+          cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
+            .click({ force: true });
+
+          cy.contains('Apply filters').click({ force: true });
+
+          cy.wait(2000);
+
+          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+        });
       });
     });
   });
