@@ -15,7 +15,7 @@ const selectorsByGroupReference = (selectors) => {
 };
 
 const SelectorMatchesTaskVersion = ({ version }) => {
-  const otherFields = ['requestingOfficer', 'sourceReference', 'category', 'threatType', 'pointOfContactMessage', 'pointOfContact', 'inboundActionCode', 'notes', 'creator'];
+  const otherFields = ['requestingOfficer', 'sourceReference', 'category', 'threatType', 'pointOfContactMessage', 'pointOfContact', 'inboundActionCode', 'outboundActionCode', 'notes', 'creator'];
   const selectorMatches = version.find(({ propName }) => propName === 'selectors');
   const selectorsGroup = selectorsByGroupReference(selectorMatches?.childSets);
   return (
