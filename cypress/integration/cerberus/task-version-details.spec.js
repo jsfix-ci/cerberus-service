@@ -1,3 +1,11 @@
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+const duration = require('dayjs/plugin/duration');
+
+dayjs.extend(duration);
+
+dayjs.extend(customParseFormat);
 describe('Task Details of different tasks on task details Page', () => {
   let dateNowFormatted;
   beforeEach(() => {
@@ -1209,6 +1217,99 @@ describe('Task Details of different tasks on task details Page', () => {
       expect(businessKeys.length).to.not.equal(0);
       cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
         expect('Risk Score: 0').to.deep.equal(taskListDetails.riskScore);
+      });
+    });
+  });
+
+  it('Should verify datetime of the latest version when new version is not created', () => {
+    let date = new Date();
+    let businessKey;
+
+    cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
+      date.setDate(date.getDate() + 8);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-VERSION-DETAILS`).then((response) => {
+        cy.wait(4000);
+        businessKey = response.businessKey;
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.wait(60000);
+
+    let updateDateTime;
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+    console.log('updateDateTime', updateDateTime);
+    cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((reListTask) => {
+      date.setDate(date.getDate() + 8);
+      reListTask.businessKey = businessKey;
+      reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+      reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+      cy.postTasks(reListTask, null).then((taskResponse) => {
+        cy.wait(10000);
+        cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+        updateDateTime = Cypress.dayjs().format(dateFormat);
+        cy.get('.task-versions--left .govuk-caption-m').eq(0).should('have.text', updateDateTime);
+      });
+    });
+  });
+
+  it('Should verify datetime of the update is displayed in the version header when new version is created', () => {
+    let date = new Date();
+    let businessKey;
+
+    cy.fixture('RoRo-Tourist-2-passengers.json').then((task) => {
+      date.setDate(date.getDate() + 8);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-VERSION-DETAILS`).then((response) => {
+        cy.wait(4000);
+        businessKey = response.businessKey;
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.wait(120000);
+    let updateDateTime;
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+    updateDateTime = dayjs().format(dateFormat);
+    cy.fixture('RoRo-Tourist-2-passengers.json').then((reListTask) => {
+      date.setDate(date.getDate() + 8);
+      reListTask.businessKey = businessKey;
+      reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+      reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      reListTask.variables.rbtPayload.value.data.movement.persons[1].person.gender = 'M';
+      reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+      cy.postTasks(reListTask, null).then((taskResponse) => {
+        cy.wait(10000);
+        updateDateTime = Cypress.dayjs().format(dateFormat);
+        cy.checkTaskDisplayed(`${taskResponse.businessKey}`);
+        cy.get('.task-versions--left .govuk-caption-m').eq(0).should('have.text', updateDateTime);
+        cy.get('.task-versions--left .govuk-caption-m').eq(1).invoke('text').then((value) => {
+          let version2 = Cypress.dayjs(updateDateTime, dateFormat);
+          let version1 = Cypress.dayjs(value, dateFormat);
+          let diff = version2.diff(version1, 'minute');
+          expect(diff).to.be.greaterThan(1);
+        });
+
+        cy.wait(10000);
+
+        cy.visit('/tasks');
+
+        cy.contains('Clear all filters').click();
+
+        cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
+          .click({ force: true });
+
+        cy.contains('Apply filters').click({ force: true });
+
+        cy.wait(2000);
+
+        cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
       });
     });
   });
