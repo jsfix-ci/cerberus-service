@@ -8,7 +8,7 @@ describe('Task Details of different tasks on task details Page', () => {
     dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
   });
 
-  it('Should verify task version details of unaccompanied task on task details page', () => {
+  it.only('Should verify task version details of unaccompanied task on task details page', () => {
     let date = new Date();
     let targetURL;
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
@@ -1215,7 +1215,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   after(() => {
     cy.deleteAutomationTestData();
-    cy.contains('Sign out').click();
+    cy.contains('Sign out').click({force: true});
     cy.url().should('include', Cypress.env('auth_realm'));
   });
 });
