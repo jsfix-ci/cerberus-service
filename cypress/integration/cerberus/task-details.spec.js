@@ -298,6 +298,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       'Other',
     ];
 
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+
     let businessKey = `AUTOTEST-${dateNowFormatted}/RORO-Accompanied-Freight/ASSESSMENT_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     const expectedActivity = 'Assessment complete, the reason is \'vesselArrived\'. Accompanying note: \'This is for testing\'';
@@ -347,27 +349,83 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       });
 
       // COP-8703 Display updated tasks that had previously completed assessment
-      cy.fixture('tasks.json').then((reListTask) => {
-        reListTask.businessKey = businessKey;
-        reListTask.variables.rbtPayload.value.data.movementId = businessKey;
-        reListTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'ABC123';
-        reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
-        cy.postTasks(reListTask, null).then((taskResponse) => {
+      cy.fixture('tasks.json').then((updateTask) => {
+        updateTask.businessKey = businessKey;
+        updateTask.variables.rbtPayload.value.data.movementId = businessKey;
+        updateTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'ABC123';
+        updateTask.variables.rbtPayload.value = JSON.stringify(updateTask.variables.rbtPayload.value);
+        cy.postTasks(updateTask, null).then((taskResponse) => {
           cy.wait(10000);
-
           cy.visit('/tasks');
+          cy.checkTaskUpdateAndRelistStatus('RORO_UNACCOMPANIED_FREIGHT', taskResponse);
+        });
+        cy.fixture('tasks.json').then((reListTask) => {
+          reListTask.businessKey = businessKey;
+          reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+          reListTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'XXYY54645';
+          reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+          cy.postTasks(reListTask, null).then((taskResponse) => {
+            cy.wait(10000);
 
-          cy.contains('Clear all filters').click();
+            cy.visit('/tasks');
 
-          cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
-            .click({ force: true });
+            // COP-9861 Persist relist tag across all tabs
+            cy.checkTaskUpdateAndRelistStatus('RORO_UNACCOMPANIED_FREIGHT', taskResponse);
 
-          cy.contains('Apply filters').click({ force: true });
+            cy.visit(`/tasks/${taskResponse.businessKey}`);
 
-          cy.wait(2000);
+            cy.wait(2000);
 
-          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
-          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Relisted');
+            cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+            cy.wait('@claim').then(({ response }) => {
+              expect(response.statusCode).to.equal(204);
+            });
+
+            cy.visit('/tasks');
+
+            cy.wait(2000);
+
+            cy.get('a[href="#inProgress"]').click();
+
+            cy.checkTaskUpdateAndRelistStatus('RORO_UNACCOMPANIED_FREIGHT', taskResponse);
+
+            cy.visit(`/tasks/${taskResponse.businessKey}`);
+
+            cy.contains('Issue target').click();
+
+            cy.wait(2000);
+
+            cy.fixture('target-information.json').then((targetInfo) => {
+              cy.selectDropDownValue('mode', 'RoRo Freight');
+
+              cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
+
+              cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
+
+              cy.typeTodaysDateTime('eta');
+
+              cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
+
+              cy.selectRadioButton('warningsIdentified', 'No');
+
+              cy.clickNext();
+
+              cy.waitForNoErrors();
+
+              cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+            });
+
+            cy.clickSubmit();
+
+            cy.verifySuccessfulSubmissionHeader('Target created successfully');
+
+            cy.visit('/tasks');
+
+            cy.get('a[href="#issued"]').click();
+
+            cy.checkTaskUpdateAndRelistStatus('RORO_UNACCOMPANIED_FREIGHT', taskResponse);
+          });
         });
       });
 
