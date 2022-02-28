@@ -6,7 +6,7 @@ import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalc
 import {
   renderTargetingIndicatorsSection,
   renderVehicleSection,
-  renderVersionSection,
+  renderDriverSection,
   renderOccupantsSection,
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument,
@@ -17,7 +17,6 @@ import {
 import {
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
-  getTaskDetailsTotalOccupants,
 } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
@@ -62,19 +61,13 @@ const footPassengersTaskVersion = (version, movementMode, movementModeIcon, task
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
-    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon);
+    const bookingDate = version.find(({ propName }) => propName === 'booking').contents.find(({ propName }) => propName === 'dateBooked');
+    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, bookingDate);
     const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode, movementModeIcon);
-    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
     return (
       <div className="govuk-task-details-col-3">
-        <div className="task-details-container bottom-border-thick">
+        <div className="task-details-container">
           <h3 className="title-heading">Occupants</h3>
-          <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__light">Total occupants</span>
-          </div>
-          <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__bold">{totalCount}</span>
-          </div>
           {carrierOccupantCounts
           && (
           <div className="govuk-task-details-counts-container">
@@ -84,7 +77,7 @@ const footPassengersTaskVersion = (version, movementMode, movementModeIcon, task
           </div>
           )}
         </div>
-        <div className="task-details-container bottom-border-thick">
+        <div className="task-details-container">
           <h3 className="title-heading">Other travellers</h3>
           {occupants}
         </div>
@@ -145,17 +138,10 @@ const footPassengerTaskVersion = (version, movementMode, movementModeIcon, taskS
     const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const primaryTraveller = (passengersField !== null && passengersField !== undefined) && renderPrimaryTraveller(passengersField, movementModeIcon);
     const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode, movementModeIcon);
-    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
     return (
       <div className="govuk-task-details-col-3">
-        <div className="task-details-container bottom-border-thick">
+        <div className="task-details-container">
           <h3 className="title-heading">Occupants</h3>
-          <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__light">Total occupants</span>
-          </div>
-          <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__bold">{totalCount}</span>
-          </div>
           {carrierOccupantCounts
           && (
           <div className="govuk-task-details-counts-container">
@@ -224,22 +210,15 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
+    const bookingDate = version.find(({ propName }) => propName === 'booking').contents.find(({ propName }) => propName === 'dateBooked');
     const driverField = version.find(({ propName }) => propName === 'driver');
-    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField);
+    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, 'undefined', bookingDate);
     const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
-    const totalCount = getTaskDetailsTotalOccupants(passengersMetadata);
-    const linkFields = { name: 'entitySearchUrl' };
-    const driver = (driverField !== null && driverField !== undefined) && renderVersionSection(driverField, linkFields);
+    const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, bookingDate);
     return (
       <div className="govuk-task-details-col-3">
-        <div className="task-details-container bottom-border-thick">
+        <div className="task-details-container">
           <h3 className="title-heading">Occupants</h3>
-          <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__light">Total occupants</span>
-          </div>
-          <div className="govuk-task-details-grid-row">
-            <span className="govuk-grid-key font__bold">{totalCount}</span>
-          </div>
           {carrierOccupantCounts
           && (
           <div className="govuk-task-details-counts-container">
@@ -248,9 +227,9 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
             </div>
           </div>
           )}
-          {occupants}
+          {driver}
         </div>
-        {driver}
+        {occupants}
       </div>
     );
   };
