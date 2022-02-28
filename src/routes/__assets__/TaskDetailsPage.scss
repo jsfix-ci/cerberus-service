@@ -97,6 +97,21 @@
     }
 }
 
+.font__light {
+  color: #505a5f;
+  font-weight: lighter;
+  font-size: 15px;
+}
+
+.font__bold {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.bottom-border {
+  border-bottom: 1px solid #b1b4b6;
+}
+
 .govuk-task-details-grid {
     font-family: "GDS Transport", arial, sans-serif;
     display: grid;

@@ -459,30 +459,6 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryAllByText('New')).toHaveLength(1);
   });
 
-  it('should render total occupants', async () => {
-    mockTaskDetailsAxiosCalls({
-      processInstanceResponse: [{ id: '123' }],
-      taskResponse: [
-        {
-          processInstanceId: '123',
-          assignee: 'test',
-          id: 'task123',
-          taskDefinitionKey: 'otherType',
-        },
-      ],
-      variableInstanceResponse: variableInstanceStatusNew,
-      operationsHistoryResponse: operationsHistoryFixture,
-      taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: noteFormFixure,
-      modecode: 'rorotour',
-      targetModeResponse: targetModeTourist,
-    });
-
-    await waitFor(() => render(<TaskDetailsPage />));
-
-    expect(screen.queryAllByText('Total occupants')).toHaveLength(1);
-  });
-
   it('should not render notes form when task not assigned', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],

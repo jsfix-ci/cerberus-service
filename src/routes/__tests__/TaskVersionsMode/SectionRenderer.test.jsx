@@ -9,6 +9,7 @@ import {
   renderPrimaryTraveller,
   renderPrimaryTravellerDocument,
   renderOccupantCarrierCountsSection,
+  renderDocumentExpiry,
 } from '../../TaskDetails/TaskVersionsMode/SectionRenderer';
 
 import {
@@ -78,17 +79,17 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column">
+          <h3 className="title-heading">field-set-name</h3>
+          <div>
             <div className="govuk-task-details-grid-item">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Field 1</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Field 1</span></li>
                 <li className="govuk-grid-value font__bold">value 1</li>
               </ul>
             </div>
             <div className="govuk-task-details-grid-item">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Field 2</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Field 2</span></li>
                 <li className="govuk-grid-value font__bold">value 2</li>
               </ul>
             </div>
@@ -115,8 +116,8 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column" />
+          <h3 className="title-heading">field-set-name</h3>
+          <div />
         </div>,
       ));
     });
@@ -553,13 +554,26 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                <li className="govuk-grid-value font__bold">MRS SECOND PASSENGER</li>
-              </ul>
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>,
@@ -606,13 +620,26 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=98989898&type=PERSON&fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MRS SECOND PASSENGER</a></li>
-              </ul>
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>,
@@ -652,12 +679,26 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                <li className="govuk-grid-value font__bold">MRS SECOND PASSENGER</li>
-              </ul>
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>,
@@ -708,28 +749,51 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                <li className="govuk-grid-value font__bold">MRS SECOND PASSENGER</li>
-              </ul>
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
             </div>
           </div>
           <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary">
-              <span className="govuk-details__summary-text">
-                Show more
-              </span>
-            </summary>
+            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
             <div className="govuk-hidden-passengers">
-              <div className="govuk-task-details-grid-column">
-                <div className="govuk-task-details-grid-item">
-                  <ul>
-                    <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                    <li className="govuk-grid-value font__bold">MR OTHER PASSENGER</li>
-                  </ul>
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">MR OTHER PASSENGER</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -789,28 +853,51 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                <li className="govuk-grid-value font__bold">MRS SECOND PASSENGER</li>
-              </ul>
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
             </div>
           </div>
           <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary">
-              <span className="govuk-details__summary-text">
-                Show more
-              </span>
-            </summary>
+            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
             <div className="govuk-hidden-passengers">
-              <div className="govuk-task-details-grid-column">
-                <div className="govuk-task-details-grid-item">
-                  <ul>
-                    <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                    <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=56565656&type=PERSON&fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR OTHER PASSENGER</a></li>
-                  </ul>
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">MR OTHER PASSENGER</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -874,36 +961,73 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column">
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Name</span></></li>
-                <li className="govuk-grid-value font__bold">MRS SECOND PASSENGER</li>
-              </ul>
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
             </div>
           </div>
           <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary">
-              <span className="govuk-details__summary-text">
-                Show more
-              </span>
-            </summary>
+            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
             <div className="govuk-hidden-passengers">
-              <div className="govuk-task-details-grid-column bottom-border">
-                <div className="govuk-task-details-grid-item">
-                  <ul>
-                    <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                    <li className="govuk-grid-value font__bold">MR OTHER PASSENGER 1</li>
-                  </ul>
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">MR OTHER PASSENGER 1</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="govuk-task-details-grid-column">
-                <div className="govuk-task-details-grid-item">
-                  <ul>
-                    <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                    <li className="govuk-grid-value font__bold">MRS OTHER PASSENGER 2</li>
-                  </ul>
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">MRS OTHER PASSENGER 2</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -967,17 +1091,75 @@ describe('SectionRenderer', () => {
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container">
-          <h3 className="title-heading">{input.fieldSetName}</h3>
-          <div className="govuk-task-details-grid-column" />
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary">
-              <span className="govuk-details__summary-text">
-                Show more
-              </span>
-            </summary>
+            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
             <div className="govuk-hidden-passengers">
-              <div className="govuk-task-details-grid-column bottom-border" />
-              <div className="govuk-task-details-grid-column" />
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">MR OTHER PASSENGER 1</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">MRS OTHER PASSENGER 2</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </details>
         </div>,
@@ -1453,6 +1635,22 @@ describe('SectionRenderer', () => {
       const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
+    });
+  });
+
+  describe('Render the difference of travel booked date and passport expirty date', () => {
+    it('Should render time left for passport expiry before travel booked date', () => {
+      const bookedDate = '2020-08-03T13:05:00';
+      const passportExpiry = '01 Feb 2021';
+      const expiry = renderDocumentExpiry(passportExpiry, bookedDate);
+      expect(expiry).toEqual('6 months before travel');
+    });
+
+    it('Should render passport expiry time passed before travel booked date', () => {
+      const bookedDate = '2020-02-01T13:05:00';
+      const passportExpiry = '03 Aug 2019';
+      const expiry = renderDocumentExpiry(passportExpiry, bookedDate);
+      expect(expiry).toEqual('6 months after travel');
     });
   });
 });
