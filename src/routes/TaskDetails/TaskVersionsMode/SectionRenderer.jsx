@@ -1,7 +1,9 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import moment from 'moment';
 import { formatKey, formatField, formatLinkField } from '../../../utils/formatField';
-import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST } from '../../../constants';
+import formatGender from '../../../utils/genderFormatter';
+import { RORO_UNACCOMPANIED_FREIGHT, RORO_ACCOMPANIED_FREIGHT, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST, SHORT_DATE_ALT } from '../../../constants';
 import { isValid, hasZeroCount, hasDriver, hasTaskVersionPassengers, hasCarrierCounts } from '../../../utils/roroDataUtil';
 
 const discardDriver = (passengersField) => {
@@ -35,13 +37,57 @@ const renderFields = (contents, linkPropNames = {}, className = 'govuk-task-deta
   });
 };
 
+const renderDocumentExpiry = (passportExpiry, bookedDate) => {
+  const expiry = (bookedDate && passportExpiry) && `${bookedDate},${moment(passportExpiry).format('YYYY-MM-DDTHH:mm:ss')}`;
+  if (expiry) return formatField('BOOKING_DATETIME', expiry).split(', ')[1].replace('ago', 'after travel');
+  return 'Unknown';
+};
+
+const renderOccupants = (contents, fieldSetName, bookingDate) => {
+  const name = contents.find(({ propName }) => propName === 'name')?.content;
+  const dob = contents.find(({ propName }) => propName === 'dob')?.content;
+  const gender = contents.find(({ propName }) => propName === 'gender')?.content;
+  const nationality = contents.find(({ propName }) => propName === 'nationality')?.content;
+  const passportNumber = contents.find(({ propName }) => propName === 'docNumber')?.content;
+  const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry')?.content;
+  const bookedDate = bookingDate?.content.split(',')[1];
+
+  return (
+    <div className="govuk-!-margin-bottom-4 bottom-border">
+      <div className="govuk-grid-row govuk-!-margin-bottom-2">
+        <div className="govuk-grid-column-full">
+          <p className="govuk-!-margin-bottom-0 font__light">{fieldSetName}</p>
+          <p className="govuk-!-margin-bottom-0 font__bold">{name}</p>
+          <p className="govuk-!-margin-bottom-0 font__bold">{formatGender(gender)}
+            { dob ? (<span>, born {formatField(SHORT_DATE_ALT, dob)}</span>) : (<span>, Unknown</span>) }
+            { nationality ? (<span>, {nationality}</span>) : (<span>, Unknown</span>)}
+          </p>
+        </div>
+      </div>
+      <div className="govuk-grid-row govuk-!-margin-bottom-2">
+        <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+          <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+          <p className="govuk-!-margin-bottom-0 font__bold">{passportNumber || 'Unknown'}</p>
+        </div>
+        <div className="govuk-grid-column-full">
+          <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+          <p className="govuk-!-margin-bottom-0 font__bold">
+            { passportExpiry ? (<span>Expires {formatField(SHORT_DATE_ALT, passportExpiry)}</span>) : (<span>Unknown</span>) }
+          </p>
+          <p className="govuk-!-margin-bottom-0 font__light">{ renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry), bookedDate) }</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const renderVersionSection = ({ fieldSetName, contents }, linkPropNames = {}) => {
   if (contents !== undefined && contents !== null && contents.length > 0) {
     const jsxElement = renderFields(contents, linkPropNames);
     return (
       <div className="task-details-container bottom-border-thick">
         <h3 className="title-heading">{fieldSetName}</h3>
-        <div className="govuk-task-details-grid-column">
+        <div>
           {jsxElement}
         </div>
       </div>
@@ -58,8 +104,8 @@ const renderAccountSection = (fieldSet) => {
   return renderVersionSection(fieldSet, defaultLinkPropNames);
 };
 
-const renderDriverSection = (fieldSet) => {
-  return renderVersionSection(fieldSet, defaultLinkPropNames);
+const renderDriverSection = (fieldSet, bookingDate) => {
+  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate);
 };
 
 const renderGoodsSection = (fieldSet) => {
@@ -231,7 +277,7 @@ const renderOccupantCarrierCountsSection = (driverField, passengersField, passen
   }
 };
 
-const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) => {
+const renderOccupantsSection = ({ childSets }, movementModeIcon, bookingDate) => {
   // Passenger at position 0 is driver so they are excluded from the remaining passengers
   const remainingTravellers = childSets.slice(1);
   // Actual passenger
@@ -242,15 +288,14 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
 
   if (firstPassenger !== null && firstPassenger !== undefined) {
     if (firstPassenger.length > 0) {
-      firstPassengerJsxElement = renderFields(firstPassenger, defaultLinkPropNames);
+      firstPassengerJsxElement = renderOccupants(firstPassenger, 'Occupant', bookingDate);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
-          otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger, index) => {
-            const passengerJsxElement = renderFields(otherPassenger.contents, defaultLinkPropNames);
-            const className = index !== otherPassengers.length - 1 ? 'govuk-task-details-grid-column bottom-border' : 'govuk-task-details-grid-column';
+          otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger) => {
+            const passengerJsxElement = renderOccupants(otherPassenger.contents, 'Occupant', bookingDate);
             return (
-              <div className={className} key={uuidv4()}>
+              <div key={uuidv4()}>
                 {passengerJsxElement}
               </div>
             );
@@ -260,8 +305,7 @@ const renderOccupantsSection = ({ fieldSetName, childSets }, movementModeIcon) =
       return (
         <>
           <div className="task-details-container">
-            {movementModeIcon !== RORO_TOURIST_GROUP_ICON && <h3 className="title-heading">{fieldSetName}</h3>}
-            <div className="govuk-task-details-grid-column">
+            <div>
               {firstPassengerJsxElement}
             </div>
             {otherPassengersJsxElementBlock && (
@@ -342,4 +386,5 @@ export { renderHaulierSection,
   renderOccupantsSection,
   renderOccupantCarrierCountsSection,
   renderPrimaryTraveller,
-  renderPrimaryTravellerDocument };
+  renderPrimaryTravellerDocument,
+  renderDocumentExpiry };

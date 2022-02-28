@@ -53,7 +53,6 @@ describe('TaskVersions', () => {
     expect(screen.queryAllByText('Vehicle')).toHaveLength(3);
     expect(screen.queryByText('Booking and check-in')).toBeInTheDocument();
     expect(screen.queryByText('Occupants')).toBeInTheDocument();
-    expect(screen.queryByText('Passengers')).toBeInTheDocument();
     expect(screen.queryByText('Driver')).toBeInTheDocument();
     expect(screen.queryByText('Goods')).not.toBeInTheDocument();
     expect(screen.queryByText('Haulier details')).not.toBeInTheDocument();

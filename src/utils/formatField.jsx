@@ -5,7 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
 import config from '../config';
-import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
+import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT, SHORT_DATE_ALT, SHORT_DATE_FORMAT_ALT } from '../constants';
 
 const formatField = (fieldType, content) => {
   dayjs.extend(utc);
@@ -26,6 +26,9 @@ const formatField = (fieldType, content) => {
       break;
     case fieldType.includes('CURRENCY'):
       result = `£${content}`;
+      break;
+    case fieldType.includes(SHORT_DATE_ALT):
+      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT_ALT);
       break;
     case fieldType.includes('SHORT_DATE'):
       result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
