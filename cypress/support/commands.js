@@ -541,15 +541,13 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
     cy.get('.card').within(() => {
       cy.get('.govuk-heading-s').should('contain.text', registrationNumber);
     });
-  }
-  
+  } 
   if (bookingDateTime === 'Invalid date') {
     bookingDateTime = 'Invalid Date';
   }
   const date = new Date();
   const formattedDate = date.toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric'
-  }).replace(/ /g, ' ');
+    day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, ' ');
   cy.get('.task-versions .task-versions--left').should('contain.text', bookingDateTime);
   cy.get(".task-versions .task-versions--left").should(
     "contain.text",
@@ -1108,15 +1106,9 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
 });
 
 Cypress.Commands.add('verifyCheckInDateTime', (expectedCheckInDateTime) => {
-  cy.contains('h3', 'Booking and check-in')
-    .next()
-    .within(() => {
+  cy.contains('h3', 'Booking and check-in').next().within(() => {
       cy.getTaskDetails().then((details) => {
-        const checkInDateTime = Object.fromEntries(
-          Object.entries(details).filter(([key]) =>
-            key.includes('Check-in')
-          )
-        );
+        const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in')));
         expect(checkInDateTime['Check-in']).to.be.equal(expectedCheckInDateTime);
       });
     });
