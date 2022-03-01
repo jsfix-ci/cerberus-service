@@ -79,20 +79,20 @@ const renderBookingSection = (fieldSet) => {
 };
 
 const renderOccupants = (contents, fieldSetName, bookingDate) => {
-  const name = contents.find(({ propName }) => propName === 'name')?.content;
+  const name = contents.find(({ propName }) => propName === 'name');
   const dob = contents.find(({ propName }) => propName === 'dob')?.content;
   const gender = contents.find(({ propName }) => propName === 'gender')?.content;
   const nationality = contents.find(({ propName }) => propName === 'nationality')?.content;
   const passportNumber = contents.find(({ propName }) => propName === 'docNumber')?.content;
   const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry')?.content;
   const bookedDate = bookingDate?.content.split(',')[1];
-  const link = findLink(contents, contents.find(({ propName }) => propName === 'name'), defaultLinkPropNames);
+  const link = findLink(contents, name, defaultLinkPropNames);
   return (
     <div className="govuk-!-margin-bottom-4 bottom-border">
       <div className="govuk-grid-row govuk-!-margin-bottom-2">
         <div className="govuk-grid-column-full">
           <p className="govuk-!-margin-bottom-0 font__light">{fieldSetName}</p>
-          {link ? <p className="govuk-!-margin-bottom-0 font__bold">{formatLinkField('STRING', name, link)}</p> : <p className="govuk-!-margin-bottom-0 font__bold">{name}</p>}
+          {link ? <p className="govuk-!-margin-bottom-0 font__bold">{formatLinkField(name.type, name.content, link)}</p> : <p className="govuk-!-margin-bottom-0 font__bold">{name.content}</p>}
           <p className="govuk-!-margin-bottom-0 font__bold">{formatGender(gender)}
             { dob ? (<span>, born {formatField(SHORT_DATE_ALT, dob)}</span>) : (<span>, Unknown</span>) }
             { nationality ? (<span>, {nationality}</span>) : (<span>, Unknown</span>)}
