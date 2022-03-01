@@ -670,6 +670,129 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
+  it('Should verify the selector matches with same group reference', () => {
+    let date = new Date();
+    cy.fixture('/tasks-with-rules-selectors/RoRo-task-selectors-same-group-reference.json').then((task) => {
+      date.setDate(date.getDate() + 8);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Selector-Group_reference-details`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
+
+    cy.expandTaskDetails(0);
+
+    cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+      cy.fixture('selectors-group-expected.json').then((expectedDetails) => {
+        cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+          expect(expectedDetails.Selectors[0]).to.deep.equal(actualGroupDetails);
+        });
+      });
+    });
+
+    cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+      cy.fixture('selectors-group-expected.json').then((expectedDetails) => {
+        cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+          expect(expectedDetails.Selectors[1]).to.deep.equal(actualGroupDetails);
+        });
+      });
+    });
+  });
+
+  it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
+    let date = new Date();
+    date.setDate(date.getDate() + 8);
+    const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-selectors-group-reference-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    cy.fixture('/tasks-with-rules-selectors/RoRo-task-selectors-v1-same-group-reference.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null);
+    });
+
+    cy.wait(30000);
+
+    cy.fixture('/tasks-with-rules-selectors/RoRo-task-selectors-v2-diff-group-reference.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, null).then((response) => {
+        cy.wait(15000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        let encodedBusinessKey = encodeURIComponent(`${response.businessKey}`);
+        cy.getAllProcessInstanceId(encodedBusinessKey).then((res) => {
+          expect(res.body.length).to.not.equal(0);
+          expect(res.body.length).to.equal(1);
+        });
+      });
+    });
+
+    cy.expandTaskDetails(0);
+
+    cy.get('[id$=-content-1]').within(() => {
+      cy.contains('h4', 'SR-218').nextAll().within((elements) => {
+        cy.fixture('selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][0]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-217').nextAll().within((elements) => {
+        cy.fixture('selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][1]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+        cy.fixture('selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][2]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-216').nextAll().within((elements) => {
+        cy.fixture('selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][3]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+        cy.fixture('selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][4]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+    });
+
+    cy.expandTaskDetails(1);
+
+    cy.get('[id$=-content-2]').within(() => {
+      cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+        cy.fixture('selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-1'][0]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
