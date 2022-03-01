@@ -66,10 +66,6 @@ const renderAccountSection = (fieldSet) => {
   return renderVersionSection(fieldSet, defaultLinkPropNames);
 };
 
-const renderDriverSection = (fieldSet, bookingDate) => {
-  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate);
-};
-
 const renderGoodsSection = (fieldSet) => {
   return renderVersionSection(fieldSet);
 };
@@ -114,6 +110,10 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
       </div>
     </div>
   );
+};
+
+const renderDriverSection = (fieldSet, bookingDate) => {
+  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate);
 };
 
 const renderVersionSectionBody = (fieldSet, linkPropNames = {}, className = '') => {
