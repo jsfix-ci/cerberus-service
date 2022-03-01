@@ -96,24 +96,15 @@ describe('Create task with different payload from Cerberus', () => {
   });
 
   it('Should create a task with a payload contains RoRo Unaccompanied Freight from RBT & SBT', () => {
-    cy.createCerberusTask(
-      'RoRo-Unaccompanied-RBT-SBT.json',
-      'RoRo-UNACC-RBT-SBT'
-    );
+    cy.createCerberusTask('RoRo-Unaccompanied-RBT-SBT.json', 'RoRo-UNACC-RBT-SBT');
   });
 
   it('Should create a task with a payload contains RoRo accompanied with no passengers', () => {
-    cy.createCerberusTask(
-      'RoRo-Freight-Accompanied-no-passengers.json',
-      'RoRo-ACC-NO-PASSENGERS'
-    );
+    cy.createCerberusTask('RoRo-Freight-Accompanied-no-passengers.json', 'RoRo-ACC-NO-PASSENGERS');
   });
 
   it('Should create TSV task with payload contains actual and scheduled timestamps different', () => {
-    cy.createCerberusTask(
-      'tsv-timestamps-different.json',
-      'TSV-TIMESTAMP-DIFF'
-    );
+    cy.createCerberusTask('tsv-timestamps-different.json', 'TSV-TIMESTAMP-DIFF');
   });
 
   it('Should create TSV task with payload contains actual and scheduled timestamps same', () => {
@@ -122,23 +113,17 @@ describe('Create task with different payload from Cerberus', () => {
 
   it('Should create TSV task with payload contains only scheduled timestamp', () => {
     cy.createCerberusTask(
-      'tsv-scheduled-timestamp.json',
-      'TSV-TIMESTAMP-SCHEDULED'
-    );
+      'tsv-scheduled-timestamp.json', 'TSV-TIMESTAMP-SCHEDULED');
   });
 
   it('Should create TSV task with payload with no actual and scheduled timestamps', () => {
     cy.createCerberusTask(
-      'tsv-only-estimated-timestamp.json',
-      'TSV-NO-ACTUAL-SCHEDULED-TIMESTAMP'
-    );
+      'tsv-only-estimated-timestamp.json', 'TSV-NO-ACTUAL-SCHEDULED-TIMESTAMP');
   });
 
   it('Should create TSV task with payload with no departure location, actual, scheduled and estimated timestamps', () => {
     cy.createCerberusTask(
-      'tsv-no-departure-location.json',
-      'TSV-NO-DEPARTURE-LOCATION'
-    );
+      'tsv-no-departure-location.json', 'TSV-NO-DEPARTURE-LOCATION');
   });
 
   it('Should create a task with payload contains risks array and arrival timestamp as null', () => {
@@ -155,11 +140,7 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskDisplayed(`${response.businessKey}`);
         // COP-9672 Display No Rule matches in task details if there are no Rule / Selector
         cy.get('.task-versions .govuk-accordion__section').each((element) => {
-          cy.wrap(element)
-            .find('.task-versions--right .govuk-list li')
-            .eq(1)
-            .invoke('text')
-            .then((value) => {
+          cy.wrap(element).find('.task-versions--right .govuk-list li').eq(1).invoke('text').then((value) => {
               expect('No rule matches').to.be.equal(value);
             });
         });
@@ -184,18 +165,9 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('RoRo-Tourist-muliple-passengers.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      let mode =
-        task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(
-          / /g,
-          '-'
-        );
-      task.variables.rbtPayload.value = JSON.stringify(
-        task.variables.rbtPayload.value
-      );
-      cy.postTasks(
-        task,
-        `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`
-      ).then((response) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then(
@@ -220,24 +192,15 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('RoRo-Tourist-single-passengers.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      let mode =
-        task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(
-          / /g,
-          '-'
-        );
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(
         task.variables.rbtPayload.value
       );
-      cy.postTasks(
-        task,
-        `AUTOTEST-${dateNowFormatted}-${mode}-SINGLE-PASSENGER`
-      ).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-SINGLE-PASSENGER`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.visit('/tasks');
-
         cy.get('.govuk-checkboxes [value=RORO_TOURIST]').click({ force: true });
-
         cy.contains('Apply filters').click();
         cy.wait(2000);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then(
@@ -264,9 +227,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.wait(4000);
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
       cy.visit('/tasks');
-
       cy.get('.govuk-checkboxes [value=RORO_TOURIST]').click({ force: true });
-
       cy.contains('Apply filters').click();
       cy.wait(2000);
       cy.verifyTouristTaskSummary(`${businessKeys[0]}`).then((taskDetails) => {
@@ -279,13 +240,8 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('RoRo-Tourist-NoVehicle.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      task.variables.rbtPayload.value = JSON.stringify(
-        task.variables.rbtPayload.value
-      );
-      cy.postTasks(
-        task,
-        `AUTOTEST-${dateNowFormatted}-TOURIST-NO-VEHICLE`
-      ).then((response) => {
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-TOURIST-NO-VEHICLE`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
