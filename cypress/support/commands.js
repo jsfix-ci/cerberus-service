@@ -540,7 +540,7 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
     cy.get('.card').within(() => {
       cy.get('.govuk-heading-s').should('contain.text', registrationNumber);
     });
-  } 
+  }
   if (bookingDateTime === 'Invalid date') {
     bookingDateTime = 'Invalid Date';
   }
