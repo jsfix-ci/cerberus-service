@@ -546,12 +546,10 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
   }
   const date = new Date();
   const formattedDate = date.toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, ' ');
+    day: 'numeric', month: 'short', year: 'numeric'
+  }).replace(/ /g, ' ');
   cy.get('.task-versions .task-versions--left').should('contain.text', bookingDateTime);
-  cy.get('.task-versions .task-versions--left').should(
-    'contain.text',
-    formattedDate
-  );
+  cy.get('.task-versions .task-versions--left').should('contain.text',formattedDate);
 });
 
 Cypress.Commands.add('deleteAutomationTestData', () => {
