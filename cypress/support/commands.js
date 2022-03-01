@@ -536,13 +536,13 @@ Cypress.Commands.add('assignToOtherUser', (task) => {
   });
 });
 
-Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime, checkInDateTime) => {
+Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) => {
   if (registrationNumber !== null) {
     cy.get('.card').within(() => {
       cy.get('.govuk-heading-s').should('contain.text', registrationNumber);
     });
   }
-
+  
   if (bookingDateTime === 'Invalid date') {
     bookingDateTime = 'Invalid Date';
   }
@@ -550,7 +550,7 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime, c
   const formattedDate = date.toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric'
   }).replace(/ /g, ' ');
- // cy.get('.task-versions .task-versions--left').should('contain.text', bookingDateTime);
+  cy.get('.task-versions .task-versions--left').should('contain.text', bookingDateTime);
   cy.get(".task-versions .task-versions--left").should(
     "contain.text",
     formattedDate
