@@ -487,7 +487,7 @@ Cypress.Commands.add(('getVehicleDetails'), (elements) => {
 
 Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
   cy.get('.govuk-accordion__section-button').eq(versionNumber).invoke('attr', 'aria-expanded').then((value) => {
-    if (value !== true) {
+    if (value === 'false') {
       cy.get('.govuk-accordion__section-button').eq(versionNumber).click();
     }
   });
@@ -857,7 +857,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
     let regex = new RegExp('^[0-9]+ selector matches$', 'g');
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
       cy.contains('h2', regex).then((locator) => {
-        cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
+        cy.getAllRuleMatches(locator).then((actualSelectorMatches) => {
           expect(actualSelectorMatches).to.deep.equal(expectedDetails.selectorMatch);
         });
       });
@@ -1186,6 +1186,23 @@ Cypress.Commands.add('getAllRuleMatches', () => {
   });
 });
 
+Cypress.Commands.add('getSelectorGroupDetails', (elements) => {
+  let actualRuleMatches = {};
+  cy.wrap(elements).each((element, index) => {
+    if (index <= 9) {
+      cy.wrap(element).find('.govuk-heading-s').each((item) => {
+        cy.wrap(item).invoke('text').then((header) => {
+          cy.wrap(item).next().invoke('text').then((value) => {
+            actualRuleMatches[header] = value;
+          });
+        });
+      });
+    }
+  }).then(() => {
+    return actualRuleMatches;
+  });
+});
+
 Cypress.Commands.add('getAllSelectorMatches', (locator) => {
   let actualSelectorMatches = [];
   cy.wrap(locator).nextAll().find('.govuk-\\!-margin-bottom-6').each((selector) => {
@@ -1365,4 +1382,42 @@ Cypress.Commands.add('verifyIcons', (businessKey, vehicle, ship) => {
   cy.checkTaskDisplayed(businessKey);
   cy.get('i').eq(0).invoke('attr', 'class').should('contain', vehicle);
   cy.get('i').eq(1).invoke('attr', 'class').should('contain', ship);
+});
+
+Cypress.Commands.add('getSelectorGroupInformation', (elements) => {
+  let actualSelectorGroupDetails = {};
+  let warningMessage = {};
+  let entityArray = [];
+  cy.getSelectorGroupDetails(elements).then((actualSelectorMatches) => {
+    actualSelectorGroupDetails.selectorGroupInfo = actualSelectorMatches;
+  });
+
+  cy.get('.react-tabs__tab-list li').each((item) => {
+    cy.wrap(item).click();
+    cy.get('.react-tabs__tab-panel--selected').within(() => {
+      cy.get('.govuk-heading-s').eq(0).invoke('text').then((header) => {
+        cy.get('.govuk-heading-s').eq(1).invoke('text').then((value) => {
+          warningMessage[header] = value;
+        });
+      });
+    });
+
+    cy.get('.panel').within(() => {
+      cy.get('.panel-content').each((element) => {
+        let entities = {};
+        cy.wrap(element).find('.govuk-\\!-font-weight-bold').each((entity) => {
+          cy.wrap(entity).invoke('text').then((header) => {
+            cy.wrap(entity).next().invoke('text').then((value) => {
+              entities[header] = value;
+              entityArray.push(entities);
+            });
+          });
+        });
+      });
+    });
+  }).then(() => {
+    actualSelectorGroupDetails.group = warningMessage;
+    actualSelectorGroupDetails.group.entities = entityArray;
+    return actualSelectorGroupDetails;
+  });
 });
