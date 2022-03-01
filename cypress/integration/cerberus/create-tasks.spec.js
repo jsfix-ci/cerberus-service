@@ -18,8 +18,7 @@ describe('Create task with different payload from Cerberus', () => {
       let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
       bookingDateTime = Cypress.dayjs(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then(
-        (response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
           cy.wait(4000);
           let businessKey = response.businessKey;
           cy.checkTaskDisplayed(businessKey);
@@ -29,13 +28,8 @@ describe('Create task with different payload from Cerberus', () => {
           cy.get('body').then(($el) => {
             if ($el.find(nextPage).length > 0) {
               cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-                cy.get('.govuk-task-list-card')
-                  .contains(businessKey)
-                  .parents('.card-container')
-                  .within(() => {
-                    cy.get('.task-list--item-2 .govuk-grid-column-one-quarter')
-                      .find('[class^=c-icon-]')
-                      .should('not.exist');
+                cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                    cy.get('.task-list--item-2 .govuk-grid-column-one-quarter').find('[class^=c-icon-]').should('not.exist');
                   });
               });
             } else {
