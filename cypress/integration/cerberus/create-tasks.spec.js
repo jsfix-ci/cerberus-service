@@ -11,19 +11,13 @@ describe('Create task with different payload from Cerberus', () => {
     cy.createCerberusTask('tasks-org-null.json', 'ORG-NULL');
   });
 
-  it.only('Should create a task with a payload contains vehicle value as null', () => {
+  it('Should create a task with a payload contains vehicle value as null', () => {
     cy.fixture('task-vehicle-null.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      let bookingDateTime =
-        task.variables.rbtPayload.value.data.movement.serviceMovement.attributes
-          .attrs.bookingDateTime;
-      bookingDateTime = Cypress.dayjs(bookingDateTime).format(
-        'D MMM YYYY [at] HH:mm'
-      );
-      task.variables.rbtPayload.value = JSON.stringify(
-        task.variables.rbtPayload.value
-      );
+      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
+      bookingDateTime = Cypress.dayjs(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then(
         (response) => {
           cy.wait(4000);
@@ -69,9 +63,7 @@ describe('Create task with different payload from Cerberus', () => {
         cy.expandTaskDetails(0).then(() => {
           cy.contains('h2', 'Rules matched').nextAll(() => {
             cy.getAllRuleMatches().then((actualRuleMatches) => {
-              expect(actualRuleMatches['Abuse Type']).to.be.equal(
-                'Obscene Material'
-              );
+              expect(actualRuleMatches['Abuse Type']).to.be.equal('Obscene Material');
             });
           });
         });
@@ -154,23 +146,13 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('task-risks-null.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      let mode =
-        task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(
-          / /g,
-          '-'
-        );
-      task.variables.rbtPayload.value = JSON.stringify(
-        task.variables.rbtPayload.value
-      );
-      cy.postTasks(
-        task,
-        `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`
-      ).then((response) => {
+      let mode =task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace( / /g,'-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {
         cy.wait(4000);
         cy.navigation('Tasks');
         cy.get('.govuk-heading-xl').should('have.text', 'Task management');
         cy.checkTaskDisplayed(`${response.businessKey}`);
-
         // COP-9672 Display No Rule matches in task details if there are no Rule / Selector
         cy.get('.task-versions .govuk-accordion__section').each((element) => {
           cy.wrap(element)
