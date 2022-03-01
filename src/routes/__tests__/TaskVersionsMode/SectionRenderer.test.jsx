@@ -625,7 +625,11 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
-                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">
+                    <a href="http://localhost:4020/search?term=98989898&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">
+                      MRS SECOND PASSENGER
+                    </a>
+                  </p>
                   <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
                 </div>
               </div>
@@ -883,7 +887,11 @@ describe('SectionRenderer', () => {
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
-                      <p className="govuk-!-margin-bottom-0 font__bold">MR OTHER PASSENGER</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">
+                        <a href="http://localhost:4020/search?term=56565656&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">
+                          MR OTHER PASSENGER
+                        </a>
+                      </p>
                       <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span></p>
                     </div>
                   </div>
