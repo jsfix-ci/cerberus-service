@@ -43,44 +43,6 @@ const renderDocumentExpiry = (passportExpiry, bookedDate) => {
   return 'Unknown';
 };
 
-const renderOccupants = (contents, fieldSetName, bookingDate) => {
-  const name = contents.find(({ propName }) => propName === 'name')?.content;
-  const dob = contents.find(({ propName }) => propName === 'dob')?.content;
-  const gender = contents.find(({ propName }) => propName === 'gender')?.content;
-  const nationality = contents.find(({ propName }) => propName === 'nationality')?.content;
-  const passportNumber = contents.find(({ propName }) => propName === 'docNumber')?.content;
-  const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry')?.content;
-  const bookedDate = bookingDate?.content.split(',')[1];
-
-  return (
-    <div className="govuk-!-margin-bottom-4 bottom-border">
-      <div className="govuk-grid-row govuk-!-margin-bottom-2">
-        <div className="govuk-grid-column-full">
-          <p className="govuk-!-margin-bottom-0 font__light">{fieldSetName}</p>
-          <p className="govuk-!-margin-bottom-0 font__bold">{name}</p>
-          <p className="govuk-!-margin-bottom-0 font__bold">{formatGender(gender)}
-            { dob ? (<span>, born {formatField(SHORT_DATE_ALT, dob)}</span>) : (<span>, Unknown</span>) }
-            { nationality ? (<span>, {nationality}</span>) : (<span>, Unknown</span>)}
-          </p>
-        </div>
-      </div>
-      <div className="govuk-grid-row govuk-!-margin-bottom-2">
-        <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-          <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
-          <p className="govuk-!-margin-bottom-0 font__bold">{passportNumber || 'Unknown'}</p>
-        </div>
-        <div className="govuk-grid-column-full">
-          <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
-          <p className="govuk-!-margin-bottom-0 font__bold">
-            { passportExpiry ? (<span>Expires {formatField(SHORT_DATE_ALT, passportExpiry)}</span>) : (<span>Unknown</span>) }
-          </p>
-          <p className="govuk-!-margin-bottom-0 font__light">{ renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry), bookedDate) }</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const renderVersionSection = ({ fieldSetName, contents }, linkPropNames = {}) => {
   if (contents !== undefined && contents !== null && contents.length > 0) {
     const jsxElement = renderFields(contents, linkPropNames);
@@ -104,16 +66,54 @@ const renderAccountSection = (fieldSet) => {
   return renderVersionSection(fieldSet, defaultLinkPropNames);
 };
 
-const renderDriverSection = (fieldSet, bookingDate) => {
-  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate);
-};
-
 const renderGoodsSection = (fieldSet) => {
   return renderVersionSection(fieldSet);
 };
 
 const renderBookingSection = (fieldSet) => {
   return renderVersionSection(fieldSet);
+};
+
+const renderOccupants = (contents, fieldSetName, bookingDate) => {
+  const name = contents.find(({ propName }) => propName === 'name');
+  const dob = contents.find(({ propName }) => propName === 'dob')?.content;
+  const gender = contents.find(({ propName }) => propName === 'gender')?.content;
+  const nationality = contents.find(({ propName }) => propName === 'nationality')?.content;
+  const passportNumber = contents.find(({ propName }) => propName === 'docNumber')?.content;
+  const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry')?.content;
+  const bookedDate = bookingDate?.content.split(',')[1];
+  const link = findLink(contents, name, defaultLinkPropNames);
+  return (
+    <div className="govuk-!-margin-bottom-4 bottom-border">
+      <div className="govuk-grid-row govuk-!-margin-bottom-2">
+        <div className="govuk-grid-column-full">
+          <p className="govuk-!-margin-bottom-0 font__light">{fieldSetName}</p>
+          {link ? <p className="govuk-!-margin-bottom-0 font__bold">{formatLinkField(name.type, name.content, link)}</p> : <p className="govuk-!-margin-bottom-0 font__bold">{name.content}</p>}
+          <p className="govuk-!-margin-bottom-0 font__bold">{formatGender(gender)}
+            { dob ? (<span>, born {formatField(SHORT_DATE_ALT, dob)}</span>) : (<span>, Unknown</span>) }
+            { nationality ? (<span>, {nationality}</span>) : (<span>, Unknown</span>)}
+          </p>
+        </div>
+      </div>
+      <div className="govuk-grid-row govuk-!-margin-bottom-2">
+        <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+          <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+          <p className="govuk-!-margin-bottom-0 font__bold">{passportNumber || 'Unknown'}</p>
+        </div>
+        <div className="govuk-grid-column-full">
+          <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+          <p className="govuk-!-margin-bottom-0 font__bold">
+            { passportExpiry ? (<span>Expires {formatField(SHORT_DATE_ALT, passportExpiry)}</span>) : (<span>Unknown</span>) }
+          </p>
+          <p className="govuk-!-margin-bottom-0 font__light">{ renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry), bookedDate) }</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const renderDriverSection = (fieldSet, bookingDate) => {
+  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate);
 };
 
 const renderVersionSectionBody = (fieldSet, linkPropNames = {}, className = '') => {
