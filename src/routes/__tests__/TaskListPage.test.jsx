@@ -730,6 +730,39 @@ describe('TaskListPage', () => {
     expect(screen.queryAllByText('Scenario 1 Rule')).toHaveLength(1);
   });
 
+  it('should post correct filter and sort values when getting a targeting task page', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, []);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    expect(mockAxios.history.post).toHaveLength(3);
+    expect(JSON.parse(mockAxios.history.post[2].data)).toEqual({
+      filterParams: {
+        hasSelectors: null,
+        movementModes: [],
+      },
+      pageParams: {
+        limit: 100,
+        offset: 0,
+      },
+      sortParams: [
+        {
+          field: 'arrival-date',
+          order: 'desc',
+        },
+        {
+          field: 'highest-threat-level',
+          order: 'desc',
+        },
+      ],
+      status: 'NEW',
+    });
+  });
+
   describe('UseInterval Hook', () => {
     let callback = jest.fn();
 
