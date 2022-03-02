@@ -81,7 +81,7 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
   const nationality = contents.find(({ propName }) => propName === 'nationality')?.content;
   const passportNumber = contents.find(({ propName }) => propName === 'docNumber')?.content;
   const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry')?.content;
-  const bookedDate = bookingDate?.content.split(',')[1];
+  const bookedDate = bookingDate?.content?.split(',')[1];
   const link = findLink(contents, name, defaultLinkPropNames);
   return (
     <div className="govuk-!-margin-bottom-4 bottom-border">
