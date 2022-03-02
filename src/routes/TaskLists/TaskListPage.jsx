@@ -115,11 +115,11 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
         ? [
           {
             field: 'arrival-date',
-            order: 'asc',
+            order: 'desc',
           },
           {
             field: 'highest-threat-level',
-            order: 'asc',
+            order: 'desc',
           },
         ]
         : null;
