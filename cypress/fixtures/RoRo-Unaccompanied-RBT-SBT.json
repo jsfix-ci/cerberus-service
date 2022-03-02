@@ -165,14 +165,14 @@
            "ticketNumber": "ST-34560",
            "waybillNumber": "99990005",
            "adultCount": "0",
-           "bookingDateTime": "2020-08-02T09:15:50",
+           "bookingDateTime": "2022-03-04T09:15:50",
            "descriptionOfCargo": "Corkscrews",
            "ticketType": "Single",
            "childCount": "0",
            "driverCount": "001",
            "reference": "AA000000006",
            "oapCount": "0",
-           "checkInDateTime": "2020-08-04T11:05:00",
+           "checkInDateTime": "2022-03-02T11:05:00",
            "hazardousCargo": "false",
            "infantCount": "0"
           }
@@ -215,7 +215,7 @@
             "id": null,
             "type": null,
             "valueType": "STRING",
-            "value": "2020-08-04T11:05Z",
+            "value": "2022-03-02T11:05Z",
             "valueList": null,
             "startTimestamp": null,
             "endTimestamp": null
@@ -224,7 +224,7 @@
             "id": null,
             "type": null,
             "valueType": "STRING",
-            "value": "2020-08-02T09:15:50Z",
+            "value": "2022-03-04T09:15:50Z",
             "valueList": null,
             "startTimestamp": null,
             "endTimestamp": null
@@ -301,10 +301,10 @@
            "attrs": {
             "countryOfBooking": "GB",
             "reference": "AA000000006",
-            "CheckInDateTime": "2020-08-04T11:05:00",
+            "CheckInDateTime": "2022-03-02T11:05:00",
             "ticketNumber": "ST-34560",
             "ticketType": "Single",
-            "bookingDateTime": "2020-08-02T09:15:50"
+            "bookingDateTime": "2022-03-04T09:15:50"
            }
           },
           "matching": null,
@@ -910,8 +910,8 @@
           }
          },
          "type": "VOYAGE",
-         "effectiveFromTimestamp": 1596567600000,
-         "effectiveToTimestamp": 1596569400000,
+         "effectiveFromTimestamp": 1625130000000,
+         "effectiveToTimestamp": 1625131800000,
          "dueTimestamp": null,
          "status": null,
          "voyage": {
@@ -919,12 +919,12 @@
           "voyageType": "SEA",
           "departureLocation": "DOV",
           "departureCountry": null,
-          "scheduledDepartureTimestamp": 1596567600000,
-          "actualDepartureTimestamp": 1596567600000,
+          "scheduledDepartureTimestamp": 1625130000000,
+          "actualDepartureTimestamp": 1625130000000,
           "arrivalLocation": "CAL",
           "arrivalCountry": null,
-          "scheduledArrivalTimestamp": 1596569400000,
-          "actualArrivalTimestamp": 1628333099208,
+          "scheduledArrivalTimestamp": 1646287200000,
+          "actualArrivalTimestamp": 1646460000000,
           "intermediateLocations": null,
           "passengerCount": null,
           "crewCount": null,
