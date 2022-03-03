@@ -1,4 +1,8 @@
-import { modifyRoRoPassengersTaskList, hasCheckinDate, hasEta, hasCarrierCounts } from '../roroDataUtil';
+import { modifyRoRoPassengersTaskList,
+  hasCheckinDate,
+  hasEta,
+  hasCarrierCounts,
+  extractTaskVersionsBookingField } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -65,5 +69,36 @@ describe('RoRoData Util', () => {
     ];
     const result = hasCarrierCounts(suppliedPassengerCounts);
     expect(result).toBeTruthy();
+  });
+
+  it('should return a concatenated datetime string', () => {
+    const expectedCheckInDataTime = '2020-08-03T12:05:00,2020-08-03T13:05:00Z';
+    const taskVersionMinified = [
+      {
+        fieldSetName: 'Booking and check-in',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Check-in',
+            type: 'DATETIME',
+            content: '2020-08-03T12:05:00',
+            versionLastUpdated: null,
+            propName: 'checkIn',
+          },
+        ],
+        type: 'null',
+        propName: 'booking',
+      },
+    ];
+    const testRoroDataMinified = {
+      roro: {
+        details: {
+          departureTime: '2020-08-03T13:05:00Z',
+        },
+      },
+    };
+    const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
+    const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
+    expect(modifiedCheckInTime).toEqual(expectedCheckInDataTime);
   });
 });
