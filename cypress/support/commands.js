@@ -485,6 +485,23 @@ Cypress.Commands.add(('getVehicleDetails'), (elements) => {
   });
 });
 
+Cypress.Commands.add(('getOccupantCounts'), () => {
+  const obj = {};
+  cy.get('.task-details-container').eq(1).within(() => {
+    cy.get('.govuk-task-details-grid-row').each((item) => {
+      cy.wrap(item).find('ul').each((detail) => {
+        cy.wrap(detail).find('li.govuk-grid-value').invoke('text').then((key) => {
+          cy.wrap(detail).next().invoke('text').then((value) => {
+            obj[key] = value;
+          });
+        });
+      });
+    });
+  }).then(() => {
+    return obj;
+  });
+});
+
 Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
   cy.get('.govuk-accordion__section-button').eq(versionNumber).invoke('attr', 'aria-expanded').then((value) => {
     if (value === 'false') {

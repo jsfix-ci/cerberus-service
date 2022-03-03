@@ -1,0 +1,17 @@
+{
+  "occupant-count-with-unknown": {
+    "Infants": "0",
+    "Children": "0",
+    "Adults": "3",
+    "OAPs": "3"
+  },
+  "occupant-count-without-unknown": {
+    "Infants": "0",
+    "Children": "0",
+    "Adults": "0",
+    "OAPs": "3"
+  },
+  "unknown-count": {
+    "Unknown": "7"
+  }
+}
