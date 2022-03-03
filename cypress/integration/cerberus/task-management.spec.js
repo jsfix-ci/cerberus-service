@@ -2,14 +2,11 @@
 /// <reference path="../support/index.d.ts" />
 
 describe('Render tasks from Camunda and manage them on task management Page', () => {
-  let dateNowFormatted;
   const MAX_TASK_PER_PAGE = 100;
   const nextPage = 'a[data-test="next"]';
 
   before(() => {
     cy.clock();
-    dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
-
   });
 
   beforeEach(() => {
@@ -120,9 +117,10 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify tasks are sorted in correct order selectors with highest category should be at top of the list on task management page', () => {
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     let arrivalTime = Cypress.dayjs().subtract(3, 'day').valueOf();
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp =arrivalTime;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -131,7 +129,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
-
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
