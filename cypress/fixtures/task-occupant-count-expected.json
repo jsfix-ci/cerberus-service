@@ -1,9 +1,9 @@
 {
   "occupant-count-with-unknown": {
-    "Infants": "0",
-    "Children": "0",
+    "Infants": "1",
+    "Children": "2",
     "Adults": "3",
-    "OAPs": "3"
+    "OAPs": "4"
   },
   "occupant-count-without-unknown": {
     "Infants": "0",

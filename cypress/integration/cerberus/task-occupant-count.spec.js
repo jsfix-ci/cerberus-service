@@ -10,7 +10,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify Occupant counts on task details page', () => {
     let date = new Date();
-    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
+    cy.fixture('/has-counts-and-unknown-counts/task-with-occupant-count.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');

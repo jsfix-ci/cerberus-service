@@ -144,7 +144,9 @@
                   "goodsDescription": "GLUCOSE SYRUP",
                   "journeyLeg": "Outbound",
                   "adultCount": "3",
-                  "oapCount": "3"
+                  "oapCount": "4",
+                  "childCount": "2",
+                  "infantCount": "1"
                 }
               },
               "features": {
