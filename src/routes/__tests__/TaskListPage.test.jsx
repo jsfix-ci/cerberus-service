@@ -752,7 +752,7 @@ describe('TaskListPage', () => {
       sortParams: [
         {
           field: 'arrival-date',
-          order: 'desc',
+          order: 'asc',
         },
         {
           field: 'highest-threat-level',
