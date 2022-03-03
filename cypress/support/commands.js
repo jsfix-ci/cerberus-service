@@ -217,7 +217,6 @@ function findItem(taskName, action, taskdetails) {
       });
     });
   }
-
   findInPage(0);
 }
 
@@ -310,7 +309,7 @@ Cypress.Commands.add('selectDropDownValue', (elementName, value) => {
   cy.get(`${formioComponent}${elementName}${formioComponent}select div.form-control`)
     .should('be.visible')
     .click();
-  cy.get(`${formioComponent}${elementName} div[role="listbox"]`)
+  cy.get(`${formioComponent}${elementName} div[role='listbox']`)
     .contains(value)
     .click({ force: true });
 });
@@ -542,12 +541,13 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
       cy.get('.govuk-heading-s').should('contain.text', registrationNumber);
     });
   }
-
   if (bookingDateTime === 'Invalid date') {
     bookingDateTime = 'Invalid Date';
   }
-
+  const date = new Date();
+  const formattedDate = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).replace(/ /g, ' ');
   cy.get('.task-versions .task-versions--left').should('contain.text', bookingDateTime);
+  cy.get('.task-versions .task-versions--left').should('contain.text', formattedDate);
 });
 
 Cypress.Commands.add('deleteAutomationTestData', () => {
@@ -813,7 +813,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   Object.entries(expectedDetails).forEach(([key]) => {
     let sections = Array.from(sectionHeading.keys());
     if (sectionHeading.has(key) === false && key !== 'taskListDetail' && key !== 'taskSummary') {
-      throw new Error(`Section "${key}" in json file is not valid. ${sections}`);
+      throw new Error(`Section '${key}' in json file is not valid. ${sections}`);
     }
   });
 
@@ -920,7 +920,7 @@ Cypress.Commands.add('verifyMultiSelectDropdown', (elementName, values) => {
 Cypress.Commands.add('verifySelectDropdown', (elementName, values) => {
   cy.get(`${formioComponent}${elementName}${formioComponent}select div.form-control`)
     .should('be.visible').click({ force: true });
-  cy.get(`${formioComponent}${elementName} div[role="listbox"]`)
+  cy.get(`${formioComponent}${elementName} div[role='listbox']`)
     .within(() => {
       cy.get('.choices__item')
         .should('be.visible')
@@ -1068,7 +1068,7 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
 
   cy.contains('Apply filters').click();
   cy.wait(2000);
-  cy.get(`a[href="#${taskType}"]`).invoke('text').then((targets) => {
+  cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
   });
 });
@@ -1086,7 +1086,7 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
 
   cy.contains('Apply filters').click();
   cy.wait(2000);
-  cy.get(`a[href="#${taskType}"]`).invoke('text').then((targets) => {
+  cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
   });
 });
@@ -1096,6 +1096,15 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
     cy.getTaskDetails().then((details) => {
       const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
       expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
+    });
+  });
+});
+
+Cypress.Commands.add('verifyCheckInDateTime', (expectedCheckInDateTime) => {
+  cy.contains('h3', 'Booking and check-in').next().within(() => {
+    cy.getTaskDetails().then((details) => {
+      const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in')));
+      expect(checkInDateTime['Check-in']).to.be.equal(expectedCheckInDateTime);
     });
   });
 });
