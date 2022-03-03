@@ -135,18 +135,16 @@ const modifyRoRoPassengersTaskDetails = (version) => {
 
 const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
-  let eta = taskSummaryData.roro.details?.eta;
-  if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
-    if (hasEta(eta)) {
-      eta = eta.substring(0, eta.length - 1);
-      if (bookingField.contents.find(({ propName }) => propName === 'checkIn').type.includes('CHANGED')) {
-        bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME-CHANGED';
-      } else {
-        bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
-      }
-      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
-    }
+  if (!hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+    return bookingField;
   }
+  const scheduledDepartureTime = taskSummaryData?.roro?.details?.departureTime;
+  if (bookingField.contents.find(({ propName }) => propName === 'checkIn').type.includes('CHANGED')) {
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME-CHANGED';
+  } else {
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+  }
+  bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${scheduledDepartureTime}`;
   return bookingField;
 };
 
