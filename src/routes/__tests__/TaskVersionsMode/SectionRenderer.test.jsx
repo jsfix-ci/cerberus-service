@@ -1173,6 +1173,130 @@ describe('SectionRenderer', () => {
         </div>,
       ));
     });
+
+    it('should render occupants when bookingDate value is null', () => {
+      const input = {
+        fieldSetName: 'Passengers',
+        childSets: [
+          {
+            contents: [
+              {
+                fieldName: 'Name',
+                type: 'STRING',
+                content: 'MR FIRST PASSENGER',
+                versionLastUpdated: null,
+                propName: 'name',
+              },
+            ],
+          },
+          {
+            contents: [
+              {
+                fieldName: 'Name',
+                type: 'STRING',
+                content: 'MRS SECOND PASSENGER',
+                versionLastUpdated: null,
+                propName: 'name',
+              },
+            ],
+          },
+          {
+            contents: [
+              {
+                fieldName: 'Name',
+                type: 'STRING',
+                content: 'MR OTHER PASSENGER',
+                versionLastUpdated: null,
+                propName: 'name',
+              },
+              {
+                fieldName: 'Entity Search URL',
+                type: 'HIDDEN',
+                content: 'http://localhost:4020/search?term=56565656&type=PERSON&fields=["id"]',
+                versionLastUpdated: null,
+                propName: 'entitySearchUrl',
+              },
+            ],
+          },
+        ],
+      };
+
+      const bookingDate = {
+        fieldName: 'Date and time',
+        type: 'BOOKING_DATETIME',
+        content: null,
+        versionLastUpdated: null,
+        propName: 'dateBooked',
+      };
+
+      const section = renderOccupantsSection(input, 'any-icon', bookingDate);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
+        <div className="task-details-container">
+          <div>
+            <div className="govuk-!-margin-bottom-4 bottom-border">
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">MRS SECOND PASSENGER</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span><span>, Unknown</span>
+                  </p>
+                </div>
+              </div>
+              <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                  <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                </div>
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                  <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <details className="govuk-details" data-module="govuk-details">
+            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
+            <div className="govuk-hidden-passengers">
+              <div>
+                <div className="govuk-!-margin-bottom-4 bottom-border">
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Occupant</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">
+                        <a
+                          href="http://localhost:4020/search?term=56565656&amp;type=PERSON&amp;fields=[&quot;id&quot;]"
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >MR OTHER PASSENGER
+                        </a>
+                      </p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown<span>, Unknown</span>
+                        <span>,
+                          Unknown
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
+                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
+                      <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold">Unknown</p>
+                    </div>
+                    <div className="govuk-grid-column-full">
+                      <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
+                      <p className="govuk-!-margin-bottom-0 font__bold"><span>Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-0 font__light">Unknown</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>,
+      ));
+    });
   });
 
   describe('renderPrimaryTraveller', () => {
