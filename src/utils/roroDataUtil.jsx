@@ -56,6 +56,10 @@ const hasEta = (eta) => {
   return eta !== null && eta !== undefined && eta !== '';
 };
 
+const hasDepartureTime = (departureTime) => {
+  return departureTime !== null && departureTime !== undefined && departureTime !== '';
+};
+
 const hasTaskVersionPassengers = (passengers) => {
   let hasValidPassengers = false;
   for (const passengerChildSets of passengers.childSets) {
@@ -135,10 +139,13 @@ const modifyRoRoPassengersTaskDetails = (version) => {
 
 const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
+  const scheduledDepartureTime = taskSummaryData?.roro?.details?.departureTime;
   if (!hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
     return bookingField;
   }
-  const scheduledDepartureTime = taskSummaryData?.roro?.details?.departureTime;
+  if (!hasDepartureTime(scheduledDepartureTime)) {
+    return bookingField;
+  }
   if (bookingField.contents.find(({ propName }) => propName === 'checkIn').type.includes('CHANGED')) {
     bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME-CHANGED';
   } else {
