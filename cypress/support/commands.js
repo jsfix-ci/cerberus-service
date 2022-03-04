@@ -1175,7 +1175,7 @@ Cypress.Commands.add('backToTaskList', (element, tabName) => {
 
 Cypress.Commands.add('getActivityLogs', () => {
   let activityLog = [];
-  cy.get('p.govuk-body:not(.govuk-tag--positiveTarget)').each((item) => {
+  cy.get('.govuk-grid-column-one-third p.govuk-body:not(.govuk-tag--positiveTarget)').each((item) => {
     cy.wrap(item).invoke('text').then((activity) => {
       activityLog.push(activity);
     });
@@ -1397,6 +1397,20 @@ Cypress.Commands.add('verifyIcons', (businessKey, vehicle, ship) => {
   cy.checkTaskDisplayed(businessKey);
   cy.get('i').eq(0).invoke('attr', 'class').should('contain', vehicle);
   cy.get('i').eq(1).invoke('attr', 'class').should('contain', ship);
+});
+
+Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskResponse) => {
+  cy.contains('Clear all filters').click();
+
+  cy.get(`.govuk-checkboxes [value="${filterValue}"]`)
+    .click({ force: true });
+
+  cy.contains('Apply filters').click({ force: true });
+
+  cy.wait(2000);
+
+  cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+  cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Relisted');
 });
 
 Cypress.Commands.add('getSelectorGroupInformation', (elements) => {
