@@ -56,6 +56,10 @@ const hasEta = (eta) => {
   return eta !== null && eta !== undefined && eta !== '';
 };
 
+const hasDepartureTime = (departureTime) => {
+  return departureTime !== null && departureTime !== undefined && departureTime !== '';
+};
+
 const hasTaskVersionPassengers = (passengers) => {
   let hasValidPassengers = false;
   for (const passengerChildSets of passengers.childSets) {
@@ -135,18 +139,19 @@ const modifyRoRoPassengersTaskDetails = (version) => {
 
 const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   const bookingField = JSON.parse(JSON.stringify(version.find(({ propName }) => propName === 'booking')));
-  let eta = taskSummaryData.roro.details?.eta;
-  if (hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
-    if (hasEta(eta)) {
-      eta = eta.substring(0, eta.length - 1);
-      if (bookingField.contents.find(({ propName }) => propName === 'checkIn').type.includes('CHANGED')) {
-        bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME-CHANGED';
-      } else {
-        bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
-      }
-      bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${eta}`;
-    }
+  const scheduledDepartureTime = taskSummaryData?.roro?.details?.departureTime;
+  if (!hasCheckinDate(bookingField.contents.find(({ propName }) => propName === 'checkIn').content)) {
+    return bookingField;
   }
+  if (!hasDepartureTime(scheduledDepartureTime)) {
+    return bookingField;
+  }
+  if (bookingField.contents.find(({ propName }) => propName === 'checkIn').type.includes('CHANGED')) {
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME-CHANGED';
+  } else {
+    bookingField.contents.find(({ propName }) => propName === 'checkIn').type = 'BOOKING_DATETIME';
+  }
+  bookingField.contents.find(({ propName }) => propName === 'checkIn').content += `,${scheduledDepartureTime}`;
   return bookingField;
 };
 

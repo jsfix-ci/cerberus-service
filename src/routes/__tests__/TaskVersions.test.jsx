@@ -129,7 +129,7 @@ describe('TaskVersions', () => {
       movementMode="RORO Tourist"
     />);
 
-    expect(screen.queryByText('3 Aug 2020 at 12:05, a day ago')).toBeInTheDocument();
+    expect(screen.queryByText('3 Aug 2020 at 12:05, 2 days before travel')).toBeInTheDocument();
   });
 
   it('should not render check-in relative time for RORO Tourist foot passengers', () => {
