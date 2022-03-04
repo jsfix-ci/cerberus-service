@@ -1,10 +1,10 @@
-describe('Targeter to see how long before arrival check-in occurs So that Targeter can prioritise a task accordingly', () => {
+describe('Targeter to see how long before departure check-in occurs So that Targeter can prioritise a task accordingly', () => {
   // COP-9849
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
   });
 
-  it('Should verify Difference between Checkin and arrival date is a few seconds ago', () => {
+  it('Should verify Difference between Checkin and departure date is a few seconds ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -20,7 +20,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 06:00, a few seconds ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is a minute ago', () => {
+  it('Should verify Difference between Checkin and departure date is a minute ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -36,7 +36,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 06:00, a minute ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 2 minutes ago', () => {
+  it('Should verify Difference between Checkin and departure date is 2 minutes ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -52,7 +52,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 06:01, 2 minutes ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 44 minutes ago', () => {
+  it('Should verify Difference between Checkin and departure date is 44 minutes ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -68,7 +68,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 06:44, 44 minutes ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is an hour ago', () => {
+  it('Should verify Difference between Checkin and departure date is an hour ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -84,7 +84,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 06:45, an hour ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is also an hour ago', () => {
+  it('Should verify Difference between Checkin and departure date is also an hour ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -100,7 +100,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 07:15, an hour ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 2 hours ago', () => {
+  it('Should verify Difference between Checkin and departure date is 2 hours ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -116,7 +116,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 07:30, 2 hours ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 5 hours ago', () => {
+  it('Should verify Difference between Checkin and departure date is 5 hours ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -132,7 +132,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('5 Mar 2021 at 11:00, 5 hours ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 20 hours ago', () => {
+  it('Should verify Difference between Checkin and departure date is 20 hours ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -148,7 +148,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Mar 2021 at 02:00, 20 hours ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is a day ago', () => {
+  it('Should verify Difference between Checkin and departure date is a day ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -164,7 +164,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Mar 2021 at 04:30, a day ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 25 days ago', () => {
+  it('Should verify Difference between Checkin and departure date is 25 days ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -180,7 +180,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('30 Mar 2021 at 06:00, 25 days ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is a month ago', () => {
+  it('Should verify Difference between Checkin and departure date is a month ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -196,7 +196,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Apr 2021 at 06:00, a month ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 10 months ago', () => {
+  it('Should verify Difference between Checkin and departure date is 10 months ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -212,7 +212,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Jan 2022 at 06:00, 10 months ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is also 10 months ago', () => {
+  it('Should verify Difference between Checkin and departure date is also 10 months ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -228,7 +228,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Jan 2022 at 06:00, 10 months ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is a year ago', () => {
+  it('Should verify Difference between Checkin and departure date is a year ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -244,7 +244,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Feb 2022 at 06:00, a year ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is also a year ago', () => {
+  it('Should verify Difference between Checkin and departure date is also a year ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -260,7 +260,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Jul 2022 at 06:00, a year ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 2 years ago', () => {
+  it('Should verify Difference between Checkin and departure date is 2 years ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -276,7 +276,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Sep 2022 at 06:00, 2 years ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is also 2 years ago', () => {
+  it('Should verify Difference between Checkin and departure date is also 2 years ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
@@ -292,7 +292,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.verifyCheckInDateTime('6 Mar 2023 at 06:00, 2 years ago');
   });
 
-  it('Should verify Difference between Checkin and arrival date is 3 years ago', () => {
+  it('Should verify Difference between Checkin and departure date is 3 years ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
