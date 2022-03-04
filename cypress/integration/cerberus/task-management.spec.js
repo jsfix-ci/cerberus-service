@@ -116,6 +116,57 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.verifyTasksSortedOnArrivalDateTime();
   });
 
+  it('Should verify tasks are sorted in correct order selectors with highest category should be at top of the list on task management page', () => {
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+    let arrivalTime = Cypress.dayjs().subtract(3, 'day').valueOf();
+    cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-CAT-A-TIER-1`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
+      task.variables.rbtPayload.value.data.matchedSelectors[1].category = 'B';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-CAT-A-B`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 1';
+      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-1-2`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().subtract(5, 'day').valueOf();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 1';
+      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-LATEST_ARRIVAL_TIME`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+  });
+
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
     cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');

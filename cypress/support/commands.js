@@ -977,15 +977,13 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = {};
-  let date = new Date();
   let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
   let bookingDateTime;
   const dateFormat = 'D MMM YYYY [at] HH:mm';
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
     const rndInt = Math.floor(Math.random() * 20) + 1;
-    date.setDate(date.getDate() + rndInt);
-    task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+    task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().add(rndInt, 'day').valueOf();
     bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
     bookingDateTime = Cypress.dayjs(bookingDateTime).format(dateFormat);
     let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
