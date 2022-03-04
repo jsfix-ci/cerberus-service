@@ -4,7 +4,7 @@ describe('Targeter to see how long before arrival check-in occurs So that Target
     cy.login(Cypress.env('userName'));
   });
 
-  it.only('Should verify Difference between Checkin and arrival date is a few seconds ago', () => {
+  it('Should verify Difference between Checkin and arrival date is a few seconds ago', () => {
     cy.fixture('RoRo-Unaccompanied-RBT-SBT.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
