@@ -71,8 +71,9 @@ describe('RoRoData Util', () => {
     expect(result).toBeTruthy();
   });
 
-  it('should return a concatenated datetime string', () => {
+  it('should return a check-in time that is a concatenated datetime string', () => {
     const expectedCheckInDataTime = '2020-08-03T12:05:00,2020-08-03T13:05:00Z';
+
     const taskVersionMinified = [
       {
         fieldSetName: 'Booking and check-in',
@@ -90,6 +91,7 @@ describe('RoRoData Util', () => {
         propName: 'booking',
       },
     ];
+
     const testRoroDataMinified = {
       roro: {
         details: {
@@ -97,8 +99,78 @@ describe('RoRoData Util', () => {
         },
       },
     };
+
     const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
+
     expect(modifiedCheckInTime).toEqual(expectedCheckInDataTime);
+  });
+
+  it('should return check-in time with no concatenated datetime string when departure time is empty', () => {
+    const expectedCheckInDataTime = '2020-08-03T12:05:00';
+
+    const taskVersionMinified = [
+      {
+        fieldSetName: 'Booking and check-in',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Check-in',
+            type: 'DATETIME',
+            content: '2020-08-03T12:05:00',
+            versionLastUpdated: null,
+            propName: 'checkIn',
+          },
+        ],
+        type: 'null',
+        propName: 'booking',
+      },
+    ];
+
+    const testRoroDataMinified = {
+      roro: {
+        details: {
+          departureTime: '',
+        },
+      },
+    };
+
+    const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
+    const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
+
+    expect(modifiedCheckInTime).toEqual(expectedCheckInDataTime);
+  });
+
+  it('should return check-in time with no concatenated datetime string when check-in time is null', () => {
+    const taskVersionMinified = [
+      {
+        fieldSetName: 'Booking and check-in',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Check-in',
+            type: 'DATETIME',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'checkIn',
+          },
+        ],
+        type: 'null',
+        propName: 'booking',
+      },
+    ];
+
+    const testRoroDataMinified = {
+      roro: {
+        details: {
+          departureTime: '2020-08-03T13:05:00Z',
+        },
+      },
+    };
+
+    const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
+    const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
+
+    expect(modifiedCheckInTime).toBeFalsy();
   });
 });
