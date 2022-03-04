@@ -1,0 +1,24 @@
+{
+  "env": {
+    "userName": "cypressuser-cerberus@lodev.xyz"
+  },
+  "defaultCommandTimeout": 10000,
+  "requestTimeout": 60000,
+  "responseTimeout": 60000,
+  "execTimeout": 120000,
+  "pageLoadTimeout": 600000,
+  "chromeWebSecurity": false,
+  "testFiles": "**/cerberus/*.js",
+  "video": false,
+  "watchForFileChanges": false,
+  "reporter": "mochawesome",
+  "reporterOptions": {
+    "reportDir": "mochawesome-report",
+    "html": false,
+    "json": true,
+    "code": false,
+    "overwrite": false,
+    "reportTitle": "cerberus-tests"
+  },
+  "screenshotsFolder": "mochawesome-report/assets"
+}
