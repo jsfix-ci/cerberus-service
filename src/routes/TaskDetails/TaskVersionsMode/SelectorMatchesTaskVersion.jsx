@@ -3,6 +3,14 @@ import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
 import { v4 as uuidv4 } from 'uuid';
 import '../../../__assets__/ReactTabs.scss';
 
+const warningCodesMapping = {
+  VIOL: 'Violence',
+  FIRE: 'Firearms',
+  WEAP: 'Weapons',
+  CTGN: 'Contagion',
+  SEH: 'Self Harm',
+};
+
 // Grouping selectors by group reference
 const selectorsByGroupReference = (selectors) => {
   let groupedSelectors = [];
@@ -26,6 +34,7 @@ const SelectorMatchesTaskVersion = ({ version }) => {
         let selectorReference;
         let contents;
         let warnings;
+        let warningDetails;
         let groupNumber;
         let field;
         return (
@@ -63,13 +72,21 @@ const SelectorMatchesTaskVersion = ({ version }) => {
 
               { selectors.map((selector, selectorIndex) => {
                 contents = selector?.childSets[0].contents;
-                warnings = selector.contents.find(({ propName }) => propName === 'warnings').content;
+                warnings = selector.contents.find(({ propName }) => propName === 'selectorWarnings')?.content;
                 groupNumber = selector.contents.find(({ propName }) => propName === 'groupNumber').content;
+                const warningSplit = warnings?.split(',');
+                if (warningSplit?.length > 1) {
+                  // if warnings contains O(Othere) then show warning detils
+                  if (warningSplit.indexOf('O') > -1) {
+                    warningDetails = selector.contents.find(({ propName }) => propName === 'warningDetails').content;
+                  }
+                  warnings = warnings.split(',').map((v) => (v === 'O' ? warningDetails : warningCodesMapping[v])).join(',');
+                }
                 return (
                   <TabPanel key={selectorIndex}>
                     <div className="govuk-grid-row govuk-!-margin-top-1">
                       <p className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-margin-bottom-0">Selector {groupNumber}</p>
-                      <p className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0 govuk-!-margin-bottom-0 font-warning">{warnings}</p>
+                      <p className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-right-1 govuk-!-margin-bottom-0 font-warning">{warnings}</p>
                     </div>
                     <p className="govuk-body govuk-!-font-size-16">All of these attributes are present in this movement.</p>
                     <div className="panel">
