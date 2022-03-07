@@ -26,7 +26,6 @@ describe('TaskVersions', () => {
       movementMode="RORO Unaccompanied Freight"
     />);
     expect(screen.queryAllByText('Category B')).toHaveLength(1);
-    expect(screen.queryAllByText('B')).toHaveLength(1);
   });
 
   it('should render No rule matches', () => {

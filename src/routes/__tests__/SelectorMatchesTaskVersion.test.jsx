@@ -25,4 +25,18 @@ describe('SelectorMatchesTaskVersion', () => {
     />);
     expect(screen.queryByText('Local Reference')).toBeInTheDocument();
   });
+
+  it('should render \'No warnings\' text if no warnings are avaialable for the selector', () => {
+    render(<SelectorMatchesTaskVersion
+      version={taskMultipleGroupSelectors}
+    />);
+    expect(screen.queryByText('No warnings')).toBeInTheDocument();
+  });
+
+  it('should render warnings as comma separated values', () => {
+    render(<SelectorMatchesTaskVersion
+      version={taskMultipleGroupSelectors}
+    />);
+    expect(screen.queryByText('Contagion,Violence,Weapons,Warning details would be shown here')).toBeInTheDocument();
+  });
 });

@@ -41,6 +41,8 @@
   width: 525px;
   & p.font-warning {
     color: #bc2410;
+    overflow-wrap: break-word;
+    padding: 0;
   }
 }
 
