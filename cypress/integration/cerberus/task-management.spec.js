@@ -81,6 +81,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify refresh task list page', () => {
+    cy.clock();
+
     cy.tick(180000);
 
     cy.wait('@tasks').then(({ response }) => {

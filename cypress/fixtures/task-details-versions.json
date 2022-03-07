@@ -24,24 +24,6 @@
         "Telephone": "",
         "Mobile": "01243784444"
       },
-      "driver": {
-        "Name": "Bobby Brownshoes",
-        "Date of birth": "",
-        "Gender": "",
-        "Nationality": "FR",
-        "Travel document type": "Passport",
-        "Travel document number": "244746NL",
-        "Travel document expiry": "14/03/2021"
-      },
-      "passengers": {
-        "Name": "Ken Bailey",
-        "Date of birth": "03/10/1969",
-        "Gender": "F",
-        "Nationality": "",
-        "Travel document type": "Passport",
-        "Travel document number": "244746NL",
-        "Travel document expiry": "14/03/2021"
-      },
       "goods": {
         "Description": "Printed Paper",
         "Is cargo hazardous?": "No",
@@ -58,8 +40,24 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05, 2 years before travel"
+        "Check-in": "3 Aug 2020 at 12:05, a year before travel"
       },
+      "Occupants": [
+        {
+          "Driver": "Bobby BrownshoesUnknown, Unknown, FR"
+        },
+        {
+          "Passport": "244746NL",
+          "Validity8 months after travel": "Expires 14 Mar 20218 months after travel"
+        },
+        {
+          "Occupant": "Ken BaileyFemale, born 03 Oct 1969, Unknown"
+        },
+        {
+          "Passport": "244746NL",
+          "Validity8 months after travel": "Expires 14 Mar 20218 months after travel"
+        }
+      ],
       "TargetingIndicators": {
         "Total Score": "30",
         "Total Indicators": "1",
@@ -67,68 +65,6 @@
           "Paid by cash": "30"
         }
       },
-      "selectorMatch": [
-        {
-          "Attribute": "",
-          "Category": "B",
-          "Creator": "Joe Jones",
-          "Entity": "",
-          "Group number": "2020-6",
-          "Group reference": "",
-          "Inbound action": "Advise originator",
-          "Local reference": "Local ref",
-          "Notes": "Supplemental notes",
-          "Operator": "",
-          "Outbound action": "Full attention",
-          "Point of contact": "poc",
-          "Point of contact message": "Message for the POC",
-          "Requesting officer": "Peter Price",
-          "Source reference": "intel source",
-          "Threat type": "National Security at the Border",
-          "Value": "",
-          "Warnings": "Supplemental warnings"
-        },
-        {
-          "Attribute": "registrationNumber",
-          "Category": "null",
-          "Creator": "paul.herring",
-          "Entity": "vehicle",
-          "Group number": "2022-225",
-          "Group reference": "SR-215",
-          "Inbound action": "null",
-          "Local reference": "null",
-          "Notes": "null",
-          "Operator": "equal",
-          "Outbound action": "null",
-          "Point of contact": "null",
-          "Point of contact message": "342334",
-          "Requesting officer": "null",
-          "Source reference": "null",
-          "Threat type": "Alcohol",
-          "Value": "DK-45678",
-          "Warnings": "null"
-        },
-        {
-          "Attribute": "familyName",
-          "Category": "C",
-          "Creator": "user",
-          "Entity": "Person",
-          "Group number": "2022-245",
-          "Group reference": "SR-227",
-          "Inbound action": "Worthy of attention",
-          "Local reference": "Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
-          "Notes": "notes",
-          "Operator": "equal",
-          "Outbound action": "Monitor only",
-          "Point of contact": "Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
-          "Point of contact message": "Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
-          "Requesting officer": "Velit in sunt aliquip voluptate tempore consectetur",
-          "Source reference": "Qui adipisci consectetur ullam consequatur a aspernatur in",
-          "Threat type": "Alcohol",
-          "Value": "TURNER",
-          "Warnings": "null"
-        }
-      ],
       "rulesMatched": {
         "Rule name": "Selector matched",
         "Threat": "Tier 1",
@@ -265,29 +201,27 @@
         "Telephone": "",
         "Mobile": "01243785239"
       },
-      "driver": {
-        "Name": "Bob Brown",
-        "Date of birth": "12/03/1971",
-        "Gender": "M",
-        "Nationality": "NL",
-        "Travel document type": "Passport",
-        "Travel document number": "244746NL",
-        "Travel document expiry": "01/02/2021"
-      },
-      "passengers": {
-        "Name": "Ben Bailey",
-        "Date of birth": "03/06/1981",
-        "Gender": "M",
-        "Nationality": "GB",
-        "Travel document type": "Passport",
-        "Travel document number": "ST0394612",
-        "Travel document expiry": "01/02/2021"
-      },
       "goods": {
         "Description": "Printed Paper",
         "Is cargo hazardous?": "No",
         "Weight of goods": ""
       },
+      "Occupants": [
+        {
+          "Driver": "Bob BrownMale, born 12 Mar 1971, NL"
+        },
+        {
+          "Passport": "244746NL",
+          "Validity10 months after travel": "Expires 01 Feb 202110 months after travel"
+        },
+        {
+          "Occupant": "Ben BaileyMale, born 03 Jun 1981, GB"
+        },
+        {
+          "Passport": "ST0394612",
+          "Validity10 months after travel": "Expires 01 Feb 202110 months after travel"
+        }
+      ],
       "booking": {
         "Reference": "357485636",
         "Ticket number": "1234567",
@@ -299,7 +233,7 @@
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2021 at 12:05, 7 months before travel"
+        "Check-in": "3 Aug 2021 at 12:05, 5 months before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
@@ -308,88 +242,6 @@
           "Paid by cash": "30"
         }
       },
-      "selectorMatch": [
-        {
-          "Attribute": "registrationNumber",
-          "Category": "null",
-          "Creator": "paul.herring",
-          "Entity": "vehicle",
-          "Group number": "2022-225",
-          "Group reference": "SR-215",
-          "Inbound action": "null",
-          "Local reference": "null",
-          "Notes": "null",
-          "Operator": "equal",
-          "Outbound action": "null",
-          "Point of contact": "null",
-          "Point of contact message": "342334",
-          "Requesting officer": "null",
-          "Source reference": "null",
-          "Threat type": "Alcohol",
-          "Value": "DK-45678",
-          "Warnings": "null"
-        },
-        {
-          "Attribute": "familyName",
-          "Category": "C",
-          "Creator": "user",
-          "Entity": "Person",
-          "Group number": "2022-245",
-          "Group reference": "SR-227",
-          "Inbound action": "Worthy of attention",
-          "Local reference": "Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
-          "Notes": "notes",
-          "Operator": "equal",
-          "Outbound action": "Monitor only",
-          "Point of contact": "Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
-          "Point of contact message": "Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
-          "Requesting officer": "Velit in sunt aliquip voluptate tempore consectetur",
-          "Source reference": "Qui adipisci consectetur ullam consequatur a aspernatur in",
-          "Threat type": "Alcohol",
-          "Value": "TURNER",
-          "Warnings": "null"
-        },
-        {
-          "Attribute": "mode",
-          "Category": "B",
-          "Creator": "user",
-          "Entity": "Message",
-          "Group number": "2021-278",
-          "Group reference": "",
-          "Inbound action": "No action required",
-          "Local reference": "SR-219",
-          "Notes": "notes",
-          "Operator": "in",
-          "Outbound action": "No action required",
-          "Point of contact": "yjt",
-          "Point of contact message": "jyjt",
-          "Requesting officer": "ytjtj",
-          "Source reference": "yjjt",
-          "Threat type": "National Security at the Border",
-          "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight",
-          "Warnings": "jtyj"
-        },
-        {
-          "Attribute": "mode",
-          "Category": "A",
-          "Creator": "user",
-          "Entity": "Message",
-          "Group number": "2021-279",
-          "Group reference": "",
-          "Inbound action": "No action required",
-          "Local reference": "SR-220",
-          "Notes": "notes",
-          "Operator": "in",
-          "Outbound action": "No action required",
-          "Point of contact": "bfb",
-          "Point of contact message": "fdvdfb",
-          "Requesting officer": "fe",
-          "Source reference": "fefe",
-          "Threat type": "Class A Drugs",
-          "Value": "RORO Unaccompanied Freight",
-          "Warnings": "bdfbdfbf"
-        }
-      ],
       "rulesMatched": {
         "Rule name": "Selector matched",
         "Threat": "Tier 1",
@@ -397,6 +249,251 @@
         "Abuse Type": "Class A Drugs",
         "Agency": "",
         "Description": "Paid by cash"
+      }
+    }
+  ],
+  "Selectors-version-3": [
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "Peter Price",
+        "Source reference": "intel source",
+        "Category": "B",
+        "Threat type": "National Security at the Border",
+        "Point of contact message": "Message for the POC",
+        "Point of contact": "poc",
+        "Inbound action": "Advise originator",
+        "Outbound action": "Full attention",
+        "Notes": "Supplemental notes",
+        "Creator": "Joe Jones"
+      },
+      "group": {
+        "Selector 2020-6": "Supplemental warnings",
+        "entities": [
+          {
+            "Entity": ""
+          },
+          {
+            "Attribute": ""
+          },
+          {
+            "Operator": ""
+          },
+          {
+            "Value": ""
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "null",
+        "Source reference": "null",
+        "Category": "null",
+        "Threat type": "Alcohol",
+        "Point of contact message": "342334",
+        "Point of contact": "null",
+        "Inbound action": "null",
+        "Outbound action": "null",
+        "Notes": "null",
+        "Creator": "paul.herring"
+      },
+      "group": {
+        "Selector 2022-225": "null",
+        "entities": [
+          {
+            "Entity": "vehicle"
+          },
+          {
+            "Attribute": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "DK-45678"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "Velit in sunt aliquip voluptate tempore consectetur",
+        "Source reference": "Qui adipisci consectetur ullam consequatur a aspernatur in",
+        "Category": "C",
+        "Threat type": "Alcohol",
+        "Point of contact message": "Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+        "Point of contact": "Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+        "Inbound action": "Worthy of attention",
+        "Outbound action": "Monitor only",
+        "Notes": "notes",
+        "Creator": "user"
+      },
+      "group": {
+        "Selector 2022-245": "null",
+        "entities": [
+          {
+            "Entity": "Person"
+          },
+          {
+            "Attribute": "familyName"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "TURNER"
+          }
+        ]
+      }
+    }
+  ],
+  "Selectors-version-1": [
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "null",
+        "Source reference": "null",
+        "Category": "null",
+        "Threat type": "Alcohol",
+        "Point of contact message": "342334",
+        "Point of contact": "null",
+        "Inbound action": "null",
+        "Outbound action": "null",
+        "Notes": "null",
+        "Creator": "paul.herring"
+      },
+      "group": {
+        "Selector 2022-225": "null",
+        "entities": [
+          {
+            "Entity": "vehicle"
+          },
+          {
+            "Attribute": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "DK-45678"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "Velit in sunt aliquip voluptate tempore consectetur",
+        "Source reference": "Qui adipisci consectetur ullam consequatur a aspernatur in",
+        "Category": "C",
+        "Threat type": "Alcohol",
+        "Point of contact message": "Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+        "Point of contact": "Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+        "Inbound action": "Worthy of attention",
+        "Outbound action": "Monitor only",
+        "Notes": "notes",
+        "Creator": "user"
+      },
+      "group": {
+        "Selector 2022-245": "null",
+        "entities": [
+          {
+            "Entity": "Person"
+          },
+          {
+            "Attribute": "familyName"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "TURNER"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "ytjtj",
+        "Source reference": "yjjt",
+        "Category": "B",
+        "Threat type": "National Security at the Border",
+        "Point of contact message": "jyjt",
+        "Point of contact": "yjt",
+        "Inbound action": "No action required",
+        "Outbound action": "No action required",
+        "Notes": "notes",
+        "Creator": "user"
+      },
+      "group": {
+        "Selector 2021-278": "jtyj",
+        "entities": [
+          {
+            "Entity": "Vehicle"
+          },
+          {
+            "Attribute": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "ABC123"
+          },
+          {
+            "Entity": "Message"
+          },
+          {
+            "Attribute": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "Requesting officer": "fe",
+        "Source reference": "fefe",
+        "Category": "A",
+        "Threat type": "Class A Drugs",
+        "Point of contact message": "fdvdfb",
+        "Point of contact": "bfb",
+        "Inbound action": "No action required",
+        "Outbound action": "No action required",
+        "Notes": "notes",
+        "Creator": "user"
+      },
+      "group": {
+        "Selector 2021-279": "bdfbdfbf",
+        "entities": [
+          {
+            "Entity": "Trailer"
+          },
+          {
+            "Attribute": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "qwerty"
+          },
+          {
+            "Entity": "Message"
+          },
+          {
+            "Attribute": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Unaccompanied Freight"
+          }
+        ]
       }
     }
   ]

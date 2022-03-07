@@ -141,6 +141,8 @@
             {
               "selectorId":6,
               "selectorReference":"2020-6",
+              "groupReference":"SR-200",
+              "groupVersionNumber":1,
               "startDate":"2021-01-18T01:00:00Z",
               "endDate":"2021-12-28T23:00:00Z",
               "category":"B",

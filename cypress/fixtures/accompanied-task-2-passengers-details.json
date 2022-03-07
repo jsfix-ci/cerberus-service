@@ -16,39 +16,33 @@
     "Mobile": "",
     "Email": ""
   },
-  "haulier": {
-    "name": "Gondrand UK",
-    "address": "Unit 82 Central Docks",
-    "city": "London",
-    "country": "GB"
+  "haulier":{
+    "Name": "Gondrand UK",
+    "Address": "Unit 82 Central Docks, Canary Wharf, East London, E16 2SR",
+    "Telephone": "020 89637851",
+    "Mobile": ""
   },
-  "driver": {
-    "Name": "Isiaih Ford",
-    "Date of birth": "09/10/1991",
-    "Gender": "M",
-    "Nationality": "DK",
-    "Travel document type": "Passport",
-    "Travel document number": "566746DL",
-    "Travel document expiry": "29/10/2023"
-  },
-  "passengers": [
+  "Occupants": [
     {
-      "Name": "Fred Flintstone",
-      "Date of birth": "15/07/1991",
-      "Gender": "F",
-      "Nationality": "DE",
-      "Travel document type": "Passport",
-      "Travel document number": "875786876",
-      "Travel document expiry": "22/03/2022"
-      },
-      {
-      "Name": "Barney Rubble",
-      "Date of birth": "12/07/1991",
-      "Gender": "M",
-      "Nationality": "GB",
-      "Travel document type": "Passport",
-      "Travel document number": "244746NL",
-      "Travel document expiry": "01/02/2021"
+      "Driver": "Isiaih FordMale, born 09 Oct 1991, DK"
+    },
+    {
+      "Passport": "566746DL",
+      "Validity3 years before travel": "Expires 29 Oct 20233 years before travel"
+    },
+    {
+      "Occupant": "Fred FlintstoneFemale, born 15 Jul 1991, DE"
+    },
+    {
+      "Passport": "875786876",
+      "Validitya year before travel": "Expires 22 Mar 2022a year before travel"
+    },
+    {
+      "Occupant": "Barney RubbleMale, born 12 Jul 1991, GB"
+    },
+    {
+      "Passport": "244746NL",
+      "Validity2 months after travel": "Expires 01 Feb 20212 months after travel"
     }
   ],
   "goods": {

@@ -4,17 +4,19 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   });
 
   it('Display Vehicle and Vessel Icons for Accompanied-Freight task', () => {
-    cy.visit('/tasks');
-    cy.wait(3000);
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.createCerberusTask('tasks-hazardous-cargo.json', 'HAZARDOUS').then(() => {
+      cy.get('span.govuk-caption-xl').invoke('text').then((businessKey) => {
+        cy.visit('/tasks');
+        cy.wait(3000);
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+          .click({ force: true });
 
-    cy.contains('Apply filters').click();
+        cy.contains('Apply filters').click();
 
-    cy.wait(2000);
-    cy.getBusinessKey('RORO-Accompanied-Freight-HAZARDOUS').then((businessKeys) => {
-      expect(businessKeys.length).to.not.equal(0);
-      cy.verifyIcons(businessKeys[0], 'van', 'ship');
+        cy.wait(2000);
+
+        cy.verifyIcons(businessKey, 'van', 'ship');
+      });
     });
   });
 

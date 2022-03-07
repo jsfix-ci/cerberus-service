@@ -56,12 +56,6 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
       cy.contains('h3', 'Goods').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.goods);
@@ -92,11 +86,12 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', '2 selector matches').then((locator) => {
-        cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
-          expect(actualSelectorMatches).to.deep.equal(expectedDetails.selector_matches);
+      cy.contains('h4', 'SR-200').nextAll().within((elements) => {
+        cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+          expect(expectedDetails.Selectors[0]).to.deep.equal(actualGroupDetails);
         });
       });
+
       // COP-6433 : Auto-expand current task version
       cy.collapseTaskDetails(0);
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
@@ -185,9 +180,25 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.getOccupantCounts().then((details) => {
+          expect(details).to.deep.equal(expectedDetails['occupant-count']);
+        });
+      });
+
+      const obj = {};
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.get('.govuk-grid-row').each((item) => {
+          cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+            cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+              cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                .then((value) => {
+                  obj[key] = value;
+                });
+            });
+          });
+        }).then(() => {
+          expect(obj).to.deep.equal(expectedDetails.driver);
         });
       });
 
@@ -248,21 +259,11 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.contains('h3', 'Passengers').next().within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[0]);
-          });
-        });
-        cy.get('.govuk-hidden-passengers').within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[1]);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.getOccupantDetails().then((actualoccupantDetails) => {
+            console.log(actualoccupantDetails);
+            expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
           });
         });
       });
@@ -314,21 +315,11 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.contains('h3', 'Passengers').next().within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[0]);
-          });
-        });
-        cy.get('.govuk-hidden-passengers').within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[1]);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.getOccupantDetails().then((actualoccupantDetails) => {
+            console.log(actualoccupantDetails);
+            expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
           });
         });
       });
@@ -469,34 +460,86 @@ describe('Task Details of different tasks on task details Page', () => {
       expect(businessKeys.length).to.not.equal(0);
       cy.visit(`/tasks/${businessKeys[0]}`);
       cy.wait(3000);
-    });
+    }).then(() => {
+      // COP-8997 Verify Task version details are not changed after clicking on cancel button
+      cy.fixture('task-details-versions.json').then((expectedDetails) => {
+        cy.verifyTaskDetailAllSections(expectedDetails.versions[0], 1);
+        cy.get('[id$=-content-1]').within(() => {
+          cy.contains('h4', 'SR-200').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-3'][0]).to.deep.equal(actualGroupDetails);
+            });
+          });
 
-    // COP-8997 Verify Task version details are not changed after clicking on cancel button
-    cy.fixture('task-details-versions.json').then((expectedDetails) => {
-      cy.verifyTaskDetailAllSections(expectedDetails.versions[0], 1);
-    });
+          cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-3'][1]).to.deep.equal(actualGroupDetails);
+            });
+          });
 
-    cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
-      if (assignee.includes('Task not assigned')) {
-        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
-      }
-    });
+          cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-3'][2]).to.deep.equal(actualGroupDetails);
+            });
+          });
+        });
+      });
+      cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
+        if (assignee.includes('Task not assigned')) {
+          cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+        }
+      });
 
-    cy.contains('Issue target').click();
+      cy.contains('Issue target').click();
 
-    cy.wait(3000);
+      cy.wait(3000);
 
-    cy.contains('Cancel').click();
+      cy.contains('Cancel').click();
 
-    cy.on('window:confirm', (str) => {
-      expect(str).to.equal('Are you sure you want to cancel?');
-    });
+      cy.on('window:confirm', (str) => {
+        expect(str).to.equal('Are you sure you want to cancel?');
+      });
 
-    cy.on('window:confirm', () => true);
+      cy.on('window:confirm', () => true);
 
-    // Check Version 1 details are retained after clicking cancel button
-    cy.fixture('task-details-versions.json').then((expectedDetails) => {
-      cy.verifyTaskDetailAllSections(expectedDetails.versions[2], 3);
+      // Check Version 1 details are retained after clicking cancel button
+      cy.fixture('task-details-versions.json').then((expectedDetails) => {
+        cy.verifyTaskDetailAllSections(expectedDetails.versions[2], 3);
+        cy.expandTaskDetails(2);
+
+        cy.get('[id$=-content-3]').within(() => {
+          cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][0]).to.deep.equal(actualGroupDetails);
+            });
+          });
+
+          cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][1]).to.deep.equal(actualGroupDetails);
+            });
+          });
+
+          cy.contains('h4', 'null').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][2]).to.deep.equal(actualGroupDetails);
+            });
+          });
+
+          cy.contains('h4', 'SR-200').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][3]).to.deep.equal(actualGroupDetails);
+            });
+          });
+        });
+      });
     });
   });
 
@@ -748,7 +791,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
-  it('Should verify passenger details on different version on task details page', () => {
+  it.skip('Should verify passenger details on different version on task details page', () => {
     cy.getBusinessKey('-RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.checkTaskDisplayed(businessKeys[0]);
@@ -1037,19 +1080,28 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.contains('h3', 'Passengers').next().within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.getOccupantDetails().then((actualoccupantDetails) => {
+            console.log(actualoccupantDetails);
+            expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
           });
         });
       });
+
+      // cy.contains('h3', 'Driver').next().within(() => {
+      //   cy.getTaskDetails().then((details) => {
+      //     expect(details).to.deep.equal(expectedDetails.driver);
+      //   });
+      // });
+      //
+      // cy.contains('h3', 'Occupants').nextAll().within(() => {
+      //   cy.contains('h3', 'Passengers').next().within(() => {
+      //     cy.getTaskDetails().then((details) => {
+      //       expect(details).to.deep.equal(expectedDetails.passengers);
+      //     });
+      //   });
+      // });
 
       cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
@@ -1106,8 +1158,6 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
     });
 
-    let passengers = [];
-
     cy.fixture('tourist-task-with-multiple-passengers.json').then((expectedDetails) => {
       cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
         cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
@@ -1133,21 +1183,28 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Primary Traveller').next().within((elements) => {
-        cy.getVehicleDetails(elements).then((details) => {
-          expect(details).to.deep.equal(expectedDetails['primary traveller']);
-        });
-      });
-
-      cy.contains('h3', 'Other travellers').nextAll().within((elements) => {
-        cy.wrap(elements).find('.govuk-task-details-grid-column').each((element) => {
-          cy.wrap(element).within(() => {
-            cy.getTaskDetails().then((details) => {
-              passengers.push(details);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.contains('h3', 'Other travellers').next().within((elements) => {
+            const occupantArray = [];
+            cy.wrap(elements).each((occupant) => {
+              cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+                let obj = {};
+                cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+                  cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+                    cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                      .then((value) => {
+                        obj[key] = value;
+                      });
+                  });
+                }).then(() => {
+                  occupantArray.push(obj);
+                });
+              });
+            }).then(() => {
+              expect(occupantArray).to.deep.equal(expectedDetails.Occupants);
             });
           });
-        }).then(() => {
-          expect(passengers).to.deep.equal(expectedDetails.passengers);
         });
       });
 

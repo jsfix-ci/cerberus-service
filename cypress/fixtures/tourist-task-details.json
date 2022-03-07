@@ -7,33 +7,27 @@
     "Country of registration": "GB",
     "Colour": "WHITE"
   },
-  "driver": {
-    "Name": "Isiaih Ford",
-    "Date of birth": "13/10/1991",
-    "Gender": "M",
-    "Nationality": "AUS",
-    "Travel document type": "Passport",
-    "Travel document number": "566746DL",
-    "Travel document expiry": "29/10/2023"
-  },
-  "passengers": [
+  "Occupants": [
     {
-      "Name": "Fred Flintstone",
-      "Date of birth": "22/11/1991",
-      "Gender": "F",
-      "Nationality": "DE",
-      "Travel document type": "Passport",
-      "Travel document number": "875786876",
-      "Travel document expiry": "22/03/2022"
+      "Driver": "Isiaih FordMale, born 13 Oct 1991, AUS"
     },
     {
-      "Name": "Barney Rubble",
-      "Date of birth": "01/03/1989",
-      "Gender": "M",
-      "Nationality": "GB",
-      "Travel document type": "Passport",
-      "Travel document number": "244746NL",
-      "Travel document expiry": "01/02/2021"
+      "Passport": "566746DL",
+      "Validity3 years before travel": "Expires 29 Oct 20233 years before travel"
+    },
+    {
+      "Occupant": "Fred FlintstoneFemale, born 22 Nov 1991, DE"
+    },
+    {
+      "Passport": "875786876",
+      "Validity2 years before travel": "Expires 22 Mar 20222 years before travel"
+    },
+    {
+      "Occupant": "Barney RubbleMale, born 01 Mar 1989, GB"
+    },
+    {
+      "Passport": "244746NL",
+      "Validity6 months before travel": "Expires 01 Feb 20216 months before travel"
     }
   ],
   "Booking-and-check-in": {
