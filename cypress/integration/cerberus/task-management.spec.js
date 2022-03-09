@@ -5,10 +5,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   const MAX_TASK_PER_PAGE = 100;
   const nextPage = 'a[data-test="next"]';
 
-  before(() => {
-    cy.clock();
-  });
-
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
@@ -81,15 +77,17 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify refresh task list page', () => {
-    cy.clock();
-
-    cy.tick(180000);
+    cy.clock().then((clock) => {
+      clock.tick(180000);
+    });
 
     cy.wait('@tasks').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
 
-    cy.tick(180000);
+    cy.clock().then((clock) => {
+      clock.tick(180000);
+    });
 
     cy.wait('@tasks').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
@@ -99,7 +97,9 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       if ($el.find(nextPage).length > 0) {
         cy.get('a[href="/tasks?page=2"]').eq(0).click();
 
-        cy.tick(180000);
+        cy.clock().then((clock) => {
+          clock.tick(180000);
+        });
 
         cy.wait('@tasks').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
