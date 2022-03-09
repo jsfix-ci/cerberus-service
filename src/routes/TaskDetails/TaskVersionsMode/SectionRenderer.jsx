@@ -73,39 +73,68 @@ const renderGoodsSection = (fieldSet) => {
 const renderBookingSection = (fieldSet) => {
   return renderVersionSection(fieldSet);
 };
+const applyHighlightLabel = (name, dob, gender, nationality) => {
+  if (dob?.type.includes('-CHANGED')
+    || gender?.type.includes('-CHANGED')
+    || nationality?.type.includes('-CHANGED')
+    || name?.type.includes('-CHANGED')) {
+    return 'task-versions--highlight';
+  }
+};
+
+const applyHighlightValue = (obj) => {
+  if (obj?.type.includes('-CHANGED')) {
+    return 'task-versions--highlight';
+  }
+};
 
 const renderOccupants = (contents, fieldSetName, bookingDate) => {
   const name = contents.find(({ propName }) => propName === 'name');
-  const dob = contents.find(({ propName }) => propName === 'dob')?.content;
-  const gender = contents.find(({ propName }) => propName === 'gender')?.content;
-  const nationality = contents.find(({ propName }) => propName === 'nationality')?.content;
-  const passportNumber = contents.find(({ propName }) => propName === 'docNumber')?.content;
-  const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry')?.content;
+  const dob = contents.find(({ propName }) => propName === 'dob');
+  const gender = contents.find(({ propName }) => propName === 'gender');
+  const nationality = contents.find(({ propName }) => propName === 'nationality');
+  const passportNumber = contents.find(({ propName }) => propName === 'docNumber');
+  const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry');
   const bookedDate = bookingDate?.content?.split(',')[1];
   const link = findLink(contents, name, defaultLinkPropNames);
   return (
     <div className="govuk-!-margin-bottom-4 bottom-border">
       <div className="govuk-grid-row govuk-!-margin-bottom-2">
         <div className="govuk-grid-column-full">
-          <p className="govuk-!-margin-bottom-0 font__light">{fieldSetName}</p>
-          {link ? <p className="govuk-!-margin-bottom-0 font__bold">{formatLinkField(name.type, name.content, link)}</p> : <p className="govuk-!-margin-bottom-0 font__bold">{name.content}</p>}
-          <p className="govuk-!-margin-bottom-0 font__bold">{formatGender(gender)}
-            { dob ? (<span>, born {formatField(SHORT_DATE_ALT, dob)}</span>) : (<span>, Unknown</span>) }
-            { nationality ? (<span>, {nationality}</span>) : (<span>, Unknown</span>)}
+          <p className="govuk-!-margin-bottom-1 font__light"><span className={applyHighlightLabel(name, dob, gender, nationality)}>{fieldSetName}</span></p>
+          {link
+            ? <p className="govuk-!-margin-bottom-0 font__bold"><span className={applyHighlightValue(name)}>{formatLinkField(name.type, name.content, link)}</span></p>
+            : <p className="govuk-!-margin-bottom-0 font__bold"><span className={applyHighlightValue(name)}>{name.content}</span></p>}
+          <p className="govuk-!-margin-bottom-0">
+            <span className={`font__bold ${applyHighlightValue(gender)}`}>{formatGender(gender?.content)}</span>
+            { dob?.content ? (<span className={`font__bold ${applyHighlightValue(dob)}`}>, born {formatField(SHORT_DATE_ALT, dob?.content)}</span>) : (<span className={`font__bold ${applyHighlightValue(dob)}`}>, Unknown</span>) }
+            { nationality?.content ? (<span className={`font__bold ${applyHighlightValue(nationality)}`}>, {nationality?.content}</span>) : (<span className={`font__bold ${applyHighlightValue(nationality)}`}>, Unknown</span>)}
           </p>
         </div>
       </div>
       <div className="govuk-grid-row govuk-!-margin-bottom-2">
         <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-          <p className="govuk-!-margin-bottom-0 font__light">Passport</p>
-          <p className="govuk-!-margin-bottom-0 font__bold">{passportNumber || 'Unknown'}</p>
+          <p className="govuk-!-margin-bottom-1 font__light">
+            <span className={`${applyHighlightValue(passportNumber)}`}>Passport</span>
+          </p>
+          <p className="govuk-!-margin-bottom-0 font__bold">
+            <span className={`font__bold ${applyHighlightValue(passportNumber)}`}>{passportNumber?.content || 'Unknown'}</span>
+          </p>
         </div>
         <div className="govuk-grid-column-full">
-          <p className="govuk-!-margin-bottom-0 font__light">Validity</p>
-          <p className="govuk-!-margin-bottom-0 font__bold">
-            { passportExpiry ? (<span>Expires {formatField(SHORT_DATE_ALT, passportExpiry)}</span>) : (<span>Unknown</span>) }
+          <p className="govuk-!-margin-bottom-0 font__light">
+            <span className={applyHighlightValue(passportExpiry)}>
+              Validity
+            </span>
           </p>
-          <p className="govuk-!-margin-bottom-0 font__light">{ renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry), bookedDate) }</p>
+          <p className="govuk-!-margin-bottom-1">
+            { passportExpiry?.content ? (<span className={`font__bold ${applyHighlightValue(passportExpiry)}`}>Expires {formatField(SHORT_DATE_ALT, passportExpiry?.content)}</span>) : (<span className={`font__bold ${applyHighlightValue(passportExpiry)}`}>Unknown</span>)}
+          </p>
+          <p className="govuk-!-margin-bottom-0 font__light">
+            <span className={applyHighlightValue(passportExpiry)}>
+              { renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry?.content), bookedDate) }
+            </span>
+          </p>
         </div>
       </div>
     </div>
