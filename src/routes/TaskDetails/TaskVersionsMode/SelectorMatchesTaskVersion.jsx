@@ -80,7 +80,7 @@ const SelectorMatchesTaskVersion = ({ version }) => {
                   if (warningSplit.indexOf('O') > -1) {
                     warningDetails = selector.contents.find(({ propName }) => propName === 'warningDetails').content;
                   }
-                  warnings = warnings.split(',').map((v) => (v === 'O' ? warningDetails : warningCodesMapping[v])).join(',');
+                  warnings = warningSplit.map((v) => (v === 'O' ? warningDetails : warningCodesMapping[v])).join(',');
                 }
                 return (
                   <TabPanel key={selectorIndex}>

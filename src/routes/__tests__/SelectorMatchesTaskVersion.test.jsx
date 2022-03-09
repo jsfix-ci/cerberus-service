@@ -26,11 +26,18 @@ describe('SelectorMatchesTaskVersion', () => {
     expect(screen.queryByText('Local Reference')).toBeInTheDocument();
   });
 
-  it('should render \'No warnings\' text if no warnings are avaialable for the selector', () => {
+  it('should render \'No warnings\' text if no warnings for a selector', () => {
     render(<SelectorMatchesTaskVersion
       version={taskMultipleGroupSelectors}
     />);
     expect(screen.queryByText('No warnings')).toBeInTheDocument();
+  });
+
+  it('should render \'Warnings currently unavailable\' text if no warnings are avaialable a the selector', () => {
+    render(<SelectorMatchesTaskVersion
+      version={taskMultipleGroupSelectors}
+    />);
+    expect(screen.queryByText('Warnings currently unavailable')).toBeInTheDocument();
   });
 
   it('should render warnings as comma separated values', () => {
