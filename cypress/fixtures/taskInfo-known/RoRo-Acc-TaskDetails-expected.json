@@ -55,13 +55,22 @@
         "Telephone": "01243785239",
         "Mobile": ""
       },
-      "driver": {
-        "Driver":"Ben BaileyMale, born 27 Oct 1969, GB",
-        "Passport":"ST678457",
-        "ValidityUnknown":"UnknownUnknown",
-        "Occupant":"Bob BrownMale, born 12 Mar 1971, IR",
-        "Validity6 months before travel":"Expires 01 Feb 20216 months before travel"
-      },
+      "Occupants": [
+        {
+          "Driver": "Ben BaileyMale, born 27 Oct 1969, GB"
+        },
+        {
+          "Passport": "Unknown",
+          "ValidityUnknown": "UnknownUnknown"
+        },
+        {
+          "Occupant": "Bob BrownMale, born 12 Mar 1971, IR"
+        },
+        {
+          "Passport": "ST678457",
+          "Validity6 months before travel": "Expires 01 Feb 20216 months before travel"
+        }
+      ],
       "goods": {
         "Description": "Printed Paper",
         "Is cargo hazardous?": "No",

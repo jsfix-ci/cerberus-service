@@ -148,9 +148,23 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 1';
-      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-1-2`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-2`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });

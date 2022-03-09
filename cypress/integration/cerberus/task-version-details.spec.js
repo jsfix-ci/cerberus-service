@@ -363,7 +363,6 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
-    let date = new Date();
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-different-versions-task_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
@@ -371,11 +370,11 @@ describe('Task Details of different tasks on task details Page', () => {
       'false',
     ];
 
-    date.setDate(date.getDate() + 8);
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -385,7 +384,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v2.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -395,7 +394,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v3.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
@@ -568,7 +567,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
 
       if (index !== firstVersionIndex) {
-        cy.getTaskVersionsDifference(element, index).then((differences) => {
+        cy.getTaskVersionDetailsDifferenceWithOccupants(element, index).then((differences) => {
           differencesInEachVersion.push(differences);
         });
       }
@@ -581,14 +580,14 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
+
     cy.fixture('RoRo-task-v1.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.businessKey = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -596,7 +595,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.fixture('RoRo-task-v2.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.businessKey = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -604,7 +603,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.fixture('RoRo-task-v3.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.businessKey = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -707,18 +706,16 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions with different passengers information', () => {
-    let date = new Date();
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-passenger-info_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     let departureDateTime;
-    let arrivalDataTime;
     const dateFormat = 'D MMM YYYY [at] HH:mm';
+    let arrivalDataTime = Cypress.dayjs().subtract(3, 'year').format(dateFormat);
 
-    date.setDate(date.getDate() + 8);
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('/task-version-passenger/RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = Cypress.dayjs().add(15, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(15, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().subtract(2, 'day').format('YYYY-MM-DDThh:mm:ss');
@@ -731,8 +728,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('/task-version-passenger/RoRo-task-v2.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = Cypress.dayjs().add(2, 'month').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(2, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().subtract(1, 'day').format('YYYY-MM-DDThh:mm:ss');
@@ -745,8 +741,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('/task-version-passenger/RoRo-task-v3.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       departureDateTime = Cypress.dayjs().add(13, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureDateTime;
       departureDateTime = Cypress.dayjs(departureDateTime).utc().format(dateFormat);
@@ -767,7 +762,7 @@ describe('Task Details of different tasks on task details Page', () => {
           'Departure': `${departureDateTime}   DOV`,
           'Arrival': `CAL      ${arrivalDataTime}`,
           'vehicle': 'Vehicle with TrailerGB09KLT-10685 with NL-234-392 driven by Bobby Brownshoes',
-          'Account': 'Arrival 8 days before travel',
+          'Account': 'Arrival 3 years ago',
         };
 
         cy.checkTaskSummaryDetails().then((taskSummary) => {
@@ -810,14 +805,13 @@ describe('Task Details of different tasks on task details Page', () => {
 
   // COP-6905 Scenario-2
   it('Should verify only one versions are created for a task when the attribute for the target indicators in the payload not changed', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-target-indicators-same-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -827,7 +821,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v1-target-update.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
@@ -898,14 +892,12 @@ describe('Task Details of different tasks on task details Page', () => {
 
   // COP-6905 Scenario-3
   it('Should verify 2 versions are created for a task when the payload has different target indicators', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-target-indicators-diff-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -915,7 +907,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v1-target-update.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -925,7 +917,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v3-target-update.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);

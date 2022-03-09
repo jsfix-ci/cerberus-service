@@ -122,5 +122,11 @@
         ]
       }
     }
-  ]
+  ],
+  "haulierTIS": {
+    "Name": "Haulier Auto Test UK",
+    "Address": "Unit 100  Dock Lands",
+    "City": "Greater London",
+    "Country": "GB"
+  }
 }

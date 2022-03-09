@@ -506,6 +506,71 @@ Cypress.Commands.add(('getOccupantDetails'), () => {
   });
 });
 
+Cypress.Commands.add(('getTaskVersionDetailsDifferenceWithOccupants'), (version, index) => {
+  let valueLocator = '.font__bold .task-versions--highlight';
+  let difference = {};
+  cy.expandTaskDetails(index).then(() => {
+    cy.wrap(version).find('.task-versions--highlight').each((item) => {
+      cy.wrap(item).parent().then((valueElement) => {
+        if (valueElement.find(valueLocator).length > 0) {
+          cy.wrap(item).invoke('text').then((key) => {
+            cy.wrap(valueElement).find(valueLocator).invoke('text').then((value) => {
+              if (key in difference) {
+                if (`${key}-dup` in difference) {
+                  difference[`${key}-dup-${1}`] = value;
+                } else {
+                  difference[`${key}-dup`] = value;
+                }
+              } else {
+                difference[key] = value;
+              }
+            });
+          });
+        } else {
+          cy.wrap(item).invoke('text').then((key) => {
+            if (key in difference) {
+              if (`${key}-dup` in difference) {
+                difference[`${key}-dup-${1}`] = '';
+              } else {
+                difference[`${key}-dup`] = '';
+              }
+            } else {
+              difference[key] = '';
+            }
+          });
+        }
+      });
+    });
+  }).then(() => {
+    console.log(difference);
+    return difference;
+  });
+  //
+  //
+  //
+  //
+  //
+  //
+  // const occupantArray = [];
+  // cy.get('.task-details-container').each((occupant) => {
+  //   cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+  //     let obj = {};
+  //     cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+  //       cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+  //         cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+  //             .then((value) => {
+  //               obj[key] = value;
+  //             });
+  //       });
+  //     }).then(() => {
+  //       occupantArray.push(obj);
+  //     });
+  //   });
+  // }).then(() => {
+  //   return occupantArray;
+  // });
+});
+
 Cypress.Commands.add(('getOccupantCounts'), () => {
   const obj = {};
   cy.get('.task-details-container').eq(1).within(() => {
@@ -993,7 +1058,7 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
           cy.wrap(element).invoke('text').then((value) => {
             const text = value.replace('Remove item', '');
             if (values.includes(text)) {
-              cy.wrap(element).find('button').click();
+              cy.wrap(element).find('button').click({ force: true });
             }
           });
         });

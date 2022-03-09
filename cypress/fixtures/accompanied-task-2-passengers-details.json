@@ -103,5 +103,18 @@
         "Empty trailer for round trip": "30",
         "Empty vehicle": "20"
      }
+  },
+  "driverTIS": {
+    "firstName": "Isiaih",
+    "lastName": "Ford",
+    "Date of birth": "9/10/1991",
+    "Travel document expiry": "29/10/2023",
+    "Travel document number": "566746DL"
+  },
+  "haulierTIS":{
+    "Name": "Gondrand UK",
+    "Address": "Unit 82 Central Docks",
+    "City": "London",
+    "Country": "GB"
   }
 }
