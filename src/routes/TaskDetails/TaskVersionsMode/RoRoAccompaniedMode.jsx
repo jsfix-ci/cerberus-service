@@ -17,6 +17,7 @@ import {
 import {
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
+  modifyRoRoPassengersTaskList,
 } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
@@ -64,15 +65,15 @@ const renderSecondColumn = (version, taskSummaryData) => {
   );
 };
 
-const renderThirdColumn = (version, movementMode, movementModeIcon) => {
+const renderThirdColumn = (version, movementMode, movementModeIcon, arrivalTime) => {
   const driverField = version.find(({ propName }) => propName === 'driver');
   const passengersField = version.find(({ propName }) => propName === 'passengers');
   const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
   const bookingDate = version.find(({ propName }) => propName === 'booking').contents.find(({ propName }) => propName === 'dateBooked');
   const isValidToRender = hasTaskVersionPassengers(passengersField);
-  const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, bookingDate);
+  const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, bookingDate, arrivalTime);
   const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
-  const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, bookingDate);
+  const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, bookingDate, arrivalTime);
   return (
     <div className="govuk-task-details-col-3">
       <div className="task-details-container">
@@ -93,6 +94,7 @@ const renderThirdColumn = (version, movementMode, movementModeIcon) => {
 };
 
 const RoRoAccompaniedTaskVersion = ({ version, movementMode, movementModeIcon, taskSummaryData }) => {
+  const roroData = modifyRoRoPassengersTaskList({ ...taskSummaryData.roro.details });
   return (
     <>
       <div className="govuk-task-details-grid">
@@ -103,7 +105,7 @@ const RoRoAccompaniedTaskVersion = ({ version, movementMode, movementModeIcon, t
           {renderSecondColumn(version, taskSummaryData)}
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          {renderThirdColumn(version, movementMode, movementModeIcon)}
+          {renderThirdColumn(version, movementMode, movementModeIcon, roroData.eta)}
         </div>
       </div>
     </>
