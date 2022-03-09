@@ -558,19 +558,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -624,19 +624,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span><a href="http://localhost:4020/search?term=98989898&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MRS SECOND PASSENGER</a></span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -683,19 +683,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -753,19 +753,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -778,19 +778,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span>MR OTHER PASSENGER</span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>
@@ -857,19 +857,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -882,19 +882,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span><a href="http://localhost:4020/search?term=56565656&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR OTHER PASSENGER</a></span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>
@@ -965,19 +965,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -990,19 +990,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span>MR OTHER PASSENGER 1</span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>
@@ -1012,19 +1012,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS OTHER PASSENGER 2</span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>
@@ -1095,19 +1095,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -1120,19 +1120,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span>MR OTHER PASSENGER 1</span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>
@@ -1142,19 +1142,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS OTHER PASSENGER 2</span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>
@@ -1229,19 +1229,19 @@ describe('SectionRenderer', () => {
             <div className="govuk-!-margin-bottom-4 bottom-border">
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
                   <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                 </div>
               </div>
               <div className="govuk-grid-row govuk-!-margin-bottom-2">
                 <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                   <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                 </div>
                 <div className="govuk-grid-column-full">
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                   <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                 </div>
               </div>
@@ -1254,19 +1254,19 @@ describe('SectionRenderer', () => {
                 <div className="govuk-!-margin-bottom-4 bottom-border">
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Occupant</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span><a href="http://localhost:4020/search?term=56565656&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR OTHER PASSENGER</a></span></p>
                       <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
                     </div>
                   </div>
                   <div className="govuk-grid-row govuk-!-margin-bottom-2">
                     <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span className="undefined">Passport</span></p>
+                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
                       <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
                     </div>
                     <div className="govuk-grid-column-full">
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span></p>
+                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
                       <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
                     </div>
                   </div>

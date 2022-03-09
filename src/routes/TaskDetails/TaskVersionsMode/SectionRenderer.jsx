@@ -101,7 +101,7 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
     <div className="govuk-!-margin-bottom-4 bottom-border">
       <div className="govuk-grid-row govuk-!-margin-bottom-2">
         <div className="govuk-grid-column-full">
-          <p className="govuk-!-margin-bottom-0 font__light"><span className={applyHighlightLabel(name, dob, gender, nationality)}>{fieldSetName}</span></p>
+          <p className="govuk-!-margin-bottom-1 font__light"><span className={applyHighlightLabel(name, dob, gender, nationality)}>{fieldSetName}</span></p>
           {link
             ? <p className="govuk-!-margin-bottom-0 font__bold"><span className={applyHighlightValue(name)}>{formatLinkField(name.type, name.content, link)}</span></p>
             : <p className="govuk-!-margin-bottom-0 font__bold"><span className={applyHighlightValue(name)}>{name.content}</span></p>}
@@ -114,7 +114,7 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
       </div>
       <div className="govuk-grid-row govuk-!-margin-bottom-2">
         <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-          <p className="govuk-!-margin-bottom-0 font__light">
+          <p className="govuk-!-margin-bottom-1 font__light">
             <span className={`${applyHighlightValue(passportNumber)}`}>Passport</span>
           </p>
           <p className="govuk-!-margin-bottom-0 font__bold">
@@ -127,7 +127,7 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
               Validity
             </span>
           </p>
-          <p className="govuk-!-margin-bottom-0">
+          <p className="govuk-!-margin-bottom-1">
             { passportExpiry?.content ? (<span className={`font__bold ${applyHighlightValue(passportExpiry)}`}>Expires {formatField(SHORT_DATE_ALT, passportExpiry?.content)}</span>) : (<span className={`font__bold ${applyHighlightValue(passportExpiry)}`}>Unknown</span>)}
           </p>
           <p className="govuk-!-margin-bottom-0 font__light">
