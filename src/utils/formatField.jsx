@@ -34,7 +34,6 @@ const formatField = (fieldType, content) => {
       result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
       break;
     case fieldType.includes('BOOKING_DATETIME'): {
-      // console.log("CONTENT ", content);
       const splitBookingDateTime = content.split(',');
       const bookingDateTime = dayjs.utc(splitBookingDateTime[0]); // This can also act as the check-in time
       if (splitBookingDateTime.length < 2) {
