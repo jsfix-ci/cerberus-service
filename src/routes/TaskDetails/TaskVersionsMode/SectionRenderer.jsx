@@ -37,9 +37,15 @@ const renderFields = (contents, linkPropNames = {}, className = 'govuk-task-deta
   });
 };
 
-const renderDocumentExpiry = (passportExpiry, bookedDate, arrivalTime) => {
+const renderDocumentExpiry = (passportExpiry, arrivalTime) => {
   const expiry = (arrivalTime && passportExpiry) && `${arrivalTime},${moment(passportExpiry).format('YYYY-MM-DDTHH:mm:ss')}`;
-  if (expiry) return formatField('BOOKING_DATETIME', expiry).split(', ')[1].replace('ago', 'before travel');
+  if (expiry) {
+    return formatField('BOOKING_DATETIME', expiry).split(', ')[1]
+      .replace('before travel', 'after travel')
+      .replace('ago', 'before travel')
+      .replace('a ', 'A ')
+      .replace('an ', 'An ');
+  }
   return 'Unknown';
 };
 
@@ -88,14 +94,13 @@ const applyHighlightValue = (obj) => {
   }
 };
 
-const renderOccupants = (contents, fieldSetName, bookingDate, arrivalTime = undefined) => {
+const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
   const name = contents.find(({ propName }) => propName === 'name');
   const dob = contents.find(({ propName }) => propName === 'dob');
   const gender = contents.find(({ propName }) => propName === 'gender');
   const nationality = contents.find(({ propName }) => propName === 'nationality');
   const passportNumber = contents.find(({ propName }) => propName === 'docNumber');
   const passportExpiry = contents.find(({ propName }) => propName === 'docExpiry');
-  const bookedDate = bookingDate?.content?.split(',')[1];
   const link = findLink(contents, name, defaultLinkPropNames);
   return (
     <div className="govuk-!-margin-bottom-4 bottom-border">
@@ -132,7 +137,7 @@ const renderOccupants = (contents, fieldSetName, bookingDate, arrivalTime = unde
           </p>
           <p className="govuk-!-margin-bottom-0 font__light">
             <span className={applyHighlightValue(passportExpiry)}>
-              { renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry?.content), bookedDate, arrivalTime) }
+              { renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry?.content), arrivalTime) }
             </span>
           </p>
         </div>
@@ -141,8 +146,8 @@ const renderOccupants = (contents, fieldSetName, bookingDate, arrivalTime = unde
   );
 };
 
-const renderDriverSection = (fieldSet, bookingDate, arrivalTime) => {
-  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate, arrivalTime);
+const renderDriverSection = (fieldSet, arrivalTime) => {
+  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, arrivalTime);
 };
 
 const renderVersionSectionBody = (fieldSet, linkPropNames = {}, className = '') => {
@@ -306,7 +311,7 @@ const renderOccupantCarrierCountsSection = (driverField, passengersField, passen
   }
 };
 
-const renderOccupantsSection = ({ childSets }, movementModeIcon, bookingDate, arrivalTime) => {
+const renderOccupantsSection = ({ childSets }, movementModeIcon, arrivalTime) => {
   // Passenger at position 0 is driver so they are excluded from the remaining passengers
   const remainingTravellers = childSets.slice(1);
   // Actual passenger
@@ -317,12 +322,12 @@ const renderOccupantsSection = ({ childSets }, movementModeIcon, bookingDate, ar
 
   if (firstPassenger !== null && firstPassenger !== undefined) {
     if (firstPassenger.length > 0) {
-      firstPassengerJsxElement = renderOccupants(firstPassenger, 'Occupant', bookingDate, arrivalTime);
+      firstPassengerJsxElement = renderOccupants(firstPassenger, 'Occupant', arrivalTime);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
           otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger) => {
-            const passengerJsxElement = renderOccupants(otherPassenger.contents, 'Occupant', bookingDate, arrivalTime);
+            const passengerJsxElement = renderOccupants(otherPassenger.contents, 'Occupant', arrivalTime);
             return (
               <div key={uuidv4()}>
                 {passengerJsxElement}
