@@ -18,6 +18,7 @@ import {
   noDriverNoPaxNoCategoryCounts,
   hasDriverHasPaxHasCategoryCounts,
   noDriverHasPaxHasCategoryCounts,
+  noDriverNoPaxNoCategoryAndNoUnknownCounts,
 } from '../../__fixtures__/section-renderer/sectionRendererTaskDetails';
 
 describe('SectionRenderer', () => {
@@ -1624,7 +1625,8 @@ describe('SectionRenderer', () => {
       const passengersField = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+      const section = renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="govuk-task-details-counts-container">
@@ -1666,7 +1668,8 @@ describe('SectionRenderer', () => {
       const passengersField = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+      const section = renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="govuk-task-details-counts-container">
@@ -1709,7 +1712,8 @@ describe('SectionRenderer', () => {
       const passengersField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+      const section = renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="govuk-task-details-counts-container">
@@ -1734,7 +1738,8 @@ describe('SectionRenderer', () => {
       const passengersField = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+      const section = renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
     });
@@ -1744,9 +1749,21 @@ describe('SectionRenderer', () => {
       const passengersField = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+      const section = renderOccupantCarrierCountsSection(
+        driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT,
+      );
 
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
+    });
+
+    it('should not render category count section there is no driver, no passengers and unknown counts is null', () => {
+      const driverField = noDriverNoPaxNoCategoryAndNoUnknownCounts.find(({ propName }) => propName === 'driver');
+      const passengersField = noDriverNoPaxNoCategoryAndNoUnknownCounts.find(({ propName }) => propName === 'passengers');
+      const passengersMetadata = noDriverNoPaxNoCategoryAndNoUnknownCounts.find(({ propName }) => propName === 'occupants');
+
+      const section = renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
+      expect(section).toBeUndefined();
     });
   });
 

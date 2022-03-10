@@ -899,10 +899,79 @@ const noDriverHasPaxHasCategoryCounts = [
   },
 ];
 
+const noDriverNoPaxNoCategoryAndNoUnknownCounts = [
+  {
+    fieldSetName: 'Driver',
+    hasChildSet: false,
+    contents: [],
+    type: 'null',
+    propName: 'driver',
+  },
+  {
+    fieldSetName: 'Passengers',
+    hasChildSet: true,
+    contents: [],
+    childSets: [],
+    type: 'STANDARD',
+    propName: 'passengers',
+  },
+  {
+    fieldSetName: 'Occupants',
+    hasChildSet: false,
+    contents: [
+      {
+        fieldName: 'OAPs',
+        type: 'STRING',
+        content: null,
+        versionLastUpdated: null,
+        propName: 'oapCount',
+      },
+      {
+        fieldName: 'Adults',
+        type: 'STRING',
+        content: null,
+        versionLastUpdated: null,
+        propName: 'adultCount',
+      },
+      {
+        fieldName: 'Children',
+        type: 'STRING',
+        content: null,
+        versionLastUpdated: null,
+        propName: 'childCount',
+      },
+      {
+        fieldName: 'Infants',
+        type: 'STRING',
+        content: null,
+        versionLastUpdated: null,
+        propName: 'infantCount',
+      },
+      {
+        fieldName: 'Total occupants',
+        type: 'STRING',
+        content: '0',
+        versionLastUpdated: null,
+        propName: 'totalOccupants',
+      },
+      {
+        fieldName: 'Unknown',
+        type: 'STRING',
+        content: null,
+        versionLastUpdated: null,
+        propName: 'unknownCount',
+      },
+    ],
+    type: 'null',
+    propName: 'occupants',
+  },
+];
+
 export {
   hasDriverNoPaxHasCategoryCounts,
   noDriverNoPaxHasCategoryCounts,
   noDriverNoPaxNoCategoryCounts,
   noDriverHasPaxHasCategoryCounts,
   hasDriverHasPaxHasCategoryCounts,
+  noDriverNoPaxNoCategoryAndNoUnknownCounts,
 };
