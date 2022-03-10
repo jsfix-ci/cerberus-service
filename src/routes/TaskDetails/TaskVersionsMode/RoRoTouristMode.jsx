@@ -17,6 +17,7 @@ import {
 import {
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
+  modifyRoRoPassengersTaskList,
 } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
@@ -57,12 +58,12 @@ const footPassengersTaskVersion = (version, movementMode, movementModeIcon, task
   };
 
   const renderThirdColumn = () => {
+    const roroData = modifyRoRoPassengersTaskList({ ...taskSummaryData.roro.details });
     const driverField = version.find(({ propName }) => propName === 'driver');
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
-    const bookingDate = version.find(({ propName }) => propName === 'booking').contents.find(({ propName }) => propName === 'dateBooked');
-    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, bookingDate);
+    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, roroData.eta);
     const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode, movementModeIcon);
     return (
       <div className="govuk-task-details-col-3">
@@ -207,14 +208,14 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
   };
 
   const renderThirdColumn = () => {
+    const roroData = modifyRoRoPassengersTaskList({ ...taskSummaryData.roro.details });
     const passengersField = version.find(({ propName }) => propName === 'passengers');
     const isValidToRender = hasTaskVersionPassengers(passengersField);
     const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
-    const bookingDate = version.find(({ propName }) => propName === 'booking').contents.find(({ propName }) => propName === 'dateBooked');
     const driverField = version.find(({ propName }) => propName === 'driver');
-    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, 'undefined', bookingDate);
+    const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, 'undefined', roroData.eta);
     const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
-    const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, bookingDate);
+    const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, roroData.eta);
     return (
       <div className="govuk-task-details-col-3">
         <div className="task-details-container">

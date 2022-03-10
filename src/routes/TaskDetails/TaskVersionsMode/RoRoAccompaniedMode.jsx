@@ -69,11 +69,10 @@ const renderThirdColumn = (version, movementMode, movementModeIcon, arrivalTime)
   const driverField = version.find(({ propName }) => propName === 'driver');
   const passengersField = version.find(({ propName }) => propName === 'passengers');
   const passengersMetadata = version.find(({ propName }) => propName === 'occupants');
-  const bookingDate = version.find(({ propName }) => propName === 'booking').contents.find(({ propName }) => propName === 'dateBooked');
   const isValidToRender = hasTaskVersionPassengers(passengersField);
-  const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, bookingDate, arrivalTime);
+  const occupants = isValidToRender && passengersField.childSets.length > 0 && renderOccupantsSection(passengersField, movementModeIcon, arrivalTime);
   const carrierOccupantCounts = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, movementMode);
-  const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, bookingDate, arrivalTime);
+  const driver = (driverField !== null && driverField !== undefined) && renderDriverSection(driverField, arrivalTime);
   return (
     <div className="govuk-task-details-col-3">
       <div className="task-details-container">
