@@ -1753,16 +1753,18 @@ describe('SectionRenderer', () => {
   describe('Render the difference of travel booked date and passport expirty date', () => {
     it('Should render time left for passport expiry before travel booked date', () => {
       const bookedDate = '2020-08-03T13:05:00';
+      const arrivalTime = '2020-08-03T13:05:00';
       const passportExpiry = '01 Feb 2021';
-      const expiry = renderDocumentExpiry(passportExpiry, bookedDate);
+      const expiry = renderDocumentExpiry(passportExpiry, bookedDate, arrivalTime);
       expect(expiry).toEqual('6 months before travel');
     });
 
     it('Should render passport expiry time passed before travel booked date', () => {
       const bookedDate = '2020-02-01T13:05:00';
+      const arrivalTime = '2020-02-01T13:05:00';
       const passportExpiry = '03 Aug 2019';
-      const expiry = renderDocumentExpiry(passportExpiry, bookedDate);
-      expect(expiry).toEqual('6 months after travel');
+      const expiry = renderDocumentExpiry(passportExpiry, bookedDate, arrivalTime);
+      expect(expiry).toEqual('6 months before travel');
     });
   });
 });

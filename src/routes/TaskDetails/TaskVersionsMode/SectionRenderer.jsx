@@ -37,9 +37,9 @@ const renderFields = (contents, linkPropNames = {}, className = 'govuk-task-deta
   });
 };
 
-const renderDocumentExpiry = (passportExpiry, bookedDate) => {
-  const expiry = (bookedDate && passportExpiry) && `${bookedDate},${moment(passportExpiry).format('YYYY-MM-DDTHH:mm:ss')}`;
-  if (expiry) return formatField('BOOKING_DATETIME', expiry).split(', ')[1].replace('ago', 'after travel');
+const renderDocumentExpiry = (passportExpiry, bookedDate, arrivalTime) => {
+  const expiry = (arrivalTime && passportExpiry) && `${arrivalTime},${moment(passportExpiry).format('YYYY-MM-DDTHH:mm:ss')}`;
+  if (expiry) return formatField('BOOKING_DATETIME', expiry).split(', ')[1].replace('ago', 'before travel');
   return 'Unknown';
 };
 
@@ -88,7 +88,7 @@ const applyHighlightValue = (obj) => {
   }
 };
 
-const renderOccupants = (contents, fieldSetName, bookingDate) => {
+const renderOccupants = (contents, fieldSetName, bookingDate, arrivalTime = undefined) => {
   const name = contents.find(({ propName }) => propName === 'name');
   const dob = contents.find(({ propName }) => propName === 'dob');
   const gender = contents.find(({ propName }) => propName === 'gender');
@@ -132,7 +132,7 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
           </p>
           <p className="govuk-!-margin-bottom-0 font__light">
             <span className={applyHighlightValue(passportExpiry)}>
-              { renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry?.content), bookedDate) }
+              { renderDocumentExpiry(formatField(SHORT_DATE_ALT, passportExpiry?.content), bookedDate, arrivalTime) }
             </span>
           </p>
         </div>
@@ -141,8 +141,8 @@ const renderOccupants = (contents, fieldSetName, bookingDate) => {
   );
 };
 
-const renderDriverSection = (fieldSet, bookingDate) => {
-  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate);
+const renderDriverSection = (fieldSet, bookingDate, arrivalTime) => {
+  return renderOccupants(fieldSet.contents, fieldSet.fieldSetName, bookingDate, arrivalTime);
 };
 
 const renderVersionSectionBody = (fieldSet, linkPropNames = {}, className = '') => {
@@ -306,7 +306,7 @@ const renderOccupantCarrierCountsSection = (driverField, passengersField, passen
   }
 };
 
-const renderOccupantsSection = ({ childSets }, movementModeIcon, bookingDate) => {
+const renderOccupantsSection = ({ childSets }, movementModeIcon, bookingDate, arrivalTime) => {
   // Passenger at position 0 is driver so they are excluded from the remaining passengers
   const remainingTravellers = childSets.slice(1);
   // Actual passenger
@@ -317,12 +317,12 @@ const renderOccupantsSection = ({ childSets }, movementModeIcon, bookingDate) =>
 
   if (firstPassenger !== null && firstPassenger !== undefined) {
     if (firstPassenger.length > 0) {
-      firstPassengerJsxElement = renderOccupants(firstPassenger, 'Occupant', bookingDate);
+      firstPassengerJsxElement = renderOccupants(firstPassenger, 'Occupant', bookingDate, arrivalTime);
 
       if (otherPassengers !== null && otherPassengers !== undefined) {
         if (otherPassengers.length > 0) {
           otherPassengersJsxElementBlock = otherPassengers.map((otherPassenger) => {
-            const passengerJsxElement = renderOccupants(otherPassenger.contents, 'Occupant', bookingDate);
+            const passengerJsxElement = renderOccupants(otherPassenger.contents, 'Occupant', bookingDate, arrivalTime);
             return (
               <div key={uuidv4()}>
                 {passengerJsxElement}
