@@ -1081,20 +1081,6 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      // cy.contains('h3', 'Driver').next().within(() => {
-      //   cy.getTaskDetails().then((details) => {
-      //     expect(details).to.deep.equal(expectedDetails.driver);
-      //   });
-      // });
-      //
-      // cy.contains('h3', 'Occupants').nextAll().within(() => {
-      //   cy.contains('h3', 'Passengers').next().within(() => {
-      //     cy.getTaskDetails().then((details) => {
-      //       expect(details).to.deep.equal(expectedDetails.passengers);
-      //     });
-      //   });
-      // });
-
       cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);

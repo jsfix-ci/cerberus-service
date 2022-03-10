@@ -316,11 +316,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 0 other rules', riskTier: 'B' }).then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules', riskTier: 'B' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 0 other rules', riskTier: 'B' }).then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules', riskTier: 'B' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -364,11 +364,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 4 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 4 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -414,15 +414,14 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should check selector & rule matches details for more than one version on task management page', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
+    let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules-v2.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -432,7 +431,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
