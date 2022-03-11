@@ -32,6 +32,9 @@
               ],
               "localReference": "Local Reference",
               "warnings": "Supplemental warnings",
+              "selectorWarnings":"O",
+              "warningStatus": "Yes",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer": "Peter Price",
               "requestingTeam": "RoRo accompanied",
               "indicatorMatches": [
@@ -72,6 +75,9 @@
               ],
               "localReference": "selector auto testing",
               "warnings": "rtht",
+              "selectorWarnings":"",
+              "warningStatus": "Yes",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer": "bffg",
               "requestingTeam": "BFNIH",
               "indicatorMatches": [
@@ -112,6 +118,9 @@
               ],
               "localReference": "greger",
               "warnings": "rgeger",
+              "selectorWarnings":"No Warning",
+              "warningStatus": "No",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer": "srg",
               "requestingTeam": "BFNIH",
               "indicatorMatches": [

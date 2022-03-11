@@ -747,6 +747,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      // COP-9101 Warning Details value should be 500 char length
+      task.variables.rbtPayload.value.data.matchedSelectors[3].warningDetails = 'Warningggg'.repeat(51);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Selector-Group_reference-details`).then((response) => {
         cy.wait(4000);
