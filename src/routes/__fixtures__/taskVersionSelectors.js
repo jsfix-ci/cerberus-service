@@ -975,6 +975,211 @@ const taskMultipleGroupSelectors = [
   },
 ];
 
+const taskSelectorsWarnings = [
+  {
+    fieldSetName: '5 selector matches',
+    hasChildSet: true,
+    contents: [],
+    childSets: [
+      {
+        fieldSetName: '',
+        hasChildSet: true,
+        contents: [
+          {
+            fieldName: 'Group number',
+            type: 'STRING',
+            content: '2011-12',
+            versionLastUpdated: null,
+            propName: 'groupNumber',
+          },
+          {
+            fieldName: 'Requesting officer',
+            type: 'STRING',
+            content: 'Peter Price',
+            versionLastUpdated: null,
+            propName: 'requestingOfficer',
+          },
+          {
+            fieldName: 'Source reference',
+            type: 'STRING',
+            content: 'intel source',
+            versionLastUpdated: null,
+            propName: 'sourceReference',
+          },
+          {
+            fieldName: 'Group reference',
+            type: 'STRING',
+            content: 'Local Reference',
+            versionLastUpdated: null,
+            propName: 'groupReference',
+          },
+          {
+            fieldName: 'Category',
+            type: 'STRING',
+            content: 'B',
+            versionLastUpdated: null,
+            propName: 'category',
+          },
+          {
+            fieldName: 'Threat type',
+            type: 'SUBTITLE',
+            content: 'National Security at the Border',
+            versionLastUpdated: null,
+            propName: 'threatType',
+          },
+          {
+            fieldName: 'Point of contact message',
+            type: 'STRING',
+            content: 'Message for the POC',
+            versionLastUpdated: null,
+            propName: 'pointOfContactMessage',
+          },
+          {
+            fieldName: 'Point of contact',
+            type: 'STRING',
+            content: 'Point Of Contact',
+            versionLastUpdated: null,
+            propName: 'pointOfContact',
+          },
+          {
+            fieldName: 'Inbound action',
+            type: 'STRING',
+            content: 'Advise originator',
+            versionLastUpdated: null,
+            propName: 'inboundActionCode',
+          },
+          {
+            fieldName: 'Outbound action',
+            type: 'STRING',
+            content: 'Full attention',
+            versionLastUpdated: null,
+            propName: 'outboundActionCode',
+          },
+          {
+            fieldName: 'Warnings',
+            type: 'STRING',
+            content: 'Supplemental warnings',
+            versionLastUpdated: null,
+            propName: 'warnings',
+          },
+          {
+            fieldName: 'Warning Status',
+            type: 'STRING',
+            content: 'Yes',
+            versionLastUpdated: null,
+            propName: 'warningStatus',
+          },
+          {
+            fieldName: 'Selector Warnings',
+            type: 'STRING',
+            content: 'CTGN,VIOL,O',
+            versionLastUpdated: null,
+            propName: 'selectorWarnings',
+          },
+          {
+            fieldName: 'Warning Details',
+            type: 'STRING',
+            content: 'Warning details would be shown here',
+            versionLastUpdated: null,
+            propName: 'warningDetails',
+          },
+          {
+            fieldName: 'Notes',
+            type: 'TEXT_AREA',
+            content: 'Supplemental notes',
+            versionLastUpdated: null,
+            propName: 'notes',
+          },
+          {
+            fieldName: 'Creator',
+            type: 'STRING',
+            content: 'Joe Jones',
+            versionLastUpdated: null,
+            propName: 'creator',
+          },
+          {
+            fieldName: 'Selector ID',
+            type: 'HIDDEN',
+            content: 51,
+            versionLastUpdated: null,
+            propName: 'selectorId',
+          },
+        ],
+        childSets: [
+          {
+            fieldSetName: 'Indicator matches',
+            hasChildSet: false,
+            contents: [
+              {
+                fieldName: 'Entity',
+                type: 'TEXT_CELL',
+                content: 'Organisation 11',
+                versionLastUpdated: null,
+                propName: 'entity',
+              },
+              {
+                fieldName: 'Attribute',
+                type: 'TEXT_CELL',
+                content: 'telephone 11',
+                versionLastUpdated: null,
+                propName: 'attribute',
+              },
+              {
+                fieldName: 'Operator',
+                type: 'TEXT_CELL',
+                content: 'equal 11',
+                versionLastUpdated: null,
+                propName: 'operator',
+              },
+              {
+                fieldName: 'Value',
+                type: 'BOOLEAN_CELL',
+                content: '01234 11',
+                versionLastUpdated: null,
+                propName: 'indicatorValue',
+              },
+              {
+                fieldName: 'Entity',
+                type: 'TEXT_CELL',
+                content: 'Message 12',
+                versionLastUpdated: null,
+                propName: 'entity',
+              },
+              {
+                fieldName: 'Attribute',
+                type: 'TEXT_CELL',
+                content: 'mode 12',
+                versionLastUpdated: null,
+                propName: 'attribute',
+              },
+              {
+                fieldName: 'Operator',
+                type: 'TEXT_CELL',
+                content: 'in 12',
+                versionLastUpdated: null,
+                propName: 'operator',
+              },
+              {
+                fieldName: 'Value',
+                type: 'BOOLEAN_CELL',
+                content: 'RORO Accompanied Freight 12',
+                versionLastUpdated: null,
+                propName: 'indicatorValue',
+              },
+            ],
+            type: 'TABLE',
+            propName: 'indicatorMatches',
+          },
+        ],
+        type: 'STANDARD',
+        propName: '',
+      },
+    ],
+    type: 'STANDARD',
+    propName: 'selectors',
+  },
+];
+
 const selectorMatches = [
   {
     fieldSetName: '',
@@ -1838,4 +2043,4 @@ const selectorMatches = [
   },
 ];
 
-export { taskMultipleGroupSelectors, selectorMatches };
+export { taskMultipleGroupSelectors, taskSelectorsWarnings, selectorMatches };

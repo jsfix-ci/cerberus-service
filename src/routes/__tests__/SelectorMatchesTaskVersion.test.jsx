@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, render } from '@testing-library/react';
 
 import { SelectorMatchesTaskVersion, selectorsByGroupReference } from '../TaskDetails/TaskVersionsMode/SelectorMatchesTaskVersion';
-import { taskMultipleGroupSelectors, selectorMatches } from '../__fixtures__/taskVersionSelectors';
+import { taskMultipleGroupSelectors, taskSelectorsWarnings, selectorMatches } from '../__fixtures__/taskVersionSelectors';
 
 describe('SelectorMatchesTaskVersion', () => {
   it('should combine selectors by group reference', () => {
@@ -52,5 +52,12 @@ describe('SelectorMatchesTaskVersion', () => {
       version={taskMultipleGroupSelectors}
     />);
     expect(screen.queryByText('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibu')).toBeInTheDocument();
+  });
+
+  it('should transform warning codes(comma separated) into their meaning and use warning detials for code O', () => {
+    render(<SelectorMatchesTaskVersion
+      version={taskSelectorsWarnings}
+    />);
+    expect(screen.queryByText('Contagion,Violence,Warning details would be shown here')).toBeInTheDocument();
   });
 });
