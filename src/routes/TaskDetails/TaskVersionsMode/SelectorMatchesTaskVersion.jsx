@@ -14,7 +14,7 @@ const warningCodesMapping = {
 // Grouping selectors by group reference
 const selectorsByGroupReference = (selectors) => {
   let groupedSelectors = [];
-  selectors.map((selector) => {
+  selectors?.map((selector) => {
     const groupReference = selector.contents.find(({ propName }) => propName === 'groupReference')?.content;
     if (!groupedSelectors[groupReference]) groupedSelectors[groupReference] = [];
     groupedSelectors[groupReference].push(selector);
@@ -24,11 +24,11 @@ const selectorsByGroupReference = (selectors) => {
 
 const SelectorMatchesTaskVersion = ({ version }) => {
   const otherFields = ['requestingOfficer', 'sourceReference', 'category', 'threatType', 'pointOfContactMessage', 'pointOfContact', 'inboundActionCode', 'outboundActionCode', 'notes', 'creator'];
-  const selectorMatches = version.find(({ propName }) => propName === 'selectors');
+  const selectorMatches = version?.find(({ propName }) => propName === 'selectors');
   const selectorsGroup = selectorsByGroupReference(selectorMatches?.childSets);
   return (
     <div>
-      <h2 className="govuk-heading-m">{selectorMatches.fieldSetName}</h2>
+      <h2 className="govuk-heading-m">{selectorMatches?.fieldSetName}</h2>
       { Object.entries(selectorsGroup).map(([GroupReference, selectors], index) => {
         let indicatorValue;
         let selectorReference;
@@ -75,12 +75,12 @@ const SelectorMatchesTaskVersion = ({ version }) => {
                 warnings = selector.contents.find(({ propName }) => propName === 'selectorWarnings')?.content;
                 groupNumber = selector.contents.find(({ propName }) => propName === 'groupNumber').content;
                 const warningSplit = warnings?.split(',');
-                if (warningSplit?.length > 1 || warningSplit?.indexOf('O') > -1) {
-                  // if warnings contains O(Othere) then show warning detils
-                  if (warningSplit.indexOf('O') > -1) {
+                const containsOther = warningSplit?.indexOf('O') > -1;
+                if (warningSplit?.length > 1 || containsOther || warningCodesMapping[warnings]) {
+                  if (containsOther) {
                     warningDetails = selector.contents.find(({ propName }) => propName === 'warningDetails').content;
                   }
-                  warnings = warningSplit.map((v) => (v === 'O' ? warningDetails.substring(0, 500) : warningCodesMapping[v])).join(',');
+                  warnings = warningSplit.map((v) => (v === 'O' ? warningDetails?.substring(0, 500) : warningCodesMapping[v])).join(',');
                 }
                 return (
                   <TabPanel key={selectorIndex}>
