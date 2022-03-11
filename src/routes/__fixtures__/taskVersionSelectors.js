@@ -804,7 +804,7 @@ const taskMultipleGroupSelectors = [
           {
             fieldName: 'Group reference',
             type: 'STRING',
-            content: 'Local Reference',
+            content: 'Global Reference',
             versionLastUpdated: null,
             propName: 'groupReference',
           },
@@ -867,14 +867,14 @@ const taskMultipleGroupSelectors = [
           {
             fieldName: 'Selector Warnings',
             type: 'STRING',
-            content: 'CTGN,VIOL,WEAP',
+            content: 'O',
             versionLastUpdated: null,
             propName: 'selectorWarnings',
           },
           {
             fieldName: 'Warning Details',
             type: 'STRING',
-            content: null,
+            content: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus',
             versionLastUpdated: null,
             propName: 'warningDetails',
           },
