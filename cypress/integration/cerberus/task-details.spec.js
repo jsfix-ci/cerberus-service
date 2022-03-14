@@ -731,9 +731,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
                 cy.contains('h3', 'Occupants').should('not.exist');
               } else {
                 cy.contains('h3', 'Occupants').nextAll().within(() => {
-                  cy.contains('Driver').nextAll().invoke('text').then((driver) => {
-                    expect(driver).to.contain(expDriver);
-                  });
+                  cy.contains('Driver').parent().nextAll().invoke('text')
+                    .then((driver) => {
+                      expect(driver).to.contain(expDriver);
+                    });
                 });
               }
             });

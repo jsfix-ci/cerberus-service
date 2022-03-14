@@ -8,20 +8,20 @@
   "Colour": ""
   },
   "Occupants":[
-    {
-      "Driver": "Daisy FlowerFemale, born 13 May 1978, GB"
-    },
-    {
-      "Passport": "ST453786",
-      "Validity6 months before travel": "Expires 01 Feb 20216 months before travel"
-    },
-    {
-      "Occupant": "Darren BallMale, born 16 Mar 1990, GB"
-    },
-    {
-      "Passport": "18659",
-      "ValidityUnknown": "UnknownUnknown"
-    }
+      {
+        "Driver": "Daisy FlowerFemale, born 13 May 1978, GB"
+      },
+      {
+        "Passport": "ST453786",
+        "ValidityA year before travel": "Expires 01 Feb 2021A year before travel"
+      },
+      {
+        "Occupant": "Darren BallMale, born 16 Mar 1990, GB"
+      },
+      {
+        "Passport": "18659",
+        "ValidityUnknown": "UnknownUnknown"
+      }
   ],
   "Booking-and-check-in": {
     "Reference": "DFDS347376",

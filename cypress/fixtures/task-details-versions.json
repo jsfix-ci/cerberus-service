@@ -43,20 +43,20 @@
         "Check-in": "3 Aug 2020 at 12:05, a year before travel"
       },
       "Occupants": [
-        {
-          "Driver": "Bobby BrownshoesUnknown, Unknown, FR"
-        },
-        {
-          "Passport": "244746NL",
-          "Validity8 months after travel": "Expires 14 Mar 20218 months after travel"
-        },
-        {
-          "Occupant": "Ken BaileyFemale, born 03 Oct 1969, Unknown"
-        },
-        {
-          "Passport": "244746NL",
-          "Validity8 months after travel": "Expires 14 Mar 20218 months after travel"
-        }
+          {
+            "Driver": "Bobby BrownshoesUnknown, Unknown, FR"
+          },
+          {
+            "Passport": "244746NL",
+            "Validity2 years after travel": "Expires 14 Mar 20212 years after travel"
+          },
+          {
+            "Occupant": "Ken BaileyFemale, born 03 Oct 1969, Unknown"
+          },
+          {
+            "Passport": "244746NL",
+            "Validity2 years after travel": "Expires 14 Mar 20212 years after travel"
+          }
       ],
       "TargetingIndicators": {
         "Total Score": "30",
@@ -207,20 +207,20 @@
         "Weight of goods": ""
       },
       "Occupants": [
-        {
-          "Driver": "Bob BrownMale, born 12 Mar 1971, NL"
-        },
-        {
-          "Passport": "244746NL",
-          "Validity10 months after travel": "Expires 01 Feb 202110 months after travel"
-        },
-        {
-          "Occupant": "Ben BaileyMale, born 03 Jun 1981, GB"
-        },
-        {
-          "Passport": "ST0394612",
-          "Validity10 months after travel": "Expires 01 Feb 202110 months after travel"
-        }
+          {
+            "Driver": "Bob BrownMale, born 12 Mar 1971, NL"
+          },
+          {
+            "Passport": "244746NL",
+            "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
+          },
+          {
+            "Occupant": "Ben BaileyMale, born 03 Jun 1981, GB"
+          },
+          {
+            "Passport": "ST0394612",
+            "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
+          }
       ],
       "booking": {
         "Reference": "357485636",
@@ -267,7 +267,7 @@
         "Creator": "Joe Jones"
       },
       "group": {
-        "Selector 2020-6": "Supplemental warnings",
+        "Selector 2020-6": "",
         "entities": [
           {
             "Entity": ""
@@ -298,7 +298,7 @@
         "Creator": "paul.herring"
       },
       "group": {
-        "Selector 2022-225": "null",
+        "Selector 2022-225": "",
         "entities": [
           {
             "Entity": "vehicle"
@@ -329,7 +329,7 @@
         "Creator": "user"
       },
       "group": {
-        "Selector 2022-245": "null",
+        "Selector 2022-245": "",
         "entities": [
           {
             "Entity": "Person"
@@ -362,7 +362,7 @@
         "Creator": "paul.herring"
       },
       "group": {
-        "Selector 2022-225": "null",
+        "Selector 2022-225": "",
         "entities": [
           {
             "Entity": "vehicle"
@@ -393,7 +393,7 @@
         "Creator": "user"
       },
       "group": {
-        "Selector 2022-245": "null",
+        "Selector 2022-245": "",
         "entities": [
           {
             "Entity": "Person"
@@ -424,7 +424,7 @@
         "Creator": "user"
       },
       "group": {
-        "Selector 2021-278": "jtyj",
+        "Selector 2021-278": "",
         "entities": [
           {
             "Entity": "Vehicle"
@@ -467,7 +467,7 @@
         "Creator": "user"
       },
       "group": {
-        "Selector 2021-279": "bdfbdfbf",
+        "Selector 2021-279": "",
         "entities": [
           {
             "Entity": "Trailer"

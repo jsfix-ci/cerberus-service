@@ -13,21 +13,21 @@
     },
     {
       "Passport": "566746DL",
-      "Validity3 years before travel": "Expires 29 Oct 20233 years before travel"
+      "Validity2 years after travel": "Expires 29 Oct 20232 years after travel"
     },
     {
       "Occupant": "Fred FlintstoneFemale, born 22 Nov 1991, DE"
     },
     {
       "Passport": "875786876",
-      "Validity2 years before travel": "Expires 22 Mar 20222 years before travel"
+      "ValidityA day before travel": "Expires 22 Mar 2022A day before travel"
     },
     {
       "Occupant": "Barney RubbleMale, born 01 Mar 1989, GB"
     },
     {
       "Passport": "244746NL",
-      "Validity6 months before travel": "Expires 01 Feb 20216 months before travel"
+      "ValidityA year before travel": "Expires 01 Feb 2021A year before travel"
     }
   ],
   "Booking-and-check-in": {
