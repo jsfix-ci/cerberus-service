@@ -128,6 +128,12 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifySelectDropdown('teamToReceiveTheTarget', targetInfo.groups);
 
       cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+
+      cy.get('.formio-component-informFreightAndTourist').find('input').should('not.be.checked');
+
+      cy.get('input[name="data[informFreightAndTourist]"]').click();
+
+      cy.get('.formio-component-informFreightAndTourist').find('input').should('be.checked');
     });
 
     cy.clickSubmit();
@@ -479,6 +485,12 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.waitForNoErrors();
 
       cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+
+      cy.get('.formio-component-informFreightAndTourist').find('input').should('not.be.checked');
+
+      cy.get('input[name="data[informFreightAndTourist]"]').click();
+
+      cy.get('.formio-component-informFreightAndTourist').find('input').should('be.checked');
     });
 
     cy.clickSubmit();
@@ -613,6 +625,12 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.waitForNoErrors();
 
       cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+
+      cy.get('.formio-component-informFreightAndTourist').find('input').should('not.be.checked');
+
+      cy.get('input[name="data[informFreightAndTourist]"]').click();
+
+      cy.get('.formio-component-informFreightAndTourist').find('input').should('be.checked');
     });
 
     cy.clickSubmit();

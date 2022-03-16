@@ -545,30 +545,6 @@ Cypress.Commands.add(('getTaskVersionDetailsDifferenceWithOccupants'), (version,
     console.log(difference);
     return difference;
   });
-  //
-  //
-  //
-  //
-  //
-  //
-  // const occupantArray = [];
-  // cy.get('.task-details-container').each((occupant) => {
-  //   cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
-  //     let obj = {};
-  //     cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
-  //       cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
-  //         cy.wrap(detail).find('.font__light').nextAll().invoke('text')
-  //             .then((value) => {
-  //               obj[key] = value;
-  //             });
-  //       });
-  //     }).then(() => {
-  //       occupantArray.push(obj);
-  //     });
-  //   });
-  // }).then(() => {
-  //   return occupantArray;
-  // });
 });
 
 Cypress.Commands.add(('getOccupantCounts'), () => {
@@ -960,17 +936,6 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
       });
     });
   }
-  // if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
-  //   let regex = new RegExp('^[0-9]+ selector matches$', 'g');
-  //   cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-  //     cy.contains('h2', regex).then((locator) => {
-  //       cy.getAllRuleMatches(locator).then((actualSelectorMatches) => {
-  //         expect(actualSelectorMatches).to.deep.equal(expectedDetails.selectorMatch);
-  //       });
-  //     });
-  //   });
-  // }
-
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'TargetingIndicators')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
       cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
@@ -1171,7 +1136,6 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   }
 
   cy.contains('Apply filters').click();
-
   cy.wait(2000);
   cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
