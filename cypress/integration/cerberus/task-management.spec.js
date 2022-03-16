@@ -5,10 +5,6 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   const MAX_TASK_PER_PAGE = 100;
   const nextPage = 'a[data-test="next"]';
 
-  before(() => {
-    cy.clock();
-  });
-
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
@@ -80,27 +76,30 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     }
   });
 
-  it('Should verify refresh task list page', () => {
-    cy.tick(180000);
-
-    cy.wait('@tasks').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
+  it.skip('Should verify refresh task list page', () => {
+    cy.clock().then((clock) => {
+      clock.tick(180000);
+      cy.wait('@tasks').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
-    cy.tick(180000);
-
-    cy.wait('@tasks').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
+    cy.clock().then((clock) => {
+      clock.tick(180000);
+      cy.wait('@tasks').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
     cy.get('body').then(($el) => {
       if ($el.find(nextPage).length > 0) {
         cy.get('a[href="/tasks?page=2"]').eq(0).click();
 
-        cy.tick(180000);
-
-        cy.wait('@tasks').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+        cy.clock().then((clock) => {
+          clock.tick(180000);
+          cy.wait('@tasks').then(({ response }) => {
+            expect(response.statusCode).to.equal(200);
+          });
         });
 
         cy.url().should('contain', 'page=2');
@@ -116,7 +115,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.verifyTasksSortedOnArrivalDateTime();
   });
 
-  it('Should verify tasks are sorted in correct order selectors with highest category should be at top of the list on task management page', () => {
+  it('Should generate tasks for sorting in correct order selectors with highest category should be at top of the list on task management page', () => {
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     let arrivalTime = Cypress.dayjs().subtract(3, 'day').valueOf();
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
@@ -146,9 +145,41 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 1';
-      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-1-2`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    let businessKey;
+
+    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-2`).then((response) => {
+        cy.wait(4000);
+        businessKey = response.businessKey;
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((reListTask) => {
+      reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      reListTask.businessKey = businessKey;
+      reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+      reListTask.variables.rbtPayload.value.data.movement.persons[0].person.gender = 'F';
+      reListTask.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      reListTask.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
+      reListTask.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 2';
+      reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+      cy.postTasks(reListTask, null).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
@@ -300,11 +331,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 0 other rules', riskTier: 'B' }).then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules', riskTier: 'B' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 0 other rules', riskTier: 'B' }).then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules', riskTier: 'B' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -348,11 +379,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 4 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 4 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -398,15 +429,14 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should check selector & rule matches details for more than one version on task management page', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
+    let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules-v2.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -416,7 +446,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);

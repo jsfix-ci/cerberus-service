@@ -7,24 +7,22 @@
   "Country of registration": "GB",
   "Colour": ""
   },
-  "driver": {
-    "Name": "Daisy Flower",
-    "Date of birth": "13/05/1978",
-    "Gender": "F",
-    "Nationality": "GB",
-    "Travel document type": "Passport",
-    "Travel document number": "ST453786",
-    "Travel document expiry": "01/02/2021"
-  },
-  "passengers": {
-    "Name": "Darren Ball",
-    "Date of birth": "16/03/1990",
-    "Gender": "M",
-    "Nationality": "GB",
-    "Travel document type": "ST2447631",
-    "Travel document number": "18659",
-    "Travel document expiry": ""
-  },
+  "Occupants":[
+      {
+        "Driver": "Daisy FlowerFemale, born 13 May 1978, GB"
+      },
+      {
+        "Passport": "ST453786",
+        "ValidityA year before travel": "Expires 01 Feb 2021A year before travel"
+      },
+      {
+        "Occupant": "Darren BallMale, born 16 Mar 1990, GB"
+      },
+      {
+        "Passport": "18659",
+        "ValidityUnknown": "UnknownUnknown"
+      }
+  ],
   "Booking-and-check-in": {
     "Reference": "DFDS347376",
     "Ticket number": "DFDS-1000974",
@@ -36,7 +34,7 @@
     "Payment method": "Other",
     "Ticket price": "",
     "Ticket type": "Single",
-    "Check-in": "4 Aug 2020 at 18:40, 2 years before travel"
+    "Check-in": "4 Aug 2020 at 18:40, an hour before travel"
   },
   "TargetingIndicators": {
     "Total Score": "20",

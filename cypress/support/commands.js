@@ -485,6 +485,92 @@ Cypress.Commands.add(('getVehicleDetails'), (elements) => {
   });
 });
 
+Cypress.Commands.add(('getOccupantDetails'), () => {
+  const occupantArray = [];
+  cy.get('.task-details-container').each((occupant) => {
+    cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+      let obj = {};
+      cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+        cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+          cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+            .then((value) => {
+              obj[key] = value;
+            });
+        });
+      }).then(() => {
+        occupantArray.push(obj);
+      });
+    });
+  }).then(() => {
+    return occupantArray;
+  });
+});
+
+Cypress.Commands.add(('getTaskVersionDetailsDifferenceWithOccupants'), (version, index) => {
+  let valueLocator = '.font__bold .task-versions--highlight';
+  let difference = {};
+  cy.expandTaskDetails(index).then(() => {
+    cy.wrap(version).find('.task-versions--highlight').each((item) => {
+      cy.wrap(item).parent().then((valueElement) => {
+        if (valueElement.find(valueLocator).length > 0) {
+          cy.wrap(item).invoke('text').then((key) => {
+            cy.wrap(valueElement).find(valueLocator).invoke('text').then((value) => {
+              if (key in difference) {
+                if (`${key}-dup` in difference) {
+                  difference[`${key}-dup-${1}`] = value;
+                } else {
+                  difference[`${key}-dup`] = value;
+                }
+              } else {
+                difference[key] = value;
+              }
+            });
+          });
+        } else {
+          cy.wrap(item).invoke('text').then((key) => {
+            if (key in difference) {
+              if (`${key}-dup` in difference) {
+                difference[`${key}-dup-${1}`] = '';
+              } else {
+                difference[`${key}-dup`] = '';
+              }
+            } else {
+              difference[key] = '';
+            }
+          });
+        }
+      });
+    });
+  }).then(() => {
+    console.log(difference);
+    return difference;
+  });
+  //
+  //
+  //
+  //
+  //
+  //
+  // const occupantArray = [];
+  // cy.get('.task-details-container').each((occupant) => {
+  //   cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+  //     let obj = {};
+  //     cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+  //       cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+  //         cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+  //             .then((value) => {
+  //               obj[key] = value;
+  //             });
+  //       });
+  //     }).then(() => {
+  //       occupantArray.push(obj);
+  //     });
+  //   });
+  // }).then(() => {
+  //   return occupantArray;
+  // });
+});
+
 Cypress.Commands.add(('getOccupantCounts'), () => {
   const obj = {};
   cy.get('.task-details-container').eq(1).within(() => {
@@ -512,7 +598,7 @@ Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
 
 Cypress.Commands.add('collapseTaskDetails', () => {
   cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
-    if (value === true) {
+    if (value === 'true') {
       cy.get('.govuk-accordion__section-button').click();
     }
   });
@@ -681,21 +767,21 @@ function getTaskSummary(businessKey) {
       }
     });
 
-    cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
-      cy.wrap(driverDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.driverFirstName = info;
-          } else if (index === 1) {
-            taskSummary.driverLastName = info;
-          } else {
-            taskSummary.driverNumberOfTrips = info;
-          }
+    if (businessKey.includes('Accompanied')) {
+      cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
+        cy.wrap(driverDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.driverFirstName = info;
+            } else if (index === 1) {
+              taskSummary.driverLastName = info;
+            } else {
+              taskSummary.driverNumberOfTrips = info;
+            }
+          });
         });
       });
-    });
 
-    if (businessKey.includes('Accompanied')) {
       cy.wrap(element).contains('Vehicle details').next().then((vehicleDetails) => {
         cy.wrap(vehicleDetails).find('li').each((details, index) => {
           cy.wrap(details).invoke('text').then((info) => {
@@ -708,6 +794,14 @@ function getTaskSummary(businessKey) {
             } else {
               taskSummary.vehicleNumberOfTrips = info;
             }
+          });
+        });
+      });
+
+      cy.wrap(element).contains('Passenger details').next().then((passengerDetails) => {
+        cy.wrap(passengerDetails).find('li').each((details) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            taskSummary.passengerDetails = info;
           });
         });
       });
@@ -737,14 +831,6 @@ function getTaskSummary(businessKey) {
       cy.wrap(goodsDetails).find('li').each((details) => {
         cy.wrap(details).invoke('text').then((info) => {
           taskSummary.goods = info;
-        });
-      });
-    });
-
-    cy.wrap(element).contains('Passenger details').next().then((passengerDetails) => {
-      cy.wrap(passengerDetails).find('li').each((details) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          taskSummary.passengerDetails = info;
         });
       });
     });
@@ -811,8 +897,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   sectionHeading.set('vehicle', 'Vehicle');
   sectionHeading.set('account', 'Account details');
   sectionHeading.set('haulier', 'Haulier details');
-  sectionHeading.set('driver', 'Driver');
-  sectionHeading.set('passengers', 'Passengers');
+  sectionHeading.set('Occupants', 'Occupants');
   sectionHeading.set('goods', 'Goods');
   sectionHeading.set('booking', 'Booking and check-in');
   sectionHeading.set('rulesMatched', 'Rules matched');
@@ -849,12 +934,17 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'haulier')) {
     cy.verifyTaskDetailSection(expectedDetails.haulier, versionInRow, sectionHeading.get('haulier'));
   }
-  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'driver')) {
-    cy.verifyTaskDetailSection(expectedDetails.driver, versionInRow, sectionHeading.get('driver'));
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'Occupants')) {
+    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
+      cy.get('.govuk-task-details-col-3').within(() => {
+        cy.getOccupantDetails().then((actualoccupantDetails) => {
+          console.log('Occupant', actualoccupantDetails);
+          expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
+        });
+      });
+    });
   }
-  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'passengers')) {
-    cy.verifyTaskDetailSection(expectedDetails.passengers, versionInRow, sectionHeading.get('passengers'));
-  }
+
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'goods')) {
     cy.verifyTaskDetailSection(expectedDetails.goods, versionInRow, sectionHeading.get('goods'));
   }
@@ -870,16 +960,16 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
       });
     });
   }
-  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
-    let regex = new RegExp('^[0-9]+ selector matches$', 'g');
-    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h2', regex).then((locator) => {
-        cy.getAllRuleMatches(locator).then((actualSelectorMatches) => {
-          expect(actualSelectorMatches).to.deep.equal(expectedDetails.selectorMatch);
-        });
-      });
-    });
-  }
+  // if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
+  //   let regex = new RegExp('^[0-9]+ selector matches$', 'g');
+  //   cy.get(`[id$=-content-${versionInRow}]`).within(() => {
+  //     cy.contains('h2', regex).then((locator) => {
+  //       cy.getAllRuleMatches(locator).then((actualSelectorMatches) => {
+  //         expect(actualSelectorMatches).to.deep.equal(expectedDetails.selectorMatch);
+  //       });
+  //     });
+  //   });
+  // }
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'TargetingIndicators')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
       cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
@@ -968,7 +1058,7 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
           cy.wrap(element).invoke('text').then((value) => {
             const text = value.replace('Remove item', '');
             if (values.includes(text)) {
-              cy.wrap(element).find('button').click();
+              cy.wrap(element).find('button').click({ force: true });
             }
           });
         });
@@ -978,14 +1068,12 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = {};
   let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
-  let bookingDateTime;
   const dateFormat = 'D MMM YYYY [at] HH:mm';
+  let taskCreationDateTime = dayjs().format(dateFormat);
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
     const rndInt = Math.floor(Math.random() * 20) + 1;
     task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().add(rndInt, 'day').valueOf();
-    bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
-    bookingDateTime = Cypress.dayjs(bookingDateTime).format(dateFormat);
     let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
     if (taskName.includes('TSV')) {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
@@ -1009,7 +1097,7 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
           expect(taskSummary).to.deep.equal(expectedTaskSummary);
         });
       }
-      cy.checkTaskSummary(registrationNumber, bookingDateTime);
+      cy.checkTaskSummary(registrationNumber, taskCreationDateTime);
     });
   });
 });

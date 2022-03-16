@@ -15,14 +15,12 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('task-vehicle-null.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
-      bookingDateTime = Cypress.dayjs(bookingDateTime).format('D MMM YYYY [at] HH:mm');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
         cy.wait(4000);
         let businessKey = response.businessKey;
         cy.checkTaskDisplayed(businessKey);
-        cy.checkTaskSummary(null, bookingDateTime);
+        cy.checkTaskSummary(null, Cypress.dayjs().format('D MMM YYYY [at] HH:mm'));
         const nextPage = 'a[data-test="next"]';
         cy.visit('/tasks');
         cy.get('body').then(($el) => {
@@ -148,9 +146,10 @@ describe('Create task with different payload from Cerberus', () => {
       ],
     };
     cy.fixture('RoRo-Tourist-muliple-passengers.json').then((task) => {
-      let date = new Date();
-      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+      let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`).then((response) => {
         cy.wait(4000);

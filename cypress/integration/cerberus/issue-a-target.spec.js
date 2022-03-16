@@ -42,9 +42,17 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
 
     cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
-      let driverFirstName = targetData.driver.Name;
-      let driiverDOB = targetData.driver['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
-      let driverDocExpiry = targetData.driver['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
+      let driiverDOB = targetData.driverTIS['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
+      let driverDocExpiry = targetData.driverTIS['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
+
+      cy.get('.formio-component-driver').within(() => {
+        cy.verifyElementText('firstName', targetData.driverTIS.firstName);
+        cy.verifyElementText('lastName', targetData.driverTIS.lastName);
+        cy.verifyDate('dob', driiverDOB[0], driiverDOB[1], driiverDOB[2]);
+        cy.verifyElementText('docNumber', targetData.driverTIS['Travel document number']);
+        cy.verifyDate('docExpiry', driverDocExpiry[0], driverDocExpiry[1], driverDocExpiry[2]);
+      });
+
       cy.verifyElementText('name', targetData.vessel.name);
       cy.verifyElementText('company', targetData.vessel.shippingCompany);
       cy.verifyElementText('make', targetData.vehicle.Make);
@@ -55,14 +63,6 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
       cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
       cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
-
-      cy.get('.formio-component-driver').within(() => {
-        cy.verifyElementText('firstName', driverFirstName.split(' ')[0]);
-        cy.verifyElementText('lastName', driverFirstName.split(' ')[1]);
-        cy.verifyDate('dob', driiverDOB[0], driiverDOB[1], driiverDOB[2]);
-        cy.verifyElementText('docNumber', targetData.driver['Travel document number']);
-        cy.verifyDate('docExpiry', driverDocExpiry[0], driverDocExpiry[1], driverDocExpiry[2]);
-      });
 
       const name = 'passengers';
       let row = 0;
@@ -82,10 +82,10 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifySelectedCheckBox('detailsOf', ['haulier']);
 
       cy.get('.formio-component-haulier').within(() => {
-        cy.verifyElementText('name', targetData.haulier.name);
-        cy.verifyElementText('address', targetData.haulier.address);
-        cy.verifyElementText('city', targetData.haulier.city);
-        cy.verifyElementText('country', targetData.haulier.country);
+        cy.verifyElementText('name', targetData.haulierTIS.Name);
+        cy.verifyElementText('address', targetData.haulierTIS.Address);
+        cy.verifyElementText('city', targetData.haulierTIS.City);
+        cy.verifyElementText('country', targetData.haulierTIS.Country);
       });
 
       cy.get('.formio-component-account').within(() => {
@@ -332,10 +332,10 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifySelectedCheckBox('detailsOf', ['haulier']);
 
       cy.get('.formio-component-haulier').within(() => {
-        cy.verifyElementText('name', expectedDetails.haulier.name);
-        cy.verifyElementText('address', expectedDetails.haulier.address);
-        cy.verifyElementText('city', expectedDetails.haulier.city);
-        cy.verifyElementText('country', expectedDetails.haulier.country);
+        cy.verifyElementText('name', expectedDetails.haulierTIS.Name);
+        cy.verifyElementText('address', expectedDetails.haulierTIS.Address);
+        cy.verifyElementText('city', expectedDetails.haulierTIS.City);
+        cy.verifyElementText('country', expectedDetails.haulierTIS.Country);
       });
 
       cy.get('.formio-component-account').within(() => {

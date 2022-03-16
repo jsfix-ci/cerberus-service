@@ -94,6 +94,38 @@ describe('Targeter to see how long before a task is due to arrive So that Target
     cy.verifyBookingDateTime('23 Oct 2021 at 01:00, a month before travel');
   });
 
+  it('Should verify Difference between Passenger Passport validity & Arrival Date', () => {
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+    let arrivalDate = Cypress.dayjs('2021-02-15', 'YYYY-MM-DD').valueOf();
+    let departureDate = Cypress.dayjs('2021-01-01', 'YYYY-MM-DD').valueOf();
+    cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDate;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = departureDate;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      console.log(task.variables.rbtPayload.value);
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Occupant-passport-validity`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.get('[id$=-content-1]').within(() => {
+      cy.get('.govuk-task-details-col-3').within(() => {
+        cy.getOccupantDetails().as('actualOccupantDetails');
+      });
+    });
+
+    cy.get('@actualOccupantDetails').then((actualOccupantDetails) => {
+      let driverPassportValidityRange = actualOccupantDetails[1]['Validity3 years after travel'].slice(19);
+      let passenger1PassportValidityRange = actualOccupantDetails[3]['ValidityA year after travel'].slice(19);
+      let passenger2PassportValidityRange = actualOccupantDetails[5]['Validity14 days before travel'].slice(19);
+      expect(driverPassportValidityRange).to.be.equal('3 years after travel');
+      expect(passenger1PassportValidityRange).to.be.equal('A year after travel');
+      expect(passenger2PassportValidityRange).to.be.equal('14 days before travel');
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();

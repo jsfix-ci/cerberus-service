@@ -55,15 +55,22 @@
         "Telephone": "01243785239",
         "Mobile": ""
       },
-      "driver": {
-        "Name": "Ben Bailey",
-        "Date of birth": "27/10/1969",
-        "Gender": "M",
-        "Nationality": "GB",
-        "Travel document type": "",
-        "Travel document number": "",
-        "Travel document expiry": ""
-      },
+      "Occupants": [
+        {
+          "Driver": "Ben BaileyMale, born 27 Oct 1969, GB"
+        },
+        {
+          "Passport": "Unknown",
+          "ValidityUnknown": "UnknownUnknown"
+        },
+        {
+          "Occupant": "Bob BrownMale, born 12 Mar 1971, IR"
+        },
+        {
+          "Passport": "ST678457",
+          "Validity6 months after travel": "Expires 01 Feb 20216 months after travel"
+        }
+      ],
       "goods": {
         "Description": "Printed Paper",
         "Is cargo hazardous?": "No",
@@ -80,7 +87,7 @@
         "Payment method": "Account",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "4 Aug 2020 at 12:05, 2 hours before travel"
+        "Check-in": "4 Aug 2020 at 12:05, an hour before travel"
       }
     }
   ]

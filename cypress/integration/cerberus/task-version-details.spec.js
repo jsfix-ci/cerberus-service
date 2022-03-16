@@ -56,12 +56,6 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
       cy.contains('h3', 'Goods').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.goods);
@@ -92,11 +86,12 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h2', '2 selector matches').then((locator) => {
-        cy.getAllSelectorMatches(locator).then((actualSelectorMatches) => {
-          expect(actualSelectorMatches).to.deep.equal(expectedDetails.selector_matches);
+      cy.contains('h4', 'SR-200').nextAll().within((elements) => {
+        cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+          expect(expectedDetails.Selectors[0]).to.deep.equal(actualGroupDetails);
         });
       });
+
       // COP-6433 : Auto-expand current task version
       cy.collapseTaskDetails(0);
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
@@ -185,9 +180,25 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.getOccupantCounts().then((details) => {
+          expect(details).to.deep.equal(expectedDetails['occupant-count']);
+        });
+      });
+
+      const obj = {};
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.get('.govuk-grid-row').each((item) => {
+          cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+            cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+              cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                .then((value) => {
+                  obj[key] = value;
+                });
+            });
+          });
+        }).then(() => {
+          expect(obj).to.deep.equal(expectedDetails.driver);
         });
       });
 
@@ -248,21 +259,11 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.contains('h3', 'Passengers').next().within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[0]);
-          });
-        });
-        cy.get('.govuk-hidden-passengers').within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[1]);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.getOccupantDetails().then((actualoccupantDetails) => {
+            console.log(actualoccupantDetails);
+            expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
           });
         });
       });
@@ -314,21 +315,11 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.contains('h3', 'Passengers').next().within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[0]);
-          });
-        });
-        cy.get('.govuk-hidden-passengers').within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers[1]);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.getOccupantDetails().then((actualoccupantDetails) => {
+            console.log(actualoccupantDetails);
+            expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
           });
         });
       });
@@ -372,7 +363,6 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
-    let date = new Date();
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-different-versions-task_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
@@ -380,11 +370,11 @@ describe('Task Details of different tasks on task details Page', () => {
       'false',
     ];
 
-    date.setDate(date.getDate() + 8);
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -394,7 +384,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v2.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -404,7 +394,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v3.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
@@ -469,34 +459,86 @@ describe('Task Details of different tasks on task details Page', () => {
       expect(businessKeys.length).to.not.equal(0);
       cy.visit(`/tasks/${businessKeys[0]}`);
       cy.wait(3000);
-    });
+    }).then(() => {
+      // COP-8997 Verify Task version details are not changed after clicking on cancel button
+      cy.fixture('task-details-versions.json').then((expectedDetails) => {
+        cy.verifyTaskDetailAllSections(expectedDetails.versions[0], 1);
+        cy.get('[id$=-content-1]').within(() => {
+          cy.contains('h4', 'SR-200').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-3'][0]).to.deep.equal(actualGroupDetails);
+            });
+          });
 
-    // COP-8997 Verify Task version details are not changed after clicking on cancel button
-    cy.fixture('task-details-versions.json').then((expectedDetails) => {
-      cy.verifyTaskDetailAllSections(expectedDetails.versions[0], 1);
-    });
+          cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-3'][1]).to.deep.equal(actualGroupDetails);
+            });
+          });
 
-    cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
-      if (assignee.includes('Task not assigned')) {
-        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
-      }
-    });
+          cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-3'][2]).to.deep.equal(actualGroupDetails);
+            });
+          });
+        });
+      });
+      cy.get('p.govuk-body').eq(0).invoke('text').then((assignee) => {
+        if (assignee.includes('Task not assigned')) {
+          cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+        }
+      });
 
-    cy.contains('Issue target').click();
+      cy.contains('Issue target').click();
 
-    cy.wait(3000);
+      cy.wait(3000);
 
-    cy.contains('Cancel').click();
+      cy.contains('Cancel').click();
 
-    cy.on('window:confirm', (str) => {
-      expect(str).to.equal('Are you sure you want to cancel?');
-    });
+      cy.on('window:confirm', (str) => {
+        expect(str).to.equal('Are you sure you want to cancel?');
+      });
 
-    cy.on('window:confirm', () => true);
+      cy.on('window:confirm', () => true);
 
-    // Check Version 1 details are retained after clicking cancel button
-    cy.fixture('task-details-versions.json').then((expectedDetails) => {
-      cy.verifyTaskDetailAllSections(expectedDetails.versions[2], 3);
+      // Check Version 1 details are retained after clicking cancel button
+      cy.fixture('task-details-versions.json').then((expectedDetails) => {
+        cy.verifyTaskDetailAllSections(expectedDetails.versions[2], 3);
+        cy.expandTaskDetails(2);
+
+        cy.get('[id$=-content-3]').within(() => {
+          cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][0]).to.deep.equal(actualGroupDetails);
+            });
+          });
+
+          cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][1]).to.deep.equal(actualGroupDetails);
+            });
+          });
+
+          cy.contains('h4', 'null').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][2]).to.deep.equal(actualGroupDetails);
+            });
+          });
+
+          cy.contains('h4', 'SR-200').nextAll().within((elements) => {
+            cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+              console.log(actualGroupDetails);
+              expect(expectedDetails['Selectors-version-1'][3]).to.deep.equal(actualGroupDetails);
+            });
+          });
+        });
+      });
     });
   });
 
@@ -525,7 +567,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
 
       if (index !== firstVersionIndex) {
-        cy.getTaskVersionsDifference(element, index).then((differences) => {
+        cy.getTaskVersionDetailsDifferenceWithOccupants(element, index).then((differences) => {
           differencesInEachVersion.push(differences);
         });
       }
@@ -538,14 +580,14 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
 
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
+
     cy.fixture('RoRo-task-v1.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.businessKey = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -553,7 +595,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.fixture('RoRo-task-v2.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.businessKey = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -561,7 +603,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.fixture('RoRo-task-v3.json').then((task) => {
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.businessKey = businessKey;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -664,18 +706,16 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions with different passengers information', () => {
-    let date = new Date();
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-passenger-info_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     let departureDateTime;
-    let arrivalDataTime;
     const dateFormat = 'D MMM YYYY [at] HH:mm';
+    let arrivalDataTime = Cypress.dayjs().subtract(3, 'year').format(dateFormat);
 
-    date.setDate(date.getDate() + 8);
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('/task-version-passenger/RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = Cypress.dayjs().add(15, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(15, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().subtract(2, 'day').format('YYYY-MM-DDThh:mm:ss');
@@ -688,8 +728,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('/task-version-passenger/RoRo-task-v2.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = Cypress.dayjs().add(2, 'month').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualDepartureTimestamp = Cypress.dayjs().add(2, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime = Cypress.dayjs().subtract(1, 'day').format('YYYY-MM-DDThh:mm:ss');
@@ -702,8 +741,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('/task-version-passenger/RoRo-task-v3.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      arrivalDataTime = Cypress.dayjs(date.getTime()).utc().format(dateFormat);
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       departureDateTime = Cypress.dayjs().add(13, 'day').valueOf();
       task.variables.rbtPayload.value.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureDateTime;
       departureDateTime = Cypress.dayjs(departureDateTime).utc().format(dateFormat);
@@ -724,7 +762,7 @@ describe('Task Details of different tasks on task details Page', () => {
           'Departure': `${departureDateTime}   DOV`,
           'Arrival': `CAL      ${arrivalDataTime}`,
           'vehicle': 'Vehicle with TrailerGB09KLT-10685 with NL-234-392 driven by Bobby Brownshoes',
-          'Account': 'Arrival 8 days before travel',
+          'Account': 'Arrival 3 years ago',
         };
 
         cy.checkTaskSummaryDetails().then((taskSummary) => {
@@ -748,7 +786,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
-  it('Should verify passenger details on different version on task details page', () => {
+  it.skip('Should verify passenger details on different version on task details page', () => {
     cy.getBusinessKey('-RORO-Accompanied-Freight-passenger-info_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.checkTaskDisplayed(businessKeys[0]);
@@ -767,14 +805,13 @@ describe('Task Details of different tasks on task details Page', () => {
 
   // COP-6905 Scenario-2
   it('Should verify only one versions are created for a task when the attribute for the target indicators in the payload not changed', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-target-indicators-same-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -784,7 +821,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v1-target-update.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
@@ -855,14 +892,12 @@ describe('Task Details of different tasks on task details Page', () => {
 
   // COP-6905 Scenario-3
   it('Should verify 2 versions are created for a task when the payload has different target indicators', () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-target-indicators-diff-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     cy.fixture('RoRo-task-v1.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -872,7 +907,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v1-target-update.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null);
     });
@@ -882,7 +917,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('RoRo-task-v3-target-update.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
-      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, null).then((response) => {
         cy.wait(15000);
@@ -1037,16 +1072,11 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Driver').next().within(() => {
-        cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.driver);
-        });
-      });
-
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.contains('h3', 'Passengers').next().within(() => {
-          cy.getTaskDetails().then((details) => {
-            expect(details).to.deep.equal(expectedDetails.passengers);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.getOccupantDetails().then((actualoccupantDetails) => {
+            console.log(actualoccupantDetails);
+            expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
           });
         });
       });
@@ -1106,8 +1136,6 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
     });
 
-    let passengers = [];
-
     cy.fixture('tourist-task-with-multiple-passengers.json').then((expectedDetails) => {
       cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
         cy.wrap(elements).filter('.govuk-task-details-grid-row').eq(1).within(() => {
@@ -1133,21 +1161,28 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Primary Traveller').next().within((elements) => {
-        cy.getVehicleDetails(elements).then((details) => {
-          expect(details).to.deep.equal(expectedDetails['primary traveller']);
-        });
-      });
-
-      cy.contains('h3', 'Other travellers').nextAll().within((elements) => {
-        cy.wrap(elements).find('.govuk-task-details-grid-column').each((element) => {
-          cy.wrap(element).within(() => {
-            cy.getTaskDetails().then((details) => {
-              passengers.push(details);
+      cy.get('[id$=-content-1]').within(() => {
+        cy.get('.govuk-task-details-col-3').within(() => {
+          cy.contains('h3', 'Other travellers').next().within((elements) => {
+            const occupantArray = [];
+            cy.wrap(elements).each((occupant) => {
+              cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+                let obj = {};
+                cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+                  cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+                    cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                      .then((value) => {
+                        obj[key] = value;
+                      });
+                  });
+                }).then(() => {
+                  occupantArray.push(obj);
+                });
+              });
+            }).then(() => {
+              expect(occupantArray).to.deep.equal(expectedDetails.Occupants);
             });
           });
-        }).then(() => {
-          expect(passengers).to.deep.equal(expectedDetails.passengers);
         });
       });
 

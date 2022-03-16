@@ -9,6 +9,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should navigate to task details page', () => {
+    cy.get('.govuk-radios__item [value=\'true\']')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
     cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
       cy.get('.govuk-task-list-card a').eq(0).click();
       cy.get('.govuk-caption-xl').invoke('text').then((taskTitle) => {
@@ -21,9 +28,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.get('.govuk-accordion__section-button').eq(0).click();
       }
     });
-    cy.get('.selectors').within(() => {
-      cy.get('.govuk-heading-m').should('contain.text', 'selector matches');
-    });
+    let regex = new RegExp('^[0-9]+ selector matches$', 'g');
+    cy.contains('h2', regex);
   });
 
   it('Should add notes for the selected tasks', () => {
@@ -623,7 +629,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         task.variables.rbtPayload.value.data.movement.persons[0].person.type = 'PERFDRIVER';
         let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
         task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`)
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-PERFDRIVER`)
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
@@ -720,11 +726,17 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             .then((response) => {
               cy.wait(4000);
               cy.checkTaskDisplayed(`${response.businessKey}`);
-              cy.contains('h3', 'Driver').next().within(() => {
-                cy.getTaskDetails().then((details) => {
-                  expect(details.Name).to.be.equal(expDriver);
+
+              if (expDriver === '') {
+                cy.contains('h3', 'Occupants').should('not.exist');
+              } else {
+                cy.contains('h3', 'Occupants').nextAll().within(() => {
+                  cy.contains('Driver').parent().nextAll().invoke('text')
+                    .then((driver) => {
+                      expect(driver).to.contain(expDriver);
+                    });
                 });
-              });
+              }
             });
         });
     });
@@ -736,6 +748,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      // COP-9101 Warning Details value should be 500 char length
+      task.variables.rbtPayload.value.data.matchedSelectors[3].warningDetails = 'Warningggg'.repeat(51);
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Selector-Group_reference-details`).then((response) => {
         cy.wait(4000);
