@@ -1506,3 +1506,11 @@ Cypress.Commands.add('getSelectorGroupInformation', (elements) => {
     return actualSelectorGroupDetails;
   });
 });
+
+Cypress.Commands.add('SelectInformBothFreightAndTouristOption', (elementName) => {
+  cy.get(`${formioComponent}${elementName}`).find('input').should('not.be.checked');
+
+  cy.get(`input[name="data[${elementName}]"]`).click();
+
+  cy.get(`${formioComponent}${elementName}`).find('input').should('be.checked');
+});
