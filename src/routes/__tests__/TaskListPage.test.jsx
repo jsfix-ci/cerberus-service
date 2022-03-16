@@ -763,6 +763,21 @@ describe('TaskListPage', () => {
     });
   });
 
+  it('should render a duplicate pagination', async () => {
+    countResponse.statusCounts.new = 150;
+    mockAxios
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, [countResponse])
+      .onPost('/targeting-tasks/pages')
+      .reply(200, taskListData);
+
+    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn() }, 'new')));
+
+    expect(screen.queryAllByText('Showing 1 - 100 of 150 results')).toHaveLength(2);
+    expect(screen.queryAllByText('Next')).toHaveLength(2);
+    expect(screen.queryAllByText('Last')).toHaveLength(2);
+  });
+
   describe('UseInterval Hook', () => {
     let callback = jest.fn();
 
