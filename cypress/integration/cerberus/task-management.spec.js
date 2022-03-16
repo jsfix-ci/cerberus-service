@@ -115,7 +115,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.verifyTasksSortedOnArrivalDateTime();
   });
 
-  it('Should verify tasks are sorted in correct order selectors with highest category should be at top of the list on task management page', () => {
+  it('Should generate tasks for sorting in correct order selectors with highest category should be at top of the list on task management page', () => {
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     let arrivalTime = Cypress.dayjs().subtract(3, 'day').valueOf();
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
@@ -154,6 +154,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       });
     });
 
+    let businessKey;
+
     cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -162,6 +164,22 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 2';
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-2`).then((response) => {
+        cy.wait(4000);
+        businessKey = response.businessKey;
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((reListTask) => {
+      reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      reListTask.businessKey = businessKey;
+      reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+      reListTask.variables.rbtPayload.value.data.movement.persons[0].person.gender = 'F';
+      reListTask.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      reListTask.variables.rbtPayload.value.data.matchedRules[2].rulePriority = 'Tier 2';
+      reListTask.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 2';
+      reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
+      cy.postTasks(reListTask, null).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
       });
