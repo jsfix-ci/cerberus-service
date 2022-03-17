@@ -270,7 +270,7 @@ const TaskDetailsPage = () => {
               <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
               {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
                 <>
-                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && <p className="govuk-tag govuk-tag--updatedTarget">New</p>}
+                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && <p className="govuk-tag govuk-tag--newTarget">New</p>}
                   <p className="govuk-body">
                     {getAssignee()}
                     <ClaimButton
