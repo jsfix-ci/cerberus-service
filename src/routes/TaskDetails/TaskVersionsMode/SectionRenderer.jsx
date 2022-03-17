@@ -23,6 +23,17 @@ import {
   hasCarrierCounts,
 } from '../../../utils/roroDataUtil';
 
+const replaceFieldName = (fieldName) => {
+  switch (true) {
+    case fieldName === 'Date and time':
+      return 'Booking date and time';
+    case fieldName === 'Check-in':
+      return 'Check-in date and time';
+    default:
+      return fieldName;
+  }
+};
+
 const discardDriver = (passengersField) => {
   const passengers = passengersField;
   const passengersWithNoDriver = passengers.childSets.slice(1);
@@ -50,7 +61,7 @@ const renderFields = (
         <div className={className} key={uuidv4()}>
           <ul>
             <li className="govuk-grid-key font__light">
-              {formatKey(content.type, content.fieldName)}
+              {formatKey(content.type, replaceFieldName(content.fieldName))}
             </li>
             <li className="govuk-grid-value font__bold">
               {link
@@ -110,6 +121,7 @@ const renderGoodsSection = (fieldSet) => {
 const renderBookingSection = (fieldSet) => {
   return renderVersionSection(fieldSet);
 };
+
 const applyHighlightLabel = (name, dob, gender, nationality) => {
   if (
     dob?.type.includes('-CHANGED')
