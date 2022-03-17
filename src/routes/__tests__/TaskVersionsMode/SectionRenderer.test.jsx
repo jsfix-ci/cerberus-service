@@ -122,6 +122,94 @@ describe('SectionRenderer', () => {
         </div>,
       ));
     });
+
+    it('should render replaced field name for date and time and check-in', () => {
+      const input = {
+        fieldSetName: 'field-set-name',
+        contents: [
+          {
+            fieldName: 'Date and time',
+            type: 'STRING',
+            content: 'value 1',
+            versionLastUpdated: null,
+            propName: 'field1',
+          },
+          {
+            fieldName: 'Check-in',
+            type: 'STRING',
+            content: 'value 2',
+            versionLastUpdated: null,
+            propName: 'field2',
+          },
+        ],
+      };
+
+      const section = renderBookingSection(input);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
+        <div className="task-details-container bottom-border-thick">
+          <h3 className="title-heading">field-set-name</h3>
+          <div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Booking date and time</span></li>
+                <li className="govuk-grid-value font__bold">value 1</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Check-in date and time</span></li>
+                <li className="govuk-grid-value font__bold">value 2</li>
+              </ul>
+            </div>
+          </div>
+        </div>,
+      ));
+    });
+
+    it('should leave field name for date and time and check-in untouched if not a match', () => {
+      const input = {
+        fieldSetName: 'field-set-name',
+        contents: [
+          {
+            fieldName: 'Date and timee',
+            type: 'STRING',
+            content: 'value 1',
+            versionLastUpdated: null,
+            propName: 'field1',
+          },
+          {
+            fieldName: 'Check-inn',
+            type: 'STRING',
+            content: 'value 2',
+            versionLastUpdated: null,
+            propName: 'field2',
+          },
+        ],
+      };
+
+      const section = renderBookingSection(input);
+
+      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
+        <div className="task-details-container bottom-border-thick">
+          <h3 className="title-heading">field-set-name</h3>
+          <div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Date and timee</span></li>
+                <li className="govuk-grid-value font__bold">value 1</li>
+              </ul>
+            </div>
+            <div className="govuk-task-details-grid-item">
+              <ul>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Check-inn</span></li>
+                <li className="govuk-grid-value font__bold">value 2</li>
+              </ul>
+            </div>
+          </div>
+        </div>,
+      ));
+    });
   });
 
   describe('renderVehicleSection', () => {
