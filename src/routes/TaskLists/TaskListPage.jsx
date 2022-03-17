@@ -9,7 +9,19 @@ import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
 // Config
-import { TARGETER_GROUP, TASK_OUTCOME_INSUFFICIENT_RESOURCES, TASK_OUTCOME_MISSED, TASK_OUTCOME_NEGATIVE, TASK_OUTCOME_NO_SHOW, TASK_OUTCOME_POSITIVE, TASK_OUTCOME_TARGET_WITHDRAWN, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../../constants';
+import {
+  TARGETER_GROUP,
+  TASK_OUTCOME_INSUFFICIENT_RESOURCES,
+  TASK_OUTCOME_MISSED,
+  TASK_OUTCOME_NEGATIVE,
+  TASK_OUTCOME_NO_SHOW,
+  TASK_OUTCOME_POSITIVE,
+  TASK_OUTCOME_TARGET_WITHDRAWN,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_IN_PROGRESS,
+  TASK_STATUS_NEW,
+  TASK_STATUS_TARGET_ISSUED,
+} from '../../constants';
 import config from '../../config';
 // Utils
 import useAxiosInstance from '../../utils/axiosInstance';
@@ -83,7 +95,12 @@ const TabStatusMapping = {
   complete: 'COMPLETE',
 };
 
-const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 }) => {
+const TasksTab = ({
+  taskStatus,
+  filtersToApply,
+  setError,
+  targetTaskCount = 0,
+}) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
@@ -111,7 +128,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     setLoading(true);
     if (camundaClientV1) {
       const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
-      const sortParams = (taskStatus === 'new' || taskStatus === 'inProgress')
+      const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
         ? [
           {
             field: 'arrival-date',
@@ -149,7 +166,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (!contents) {
       return risk.name;
     }
-    return contents.groupReference ? contents.groupReference : contents.localReference || contents.name;
+    return contents.groupReference
+      ? contents.groupReference
+      : contents.localReference || contents.name;
   };
 
   const extractThreatLevel = (risk) => {
@@ -157,7 +176,18 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (!contents) {
       return risk.rulePriority;
     }
-    return contents.category ? <span className="govuk-body">SELECTOR <span className="govuk-tag govuk-tag--riskTier">{contents.category}</span></span> : <span className="govuk-tag govuk-tag--riskTier">{contents.rulePriority}</span>;
+    return contents.category ? (
+      <span className="govuk-body">
+        SELECTOR{' '}
+        <span className="govuk-tag govuk-tag--riskTier">
+          {contents.category}
+        </span>
+      </span>
+    ) : (
+      <span className="govuk-tag govuk-tag--riskTier">
+        {contents.rulePriority}
+      </span>
+    );
   };
 
   const extractRiskType = (risk) => {
@@ -173,22 +203,33 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (highestRisk) {
       const topRisk = extractRiskType(highestRisk);
       const count = risksRules > 0 && risksRules - 1;
-      return `${topRisk} and ${pluralise.withCount(count, '% other rule', '% other rules')}`;
+      return `${topRisk} and ${pluralise.withCount(
+        count,
+        '% other rule',
+        '% other rules',
+      )}`;
     }
     return null;
   };
 
   const formatTargetIndicators = (target) => {
     if (target.threatIndicators?.length > 0) {
-      const threatIndicatorList = target.threatIndicators.map((threatIndicator) => {
-        return threatIndicator.userfacingtext;
-      });
+      const threatIndicatorList = target.threatIndicators.map(
+        (threatIndicator) => {
+          return threatIndicator.userfacingtext;
+        },
+      );
       return (
         <ul className="govuk-list item-list--bulleted">
-          <li>{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>{threatIndicatorList.map((threat) => {
-            return (
-              <li key={threat}>{threat}</li>
-            );
+          <li>
+            {`${pluralise.withCount(
+              threatIndicatorList.length,
+              '% indicator',
+              '% indicators',
+            )}`}
+          </li>
+          {threatIndicatorList.map((threat) => {
+            return <li key={threat}>{threat}</li>;
           })}
         </ul>
       );
@@ -229,7 +270,13 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
       default:
         break;
     }
-    return outcomeText && <p className={`govuk-body govuk-tag govuk-tag--${outcomeClass}`}>{outcomeText}</p>;
+    return (
+      outcomeText && (
+        <p className={`govuk-body govuk-tag govuk-tag--${outcomeClass}`}>
+          {outcomeText}
+        </p>
+      )
+    );
   };
 
   const hasOutcome = (target) => {
@@ -241,7 +288,9 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const hasRelistedStatus = (target) => {
     if (target.isRelisted) {
       return (
-        <p className="govuk-body govuk-tag govuk-tag--relistedTarget">Relisted</p>
+        <p className="govuk-body govuk-tag govuk-tag--relistedTarget">
+          Relisted
+        </p>
       );
     }
   };
@@ -291,16 +340,22 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     if (selectors && selectors.length) {
       selectors.map((selector) => {
         const category = selector.contents.category;
-        if (sortedThreatsArray[categoryThreatMapping[category]]) sortedThreatsArray[parseInt(categoryThreatMapping[category], 10) + 1] = selector;
-        else sortedThreatsArray[parseInt(categoryThreatMapping[category], 10)] = selector;
+        if (sortedThreatsArray[categoryThreatMapping[category]]) {
+          sortedThreatsArray[
+            parseInt(categoryThreatMapping[category], 10) + 1
+          ] = selector;
+        } else {
+          sortedThreatsArray[parseInt(categoryThreatMapping[category], 10)] = selector;
+        }
       });
     }
 
-    if (!selectors?.length && (rules && rules.length)) {
+    if (!selectors?.length && rules && rules.length) {
       rules.map((rule) => {
         const position = rule.contents.rulePriority.split(' ')[1];
-        if (sortedThreatsArray[position]) sortedThreatsArray[parseInt(position, 10) + 1] = rule;
-        else sortedThreatsArray[parseInt(position, 10)] = rule;
+        if (sortedThreatsArray[position]) {
+          sortedThreatsArray[parseInt(position, 10) + 1] = rule;
+        } else sortedThreatsArray[parseInt(position, 10)] = rule;
       });
     }
 
@@ -311,106 +366,138 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
 
   return (
     <>
-      {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
+      {isLoading && (
+        <LoadingSpinner>
+          <br />
+          <br />
+          <br />
+        </LoadingSpinner>
+      )}
       {!isLoading && targetTasks.length === 0 && (
         <p className="govuk-body-l">No more tasks available</p>
       )}
 
-      {!isLoading && targetTasks.length > 0 && targetTasks.map((target) => {
-        const roroData = modifyRoRoPassengersTaskList({ ...target.summary.roro.details });
-        const movementModeIcon = getMovementModeIcon(target.movementMode, roroData.vehicle, roroData.passengers);
-        const highestRisk = target.summary.risks[0] || getHighestThreatLevel(target.summary.risks);
-        return (
-          <div className="govuk-task-list-card" key={target.summary.parentBusinessKey.businessKey}>
-            <div className="card-container">
-              <section className="task-list--item-1">
-                <div className="govuk-grid-row">
-                  <div className="govuk-grid-item">
-                    <div className="title-container">
-                      <div className="heading-container">
-                        <h4 className="govuk-heading-s task-heading">
-                          {target.summary.parentBusinessKey.businessKey}
-                        </h4>
+      {!isLoading && targetTasks.length > 0 && (
+        <Pagination
+          totalItems={targetTaskCount}
+          itemsPerPage={itemsPerPage}
+          activePage={activePage}
+          totalPages={totalPages}
+        />
+      )}
+
+      {!isLoading
+        && targetTasks.length > 0
+        && targetTasks.map((target) => {
+          const roroData = modifyRoRoPassengersTaskList({
+            ...target.summary.roro.details,
+          });
+          const movementModeIcon = getMovementModeIcon(
+            target.movementMode,
+            roroData.vehicle,
+            roroData.passengers,
+          );
+          const highestRisk = target.summary.risks[0]
+            || getHighestThreatLevel(target.summary.risks);
+          return (
+            <div
+              className="govuk-task-list-card"
+              key={target.summary.parentBusinessKey.businessKey}
+            >
+              <div className="card-container">
+                <section className="task-list--item-1">
+                  <div className="govuk-grid-row">
+                    <div className="govuk-grid-item">
+                      <div className="title-container">
+                        <div className="heading-container">
+                          <h4 className="govuk-heading-s task-heading">
+                            {target.summary.parentBusinessKey.businessKey}
+                          </h4>
+                        </div>
+                      </div>
+                      <div className="govuk-grid-column task-highest-risk">
+                        {highestRisk && (
+                          <span className="govuk-body">
+                            {extractDescription(highestRisk)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="govuk-grid-column">
+                        {highestRisk && extractThreatLevel(highestRisk)}
+                        <span className="govuk-body task-risk-statement">
+                          {formatTargetRisk(target.summary, highestRisk)}
+                        </span>
+                      </div>
+                      <div className="govuk-grid-column">
+                        {hasUpdatedStatus(target.summary)}
+                        {hasRelistedStatus(target.summary)}
+                        {hasOutcome(target)}
                       </div>
                     </div>
-                    <div className="govuk-grid-column task-highest-risk">
-                      {highestRisk && (
-                      <span className="govuk-body">
-                        {extractDescription(highestRisk)}
-                      </span>
-                      )}
-                    </div>
-                    <div className="govuk-grid-column">
-                      {highestRisk && (
-                        extractThreatLevel(highestRisk)
-                      )}
-                      <span className="govuk-body task-risk-statement">
-                        {formatTargetRisk(target.summary, highestRisk)}
-                      </span>
-                    </div>
-                    <div className="govuk-grid-column">
-                      {hasUpdatedStatus(target.summary)}
-                      {hasRelistedStatus(target.summary)}
-                      {hasOutcome(target)}
-                    </div>
-                  </div>
-                  <div className="govuk-grid-item">
-                    <div className="govuk-!-font-size-19">
-                      <div className="claim-button-container">
-                        <div>
-                          {(activeTab === TASK_STATUS_NEW || activeTab === TASK_STATUS_IN_PROGRESS || currentUser === target.assignee)
-                          && (
-                            <ClaimButton
-                              className="govuk-!-font-weight-bold govuk-button"
-                              assignee={target.assignee}
-                              taskId={target.id}
-                              setError={setError}
-                              businessKey={target.summary.parentBusinessKey.businessKey}
-                            />
-                          )}
+                    <div className="govuk-grid-item">
+                      <div className="govuk-!-font-size-19">
+                        <div className="claim-button-container">
+                          <div>
+                            {(activeTab === TASK_STATUS_NEW
+                              || activeTab === TASK_STATUS_IN_PROGRESS
+                              || currentUser === target.assignee) && (
+                              <ClaimButton
+                                className="govuk-!-font-weight-bold govuk-button"
+                                assignee={target.assignee}
+                                taskId={target.id}
+                                setError={setError}
+                                businessKey={
+                                  target.summary.parentBusinessKey.businessKey
+                                }
+                              />
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </section>
-              <TaskListMode roroData={roroData} target={target} movementModeIcon={movementModeIcon} />
-              <section className="task-list--item-4">
-                <div className="govuk-grid-row">
-                  <div className="govuk-grid-item">
-                    <div className="govuk-grid-column">
-                      <ul className="govuk-list task-labels govuk-!-margin-top-2">
-                        <li className="task-labels-item">
-                          <strong className="govuk-!-font-weight-bold">
-                            {calculateTaskListTotalRiskScore(target.summary)}
-                          </strong>
-                        </li>
-                      </ul>
+                </section>
+                <TaskListMode
+                  roroData={roroData}
+                  target={target}
+                  movementModeIcon={movementModeIcon}
+                />
+                <section className="task-list--item-4">
+                  <div className="govuk-grid-row">
+                    <div className="govuk-grid-item">
+                      <div className="govuk-grid-column">
+                        <ul className="govuk-list task-labels govuk-!-margin-top-2">
+                          <li className="task-labels-item">
+                            <strong className="govuk-!-font-weight-bold">
+                              {calculateTaskListTotalRiskScore(target.summary)}
+                            </strong>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="govuk-grid-column">
+                        <ul className="govuk-list task-labels govuk-!-margin-top-0">
+                          <li className="task-labels-item">
+                            {formatTargetIndicators(target.summary)}
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <div className="govuk-grid-column">
-                      <ul className="govuk-list task-labels govuk-!-margin-top-0">
-                        <li className="task-labels-item">
-                          {formatTargetIndicators(target.summary)}
-                        </li>
-                      </ul>
+                    <div className="govuk-grid-item task-link-container">
+                      <div>
+                        <Link
+                          className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+                          to={`/tasks/${target.summary.parentBusinessKey.businessKey}`}
+                        >
+                          View details
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                  <div className="govuk-grid-item task-link-container">
-                    <div>
-                      <Link
-                        className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-                        to={`/tasks/${target.summary.parentBusinessKey.businessKey}`}
-                      >
-                        View details
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
 
       <Pagination
         totalItems={targetTaskCount}
@@ -476,11 +563,28 @@ const TaskListPage = () => {
   let filterPosition = 0;
 
   const getAppliedFilters = () => {
-    const taskId = localStorage.getItem('taskId') !== 'null' ? localStorage.getItem('taskId') : 'new';
-    if (localStorage.getItem('filterMovementMode') || localStorage.getItem('hasSelector')) {
-      const movementModes = defaultMovementModes.map((mode) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: mode.movementModes, hasSelectors: localStorage.getItem('hasSelector') ? localStorage.getItem('hasSelector') : mode.hasSelectors }));
-      const selectedFilters = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
-      const selectors = defaultHasSelectors.map((selector) => ({ taskStatuses: [TabStatusMapping[taskId]], movementModes: selectedFilters, hasSelectors: selector.hasSelectors }));
+    const taskId = localStorage.getItem('taskId') !== 'null'
+      ? localStorage.getItem('taskId')
+      : 'new';
+    if (
+      localStorage.getItem('filterMovementMode')
+      || localStorage.getItem('hasSelector')
+    ) {
+      const movementModes = defaultMovementModes.map((mode) => ({
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: mode.movementModes,
+        hasSelectors: localStorage.getItem('hasSelector')
+          ? localStorage.getItem('hasSelector')
+          : mode.hasSelectors,
+      }));
+      const selectedFilters = localStorage.getItem('filterMovementMode')
+        ? localStorage.getItem('filterMovementMode').split(',')
+        : [];
+      const selectors = defaultHasSelectors.map((selector) => ({
+        taskStatuses: [TabStatusMapping[taskId]],
+        movementModes: selectedFilters,
+        hasSelectors: selector.hasSelectors,
+      }));
       return movementModes.concat(selectors);
     }
 
@@ -522,7 +626,10 @@ const TaskListPage = () => {
     setTaskCountsByStatus();
     if (camundaClientV1) {
       try {
-        const count = await camundaClientV1.post('/targeting-tasks/status-counts', [activeFilters || {}]);
+        const count = await camundaClientV1.post(
+          '/targeting-tasks/status-counts',
+          [activeFilters || {}],
+        );
         setTaskCountsByStatus(count.data[0].statusCounts);
       } catch (e) {
         setError(e.message);
@@ -536,7 +643,10 @@ const TaskListPage = () => {
     setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
-        const countsResponse = await camundaClientV1.post('/targeting-tasks/status-counts', getAppliedFilters());
+        const countsResponse = await camundaClientV1.post(
+          '/targeting-tasks/status-counts',
+          getAppliedFilters(),
+        );
         setFiltersAndSelectorsCount(countsResponse.data);
       } catch (e) {
         setError(e.message);
@@ -558,7 +668,10 @@ const TaskListPage = () => {
         setMovementModesSelected([...movementModesSelected, option.optionName]);
       } else {
         const adjustedMovementModeSelected = [...movementModesSelected];
-        adjustedMovementModeSelected.splice(movementModesSelected.indexOf(option.optionName), 1);
+        adjustedMovementModeSelected.splice(
+          movementModesSelected.indexOf(option.optionName),
+          1,
+        );
         setMovementModesSelected(adjustedMovementModeSelected);
       }
     }
@@ -566,7 +679,9 @@ const TaskListPage = () => {
 
   const handleFilterApply = (e, resetToDefault) => {
     setLoading(true);
-    if (e) { e.preventDefault(); }
+    if (e) {
+      e.preventDefault();
+    }
     let apiParams = [];
     if (!resetToDefault) {
       localStorage.setItem('filterMovementMode', movementModesSelected);
@@ -595,7 +710,7 @@ const TaskListPage = () => {
     /* Clear checked options :
      * when hasSelectors was not selected, it stores 'null' as a string in the
      * localStorage so needs to be excluded in the if condition
-    */
+     */
     if (hasSelectors && hasSelectors !== 'null') {
       document.getElementById(hasSelectors).checked = false;
       setHasSelectors(null);
@@ -612,13 +727,19 @@ const TaskListPage = () => {
 
   const applySavedFiltersOnLoad = () => {
     const selectors = localStorage.getItem('hasSelector');
-    const movementModes = localStorage.getItem('filterMovementMode') ? localStorage.getItem('filterMovementMode').split(',') : [];
+    const movementModes = localStorage.getItem('filterMovementMode')
+      ? localStorage.getItem('filterMovementMode').split(',')
+      : [];
     setHasSelectors(selectors);
     setMovementModesSelected(movementModes);
 
     const selectedArray = [];
-    if (selectors) { selectedArray.push(selectors); }
-    if (movementModes?.length > 0) { selectedArray.push(...movementModes); }
+    if (selectors) {
+      selectedArray.push(selectors);
+    }
+    if (movementModes?.length > 0) {
+      selectedArray.push(...movementModes);
+    }
     setStoredFilters(selectedArray);
 
     const apiParams = {
@@ -634,13 +755,19 @@ const TaskListPage = () => {
 
   useEffect(() => {
     const selectedArray = [];
-    if (hasSelectors) { selectedArray.push(hasSelectors); } else { selectedArray.push('null'); }
-    if (movementModesSelected?.length > 0) { selectedArray.push(...movementModesSelected); }
+    if (hasSelectors) {
+      selectedArray.push(hasSelectors);
+    } else {
+      selectedArray.push('null');
+    }
+    if (movementModesSelected?.length > 0) {
+      selectedArray.push(...movementModesSelected);
+    }
     setStoredFilters(selectedArray);
   }, [hasSelectors, movementModesSelected]);
 
   useEffect(() => {
-    const isTargeter = (keycloak.tokenParsed.groups).indexOf(TARGETER_GROUP) > -1;
+    const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
     }
@@ -655,7 +782,8 @@ const TaskListPage = () => {
   }, []);
 
   const getDefaultFiltersAndSelectorsCount = (parentIndex, index) => {
-    return filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]?.statusCounts.total;
+    return filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]
+      ?.statusCounts.total;
   };
 
   const renderSelectedFiltersCount = () => {
@@ -679,14 +807,18 @@ const TaskListPage = () => {
   return (
     <>
       <h1 className="govuk-heading-xl">Task management</h1>
-      {!authorisedGroup && (<p>You are not authorised to view these tasks.</p>)}
-      {isLoading && <LoadingSpinner><br /><br /><br /></LoadingSpinner>}
+      {!authorisedGroup && <p>You are not authorised to view these tasks.</p>}
+      {isLoading && (
+        <LoadingSpinner>
+          <br />
+          <br />
+          <br />
+        </LoadingSpinner>
+      )}
       {error && (
         <ErrorSummary
           title="There is a problem"
-          errorList={[
-            { children: error },
-          ]}
+          errorList={[{ children: error }]}
         />
       )}
 
@@ -708,51 +840,72 @@ const TaskListPage = () => {
                 </button>
               </div>
 
-              {filters.length > 0 && filters.map((filterSet, parentIndex) => {
-                return (
-                  <div className="govuk-form-group" key={filterSet.filterLabel}>
-                    <fieldset className="govuk-fieldset">
-                      <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
-                        <h4 className="govuk-fieldset__heading">{filterSet.filterLabel}</h4>
-                      </legend>
-                      <ul className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}>
-                        {filterSet.filterOptions.map((option, index) => {
-                          let checked = !!((storedFilters && !!storedFilters.find((filter) => {
-                            if (filter === 'null' && option.optionName === 'any') return true;
-                            return filter === option.optionName;
-                          })));
-                          return (
-                            <li
-                              className={`govuk-${filterSet.filterClassPrefix}__item`}
-                              key={option.optionName}
-                            >
-                              <input
-                                className={`govuk-${filterSet.filterClassPrefix}__input`}
-                                id={option.optionName}
-                                name={filterSet.filterName}
-                                type={filterSet.filterType}
-                                value={option.optionName}
-                                checked={checked}
-                                onChange={(e) => {
-                                  checked = !checked;
-                                  handleFilterChange(e, option, filterSet);
-                                }}
-                                data-testid={`${filterSet.filterLabel}-${option.optionName}`}
-                              />
-                              <label
-                                className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
-                                htmlFor={option.optionName}
+              {filters.length > 0
+                && filters.map((filterSet, parentIndex) => {
+                  return (
+                    <div
+                      className="govuk-form-group"
+                      key={filterSet.filterLabel}
+                    >
+                      <fieldset className="govuk-fieldset">
+                        <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+                          <h4 className="govuk-fieldset__heading">
+                            {filterSet.filterLabel}
+                          </h4>
+                        </legend>
+                        <ul
+                          className={`govuk-${filterSet.filterClassPrefix} govuk-${filterSet.filterClassPrefix}--small`}
+                        >
+                          {filterSet.filterOptions.map((option, index) => {
+                            let checked = !!(
+                              storedFilters
+                              && !!storedFilters.find((filter) => {
+                                if (
+                                  filter === 'null'
+                                  && option.optionName === 'any'
+                                ) {
+                                  return true;
+                                }
+                                return filter === option.optionName;
+                              })
+                            );
+                            return (
+                              <li
+                                className={`govuk-${filterSet.filterClassPrefix}__item`}
+                                key={option.optionName}
                               >
-                                {option.optionLabel} ({showFilterAndSelectorCount(parentIndex, index)})
-                              </label>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </fieldset>
-                  </div>
-                );
-              })}
+                                <input
+                                  className={`govuk-${filterSet.filterClassPrefix}__input`}
+                                  id={option.optionName}
+                                  name={filterSet.filterName}
+                                  type={filterSet.filterType}
+                                  value={option.optionName}
+                                  checked={checked}
+                                  onChange={(e) => {
+                                    checked = !checked;
+                                    handleFilterChange(e, option, filterSet);
+                                  }}
+                                  data-testid={`${filterSet.filterLabel}-${option.optionName}`}
+                                />
+                                <label
+                                  className={`govuk-!-padding-right-1 govuk-label govuk-${filterSet.filterClassPrefix}__label`}
+                                  htmlFor={option.optionName}
+                                >
+                                  {option.optionLabel} (
+                                  {showFilterAndSelectorCount(
+                                    parentIndex,
+                                    index,
+                                  )}
+                                  )
+                                </label>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </fieldset>
+                    </div>
+                  );
+                })}
             </div>
             <button
               className="govuk-button"
@@ -792,7 +945,9 @@ const TaskListPage = () => {
                 },
                 {
                   id: TASK_STATUS_IN_PROGRESS,
-                  label: `In progress (${taskCountsByStatus?.inProgress || '0'})`,
+                  label: `In progress (${
+                    taskCountsByStatus?.inProgress || '0'
+                  })`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">In progress tasks</h2>
