@@ -177,12 +177,10 @@ const TasksTab = ({
       return risk.rulePriority;
     }
     return contents.category ? (
-      <span className="govuk-body">
-        SELECTOR{' '}
-        <span className="govuk-tag govuk-tag--riskTier">
-          {contents.category}
-        </span>
-      </span>
+      <>
+        <span className="govuk-body govuk-!-font-weight-bold">SELECTOR {' '}</span>
+        <span className="govuk-tag govuk-tag--riskTier">{contents.category}</span>
+      </>
     ) : (
       <span className="govuk-tag govuk-tag--riskTier">
         {contents.rulePriority}
@@ -417,7 +415,7 @@ const TasksTab = ({
                       </div>
                       <div className="govuk-grid-column task-highest-risk">
                         {highestRisk && (
-                          <span className="govuk-body">
+                          <span className="govuk-body govuk-!-font-weight-bold">
                             {extractDescription(highestRisk)}
                           </span>
                         )}
