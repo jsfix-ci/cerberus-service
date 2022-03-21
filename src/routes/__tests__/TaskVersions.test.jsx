@@ -254,4 +254,20 @@ describe('TaskVersions', () => {
 
     expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
   });
+
+  it('should render table headers when rules matched data is present', () => {
+    const expected = ['Entity type', 'Attribute', 'Operator', 'Value (s)'];
+
+    const { container } = render(<TaskVersions
+      taskSummaryBasedOnTIS={taskSummaryBasedOnTISData}
+      taskVersions={taskSingleVersion}
+      taskVersionDifferencesCounts={[0]}
+      movementMode="RORO Accompanied Freight"
+    />);
+
+    const rulesMatchedElement = container.querySelectorAll('.govuk-table__header');
+    for (let i = 0; i < expected.length - 1; i += 1) {
+      expect(rulesMatchedElement[i].textContent).toEqual(expected[i]);
+    }
+  });
 });
