@@ -18,6 +18,7 @@ import {
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
+  modifyCountryCodeIfPresent,
 } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
@@ -48,7 +49,8 @@ const footPassengersTaskVersion = (version, movementMode, movementModeIcon, task
   };
 
   const renderSecondColumn = () => {
-    const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    let bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    bookingField = modifyCountryCodeIfPresent(bookingField);
     const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
@@ -124,7 +126,8 @@ const footPassengerTaskVersion = (version, movementMode, movementModeIcon, taskS
   };
 
   const renderSecondColumn = () => {
-    const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    let bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    bookingField = modifyCountryCodeIfPresent(bookingField);
     const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
@@ -198,7 +201,8 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
   };
 
   const renderSecondColumn = () => {
-    const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    let bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    bookingField = modifyCountryCodeIfPresent(bookingField);
     const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">

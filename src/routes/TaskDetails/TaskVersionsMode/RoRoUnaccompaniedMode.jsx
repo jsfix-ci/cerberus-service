@@ -9,7 +9,10 @@ import {
   renderGoodsSection,
   renderBookingSection,
 } from './SectionRenderer';
-import { extractTaskVersionsBookingField } from '../../../utils/roroDataUtil';
+import {
+  extractTaskVersionsBookingField,
+  modifyCountryCodeIfPresent,
+} from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
@@ -41,7 +44,8 @@ const renderFirstColumn = (version, movementMode) => {
 const renderSecondColumn = (version, taskSummaryData) => {
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
-  const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+  let bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+  bookingField = modifyCountryCodeIfPresent(bookingField);
   const haulier = (haulierField !== null && haulierField !== undefined) && renderHaulierSection(haulierField);
   const account = (accountField !== null && accountField !== undefined) && renderAccountSection(accountField);
   const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);

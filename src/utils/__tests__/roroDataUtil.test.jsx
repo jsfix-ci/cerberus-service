@@ -2,7 +2,8 @@ import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
   hasCarrierCounts,
-  extractTaskVersionsBookingField } from '../roroDataUtil';
+  extractTaskVersionsBookingField,
+  modifyCountryCodeIfPresent } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -172,5 +173,45 @@ describe('RoRoData Util', () => {
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
 
     expect(modifiedCheckInTime).toBeFalsy();
+  });
+
+  it('Should return a country name from country code provided', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'GB',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('United Kingdom (GB)');
+  });
+
+  it('Should return Falsy when country code is not provided', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: null,
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBeFalsy();
   });
 });
