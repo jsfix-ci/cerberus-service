@@ -1,6 +1,8 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+import lookup from 'country-code-lookup';
+
 import {
   formatKey,
   formatField,
@@ -77,7 +79,7 @@ const renderFields = (
 
 const renderDocumentExpiry = (passportExpiry, arrivalTime) => {
   const expiry = arrivalTime
-    && passportExpiry
+    && passportExpiry !== 'Unknown'
     && `${arrivalTime},${moment(passportExpiry).format('YYYY-MM-DDTHH:mm:ss')}`;
   if (expiry) {
     return formatField('BOOKING_DATETIME', expiry)
@@ -146,6 +148,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
   const nationality = contents.find(
     ({ propName }) => propName === 'nationality',
   );
+  const passportCountryOfIssue = contents.find(({ propName }) => propName === 'docCountryOfIssue')?.content;
   const passportNumber = contents.find(
     ({ propName }) => propName === 'docNumber',
   );
@@ -217,6 +220,9 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
             >
               {passportNumber?.content || 'Unknown'}
             </span>
+          </p>
+          <p className="govuk-!-margin-bottom-0 font__bold">
+            {passportCountryOfIssue ? lookup.byIso(passportCountryOfIssue).country : 'Unknown'} ({passportCountryOfIssue || 'Unknown'})
           </p>
         </div>
         <div className="govuk-grid-column-full">

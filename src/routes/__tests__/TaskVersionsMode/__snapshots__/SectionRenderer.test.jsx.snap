@@ -1,0 +1,1785 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionRenderer renderOccupantsSection should not render hidden fields 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <details
+    className="govuk-details"
+    data-module="govuk-details"
+  >
+    <summary
+      className="govuk-details__summary"
+    >
+      <span
+        className="govuk-details__summary-text"
+      >
+        Show more
+      </span>
+    </summary>
+    <div
+      className="govuk-hidden-passengers"
+    >
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  MR OTHER PASSENGER 1
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  MRS OTHER PASSENGER 2
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should not show passenger heading if movement mode icon is the tourist group icon 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should render occupants when bookingDate value is null 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <details
+    className="govuk-details"
+    data-module="govuk-details"
+  >
+    <summary
+      className="govuk-details__summary"
+    >
+      <span
+        className="govuk-details__summary-text"
+      >
+        Show more
+      </span>
+    </summary>
+    <div
+      className="govuk-hidden-passengers"
+    >
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  <a
+                    href="http://localhost:4020/search?term=56565656&type=PERSON&fields=[\\"id\\"]"
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    MR OTHER PASSENGER
+                  </a>
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should return mulitple other passenger fields if present 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <details
+    className="govuk-details"
+    data-module="govuk-details"
+  >
+    <summary
+      className="govuk-details__summary"
+    >
+      <span
+        className="govuk-details__summary-text"
+      >
+        Show more
+      </span>
+    </summary>
+    <div
+      className="govuk-hidden-passengers"
+    >
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  MR OTHER PASSENGER 1
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  MRS OTHER PASSENGER 2
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should return other passenger entity search link if fields if present 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <details
+    className="govuk-details"
+    data-module="govuk-details"
+  >
+    <summary
+      className="govuk-details__summary"
+    >
+      <span
+        className="govuk-details__summary-text"
+      >
+        Show more
+      </span>
+    </summary>
+    <div
+      className="govuk-hidden-passengers"
+    >
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  <a
+                    href="http://localhost:4020/search?term=56565656&type=PERSON&fields=[\\"id\\"]"
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    MR OTHER PASSENGER
+                  </a>
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should return other passenger fields if present 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <details
+    className="govuk-details"
+    data-module="govuk-details"
+  >
+    <summary
+      className="govuk-details__summary"
+    >
+      <span
+        className="govuk-details__summary-text"
+      >
+        Show more
+      </span>
+    </summary>
+    <div
+      className="govuk-hidden-passengers"
+    >
+      <div>
+        <div
+          className="govuk-!-margin-bottom-4 bottom-border"
+        >
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span>
+                  Occupant
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span>
+                  MR OTHER PASSENGER
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+                <span
+                  className="font__bold undefined"
+                >
+                  , Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            className="govuk-grid-row govuk-!-margin-bottom-2"
+          >
+            <div
+              className="govuk-grid-column-full govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-1 font__light"
+              >
+                <span
+                  className="undefined"
+                >
+                  Passport
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+                 (
+                Unknown
+                )
+              </p>
+            </div>
+            <div
+              className="govuk-grid-column-full"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Validity
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-1"
+              >
+                <span
+                  className="font__bold undefined"
+                >
+                  Unknown
+                </span>
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                <span>
+                  Unknown
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should return second passenger entity search link if fields if present 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              <a
+                href="http://localhost:4020/search?term=98989898&type=PERSON&fields=[\\"id\\"]"
+                rel="noreferrer noopener"
+                target="_blank"
+              >
+                MRS SECOND PASSENGER
+              </a>
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantsSection should return second passenger fields if present 1`] = `
+<div
+  className="task-details-container"
+>
+  <div>
+    <div
+      className="govuk-!-margin-bottom-4 bottom-border"
+    >
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span>
+              Occupant
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span>
+              MRS SECOND PASSENGER
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+            <span
+              className="font__bold undefined"
+            >
+              , Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-row govuk-!-margin-bottom-2"
+      >
+        <div
+          className="govuk-grid-column-full govuk-!-margin-bottom-2"
+        >
+          <p
+            className="govuk-!-margin-bottom-1 font__light"
+          >
+            <span
+              className="undefined"
+            >
+              Passport
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__bold"
+          >
+            Unknown
+             (
+            Unknown
+            )
+          </p>
+        </div>
+        <div
+          className="govuk-grid-column-full"
+        >
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Validity
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-1"
+          >
+            <span
+              className="font__bold undefined"
+            >
+              Unknown
+            </span>
+          </p>
+          <p
+            className="govuk-!-margin-bottom-0 font__light"
+          >
+            <span>
+              Unknown
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

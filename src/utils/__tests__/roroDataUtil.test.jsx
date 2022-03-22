@@ -2,7 +2,8 @@ import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
   hasCarrierCounts,
-  extractTaskVersionsBookingField } from '../roroDataUtil';
+  extractTaskVersionsBookingField,
+  getCountryName } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -172,5 +173,25 @@ describe('RoRoData Util', () => {
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
 
     expect(modifiedCheckInTime).toBeFalsy();
+  });
+
+  it('Should return a country name from country code provided', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'GB',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = getCountryName(bookingFieldMinified);
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('United Kingdom (GB)');
   });
 });

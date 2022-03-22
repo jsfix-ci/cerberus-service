@@ -18,6 +18,7 @@ import {
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
+  getCountryName,
 } from '../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
@@ -48,7 +49,8 @@ const footPassengersTaskVersion = (version, movementMode, movementModeIcon, task
   };
 
   const renderSecondColumn = () => {
-    const bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    let bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
+    bookingField = getCountryName(bookingField);
     const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);
     return (
       <div className="govuk-task-details-col-2">
