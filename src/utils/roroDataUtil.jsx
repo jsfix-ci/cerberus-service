@@ -108,9 +108,9 @@ const modifyRoRoPassengersTaskList = (roroData) => {
 };
 
 /*
-* This method would return the country name using country-code-lookup npm module
+* This method would modify the country code using country-code-lookup npm module
 */
-const getCountryName = (bookingField) => {
+const modifyCountryCodeIfPresent = (bookingField) => {
   const countryCode = bookingField.contents?.find(({ propName }) => propName === 'country')?.content;
   const countryName = countryCode ? lookup.byIso(countryCode).country : 'Unknown';
   if (countryCode && countryName) {
@@ -184,4 +184,4 @@ export { modifyRoRoPassengersTaskList,
   extractTaskVersionsBookingField,
   getTaskDetailsTotalOccupants,
   hasCarrierCounts,
-  getCountryName };
+  modifyCountryCodeIfPresent };

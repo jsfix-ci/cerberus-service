@@ -18,7 +18,7 @@ import {
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
-  getCountryName,
+  modifyCountryCodeIfPresent,
 } from '../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
@@ -54,7 +54,7 @@ const renderSecondColumn = (version, taskSummaryData) => {
   const haulierField = version.find(({ propName }) => propName === 'haulier');
   const accountField = version.find(({ propName }) => propName === 'account');
   let bookingField = extractTaskVersionsBookingField(version, taskSummaryData);
-  bookingField = getCountryName(bookingField);
+  bookingField = modifyCountryCodeIfPresent(bookingField);
   const haulier = (haulierField !== null && haulierField !== undefined) && renderHaulierSection(haulierField);
   const account = (accountField !== null && accountField !== undefined) && renderAccountSection(accountField);
   const booking = (bookingField !== null && bookingField !== undefined) && renderBookingSection(bookingField);

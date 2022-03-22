@@ -149,6 +149,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
     ({ propName }) => propName === 'nationality',
   );
   const passportCountryOfIssue = contents.find(({ propName }) => propName === 'docCountryOfIssue')?.content;
+  const isValidCountryCode = passportCountryOfIssue && passportCountryOfIssue.length === 2;
   const passportNumber = contents.find(
     ({ propName }) => propName === 'docNumber',
   );
@@ -222,7 +223,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
             </span>
           </p>
           <p className="govuk-!-margin-bottom-0 font__bold">
-            {passportCountryOfIssue ? lookup.byIso(passportCountryOfIssue).country : 'Unknown'} ({passportCountryOfIssue || 'Unknown'})
+            {isValidCountryCode ? lookup.byIso(passportCountryOfIssue).country : 'Unknown'} ({isValidCountryCode ? passportCountryOfIssue : 'Unknown'})
           </p>
         </div>
         <div className="govuk-grid-column-full">
