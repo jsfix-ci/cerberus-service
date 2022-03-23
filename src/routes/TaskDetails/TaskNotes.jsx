@@ -22,6 +22,13 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
   const submitForm = useFormSubmit();
   const [activityLog, setActivityLog] = useState([]);
 
+  const escapeJSON = (input) => {
+    input = input.replace(/\\/g, '\\\\');
+    input = input.replace(/\n/g, '\\n');
+    input = input.replace(/"/g, '\\"');
+    return input;
+  };
+
   const getNotes = async () => {
     const [
       variableInstanceResponse,
@@ -101,6 +108,7 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
         <RenderForm
           onSubmit={
             async (data, form) => {
+              data.data.note = escapeJSON(data.data.note);
               await submitForm(
                 '/process-definition/key/noteSubmissionWrapper/submit-form',
                 businessKey,

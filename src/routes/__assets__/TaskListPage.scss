@@ -28,7 +28,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     justify-content: flex-start;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 1em;
 }
 
 .title-container {
@@ -97,6 +96,14 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     }
     .govuk-button {
         margin-bottom: 0px;
+    }
+    .govuk-grid-column {
+        &.task-highest-risk {
+            margin-top: 15px;
+        }
+    }
+    .govuk-tag {
+        padding-bottom: 2px;
     }
 }
 
@@ -223,7 +230,7 @@ ul.item-list--bulleted {
     }
     &.govuk-tag--riskTier {
         background-color: #BC2410;
-        margin-right: 0.5rem;
+        margin-right: 0.25rem;
         margin-bottom: 0.25rem;
     }
     &.govuk-tag--positiveOutcome {

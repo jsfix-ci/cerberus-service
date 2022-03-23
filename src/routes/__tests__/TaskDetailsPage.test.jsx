@@ -8,6 +8,8 @@ import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
 import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
 import noteFormFixure from '../__fixtures__/noteFormResponse.fixture.json';
+import targetModeFreight from '../__fixtures__/targetMode_RoRoFreight.fixture.json';
+import targetModeTourist from '../__fixtures__/targetMode_RoRoTourist.fixture.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -43,12 +45,14 @@ describe('TaskDetailsPage', () => {
   }];
 
   const mockTaskDetailsAxiosCalls = ({
+    modecode,
     processInstanceResponse,
     taskResponse,
     variableInstanceResponse,
     operationsHistoryResponse,
     taskHistoryResponse,
     noteFormResponse,
+    targetModeResponse,
   }) => {
     mockAxios
       .onGet('/process-instance', {
@@ -67,7 +71,9 @@ describe('TaskDetailsPage', () => {
       .onGet('/history/task', { params: { processInstanceId: '123', deserializeValues: false } })
       .reply(200, taskHistoryResponse)
       .onGet('/form/name/noteCerberus')
-      .reply(200, noteFormResponse);
+      .reply(200, noteFormResponse)
+      .onGet('/v2/entities/targetmode', { params: { mode: 'dataOnly', filter: `modecode=eq.${modecode}` } })
+      .reply(200, targetModeResponse);
   };
 
   it('should render TaskDetailsPage component with a loading state', () => {
@@ -88,6 +94,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -115,6 +123,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -137,6 +147,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -159,6 +171,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -181,6 +195,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorofrei',
+      targetModeResponse: targetModeFreight,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -203,6 +219,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorofrei',
+      targetModeResponse: targetModeFreight,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -225,6 +243,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -251,6 +271,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -275,6 +297,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorofrei',
+      targetModeResponse: targetModeFreight,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -305,6 +329,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorofrei',
+      targetModeResponse: targetModeFreight,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -325,6 +351,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
@@ -350,6 +378,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorofrei',
+      targetModeResponse: targetModeFreight,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -372,6 +402,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorofrei',
+      targetModeResponse: targetModeFreight,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -394,6 +426,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -416,33 +450,13 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryAllByText('New')).toHaveLength(1);
-  });
-
-  it('should render total occupants', async () => {
-    mockTaskDetailsAxiosCalls({
-      processInstanceResponse: [{ id: '123' }],
-      taskResponse: [
-        {
-          processInstanceId: '123',
-          assignee: 'test',
-          id: 'task123',
-          taskDefinitionKey: 'otherType',
-        },
-      ],
-      variableInstanceResponse: variableInstanceStatusNew,
-      operationsHistoryResponse: operationsHistoryFixture,
-      taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: noteFormFixure,
-    });
-
-    await waitFor(() => render(<TaskDetailsPage />));
-
-    expect(screen.queryAllByText('Total occupants')).toHaveLength(1);
   });
 
   it('should not render notes form when task not assigned', async () => {
@@ -460,14 +474,17 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+    expect(screen.queryByText('Task not assigned')).toBeInTheDocument();
   });
 
-  it('should render notes form when task is assigned to any user', async () => {
+  it('should render notes form when task is assigned to a current user', async () => {
     mockTaskDetailsAxiosCalls({
       processInstanceResponse: [{ id: '123' }],
       taskResponse: [
@@ -482,10 +499,13 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+    expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
   });
 });

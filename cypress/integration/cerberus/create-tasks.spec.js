@@ -20,8 +20,26 @@ describe('Create task with different payload from Cerberus', () => {
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
         cy.wait(4000);
-        cy.checkTaskDisplayed(`${response.businessKey}`);
+        let businessKey = response.businessKey;
+        cy.checkTaskDisplayed(businessKey);
         cy.checkTaskSummary(null, bookingDateTime);
+        const nextPage = 'a[data-test="next"]';
+        cy.visit('/tasks');
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+              cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                cy.get('.task-list--item-2 .govuk-grid-column-one-quarter').find('[class^=c-icon-]').should('not.exist');
+              });
+            });
+          } else {
+            cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+              cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                cy.get('.task-list--item-2 .govuk-grid-column-one-quarter').find('[class^=c-icon-]').should('not.exist');
+              });
+            });
+          }
+        });
       });
     });
   });
@@ -30,7 +48,7 @@ describe('Create task with different payload from Cerberus', () => {
     cy.createCerberusTask('RoRo-Tourist.json', 'TOURIST-WITH-PASSENGERS').then(() => {
       cy.wait(2000);
       cy.expandTaskDetails(0).then(() => {
-        cy.contains('h2', 'Rules matched').nextAll().within(() => {
+        cy.contains('h2', 'Rules matched').nextAll(() => {
           cy.getAllRuleMatches().then((actualRuleMatches) => {
             expect(actualRuleMatches['Abuse Type']).to.be.equal('Obscene Material');
           });
@@ -91,7 +109,7 @@ describe('Create task with different payload from Cerberus', () => {
     cy.createCerberusTask('tsv-no-departure-location.json', 'TSV-NO-DEPARTURE-LOCATION');
   });
 
-  it('Should create a task with payload contains risks array as null', () => {
+  it('Should create a task with payload contains risks array and arrival timestamp as null', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     cy.fixture('task-risks-null.json').then((task) => {
       let date = new Date();
@@ -103,7 +121,14 @@ describe('Create task with different payload from Cerberus', () => {
         cy.navigation('Tasks');
         cy.get('.govuk-heading-xl').should('have.text', 'Task management');
         cy.checkTaskDisplayed(`${response.businessKey}`);
-        cy.contains('0 selector matches');
+
+        // COP-9672 Display No Rule matches in task details if there are no Rule / Selector
+        cy.get('.task-versions .govuk-accordion__section').each((element) => {
+          cy.wrap(element).find('.task-versions--right .govuk-list li').eq(1).invoke('text')
+            .then((value) => {
+              expect('No rule matches').to.be.equal(value);
+            });
+        });
       });
     });
   });
@@ -127,7 +152,7 @@ describe('Create task with different payload from Cerberus', () => {
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULIPLE-PASSENGERS`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
@@ -157,6 +182,13 @@ describe('Create task with different payload from Cerberus', () => {
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-SINGLE-PASSENGER`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.visit('/tasks');
+
+        cy.get('.govuk-checkboxes [value=RORO_TOURIST]')
+          .click({ force: true });
+
+        cy.contains('Apply filters').click();
+        cy.wait(2000);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
           expect(taskDetails).to.deep.equal(expectedDetails);
         });
@@ -180,8 +212,27 @@ describe('Create task with different payload from Cerberus', () => {
       expect(businessKeys.length).to.not.equal(0);
       cy.wait(4000);
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
+      cy.visit('/tasks');
+
+      cy.get('.govuk-checkboxes [value=RORO_TOURIST]')
+        .click({ force: true });
+
+      cy.contains('Apply filters').click();
+      cy.wait(2000);
       cy.verifyTouristTaskSummary(`${businessKeys[0]}`).then((taskDetails) => {
         expect(taskDetails).to.deep.equal(expectedDetails);
+      });
+    });
+  });
+
+  it('Should create a task with a payload contains RoRo Tourist - no vehicle but has a lead and another passenger', () => {
+    cy.fixture('RoRo-Tourist-NoVehicle.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-TOURIST-NO-VEHICLE`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
       });
     });
   });

@@ -39,7 +39,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.selectDropDownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
 
     cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
       let driverFirstName = targetData.driver.Name;
@@ -78,6 +78,20 @@ describe('Issue target from cerberus UI using target sheet information form', ()
           cy.verifyDate('docExpiry', passengerDocExpiry[0], passengerDocExpiry[1], passengerDocExpiry[2]);
         });
       }
+
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', targetData.haulier.name);
+        cy.verifyElementText('address', targetData.haulier.address);
+        cy.verifyElementText('city', targetData.haulier.city);
+        cy.verifyElementText('country', targetData.haulier.country);
+      });
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', targetData.account['Full name']);
+        cy.verifyElementText('number', targetData.account['Reference number']);
+      });
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -88,6 +102,134 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.typeTodaysDateTime('eta');
 
       cy.verifySelectedDropdownValue('category', 'A');
+
+      cy.verifyElementText('manifestedLoad', 'Wine');
+
+      cy.multiSelectDropDown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
+
+      cy.verifyMultiSelectDropdown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
+
+      cy.removeOptionFromMultiSelectDropdown('strategy', [targetInfo.strategy[0]]);
+
+      cy.verifyMultiSelectDropdown('strategy', [targetInfo.strategy[2], targetInfo.strategy[3]]);
+
+      cy.selectDropDownValue('nominalType', 'Account');
+
+      cy.selectDropDownValue('checks', 'Anti Fraud Information System');
+
+      cy.typeValueInTextArea('comments', 'Nominal type comments for testing');
+
+      cy.selectRadioButton('warningsIdentified', 'No');
+
+      cy.clickNext();
+
+      cy.waitForNoErrors();
+
+      cy.verifySelectDropdown('teamToReceiveTheTarget', targetInfo.groups);
+
+      cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+    });
+
+    cy.clickSubmit();
+
+    cy.verifySuccessfulSubmissionHeader('Target created successfully');
+
+    cy.reload();
+
+    cy.get('@taskName').then((value) => {
+      cy.get('.govuk-caption-xl').should('have.text', value);
+    });
+
+    cy.get('.task-actions--buttons button').should('not.exist');
+
+    cy.contains('Back to task list').click();
+
+    cy.get('a[href="#issued"]').click();
+
+    cy.reload();
+
+    cy.get('a[href="#issued"]').click();
+
+    cy.get('@taskName').then((value) => {
+      cy.log('Task Name to be searched', value);
+      const nextPage = 'a[data-test="next"]';
+      if (Cypress.$(nextPage).length > 0) {
+        cy.findTaskInAllThePages(value, null, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      } else {
+        cy.findTaskInSinglePage(value, null, null).then((taskFound) => {
+          expect(taskFound).to.equal(true);
+        });
+      }
+    });
+  });
+
+  it('Should submit a target successfully from a RoRo-accompanied with No passengers task and it should be moved to target issued tab', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+
+    cy.fixture('target-information.json').as('inputData');
+
+    cy.fixture('RoRo-Freight-Accompanied-no-passengers.json').then((task) => {
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-No-Passengers`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+        });
+      });
+    });
+
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.contains('Issue target').click();
+
+    cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+
+    cy.fixture('accompanied-task-no-passengers.json').then((targetData) => {
+      let driverFirstName = targetData.driver.Name;
+      cy.verifyElementText('name', targetData.vessel.name);
+      cy.verifyElementText('company', targetData.vessel.shippingCompany);
+      cy.verifyElementText('registrationNumber', targetData.vehicle['Vehicle registration']);
+      cy.verifyElementText('regNumber', 'IR-6457');
+      cy.get('.formio-component-driver').within(() => {
+        cy.verifyElementText('firstName', driverFirstName.split(' ')[0]);
+        cy.verifyElementText('lastName', driverFirstName.split(' ')[1]);
+      });
+
+      const name = 'passengers';
+      cy.get(`.formio-component-${name} [ref="datagrid-${name}-tbody"]`).should('not.exist');
+
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', targetData.haulier.name);
+      });
+    });
+
+    cy.fixture('target-information.json').then((targetInfo) => {
+      cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
+
+      cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
+
+      cy.typeTodaysDateTime('eta');
+
+      cy.verifySelectedDropdownValue('category', 'B');
+
+      cy.verifyElementText('manifestedLoad', 'Wine');
 
       cy.multiSelectDropDown('strategy', [targetInfo.strategy[0], targetInfo.strategy[2], targetInfo.strategy[3]]);
 
@@ -179,7 +321,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.selectDropDownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
@@ -187,6 +329,19 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.get('.formio-component-registrationNationality').should('be.visible');
       cy.verifyElementText('name', expectedDetails.vessel.name);
       cy.verifyElementText('company', expectedDetails.vessel.shippingCompany);
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', expectedDetails.haulier.name);
+        cy.verifyElementText('address', expectedDetails.haulier.address);
+        cy.verifyElementText('city', expectedDetails.haulier.city);
+        cy.verifyElementText('country', expectedDetails.haulier.country);
+      });
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', expectedDetails.account['Full name']);
+        cy.verifyElementText('number', expectedDetails.account['Reference number']);
+      });
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
@@ -199,6 +354,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.typeTodaysDateTime('eta');
 
       cy.verifySelectedDropdownValue('category', 'B');
+
+      cy.verifyElementText('manifestedLoad', 'Corkscrews');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 
@@ -284,7 +441,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.selectDropDownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
@@ -392,7 +549,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
     cy.fixture('target-information.json').then((targetInfo) => {
-      cy.selectDropDownValue('mode', 'RoRo Tourist');
+      cy.verifySelectedDropdownValue('mode', 'RoRo Tourist');
 
       cy.fixture('tourist-task-2-passengers-details.json').then((targetData) => {
         let driverFirstName = targetData.driver.Name;
@@ -436,6 +593,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.typeTodaysDateTime('eta');
 
       cy.verifySelectedDropdownValue('category', 'C');
+
+      cy.get('.formio-component-account').should('have.class', 'formio-hidden');
 
       cy.selectDropDownValue('strategy', targetInfo.strategy[Math.floor(Math.random() * targetInfo.strategy.length)]);
 

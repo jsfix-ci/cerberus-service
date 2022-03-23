@@ -1,0 +1,1626 @@
+{
+  "variables": {
+    "rbtPayload": {
+      "value": {
+        "data": {
+          "movementId": "ROROXML:CMID=d7861bef82317fb7ae1dec28ddcbf2dc/791316f5e02f6ed40e68718156596fe2/323710d6c3d25c091755f1cc68cffb83",
+          "riskSubmissionId": 9446,
+          "riskCreatedDate": "2021-09-29T20:21:41.211353Z",
+          "riskType": "Pre-Arrival",
+          "matchedRules": [],
+          "matchedSelectors": [
+            {
+              "selectorId": 28,
+              "selectorReference": "2021-28",
+              "groupReference": "SR-215",
+              "groupVersionNumber": 1,
+              "startDate": "2021-09-29T08:56:12.552Z",
+              "endDate": "2021-09-30T22:59:59Z",
+              "category": "C",
+              "agencyCode": "Border Force (BF)",
+              "intelligenceSource": "SIP736452",
+              "pointOfContact": "SME Kerry Wilton",
+              "pocMessage": "Create selector matches on the surname Lopez",
+              "priority": "Selector",
+              "inboundActionCode": "Obtain details",
+              "outboundActionCode": "Obtain details",
+              "threatType": "Alcohol",
+              "notes": "notes",
+              "creator": "null",
+              "approver": "Kerry Wilton",
+              "securityLabels": [
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference": "SR-12",
+              "warnings": "No known warnings",
+              "requestingOfficer": "Kerry Wilton",
+              "requestingTeam": "RoRo accompanied",
+              "indicatorMatches": [
+                {
+                  "entity": "Person",
+                  "descriptor": "familyName",
+                  "operator": "equal",
+                  "value": "Lopez"
+                },
+                {
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist"
+                }
+              ],
+              "selectorMatchedOnDate": "2021-09-29T15:19:31.552Z"
+            }
+          ],
+          "movement": {
+            "cerberusMovementId": "ROROXML:CMID=d7861bef82317fb7ae1dec28ddcbf2dc/791316f5e02f6ed40e68718156596fe2/323710d6c3d25c091755f1cc68cffb83",
+            "firstCerberusTimestamp": 1632928764304,
+            "cerberusTimestamp": 1632946879579,
+            "latestMessageType": "ENRICH",
+            "messageAnalysis": {
+              "messageMatches": [
+                {
+                  "sourceMessageVersion": 1,
+                  "expectedMatches": 10,
+                  "countOfMatches": 11,
+                  "sourceMsgEnriches": 11
+                }
+              ],
+              "countOfSourceMessages": 1,
+              "countOfSnapshots": 10,
+              "countOfNoStateChanges": 4,
+              "countOfWashes": 2,
+              "countOfEnrichments": 11,
+              "firstRunlogTimestamp": 1632928764338,
+              "lastRunlogTimestamp": 1632928764338,
+              "firstSnapshotTimestamp": 1632928764319,
+              "lastSnapshotTimestamp": 1632946879579,
+              "firstNSCTimestamp": 1632928764304,
+              "lastNSCTimestamp": 1632928764727,
+              "firstWashTimestamp": 1632928769148,
+              "lastWashTimestamp": 1632928771936,
+              "firstEnrichTimestamp": 1632928764338,
+              "lastEnrichTimestamp": 1632928769148,
+              "matchesComplete": false,
+              "latestVersion": "1.11"
+            },
+            "serviceMovement": {
+              "metadata": {
+                "identityRecord": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:S=ea1f72f2594c607ab344e057a1682b16"
+                    },
+                    "v1": {
+                      "id": 105002606474410
+                    }
+                  },
+                  "type": "S"
+                },
+                "sourceRecord": {
+                  "name": "ROROXML",
+                  "shortName": "ROX",
+                  "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                  "id": "ea1f72f2594c607ab344e057a1682b16",
+                  "audit": {
+                    "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                    "createdTimestamp": 1632928764050,
+                    "updatedBy": null,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "gscMarker": null,
+                  "retentionMarkerDays": -1
+                },
+                "mappingRecord": {
+                  "name": "RR-XML-Service-Movement",
+                  "version": "1"
+                }
+              },
+              "type": "MOVEMENT",
+              "effectiveFromTimestamp": 1632935400000,
+              "effectiveToTimestamp": 1632936600000,
+              "dueTimestamp": null,
+              "status": null,
+              "movement": {
+                "type": "Pre-Arrival",
+                "businessIdentifier": "57047446",
+                "mode": "RORO Accompanied Freight",
+                "source": "DFDS",
+                "actualDepartureTimestamp": 1632935400000
+              },
+              "attributes": {
+                "attrs": {
+                  "reference": "57047446",
+                  "waybillNumber": "63",
+                  "method": "Other",
+                  "hazardousCargo": "false",
+                  "paymentMethod": "Account",
+                  "bookingCountry": "XX",
+                  "goodsDescription": "GLUCOSE SYRUP",
+                  "journeyLeg": "Outbound"
+                }
+              },
+              "features": {
+                "feats": {
+                  "SELECTORS-MATCHED-LIST": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        "META:28|2021-28|SR-12|2021-09-29T08:56:12.552Z|2021-09-30T22:59:59Z|Border Force (BF)|RoRo accompanied|Kerry Wilton|C|Obtain details|Obtain details|SME Kerry Wilton|Create selector matches on the surname Lopez|No known warnings|Alcohol|SIP736452|Test Surname Lopez|Kerry Wilton|notes|null|Selector|DATA_RISK_PREARRIVAL",
+                        "INDICATORS:28|Person|familyName|equal|Lopez¬Message|mode|in|RORO Accompanied Freight,RORO Tourist"
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1632928771552
+                  },
+                  "RORO-BOOKING-MOVEMENT-CO-TRAVELLERS": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": null,
+                    "valueList": {
+                      "val": []
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1632928766175
+                  },
+                  "SELECTOR-MATCHED": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": true,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": 1632928771552
+                  },
+                  "TASK-EXISTS": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "STRING",
+                    "value": "CERB-ROROXML:CMID=d7861bef82317fb7ae1dec28ddcbf2dc/791316f5e02f6ed40e68718156596fe2",
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:isHazardousGoods": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "BOOL",
+                    "value": false,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  }
+                }
+              },
+              "changeHistory": null
+            },
+            "persons": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=b2574f34bf932e4578133d40aeb2c02c"
+                      },
+                      "v1": {
+                        "id": 101001158213831
+                      }
+                    },
+                    "type": "P"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "b2574f34bf932e4578133d40aeb2c02c",
+                    "audit": {
+                      "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "createdTimestamp": 1632928764050,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  }
+                },
+                "type": "PERSON",
+                "person": {
+                  "type": "PERFDRIVER",
+                  "title": null,
+                  "familyName": "CHEESE",
+                  "givenName": "JOHN",
+                  "fullName": "JOHN CHEESE",
+                  "dateOfBirth": 3610,
+                  "dateOfDeath": null,
+                  "gender": "M",
+                  "nationality": "PL",
+                  "yearOfBirth": 1979,
+                  "monthOfBirth": 11,
+                  "dayOfBirth": 20,
+                  "countryOfBirth": null,
+                  "placeOfBirth": null,
+                  "ethnicity": null,
+                  "maritalStatus": null,
+                  "religion": null,
+                  "passportNumber": "JOHN_CHEESE_PASSPORT_NUMBER"
+                },
+                "attributes": {
+                  "attrs": {
+                    "role": "DRIVER"
+                  }
+                },
+                "matching": {
+                  "svxId": 1242208113305382935,
+                  "selfScore": 196,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1629925142013
+                },
+                "features": {
+                  "feats": {
+                    "STANDARDISED:dateOfBirth": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "STRING",
+                      "value": "1979-11-20",
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
+                "washResponses": [
+                  {
+                    "matched": {
+                      "poleId": 101000406437070,
+                      "sourceSystem": "SIP01008",
+                      "entityType": "SVP_PER",
+                      "entityId": 1242208113305382935,
+                      "selfScore": 0,
+                      "matchScore": 196,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928771902
+                    },
+                    "partyRecord": null,
+                    "objectRecordArray": null,
+                    "locationRecordArray": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 101001014610405,
+                      "sourceSystem": "RHXP01016",
+                      "entityType": "SVP_PER",
+                      "entityId": 1242208113305382935,
+                      "selfScore": 0,
+                      "matchScore": 196,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928771902
+                    },
+                    "partyRecord": null,
+                    "objectRecordArray": null,
+                    "locationRecordArray": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 101001158213831,
+                      "sourceSystem": "SIPP01016",
+                      "entityType": "SVP_PER",
+                      "entityId": 1242208113305382935,
+                      "selfScore": 0,
+                      "matchScore": 196,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928771902
+                    },
+                    "partyRecord": null,
+                    "objectRecordArray": null,
+                    "locationRecordArray": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 101000483334096,
+                      "sourceSystem": "APIP01008",
+                      "entityType": "SVP_PER",
+                      "entityId": 1242208113305382935,
+                      "selfScore": 0,
+                      "matchScore": 180,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928771902
+                    },
+                    "partyRecord": null,
+                    "objectRecordArray": null,
+                    "locationRecordArray": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 101000483028533,
+                      "sourceSystem": "APIP01008",
+                      "entityType": "SVP_PER",
+                      "entityId": 1242208113305382935,
+                      "selfScore": 0,
+                      "matchScore": 180,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928771902
+                    },
+                    "partyRecord": null,
+                    "objectRecordArray": null,
+                    "locationRecordArray": null
+                  }
+                ],
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1242208113305382935,
+                    "selfScore": 0,
+                    "matchScore": 196,
+                    "version": 1,
+                    "timestamp": 1632928771902
+                  }
+                },
+                "changeHistory": null
+              }
+            ],
+            "organisations": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=4a329b6bbb095704f672778410452f08"
+                      },
+                      "v1": {
+                        "id": 101002606474309
+                      }
+                    },
+                    "type": "P"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "4a329b6bbb095704f672778410452f08",
+                    "audit": {
+                      "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "createdTimestamp": 1632928764050,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  }
+                },
+                "type": "ORGANISATION",
+                "organisation": {
+                  "type": "ORGBOOKER",
+                  "name": "NA",
+                  "registrationNumber": null,
+                  "vatNumber": null,
+                  "industrySector": null,
+                  "numberOfEmployees": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "countryOfBooking": "XX",
+                    "reference": "57047446",
+                    "paymentMethod": "Account",
+                    "method": "Other",
+                    "journeyLeg": "Outbound"
+                  }
+                },
+                "matching": {
+                  "svxId": 1443234071948341314,
+                  "selfScore": 35,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1632928791492
+                },
+                "features": null,
+                "washResponses": null,
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1443234071948341314,
+                    "selfScore": 35,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1632928791492
+                  }
+                },
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1632928822802,
+                      "state": {
+                        "creationTimestamp": 1632928764178,
+                        "updateTimestamp": 1632928822731,
+                        "version": 1
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.party.PartyRecord/#matching",
+                            "property": "svxId",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "1443234071948341314"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.party.PartyRecord/#matching",
+                            "property": "selfScore",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "35"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.party.PartyRecord/#matching",
+                            "property": "version",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "0"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.party.PartyRecord/#matching",
+                            "property": "timestamp",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "2021-09-29T15:19:51.492Z"
+                            },
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=287552967a6e75c23b613dbe24f05e2a"
+                      },
+                      "v1": {
+                        "id": 101001085669674
+                      }
+                    },
+                    "type": "P"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "287552967a6e75c23b613dbe24f05e2a",
+                    "audit": {
+                      "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "createdTimestamp": 1632928764050,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Party",
+                    "version": "1"
+                  }
+                },
+                "type": "ORGANISATION",
+                "organisation": {
+                  "type": "ORGACCOUNT",
+                  "name": "Menzies Distribution Solution LTD",
+                  "registrationNumber": null,
+                  "vatNumber": null,
+                  "industrySector": null,
+                  "numberOfEmployees": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "referenceNumber": "90954",
+                    "holderName": "Menzies Distribution Solution LTD"
+                  }
+                },
+                "matching": {
+                  "svxId": 1425158360309649409,
+                  "selfScore": 74,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1629474922938
+                },
+                "features": null,
+                "washResponses": null,
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1425158360309649409,
+                    "selfScore": 74,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1629474922938
+                  }
+                },
+                "changeHistory": null
+              }
+            ],
+            "documents": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=b2574f34bf932e4578133d40aeb2c02c,O=67bb202c9af4fd6120a1e409bc4501a4"
+                      },
+                      "v1": {
+                        "id": 102001158213824
+                      }
+                    },
+                    "type": "O"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "67bb202c9af4fd6120a1e409bc4501a4",
+                    "audit": {
+                      "createdBy": "K+Oq+dFS7iwTq1BcWb3Guw==",
+                      "createdTimestamp": 1629651720698,
+                      "updatedBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "updatedTimestamp": 1632928764050,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Document",
+                    "version": "1"
+                  }
+                },
+                "type": "DOCUMENT",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=b2574f34bf932e4578133d40aeb2c02c"
+                    },
+                    "v1": {
+                      "id": 101001158213831
+                    }
+                  },
+                  "type": "P"
+                },
+                "role": "PTOOUSES",
+                "startTimestamp": 1632928764050,
+                "endTimestamp": null,
+                "name": null,
+                "description": null,
+                "additionalInformation": null,
+                "url": null,
+                "document": {
+                  "type": "OBJDOCPAS",
+                  "value": "JOHN_CHEESE_PASSPORT_NUMBER",
+                  "subject": null,
+                  "category": "P",
+                  "status": null,
+                  "placeOfIssue": null,
+                  "countryOfIssue": "PL",
+                  "dateOfIssue": null,
+                  "validFromDate": null,
+                  "expiryDate": 20845
+                },
+                "attributes": {
+                  "attrs": {
+                    "documentType": "Passport"
+                  }
+                },
+                "matching": {
+                  "svxId": 1243188293511512112,
+                  "selfScore": 50,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1629927163757
+                },
+                "features": {
+                  "feats": {
+                    "STANDARDISED:expiryDate": {
+                      "id": null,
+                      "type": null,
+                      "valueType": "STRING",
+                      "value": "2027-01-27",
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
+                "washResponses": null,
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1243188293511512112,
+                    "selfScore": 50,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1629927163757
+                  }
+                },
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1632928764624,
+                      "state": {
+                        "creationTimestamp": 1629651720854,
+                        "updateTimestamp": 1632928764182,
+                        "version": 17
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/",
+                            "property": "startTimestamp",
+                            "propertyChange": {
+                              "oldValue": "2021-09-28T16:39:56.446Z",
+                              "newValue": "2021-09-29T15:19:24.050Z"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#metadata/sourceRecord",
+                            "property": "location",
+                            "propertyChange": {
+                              "oldValue": "archive/GroupId=none/CollectionDate=2021-09-28/DataFeedId=417/DataFeedTaskId=46461350/LFDOVCAL20211725.XML.271_20210928_163907265",
+                              "newValue": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#metadata/sourceRecord/audit",
+                            "property": "updatedBy",
+                            "propertyChange": {
+                              "oldValue": "Hf4d6SVNpKnanKPI7iotIg==",
+                              "newValue": "AEnlkn47ORWunOxSvkE8uA=="
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#metadata/sourceRecord/audit",
+                            "property": "updatedTimestamp",
+                            "propertyChange": {
+                              "oldValue": "2021-09-28T16:39:56.446Z",
+                              "newValue": "2021-09-29T15:19:24.050Z"
+                            },
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "vehicles": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=null[9d1c5a37a77c623bf59d3219d3f1efb5],O=9d1c5a37a77c623bf59d3219d3f1efb5"
+                      },
+                      "v1": {
+                        "id": 102002606474343
+                      }
+                    },
+                    "type": "O"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "9d1c5a37a77c623bf59d3219d3f1efb5",
+                    "audit": {
+                      "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "createdTimestamp": 1632928764050,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Vehicle",
+                    "version": "1"
+                  }
+                },
+                "type": "VEHICLE",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=null[9d1c5a37a77c623bf59d3219d3f1efb5]"
+                    },
+                    "v1": {
+                      "id": 101002606474376
+                    }
+                  },
+                  "type": "P"
+                },
+                "role": "UNKNOWN",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "name": null,
+                "description": null,
+                "additionalInformation": null,
+                "url": null,
+                "vehicle": {
+                  "type": "OBJVEHCTRL",
+                  "make": null,
+                  "model": null,
+                  "vin": null,
+                  "registrationNumber": "S6915848",
+                  "registrationCountry": null,
+                  "year": null,
+                  "colour": null,
+                  "markings": null
+                },
+                "matching": {
+                  "svxId": 1425227284350922883,
+                  "selfScore": 40,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1632946811923
+                },
+                "features": null,
+                "washResponses": [
+                  {
+                    "matched": {
+                      "poleId": 102001017169315,
+                      "sourceSystem": "SIPO04006",
+                      "entityType": "SVO_OBJ",
+                      "entityId": 1425227284350922883,
+                      "selfScore": 0,
+                      "matchScore": 40,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928769117
+                    },
+                    "objectRecord": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 102001020303141,
+                      "sourceSystem": "RHXO04006",
+                      "entityType": "SVO_OBJ",
+                      "entityId": 1425227284350922883,
+                      "selfScore": 0,
+                      "matchScore": 40,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928769117
+                    },
+                    "objectRecord": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 102001021657807,
+                      "sourceSystem": "RHXO04006",
+                      "entityType": "SVO_OBJ",
+                      "entityId": 1425227284350922883,
+                      "selfScore": 0,
+                      "matchScore": 40,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928769117
+                    },
+                    "objectRecord": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 102001024161438,
+                      "sourceSystem": "RHXO04006",
+                      "entityType": "SVO_OBJ",
+                      "entityId": 1425227284350922883,
+                      "selfScore": 0,
+                      "matchScore": 40,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928769117
+                    },
+                    "objectRecord": null
+                  },
+                  {
+                    "matched": {
+                      "poleId": 102001026217334,
+                      "sourceSystem": "RHXO04006",
+                      "entityType": "SVO_OBJ",
+                      "entityId": 1425227284350922883,
+                      "selfScore": 0,
+                      "matchScore": 40,
+                      "comparisonDetail": null,
+                      "version": 1,
+                      "lastChangedTimestamp": 1632928769117
+                    },
+                    "objectRecord": null
+                  }
+                ],
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1425227284350922883,
+                    "selfScore": 40,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1632946811923
+                  }
+                },
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1632928801401,
+                      "state": {
+                        "creationTimestamp": 1632928764197,
+                        "updateTimestamp": 1632928801354,
+                        "version": 1
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": "svxId",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "1443233967828930708"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": "selfScore",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "40"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": "version",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "0"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": "timestamp",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "2021-09-29T15:19:26.577Z"
+                            },
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1632946879579,
+                      "state": {
+                        "creationTimestamp": 1632928764197,
+                        "updateTimestamp": 1632946867287,
+                        "version": 2
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": "svxId",
+                            "propertyChange": {
+                              "oldValue": "1443233967828930708",
+                              "newValue": "1425227284350922883"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#matching",
+                            "property": "timestamp",
+                            "propertyChange": {
+                              "oldValue": "2021-09-29T15:19:26.577Z",
+                              "newValue": "2021-09-29T20:20:11.923Z"
+                            },
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=null[241013c82a5a67f0e271390cc744855f],O=241013c82a5a67f0e271390cc744855f"
+                      },
+                      "v1": {
+                        "id": 102001158213871
+                      }
+                    },
+                    "type": "O"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "241013c82a5a67f0e271390cc744855f",
+                    "audit": {
+                      "createdBy": "K+Oq+dFS7iwTq1BcWb3Guw==",
+                      "createdTimestamp": 1629651720698,
+                      "updatedBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "updatedTimestamp": 1632928764050,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Object-Vehicle",
+                    "version": "1"
+                  }
+                },
+                "type": "VEHICLE",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=null[241013c82a5a67f0e271390cc744855f]"
+                    },
+                    "v1": {
+                      "id": 101001158213873
+                    }
+                  },
+                  "type": "P"
+                },
+                "role": "UNKNOWN",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "name": null,
+                "description": null,
+                "additionalInformation": null,
+                "url": null,
+                "vehicle": {
+                  "type": "OBJVEHC",
+                  "make": null,
+                  "model": null,
+                  "vin": null,
+                  "registrationNumber": "PX19LFK",
+                  "registrationCountry": "XX",
+                  "year": null,
+                  "colour": null,
+                  "markings": null
+                },
+                "matching": {
+                  "svxId": 1425159350576361473,
+                  "selfScore": 40,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1629927162354
+                },
+                "features": null,
+                "washResponses": null,
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1425159350576361473,
+                    "selfScore": 40,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1629927162354
+                  }
+                },
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1632928764734,
+                      "state": {
+                        "creationTimestamp": 1629651720869,
+                        "updateTimestamp": 1632928764193,
+                        "version": 17
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "MAP_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#attributes",
+                            "property": "attrs",
+                            "propertyChange": null,
+                            "entryChange": [
+                              {
+                                "type": "CHANGED",
+                                "key": "netWeight",
+                                "propertyChange": {
+                                  "oldValue": "0",
+                                  "newValue": "27220"
+                                }
+                              },
+                              {
+                                "type": "CHANGED",
+                                "key": "grossWeight",
+                                "propertyChange": {
+                                  "oldValue": "15000",
+                                  "newValue": "42220"
+                                }
+                              },
+                              {
+                                "type": "CHANGED",
+                                "key": "statusOfLoading",
+                                "propertyChange": {
+                                  "oldValue": "Empty",
+                                  "newValue": "Loaded"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#metadata/sourceRecord/audit",
+                            "property": "updatedBy",
+                            "propertyChange": {
+                              "oldValue": "Hf4d6SVNpKnanKPI7iotIg==",
+                              "newValue": "AEnlkn47ORWunOxSvkE8uA=="
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#metadata/sourceRecord/audit",
+                            "property": "updatedTimestamp",
+                            "propertyChange": {
+                              "oldValue": "2021-09-28T16:39:56.446Z",
+                              "newValue": "2021-09-29T15:19:24.050Z"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.object.ObjectRecord/#metadata/sourceRecord",
+                            "property": "location",
+                            "propertyChange": {
+                              "oldValue": "archive/GroupId=none/CollectionDate=2021-09-28/DataFeedId=417/DataFeedTaskId=46461350/LFDOVCAL20211725.XML.271_20210928_163907265",
+                              "newValue": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219"
+                            },
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "vessel": {
+              "metadata": {
+                "identityRecord": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=null[ac51f7b093e4fa24beae70e53347fd11],O=ac51f7b093e4fa24beae70e53347fd11"
+                    },
+                    "v1": {
+                      "id": 102001085666358
+                    }
+                  },
+                  "type": "O"
+                },
+                "sourceRecord": {
+                  "name": "ROROXML",
+                  "shortName": "ROX",
+                  "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                  "id": "ac51f7b093e4fa24beae70e53347fd11",
+                  "audit": {
+                    "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                    "createdTimestamp": 1632928764050,
+                    "updatedBy": null,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "gscMarker": null,
+                  "retentionMarkerDays": -1
+                },
+                "mappingRecord": {
+                  "name": "RR-XML-Object-Vessel",
+                  "version": "1"
+                }
+              },
+              "type": "VESSEL",
+              "party": {
+                "poleId": {
+                  "v2": {
+                    "id": "ROROXML:P=null[ac51f7b093e4fa24beae70e53347fd11]"
+                  },
+                  "v1": null
+                },
+                "type": "P"
+              },
+              "role": "UNKNOWN",
+              "startTimestamp": null,
+              "endTimestamp": null,
+              "name": null,
+              "description": null,
+              "additionalInformation": null,
+              "url": null,
+              "vessel": {
+                "type": "OBJVESWTR",
+                "name": "COTE DES DUNES",
+                "operator": "DFDS",
+                "registrationNumber": null,
+                "registrationCountry": null,
+                "registrationPort": null,
+                "mmsi": null,
+                "imo": null,
+                "callSign": null
+              },
+              "attributes": null,
+              "matching": {
+                "svxId": 1426216808942071809,
+                "selfScore": 0,
+                "matchScore": null,
+                "version": 0,
+                "timestamp": 1628871559735
+              },
+              "features": null,
+              "washResponses": null,
+              "matchMerge": {
+                "matching": {
+                  "svxId": 1426216808942071809,
+                  "selfScore": 0,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1628871559735
+                }
+              },
+              "changeHistory": null
+            },
+            "addresses": [
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=287552967a6e75c23b613dbe24f05e2a,L=f9ef9e6b44985656acf4c29e18ff377f"
+                      },
+                      "v1": {
+                        "id": 103001085669629
+                      }
+                    },
+                    "type": "L"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "f9ef9e6b44985656acf4c29e18ff377f",
+                    "audit": {
+                      "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "createdTimestamp": 1632928764050,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Location-Address",
+                    "version": "1"
+                  }
+                },
+                "type": "ADDRESS",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=287552967a6e75c23b613dbe24f05e2a"
+                    },
+                    "v1": null
+                  },
+                  "type": "P"
+                },
+                "role": "PTOLASSO",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "address": {
+                  "type": "LOCADDR",
+                  "postCode": "NN17 1NN",
+                  "poBox": null,
+                  "fullAddress": "Max Park Bangrave Road CORBY NN17 1NN GB",
+                  "name": "Menzies Distribution Solution LTD",
+                  "siteLocation": null,
+                  "number": null,
+                  "street": null,
+                  "town": "CORBY",
+                  "area": null,
+                  "district": null,
+                  "county": null,
+                  "country": "GB",
+                  "uniquePropertyReferenceNumber": null,
+                  "latitude": null,
+                  "longitude": null
+                },
+                "attributes": {
+                  "attrs": {
+                    "addressLine1": "Max Park",
+                    "addressLine2": "Bangrave Road"
+                  }
+                },
+                "matching": {
+                  "svxId": 1334057504825630725,
+                  "selfScore": 54,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1629435637081
+                },
+                "features": null,
+                "washResponses": null,
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1334057504825630725,
+                    "selfScore": 54,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1629435637081
+                  }
+                },
+                "changeHistory": null
+              },
+              {
+                "metadata": {
+                  "identityRecord": {
+                    "poleId": {
+                      "v2": {
+                        "id": "ROROXML:P=4a329b6bbb095704f672778410452f08,L=f860f899481da8b5682158d18252be9f"
+                      },
+                      "v1": {
+                        "id": 103002606474596
+                      }
+                    },
+                    "type": "L"
+                  },
+                  "sourceRecord": {
+                    "name": "ROROXML",
+                    "shortName": "ROX",
+                    "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                    "id": "f860f899481da8b5682158d18252be9f",
+                    "audit": {
+                      "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                      "createdTimestamp": 1632928764050,
+                      "updatedBy": null,
+                      "updatedTimestamp": null,
+                      "deletedBy": null,
+                      "deletedTimestamp": null
+                    }
+                  },
+                  "complianceRecord": {
+                    "visibility": "UNKNOWN",
+                    "gscMarker": null,
+                    "retentionMarkerDays": -1
+                  },
+                  "mappingRecord": {
+                    "name": "RR-XML-Location-Address",
+                    "version": "1"
+                  }
+                },
+                "type": "ADDRESS",
+                "party": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:P=4a329b6bbb095704f672778410452f08"
+                    },
+                    "v1": {
+                      "id": 101002606474309
+                    }
+                  },
+                  "type": "P"
+                },
+                "role": "PTOLASSO",
+                "startTimestamp": null,
+                "endTimestamp": null,
+                "address": {
+                  "type": "LOCADDR",
+                  "postCode": null,
+                  "poBox": null,
+                  "fullAddress": "XX",
+                  "name": "NA",
+                  "siteLocation": null,
+                  "number": null,
+                  "street": null,
+                  "town": null,
+                  "area": null,
+                  "district": null,
+                  "county": null,
+                  "country": "XX",
+                  "uniquePropertyReferenceNumber": null,
+                  "latitude": null,
+                  "longitude": null
+                },
+                "attributes": {
+                  "attrs": {}
+                },
+                "matching": {
+                  "svxId": 1443234072644534460,
+                  "selfScore": 18,
+                  "matchScore": null,
+                  "version": 0,
+                  "timestamp": 1632928791568
+                },
+                "features": null,
+                "washResponses": null,
+                "matchMerge": {
+                  "matching": {
+                    "svxId": 1443234072644534460,
+                    "selfScore": 18,
+                    "matchScore": null,
+                    "version": 0,
+                    "timestamp": 1632928791568
+                  }
+                },
+                "changeHistory": {
+                  "changes": [
+                    {
+                      "sourceVersion": 1,
+                      "cerberusTimestamp": 1632928830579,
+                      "state": {
+                        "creationTimestamp": 1632928764274,
+                        "updateTimestamp": 1632928830473,
+                        "version": 1
+                      },
+                      "change": {
+                        "type": "STATE_CHANGE_SERVICE",
+                        "changes": [
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.location.LocationRecord/#matching",
+                            "property": "svxId",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "1443234072644534460"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.location.LocationRecord/#matching",
+                            "property": "selfScore",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "18"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.location.LocationRecord/#matching",
+                            "property": "version",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "0"
+                            },
+                            "entryChange": null
+                          },
+                          {
+                            "type": "VALUE_CHANGED",
+                            "object": "uk.gov.ho.dacc.pole.location.LocationRecord/#matching",
+                            "property": "timestamp",
+                            "propertyChange": {
+                              "oldValue": null,
+                              "newValue": "2021-09-29T15:19:51.568Z"
+                            },
+                            "entryChange": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "contacts": null,
+            "voyage": {
+              "metadata": {
+                "identityRecord": {
+                  "poleId": {
+                    "v2": {
+                      "id": "ROROXML:S=2e8e5ddd271b268741cde104f69bb598"
+                    },
+                    "v1": {
+                      "id": 105002606471782
+                    }
+                  },
+                  "type": "S"
+                },
+                "sourceRecord": {
+                  "name": "ROROXML",
+                  "shortName": "ROX",
+                  "location": "archive/GroupId=none/CollectionDate=2021-09-29/DataFeedId=417/DataFeedTaskId=46633894/LFCALDOV20211710.XML.272_20210929_151801219",
+                  "id": "2e8e5ddd271b268741cde104f69bb598",
+                  "audit": {
+                    "createdBy": "AEnlkn47ORWunOxSvkE8uA==",
+                    "createdTimestamp": 1632928764050,
+                    "updatedBy": null,
+                    "updatedTimestamp": null,
+                    "deletedBy": null,
+                    "deletedTimestamp": null
+                  }
+                },
+                "complianceRecord": {
+                  "visibility": "UNKNOWN",
+                  "gscMarker": null,
+                  "retentionMarkerDays": -1
+                },
+                "mappingRecord": {
+                  "name": "RR-XML-Service-Voyage",
+                  "version": "1"
+                }
+              },
+              "type": "VOYAGE",
+              "effectiveFromTimestamp": 1632935400000,
+              "effectiveToTimestamp": 1632936600000,
+              "dueTimestamp": null,
+              "status": null,
+              "voyage": {
+                "type": "COMMERCIAL",
+                "voyageType": "SEA",
+                "departureLocation": "CAL",
+                "departureCountry": null,
+                "scheduledDepartureTimestamp": 1632935400000,
+                "actualDepartureTimestamp": 1632935400000,
+                "arrivalLocation": "DOV",
+                "arrivalCountry": null,
+                "scheduledArrivalTimestamp": 1632936600000,
+                "actualArrivalTimestamp": 1632936600000,
+                "intermediateLocations": null,
+                "passengerCount": null,
+                "crewCount": null,
+                "durationMinutes": null,
+                "routeId": null,
+                "carrier": "DFDS",
+                "craftId": "COTE DES DUNES"
+              },
+              "attributes": {
+                "attrs": {}
+              },
+              "features": {
+                "feats": {
+                  "STANDARDISED:arrivalPort": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "MAP",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        {
+                          "UNLO5": "GB DVR"
+                        }
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1632928764347
+                  },
+                  "STANDARDISED:estimatedArrivalTimestamp": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "LONG",
+                    "value": 1632940800000,
+                    "valueList": null,
+                    "startTimestamp": null,
+                    "endTimestamp": null
+                  },
+                  "STANDARDISED:departurePort": {
+                    "id": null,
+                    "type": null,
+                    "valueType": "MAP",
+                    "value": null,
+                    "valueList": {
+                      "val": [
+                        {
+                          "UNLO5": "FR CQF"
+                        }
+                      ]
+                    },
+                    "startTimestamp": null,
+                    "endTimestamp": 1632928764347
+                  }
+                }
+              },
+              "changeHistory": null
+            },
+            "consolidation": null,
+            "consignments": null
+          }
+        }
+      },
+      "type": "Json"
+    },
+    "initiatedBy": {
+      "value": "rbtEngine",
+      "type": "String"
+    }
+  },
+  "businessKey": "CERB-AUTOTEST-100020"
+}

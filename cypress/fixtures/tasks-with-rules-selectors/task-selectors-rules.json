@@ -26,20 +26,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Tourist"
-                  ],
-                  "field": "mode"
+                  "entity": "Organisation",
+                  "descriptor": "telephone",
+                  "operator": "equal",
+                  "value": "01234 56723737"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
               "abuseTypes": [
@@ -61,20 +57,16 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Tourist"
-                  ],
-                  "field": "mode"
+                  "entity": "Vehicle",
+                  "descriptor": "Vehicle is empty",
+                  "operator": "equal",
+                  "value": "true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity": "Message",
+                  "descriptor": "mode",
+                  "operator": "in",
+                  "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
                 }
               ],
               "abuseTypes": [

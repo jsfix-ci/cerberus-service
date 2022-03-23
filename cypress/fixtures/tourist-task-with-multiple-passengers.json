@@ -1,0 +1,72 @@
+{
+  "passengers": [
+      {
+        "Name": "Donald Duck",
+        "Date of birth": "23/02/1986",
+        "Gender": "M",
+        "Nationality": "GB",
+        "Travel document type": "Passport",
+        "Travel document number": "244746NL",
+        "Travel document expiry": "01/02/2021"
+      },
+      {
+        "Name": "Fred Flintstone",
+        "Date of birth": "22/11/1991",
+        "Gender": "F",
+        "Nationality": "DE",
+        "Travel document type": "Passport",
+        "Travel document number": "875786876",
+        "Travel document expiry": "22/03/2022"
+      },
+      {
+        "Name": "Micky Gaby",
+        "Date of birth": "22/11/1991",
+        "Gender": "F",
+        "Nationality": "FR",
+        "Travel document type": "Passport",
+        "Travel document number": "875786876",
+        "Travel document expiry": "22/03/2022"
+      },
+      {
+        "Name": "Barney Rubble",
+        "Date of birth": "01/03/1989",
+        "Gender": "M",
+        "Nationality": "GB",
+        "Travel document type": "Passport",
+        "Travel document number": "244746NL",
+        "Travel document expiry": "01/02/2021"
+      }
+  ],
+  "Document": {
+    "Travel document type": "Passport",
+    "Travel document number": "566746DL",
+    "Travel document expiry": "29/10/2023"
+  },
+  "primary traveller": {
+    "Name": "Isiaih Ford",
+    "Date of birth": "13/10/1991",
+    "Gender": "M",
+    "Nationality": "AUS"
+  },
+  "Booking-and-check-in": {
+    "Reference": "AB555412781",
+    "Ticket number": "1234567",
+    "Type": "R",
+    "Name": "",
+    "Address": "",
+    "Date and time": "2 Aug 2020 at 15:50, 5 days before travel",
+    "Country": "GB",
+    "Payment method": "CQ",
+    "Ticket price": "",
+    "Ticket type": "Return",
+    "Check-in": ""
+  },
+  "TargetingIndicators": {
+    "Total Score": "50",
+    "Total Indicators": "2",
+    "indicators": {
+      "UK port hop inbound": "20",
+      "First use of account (Driver)": "30"
+    }
+  }
+}

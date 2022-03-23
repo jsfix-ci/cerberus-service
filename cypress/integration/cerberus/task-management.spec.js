@@ -5,6 +5,10 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   const MAX_TASK_PER_PAGE = 100;
   const nextPage = 'a[data-test="next"]';
 
+  before(() => {
+    cy.clock();
+  });
+
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
@@ -77,23 +81,31 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
   });
 
   it('Should verify refresh task list page', () => {
-    if (Cypress.$(nextPage).length > 0) {
-      cy.clock();
+    cy.tick(180000);
 
-      cy.wait('@tasks').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
-      cy.get('a[href="/tasks?page=2"]').eq(0).click();
+    cy.tick(180000);
 
-      cy.tick(65000);
+    cy.wait('@tasks').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
 
-      cy.wait('@tasks').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
-      });
+    cy.get('body').then(($el) => {
+      if ($el.find(nextPage).length > 0) {
+        cy.get('a[href="/tasks?page=2"]').eq(0).click();
 
-      cy.url().should('contain', 'page=2');
-    }
+        cy.tick(180000);
+
+        cy.wait('@tasks').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+
+        cy.url().should('contain', 'page=2');
+      }
+    });
   });
 
   it('Should verify tasks are sorted in arrival time for new and InProgress tabs on task management page', () => {
@@ -102,6 +114,57 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('a[href="#inProgress"]').click();
     cy.verifyTasksSortedOnArrivalDateTime();
+  });
+
+  it('Should verify tasks are sorted in correct order selectors with highest category should be at top of the list on task management page', () => {
+    let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+    let arrivalTime = Cypress.dayjs().subtract(3, 'day').valueOf();
+    cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-CAT-A-TIER-1`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
+      task.variables.rbtPayload.value.data.matchedSelectors[1].category = 'B';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-CAT-A-B`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-rules-only.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 1';
+      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TIER-1-2`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().subtract(5, 'day').valueOf();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 1';
+      task.variables.rbtPayload.value.data.matchedRules[1].rulePriority = 'Tier 2';
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-LATEST_ARRIVAL_TIME`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
   });
 
   it('Should Claim and Unclaim a task Successfully from task management page', () => {
@@ -182,6 +245,13 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
+    // COP-9672 Display highest threat level in task details
+    cy.get('.task-versions .govuk-accordion__section').each((element) => {
+      cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+        expect('Tier 1').to.be.equal(value);
+      });
+    });
+
     cy.contains('Back to task list').click();
 
     cy.reload();
@@ -193,11 +263,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'Paid by cash1', risk: 'Class A Drugs and 2 other rules', riskTier: 'Tier 1' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'Paid by cash1', risk: 'Class A Drugs and 2 other rules', riskTier: 'Tier 1' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -230,11 +300,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 2 other rules').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 0 other rules', riskTier: 'B' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 2 other rules').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 0 other rules', riskTier: 'B' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -243,6 +313,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   it('Should check selector & rule matches details on task management page', () => {
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+
+    cy.fixture('expected-risk-indicators.json').as('expectedRiskIndicatorMatches');
 
     cy.fixture('/tasks-with-rules-selectors/task-selectors-rules.json').then((task) => {
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -257,6 +329,14 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
+    cy.get('table').each((table, index) => {
+      cy.wrap(table).getTable().then((tableData) => {
+        cy.get('@expectedRiskIndicatorMatches').then((expectedData) => {
+          expectedData.riskIndicators[index].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
+        });
+      });
+    });
+
     cy.contains('Back to task list').click();
 
     cy.reload();
@@ -268,11 +348,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'SELECTOR: selector auto testing, B, Class B&C Drugs inc. Cannabis and 4 other rules').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { selector: 'selector auto testing', risk: 'Class B&C Drugs inc. Cannabis and 2 other rules' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -306,11 +386,11 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { risk: 'National Security at the Border and 1 other rule' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { risk: 'National Security at the Border and 1 other rule' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
@@ -360,21 +440,28 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
       expect(response.statusCode).to.equal(200);
     });
 
+    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
+      .click({ force: true });
+
+    cy.contains('Apply filters').click();
+
+    cy.wait(2000);
+
     cy.get('@taskName').then((text) => {
       cy.log('task to be searched', text);
       if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInAllThePages(text, null, { risk: 'Class A Drugs and 2 other rules', riskTier: 'Tier 1' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       } else {
-        cy.findTaskInSinglePage(text, null, 'Paid by Cash, Tier 1, National Security at the Border and 1 other rule').then((taskFound) => {
+        cy.findTaskInSinglePage(text, null, { risk: 'Class A Drugs and 2 other rules', riskTier: 'Tier 1' }).then((taskFound) => {
           expect(taskFound).to.equal(true);
         });
       }
     });
   });
 
-  it('Should check empty task list fallback message on task management page', () => {
+  it.skip('Should check empty task list fallback message on task management page', () => {
     cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
       .click({ force: true });
 

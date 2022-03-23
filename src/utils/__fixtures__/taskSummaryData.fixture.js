@@ -70,7 +70,7 @@ const testOutputDataFieldsComplete = {
   arrival: {
     date: '4 Aug 2020 at 13:45',
     description: 'DOV, 4 Aug 2020 at 13:45',
-    fromNow: ', a year ago',
+    fromNow: ', 2 years ago',
     label: 'Arrival due',
     location: 'DOV',
   },

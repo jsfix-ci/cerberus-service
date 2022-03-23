@@ -27,20 +27,10 @@
               "rulePriority": "Tier 1",
               "indicatorMatches": [
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
-                },
-                {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity": "Vehicle",
+                  "descriptor": "Vehicle Empty",
+                  "operator": "equal",
+                  "value": "true"
                 }
               ],
               "abuseTypes": [
@@ -48,107 +38,98 @@
               ]
             },
             {
-              "ruleId": 346,
-              "ruleName": "Paid by cash1",
-              "ruleType": "Pre-arrival",
-              "ruleVersion": 1,
-              "ruleDescription": "Paid by cash",
-              "securityLabels": [
+              "ruleId":535,
+              "ruleName":"Selector Matched Rule",
+              "ruleType":"Both",
+              "ruleVersion":1,
+              "ruleDescription":"Test",
+              "securityLabels":[
                 "null",
                 "null",
                 "null"
               ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
-              "indicatorMatches": [
+              "ruleMatchedOnDate":"2022-02-11T11:56:02Z",
+              "rulePriority":"Tier 1",
+              "indicatorMatches":[
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "cashPaid"
+                  "entity":"Message",
+                  "descriptor":"selectorsMatched",
+                  "operator":"equal",
+                  "value":"true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity":"Message",
+                  "descriptor":"mode",
+                  "operator":"in",
+                  "value":"[Air Freight, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
                 }
               ],
-              "abuseTypes": [
-                "Class A Drugs"
+              "abuseTypes":[
+                "National Security at the Border"
               ]
             },
             {
-              "ruleId": 100,
-              "ruleName": "Selector matched",
-              "ruleType": "Pre-arrival",
-              "ruleVersion": 1,
-              "ruleDescription": "Paid by cash",
-              "securityLabels": [
+              "ruleId":546,
+              "ruleName":"Paid by cash - perf rule",
+              "ruleType":"Pre-load",
+              "ruleVersion":1,
+              "ruleDescription":"Debitis esse volupt",
+              "securityLabels":[
+                "null",
+                "null",
                 "null",
                 "null",
                 "null"
               ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
-              "indicatorMatches": [
+              "ruleMatchedOnDate":"2022-02-11T11:56:02Z",
+              "rulePriority":"Tier 2",
+              "indicatorMatches":[
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "selectorsMatched"
+                  "entity":"Booking",
+                  "descriptor":"cashPaid",
+                  "operator":"equal",
+                  "value":"true"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity":"Message",
+                  "descriptor":"mode",
+                  "operator":"in",
+                  "value":"[RORO Accompanied Freight, RORO Tourist]"
                 }
               ],
-              "abuseTypes": [
-                "Class A Drugs"
+              "abuseTypes":[
+                "Plant Health"
               ]
             },
             {
-              "ruleId": 10000,
-              "ruleName": "Task exists",
-              "ruleType": "Pre-arrival",
-              "ruleVersion": 1,
-              "ruleDescription": "Paid by cash",
-              "securityLabels": [
+              "ruleId":556,
+              "ruleName":"Checkin lead time",
+              "ruleType":"Both",
+              "ruleVersion":1,
+              "ruleDescription":"Qui nesciunt suscip",
+              "securityLabels":[
+                "null",
                 "null",
                 "null",
                 "null"
               ],
-              "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
-              "rulePriority": "Tier 1",
-              "indicatorMatches": [
+              "ruleMatchedOnDate":"2022-02-11T11:56:02Z",
+              "rulePriority":"Tier 4",
+              "indicatorMatches":[
                 {
-                  "indicatorType": "BASIC",
-                  "index": 0,
-                  "values": [
-                    "true"
-                  ],
-                  "field": "taskExists"
+                  "entity":"Message",
+                  "descriptor":"mode",
+                  "operator":"in",
+                  "value":"[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
                 },
                 {
-                  "indicatorType": "BASIC",
-                  "index": 1,
-                  "values": [
-                    "RORO Unaccompanied Freight"
-                  ],
-                  "field": "mode"
+                  "entity":"Booking",
+                  "descriptor":"checkInLeadTime",
+                  "operator":"between",
+                  "value":"[1, 24]"
                 }
               ],
-              "abuseTypes": [
+              "abuseTypes":[
                 "Class A Drugs"
               ]
             }
@@ -188,6 +169,78 @@
                   ]
                 }
               ]
+            },
+            {
+              "selectorId":225,
+              "selectorReference":"2022-225",
+              "groupReference":"SR-215",
+              "groupVersionNumber":1,
+              "startDate":"2022-01-27T10:23:12.732Z",
+              "endDate":"2022-07-27T10:23:12.732Z",
+              "category":"null",
+              "agencyCode":"BF",
+              "intelligenceSource":"null",
+              "pointOfContact":"null",
+              "pocMessage":"342334",
+              "priority":"Selector",
+              "inboundActionCode":"null",
+              "outboundActionCode":"null",
+              "threatType":"Alcohol",
+              "notes":"null",
+              "creator":"paul.herring",
+              "approver":"null",
+              "securityLabels":[
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference":"null",
+              "warnings":"null",
+              "requestingOfficer":"null",
+              "requestingTeam":"null",
+              "indicatorMatches":[
+                {
+                  "entity":"vehicle",
+                  "descriptor":"registrationNumber",
+                  "operator":"equal",
+                  "value":"DK-45678"
+                }
+              ],
+              "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
+            },
+            {
+              "selectorId":245,
+              "selectorReference":"2022-245",
+              "groupReference":"SR-227",
+              "groupVersionNumber":1,
+              "startDate":"2022-02-01T09:40:27.767Z",
+              "endDate":"2023-02-01T23:59:59Z",
+              "category":"C",
+              "agencyCode":"Borders and Aviation Security Unit Homeland Security Group (HSG)",
+              "intelligenceSource":"Qui adipisci consectetur ullam consequatur a aspernatur in",
+              "pointOfContact":"Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+              "pocMessage":"Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+              "priority":"Selector",
+              "inboundActionCode":"Worthy of attention",
+              "outboundActionCode":"Monitor only",
+              "threatType":"Alcohol",
+              "notes":"notes",
+              "creator":"user",
+              "approver":"Ut adipisci culpa reiciendis dicta ullam vel duis laboriosam eiusmod",
+              "securityLabels":[
+                "DATA_RISK_PREARRIVAL"
+              ],
+              "localReference":"Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
+              "warnings":"null",
+              "requestingOfficer":"Velit in sunt aliquip voluptate tempore consectetur",
+              "requestingTeam":"RoRo tourist",
+              "indicatorMatches":[
+                {
+                  "entity":"Person",
+                  "descriptor":"familyName",
+                  "operator":"equal",
+                  "value":"TURNER"
+                }
+              ],
+              "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
             }
           ],
           "movement": {
