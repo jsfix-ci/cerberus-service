@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import renderer from 'react-test-renderer';
 import { RORO_ACCOMPANIED_FREIGHT } from '../../../constants';
 import {
   renderBookingSection,
@@ -638,35 +639,8 @@ describe('SectionRenderer', () => {
           },
         ],
       };
-
-      const section = renderOccupantsSection(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should return second passenger entity search link if fields if present', () => {
@@ -705,34 +679,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderOccupantsSection(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span><a href="http://localhost:4020/search?term=98989898&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MRS SECOND PASSENGER</a></span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not show passenger heading if movement mode icon is the tourist group icon', () => {
@@ -764,34 +712,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderOccupantsSection(input, 'c-icon-group');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'c-icon-group')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should return other passenger fields if present', () => {
@@ -834,61 +756,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderOccupantsSection(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
-            <div className="govuk-hidden-passengers">
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span>MR OTHER PASSENGER</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </details>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should return other passenger entity search link if fields if present', () => {
@@ -938,61 +807,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderOccupantsSection(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
-            <div className="govuk-hidden-passengers">
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span><a href="http://localhost:4020/search?term=56565656&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR OTHER PASSENGER</a></span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </details>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should return mulitple other passenger fields if present', () => {
@@ -1046,83 +862,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderOccupantsSection(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
-            <div className="govuk-hidden-passengers">
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span>MR OTHER PASSENGER 1</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS OTHER PASSENGER 2</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </details>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render hidden fields', () => {
@@ -1176,83 +917,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderOccupantsSection(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
-            <div className="govuk-hidden-passengers">
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span>MR OTHER PASSENGER 1</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS OTHER PASSENGER 2</span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </details>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render occupants when bookingDate value is null', () => {
@@ -1310,61 +976,8 @@ describe('SectionRenderer', () => {
         propName: 'dateBooked',
       };
 
-      const section = renderOccupantsSection(input, 'any-icon', bookingDate);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container">
-          <div>
-            <div className="govuk-!-margin-bottom-4 bottom-border">
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span>MRS SECOND PASSENGER</span></p>
-                  <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                </div>
-              </div>
-              <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                  <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                </div>
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                  <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                  <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <details className="govuk-details" data-module="govuk-details">
-            <summary className="govuk-details__summary"><span className="govuk-details__summary-text">Show more</span></summary>
-            <div className="govuk-hidden-passengers">
-              <div>
-                <div className="govuk-!-margin-bottom-4 bottom-border">
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span>Occupant</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span><a href="http://localhost:4020/search?term=56565656&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR OTHER PASSENGER</a></span></p>
-                      <p className="govuk-!-margin-bottom-0"><span className="font__bold undefined">Unknown</span><span className="font__bold undefined">, Unknown</span><span className="font__bold undefined">, Unknown</span></p>
-                    </div>
-                  </div>
-                  <div className="govuk-grid-row govuk-!-margin-bottom-2">
-                    <div className="govuk-grid-column-full govuk-!-margin-bottom-2">
-                      <p className="govuk-!-margin-bottom-1 font__light"><span className="undefined">Passport</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__bold"><span className="font__bold undefined">Unknown</span></p>
-                    </div>
-                    <div className="govuk-grid-column-full">
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Validity</span></p>
-                      <p className="govuk-!-margin-bottom-1"><span className="font__bold undefined">Unknown</span></p>
-                      <p className="govuk-!-margin-bottom-0 font__light"><span>Unknown</span></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </details>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantsSection(input, 'any-icon', bookingDate)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 

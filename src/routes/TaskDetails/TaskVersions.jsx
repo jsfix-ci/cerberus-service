@@ -81,6 +81,7 @@ const sortRulesByThreat = (rulesArray) => {
 };
 
 const renderRulesSection = (version) => {
+  const risksTableHeaders = ['Entity type', 'Attribute', 'Operator', 'Value (s)'];
   let rules = version.find(({ propName }) => propName === 'rules').childSets;
   rules = (rules && rules.length > 1) ? sortRulesByThreat(rules) : rules;
   if (rules.length > 0) {
@@ -132,7 +133,7 @@ const renderRulesSection = (version) => {
                       firstRule.childSets.length > 0
                         && (
                           <Table
-                            headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
+                            headings={risksTableHeaders}
                             rows={translateRiskIndicators(firstRule.childSets)}
                           />
                         )
@@ -199,7 +200,7 @@ const renderRulesSection = (version) => {
                             rule.childSets.length > 0
                               && (
                                 <Table
-                                  headings={['Type', 'Condition 1', 'Expression', 'Condition 2']}
+                                  headings={risksTableHeaders}
                                   rows={translateRiskIndicators(rule.childSets)}
                                 />
                               )

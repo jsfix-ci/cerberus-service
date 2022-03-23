@@ -196,6 +196,13 @@ describe('formatField', () => {
       },
     );
   });
+
+  describe('Content not provided or null', () => {
+    it('Should return Unknown if content is not provided for a fieldType', () => {
+      const restult = formatField('STRING', null);
+      expect(restult).toBe('Unknown');
+    });
+  });
 });
 
 describe('formatLinkField', () => {

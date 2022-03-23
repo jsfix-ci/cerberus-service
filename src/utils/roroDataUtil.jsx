@@ -1,3 +1,5 @@
+import lookup from 'country-code-lookup';
+
 const hasCarrierCounts = (suppliedPassengerCounts) => {
   const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
   let hayStack = [];
@@ -106,6 +108,19 @@ const modifyRoRoPassengersTaskList = (roroData) => {
 };
 
 /*
+* This method would modify the country code using country-code-lookup npm module
+*/
+const modifyCountryCodeIfPresent = (bookingField) => {
+  const countryCode = bookingField.contents?.find(({ propName }) => propName === 'country')?.content;
+  if (!countryCode || !lookup.byIso(countryCode)?.country) {
+    return bookingField;
+  }
+  const countryName = countryCode ? lookup.byIso(countryCode).country : 'Unknown';
+  bookingField.contents.find(({ propName }) => propName === 'country').content = `${countryName} (${countryCode})`;
+  return bookingField;
+};
+
+/*
 * This method would add an additional object for the Driver
 * into the passengers list as BE always nominating a driver
 *  even in scenarios when there is no vehicles
@@ -169,4 +184,5 @@ export { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   extractTaskVersionsBookingField,
   getTaskDetailsTotalOccupants,
-  hasCarrierCounts };
+  hasCarrierCounts,
+  modifyCountryCodeIfPresent };
