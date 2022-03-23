@@ -970,6 +970,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   //     });
   //   });
   // }
+
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'TargetingIndicators')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
       cy.contains('h3', 'Targeting indicators').nextAll().within((elements) => {
