@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 
 import config from '../config';
 import useAxiosInstance from '../utils/axiosInstance';
-import LoadingSpinner from '../forms/LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import { useKeycloak } from '../utils/keycloak';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
 import ErrorSummary from '../govuk/ErrorSummary';

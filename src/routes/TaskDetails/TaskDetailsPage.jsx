@@ -15,7 +15,7 @@ import findAndUpdateTaskVersionDifferences from '../../utils/findAndUpdateTaskVe
 // Components/Pages
 import ClaimButton from '../../components/ClaimTaskButton';
 import RenderForm from '../../components/RenderForm';
-import LoadingSpinner from '../../forms/LoadingSpinner';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import TaskNotes from './TaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
