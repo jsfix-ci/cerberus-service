@@ -244,7 +244,7 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             });
             if (taskdetails.riskTier === 'B') {
               cy.wrap(item).find('.govuk-tag--riskTier').then((elem) => {
-                cy.wrap(elem).parent('.govuk-body').should('contains.text', 'SELECTOR');
+                cy.wrap(elem).siblings('.govuk-body').should('contains.text', 'SELECTOR');
               });
             }
           }
