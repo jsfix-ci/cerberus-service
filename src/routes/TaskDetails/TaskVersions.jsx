@@ -334,7 +334,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).local().format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
