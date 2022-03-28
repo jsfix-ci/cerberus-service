@@ -147,8 +147,8 @@ steps:
     DOCKER_USERNAME:
       from_secret: QUAY_USERNAME
   when:
-    branch:
-    - release-candidate
+    #branch:
+    #- release-candidate
     event:
     - push
 
@@ -166,8 +166,8 @@ steps:
     DOCKER_USERNAME:
       from_secret: QUAY_USERNAME
   when:
-    branch:
-       - release-candidate
+    #branch:
+    #   - release-candidate
     event:
        - push
 
