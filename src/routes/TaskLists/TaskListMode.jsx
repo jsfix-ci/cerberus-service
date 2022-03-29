@@ -55,6 +55,18 @@ const createCoTravellers = (coTravellers) => {
   );
 };
 
+const hasPreviousSeizures = (enrichmentCounts) => {
+  const seizure = enrichmentCounts?.split('/')[2];
+  return seizure >= 1;
+};
+
+const hasTravellersWithPreviousSeizures = (passengers) => {
+  return passengers.find((passenger) => {
+    const seizure = passenger?.enrichmentCount?.split('/')[2];
+    return seizure >= 1;
+  });
+};
+
 const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
@@ -114,6 +126,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
         <div>
           <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
             Primary traveller
+            {roroData.driver?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.driver.enrichmentCount) ? 'font--red' : ''}`}>({roroData.driver.enrichmentCount})</span>}
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
             {roroData.passengers ? (<li className="govuk-!-font-weight-bold">{roroData?.passengers[0]?.name}</li>)
@@ -147,7 +160,11 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
         </ul>
       </div>
       <div className="govuk-grid-item verticel-dotted-line">
-        <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+        <h3 className={`
+          govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular
+          ${hasTravellersWithPreviousSeizures(roroData.passengers) ? 'font--red' : ''}
+        `}
+        >
           Co-travellers
         </h3>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
@@ -178,6 +195,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
               <div>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Driver
+                  {roroData.driver?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.driver.enrichmentCount) ? 'font--red' : ''}`}>({roroData.driver.enrichmentCount})</span>}
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData?.passengers ? (
@@ -200,12 +218,16 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
               <div>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   VRN
+                  {roroData.vehicle?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.vehicle.enrichmentCount) ? 'font--red' : ''}`}>({roroData.vehicle.enrichmentCount})</span>}
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.vehicle?.registrationNumber
                     ? (
                       <>
-                        <li className="govuk-!-font-weight-bold">{roroData.vehicle.registrationNumber}</li>
+                        <li>
+                          <span className="govuk-!-font-weight-bold">{roroData.vehicle.registrationNumber}</span>
+                          <span className="govuk-!-margin-left-3">{roroData.enrichmnentCount && roroData.enrichmnentCount}</span>
+                        </li>
                         {roroData.vehicle.make && <br />}
                       </>
                     )
@@ -230,7 +252,11 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
               </ul>
             </div>
             <div className="govuk-grid-item verticel-dotted-line">
-              <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
+              <h3 className={`
+                govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular
+                ${hasTravellersWithPreviousSeizures(roroData.passengers) ? 'font--red' : ''}
+              `}
+              >
                 Co-travellers
               </h3>
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
@@ -300,6 +326,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 <div>
                   <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                     Trailer details
+                    {roroData.vehicle.trailer?.trailerEnrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.vehicle.trailer.trailerEnrichmentCount) ? 'font--red' : ''}`}>({roroData.vehicle.trailer.trailerEnrichmentCount})</span>}
                   </h3>
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.vehicle.trailer ? (
@@ -315,6 +342,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
               <div className="govuk-grid-item verticel-dotted-line">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Haulier details
+                  {roroData.haulier?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.haulier.enrichmentCount) ? 'font--red' : ''}`}>({roroData.haulier.enrichmentCount})</span>}
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.haulier?.name ? (
@@ -325,6 +353,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 </ul>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Account details
+                  {roroData.account?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.account.enrichmentCount) ? 'font--red' : ''}`}>({roroData.account.enrichmentCount})</span>}
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.account ? (
@@ -370,6 +399,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 <div>
                   <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                     Driver details
+                    {roroData.driver?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.driver.enrichmentCount) ? 'font--red' : ''}`}>({roroData.driver.enrichmentCount})</span>}
                   </h3>
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.driver ? (
@@ -399,6 +429,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 <div>
                   <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                     Vehicle details
+                    {roroData.vehicle?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.vehicle.enrichmentCount) ? 'font--red' : ''}`}>({roroData.vehicle.enrichmentCount})</span>}
                   </h3>
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.vehicle ? (
@@ -413,6 +444,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   </ul>
                   <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                     Trailer details
+                    {roroData.vehicle.trailer?.trailerEnrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.vehicle.trailer.trailerEnrichmentCount) ? 'font--red' : ''}`}>({roroData.vehicle.trailer.trailerEnrichmentCount})</span>}
                   </h3>
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.vehicle.trailer ? (
@@ -429,6 +461,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
               <div className="govuk-grid-item verticel-dotted-line">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Haulier details
+                  {roroData.haulier?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.haulier.enrichmentCount) ? 'font--red' : ''}`}>({roroData.haulier?.enrichmentCount})</span>}
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.haulier?.name ? (
@@ -439,6 +472,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 </ul>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Account details
+                  {roroData.account?.enrichmentCount && <span className={`govuk-!-margin-left-3 ${hasPreviousSeizures(roroData.account.enrichmentCount) ? 'font--red' : ''}`}>({roroData.account.enrichmentCount})</span>}
                 </h3>
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.account ? (
