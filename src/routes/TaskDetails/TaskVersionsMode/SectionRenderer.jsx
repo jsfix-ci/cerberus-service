@@ -25,6 +25,8 @@ import {
   hasCarrierCounts,
 } from '../../../utils/roroDataUtil';
 
+import EnrichmentCount from './EnrichmentCount';
+
 const replaceFieldName = (fieldName) => {
   switch (true) {
     case fieldName === 'Date and time':
@@ -96,11 +98,14 @@ const renderVersionSection = (
   { fieldSetName, contents },
   linkPropNames = {},
 ) => {
+  const enrichmentCount = contents?.find(({ propName }) => propName === 'enrichmentCount')?.content;
   if (contents !== undefined && contents !== null && contents.length > 0) {
     const jsxElement = renderFields(contents, linkPropNames);
     return (
       <div className="task-details-container bottom-border-thick">
         <h3 className="title-heading">{fieldSetName}</h3>
+        {(fieldSetName === 'Haulier details' || fieldSetName === 'Account details')
+          && <EnrichmentCount enrichmentCount={enrichmentCount} />}
         <div>{jsxElement}</div>
       </div>
     );
@@ -142,6 +147,7 @@ const applyHighlightValue = (obj) => {
 };
 
 const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
+  const enrichmentCount = contents.find(({ propName }) => propName === 'enrichmentCount')?.content;
   const name = contents.find(({ propName }) => propName === 'name');
   const dob = contents.find(({ propName }) => propName === 'dob');
   const gender = contents.find(({ propName }) => propName === 'gender');
@@ -159,6 +165,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
   const link = findLink(contents, name, defaultLinkPropNames);
   return (
     <div className="govuk-!-margin-bottom-4 bottom-border">
+      <EnrichmentCount enrichmentCount={enrichmentCount} />
       <div className="govuk-grid-row govuk-!-margin-bottom-2">
         <div className="govuk-grid-column-full">
           <p className="govuk-!-margin-bottom-1 font__light">
@@ -325,6 +332,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
 };
 
 const renderVehicleSection = ({ contents }, movementMode) => {
+  const enrichmentCount = contents.find(({ propName }) => propName === 'enrichmentCount')?.content;
   if (movementMode !== RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
     if (contents.length > 0) {
       const vehicleArray = contents.filter(({ propName }) => {
@@ -346,6 +354,7 @@ const renderVehicleSection = ({ contents }, movementMode) => {
       return (
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Vehicle</h3>
+          <EnrichmentCount enrichmentCount={enrichmentCount} />
           <div className="govuk-task-details-grid-column">{vehicleSection}</div>
         </div>
       );
@@ -354,6 +363,7 @@ const renderVehicleSection = ({ contents }, movementMode) => {
 };
 
 const renderTrailerSection = ({ contents }, movementMode) => {
+  const trailerEnrichmentCount = contents.find(({ propName }) => propName === 'trailerEnrichmentCount')?.content;
   if (
     movementMode === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()
     || movementMode === RORO_ACCOMPANIED_FREIGHT.toUpperCase()
@@ -381,6 +391,7 @@ const renderTrailerSection = ({ contents }, movementMode) => {
       return (
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Trailer</h3>
+          <EnrichmentCount enrichmentCount={trailerEnrichmentCount} />
           <div className="govuk-task-details-grid-column">{trailerSection}</div>
         </div>
       );
@@ -598,6 +609,7 @@ const renderOccupantsSection = (
 
 const renderPrimaryTraveller = ({ childSets }, movementModeIcon) => {
   const primaryTraveller = childSets[0].contents;
+  const enrichmentCount = primaryTraveller.find(({ propName }) => propName === 'enrichmentCount')?.content;
   if (primaryTraveller.length > 0) {
     let primaryTravellerArray;
     if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
@@ -631,6 +643,7 @@ const renderPrimaryTraveller = ({ childSets }, movementModeIcon) => {
     return (
       <div className="task-details-container bottom-border-thick">
         <h3 className="title-heading">Primary Traveller</h3>
+        <EnrichmentCount enrichmentCount={enrichmentCount} />
         <div className="govuk-task-details-grid-column">
           {primaryTravellerSection}
         </div>
