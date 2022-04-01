@@ -302,40 +302,52 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Vehicle</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Vehicle registration</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Vehicle registration</span></li>
                 <li className="govuk-grid-value font__bold">GB09KLT</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Make</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Make</span></li>
                 <li className="govuk-grid-value font__bold">FORD</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Model</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Model</span></li>
                 <li className="govuk-grid-value font__bold">TRANSIT</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Type</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Type</span></li>
                 <li className="govuk-grid-value font__bold">VAN</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Country of registration</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Country of registration</span></li>
                 <li className="govuk-grid-value font__bold">GB</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Colour</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Colour</span></li>
                 <li className="govuk-grid-value font__bold">RED</li>
               </ul>
             </div>
@@ -362,6 +374,18 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Vehicle</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column" />
         </div>,
       ));
@@ -392,11 +416,23 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Vehicle</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
                 <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Vehicle registration</span></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=1234567890&type=VEHICLE&fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">KP07YXG</a></li>
+                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=1234567890&amp;type=VEHICLE&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">KP07YXG</a></li>
               </ul>
             </div>
           </div>
@@ -484,40 +520,52 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Trailer</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Trailer registration number</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer registration number</span></li>
                 <li className="govuk-grid-value font__bold">LQ18ZAB</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Trailer Type</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer Type</span></li>
                 <li className="govuk-grid-value font__bold">TR</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Trailer country of registration</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer country of registration</span></li>
                 <li className="govuk-grid-value font__bold">GB</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Trailer length</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer length</span></li>
                 <li className="govuk-grid-value font__bold">75m</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Trailer height</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer height</span></li>
                 <li className="govuk-grid-value font__bold">5m</li>
               </ul>
             </div>
             <div className="">
               <ul>
-                <li className="govuk-grid-key font__light"><><span className="govuk-grid-key font__light">Empty or loaded</span></></li>
+                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Empty or loaded</span></li>
                 <li className="govuk-grid-value font__bold">Loaded</li>
               </ul>
             </div>
@@ -544,6 +592,18 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Trailer</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column" />
         </div>,
       ));
@@ -574,11 +634,23 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Trailer</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
                 <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer registration number</span></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=1212121212&type=VEHICLE&fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">LQ18ZYH</a></li>
+                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=1212121212&amp;type=VEHICLE&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">LQ18ZYH</a></li>
               </ul>
             </div>
           </div>
@@ -1067,6 +1139,18 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Primary Traveller</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
@@ -1165,6 +1249,18 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Primary Traveller</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
@@ -1224,11 +1320,23 @@ describe('SectionRenderer', () => {
       expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
         <div className="task-details-container bottom-border-thick">
           <h3 className="title-heading">Primary Traveller</h3>
+          <div className="govuk-grid-row enrichment-counts">
+            <div className="labels">
+              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
+            </div>
+            <div className="values">
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+            </div>
+          </div>
           <div className="govuk-task-details-grid-column">
             <div className="">
               <ul>
                 <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=2828282828&type=PERSON&fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR PRIMARY TRAVELLER</a></li>
+                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=2828282828&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR PRIMARY TRAVELLER</a></li>
               </ul>
             </div>
           </div>

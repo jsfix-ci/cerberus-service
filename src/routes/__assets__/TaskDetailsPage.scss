@@ -171,7 +171,6 @@
             }
         }
         &.bottom-border-thick {
-            margin-bottom: 10px;
             border-bottom: 3px solid #b1b4b6;
         }
         .list-bullet-container {
@@ -251,6 +250,7 @@
         }
     }
     .task-details-container {
+      overflow: hidden;
         &.title-heading {
             margin-bottom: 5px;
             padding-bottom: 5px;
@@ -351,6 +351,26 @@
     .govuk-task-details-counts-container {
         margin-bottom: 10px;
     }
+}
+
+.enrichment-counts {
+  border-bottom: 1px solid #b1b4b6;
+  margin-bottom: 10px;
+  .labels {
+    float: left;
+    border-bottom: 1px solid #b1b4b6;
+    width: 100%;
+  }
+  .values {
+    float: left;
+    padding-top: 5px;
+    width: 100%;
+  }
+  .govuk-grid-column-one-third {
+    float: left;
+    padding: 0 15px;
+    width: 33.3333%;
+  }
 }
 
 .summary-data-list {
