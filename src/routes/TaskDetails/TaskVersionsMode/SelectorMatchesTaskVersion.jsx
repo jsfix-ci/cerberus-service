@@ -74,14 +74,19 @@ const SelectorMatchesTaskVersion = ({ version }) => {
                 contents = selector?.childSets[0].contents;
                 warnings = selector.contents.find(({ propName }) => propName === 'selectorWarnings')?.content;
                 groupNumber = selector.contents.find(({ propName }) => propName === 'groupNumber').content;
+                const warningStatus = selector.contents.find(({ propName }) => propName === 'warningStatus')?.content;
                 const warningSplit = warnings?.split(',');
                 const containsOther = warningSplit?.indexOf('O') > -1;
-                if (warningSplit?.length > 1 || containsOther || warningCodesMapping[warnings]) {
-                  if (containsOther) {
-                    warningDetails = selector.contents.find(({ propName }) => propName === 'warningDetails').content;
+                if (warningStatus === 'Yes') {
+                  if (warningSplit?.length > 1 || containsOther || warningCodesMapping[warnings]) {
+                    if (containsOther) {
+                      warningDetails = selector.contents.find(({ propName }) => propName === 'warningDetails').content;
+                    }
+                    warnings = warningSplit.map((v) => (v === 'O' ? warningDetails?.substring(0, 500) : warningCodesMapping[v])).join(',');
                   }
-                  warnings = warningSplit.map((v) => (v === 'O' ? warningDetails?.substring(0, 500) : warningCodesMapping[v])).join(',');
                 }
+                if (warningStatus === 'No') warnings = 'No warnings';
+                if (warningStatus === 'Currently unavailable') warnings = 'Warnings currently unavailable';
                 return (
                   <TabPanel key={selectorIndex}>
                     <div className="govuk-grid-row govuk-!-margin-top-1">
