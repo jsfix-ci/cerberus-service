@@ -309,9 +309,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">
@@ -381,9 +381,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column" />
@@ -423,9 +423,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">
@@ -527,9 +527,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">
@@ -599,9 +599,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column" />
@@ -641,9 +641,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">
@@ -1146,9 +1146,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">
@@ -1256,9 +1256,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">
@@ -1327,9 +1327,9 @@ describe('SectionRenderer', () => {
               <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
             </div>
             <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold" /></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
+              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
             </div>
           </div>
           <div className="govuk-task-details-grid-column">

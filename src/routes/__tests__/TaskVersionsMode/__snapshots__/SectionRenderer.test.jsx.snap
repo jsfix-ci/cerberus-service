@@ -50,21 +50,27 @@ exports[`SectionRenderer renderOccupantsSection should not render hidden fields 
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -234,21 +240,27 @@ exports[`SectionRenderer renderOccupantsSection should not render hidden fields 
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -402,21 +414,27 @@ exports[`SectionRenderer renderOccupantsSection should not render hidden fields 
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -579,21 +597,27 @@ exports[`SectionRenderer renderOccupantsSection should not show passenger headin
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -754,21 +778,27 @@ exports[`SectionRenderer renderOccupantsSection should render occupants when boo
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -938,21 +968,27 @@ exports[`SectionRenderer renderOccupantsSection should render occupants when boo
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -1121,21 +1157,27 @@ exports[`SectionRenderer renderOccupantsSection should return mulitple other pas
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -1305,21 +1347,27 @@ exports[`SectionRenderer renderOccupantsSection should return mulitple other pas
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -1473,21 +1521,27 @@ exports[`SectionRenderer renderOccupantsSection should return mulitple other pas
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -1650,21 +1704,27 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger en
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -1834,21 +1894,27 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger en
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -2017,21 +2083,27 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger fi
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -2201,21 +2273,27 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger fi
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
               <div
                 className="govuk-grid-column-one-third"
               >
                 <span
                   className="font__bold"
-                />
+                >
+                  -
+                </span>
               </div>
             </div>
           </div>
@@ -2378,21 +2456,27 @@ exports[`SectionRenderer renderOccupantsSection should return second passenger e
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
@@ -2559,21 +2643,27 @@ exports[`SectionRenderer renderOccupantsSection should return second passenger f
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
           <div
             className="govuk-grid-column-one-third"
           >
             <span
               className="font__bold"
-            />
+            >
+              -
+            </span>
           </div>
         </div>
       </div>
