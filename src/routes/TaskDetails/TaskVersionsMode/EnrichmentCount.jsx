@@ -17,13 +17,13 @@ const EnrichmentCount = ({ enrichmentCount }) => {
       </div>
       <div className="values">
         <div className="govuk-grid-column-one-third">
-          <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[0])}</span>
+          <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[0]) || '-' }</span>
         </div>
         <div className="govuk-grid-column-one-third">
-          <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[1])}</span>
+          <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[1]) || '-' }</span>
         </div>
         <div className="govuk-grid-column-one-third">
-          <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[2])}</span>
+          <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[2]) || '-' }</span>
         </div>
       </div>
     </div>
