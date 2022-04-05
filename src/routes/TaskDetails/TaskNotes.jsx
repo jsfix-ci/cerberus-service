@@ -16,17 +16,16 @@ import RenderForm from '../../components/RenderForm';
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
+const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const submitForm = useFormSubmit();
   const [activityLog, setActivityLog] = useState([]);
 
   const escapeJSON = (input) => {
-    input = input.replace(/\\/g, '\\\\');
-    input = input.replace(/\n/g, '\\n');
-    input = input.replace(/"/g, '\\"');
-    return input;
+    return input.replace(/\\/g, '\\\\')
+      .replace(/\n/g, '\\n')
+      .replace(/"/g, '\\"');
   };
 
   const getNotes = async () => {
@@ -100,7 +99,7 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId }) => {
 
   useEffect(() => {
     getNotes();
-  }, [processInstanceId]);
+  }, [processInstanceId, refreshNotes]);
 
   return (
     <div className="govuk-grid-column-one-third">

@@ -24,13 +24,22 @@ import ErrorSummary from '../../govuk/ErrorSummary';
 import Panel from '../../govuk/Panel';
 import '../__assets__/TaskDetailsPage.scss';
 
-const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, ...props }) => {
+const escapeJSON = (input) => {
+  return input.replace(/\\/g, '\\\\')
+    .replace(/\n/g, '\\n')
+    .replace(/"/g, '\\"');
+};
+
+const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, refreshNotes, setTargetStatus, setAssignee, ...props }) => {
   const submitForm = useFormSubmit();
   return (
     <RenderForm
       onCancel={() => onCancel(false)}
       preFillData={processInstanceData}
       onSubmit={async (data, form) => {
+        if (!actionTarget) {
+          data.data.addANote = escapeJSON(data.data.addANote);
+        }
         await submitForm(
           `/task/${taskId}/submit-form`,
           data.data.businessKey,
@@ -38,6 +47,9 @@ const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarge
           { ...data.data, actionTarget },
           FORM_NAME_TARGET_INFORMATION_SHEET,
         );
+        refreshNotes();
+        setTargetStatus();
+        setAssignee();
       }}
       {...props}
     />
@@ -65,6 +77,7 @@ const TaskDetailsPage = () => {
   const [isDismissFormOpen, setDismissFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [isLoading, setLoading] = useState(true);
+  const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
   const toModeCode = (mode) => {
     if (/RORO [A-Z]* Freight/i.test(mode)) {
@@ -261,7 +274,6 @@ const TaskDetailsPage = () => {
           </strong>
         </div>
       )}
-
       {targetData && (
         <>
           <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
@@ -329,6 +341,9 @@ const TaskDetailsPage = () => {
                   onCancel={() => setCompleteFormOpen(false)}
                   taskId={processInstanceData.id}
                   actionTarget={false}
+                  refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
+                  setTargetStatus={() => setTargetStatus('Complete')}
+                  setAssignee={() => setAssignee(null)}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
                 </TaskManagementForm>
@@ -339,6 +354,9 @@ const TaskDetailsPage = () => {
                   onCancel={() => setDismissFormOpen(false)}
                   taskId={processInstanceData.id}
                   actionTarget={false}
+                  refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
+                  setTargetStatus={() => setTargetStatus('Dismissed')}
+                  setAssignee={() => setAssignee(null)}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
                 </TaskManagementForm>
@@ -358,6 +376,9 @@ const TaskDetailsPage = () => {
                     taskId={processInstanceData.id}
                     processInstanceData={targetData.targetInformationSheet}
                     actionTarget
+                    refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
+                    setTargetStatus={() => setTargetStatus('Issued')}
+                    setAssignee={() => setAssignee(null)}
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
                   </TaskManagementForm>
@@ -377,6 +398,7 @@ const TaskDetailsPage = () => {
               displayForm={assignee === currentUser}
               businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
               processInstanceId={processInstanceId}
+              refreshNotes={refreshNotesForm}
             />
           </div>
         </>
