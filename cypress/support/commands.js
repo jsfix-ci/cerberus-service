@@ -1171,6 +1171,7 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   }
 
   cy.contains('Apply filters').click();
+
   cy.wait(2000);
   cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
@@ -1489,7 +1490,9 @@ Cypress.Commands.add('verifyIcons', (businessKey, vehicle, ship) => {
 });
 
 Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskResponse) => {
-  cy.contains('Clear all filters').click();
+  cy.contains('Clear all filters').click({ force: true });
+
+  cy.wait(2000);
 
   cy.get(`.govuk-checkboxes [value="${filterValue}"]`)
     .click({ force: true });
