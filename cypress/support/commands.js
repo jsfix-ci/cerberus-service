@@ -244,7 +244,7 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             });
             if (taskdetails.riskTier === 'B') {
               cy.wrap(item).find('.govuk-tag--riskTier').then((elem) => {
-                cy.wrap(elem).siblings('.govuk-body').should('contains.text', 'SELECTOR');
+                cy.wrap(elem).parent('.govuk-body').should('contains.text', 'SELECTOR');
               });
             }
           }
@@ -1171,6 +1171,7 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   }
 
   cy.contains('Apply filters').click();
+
   cy.wait(2000);
   cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
@@ -1198,8 +1199,8 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
 Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
-      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Booking date and time')));
-      expect(bookingDateTime['Booking date and time']).to.be.equal(expectedBookingDateTime);
+      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
+      expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
     });
   });
 });
@@ -1208,7 +1209,7 @@ Cypress.Commands.add('verifyCheckInDateTime', (expectedCheckInDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
       const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in')));
-      expect(checkInDateTime['Check-in date and time']).to.be.equal(expectedCheckInDateTime);
+      expect(checkInDateTime['Check-in']).to.be.equal(expectedCheckInDateTime);
     });
   });
 });
@@ -1489,7 +1490,9 @@ Cypress.Commands.add('verifyIcons', (businessKey, vehicle, ship) => {
 });
 
 Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskResponse) => {
-  cy.contains('Clear all filters').click();
+  cy.contains('Clear all filters').click({ force: true });
+
+  cy.wait(2000);
 
   cy.get(`.govuk-checkboxes [value="${filterValue}"]`)
     .click({ force: true });

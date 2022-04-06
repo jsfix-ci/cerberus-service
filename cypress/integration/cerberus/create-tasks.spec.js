@@ -56,7 +56,21 @@ describe('Create task with different payload from Cerberus', () => {
   });
 
   it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
-    cy.createCerberusTask('RoRo-Tourist-RBT-SBT.json', 'TOURIST-RBT-SBT');
+    cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
+      const dateFormat = 'D MMM YYYY [at] HH:mm';
+      let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+      let taskCreationDateTime = Cypress.dayjs().format(dateFormat);
+      let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().subtract(3, 'year').valueOf();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TOURIST-RBT-SBT`).then((response) => {
+        cy.wait(10000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.checkTaskSummary(registrationNumber, taskCreationDateTime);
+      });
+    });
   });
 
   it('Should create a task with a payload contains RoRo Tourist from SBT', () => {

@@ -306,14 +306,19 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
 
-    let businessKey = `AUTOTEST-${dateNowFormatted}/RORO-Accompanied-Freight/ASSESSMENT_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+    let businessKey = `AUTOTEST-${dateNowFormatted}/RORO-UnAccompanied-Freight/ASSESSMENT_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     const expectedActivity = 'Assessment complete, the reason is \'vesselArrived\'. Accompanying note: \'This is for testing\'';
+
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
 
     cy.fixture('tasks.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      console.log('Mode--->', mode);
       cy.postTasks(task, null).then((taskResponse) => {
         cy.wait(4000);
         cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
@@ -358,7 +363,13 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.fixture('tasks.json').then((updateTask) => {
         updateTask.businessKey = businessKey;
         updateTask.variables.rbtPayload.value.data.movementId = businessKey;
+        updateTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
         updateTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'ABC123';
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].groupReference = 'SR-100';
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].groupVersionNumber = 1;
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].selectorId = 2;
+        console.log('Updated Task', updateTask.variables.rbtPayload.value);
         updateTask.variables.rbtPayload.value = JSON.stringify(updateTask.variables.rbtPayload.value);
         cy.postTasks(updateTask, null).then((taskResponse) => {
           cy.wait(10000);
@@ -368,7 +379,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.fixture('tasks.json').then((reListTask) => {
           reListTask.businessKey = businessKey;
           reListTask.variables.rbtPayload.value.data.movementId = businessKey;
+          reListTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
           reListTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'XXYY54645';
+          reListTask.variables.rbtPayload.value.data.matchedRules[0].rulePriority = 'Tier 2';
+          reListTask.variables.rbtPayload.value.data.matchedRules[0].ruleId = 295;
+          reListTask.variables.rbtPayload.value.data.matchedRules[0].ruleVersion = 2;
+          console.log('Updated Task', reListTask.variables.rbtPayload.value);
           reListTask.variables.rbtPayload.value = JSON.stringify(reListTask.variables.rbtPayload.value);
           cy.postTasks(reListTask, null).then((taskResponse) => {
             cy.wait(10000);
@@ -382,7 +398,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
             cy.wait(2000);
 
-            cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+            cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click({ force: true });
 
             cy.wait('@claim').then(({ response }) => {
               expect(response.statusCode).to.equal(204);
@@ -398,7 +414,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
             cy.visit(`/tasks/${taskResponse.businessKey}`);
 
-            cy.contains('Issue target').click();
+            cy.contains('Issue target').click({ force: true });
 
             cy.wait(2000);
 
@@ -438,15 +454,17 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       // COP-8703 Check Task is no more listed on completed tab
       cy.get('a[href="#complete"]').click();
       const nextPage = 'a[data-test="next"]';
-      if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
-          expect(taskFound).to.equal(false);
-        });
-      } else {
-        cy.findTaskInSinglePage(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
-          expect(taskFound).to.equal(false);
-        });
-      }
+      cy.get('body').then(($el) => {
+        if ($el.find(nextPage).length > 0) {
+          cy.findTaskInAllThePages(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
+            expect(taskFound).to.equal(false);
+          });
+        } else {
+          cy.findTaskInSinglePage(businessKey.replace(/\//g, '_'), null, null).then((taskFound) => {
+            expect(taskFound).to.equal(false);
+          });
+        }
+      });
     });
   });
 
