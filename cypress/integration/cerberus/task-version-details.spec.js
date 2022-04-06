@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import utc from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
-import updateLocale from "dayjs/plugin/updateLocale";
-import config from "../../../src/config";
+import utc from 'dayjs/plugin/utc';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import config from '../../../src/config';
 
 const duration = require('dayjs/plugin/duration');
 
@@ -244,7 +244,6 @@ describe('Task Details of different tasks on task details Page', () => {
 
   it('Should verify task version details of tourist task on task details page', () => {
     cy.fixture('RoRo-Tourist-2-passengers.json').then((task) => {
-      const d = new Date(2022, 3, 27);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs('2022-03-27T10:00:00.000Z').valueOf();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
@@ -847,7 +846,7 @@ describe('Task Details of different tasks on task details Page', () => {
       'Total Score': '20',
       'Total Indicators': '1',
       'indicators': {
-        'Quick turnaround tourist (24-72 hours)': '20'
+        'Quick turnaround tourist (24-72 hours)': '20',
       },
     };
 

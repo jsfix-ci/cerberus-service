@@ -398,7 +398,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
             cy.wait(2000);
 
-            cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click({force:true});
+            cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click({ force: true });
 
             cy.wait('@claim').then(({ response }) => {
               expect(response.statusCode).to.equal(204);
@@ -414,7 +414,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
             cy.visit(`/tasks/${taskResponse.businessKey}`);
 
-            cy.contains('Issue target').click({force:true});
+            cy.contains('Issue target').click({ force: true });
 
             cy.wait(2000);
 
