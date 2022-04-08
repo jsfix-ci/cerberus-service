@@ -1,44 +1,65 @@
 {
-  "vehicle": {
-    "Trailer registration number": "GB07GYT",
-    "Trailer type": "Tanker",
-    "Trailer country of registration": "DK",
-    "Empty or loaded": "Empty",
-    "Trailer length": "36m",
-    "Trailer height": "3.6m"
+  "trailer-details": {
+    "trailer": {
+      "Trailer registration number": "GB07GYT",
+      "Trailer type": "Tanker",
+      "Trailer country of registration": "DK",
+      "Empty or loaded": "Empty",
+      "Trailer length": "36m",
+      "Trailer height": "3.6m"
+    },
+    "enrichmentCount": {
+      "Previous RoRo movements": "4",
+      "Examinations": "3",
+      "Seizures": "1"
+    }
   },
-  "account": {
-    "Full name": "DPE logistics",
-    "Short name": "",
-    "Reference number": "000524557",
-    "Address": "John Tranums Vei Esjerg DK",
-    "Telephone": "045 76 12 1493",
-    "Mobile": "",
-    "Email": ""
+  "account-details": {
+    "account": {
+      "Full name": "DPE logistics",
+      "Short name": "Unknown",
+      "Reference number": "000524557",
+      "Address": "John Tranums Vei Esjerg DK",
+      "Telephone": "045 76 12 1493",
+      "Mobile": "Unknown",
+      "Email": "Unknown"
+    },
+    "enrichmentCount": {
+      "Previous RoRo movements": "1",
+      "Examinations": "3",
+      "Seizures": "0"
+    }
   },
-  "haulier": {
-    "Name": "Haulier Auto Test UK",
-    "Address": "Unit 82 Central Docks, Canary Wharf, East London, E16 2SR",
-    "Mobile": "",
-    "Telephone": ""
+  "haulier-details": {
+    "haulier": {
+      "Name": "Haulier Auto Test UK",
+      "Address": "Unit 82 Central Docks, Canary Wharf, East London, E16 2SR",
+      "Telephone": "Unknown",
+      "Mobile": "Unknown"
+    },
+    "enrichmentCount": {
+      "Previous RoRo movements": "0",
+      "Examinations": "3",
+      "Seizures": "1"
+    }
   },
   "goods": {
     "Description": "Corkscrews",
     "Is cargo hazardous?": "No",
-    "Weight of goods": ""
+    "Weight of goods": "Unknown"
   },
   "Booking-and-check-in": {
     "Reference": "AA000000006",
     "Ticket number": "ST-34560",
-    "Type": "",
+    "Type": "Unknown",
     "Name": "Susan Tower",
-    "Address": "",
-    "Date and time": "4 Mar 2022 at 09:15, a year ago",
-    "Country": "GB",
-    "Payment method": "",
-    "Ticket price": "",
+    "Address": "Unknown",
+    "Booking date and time": "4 Mar 2022 at 09:15, a year ago",
+    "Country": "United Kingdom (GB)",
+    "Payment method": "Unknown",
+    "Ticket price": "Unknown",
     "Ticket type": "Single",
-    "Check-in": "2 Mar 2022 at 11:05, a year ago"
+    "Check-in date and time": "2 Mar 2022 at 11:05, a year ago"
   },
   "vessel": {
     "name": "NORMANDIE",
