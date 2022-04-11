@@ -4,9 +4,9 @@ import { initAll } from 'govuk-frontend';
 
 import { useKeycloak } from '../utils/keycloak';
 import Layout from '../components/Layout';
-import TaskListPage from './TaskLists/TaskListPage';
-import TaskDetailsPage from './TaskDetails/TaskDetailsPage';
-import IssueTargetPage from './IssueTargetPage';
+import TaskListPage from './roro/TaskLists/TaskListPage';
+import TaskDetailsPage from './roro/TaskDetails/TaskDetailsPage';
+import IssueTargetPage from './roro/IssueTargetPage';
 
 const AppRouter = () => {
   const keycloak = useKeycloak();
