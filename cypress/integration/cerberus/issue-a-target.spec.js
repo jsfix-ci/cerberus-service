@@ -128,6 +128,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.verifySelectDropdown('teamToReceiveTheTarget', targetInfo.groups);
 
       cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+
+      cy.SelectInformBothFreightAndTouristOption('informFreightAndTourist');
     });
 
     cy.clickSubmit();
@@ -479,6 +481,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.waitForNoErrors();
 
       cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+
+      cy.SelectInformBothFreightAndTouristOption('informFreightAndTourist');
     });
 
     cy.clickSubmit();
@@ -613,6 +617,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.waitForNoErrors();
 
       cy.selectDropDownValue('teamToReceiveTheTarget', targetInfo.groups[Math.floor(Math.random() * targetInfo.groups.length)]);
+
+      cy.SelectInformBothFreightAndTouristOption('informFreightAndTourist');
     });
 
     cy.clickSubmit();
