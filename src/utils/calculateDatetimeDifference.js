@@ -25,4 +25,22 @@ const targetDatetimeDifference = (bookingDatimeDifference) => {
   return '';
 };
 
-export default targetDatetimeDifference;
+// TODO: Handle string spaces when prefix or suffix OR prefix || suffix is empty
+/**
+ * Calculate the time difference between two dates
+ * @param dateOne First date
+ * @param dateTwo Second date
+ * @param prefix The prefix appended to the final output.
+ * @param suffix The suffix appended to the final output.
+ * @returns A date formatted string, including the supplied prefix & suffix.
+ */
+const calculateDateTimeDifference = (dateOne, dateTwo, prefix = '', suffix = '') => {
+  if (!dateOne || !dateTwo) {
+    return '';
+  }
+  const dateTimeOne = dayjs.utc(dateOne);
+  const dateTimeTwo = dayjs.utc(dateTwo);
+  return `${prefix} ${dateTimeTwo.from(dateTimeOne)} ${suffix}`;
+};
+
+export { targetDatetimeDifference, calculateDateTimeDifference };
