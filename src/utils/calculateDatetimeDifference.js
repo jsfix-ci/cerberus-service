@@ -12,35 +12,27 @@ dayjs.extend(updateLocale);
 dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
 /**
- * Calculate difference between booking date and departure date
+ * Calculate the time difference between two dates
+ *
+ * @param startDate Start date
+ * @param endDate End date
+ * @param prefix The prefix appended to the final output (if provided).
+ * @param suffix The suffix appended to the final output (if provided).
+ * @returns A date formatted string, including the supplied prefix & suffix OR an empty string.
  */
-const targetDatetimeDifference = (bookingDatimeDifference) => {
-  const datetimeArray = bookingDatimeDifference.split(',').filter((x) => x.length > 0);
-  // Date at index 0, is the booking date.
-  if (datetimeArray.length > 1) {
-    const bookingDateTime = dayjs.utc(datetimeArray[0]);
-    const scheduledDepartureTime = dayjs.utc(datetimeArray[1]);
-    return `Booked ${scheduledDepartureTime.from(bookingDateTime)}`;
-  }
-  return '';
+const calculateDifference = (startDate, endDate, prefix = '', suffix = '') => {
+  const formattedPrefix = prefix ? `${prefix} ` : '';
+  const formattedSuffix = suffix ? ` ${suffix}` : '';
+  const dateTimeStart = dayjs.utc(startDate);
+  const dateTimeEnd = dayjs.utc(endDate);
+  return `${formattedPrefix}${dateTimeEnd.from(dateTimeStart)}${formattedSuffix}`;
 };
 
-// TODO: Handle string spaces when prefix or suffix OR prefix || suffix is empty
-/**
- * Calculate the time difference between two dates
- * @param dateOne First date
- * @param dateTwo Second date
- * @param prefix The prefix appended to the final output.
- * @param suffix The suffix appended to the final output.
- * @returns A date formatted string, including the supplied prefix & suffix.
- */
-const calculateDateTimeDifference = (dateOne, dateTwo, prefix = '', suffix = '') => {
-  if (!dateOne || !dateTwo) {
+const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
+  if (dateTimeArray.length === 1) {
     return '';
   }
-  const dateTimeOne = dayjs.utc(dateOne);
-  const dateTimeTwo = dayjs.utc(dateTwo);
-  return `${prefix} ${dateTimeTwo.from(dateTimeOne)} ${suffix}`;
+  return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix, suffix);
 };
 
-export { targetDatetimeDifference, calculateDateTimeDifference };
+export default calculateTimeDifference;

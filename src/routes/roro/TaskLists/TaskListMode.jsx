@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as pluralise from 'pluralise';
 import * as constants from '../../../constants';
 // Utils
-import targetDatetimeDifference from '../../../utils/calculateDatetimeDifference';
+import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 import formatGender from '../../../utils/genderFormatter';
 import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer } from '../../../utils/roroDataUtil';
 
@@ -120,6 +120,7 @@ const renderRoroVoyageSection = (roroData) => {
 };
 
 const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
+  const dateTimeArray = roroData.bookingDateTime.split(',').filter((x) => x.length > 0);
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-item">
@@ -152,9 +153,9 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
           {roroData.bookingDateTime ? (
             <>
-              {roroData.bookingDateTime && <li>Booked on {dayjs.utc(roroData.bookingDateTime.split(',')[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+              {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
               {roroData.bookingDateTime && <br />}
-              {roroData.bookingDateTime && <li>{targetDatetimeDifference(roroData.bookingDateTime)}</li>}
+              {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
             </>
           ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
         </ul>
@@ -177,6 +178,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
 };
 
 const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
+  const dateTimeArray = roroData.bookingDateTime.split(',').filter((x) => x.length > 0);
   const passengers = roroData?.passengers;
   if (movementModeIcon === constants.RORO_TOURIST_CAR_ICON) {
     return (
@@ -244,9 +246,9 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                 {roroData.bookingDateTime ? (
                   <>
-                    {roroData.bookingDateTime && <li>Booked on {dayjs.utc(roroData.bookingDateTime.split(',')[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+                    {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
                     {roroData.bookingDateTime && <br />}
-                    {roroData.bookingDateTime && <li>{targetDatetimeDifference(roroData.bookingDateTime)}</li>}
+                    {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
                   </>
                 ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
               </ul>
@@ -306,6 +308,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
 };
 
 const TaskListMode = ({ roroData, target, movementModeIcon }) => {
+  const dateTimeArray = roroData.bookingDateTime.split(',').filter((x) => x.length > 0);
   const passengers = roroData.passengers;
   const movementMode = target.movementMode.toUpperCase();
   return (
@@ -359,9 +362,9 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   {roroData.account ? (
                     <>
                       {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(roroData.bookingDateTime.split(',')[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
                       {roroData.bookingDateTime && <br />}
-                      {roroData.bookingDateTime && <li>{targetDatetimeDifference(roroData.bookingDateTime)}</li>}
+                      {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
@@ -478,9 +481,9 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   {roroData.account ? (
                     <>
                       {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(roroData.bookingDateTime.split(',')[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
                       {roroData.bookingDateTime && <br />}
-                      {roroData.bookingDateTime && <li>{targetDatetimeDifference(roroData.bookingDateTime)}</li>}
+                      {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
