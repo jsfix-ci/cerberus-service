@@ -769,6 +769,11 @@ function getTaskSummary(businessKey) {
     });
 
     if (businessKey.includes('Accompanied')) {
+      cy.wrap(element).contains('Driver details').then((count) => {
+        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((enrichmentCount) => {
+          taskSummary.driverEnrichmentCount = enrichmentCount;
+        });
+      });
       cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
         cy.wrap(driverDetails).find('li').each((details, index) => {
           cy.wrap(details).invoke('text').then((info) => {
@@ -780,6 +785,12 @@ function getTaskSummary(businessKey) {
               taskSummary.driverNumberOfTrips = info;
             }
           });
+        });
+      });
+
+      cy.wrap(element).contains('Vehicle details').then((count) => {
+        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((vehicleCount) => {
+          taskSummary.vehicleEnrichmentCount = vehicleCount;
         });
       });
 
@@ -808,6 +819,12 @@ function getTaskSummary(businessKey) {
       });
     }
 
+    cy.wrap(element).contains('Account details').then((count) => {
+      cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((accountCount) => {
+        taskSummary.accountEnrichmentCount = accountCount;
+      });
+    });
+
     cy.wrap(element).contains('Account details').next().then((accountDetails) => {
       cy.wrap(accountDetails).find('li').each((details, index) => {
         cy.wrap(details).invoke('text').then((info) => {
@@ -817,6 +834,12 @@ function getTaskSummary(businessKey) {
             taskSummary.bookedDetails = info;
           }
         });
+      });
+    });
+
+    cy.wrap(element).contains('Haulier details').then((count) => {
+      cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((haulierCount) => {
+        taskSummary.haulierEnrichmentCount = haulierCount;
       });
     });
 
@@ -836,11 +859,19 @@ function getTaskSummary(businessKey) {
       });
     });
 
+    if (!businessKey.includes('Unknown-Null-vehicle-regNumber')) {
+      cy.wrap(element).contains('Trailer details').then((count) => {
+        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((trailerCount) => {
+          taskSummary.trailerEnrichmentCount = trailerCount;
+        });
+      });
+    }
+
     cy.wrap(element).contains('Trailer details').next().then((trailerDetails) => {
       cy.wrap(trailerDetails).find('li').each((details, index) => {
         cy.wrap(details).invoke('text').then((info) => {
           if (index === 0) {
-            taskSummary.trailerRegitration = info;
+            taskSummary.trailerRegistration = info;
           } else {
             taskSummary.trailerTrips = info;
           }
@@ -857,9 +888,13 @@ function getTaskSummary(businessKey) {
     });
 }
 
-Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
+Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
+  cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
+    .click({ force: true });
+
+  cy.contains('Apply filters').click();
   cy.wait(2000);
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
@@ -880,7 +915,7 @@ Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionn
   }
   cy.get(`[id$=-content-${versionInRow}]`).within(() => {
     cy.contains('h3', sectionname)
-      .next()
+      .nextAll()
       .within(() => {
         cy.getTaskDetails()
           .then((details) => {
@@ -922,7 +957,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
 
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'vehicle')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h3', 'Vehicle').next().within((elements) => {
+      cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
         cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });

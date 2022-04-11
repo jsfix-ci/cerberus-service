@@ -567,12 +567,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.goodsDescription = null;
         let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
         task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`)
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-Unknown-Null-vehicle-regNumber`)
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
-              cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
-                expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
+              cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
+                expect(taskListDetails).to.deep.equal(expTestData.taskListDetails);
               });
             });
             cy.checkTaskDisplayed(`${response.businessKey}`);
@@ -613,12 +613,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.goodsDescription = null;
         let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
         task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-        const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}`;
+        const businessKey = `AUTOTEST-${dateNowFormatted}-${mode}-Unknown-Null-vehicle-regNumber`;
         cy.postTasks(task, businessKey)
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
-              cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
@@ -651,7 +651,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
-              cy.verifyTaskListInfo(`${response.businessKey}`).then((taskListDetails) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
+                console.log(taskListDetails);
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
@@ -689,37 +690,42 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           cy.assignToOtherUser(tasks);
         });
       });
-    });
 
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
+      cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
 
-    cy.getTasksAssignedToSpecificUser('boothi.palanisamy@digital.homeoffice.gov.uk').then((tasks) => {
-      cy.navigateToTaskDetailsPage(tasks);
-    });
+      cy.getTasksAssignedToSpecificUser('boothi.palanisamy@digital.homeoffice.gov.uk').then((tasks) => {
+        cy.navigateToTaskDetailsPage(tasks);
+      });
 
-    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+      cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.get('p.govuk-body').eq(0).should('contain.text', 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
+      cy.get('p.govuk-body').eq(0).should('contain.text', 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk');
 
-    cy.contains('Back to task list').click();
+      cy.contains('Back to task list').click();
 
-    cy.get('a[href="#inProgress"]').click();
+      cy.get('a[href="#inProgress"]').click();
 
-    cy.wait('@tasks').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
-    });
+      cy.wait('@tasks').then(({ response }) => {
+        expect(response.statusCode).to.equal(200);
+      });
 
-    cy.get('@taskName').then((text) => {
-      const nextPage = 'a[data-test="next"]';
-      if (Cypress.$(nextPage).length > 0) {
-        cy.findTaskInAllThePages(text, null, 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk').then((taskFound) => {
-          expect(taskFound).to.equal(true);
-        });
-      } else {
-        cy.findTaskInSinglePage(text, null, 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk').then((taskFound) => {
-          expect(taskFound).to.equal(true);
-        });
-      }
+      cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
+        .click({ force: true });
+
+      cy.contains('Apply filters').click();
+
+      cy.get('@taskName').then((text) => {
+        const nextPage = 'a[data-test="next"]';
+        if (Cypress.$(nextPage).length > 0) {
+          cy.findTaskInAllThePages(text, null, 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk').then((taskFound) => {
+            expect(taskFound).to.equal(true);
+          });
+        } else {
+          cy.findTaskInSinglePage(text, null, 'Assigned to boothi.palanisamy@digital.homeoffice.gov.uk').then((taskFound) => {
+            expect(taskFound).to.equal(true);
+          });
+        }
+      });
     });
   });
 
