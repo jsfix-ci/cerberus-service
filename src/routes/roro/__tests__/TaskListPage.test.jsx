@@ -4,7 +4,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useInterval } from 'react-use';
 import { renderHook } from '@testing-library/react-hooks';
-import '../../__mocks__/keycloakMock';
+import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import taskListData from '../__fixtures__/taskListData.fixture.json';
 import taskListDataComplete from '../__fixtures__/taskListData_COMPLETE.fixture.json';
@@ -13,7 +13,7 @@ import taskListDataIssued from '../__fixtures__/taskListData_ISSUED.fixture.json
 import taskListDataRoroTouristNoVehicleOnePax from '../__fixtures__/roro-tourist-no-vehicle-single-passenger/taskListData_RoRoTourist.fixture.json';
 import taskListDataRoroTouristNoVehicleTwoPax from '../__fixtures__/roro-tourist-no-vehicle-group-passengers/taskListData_RoRoTourist.fixture.json';
 import taskListDataRoroTouristVehicleThreePax from '../__fixtures__/roro-tourist-vehicle-3-passengers/taskListData_RoRoTourist.fixture.json';
-import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
+import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);

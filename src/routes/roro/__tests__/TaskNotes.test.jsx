@@ -3,7 +3,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '../../__mocks__/keycloakMock';
+import '../../../__mocks__/keycloakMock';
 
 import TaskNotes from '../TaskDetails/TaskNotes';
 

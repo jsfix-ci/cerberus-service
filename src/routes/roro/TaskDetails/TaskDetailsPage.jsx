@@ -5,23 +5,23 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../constants';
-import config from '../../config';
+import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../../constants';
+import config from '../../../config';
 // Utils
-import useAxiosInstance from '../../utils/axiosInstance';
-import { useKeycloak } from '../../utils/keycloak';
-import { useFormSubmit } from '../../utils/formioSupport';
-import findAndUpdateTaskVersionDifferences from '../../utils/findAndUpdateTaskVersionDifferences';
+import useAxiosInstance from '../../../utils/axiosInstance';
+import { useKeycloak } from '../../../utils/keycloak';
+import { useFormSubmit } from '../../../utils/formioSupport';
+import findAndUpdateTaskVersionDifferences from '../../../utils/findAndUpdateTaskVersionDifferences';
 // Components/Pages
-import ClaimButton from '../../components/ClaimTaskButton';
-import RenderForm from '../../components/RenderForm';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import ClaimButton from '../../../components/ClaimTaskButton';
+import RenderForm from '../../../components/RenderForm';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskNotes from './TaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
-import Button from '../../govuk/Button';
-import ErrorSummary from '../../govuk/ErrorSummary';
-import Panel from '../../govuk/Panel';
+import Button from '../../../govuk/Button';
+import ErrorSummary from '../../../govuk/ErrorSummary';
+import Panel from '../../../govuk/Panel';
 import '../__assets__/TaskDetailsPage.scss';
 
 const escapeJSON = (input) => {

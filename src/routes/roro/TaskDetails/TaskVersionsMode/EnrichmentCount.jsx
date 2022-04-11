@@ -1,5 +1,5 @@
 import React from 'react';
-import numberWithCommas from '../../../utils/numberWithCommas';
+import numberWithCommas from '../../../../utils/numberWithCommas';
 
 const EnrichmentCount = ({ enrichmentCount }) => {
   return (

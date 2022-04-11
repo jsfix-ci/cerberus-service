@@ -2,12 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { render, screen, waitFor } from '@testing-library/react';
-import '../../__mocks__/keycloakNonTargeterMock';
+import '../../../__mocks__/keycloakNonTargeterMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 
 describe('TaskListPage for non targeter', () => {
   const mockAxios = new MockAdapter(axios);
-  jest.mock('../../__mocks__/keycloakNonTargeterMock');
+  jest.mock('../../../__mocks__/keycloakNonTargeterMock');
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();

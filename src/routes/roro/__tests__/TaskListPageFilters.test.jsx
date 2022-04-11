@@ -2,9 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import '../../__mocks__/keycloakMock';
+import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
-import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
+import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);

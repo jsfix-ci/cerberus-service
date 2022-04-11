@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import renderer from 'react-test-renderer';
-import { RORO_ACCOMPANIED_FREIGHT } from '../../../constants';
+import { RORO_ACCOMPANIED_FREIGHT } from '../../../../constants';
 import {
   renderBookingSection,
   renderVehicleSection,

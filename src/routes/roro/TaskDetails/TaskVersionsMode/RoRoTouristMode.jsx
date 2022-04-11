@@ -1,7 +1,7 @@
 import React from 'react';
-import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../constants';
+import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../../constants';
 
-import { calculateTaskVersionTotalRiskScore } from '../../../utils/rickScoreCalculator';
+import { calculateTaskVersionTotalRiskScore } from '../../../../utils/rickScoreCalculator';
 
 import {
   renderTargetingIndicatorsSection,
@@ -19,7 +19,7 @@ import {
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
-} from '../../../utils/roroDataUtil';
+} from '../../../../utils/roroDataUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
