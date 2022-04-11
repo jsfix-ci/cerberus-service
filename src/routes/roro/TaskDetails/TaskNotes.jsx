@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
-import config from '../../config';
+import config from '../../../config';
 // Utils
-import useAxiosInstance from '../../utils/axiosInstance';
-import { useFormSubmit } from '../../utils/formioSupport';
-import hyperlinkify from '../../utils/hyperlinkify';
-import { useKeycloak } from '../../utils/keycloak';
+import useAxiosInstance from '../../../utils/axiosInstance';
+import { useFormSubmit } from '../../../utils/formioSupport';
+import hyperlinkify from '../../../utils/hyperlinkify';
+import { useKeycloak } from '../../../utils/keycloak';
 // Components / Pages
-import RenderForm from '../../components/RenderForm';
+import RenderForm from '../../../components/RenderForm';
 
 // See Camunda docs for all operation types:
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html

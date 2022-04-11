@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import '../../__mocks__/keycloakMock';
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 import ClaimButton from '../ClaimTaskButton';
-import TaskListPage from '../../routes/TaskLists/TaskListPage';
+import TaskListPage from '../../routes/roro/TaskLists/TaskListPage';
 
 const setError = jest.fn();
 const TaskAssignedWarning = jest.fn();

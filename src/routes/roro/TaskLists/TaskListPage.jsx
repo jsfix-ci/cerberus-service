@@ -21,20 +21,20 @@ import {
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
-} from '../../constants';
-import config from '../../config';
+} from '../../../constants';
+import config from '../../../config';
 // Utils
-import useAxiosInstance from '../../utils/axiosInstance';
-import { useKeycloak } from '../../utils/keycloak';
-import { calculateTaskListTotalRiskScore } from '../../utils/rickScoreCalculator';
-import getMovementModeIcon from '../../utils/getVehicleModeIcon';
-import { modifyRoRoPassengersTaskList } from '../../utils/roroDataUtil';
+import useAxiosInstance from '../../../utils/axiosInstance';
+import { useKeycloak } from '../../../utils/keycloak';
+import { calculateTaskListTotalRiskScore } from '../../../utils/rickScoreCalculator';
+import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
+import { modifyRoRoPassengersTaskList } from '../../../utils/roroDataUtil';
 // Components/Pages
-import ClaimButton from '../../components/ClaimTaskButton';
-import ErrorSummary from '../../govuk/ErrorSummary';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import Pagination from '../../components/Pagination';
-import Tabs from '../../govuk/Tabs';
+import ClaimButton from '../../../components/ClaimTaskButton';
+import ErrorSummary from '../../../govuk/ErrorSummary';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import Pagination from '../../../components/Pagination';
+import Tabs from '../../../govuk/Tabs';
 import TaskListMode from './TaskListMode';
 // Styling
 import '../__assets__/TaskListPage.scss';

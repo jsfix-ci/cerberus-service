@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import '../../__mocks__/keycloakMock';
+import '../../../__mocks__/keycloakMock';
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';

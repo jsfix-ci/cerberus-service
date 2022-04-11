@@ -3,19 +3,19 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import _ from 'lodash';
-import Accordion from '../../govuk/Accordion';
+import Accordion from '../../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
 import RoRoAccompaniedTaskVersion from './TaskVersionsMode/RoRoAccompaniedMode';
 import RoRoUnaccompaniedTaskVersion from './TaskVersionsMode/RoRoUnaccompaniedMode';
 import RoRoTouristTaskVersion from './TaskVersionsMode/RoRoTouristMode';
 // config
 import { RORO_TOURIST, LONG_DATE_FORMAT, RORO_TOURIST_CAR_ICON,
-  RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON, RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT } from '../../constants';
+  RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON, RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT } from '../../../constants';
 // utils
-import getMovementModeIcon from '../../utils/getVehicleModeIcon';
-import { modifyRoRoPassengersTaskDetails } from '../../utils/roroDataUtil';
-import Table from '../../govuk/Table';
-import { capitalizeFirstLetter } from '../../utils/stringConversion';
+import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
+import { modifyRoRoPassengersTaskDetails } from '../../../utils/roroDataUtil';
+import Table from '../../../govuk/Table';
+import { capitalizeFirstLetter } from '../../../utils/stringConversion';
 
 import { SelectorMatchesTaskVersion } from './TaskVersionsMode/SelectorMatchesTaskVersion';
 
