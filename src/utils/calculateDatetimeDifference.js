@@ -11,18 +11,18 @@ dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
-/**
- * Calculate difference between booking date and departure date
- */
-const targetDatetimeDifference = (bookingDatimeDifference) => {
-  const datetimeArray = bookingDatimeDifference.split(',').filter((x) => x.length > 0);
-  // Date at index 0, is the booking date.
-  if (datetimeArray.length > 1) {
-    const bookingDateTime = dayjs.utc(datetimeArray[0]);
-    const scheduledDepartureTime = dayjs.utc(datetimeArray[1]);
-    return `Booked ${scheduledDepartureTime.from(bookingDateTime)}`;
-  }
-  return '';
+const calculateDifference = (startDate, endDate, prefix = '') => {
+  const formattedPrefix = prefix ? `${prefix} ` : '';
+  const dateTimeStart = dayjs.utc(startDate);
+  const dateTimeEnd = dayjs.utc(endDate);
+  return `${formattedPrefix}${dateTimeEnd.from(dateTimeStart)}`;
 };
 
-export default targetDatetimeDifference;
+const calculateTimeDifference = (dateTimeArray, prefix = '') => {
+  if (dateTimeArray.length <= 1) {
+    return '';
+  }
+  return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix);
+};
+
+export default calculateTimeDifference;

@@ -24,3 +24,4 @@ export const RORO_UNACCOMPANIED_ICON = 'c-icon-trailer';
 export const RORO_ACCOMPANIED_ICON = 'c-icon-hgv';
 export const RORO_VAN_ICON = 'c-icon-van';
 export const RORO_NO_ICON = '';
+export const DEFAULT_DATE_TIME_STRING_PREFIX = 'Booked';
