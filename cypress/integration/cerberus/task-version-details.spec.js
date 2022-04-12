@@ -44,23 +44,31 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
-      cy.contains('h3', 'Account details').next().within(() => {
+      cy.contains('h3', 'Account details').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          expect(count).to.deep.equal(expectedDetails['account-details'].enrichmentCount);
+        });
         cy.getTaskDetails().then((details) => {
           console.log(expectedDetails.account);
-          console.log('actual', details);
-          expect(expectedDetails.account).to.deep.equal(details);
+          expect(details).to.deep.equal(expectedDetails['account-details'].account);
         });
       });
 
-      cy.contains('h3', 'Trailer').next().within((elements) => {
+      cy.contains('h3', 'Trailer').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          expect(count).to.deep.equal(expectedDetails['trailer-details'].enrichmentCount);
+        });
         cy.getVehicleDetails(elements).then((details) => {
-          expect(details).to.deep.equal(expectedDetails.vehicle);
+          expect(details).to.deep.equal(expectedDetails['trailer-details'].trailer);
         });
       });
 
-      cy.contains('h3', 'Haulier details').next().within(() => {
+      cy.contains('h3', 'Haulier details').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          expect(count).to.deep.equal(expectedDetails['haulier-details'].enrichmentCount);
+        });
         cy.getTaskDetails().then((details) => {
-          expect(expectedDetails.haulier).to.deep.equal(details);
+          expect(details).to.deep.equal(expectedDetails['haulier-details'].haulier);
         });
       });
 
@@ -259,14 +267,33 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('tourist-task-details.json').then((expectedDetails) => {
-      cy.contains('h3', 'Vehicle').next().within((elements) => {
+      cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          console.log(count);
+          expect(count).to.deep.equal(expectedDetails['vehicle-details'].enrichmentCount);
+        });
         cy.getVehicleDetails(elements).then((details) => {
-          expect(details).to.deep.equal(expectedDetails.vehicle);
+          expect(details).to.deep.equal(expectedDetails['vehicle-details'].vehicle);
         });
       });
 
       cy.get('[id$=-content-1]').within(() => {
         cy.get('.govuk-task-details-col-3').within(() => {
+          cy.get('.task-details-container').each((occupant, index) => {
+            cy.wrap(occupant).find('.enrichment-counts').within((elements) => {
+              cy.getEnrichmentCounts(elements).then((count) => {
+                console.log(count);
+                expect(count).to.deep.equal(expectedDetails['Occupant-EnrichmentCount'][index]);
+              });
+            });
+          });
+
+          cy.get('.govuk-hidden-passengers').find('.enrichment-counts').within((elements) => {
+            cy.getEnrichmentCounts(elements).then((count) => {
+              console.log(count);
+              expect(count).to.deep.equal(expectedDetails['Occupant-hiddenPassenger']);
+            });
+          });
           cy.getOccupantDetails().then((actualoccupantDetails) => {
             console.log(actualoccupantDetails);
             expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
@@ -303,26 +330,53 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('accompanied-task-2-passengers-details.json').then((expectedDetails) => {
-      cy.contains('h3', 'Vehicle').next().within((elements) => {
+      cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          console.log(count);
+          expect(count).to.deep.equal(expectedDetails['vehicle-details'].enrichmentCount);
+        });
         cy.getVehicleDetails(elements).then((details) => {
-          expect(details).to.deep.equal(expectedDetails.vehicle);
+          expect(details).to.deep.equal(expectedDetails['vehicle-details'].vehicle);
         });
       });
 
-      cy.contains('h3', 'Account details').next().within(() => {
+      cy.contains('h3', 'Account details').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          console.log(count);
+          expect(count).to.deep.equal(expectedDetails['account-details'].enrichmentCount);
+        });
         cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.account);
+          expect(details).to.deep.equal(expectedDetails['account-details'].account);
         });
       });
 
-      cy.contains('h3', 'Haulier details').next().within(() => {
+      cy.contains('h3', 'Haulier details').nextAll().within((elements) => {
+        cy.getEnrichmentCounts(elements).then((count) => {
+          console.log(count);
+          expect(count).to.deep.equal(expectedDetails['haulier-details'].enrichmentCount);
+        });
         cy.getTaskDetails().then((details) => {
-          expect(details).to.deep.equal(expectedDetails.haulier);
+          expect(details).to.deep.equal(expectedDetails['haulier-details'].haulier);
         });
       });
 
       cy.get('[id$=-content-1]').within(() => {
         cy.get('.govuk-task-details-col-3').within(() => {
+          cy.get('.task-details-container').each((occupant, index) => {
+            cy.wrap(occupant).find('.enrichment-counts').within((elements) => {
+              cy.getEnrichmentCounts(elements).then((count) => {
+                console.log(count);
+                expect(count).to.deep.equal(expectedDetails['Occupant-EnrichmentCount'][index]);
+              });
+            });
+          });
+
+          cy.get('.govuk-hidden-passengers').find('.enrichment-counts').within((elements) => {
+            cy.getEnrichmentCounts(elements).then((count) => {
+              console.log(count);
+              expect(count).to.deep.equal(expectedDetails['Occupant-hiddenPassenger']);
+            });
+          });
           cy.getOccupantDetails().then((actualoccupantDetails) => {
             console.log(actualoccupantDetails);
             expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
