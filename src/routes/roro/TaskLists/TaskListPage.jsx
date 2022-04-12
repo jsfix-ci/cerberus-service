@@ -34,7 +34,7 @@ import ClaimButton from '../../../components/ClaimTaskButton';
 import ErrorSummary from '../../../govuk/ErrorSummary';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Pagination from '../../../components/Pagination';
-import Tabs from '../../../govuk/Tabs';
+import Tabs from '../../../components/Tabs';
 import TaskListMode from './TaskListMode';
 // Styling
 import '../__assets__/TaskListPage.scss';
