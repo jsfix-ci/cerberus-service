@@ -1,4 +1,5 @@
-import targetDatetimeDifference from '../calculateDatetimeDifference';
+import calculateTimeDifference from '../calculateDatetimeDifference';
+import { DEFAULT_DATE_TIME_STRING_PREFIX } from '../../constants';
 
 describe('should calculate and return relative time diff between booking time and departure time', () => {
   it.each([
@@ -11,9 +12,12 @@ describe('should calculate and return relative time diff between booking time an
     ['2020-09-24T01:15:00,2020-09-24T02:15:00', 'Booked an hour before travel'],
     ['2020-09-24T01:15:00,2020-09-24T03:15:00', 'Booked 2 hours before travel'],
     ['2020-10-24T15:15:00,', ''],
+    ['', ''],
   ])(
-    'should calculate the relative time difference', (bookingDatetime, expected) => {
-      expect(targetDatetimeDifference(bookingDatetime)).toEqual(expected);
+    'should calculate the relative time difference', (dateTimeCommaString, expected) => {
+      const dateTimeArray = dateTimeCommaString.split(',').filter((x) => x.length > 0);
+      const formattedDateString = calculateTimeDifference(dateTimeArray, DEFAULT_DATE_TIME_STRING_PREFIX);
+      expect(formattedDateString).toEqual(expected);
     },
   );
 });
