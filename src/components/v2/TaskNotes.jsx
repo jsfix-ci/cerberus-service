@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
-import config from '../../../config';
+import config from '../../config';
 // Utils
-import useAxiosInstance from '../../../utils/axiosInstance';
-import { useFormSubmit } from '../../../utils/formioSupport';
-import hyperlinkify from '../../../utils/hyperlinkify';
-import { useKeycloak } from '../../../utils/keycloak';
+import useAxiosInstance from '../../utils/axiosInstance';
+import { useFormSubmit } from '../../utils/formioSupport';
+import hyperlinkify from '../../utils/hyperlinkify';
+import { useKeycloak } from '../../utils/keycloak';
 // Components / Pages
-import RenderForm from '../../../components/RenderForm';
+import RenderForm from '../RenderForm';
 
 // See Camunda docs for all operation types:
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }) => {
+const TaskNotes = ({ formName, displayForm, businessKey, processInstanceId, refreshNotes }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const submitForm = useFormSubmit();
@@ -113,12 +113,12 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }
                 businessKey,
                 form,
                 { ...data.data, processInstanceId },
-                'noteCerberus',
+                formName,
               );
               getNotes();
             }
           }
-          formName="noteCerberus"
+          formName={formName}
         />
       )}
 

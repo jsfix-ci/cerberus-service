@@ -16,7 +16,7 @@ import findAndUpdateTaskVersionDifferences from '../../../utils/findAndUpdateTas
 import ClaimButton from '../../../components/ClaimTaskButton';
 import RenderForm from '../../../components/RenderForm';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import TaskNotes from './TaskNotes';
+import TaskNotes from '../../../components/v2/TaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
 import Button from '../../../govuk/Button';
@@ -395,6 +395,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <TaskNotes
+              formName="noteCerberus"
               displayForm={assignee === currentUser}
               businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
               processInstanceId={processInstanceId}
