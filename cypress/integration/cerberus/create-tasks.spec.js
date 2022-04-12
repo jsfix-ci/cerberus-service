@@ -70,6 +70,38 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.checkTaskSummary(registrationNumber, taskCreationDateTime);
       });
+
+      cy.fixture('tourist-task-co-travellers.json').then((expectedDetails) => {
+        cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
+          cy.getEnrichmentCounts(elements).then((count) => {
+            expect(count).to.deep.equal(expectedDetails['vehicle-details'].enrichmentCount);
+          });
+          cy.getVehicleDetails(elements).then((details) => {
+            expect(details).to.deep.equal(expectedDetails['vehicle-details'].vehicle);
+          });
+        });
+
+        cy.get('[id$=-content-1]').within(() => {
+          cy.get('.govuk-task-details-col-3').within(() => {
+            cy.get('.task-details-container').each((occupant, index) => {
+              cy.wrap(occupant).find('.enrichment-counts').within((elements) => {
+                cy.getEnrichmentCounts(elements).then((count) => {
+                  expect(count).to.deep.equal(expectedDetails['Occupant-EnrichmentCount'][index]);
+                });
+              });
+            });
+            cy.getOccupantDetails().then((actualoccupantDetails) => {
+              expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
+            });
+          });
+        });
+
+        cy.contains('h3', 'Booking and check-in').next().within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
+          });
+        });
+      });
     });
   });
 
@@ -183,7 +215,7 @@ describe('Create task with different payload from Cerberus', () => {
       'bookedOn': 'Booked on 02/08/2020',
       'booked': 'Booked 5 days before travel',
       'travellers': [
-        'None',
+        ' ',
       ],
     };
 

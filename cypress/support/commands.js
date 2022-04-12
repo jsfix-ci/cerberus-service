@@ -472,7 +472,7 @@ Cypress.Commands.add('getTargetIndicatorDetails', () => {
 
 Cypress.Commands.add(('getVehicleDetails'), (elements) => {
   const obj = {};
-  cy.wrap(elements).each((item) => {
+  cy.wrap(elements).eq(1).each((item) => {
     cy.wrap(item).find('div ul').each((detail) => {
       cy.wrap(detail).find('span.govuk-grid-key').invoke('text').then((key) => {
         cy.wrap(detail).find('.govuk-grid-value').invoke('text').then((value) => {
@@ -485,10 +485,35 @@ Cypress.Commands.add(('getVehicleDetails'), (elements) => {
   });
 });
 
+Cypress.Commands.add(('getEnrichmentCounts'), (elements) => {
+  let obj = {};
+  const keys = [];
+  const values = [];
+  cy.wrap(elements).eq(0).within(() => {
+    cy.get('.labels .govuk-grid-column-one-third').each((item) => {
+      cy.wrap(item).find('span.font__light').invoke('text').then((key) => {
+        keys.push(key);
+      });
+    });
+    cy.get('.values .govuk-grid-column-one-third').each((value) => {
+      cy.wrap(value).find('span.font__bold').invoke('text').then((count) => {
+        values.push(count);
+      });
+    });
+  }).then(() => {
+    keys.forEach((k, i) => {
+      obj[k] = values[i];
+    });
+  })
+    .then(() => {
+      return obj;
+    });
+});
+
 Cypress.Commands.add(('getOccupantDetails'), () => {
   const occupantArray = [];
   cy.get('.task-details-container').each((occupant) => {
-    cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+    cy.wrap(occupant).find('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
       let obj = {};
       cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
         cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
