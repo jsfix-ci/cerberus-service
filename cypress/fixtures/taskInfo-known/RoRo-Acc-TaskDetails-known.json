@@ -215,7 +215,7 @@
                     "valueType": "STRING",
                     "valueList": {
                       "val": [
-                        "Brown|Bob|M|435|IR|OBJDOCPAS|ST678457|18659|NL|PERFDRIVER|ROROXML:P=8049bc0c58748004ad81925020b26ce3"
+                        "Brown|Bob|M|435|IR|OBJDOCPAS|ST678457|18659|NL|PERFDRIVER|ROROXML:P=8049bc0c58748004ad81925020b26ce3|3|4|1"
                       ]
                     },
                     "id": null,
@@ -408,7 +408,37 @@
                   "registrationCountry": null
                 },
                 "matching": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "EAB-SEIZURE-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 0,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "EAB-EXAMINATION-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 1,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "RORO-MOVEMENT-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 4,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+              },
                 "washResponses": null,
                 "name": null,
                 "attributes": {
@@ -484,7 +514,38 @@
                   "registrationCountry": "GB"
                 },
                 "matching": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "EAB-SEIZURE-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 0,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "EAB-EXAMINATION-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 1,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "RORO-MOVEMENT-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 4,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  },
+                  "changeHistory": null
+                },
                 "washResponses": null,
                 "name": null,
                 "attributes": {
@@ -620,15 +681,42 @@
                 "changeHistory": null,
                 "features": {
                   "feats": {
-                    "STANDARDISED:dateOfBirth": {
-                      "valueType": "STRING",
-                      "valueList": null,
+                    "EAB-SEIZURE-COUNT": {
                       "id": null,
-                      "type": null,
-                      "value": "1969-10-27",
-                      "endTimestamp": null,
-                      "startTimestamp": null
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 0,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "EAB-EXAMINATION-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 1,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "RORO-MOVEMENT-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 4,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
                     }
+                  },
+                  "STANDARDISED:dateOfBirth": {
+                    "valueType": "STRING",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": "1969-10-27",
+                    "endTimestamp": null,
+                    "startTimestamp": null
                   }
                 },
                 "metadata": {
@@ -699,7 +787,37 @@
             "organisations": [
               {
                 "changeHistory": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "EAB-SEIZURE-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 0,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "EAB-EXAMINATION-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 1,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "RORO-MOVEMENT-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 4,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  }
+                },
                 "metadata": {
                   "identityRecord": {
                     "type": "P",
@@ -762,7 +880,46 @@
               },
               {
                 "changeHistory": null,
-                "features": null,
+                "features": {
+                  "feats": {
+                    "EAB-SEIZURE-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 0,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "EAB-EXAMINATION-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 1,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    },
+                    "RORO-MOVEMENT-COUNT": {
+                      "id": null,
+                      "type": "TXE",
+                      "valueType": "INT",
+                      "value": 4,
+                      "valueList": null,
+                      "startTimestamp": null,
+                      "endTimestamp": null
+                    }
+                  },
+                  "STANDARDISED:dateOfBirth": {
+                    "valueType": "STRING",
+                    "valueList": null,
+                    "id": null,
+                    "type": null,
+                    "value": "1969-10-27",
+                    "endTimestamp": null,
+                    "startTimestamp": null
+                  }
+                },
                 "metadata": {
                   "identityRecord": {
                     "type": "P",
