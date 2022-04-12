@@ -11,28 +11,18 @@ dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
-/**
- * Calculate the time difference between two dates
- *
- * @param startDate Start date
- * @param endDate End date
- * @param prefix The prefix appended to the final output (if provided).
- * @param suffix The suffix appended to the final output (if provided).
- * @returns A date formatted string, including the supplied prefix & suffix OR an empty string.
- */
-const calculateDifference = (startDate, endDate, prefix = '', suffix = '') => {
+const calculateDifference = (startDate, endDate, prefix = '') => {
   const formattedPrefix = prefix ? `${prefix} ` : '';
-  const formattedSuffix = suffix ? ` ${suffix}` : '';
   const dateTimeStart = dayjs.utc(startDate);
   const dateTimeEnd = dayjs.utc(endDate);
-  return `${formattedPrefix}${dateTimeEnd.from(dateTimeStart)}${formattedSuffix}`;
+  return `${formattedPrefix}${dateTimeEnd.from(dateTimeStart)}`;
 };
 
-const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
-  if (dateTimeArray.length === 1) {
+const calculateTimeDifference = (dateTimeArray, prefix = '') => {
+  if (dateTimeArray.length <= 1) {
     return '';
   }
-  return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix, suffix);
+  return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix);
 };
 
 export default calculateTimeDifference;
