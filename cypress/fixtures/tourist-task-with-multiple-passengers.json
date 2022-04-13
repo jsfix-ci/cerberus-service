@@ -4,28 +4,28 @@
       "Occupant": "Donald DuckMale, born 23 Feb 1986, GB"
     },
     {
-      "Passport": "244746NL",
+      "Passport": "244746NLUnited Kingdom (GB)",
       "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
     },
     {
       "Occupant": "Fred FlintstoneFemale, born 22 Nov 1991, DE"
     },
     {
-      "Passport": "875786876",
+      "Passport": "875786876Germany (DE)",
       "Validity3 years after travel": "Expires 22 Mar 20223 years after travel"
     },
     {
       "Occupant": "Micky GabyFemale, born 22 Nov 1991, FR"
     },
     {
-      "Passport": "875786876",
+      "Passport": "875786876Germany (DE)",
       "Validity3 years after travel": "Expires 22 Mar 20223 years after travel"
     },
     {
       "Occupant": "Barney RubbleMale, born 01 Mar 1989, GB"
     },
     {
-      "Passport": "244746NL",
+      "Passport": "244746NLUnited Kingdom (GB)",
       "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
     }
   ],
@@ -33,14 +33,14 @@
     "Reference": "AB555412781",
     "Ticket number": "1234567",
     "Type": "R",
-    "Name": "",
-    "Address": "",
-    "Date and time": "2 Aug 2020 at 15:50, 5 days before travel",
-    "Country": "GB",
+    "Name": "Unknown",
+    "Address": "Unknown",
+    "Booking date and time": "2 Aug 2020 at 15:50, 5 days before travel",
+    "Country": "United Kingdom (GB)",
     "Payment method": "CQ",
-    "Ticket price": "",
+    "Ticket price": "Unknown",
     "Ticket type": "Return",
-    "Check-in": ""
+    "Check-in date and time": "Unknown"
   },
   "TargetingIndicators": {
     "Total Score": "50",

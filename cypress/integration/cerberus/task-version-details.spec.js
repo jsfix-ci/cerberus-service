@@ -133,9 +133,9 @@ describe('Task Details of different tasks on task details Page', () => {
       'Trailer registration number': 'GB07GYT',
       'Trailer type': 'SUV',
       'Trailer country of registration': 'DK',
-      'Empty or loaded': '',
-      'Trailer length': '',
-      'Trailer height': '',
+      'Empty or loaded': 'Unknown',
+      'Trailer length': 'Unknown',
+      'Trailer height': 'Unknown',
     };
     cy.fixture('RoRo-Unaccompanied-Trailer-only.json').then((task) => {
       date.setDate(date.getDate() + 8);
@@ -152,7 +152,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
     cy.expandTaskDetails(0);
 
-    cy.contains('h3', 'Trailer').next().within((elements) => {
+    cy.contains('h3', 'Trailer').nextAll().within((elements) => {
       cy.getVehicleDetails(elements).then((details) => {
         expect(details).to.deep.equal(expectedDetails);
       });
@@ -178,33 +178,33 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.expandTaskDetails(0);
 
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
-      cy.contains('h3', 'Vehicle').next().within((elements) => {
+      cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
         cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });
       });
 
-      cy.contains('h3', 'Account details').next().within(() => {
+      cy.contains('h3', 'Account details').nextAll().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.account);
         });
       });
 
-      cy.contains('h3', 'Haulier details').next().within(() => {
+      cy.contains('h3', 'Haulier details').nextAll().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails.haulier);
         });
       });
 
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['occupant-count']);
-        });
-      });
+      // cy.contains('h3', 'Occupants').nextAll().within(() => {
+      //   cy.getOccupantCounts().then((details) => {
+      //     expect(details).to.deep.equal(expectedDetails['occupant-count']);
+      //   });
+      // });
 
       const obj = {};
       cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.get('.govuk-grid-row').each((item) => {
+        cy.get('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
           cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
             cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
               cy.wrap(detail).find('.font__light').nextAll().invoke('text')
@@ -605,8 +605,8 @@ describe('Task Details of different tasks on task details Page', () => {
   it('Should verify difference between versions displayed on task details page', () => {
     const firstVersionIndex = 2;
     const versionDiff = [
-      '32 changes in this version',
-      '9 changes in this version',
+      '33 changes in this version',
+      '10 changes in this version',
       'No changes in this version',
     ];
 
@@ -1125,7 +1125,7 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Vehicle').next().within((elements) => {
+      cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
         cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });
@@ -1174,9 +1174,15 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Primary Traveller').next().within((elements) => {
+      cy.contains('h3', 'Primary Traveller').nextAll().within((elements) => {
         cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails['primary traveller']);
+        });
+      });
+
+      cy.contains('h3', 'Document').next().within((elements) => {
+        cy.getDocumentDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails.document);
         });
       });
 
@@ -1215,7 +1221,7 @@ describe('Task Details of different tasks on task details Page', () => {
       });
 
       cy.contains('h3', 'Document').next().within((elements) => {
-        cy.getVehicleDetails(elements).then((details) => {
+        cy.getDocumentDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.Document);
         });
       });
@@ -1225,7 +1231,7 @@ describe('Task Details of different tasks on task details Page', () => {
           cy.contains('h3', 'Other travellers').next().within((elements) => {
             const occupantArray = [];
             cy.wrap(elements).each((occupant) => {
-              cy.wrap(occupant).find('.govuk-grid-row').each((item) => {
+              cy.wrap(occupant).find('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
                 let obj = {};
                 cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
                   cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
@@ -1278,7 +1284,7 @@ describe('Task Details of different tasks on task details Page', () => {
     // COP-9051
     cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-same-version_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
-      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+      cy.verifyTaskListInfo(`${businessKeys[0]}`, 'RORO_ACCOMPANIED_FREIGHT').then((taskListDetails) => {
         console.log(taskListDetails);
         expect('Risk Score: 20').to.deep.equal(taskListDetails.riskScore);
       });
@@ -1289,7 +1295,7 @@ describe('Task Details of different tasks on task details Page', () => {
     // COP-9051 The aggregated score is for the TIs in the latest version and does NOT include the score for TIs in previous 2 versions
     cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-diff-version_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
-      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+      cy.verifyTaskListInfo(`${businessKeys[0]}`, 'RORO_ACCOMPANIED_FREIGHT').then((taskListDetails) => {
         expect('Risk Score: 80').to.deep.equal(taskListDetails.riskScore);
       });
     });
@@ -1299,7 +1305,7 @@ describe('Task Details of different tasks on task details Page', () => {
     // COP-9051
     cy.getBusinessKey('-Target-Indicators-Details').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
-      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+      cy.verifyTaskListInfo(`${businessKeys[0]}`, 'RORO_ACCOMPANIED_FREIGHT').then((taskListDetails) => {
         expect('Risk Score: 4140').to.deep.equal(taskListDetails.riskScore);
       });
     });
@@ -1309,7 +1315,7 @@ describe('Task Details of different tasks on task details Page', () => {
     // COP-9051
     cy.getBusinessKey('-RORO-Unaccompanied-Freight-RoRo-UNACC-SBT_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
-      cy.verifyTaskListInfo(`${businessKeys[0]}`).then((taskListDetails) => {
+      cy.verifyTaskListInfo(`${businessKeys[0]}`, 'RORO_UNACCOMPANIED_FREIGHT').then((taskListDetails) => {
         expect('Risk Score: 0').to.deep.equal(taskListDetails.riskScore);
       });
     });

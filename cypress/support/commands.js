@@ -244,7 +244,7 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             });
             if (taskdetails.riskTier === 'B') {
               cy.wrap(item).find('.govuk-tag--riskTier').then((elem) => {
-                cy.wrap(elem).parent('.govuk-body').should('contains.text', 'SELECTOR');
+                cy.wrap(elem).prev('.govuk-body').should('contains.text', 'SELECTOR');
               });
             }
           }
@@ -473,6 +473,21 @@ Cypress.Commands.add('getTargetIndicatorDetails', () => {
 Cypress.Commands.add(('getVehicleDetails'), (elements) => {
   const obj = {};
   cy.wrap(elements).eq(1).each((item) => {
+    cy.wrap(item).find('div ul').each((detail) => {
+      cy.wrap(detail).find('span.govuk-grid-key').invoke('text').then((key) => {
+        cy.wrap(detail).find('.govuk-grid-value').invoke('text').then((value) => {
+          obj[key] = value;
+        });
+      });
+    });
+  }).then(() => {
+    return obj;
+  });
+});
+
+Cypress.Commands.add(('getDocumentDetails'), (elements) => {
+  const obj = {};
+  cy.wrap(elements).each((item) => {
     cy.wrap(item).find('div ul').each((detail) => {
       cy.wrap(detail).find('span.govuk-grid-key').invoke('text').then((key) => {
         cy.wrap(detail).find('.govuk-grid-value').invoke('text').then((value) => {
@@ -891,6 +906,7 @@ function getTaskSummary(businessKey) {
 Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
+
   cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
     .click({ force: true });
 

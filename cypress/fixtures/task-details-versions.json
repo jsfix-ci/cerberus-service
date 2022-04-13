@@ -2,32 +2,32 @@
   "versions": [
     {
       "vehicle": {
-        "Colour": "Red",
         "Vehicle registration": "GB09KLT-2000",
-        "Type": "",
+        "Type": "Unknown",
         "Make": "LandRover",
-        "Model": "",
-        "Country of registration": "DE"
+        "Model": "Unknown",
+        "Country of registration": "DE",
+        "Colour": "Red"
       },
       "account": {
         "Full name": "Testing Printers Ltd",
-        "Short name": "",
+        "Short name": "Unknown",
         "Reference number": "PO000355555",
         "Address": "Unit 11-12 Pink Way Bognoris Regis E209JB GB",
-        "Telephone": "",
-        "Mobile": "",
-        "Email": ""
+        "Telephone": "Unknown",
+        "Mobile": "Unknown",
+        "Email": "Unknown"
       },
       "haulier": {
         "Name": "Matthew",
-        "Address": "",
-        "Telephone": "",
+        "Address": "Unknown",
+        "Telephone": "Unknown",
         "Mobile": "01243784444"
       },
       "goods": {
         "Description": "Printed Paper",
         "Is cargo hazardous?": "No",
-        "Weight of goods": ""
+        "Weight of goods": "Unknown"
       },
       "booking": {
         "Reference": "357485636",
@@ -35,28 +35,28 @@
         "Type": "Test",
         "Name": "test",
         "Address": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
-        "Date and time": "19 Nov 2021 at 09:15, a day before travel",
-        "Country": "GB",
+        "Booking date and time": "19 Nov 2021 at 09:15, a day before travel",
+        "Country": "United Kingdom (GB)",
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2020 at 12:05, a year before travel"
+        "Check-in date and time": "3 Aug 2020 at 12:05, a year before travel"
       },
       "Occupants": [
-          {
-            "Driver": "Bobby BrownshoesUnknown, Unknown, FR"
-          },
-          {
-            "Passport": "244746NL",
-            "Validity2 years after travel": "Expires 14 Mar 20212 years after travel"
-          },
-          {
-            "Occupant": "Ken BaileyFemale, born 03 Oct 1969, Unknown"
-          },
-          {
-            "Passport": "244746NL",
-            "Validity2 years after travel": "Expires 14 Mar 20212 years after travel"
-          }
+        {
+          "Driver": "Bobby BrownshoesUnknown, Unknown, FR"
+        },
+        {
+          "Passport": "244746NLNetherlands (NL)",
+          "Validity2 years after travel": "Expires 14 Mar 20212 years after travel"
+        },
+        {
+          "Occupant": "Ken BaileyFemale, born 03 Oct 1969, Unknown"
+        },
+        {
+          "Passport": "244746NLUnknown (Unknown)",
+          "Validity2 years after travel": "Expires 14 Mar 20212 years after travel"
+        }
       ],
       "TargetingIndicators": {
         "Total Score": "30",
@@ -179,12 +179,12 @@
     },
     {
       "vehicle": {
-        "Colour": "",
         "Vehicle registration": "GB09KLT-10684",
-        "Type": "",
-        "Make": "",
+        "Type": "Unknown",
+        "Make": "Unknown",
         "Model": "Discovery",
-        "Country of registration": "GB"
+        "Country of registration": "GB",
+        "Colour": "Unknown"
       },
       "account": {
         "Full name": "Univeral Printers Ltd",
@@ -192,35 +192,35 @@
         "Reference number": "PO000359675",
         "Address": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
         "Telephone": "01234 56723737",
-        "Mobile": "",
-        "Email": ""
+        "Mobile": "Unknown",
+        "Email": "Unknown"
       },
       "haulier": {
         "Name": "Matthesons",
-        "Address": "",
-        "Telephone": "",
+        "Address": "Unknown",
+        "Telephone": "Unknown",
         "Mobile": "01243785239"
       },
       "goods": {
         "Description": "Printed Paper",
         "Is cargo hazardous?": "No",
-        "Weight of goods": ""
+        "Weight of goods": "Unknown"
       },
       "Occupants": [
-          {
-            "Driver": "Bob BrownMale, born 12 Mar 1971, NL"
-          },
-          {
-            "Passport": "244746NL",
-            "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
-          },
-          {
-            "Occupant": "Ben BaileyMale, born 03 Jun 1981, GB"
-          },
-          {
-            "Passport": "ST0394612",
-            "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
-          }
+        {
+          "Driver": "Bob BrownMale, born 12 Mar 1971, NL"
+        },
+        {
+          "Passport": "244746NLNetherlands (NL)",
+          "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
+        },
+        {
+          "Occupant": "Ben BaileyMale, born 03 Jun 1981, GB"
+        },
+        {
+          "Passport": "ST0394612United Kingdom (GB)",
+          "Validity2 years after travel": "Expires 01 Feb 20212 years after travel"
+        }
       ],
       "booking": {
         "Reference": "357485636",
@@ -228,12 +228,12 @@
         "Type": "Test",
         "Name": "test",
         "Address": "Unit 9-12 Pinkerton Way Bognor Regis KJFSG094 GB",
-        "Date and time": "17 Nov 2021 at 09:15, 4 days before travel",
-        "Country": "GB",
+        "Booking date and time": "17 Nov 2021 at 09:15, 4 days before travel",
+        "Country": "United Kingdom (GB)",
         "Payment method": "Cash",
         "Ticket price": "£30 quid",
         "Ticket type": "Return",
-        "Check-in": "3 Aug 2021 at 12:05, 5 months before travel"
+        "Check-in date and time": "3 Aug 2021 at 12:05, 5 months before travel"
       },
       "TargetingIndicators": {
         "Total Score": "30",
