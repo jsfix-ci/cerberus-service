@@ -1223,7 +1223,7 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
 Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
-      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
+      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Booking date and time')));
       expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
     });
   });
@@ -1232,7 +1232,7 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
 Cypress.Commands.add('verifyCheckInDateTime', (expectedCheckInDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
-      const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in')));
+      const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in date and time')));
       expect(checkInDateTime['Check-in']).to.be.equal(expectedCheckInDateTime);
     });
   });

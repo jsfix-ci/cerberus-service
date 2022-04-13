@@ -55,10 +55,10 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.verifyElementText('name', targetData.vessel.name);
       cy.verifyElementText('company', targetData.vessel.shippingCompany);
-      cy.verifyElementText('make', targetData.vehicle.Make);
-      cy.verifyElementText('model', targetData.vehicle.Model);
-      cy.verifyElementText('colour', targetData.vehicle.Colour);
-      cy.verifyElementText('registrationNumber', targetData.vehicle['Vehicle registration']);
+      cy.verifyElementText('make', targetData['vehicle-details'].vehicle.Make);
+      cy.verifyElementText('model', targetData['vehicle-details'].vehicle.Model);
+      cy.verifyElementText('colour', targetData['vehicle-details'].vehicle.Colour);
+      cy.verifyElementText('registrationNumber', targetData['vehicle-details'].vehicle['Vehicle registration']);
       cy.verifyElementText('regNumber', 'IR-6457');
       cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
       cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
@@ -89,8 +89,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       });
 
       cy.get('.formio-component-account').within(() => {
-        cy.verifyElementText('name', targetData.account['Full name']);
-        cy.verifyElementText('number', targetData.account['Reference number']);
+        cy.verifyElementText('name', targetData['account-details'].account['Full name']);
+        cy.verifyElementText('number', targetData['account-details'].account['Reference number']);
       });
     });
 
@@ -326,7 +326,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
-      cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
+      cy.verifyElementText('regNumber', expectedDetails['trailer-details'].trailer['Trailer registration number']);
       cy.get('.formio-component-type').should('be.visible');
       cy.get('.formio-component-registrationNationality').should('be.visible');
       cy.verifyElementText('name', expectedDetails.vessel.name);
@@ -341,8 +341,8 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       });
 
       cy.get('.formio-component-account').within(() => {
-        cy.verifyElementText('name', expectedDetails.account['Full name']);
-        cy.verifyElementText('number', expectedDetails.account['Reference number']);
+        cy.verifyElementText('name', expectedDetails['account-details'].account['Full name']);
+        cy.verifyElementText('number', expectedDetails['account-details'].account['Reference number']);
       });
     });
 
@@ -446,7 +446,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
-      cy.verifyElementText('regNumber', expectedDetails.vehicle['Trailer registration number']);
+      cy.verifyElementText('regNumber', expectedDetails['trailer-details'].trailer['Trailer registration number']);
       cy.get('.formio-component-type').should('be.visible');
       cy.get('.formio-component-registrationNationality').should('be.visible');
       cy.verifyElementText('name', expectedDetails.vessel.name);
