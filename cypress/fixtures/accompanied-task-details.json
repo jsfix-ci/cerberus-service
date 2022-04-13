@@ -2,25 +2,25 @@
   "vehicle": {
     "Vehicle registration": "DK-45678",
     "Type": "Refrigerated Tanker",
-    "Make": "",
-    "Model": "",
+    "Make": "Unknown",
+    "Model": "Unknown",
     "Country of registration": "DK",
-    "Colour": ""
+    "Colour": "Unknown"
   },
   "account": {
     "Full name": "DPE logistics",
-    "Short name": "",
+    "Short name": "Unknown",
     "Reference number": "000524557",
     "Address": "John Tranums Vei Esjerg DK",
     "Telephone": "045 76 12 1493",
-    "Mobile": "",
-    "Email": ""
+    "Mobile": "Unknown",
+    "Email": "Unknown"
   },
   "haulier": {
-    "Name": "",
-    "Address": "",
-    "Telephone": "",
-    "Mobile": ""
+    "Name": "Unknown",
+    "Address": "Unknown",
+    "Telephone": "Unknown",
+    "Mobile": "Unknown"
   },
   "occupant-count": {
     "Infants": "0",
@@ -30,26 +30,26 @@
   },
   "driver": {
     "Driver": "Scottello TurnerUnknown, born 27 Apr 1993, Unknown",
-    "Passport": "AB2099357",
+    "Passport": "AB2099357United Kingdom (GB)",
     "Validity3 years after travel": "Expires 20 Mar 20253 years after travel"
   },
   "goods": {
     "Description": "Liquid Nitrogen",
     "Is cargo hazardous?": "No",
-    "Weight of goods": ""
+    "Weight of goods": "Unknown"
   },
   "Booking-and-check-in": {
     "Reference": "AA000000006",
     "Ticket number": "ST-34560",
-    "Type": "",
+    "Type": "Unknown",
     "Name": "Susan Tower",
-    "Address": "",
-    "Date and time": "2 Aug 2020 at 15:50, 3 days before travel",
-    "Country": "GB",
-    "Payment method": "",
-    "Ticket price": "",
+    "Address": "Unknown",
+    "Booking date and time": "2 Aug 2020 at 15:50, 3 days before travel",
+    "Country": "United Kingdom (GB)",
+    "Payment method": "Unknown",
+    "Ticket price": "Unknown",
     "Ticket type": "Single",
-    "Check-in": "4 Aug 2020 at 11:05, a day before travel"
+    "Check-in date and time": "4 Aug 2020 at 11:05, a day before travel"
   },
   "TargetingIndicators": {
     "Total Score": "200",
