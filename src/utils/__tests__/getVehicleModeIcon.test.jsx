@@ -1,4 +1,4 @@
-import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON,
+import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST_CAR_ICON, INDIVIDUAL_ICON, GROUP_ICON,
   RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../../constants';
 import getMovementModeIcon from '../getVehicleModeIcon';
 import { roroTouristNoVehicleHasPax, roroTouristVehicleHasPax, roroTouristNoVehicleOnePax, roroAccompVehicleNoTrailerHasPax,
@@ -8,7 +8,7 @@ import { roroTouristNoVehicleHasPax, roroTouristVehicleHasPax, roroTouristNoVehi
 describe('vehicleModeIcon', () => {
   it('should return RoRo group passengers icon for a group of foot pasenegrs without a vehicle', () => {
     const resultIcon = getMovementModeIcon(roroTouristNoVehicleHasPax.movementMode, roroTouristNoVehicleHasPax.vehicle, roroTouristNoVehicleHasPax.passengers);
-    expect(resultIcon).toEqual(RORO_TOURIST_GROUP_ICON);
+    expect(resultIcon).toEqual(GROUP_ICON);
   });
 
   it('should return RoRo car icon for a tourist with vehicle', () => {
@@ -18,7 +18,7 @@ describe('vehicleModeIcon', () => {
 
   it('should return RoRo person icon for a single foot passenger without a car', () => {
     const resultIcon = getMovementModeIcon(roroTouristNoVehicleOnePax.movementMode, roroTouristNoVehicleOnePax.vehicle, roroTouristNoVehicleOnePax.passengers);
-    expect(resultIcon).toEqual(RORO_TOURIST_SINGLE_ICON);
+    expect(resultIcon).toEqual(INDIVIDUAL_ICON);
   });
 
   it('should return a van icon for RoRo Accompanied freight with vehicle and no trailer', () => {

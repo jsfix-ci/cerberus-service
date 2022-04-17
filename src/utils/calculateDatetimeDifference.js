@@ -19,7 +19,7 @@ const calculateDifference = (startDate, endDate, prefix = '') => {
 };
 
 const calculateTimeDifference = (dateTimeArray, prefix = '') => {
-  if (dateTimeArray.length <= 1) {
+  if (dateTimeArray.length <= 1 || (!dateTimeArray[0] || !dateTimeArray[1])) {
     return '';
   }
   return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix);

@@ -131,6 +131,8 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 }
 
 .task-list--item-3 {
+    padding-left: 25px;
+    padding-right: 25px;
     margin-bottom: -1em;
     border-bottom: 1px solid #b1b4b6;
     ul li {
@@ -161,8 +163,10 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 }
 
 .task-list--item-4 {
+    padding: 1em 0 1em 3em;
+    // padding-left: 3em;
+    // padding-right: 0em;
     margin-bottom: -2em;
-    padding: 1em 0;
     .task-link-container {
         display: flex;
         justify-content: center;

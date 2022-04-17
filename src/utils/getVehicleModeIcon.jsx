@@ -1,5 +1,5 @@
-import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST, RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON,
-  RORO_TOURIST_SINGLE_ICON, RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../constants';
+import { RORO_ACCOMPANIED_ICON, RORO_NO_ICON, RORO_TOURIST, RORO_TOURIST_CAR_ICON, GROUP_ICON,
+  INDIVIDUAL_ICON, RORO_UNACCOMPANIED_ICON, RORO_VAN_ICON } from '../constants';
 
 const isVehiclePresent = (vehicle) => {
   return vehicle?.registrationNumber && vehicle?.registrationNumber !== ''
@@ -21,10 +21,10 @@ const getTouristIcon = (vehicle, passengers) => {
   }
 
   if (!isVehiclePresent(vehicle) && isIndividualPassenger(passengers)) {
-    return RORO_TOURIST_SINGLE_ICON;
+    return INDIVIDUAL_ICON;
   }
 
-  return RORO_TOURIST_GROUP_ICON;
+  return GROUP_ICON;
 };
 
 const getMovementModeIcon = (movementMode, vehicle, passengers) => {

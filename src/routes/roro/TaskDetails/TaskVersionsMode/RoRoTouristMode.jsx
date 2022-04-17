@@ -1,5 +1,5 @@
 import React from 'react';
-import { RORO_TOURIST_CAR_ICON, RORO_TOURIST_GROUP_ICON, RORO_TOURIST_SINGLE_ICON } from '../../../../constants';
+import { RORO_TOURIST_CAR_ICON, GROUP_ICON, INDIVIDUAL_ICON } from '../../../../constants';
 
 import { calculateTaskVersionTotalRiskScore } from '../../../../utils/rickScoreCalculator';
 
@@ -258,10 +258,10 @@ const RoRoTouristTaskVersion = ({ version, movementMode, movementModeIcon, taskS
   if (movementModeIcon === RORO_TOURIST_CAR_ICON) {
     return touristCarTaskVersion(version, movementMode, taskSummaryData);
   }
-  if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
+  if (movementModeIcon === INDIVIDUAL_ICON) {
     return footPassengerTaskVersion(version, movementMode, movementModeIcon, taskSummaryData);
   }
-  if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+  if (movementModeIcon === GROUP_ICON) {
     return footPassengersTaskVersion(version, movementMode, movementModeIcon, taskSummaryData);
   }
 };

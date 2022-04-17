@@ -26,9 +26,9 @@ describe('TaskListPage', () => {
     expect(screen.getByText('New')).toBeInTheDocument();
     expect(screen.getByText('Issued')).toBeInTheDocument();
 
-    expect(screen.getByText('There are no new tasks')).toBeInTheDocument();
-    expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument();
-    expect(screen.queryByText('There is a problem')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('There are no new tasks')).toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
     await waitFor(() => expect(screen.getByText('There are no issued tasks')).toBeInTheDocument());
