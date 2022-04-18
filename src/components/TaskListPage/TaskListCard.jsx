@@ -3,7 +3,7 @@ import { buildSecondSection, buildThirdSection, buildFourthSection } from './air
 
 const TaskListCard = ({ targetTask }) => {
   return (
-    <div className="govuk-task-list-card" key={targetTask.id}>
+    <div className="govuk-task-list-card">
       <div className="card-container">
         {buildSecondSection(targetTask)}
         {buildThirdSection(targetTask)}

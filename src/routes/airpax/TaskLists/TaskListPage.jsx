@@ -30,7 +30,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
-  const location = useLocation();
 
   const targetingTaskClient = useAxiosInstance(keycloak, config.targetingTaskApi);
   const source = axios.CancelToken.source();
@@ -46,10 +45,6 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const itemsPerPage = 100;
   const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
-
-  // STATUS SETTINGS
-  const currentUser = keycloak.tokenParsed.email;
-  const activeTab = taskStatus;
 
   const getTaskList = async () => {
     setLoading(true);

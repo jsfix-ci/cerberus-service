@@ -29,19 +29,29 @@ const formatTargetIndicators = (targetingIndicators) => {
     });
     return (
       <ul className="govuk-list item-list--bulleted">
-        <li>
-          {`${pluralise.withCount(
-            threatIndicatorList.length,
-            '% indicator',
-            '% indicators',
-          )}`}
-        </li>
+        <li>{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
         {threatIndicatorList.map((threat) => {
           return <li key={threat}>{threat}</li>;
         })}
       </ul>
     );
   }
+};
+
+const getRisk = (targetTask) => {
+  return targetTask.risks;
+};
+
+const hasRisk = (targetTask) => {
+  return !!targetTask?.risks;
+};
+
+const hasTargetingIndicators = (risks) => {
+  return !!risks.targetingIndicators;
+};
+
+const getTargetingIndicators = (risks) => {
+  return hasTargetingIndicators(risks) && risks.targetingIndicators;
 };
 
 const hasOtherPersons = (targetTask) => {
@@ -61,7 +71,7 @@ const toRoute = (route) => {
     return UNKNOWN_TEXT;
   }
   return route.map((r, index) => {
-    return (<>{r} {index < route.length - 1 && <>&#8594;</>} </>);
+    return (<span key={index}>{r} {index < route.length - 1 && <>&#8594;</>} </span>);
   });
 };
 
@@ -251,7 +261,7 @@ const toCoTravellers = (otherPersons) => {
   const coTravellersJsx = otherPersons.map((person, index) => {
     if (index < maxToDisplay) {
       return (
-        <li key={uuidv4()} className="govuk-!-font-weight-bold">
+        <li key={index} className="govuk-!-font-weight-bold">
           {getLastName(person)} {getFirstName(person)}{(index !== maxToDisplay - 1)
               && (index !== otherPersons.length - 1) ? ',' : ''} {(remaining > 0 && index + 1 === maxToDisplay)
                 ? ` plus ${remaining} more` : ''}
@@ -422,7 +432,7 @@ const renderModeSection = (targetTask) => {
 };
 
 const renderVoyageSection = (targetTask) => {
-  const journey = hasJourney(targetTask) ? getJourney(targetTask) : undefined;
+  const journey = hasJourney(targetTask) && getJourney(targetTask);
   const departureTime = getDepartureTime(journey);
   const arrivalTime = getArrivalTime(journey);
   const dateTimeList = toDateTimeList(departureTime, arrivalTime);
@@ -562,22 +572,6 @@ const buildThirdSection = (targetTask) => {
       </div>
     </section>
   );
-};
-
-const getRisk = (targetTask) => {
-  return targetTask.risks;
-};
-
-const hasRisk = (targetTask) => {
-  return !!targetTask?.risks;
-};
-
-const hasTargetingIndicators = (risks) => {
-  return !!risks.targetingIndicators;
-};
-
-const getTargetingIndicators = (risks) => {
-  return hasTargetingIndicators(risks) && risks.targetingIndicators;
 };
 
 const buildFourthSection = (targetTask) => {
