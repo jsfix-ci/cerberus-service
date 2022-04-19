@@ -21,6 +21,14 @@ describe('Create task with different payload from Cerberus', () => {
         let businessKey = response.businessKey;
         cy.checkTaskDisplayed(businessKey);
         cy.checkTaskSummary(null, Cypress.dayjs().format('D MMM YYYY [at] HH:mm'));
+
+        cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
+          .click({ force: true });
+
+        cy.contains('Apply filters').click({ force: true });
+
+        cy.wait(2000);
+
         const nextPage = 'a[data-test="next"]';
         cy.visit('/tasks');
         cy.get('body').then(($el) => {
