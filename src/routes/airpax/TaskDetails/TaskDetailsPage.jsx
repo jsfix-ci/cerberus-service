@@ -18,10 +18,39 @@ const TaskDetailsPage = () => {
   const [taskData, setTaskData] = useState();
   const [isLoading, setLoading] = useState(true);
 
-  // TEMP VALUES FOR TESTING UNTIL API AVAILABLE
+  // TEMP VALUES FOR TESTING
   const tempData = {
     data: {
-      // paste test data from relevant fixture here for testing
+      id: 'DEV-20220414-001',
+      status: 'NEW',
+      assignee: null,
+      notes: [
+        {
+          content: 'task created',
+          timestamp: '2022-04-14T08:18:09.888175Z',
+          userId: 'rules-based-targeting',
+        },
+        {
+          content: 'a note that existed previously',
+          timestamp: '2021-10-01T01:15:35Z',
+          userId: 'jane.doe@digital.homeoffice.gov.uk',
+        },
+        {
+          content: "joe's test note",
+          timestamp: '2021-12-11T05:10:59Z',
+          userId: 'joe.bloggs@digital.homeoffice.gov.uk',
+        },
+        {
+          content: 'really long note more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words  more words  more words  more word',
+          timestamp: '2021-10-01T01:15:35Z',
+          userId: 'jane.doe@digital.homeoffice.gov.uk',
+        },
+        {
+          content: "joe's test note",
+          timestamp: '2021-12-11T05:10:59Z',
+          userId: 'joe.bloggs@digital.homeoffice.gov.uk',
+        },
+      ],
     },
   };
 
@@ -39,10 +68,11 @@ const TaskDetailsPage = () => {
   };
 
   useEffect(() => {
-    if (!taskData) { return null; }
-    setAssignee(taskData?.assignee);
-    setLoading(false);
-  }, [taskData]);
+    if (taskData) {
+      setAssignee(taskData.assignee);
+      setLoading(false);
+    }
+  }, [taskData, setAssignee, setLoading]);
 
   useEffect(() => {
     getTaskData();
