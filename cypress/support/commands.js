@@ -1121,8 +1121,8 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
       let vehicle = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle;
       let person = task.variables.rbtPayload.value.data.movement.persons[0].person;
-      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).utc().format(dateFormat);
-      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format(dateFormat);
+      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).format(dateFormat);
+      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).format(dateFormat);
       let diff = Cypress.dayjs(voyage.actualArrivalTimestamp).from(Cypress.dayjs());
       expectedTaskSummary.vehicle = `Vehicle${vehicle.registrationNumber} driven by ${person.fullName}`;
       expectedTaskSummary.Ferry = `${voyage.carrier} voyage of ${voyage.craftId}`;
@@ -1240,7 +1240,7 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
       const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Booking date and time')));
-      expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
+      expect(bookingDateTime['Booking date and time']).to.be.equal(expectedBookingDateTime);
     });
   });
 });
@@ -1249,7 +1249,7 @@ Cypress.Commands.add('verifyCheckInDateTime', (expectedCheckInDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
       const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in date and time')));
-      expect(checkInDateTime['Check-in']).to.be.equal(expectedCheckInDateTime);
+      expect(checkInDateTime['Check-in date and time']).to.be.equal(expectedCheckInDateTime);
     });
   });
 });
