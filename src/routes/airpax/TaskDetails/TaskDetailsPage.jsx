@@ -1,18 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+// Config
+import config from '../../../config';
 // Utils
+import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 // Components/Pages
-import TaskNotes from '../../../components/v2/TaskNotes';
+import ActivityLog from '../../../components/ActivityLog';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const currentUser = keycloak.tokenParsed.email;
+  const [assignee, setAssignee] = useState();
+  const [taskData, setTaskData] = useState();
+  const [isLoading, setLoading] = useState(true);
 
-  // TEMP VALUES FOR TESTING
-  const assignee = currentUser;
-  const refreshNotesForm = false;
+  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
+  const tempData = {
+    data: {
+      // paste data from the relevant fixture here for testing this page
+    },
+  };
+
+  const getTaskData = async () => {
+    let response;
+    try {
+      response = await apiClient.get(`/targeting-tasks/${businessKey}`);
+      setTaskData(response.data);
+    } catch {
+      // until API is ready we set the temp data in the catch
+      // this will be changed to the error handling
+      response = tempData;
+      setTaskData(response.data);
+    }
+  };
+
+  useEffect(() => {
+    if (taskData) {
+      setAssignee(taskData.assignee);
+      setLoading(false);
+    }
+  }, [taskData, setAssignee, setLoading]);
+
+  useEffect(() => {
+    getTaskData(businessKey);
+  }, [businessKey]);
+
+  // TEMP NOTES FORM FOR TESTING
+  const AddANoteForm = () => {
+    return (
+      <div>
+        Add a new note
+      </div>
+    );
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
+  }
 
   return (
     <>
@@ -26,13 +74,12 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-two-thirds">
           Versions go here
         </div>
-        <TaskNotes
-          formName="noteCerberus"
-          displayForm={assignee === currentUser}
-          // businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
-          // processInstanceId={processInstanceId}
-          refreshNotes={refreshNotesForm}
-        />
+        <div className="govuk-grid-column-one-third">
+          {currentUser === assignee && <AddANoteForm />}
+          <ActivityLog
+            activityLog={taskData?.notes}
+          />
+        </div>
       </div>
 
     </>
