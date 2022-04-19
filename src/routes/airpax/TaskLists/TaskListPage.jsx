@@ -31,7 +31,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   dayjs.extend(utc);
   const keycloak = useKeycloak();
 
-  const targetingTaskClient = useAxiosInstance(keycloak, config.targetingTaskApi);
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const source = axios.CancelToken.source();
 
   const [activePage, setActivePage] = useState(0);
@@ -48,7 +48,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
 
   const getTaskList = async () => {
     setLoading(true);
-    if (targetingTaskClient) {
+    if (apiClient) {
       const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
       const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
         ? [
@@ -63,7 +63,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
         ]
         : null;
       try {
-        const tasks = await targetingTaskClient.post('/targeting-tasks/pages', {
+        const tasks = await apiClient.post('/targeting-tasks/pages', {
           status: tab,
           // filterParams: filtersToApply,
           filterParams: { // Testing

@@ -262,7 +262,7 @@ const toCoTravellers = (otherPersons) => {
     if (index < maxToDisplay) {
       return (
         <li key={index} className="govuk-!-font-weight-bold">
-          {getLastName(person)} {getFirstName(person)}{(index !== maxToDisplay - 1)
+          {getLastName(person)}, {getFirstName(person)}{(index !== maxToDisplay - 1)
               && (index !== otherPersons.length - 1) ? ',' : ''} {(remaining > 0 && index + 1 === maxToDisplay)
                 ? ` plus ${remaining} more` : ''}
         </li>
