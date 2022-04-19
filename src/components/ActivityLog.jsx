@@ -4,9 +4,9 @@ const ActivityLog = ({ activityLog }) => {
   return (
     <>
       <h3 className="govuk-heading-m task-details-notes-heading">Task activity</h3>
-      { activityLog.map((activity, i) => {
+      { activityLog.map((activity) => {
         return (
-          <div key={i}>
+          <div key={activity.id}>
             <div className="activity-body-container">
               <p className="govuk-body-s govuk-!-margin-bottom-2">
                 <span className="govuk-!-font-weight-bold">

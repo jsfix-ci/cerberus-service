@@ -5,26 +5,31 @@ import ActivityLog from '../ActivityLog';
 describe('ActivityLog', () => {
   const mockActivityLog = [
     {
+      id: '123',
       content: 'Task received',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '124',
       content: 'Develop the task',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '125',
       content: "joe's test note",
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
     },
     {
+      id: '126',
       content: 'really long note more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words  more words  more words  more word',
       timestamp: '2021-10-01T01:15:35Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
     },
     {
+      id: '127',
       content: "joe's test note",
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
@@ -32,16 +37,19 @@ describe('ActivityLog', () => {
   ];
   const mockActivityLogRelisted = [
     {
+      id: '123',
       content: 'Task received',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '124',
       content: 'Develop the task',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '125',
       content: 'Task relisted',
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'Cerberus - Rules Based Targeting',
@@ -49,16 +57,19 @@ describe('ActivityLog', () => {
   ];
   const mockActivityLogAssessmentComplete = [
     {
+      id: '123',
       content: 'Task received',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '124',
       content: 'Develop the task',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '125',
       content: 'Assessment complete',
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
@@ -66,16 +77,19 @@ describe('ActivityLog', () => {
   ];
   const mockActivityLogTaskDismissed = [
     {
+      id: '123',
       content: 'Task received',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '124',
       content: 'Develop the task',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '125',
       content: 'Task dismissed',
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
@@ -83,16 +97,19 @@ describe('ActivityLog', () => {
   ];
   const mockActivityLogTargetIssued = [
     {
+      id: '123',
       content: 'Task received',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '124',
       content: 'Develop the task',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '125',
       content: 'Target issued',
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
@@ -100,31 +117,37 @@ describe('ActivityLog', () => {
   ];
   const mockActivityLogFrontLineActivities = [
     {
+      id: '123',
       content: 'Task received',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '124',
       content: 'Develop the task',
       timestamp: '2022-04-14T08:18:09.888175Z',
       userId: 'Cerberus - Rules Based Targeting',
     },
     {
+      id: '125',
       content: 'Target issued',
       timestamp: '2021-12-11T05:10:59Z',
       userId: 'joe.bloggs@digital.homeoffice.gov.uk',
     },
     {
+      id: '126',
       content: 'Target acknowledged',
       timestamp: '2021-12-12T05:10:59Z',
       userId: 'jane.doe@digital.homeoffice.gov.uk',
     },
     {
+      id: '127',
       content: 'A Front line user has claimed the task',
       timestamp: '2021-12-12T11:10:59Z',
       userId: 'jane.doe@digital.homeoffice.gov.uk',
     },
     {
+      id: '128',
       content: 'Targeting activity complete, COP outcome: negative',
       timestamp: '2021-12-12T12:10:59Z',
       userId: 'jane.doe@digital.homeoffice.gov.uk',
