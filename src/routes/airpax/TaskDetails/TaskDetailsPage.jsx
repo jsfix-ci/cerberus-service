@@ -80,22 +80,7 @@ const TaskDetailsPage = () => {
   const AddANoteForm = () => {
     return (
       <div>
-        <div className="govuk-form-group formio-component formio-component-form formio-component-label-hidden">
-          <div className="govuk-form-group form-group has-feedback formio-component formio-component-textarea formio-component-note  required">
-            <label htmlFor="tempNotesForm" className="field-required govuk-label">
-              Add a new note
-            </label>
-            <div className="govuk-error-message" />
-            <div>
-              <textarea id="tempNotesForm" rows="3" spellCheck="true" className="form-control govuk-textarea" type="text" name="tempNotesForm" />
-            </div>
-          </div>
-          <div className="govuk-form-group form-group has-feedback formio-component formio-component-button formio-component-submit  form-group" id="e613luh">
-            <button lang="en" type="submit" name="data[submit]" className="govuk-button" disabled="disabled">
-              Save
-            </button>
-          </div>
-        </div>
+        Add a new note
       </div>
     );
   };
