@@ -131,9 +131,11 @@ describe('ActivityLog', () => {
     },
   ];
 
-  // convert a timestamp from mockActivityLog to localTime and test that exists in document
+  // convert a timestamp from mockActivityLog to local and test that exists in document
   // this ensures daylight saving time changes are covered in tests
+  // and that date formatting is covered (drone sets date to m/d/yyyy rather than dd/mm/yyyy)
   const localTime = new Date('2022-04-14T08:18:09.888175Z').toLocaleTimeString();
+  const localDate = new Date('2022-04-14T08:18:09.888175Z').toLocaleDateString();
 
   it('should render activity log', () => {
     render(<ActivityLog activityLog={mockActivityLog} />);
@@ -141,12 +143,12 @@ describe('ActivityLog', () => {
     expect(screen.getAllByText('Cerberus - Rules Based Targeting')).toHaveLength(2);
     expect(screen.getAllByText('joe.bloggs@digital.homeoffice.gov.uk')).toHaveLength(3);
     expect(screen.getAllByText('joe\'s test note')).toHaveLength(2);
-    expect(screen.getAllByText('14/04/2022')).toHaveLength(2);
   });
 
-  it('should display time in local time', () => {
+  it('should display datetime in local datetime', () => {
     render(<ActivityLog activityLog={mockActivityLog} />);
     expect(screen.getAllByText(localTime)).toHaveLength(2);
+    expect(screen.getAllByText(localDate)).toHaveLength(2);
   });
 
   it('should display task created/received note', () => {
