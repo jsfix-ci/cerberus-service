@@ -15,6 +15,7 @@ const config = {
   formApiUrl: process.env.FORM_API_URL,
   camundaApiUrl: '/camunda/engine-rest',
   camundaApiUrlV1: '/camunda/v1',
+  taskApiUrl: '/v2',
   dayjsConfig: {
     relativeTime: {
       future: '%s before travel',

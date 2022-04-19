@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+// Config
+import config from '../../../config';
 // Utils
+import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const currentUser = keycloak.tokenParsed.email;
   const [assignee, setAssignee] = useState();
+  const [taskData, setTaskData] = useState();
+  const [isLoading, setLoading] = useState(true);
 
   // TEMP VALUES FOR TESTING
-  const TaskData = {
+  const tempData = {
     id: 'DEV-20220414-001',
+    assignee: 'test-data',
     notes: [
       {
         content: 'task created',
@@ -43,12 +51,28 @@ const TaskDetailsPage = () => {
     ],
   };
 
-  // TEMP SET STATES FOR TESTING
+  const getTaskData = async () => {
+    let response;
+    try {
+      response = await apiClient.get(`/targeting-tasks/${businessKey}`);
+      setTaskData(response);
+    } catch {
+      // until API is ready we set the temp data in the catch
+      // this will be changed to the error handling
+      response = tempData;
+      setTaskData(response);
+    }
+  };
+
   useEffect(() => {
-    // setAssignee(TaskData?.assignee); // Test if no assignee : no form
-    // setAssignee('notthisuser'); // Test if assignee not current user : no form
-    setAssignee(currentUser); // Test if assignee is current user : yes form
-  }, [TaskData]);
+    if (!taskData) { return null; }
+    setAssignee(taskData.assignee);
+    setLoading(false);
+  }, [taskData]);
+
+  useEffect(() => {
+    getTaskData();
+  }, [businessKey]);
 
   // TEMP NOTES FORM FOR TESTING
   const AddANoteForm = () => {
@@ -74,6 +98,10 @@ const TaskDetailsPage = () => {
     );
   };
 
+  if (isLoading) {
+    return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
+  }
+
   return (
     <>
       <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
@@ -87,9 +115,9 @@ const TaskDetailsPage = () => {
           Versions go here
         </div>
         <div className="govuk-grid-column-one-third">
-          {assignee && <AddANoteForm />}
+          {currentUser === assignee && <AddANoteForm />}
           <ActivityLog
-            activityLog={TaskData.notes}
+            activityLog={taskData.notes}
           />
         </div>
       </div>
