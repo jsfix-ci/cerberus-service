@@ -75,7 +75,7 @@ const TaskDetailsPage = () => {
   }, [taskData, setAssignee, setLoading]);
 
   useEffect(() => {
-    getTaskData();
+    getTaskData(businessKey);
   }, [businessKey]);
 
   // TEMP NOTES FORM FOR TESTING
