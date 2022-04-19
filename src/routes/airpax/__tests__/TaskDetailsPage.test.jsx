@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
@@ -13,25 +15,66 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Task details page', () => {
-  it('should display the business key', () => {
+  const mockAxios = new MockAdapter(axios);
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => { });
+    mockAxios.reset();
+  });
+
+  it('should render TaskDetailsPage component with a loading state', () => {
     render(<TaskDetailsPage />);
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
+
+  it('should display the business key', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataNoAssignee);
+
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Overview')).toBeInTheDocument();
     expect(screen.getByText('BK-123')).toBeInTheDocument();
   });
 
-  it('should not render notes form when task not assigned', async () => { 
+  it('should display the activity log', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataNoAssignee);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getByText('Task activity')).toBeInTheDocument();
   });
 
-  // it('should render notes form when task is assigned to a current user', async () => {
-  // });
+  it('should not render notes form when task not assigned', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataNoAssignee);
 
-  // it('should render TaskDetailsPage component with a loading state', () => {
-  //   render(<TaskDetailsPage />);
-  //   expect(screen.getByText(/Loading/i)).toBeInTheDocument();
-  // });
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
 
-  // it('should render Issue Target button when current user is assigned user, and open issue target form on click', () => {
-  // });
+  it('should not render notes form when task is assigned to someone other than the current user', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataOtherUser);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
+
+  it('should render notes form when task is assigned to a current user', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataCurrentUser);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+  });
 
   // it('should render "Claim" button when user is not assigned to the task, the task assignee is null and the target has not been completed or issued', async () => {
   // });
@@ -51,4 +94,6 @@ describe('Task details page', () => {
   // it('should not render action forms when target task type is not equal to "developTarget"', async () => {
   // });
 
+  // it('should render Issue Target button when current user is assigned user, and open issue target form on click', () => {
+  // });
 });

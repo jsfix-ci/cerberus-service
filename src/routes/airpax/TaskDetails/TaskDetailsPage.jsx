@@ -20,53 +20,55 @@ const TaskDetailsPage = () => {
 
   // TEMP VALUES FOR TESTING
   const tempData = {
-    id: 'DEV-20220414-001',
-    assignee: 'test-data',
-    notes: [
-      {
-        content: 'task created',
-        timestamp: '2022-04-14T08:18:09.888175Z',
-        userId: 'rules-based-targeting',
-      },
-      {
-        content: 'a note that existed previously',
-        timestamp: '2021-10-01T01:15:35Z',
-        userId: 'jane.doe@digital.homeoffice.gov.uk',
-      },
-      {
-        content: "joe's test note",
-        timestamp: '2021-12-11T05:10:59Z',
-        userId: 'joe.bloggs@digital.homeoffice.gov.uk',
-      },
-      {
-        content: 'really long note more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words  more words  more words  more word',
-        timestamp: '2021-10-01T01:15:35Z',
-        userId: 'jane.doe@digital.homeoffice.gov.uk',
-      },
-      {
-        content: "joe's test note",
-        timestamp: '2021-12-11T05:10:59Z',
-        userId: 'joe.bloggs@digital.homeoffice.gov.uk',
-      },
-    ],
+    data: {
+      id: 'DEV-20220414-001',
+      assignee: 'test-data',
+      notes: [
+        {
+          content: 'task created',
+          timestamp: '2022-04-14T08:18:09.888175Z',
+          userId: 'rules-based-targeting',
+        },
+        {
+          content: 'a note that existed previously',
+          timestamp: '2021-10-01T01:15:35Z',
+          userId: 'jane.doe@digital.homeoffice.gov.uk',
+        },
+        {
+          content: "joe's test note",
+          timestamp: '2021-12-11T05:10:59Z',
+          userId: 'joe.bloggs@digital.homeoffice.gov.uk',
+        },
+        {
+          content: 'really long note more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words more words  more words  more words  more word',
+          timestamp: '2021-10-01T01:15:35Z',
+          userId: 'jane.doe@digital.homeoffice.gov.uk',
+        },
+        {
+          content: "joe's test note",
+          timestamp: '2021-12-11T05:10:59Z',
+          userId: 'joe.bloggs@digital.homeoffice.gov.uk',
+        },
+      ],
+    },
   };
 
   const getTaskData = async () => {
     let response;
     try {
       response = await apiClient.get(`/targeting-tasks/${businessKey}`);
-      setTaskData(response);
+      setTaskData(response.data);
     } catch {
       // until API is ready we set the temp data in the catch
       // this will be changed to the error handling
       response = tempData;
-      setTaskData(response);
+      setTaskData(response.data);
     }
   };
 
   useEffect(() => {
     if (!taskData) { return null; }
-    setAssignee(taskData.assignee);
+    setAssignee(taskData?.assignee);
     setLoading(false);
   }, [taskData]);
 
@@ -117,7 +119,7 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-one-third">
           {currentUser === assignee && <AddANoteForm />}
           <ActivityLog
-            activityLog={taskData.notes}
+            activityLog={taskData?.notes}
           />
         </div>
       </div>
