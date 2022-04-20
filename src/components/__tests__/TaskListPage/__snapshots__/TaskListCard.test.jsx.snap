@@ -311,7 +311,7 @@ exports[`TaskListCard should render the task list card for a target task 1`] = `
         className="govuk-grid-row"
       >
         <div
-          className="govuk-grid-item"
+          className="govuk-grid-item airpax-tis-container"
         >
           <div
             className="govuk-grid-column"
@@ -338,18 +338,24 @@ exports[`TaskListCard should render the task list card for a target task 1`] = `
               className="govuk-list task-labels govuk-!-margin-top-0"
             >
               <li
-                className="task-labels-item govuk-!-font-size-16"
+                className="task-labels-item"
               >
                 <ul
                   className="govuk-list item-list--bulleted"
                 >
-                  <li>
+                  <li
+                    className="govuk-!-font-weight-bold govuk-!-font-size-16"
+                  >
                     2 indicators
                   </li>
-                  <li>
+                  <li
+                    className="threat-indicator-bullet govuk-!-font-size-16"
+                  >
                     Quick turnaround freight (under 24 hours)
                   </li>
-                  <li>
+                  <li
+                    className="threat-indicator-bullet govuk-!-font-size-16"
+                  >
                     Quick turnaround tourist (under 24 hours)
                   </li>
                 </ul>

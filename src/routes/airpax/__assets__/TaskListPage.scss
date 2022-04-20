@@ -197,6 +197,14 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
         background-color: #ffffff;
         padding: 0 15px;
     }
+    .threat-indicator-bullet::before {
+        color: #505a5f;
+        margin-left: 2px;
+        margin-right: 5px;
+    }
+    .airpax-tis-container {
+        margin-left: 3em;
+    }
 }
 
 ul.item-list--bulleted {

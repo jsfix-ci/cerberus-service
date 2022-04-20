@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import airlines from 'airline-codes';
 import dayjs from 'dayjs';
-import { v4 as uuidv4 } from 'uuid';
+import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 
 import { MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP, INDIVIDUAL_ICON, LONG_DATE_FORMAT, UNKNOWN_TEXT,
@@ -15,6 +14,7 @@ import formatGender from '../../../utils/genderFormatter';
 import { formatField } from '../../../utils/formatField';
 
 const getFormattedDate = (date, dateFormat) => {
+  dayjs.extend(utc);
   return dayjs.utc(date).local().format(dateFormat);
 };
 
@@ -29,9 +29,9 @@ const formatTargetIndicators = (targetingIndicators) => {
     });
     return (
       <ul className="govuk-list item-list--bulleted">
-        <li className="govuk-!-font-weight-bold">{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
+        <li className="govuk-!-font-weight-bold govuk-!-font-size-16">{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
         {threatIndicatorList.map((threat) => {
-          return <li key={threat} className="threat-indicator-bullet">{threat}</li>;
+          return <li key={threat} className="threat-indicator-bullet govuk-!-font-size-16">{threat}</li>;
         })}
       </ul>
     );
@@ -457,6 +457,7 @@ const renderVoyageSection = (targetTask) => {
   );
 };
 
+// eslint-disable-next-line no-unused-vars
 const buildFirstSection = (targetTask) => {
   return (
     <></>
@@ -579,7 +580,7 @@ const buildFourthSection = (targetTask) => {
   return (
     <section className="task-list--item-4">
       <div className="govuk-grid-row">
-        <div className="govuk-grid-item">
+        <div className="govuk-grid-item airpax-tis-container">
           <div className="govuk-grid-column">
             <ul className="govuk-list task-labels govuk-!-margin-top-2">
               <li className="task-labels-item">
@@ -591,7 +592,7 @@ const buildFourthSection = (targetTask) => {
           </div>
           <div className="govuk-grid-column">
             <ul className="govuk-list task-labels govuk-!-margin-top-0">
-              <li className="task-labels-item govuk-!-font-size-16">
+              <li className="task-labels-item">
                 {formatTargetIndicators(targetingIndicators)}
               </li>
             </ul>

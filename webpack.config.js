@@ -69,7 +69,7 @@ module.exports = {
         secure: false,
         changeOrigin: true,
       },
-      '/v2/': {
+      '/v2': {
         target: process.env.CERBERUS_API_URL,
         secure: false,
         changeOrigin: true,
