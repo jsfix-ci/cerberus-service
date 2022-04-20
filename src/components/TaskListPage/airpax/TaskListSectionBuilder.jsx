@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import airlines from 'airline-codes';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 
 import { MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP, INDIVIDUAL_ICON, LONG_DATE_FORMAT, UNKNOWN_TEXT,
@@ -14,7 +13,6 @@ import formatGender from '../../../utils/genderFormatter';
 import { formatField } from '../../../utils/formatField';
 
 const getFormattedDate = (date, dateFormat) => {
-  dayjs.extend(utc);
   return dayjs.utc(date).local().format(dateFormat);
 };
 
