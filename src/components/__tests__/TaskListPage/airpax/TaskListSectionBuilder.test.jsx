@@ -11,7 +11,7 @@ describe('TaskListSectionBuilder', () => {
     expect(screen.getByText('DC')).toBeInTheDocument();
     expect(screen.getByText('British Airways, flight BA103, arrival Unknown')).toBeInTheDocument();
     expect(screen.getByText('BA103')).toBeInTheDocument();
-    expect(screen.getByText(/7 Aug 2020 at 18:15/)).toBeInTheDocument();
+    expect(screen.getByText(/7 Aug 2020/)).toBeInTheDocument();
     expect(screen.getByText('FRA')).toBeInTheDocument();
     expect(screen.getByText('LHR')).toBeInTheDocument();
   });
