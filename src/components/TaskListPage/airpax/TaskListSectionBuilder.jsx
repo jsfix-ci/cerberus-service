@@ -410,9 +410,13 @@ const toDescriptionText = (targetTask) => {
 
 // TODO finish implementation
 const toZoneTimeDifference = (targetTask) => {
+  // eslint-disable-next-line no-unused-vars
   const departureCountry = getDepartureCountry(targetTask);
+  // eslint-disable-next-line no-unused-vars
   const departureTime = '';
+  // eslint-disable-next-line no-unused-vars
   const arrivalCountry = getArrivalCountry(targetTask);
+  // eslint-disable-next-line no-unused-vars
   const arrivalTime = '';
   return 'TBC';
 };
