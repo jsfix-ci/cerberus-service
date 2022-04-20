@@ -29,9 +29,9 @@ const formatTargetIndicators = (targetingIndicators) => {
     });
     return (
       <ul className="govuk-list item-list--bulleted">
-        <li>{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
+        <li className="govuk-!-font-weight-bold">{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
         {threatIndicatorList.map((threat) => {
-          return <li key={threat}>{threat}</li>;
+          return <li key={threat} className="threat-indicator-bullet">{threat}</li>;
         })}
       </ul>
     );
