@@ -305,25 +305,11 @@ const getDepartureLocation = (targetTask) => {
   return targetTask.movement.journey.departure.location;
 };
 
-const getDepartureCountry = (targetTask) => {
-  if (!targetTask?.movement?.journey?.departure?.country) {
-    return UNKNOWN_TEXT;
-  }
-  return targetTask.movement.journey.departure.country;
-};
-
 const getArrivalLocation = (targetTask) => {
   if (!targetTask?.movement?.journey?.arrival.location) {
     return UNKNOWN_TEXT;
   }
   return targetTask.movement.journey.arrival.location;
-};
-
-const getArrivalCountry = (targetTask) => {
-  if (!targetTask?.movement?.journey?.arrival.country) {
-    return UNKNOWN_TEXT;
-  }
-  return targetTask.movement.journey.arrival.country;
 };
 
 const getFlightNumber = (targetTask) => {
@@ -408,19 +394,6 @@ const toDescriptionText = (targetTask) => {
   return descriptionText;
 };
 
-// TODO finish implementation
-const toZoneTimeDifference = (targetTask) => {
-  // eslint-disable-next-line no-unused-vars
-  const departureCountry = getDepartureCountry(targetTask);
-  // eslint-disable-next-line no-unused-vars
-  const departureTime = '';
-  // eslint-disable-next-line no-unused-vars
-  const arrivalCountry = getArrivalCountry(targetTask);
-  // eslint-disable-next-line no-unused-vars
-  const arrivalTime = '';
-  return 'TBC';
-};
-
 const renderModeSection = (targetTask) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
@@ -448,7 +421,7 @@ const renderVoyageSection = (targetTask) => {
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
         <span className="govuk-!-font-weight-bold">{getFlightNumber(targetTask)}</span>
         <span className="dot" />
-        {`${toFormattedDepartureDateTime(targetTask)} (${toZoneTimeDifference(targetTask)})`}
+        {`${toFormattedDepartureDateTime(targetTask)}`}
         <span className="dot" />
         <span className="govuk-!-font-weight-bold">{getDepartureLocation(targetTask)}</span> &#8594;
         <span className="govuk-!-font-weight-bold"> {getArrivalLocation(targetTask)}</span>

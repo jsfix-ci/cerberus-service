@@ -1,21 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
-
+// Config
+import config from '../../../config';
+// Utils
+import { useKeycloak } from '../../../utils/keycloak';
+import useAxiosInstance from '../../../utils/axiosInstance';
 import { TARGETER_GROUP,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED } from '../../../constants';
-import config from '../../../config';
-
-import { useKeycloak } from '../../../utils/keycloak';
-import useAxiosInstance from '../../../utils/axiosInstance';
-
 // Components/Pages
 import Tabs from '../../../components/Tabs';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -29,6 +29,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
+  const location = useLocation();
 
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const source = axios.CancelToken.source();
@@ -45,45 +46,48 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
   const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
 
+  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
+  const tempData = {
+    data: {
+      // paste data from the relevant fixture here for testing this page
+    },
+  };
+
   const getTaskList = async () => {
     setLoading(true);
-    if (apiClient) {
-      const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
-      const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
-        ? [
-          {
-            field: 'ARRIVAL_TIME',
-            order: 'ASC',
-          },
-          {
-            field: 'THREAT_LEVEL',
-            order: 'DESC',
-          },
-        ]
-        : null;
-      try {
-        const tasks = await apiClient.post('/targeting-tasks/pages', {
-          status: tab,
-          // filterParams: filtersToApply,
-          filterParams: { // Testing
-            taskStatuses: [],
-            movementModes: [],
-            selectors: 'ANY',
-          },
-          sortParams,
-          pageParams: {
-            limit: itemsPerPage,
-            offset,
-          },
-        });
-        setTargetTasks(tasks.data);
-      } catch (e) {
-        setError(e.message);
-        setTargetTasks([]);
-      } finally {
-        setLoading(false);
-        setRefreshTaskList(false);
-      }
+    let response;
+    const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
+    const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
+      ? [
+        {
+          field: 'ARRIVAL_TIME',
+          order: 'ASC',
+        },
+        {
+          field: 'THREAT_LEVEL',
+          order: 'DESC',
+        },
+      ]
+      : null;
+    try {
+      response = await apiClient.post('/targeting-tasks/pages', {
+        status: tab,
+        filterParams: filtersToApply,
+        sortParams,
+        pageParams: {
+          limit: itemsPerPage,
+          offset,
+        },
+      });
+      setTargetTasks(response.data);
+    } catch (e) {
+      // until API is ready we set the temp data in the catch
+      // this will be changed to the error handling
+      response = tempData;
+      setTargetTasks(response.data);
+    } finally {
+      setLoading(false);
+      setRefreshTaskList(false);
     }
   };
 
@@ -104,7 +108,7 @@ const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 })
     <>
       {isLoading && <LoadingSpinner />}
 
-      {!isLoading && targetTasks.length === 0 && (
+      {!isLoading && (targetTasks.length === 0 || !targetTasks.length) && (
         <p className="govuk-body-l">There are no {taskStatus} tasks</p>
       )}
 
