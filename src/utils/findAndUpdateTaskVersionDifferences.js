@@ -71,7 +71,7 @@ const findAndUpdateTaskVersionDifferencesAirPax = (taskVersions) => {
    */
   const differencesCounts = [0];
   let wasUpdated = false;
-  if (taskVersions.length >= 2) {
+  if (taskVersions && taskVersions.length >= 2) {
     wasUpdated = true;
     for (let i = 0; i < taskVersions.length - 1; i += 1) {
       differencesCounts.push(0);

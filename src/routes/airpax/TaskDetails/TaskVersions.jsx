@@ -28,7 +28,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
                   <ul className="govuk-list">
                     { taskVersionDifferencesCounts
                       ? <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
-                      : <li>No Changes in this version</li> }
+                      : <li>No changes in this version</li> }
                     {threatLevel?.type === 'RULE' && <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{threatLevel.value}</span></li>}
                     {threatLevel?.type === 'SELECTOR' && <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">Category {threatLevel.value}</span></li>}
                     {!threatLevel && <li>No rule matches</li>}
