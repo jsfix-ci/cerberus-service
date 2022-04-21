@@ -23,6 +23,17 @@ spec:
         name: {{.CERBERUS_UI_NAME}}
         service: {{.CERBERUS_UI_NAME}}
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - {{.CERBERUS_UI_NAME}}
       restartPolicy: Always
       containers:
       - name: {{.CERBERUS_UI_NAME}}-proxy
@@ -70,7 +81,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401" 
+              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401"
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
