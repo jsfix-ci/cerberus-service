@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 
 import { INDIVIDUAL_ICON } from '../../../constants';
 
-import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
-
 // Utils
 import { BaggageUtil, DateTimeUtil, IndicatorsUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from './utils/index';
+import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 
 const renderModeSection = (targetTask) => {
   return (
