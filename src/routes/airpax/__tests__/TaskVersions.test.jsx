@@ -49,6 +49,17 @@ describe('TaskVersions', () => {
         highestThreatLevel: null,
       },
     },
+    {
+      number: 3,
+      createdAt: '2022-05-20T10:26:03.232421Z',
+      movement: {},
+      risks: {
+        targetingIndicators: {},
+        matchedRules: [],
+        matchedSelectorGroups: {},
+        highestThreatLevel: null,
+      },
+    },
   ];
 
   it('should render task versions and rule threat level', () => {
@@ -66,6 +77,6 @@ describe('TaskVersions', () => {
   it('should render task versions with no rule matches text', () => {
     render(<TaskVersions taskVersions={mockTaskVersionsWithNoThreat} />);
     expect(screen.getByText('Version 2 (latest)')).toBeInTheDocument();
-    expect(screen.getByText('No rule matches')).toBeInTheDocument();
+    expect(screen.getAllByText('No rule matches')).toHaveLength(2);
   });
 });

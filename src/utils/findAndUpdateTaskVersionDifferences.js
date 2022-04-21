@@ -38,7 +38,7 @@ const compareTaskVersions = (versionA, versionB, differencesCounts, differencesI
   }
 };
 
-export default (taskVersions) => {
+const findAndUpdateTaskVersionDifferences = (taskVersions) => {
   /*
    * differencesCounts will always match the length of the taskVersions array - this allows a mapping between index positions
    * of the taskVersions and the differencesCounts
@@ -63,3 +63,25 @@ export default (taskVersions) => {
     differencesCounts,
   };
 };
+
+const findAndUpdateTaskVersionDifferencesAirPax = (taskVersions) => {
+  /*
+   * differencesCounts will always match the length of the taskVersions array - this allows a mapping between index positions
+   * of the taskVersions and the differencesCounts
+   */
+  const differencesCounts = [0];
+  let wasUpdated = false;
+  if (taskVersions.length >= 2) {
+    wasUpdated = true;
+    for (let i = 0; i < taskVersions.length - 1; i += 1) {
+      differencesCounts.push(0);
+      compareTaskVersions(taskVersions[i], taskVersions[i + 1], differencesCounts, i);
+    }
+  }
+  return {
+    wasUpdated,
+    differencesCounts,
+  };
+};
+
+export { findAndUpdateTaskVersionDifferences, findAndUpdateTaskVersionDifferencesAirPax };

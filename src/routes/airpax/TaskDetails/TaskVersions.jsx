@@ -18,15 +18,17 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
           const threatLevel = version.risks.highestThreatLevel;
           return {
             expanded: index === 0,
-            heading: `Version ${version.number} ${index === 0 ? '(latest)' : ''}`,
+            heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(version.createdAt ? version.createdAt : null).local().format(LONG_DATE_FORMAT)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(version.createdAt).local().format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
-                    <li>{taskVersionDifferencesCounts && pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
+                    { taskVersionDifferencesCounts
+                      ? <li>{pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
+                      : <li>No Changes in this version</li> }
                     {threatLevel?.type === 'RULE' && <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{threatLevel.value}</span></li>}
                     {threatLevel?.type === 'SELECTOR' && <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">Category {threatLevel.value}</span></li>}
                     {!threatLevel && <li>No rule matches</li>}
@@ -37,7 +39,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
             children: null,
           };
         })
-        }
+      }
     />
 
   );

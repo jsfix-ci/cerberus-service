@@ -5,7 +5,7 @@ import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
-import findAndUpdateTaskVersionDifferencesV2 from '../../../utils/findAndUpdateTaskVersionDifferencesV2';
+import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAndUpdateTaskVersionDifferences';
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
@@ -204,7 +204,7 @@ const TaskDetailsPage = () => {
       response = tempData;
 
       // findAndUpdateTaskVersionDifferences is a mutable function
-      const { differencesCounts } = findAndUpdateTaskVersionDifferencesV2(response.data.versions);
+      const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(response.data.versions);
       setTaskData({
         ...response.data, taskVersionDifferencesCounts: differencesCounts,
       });
@@ -245,11 +245,13 @@ const TaskDetailsPage = () => {
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
-          <TaskVersions
-            taskVersions={taskData?.versions}
-            businessKey={businessKey}
-            taskVersionDifferencesCounts={taskData?.taskVersionDifferencesCounts}
-          />
+          {taskData && (
+            <TaskVersions
+              taskVersions={taskData.versions}
+              businessKey={businessKey}
+              taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
+            />
+          )}
         </div>
         <div className="govuk-grid-column-one-third">
           {currentUser === assignee && <AddANoteForm />}
