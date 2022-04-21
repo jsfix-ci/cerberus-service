@@ -7,7 +7,7 @@ import { LONG_DATE_FORMAT } from '../../../constants';
 // Components/govuk
 import Accordion from '../../../govuk/Accordion';
 
-const TaskVersions = ({ taskVersions, businessKey }) => {
+const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
   dayjs.extend(utc);
   return (
     <Accordion
@@ -26,7 +26,7 @@ const TaskVersions = ({ taskVersions, businessKey }) => {
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
-                    <li>{pluralise.withCount(version.changes, '% change', '% changes', 'No changes')} in this version</li>
+                    <li>{taskVersionDifferencesCounts && pluralise.withCount(taskVersionDifferencesCounts[index], '% change', '% changes', 'No changes')} in this version</li>
                     {threatLevel?.type === 'RULE' && <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">{threatLevel.value}</span></li>}
                     {threatLevel?.type === 'SELECTOR' && <li>Highest threat level is <span className="govuk-body govuk-tag govuk-tag--positiveTarget">Category {threatLevel.value}</span></li>}
                     {!threatLevel && <li>No rule matches</li>}
