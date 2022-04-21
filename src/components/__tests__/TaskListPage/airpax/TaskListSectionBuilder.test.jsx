@@ -1,12 +1,12 @@
 import { screen, render } from '@testing-library/react';
 
-import { buildSecondSection, buildThirdSection, buildFourthSection } from '../../../TaskListPage/airpax/TaskListSectionBuilder';
+import { buildVoyageSection, buildMovementInfoSection, buildTargetIndicatorsSection } from '../../../TaskListPage/airpax/TaskListSectionBuilder';
 
 import targetTask from '../../../__fixtures__/targetListData';
 
 describe('TaskListSectionBuilder', () => {
   it('should render the second section', () => {
-    render(buildSecondSection(targetTask));
+    render(buildVoyageSection(targetTask));
     expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('DC')).toBeInTheDocument();
     expect(screen.getByText('British Airways, flight BA103, arrival Unknown')).toBeInTheDocument();
@@ -17,7 +17,7 @@ describe('TaskListSectionBuilder', () => {
   });
 
   it('should render the third section headers', () => {
-    render(buildThirdSection(targetTask));
+    render(buildMovementInfoSection(targetTask));
     expect(screen.getByText('Passenger')).toBeInTheDocument();
     expect(screen.getByText('Document')).toBeInTheDocument();
     expect(screen.getByText('Booking')).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe('TaskListSectionBuilder', () => {
   });
 
   it('should render the third section contents', () => {
-    render(buildThirdSection(targetTask));
+    render(buildMovementInfoSection(targetTask));
     expect(screen.getByText(/FORD/)).toBeInTheDocument();
     expect(screen.getByText(/Isaiah/)).toBeInTheDocument();
     expect(screen.getByText(/Male/)).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('TaskListSectionBuilder', () => {
   });
 
   it('should render the fourth section', () => {
-    render(buildFourthSection(targetTask));
+    render(buildTargetIndicatorsSection(targetTask));
     expect(screen.getByText(/Risk Score: 60/)).toBeInTheDocument();
     expect(screen.getByText('2 indicators')).toBeInTheDocument();
     expect(screen.getByText('Quick turnaround freight (under 24 hours)')).toBeInTheDocument();

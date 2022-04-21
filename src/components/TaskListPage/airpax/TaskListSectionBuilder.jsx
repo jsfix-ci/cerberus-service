@@ -1,445 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import airlines from 'airline-codes';
-import dayjs from 'dayjs';
-import * as pluralise from 'pluralise';
 
-import { MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP, INDIVIDUAL_ICON, LONG_DATE_FORMAT, UNKNOWN_TEXT,
-  MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW, SHORT_DATE_FORMAT_ALT,
-  STANDARD_HOUR_MINUTE_FORMAT } from '../../../constants';
+import { INDIVIDUAL_ICON } from '../../../constants';
 
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
-import formatGender from '../../../utils/genderFormatter';
-import { formatField } from '../../../utils/formatField';
 
-const getFormattedDate = (date, dateFormat) => {
-  return dayjs.utc(date).local().format(dateFormat);
-};
-
-const toDateTimeList = (dateOne, dateTwo) => {
-  return [dateOne, dateTwo];
-};
-
-const formatTargetIndicators = (targetingIndicators) => {
-  if (targetingIndicators.indicators?.length > 0) {
-    const threatIndicatorList = targetingIndicators.indicators.map((threatIndicator) => {
-      return threatIndicator.description;
-    });
-    return (
-      <ul className="govuk-list item-list--bulleted">
-        <li className="govuk-!-font-weight-bold govuk-!-font-size-16">{`${pluralise.withCount(threatIndicatorList.length, '% indicator', '% indicators')}`}</li>
-        {threatIndicatorList.map((threat) => {
-          return <li key={threat} className="threat-indicator-bullet govuk-!-font-size-16">{threat}</li>;
-        })}
-      </ul>
-    );
-  }
-};
-
-const getRisk = (targetTask) => {
-  return targetTask.risks;
-};
-
-const hasRisk = (targetTask) => {
-  return !!targetTask?.risks;
-};
-
-const hasTargetingIndicators = (risks) => {
-  return !!risks.targetingIndicators;
-};
-
-const getTargetingIndicators = (risks) => {
-  return hasTargetingIndicators(risks) && risks.targetingIndicators;
-};
-
-const hasOtherPersons = (targetTask) => {
-  return !!targetTask?.movement?.otherPersons.length;
-};
-
-const getOthetherPersons = (targetTask) => {
-  return targetTask.movement.otherPersons;
-};
-
-const getRoute = (journey) => {
-  return journey?.route;
-};
-
-const toRoute = (route) => {
-  if (!route) {
-    return UNKNOWN_TEXT;
-  }
-  return route.map((r, index) => {
-    return (<span key={index}>{r} {index < route.length - 1 && <>&#8594;</>} </span>);
-  });
-};
-
-const getBookedAt = (booking) => {
-  return booking.bookedAt;
-};
-
-const getBookedPriorToDeparture = (bookedAt, departureTime) => {
-  const dateTimeList = toDateTimeList(bookedAt, departureTime);
-  return calculateTimeDifference(dateTimeList);
-};
-
-const toBookingDateText = (booking) => {
-  if (!booking?.bookedAt) {
-    return UNKNOWN_TEXT;
-  }
-  return getFormattedDate(booking.bookedAt, SHORT_DATE_FORMAT_ALT);
-};
-
-const getBookingReference = (booking) => {
-  if (!booking?.reference) {
-    return UNKNOWN_TEXT;
-  }
-  return booking.reference;
-};
-
-const toCheckInTimeText = (booking) => {
-  const checkinPrefix = 'Check-in';
-  if (!booking.checkInAt) {
-    return `${checkinPrefix} ${UNKNOWN_TEXT}`;
-  }
-  return `${checkinPrefix} ${getFormattedDate(booking.checkInAt, STANDARD_HOUR_MINUTE_FORMAT)}`;
-};
-
-const getBooking = (targetTask) => {
-  return targetTask.movement.booking;
-};
-
-const hasBooking = (targetTask) => {
-  return !!targetTask.movement.booking;
-};
-
-// TODO finish implementation once data flows through
-const getDocumentCountryOfIssue = (document) => {
-  const countryOfIssuePrefix = 'Issued by';
-  if (!document) {
-    return `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
-  }
-  return `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
-};
-
-// TODO finish implementation once data flows through
-const getDocumentIdentification = (document) => {
-  if (!document) {
-    return UNKNOWN_TEXT;
-  }
-  return UNKNOWN_TEXT;
-};
-
-// TODO finish implementation once data flows through
-const getDocumentValidity = (document) => {
-  const validityPrefix = 'Valid from';
-  if (!document) {
-    return `${validityPrefix} ${UNKNOWN_TEXT}`;
-  }
-  return `${validityPrefix} ${UNKNOWN_TEXT}`;
-};
-
-// TODO finish implementation once data flows through
-const getDocumentExpiry = (document) => {
-  const expiryPrefix = 'Expires';
-  if (!document) {
-    return `${expiryPrefix} ${UNKNOWN_TEXT}`;
-  }
-  return `${expiryPrefix} ${UNKNOWN_TEXT}`;
-};
-
-const getDocument = (person) => {
-  return person.document;
-};
-
-const hasDocument = (person) => {
-  return !!person?.document;
-};
-
-const getSeatNumber = (flight) => {
-  const seatPrefix = 'seat';
-  if (!flight?.seatNumber) {
-    return `${seatPrefix} ${UNKNOWN_TEXT}`;
-  }
-  return `${seatPrefix} ${flight.seatNumber}`;
-};
-
-const getFlight = (targetTask) => {
-  return targetTask.movement.flight;
-};
-
-const hasFlight = (targetTask) => {
-  return !!targetTask.movement.flight;
-};
-
-const getJourney = (targetTask) => {
-  return targetTask.movement.journey;
-};
-
-const hasJourney = (targetTask) => {
-  return !!targetTask?.movement?.journey;
-};
-
-const getDepartureTime = (journey) => {
-  return journey?.departure?.time;
-};
-
-const getArrivalTime = (journey) => {
-  return journey?.arrival?.time;
-};
-
-const getBaggageWeight = (baggage) => {
-  return formatField('WEIGHT', baggage.weight);
-};
-
-const getBaggage = (targetTask) => {
-  return targetTask.movement.baggage;
-};
-
-const hasBaggage = (targetTask) => {
-  return !!targetTask.movement.baggage;
-};
-
-const getCheckedBags = (baggage) => {
-  let checkedBags;
-  if (baggage.numberOfCheckedBags === 0) {
-    checkedBags = 'No checked bags';
-  }
-  if (baggage.numberOfCheckedBags >= 1) {
-    checkedBags = `${baggage.numberOfCheckedBags} checked bag(s)`;
-  }
-  return checkedBags;
-};
-
-const getNationality = (person) => {
-  if (!person?.nationality) {
-    return UNKNOWN_TEXT;
-  }
-  return person.nationality;
-};
-
-const getDateOfBirth = (person) => {
-  if (!person?.dateOfBirth) {
-    return UNKNOWN_TEXT;
-  }
-  return getFormattedDate(person.dateOfBirth, SHORT_DATE_FORMAT_ALT);
-};
-
-const getPerson = (targetTask) => {
-  return targetTask.movement.person;
-};
-
-const hasPerson = (targetTask) => {
-  return !!targetTask?.movement?.person;
-};
-
-const getGender = (person) => {
-  return formatGender(person.gender);
-};
-
-const getLastName = (person, capitalize = true) => {
-  if (!person?.name?.last) {
-    return capitalize ? UNKNOWN_TEXT.toUpperCase() : UNKNOWN_TEXT;
-  }
-  return capitalize ? person.name.last.toUpperCase() : person.name.last;
-};
-
-const getFirstName = (person) => {
-  if (!person?.name?.first) {
-    return UNKNOWN_TEXT;
-  }
-  return person.name.first;
-};
-
-const toCoTravellers = (otherPersons) => {
-  if (!otherPersons) {
-    return <li className="govuk-!-font-weight-bold">None</li>;
-  }
-  const maxToDisplay = 4;
-  const remaining = otherPersons.length > maxToDisplay ? otherPersons.length - maxToDisplay : 0;
-  const coTravellersJsx = otherPersons.map((person, index) => {
-    if (index < maxToDisplay) {
-      return (
-        <li key={index} className="govuk-!-font-weight-bold">
-          {getLastName(person)}, {getFirstName(person)}{(index !== maxToDisplay - 1)
-              && (index !== otherPersons.length - 1) ? ',' : ''} {(remaining > 0 && index + 1 === maxToDisplay)
-                ? ` plus ${remaining} more` : ''}
-        </li>
-      );
-    }
-  });
-  return (
-    <>
-      {coTravellersJsx}
-    </>
-  );
-};
-
-const getTotalNumberOfPersons = (targetTask) => {
-  if (!targetTask?.movement?.person) {
-    return 0;
-  }
-  // Should the code above not run, count is defaulted to 1 as we can assume there at least someone in the movement.
-  let personsCount = 1;
-  personsCount += targetTask.movement.otherPersons.length;
-  return personsCount;
-};
-
-const toFormattedDepartureDateTime = (targetTask) => {
-  if (!targetTask?.movement?.journey?.departure?.time) {
-    return UNKNOWN_TEXT;
-  }
-  return getFormattedDate(targetTask.movement.journey.departure.time, LONG_DATE_FORMAT);
-};
-
-const toFormattedArrivalDateTime = (targetTask) => {
-  if (!targetTask?.movement?.journey?.arrival?.time) {
-    return UNKNOWN_TEXT;
-  }
-  return getFormattedDate(targetTask.movement.journey.arrival.time, LONG_DATE_FORMAT);
-};
-
-const getDepartureLocation = (targetTask) => {
-  if (!targetTask?.movement?.journey?.departure?.time) {
-    return UNKNOWN_TEXT;
-  }
-  return targetTask.movement.journey.departure.location;
-};
-
-const getArrivalLocation = (targetTask) => {
-  if (!targetTask?.movement?.journey?.arrival.location) {
-    return UNKNOWN_TEXT;
-  }
-  return targetTask.movement.journey.arrival.location;
-};
-
-const getFlightNumber = (targetTask) => {
-  if (!targetTask?.movement?.flight?.number) {
-    return UNKNOWN_TEXT;
-  }
-  return targetTask.movement.flight.number;
-};
-
-const getAirlineOperator = (targetTask) => {
-  return targetTask?.movement?.flight?.operator;
-};
-
-const toAirlineName = (airlineCode) => {
-  if (!airlineCode) {
-    return UNKNOWN_TEXT;
-  }
-  return airlines.findWhere({ iata: airlineCode }).get('name');
-};
-
-const getDepartureStatus = (targetTask) => {
-  const departureStatus = targetTask?.movement?.flight?.departureStatus;
-  let departureStatusClass;
-  switch (departureStatus) {
-    case 'DC':
-      departureStatusClass = 'departureConfirmed';
-      break;
-    case 'BP':
-      departureStatusClass = 'bookedPassenger';
-      break;
-    case 'CI':
-      departureStatusClass = 'checkedIn';
-      break;
-    case 'DX':
-      departureStatusClass = 'departureException';
-      break;
-    default:
-      break;
-  }
-  return (
-    departureStatus && (
-      <span className={`govuk-body govuk-tag govuk-tag--${departureStatusClass}`}>
-        {departureStatus}
-      </span>
-    )
-  );
-};
-
-const getMovementTypeText = (targetTask) => {
-  const movementType = targetTask?.movement?.mode;
-  if (!movementType) {
-    return UNKNOWN_TEXT;
-  }
-  if (movementType === MOVEMENT_MODE_AIR_PASSENGER) {
-    return 'Passenger';
-  }
-  return 'Crew';
-};
-
-const toDescriptionText = (targetTask) => {
-  const movementDescription = targetTask?.movement?.description;
-  const movementType = targetTask?.movement?.mode;
-  let descriptionText;
-  if (movementType === MOVEMENT_MODE_AIR_PASSENGER) {
-    switch (movementDescription) {
-      case MOVEMENT_DESCRIPTION_INDIVIDUAL: {
-        descriptionText = 'Single passenger';
-        break;
-      }
-      case MOVEMENT_DESCRIPTION_GROUP: {
-        descriptionText = `In group of ${getTotalNumberOfPersons(targetTask)}`;
-        break;
-      }
-      default: {
-        return '';
-      }
-    }
-    if (movementType === MOVEMENT_MODE_AIR_CREW) {
-      descriptionText = 'Crew member';
-    }
-  }
-  return descriptionText;
-};
+// Utils
+import { BaggageUtil, DateTimeUtil, IndicatorsUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from './utils/index';
 
 const renderModeSection = (targetTask) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${INDIVIDUAL_ICON}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{toDescriptionText(targetTask)}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{MovementUtil.description(targetTask)}</p>
       <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
-        <span className="govuk-font-weight-bold">{getMovementTypeText(targetTask)} {getDepartureStatus(targetTask)}</span>
+        <span className="govuk-font-weight-bold">{MovementUtil.movementType(targetTask)} {MovementUtil.status(targetTask)}</span>
       </span>
     </div>
   );
 };
 
 const renderVoyageSection = (targetTask) => {
-  const journey = hasJourney(targetTask) && getJourney(targetTask);
-  const departureTime = getDepartureTime(journey);
-  const arrivalTime = getArrivalTime(journey);
-  const dateTimeList = toDateTimeList(departureTime, arrivalTime);
+  const journey = MovementUtil.hasMovementJourney(targetTask) && MovementUtil.movementJourney(targetTask);
+  const flight = MovementUtil.hasMovementFlight(targetTask) && MovementUtil.movementFlight(targetTask);
+  const departureTime = MovementUtil.departureTime(journey);
+  const arrivalTime = MovementUtil.arrivalTime(journey);
+  const dateTimeList = DateTimeUtil.toList(departureTime, arrivalTime);
   return (
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-aircraft" />
       <p className="content-line-one govuk-!-padding-right-2">
-        {`${toAirlineName(getAirlineOperator(targetTask))}, flight ${getFlightNumber(targetTask)}, 
+        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight))}, flight ${MovementUtil.flightNumber(flight)}, 
         ${calculateTimeDifference(dateTimeList, 'arrival')}`}
       </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
-        <span className="govuk-!-font-weight-bold">{getFlightNumber(targetTask)}</span>
+        <span className="govuk-!-font-weight-bold">{MovementUtil.flightNumber(flight)}</span>
         <span className="dot" />
-        {`${toFormattedDepartureDateTime(targetTask)}`}
+        {`${MovementUtil.formatDepartureTime(journey)}`}
         <span className="dot" />
-        <span className="govuk-!-font-weight-bold">{getDepartureLocation(targetTask)}</span> &#8594;
-        <span className="govuk-!-font-weight-bold"> {getArrivalLocation(targetTask)}</span>
+        <span className="govuk-!-font-weight-bold">{MovementUtil.departureLoc(journey)}</span> &#8594;
+        <span className="govuk-!-font-weight-bold"> {MovementUtil.arrivalLoc(journey)}</span>
         <span className="dot" />
-        {toFormattedArrivalDateTime(targetTask)}
+        {MovementUtil.formatArrivalTime(journey)}
       </p>
     </div>
   );
 };
 
 // eslint-disable-next-line no-unused-vars
-const buildFirstSection = (targetTask) => {
+const buildTaskTitleSection = (targetTask) => {
   return (
     <></>
   );
 };
 
-const buildSecondSection = (targetTask) => {
+const buildVoyageSection = (targetTask) => {
   return (
     <section className="task-list--item-2">
       <div>
@@ -452,45 +67,45 @@ const buildSecondSection = (targetTask) => {
   );
 };
 
-const buildThirdSection = (targetTask) => {
-  const person = hasPerson(targetTask) && getPerson(targetTask);
-  const baggage = hasBaggage(targetTask) && getBaggage(targetTask);
-  const booking = hasBooking(targetTask) && getBooking(targetTask);
-  const flight = hasFlight(targetTask) && getFlight(targetTask);
-  const journey = hasJourney(targetTask) && getJourney(targetTask);
-  const document = hasDocument(person) && getDocument(person);
-  const otherPersons = hasOtherPersons(targetTask) && getOthetherPersons(targetTask);
+const buildMovementInfoSection = (targetTask) => {
+  const person = PersonUtil.has(targetTask) && PersonUtil.get(targetTask);
+  const baggage = BaggageUtil.has(targetTask) && BaggageUtil.get(targetTask);
+  const booking = BookingUtil.has(targetTask) && BookingUtil.get(targetTask);
+  const journey = MovementUtil.hasMovementJourney(targetTask) && MovementUtil.movementJourney(targetTask);
+  const flight = MovementUtil.hasMovementFlight(targetTask) && MovementUtil.movementFlight(targetTask);
+  const document = DocumentUtil.has(person) && DocumentUtil.get(person);
+  const otherPersons = PersonUtil.hasOthers(targetTask) && PersonUtil.getOthers(targetTask);
   return (
     <section className="task-list--item-3">
       <div className="govuk-grid-row">
         <div className="govuk-grid-item">
           <div>
             <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text">
-              {getMovementTypeText(targetTask)}
+              {MovementUtil.movementType(targetTask)}
             </h3>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <>
-                {<li className="govuk-!-font-weight-bold">{getLastName(person)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{getFirstName(person)}</li>}
+                {<li className="govuk-!-font-weight-bold">{PersonUtil.lastname(person)}, </li>}
+                {<li className="govuk-!-font-weight-regular">{PersonUtil.firstname(person)}</li>}
               </>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <>
-                {<li className="govuk-!-font-weight-regular">{getGender(person)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{getDateOfBirth(person)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{getNationality(person)}</li>}
+                {<li className="govuk-!-font-weight-regular">{PersonUtil.gender(person)}, </li>}
+                {<li className="govuk-!-font-weight-regular">{PersonUtil.dob(person)}, </li>}
+                {<li className="govuk-!-font-weight-regular">{PersonUtil.nationality(person)}</li>}
               </>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
               <>
-                {<li className="govuk-!-font-weight-regular">{getCheckedBags(baggage)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{getBaggageWeight(baggage)} </li>}
+                {<li className="govuk-!-font-weight-regular">{BaggageUtil.checked(baggage)}, </li>}
+                {<li className="govuk-!-font-weight-regular">{BaggageUtil.weight(baggage)} </li>}
               </>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
               <>
-                {<li className="govuk-!-font-weight-regular">{toCheckInTimeText(booking)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{getSeatNumber(flight)} </li>}
+                {<li className="govuk-!-font-weight-regular">{BookingUtil.toCheckInText(booking)}, </li>}
+                {<li className="govuk-!-font-weight-regular">{MovementUtil.seatNumber(flight)} </li>}
               </>
             </ul>
           </div>
@@ -502,16 +117,16 @@ const buildThirdSection = (targetTask) => {
               Document
             </h3>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{getDocumentIdentification(document)} ({getNationality(person)})</li>
+              <li className="govuk-!-font-weight-bold">{DocumentUtil.docIdentification(document)} ({PersonUtil.nationality(person)})</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{getDocumentValidity(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docValidity(booking)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{getDocumentExpiry(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docExpiry(booking)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{getDocumentCountryOfIssue(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docCountry(booking)}</li>
             </ul>
           </div>
         </div>
@@ -521,13 +136,13 @@ const buildThirdSection = (targetTask) => {
             Booking
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-            <li className="govuk-!-font-weight-bold">{getBookingReference(booking)}</li>
+            <li className="govuk-!-font-weight-bold">{BookingUtil.bookingRef(booking)}</li>
           </ul>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-            <li className="govuk-!-font-weight-regular">{toBookingDateText(booking)}</li>
+            <li className="govuk-!-font-weight-regular">{BookingUtil.toBookingText(booking)}</li>
           </ul>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-            <li className="govuk-!-font-weight-regular">{getBookedPriorToDeparture(getBookedAt(booking), getDepartureTime(journey))}</li>
+            <li className="govuk-!-font-weight-regular">{BookingUtil.bookedPrior(BookingUtil.bookedAt(booking), MovementUtil.departureTime(journey))}</li>
           </ul>
         </div>
 
@@ -536,13 +151,13 @@ const buildThirdSection = (targetTask) => {
             Co-travellers
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-            {toCoTravellers(otherPersons)}
+            {PersonUtil.toOthers(otherPersons)}
           </ul>
           <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text">
             Route
           </h3>
           <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-            <li className="govuk-!-font-weight-regular">{toRoute(getRoute(journey))}</li>
+            <li className="govuk-!-font-weight-regular">{MovementUtil.convertMovementRoute(MovementUtil.movementRoute(journey))}</li>
           </ul>
         </div>
       </div>
@@ -550,8 +165,9 @@ const buildThirdSection = (targetTask) => {
   );
 };
 
-const buildFourthSection = (targetTask) => {
-  const targetingIndicators = hasRisk(targetTask) && getTargetingIndicators(getRisk(targetTask));
+const buildTargetIndicatorsSection = (targetTask) => {
+  const targetingIndicators = IndicatorsUtil.has(targetTask)
+  && IndicatorsUtil.getIndicators(IndicatorsUtil.get(targetTask));
   return (
     <section className="task-list--item-4">
       <div className="govuk-grid-row">
@@ -568,7 +184,7 @@ const buildFourthSection = (targetTask) => {
           <div className="govuk-grid-column">
             <ul className="govuk-list task-labels govuk-!-margin-top-0">
               <li className="task-labels-item">
-                {formatTargetIndicators(targetingIndicators)}
+                {IndicatorsUtil.format(targetingIndicators)}
               </li>
             </ul>
           </div>
@@ -588,4 +204,4 @@ const buildFourthSection = (targetTask) => {
   );
 };
 
-export { buildFirstSection, buildSecondSection, buildThirdSection, buildFourthSection };
+export { buildTaskTitleSection, buildVoyageSection, buildMovementInfoSection, buildTargetIndicatorsSection };
