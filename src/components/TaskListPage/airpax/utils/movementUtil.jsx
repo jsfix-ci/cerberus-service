@@ -108,13 +108,11 @@ const getDepartureStatus = (targetTask) => {
     CI: 'checkedIn',
     DX: 'departureException',
   };
-  return (
-    departureStatus && (
-    <span className={`govuk-body govuk-tag govuk-tag--${DEPARTURE_CLASSES[departureStatus]}`}>
-      {departureStatus}
-    </span>
-    )
-  );
+  if (departureStatus) {
+    return (
+      <span className={`govuk-body govuk-tag govuk-tag--${DEPARTURE_CLASSES[departureStatus]}`}>{departureStatus}</span>
+    );
+  }
 };
 
 const getMovementTypeText = (targetTask) => {
