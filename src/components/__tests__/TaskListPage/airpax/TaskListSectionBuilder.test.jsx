@@ -32,7 +32,7 @@ describe('TaskListSectionBuilder', () => {
     expect(screen.getByText(/Male/)).toBeInTheDocument();
     expect(screen.getByText(/13 May 1966/)).toBeInTheDocument();
     expect(screen.getByText('Route')).toBeInTheDocument();
-    expect(screen.getByText(/1 checked bag\(s\)/)).toBeInTheDocument();
+    expect(screen.getByText(/1 checked bag/)).toBeInTheDocument();
     expect(screen.getByText(/Valid from Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Expires Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Issued by Unknown/)).toBeInTheDocument();
