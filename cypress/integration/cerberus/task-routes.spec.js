@@ -71,10 +71,4 @@ beforeEach(() => {
           cy.get('.govuk-accordion').should('be.visible');
       });
   });
-    
-  it('Targeter should be able to navigate to airpax/tasks/taskId and view task list details', () => {
-    cy.visit('airpax/tasks');   
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');      
-    cy.get('.govuk-tabs__panel').should('be.visible');
-    });
 });
