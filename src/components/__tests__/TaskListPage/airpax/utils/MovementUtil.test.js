@@ -1,9 +1,18 @@
 import renderer from 'react-test-renderer';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 import { MovementUtil } from '../../../../TaskListPage/airpax/utils/index';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('MovementUtil', () => {
+  beforeEach(() => {
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+    dayjs.tz.setDefault('Europe/London');
+  });
+
   const targetTaskMin = {
     movement: {
       id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
