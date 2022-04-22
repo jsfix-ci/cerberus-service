@@ -14,8 +14,7 @@ beforeEach(() => {
         expect(cy.contains('Complete')).to.exist;
         })
     cy.get('.govuk-tabs__panel').should('be.visible');
-    });
-
+  });
   it('Targeter should be able to navigate to /airpax/tasks and view task list', () => {
     cy.visit('/airpax/tasks');
       cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
@@ -27,7 +26,6 @@ beforeEach(() => {
       });
     cy.get('.govuk-tabs__panel').should('be.visible')
   });
-
   it('Targeter should be able to navigate to /roro/tasks and view task list', () => {
     cy.visit('/roro/tasks');
       cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
@@ -38,8 +36,7 @@ beforeEach(() => {
           expect(cy.contains('Complete')).to.exist;
       });
     cy.get('.govuk-tabs__panel').should('be.visible');
-  });
-    
+  }); 
   it('Targeter should be able to navigate to /tasks/taskId and view task list details', () => {
     cy.visit('/tasks');   
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');      
@@ -54,8 +51,7 @@ beforeEach(() => {
           cy.get('.govuk-caption-xl').should('have.text', taskId);
           cy.get('.govuk-accordion').should('be.visible');
       });
-  });
-    
+  });  
   it('Targeter should be able to navigate to roro/tasks/taskId and view task list details', () => {
     cy.visit('roro/tasks');   
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');      
