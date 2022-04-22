@@ -102,7 +102,8 @@ const PersonUtil = {
 
 export default PersonUtil;
 
-export { getNationality,
+export {
+  getNationality,
   getDateOfBirth,
   getPerson,
   getGender,
@@ -110,4 +111,5 @@ export { getNationality,
   getLastName,
   toCoTravellers,
   getTotalNumberOfPersons,
-  getOtherPersons };
+  getOtherPersons,
+};

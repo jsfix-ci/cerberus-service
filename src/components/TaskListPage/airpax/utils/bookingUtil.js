@@ -56,9 +56,11 @@ const BookingUtil = {
 
 export default BookingUtil;
 
-export { toBookingDateText,
+export {
+  toBookingDateText,
   getBookingReference,
   toCheckInTimeText,
   getBooking,
   getBookedAt,
-  getBookedPriorToDeparture };
+  getBookedPriorToDeparture,
+};
