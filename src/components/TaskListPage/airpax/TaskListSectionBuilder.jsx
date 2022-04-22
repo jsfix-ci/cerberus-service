@@ -20,8 +20,8 @@ const renderModeSection = (targetTask) => {
 };
 
 const renderVoyageSection = (targetTask) => {
-  const journey = MovementUtil.hasMovementJourney(targetTask) && MovementUtil.movementJourney(targetTask);
-  const flight = MovementUtil.hasMovementFlight(targetTask) && MovementUtil.movementFlight(targetTask);
+  const journey = MovementUtil.movementJourney(targetTask);
+  const flight = MovementUtil.movementFlight(targetTask);
   const departureTime = MovementUtil.departureTime(journey);
   const arrivalTime = MovementUtil.arrivalTime(journey);
   const dateTimeList = DateTimeUtil.toList(departureTime, arrivalTime);
@@ -67,13 +67,13 @@ const buildVoyageSection = (targetTask) => {
 };
 
 const buildMovementInfoSection = (targetTask) => {
-  const person = PersonUtil.has(targetTask) && PersonUtil.get(targetTask);
-  const baggage = BaggageUtil.has(targetTask) && BaggageUtil.get(targetTask);
-  const booking = BookingUtil.has(targetTask) && BookingUtil.get(targetTask);
-  const journey = MovementUtil.hasMovementJourney(targetTask) && MovementUtil.movementJourney(targetTask);
-  const flight = MovementUtil.hasMovementFlight(targetTask) && MovementUtil.movementFlight(targetTask);
-  const document = DocumentUtil.has(person) && DocumentUtil.get(person);
-  const otherPersons = PersonUtil.hasOthers(targetTask) && PersonUtil.getOthers(targetTask);
+  const person = PersonUtil.get(targetTask);
+  const baggage = BaggageUtil.get(targetTask);
+  const booking = BookingUtil.get(targetTask);
+  const journey = MovementUtil.movementJourney(targetTask);
+  const flight = MovementUtil.movementFlight(targetTask);
+  const document = DocumentUtil.get(person);
+  const otherPersons = PersonUtil.getOthers(targetTask);
   return (
     <section className="task-list--item-3">
       <div className="govuk-grid-row">
@@ -83,29 +83,21 @@ const buildMovementInfoSection = (targetTask) => {
               {MovementUtil.movementType(targetTask)}
             </h3>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <>
-                {<li className="govuk-!-font-weight-bold">{PersonUtil.lastname(person)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{PersonUtil.firstname(person)}</li>}
-              </>
+              <li className="govuk-!-font-weight-bold">{PersonUtil.lastname(person)}, </li>
+              <li className="govuk-!-font-weight-regular">{PersonUtil.firstname(person)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <>
-                {<li className="govuk-!-font-weight-regular">{PersonUtil.gender(person)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{PersonUtil.dob(person)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{PersonUtil.nationality(person)}</li>}
-              </>
+              <li className="govuk-!-font-weight-regular">{PersonUtil.gender(person)}, </li>
+              <li className="govuk-!-font-weight-regular">{PersonUtil.dob(person)}, </li>
+              <li className="govuk-!-font-weight-regular">{PersonUtil.nationality(person)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <>
-                {<li className="govuk-!-font-weight-regular">{BaggageUtil.checked(baggage)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{BaggageUtil.weight(baggage)} </li>}
-              </>
+              <li className="govuk-!-font-weight-regular">{BaggageUtil.checked(baggage)}, </li>
+              <li className="govuk-!-font-weight-regular">{BaggageUtil.weight(baggage)} </li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <>
-                {<li className="govuk-!-font-weight-regular">{BookingUtil.toCheckInText(booking)}, </li>}
-                {<li className="govuk-!-font-weight-regular">{MovementUtil.seatNumber(flight)} </li>}
-              </>
+              <li className="govuk-!-font-weight-regular">{BookingUtil.toCheckInText(booking)}, </li>
+              <li className="govuk-!-font-weight-regular">{MovementUtil.seatNumber(flight)} </li>
             </ul>
           </div>
         </div>
@@ -165,8 +157,7 @@ const buildMovementInfoSection = (targetTask) => {
 };
 
 const buildTargetIndicatorsSection = (targetTask) => {
-  const targetingIndicators = IndicatorsUtil.has(targetTask)
-  && IndicatorsUtil.getIndicators(IndicatorsUtil.get(targetTask));
+  const targetingIndicators = IndicatorsUtil.getIndicators(IndicatorsUtil.getRisks(targetTask));
   return (
     <section className="task-list--item-4">
       <div className="govuk-grid-row">

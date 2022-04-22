@@ -35,35 +35,7 @@ describe('BookingUtil', () => {
 
     const output = BookingUtil.get(targetTaskMin);
 
-    expect(output).toBeUndefined();
-  });
-
-  it('should verify presence of booking node within movement', () => {
-    const targetTaskMin = {
-      movement: {
-        booking: {
-          reference: null,
-          type: null,
-          paymentMethod: null,
-          bookedAt: null,
-          checkInAt: null,
-          ticket: {},
-          country: null,
-        },
-      },
-    };
-
-    const output = BookingUtil.has(targetTaskMin);
-    expect(output).toBeTruthy();
-  });
-
-  it('should verify absence of booking node within movement', () => {
-    const targetTaskMin = {
-      movement: {},
-    };
-
-    const output = BookingUtil.has(targetTaskMin);
-    expect(output).toBeFalsy();
+    expect(output).toBeNull();
   });
 
   it('should return the default error text when bookedAt is not present', () => {

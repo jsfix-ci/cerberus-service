@@ -36,71 +36,8 @@ describe('IndicatorsUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.get(targetListDataMin);
+    const output = IndicatorsUtil.getRisks(targetListDataMin);
     expect(output).toEqual(expected);
-  });
-
-  it('should validate presence of risks', () => {
-    const targetListDataMin = {
-      id: 'DEV-20220415-001',
-      risks: {
-        targetingIndicators: {
-          indicators: [
-            {
-              description: 'Quick turnaround freight (under 24 hours)',
-            },
-            {
-              description: 'Quick turnaround tourist (under 24 hours)',
-            },
-          ],
-          count: 2,
-          score: 60,
-        },
-      },
-    };
-
-    const output = IndicatorsUtil.has(targetListDataMin);
-    expect(output).toBeTruthy();
-  });
-
-  it('should validate absence of risks', () => {
-    const targetListDataMin = {
-      id: 'DEV-20220415-001',
-    };
-
-    const output = IndicatorsUtil.has(targetListDataMin);
-    expect(output).toBeFalsy();
-  });
-
-  it('should validate presence of targeting indicators within risks', () => {
-    const risks = {
-      targetingIndicators: {
-        indicators: [
-          {
-            description: 'Quick turnaround freight (under 24 hours)',
-          },
-          {
-            description: 'Quick turnaround tourist (under 24 hours)',
-          },
-        ],
-        count: 2,
-        score: 60,
-      },
-    };
-
-    const output = IndicatorsUtil.hasIndicatiors(risks);
-    expect(output).toBeTruthy();
-  });
-
-  it('should validate absence of targeting indicators within risks', () => {
-    const risks = {
-      matchedRules: [],
-      matchedSelectorGroups: {},
-      highestThreatLevel: null,
-    };
-
-    const output = IndicatorsUtil.hasIndicatiors(risks);
-    expect(output).toBeFalsy();
   });
 
   it('should get targeting indicators if present', () => {

@@ -21,27 +21,13 @@ describe('BaggageUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should verify the presence of the baggage node within the movement', () => {
-    const targetTaskMin = {
-      movement: {
-        baggage: {
-          numberOfCheckedBags: 1,
-          weight: '1',
-        },
-      },
-    };
-
-    const output = BaggageUtil.has(targetTaskMin);
-    expect(output).toBeTruthy();
-  });
-
   it('should return the number of checked bags if present', () => {
     const baggage = {
       numberOfCheckedBags: 1,
       weight: '1',
     };
 
-    const expected = '1 checked bag(s)';
+    const expected = '1 checked bag';
 
     const output = BaggageUtil.checked(baggage);
     expect(output).toEqual(expected);
@@ -59,22 +45,13 @@ describe('BaggageUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should verify the absence of the baggage node within the movement', () => {
-    const targetTaskMin = {
-      movement: {},
-    };
-
-    const output = BaggageUtil.has(targetTaskMin);
-    expect(output).toBeFalsy();
-  });
-
   it('should return undefined if no baggage object is found', () => {
     const targetTaskMin = {
       movement: {},
     };
 
     const output = BaggageUtil.get(targetTaskMin);
-    expect(output).toBeUndefined();
+    expect(output).toBeNull();
   });
 
   it('should return baggage weight if found', () => {

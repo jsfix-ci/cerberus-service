@@ -37,48 +37,6 @@ describe('PersonUtil', () => {
     expect(output).toEqual(person);
   });
 
-  it('should validate the presence of person', () => {
-    const targetTaskMin = {
-      movement: {
-        person: {
-          name: {
-            first: 'Isaiah',
-            last: 'Ford',
-            full: 'Isaiah Ford',
-          },
-          role: 'PASSENGER',
-          dateOfBirth: '1966-05-13T00:00:00Z',
-          gender: 'M',
-          nationality: 'GBR',
-          document: null,
-        },
-      },
-    };
-
-    const output = PersonUtil.has(targetTaskMin);
-    expect(output).toBeTruthy();
-  });
-
-  it('should validate the absence of person', () => {
-    const targetTaskMin = {
-      movement: {},
-    };
-
-    const output = PersonUtil.has(targetTaskMin);
-    expect(output).toBeFalsy();
-  });
-
-  it('should check if other persons are present', () => {
-    const targetTaskMin = {
-      movement: {
-        otherPersons: [],
-      },
-    };
-
-    const output = PersonUtil.hasOthers(targetTaskMin);
-    expect(output).toBeFalsy();
-  });
-
   it('should get other persons if present', () => {
     const targetTaskMin = {
       movement: {
@@ -118,6 +76,7 @@ describe('PersonUtil', () => {
           nationality: 'GBR',
           document: null,
         },
+        otherPersons: [],
       },
     };
 

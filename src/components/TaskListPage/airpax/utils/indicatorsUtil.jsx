@@ -2,7 +2,7 @@ import React from 'react';
 import * as pluralise from 'pluralise';
 
 const formatTargetIndicators = (targetingIndicators) => {
-  if (targetingIndicators.indicators?.length > 0) {
+  if (targetingIndicators?.indicators?.length > 0) {
     const threatIndicatorList = targetingIndicators.indicators.map((threatIndicator) => {
       return threatIndicator.description;
     });
@@ -18,29 +18,33 @@ const formatTargetIndicators = (targetingIndicators) => {
 };
 
 const hasTargetingIndicators = (risks) => {
-  return !!risks.targetingIndicators;
+  return !!risks?.targetingIndicators;
 };
 
 const getTargetingIndicators = (risks) => {
-  return hasTargetingIndicators(risks) && risks.targetingIndicators;
-};
-
-const getRisk = (targetTask) => {
-  return targetTask.risks;
+  if (hasTargetingIndicators(risks)) {
+    return risks.targetingIndicators;
+  }
+  return null;
 };
 
 const hasRisk = (targetTask) => {
   return !!targetTask?.risks;
 };
 
+const getRisk = (targetTask) => {
+  if (hasRisk(targetTask)) {
+    return targetTask.risks;
+  }
+  return null;
+};
+
 const IndicatorsUtil = {
-  get: getRisk,
-  has: hasRisk,
+  getRisks: getRisk,
   format: formatTargetIndicators,
-  hasIndicatiors: hasTargetingIndicators,
   getIndicators: getTargetingIndicators,
 };
 
 export default IndicatorsUtil;
 
-export { formatTargetIndicators, getRisk, hasRisk, getTargetingIndicators };
+export { formatTargetIndicators, getRisk, getTargetingIndicators };
