@@ -8,13 +8,13 @@ describe('Targeter should be able to navigate to the different task routes', () 
         cy.visit('/tasks');
        
         cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-            expect(Heading).to.equal('Task management')
-            expect(cy.contains('New')).to.exist
-            expect(cy.contains('In progress')).to.exist
-            expect(cy.contains('Issued')).to.exist
-            expect(cy.contains('Complete')).to.exist
+            expect(Heading).to.equal('Task management');
+            expect(cy.contains('New')).to.exist;
+            expect(cy.contains('In progress')).to.exist;
+            expect(cy.contains('Issued')).to.exist;
+            expect(cy.contains('Complete')).to.exist;
         })
-        cy.get('.govuk-tabs__panel').should('be.visible')
+        cy.get('.govuk-tabs__panel').should('be.visible');
 
     });
 
@@ -22,11 +22,11 @@ describe('Targeter should be able to navigate to the different task routes', () 
         cy.visit('/airpax/tasks');
        
         cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-            expect(Heading).to.equal('Task management')
-            expect(cy.contains('New')).to.exist
-            expect(cy.contains('In progress')).to.exist
-            expect(cy.contains('Issued')).to.exist
-            expect(cy.contains('Complete')).to.exist
+            expect(Heading).to.equal('Task management');
+            expect(cy.contains('New')).to.exist;
+            expect(cy.contains('In progress')).to.exist;
+            expect(cy.contains('Issued')).to.exist;
+            expect(cy.contains('Complete')).to.exist;
         })
         cy.get('.govuk-tabs__panel').should('be.visible')
 
@@ -37,28 +37,28 @@ describe('Targeter should be able to navigate to the different task routes', () 
        
         cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
             expect(Heading).to.equal('Task management')
-            expect(cy.contains('New')).to.exist
-            expect(cy.contains('In progress')).to.exist
-            expect(cy.contains('Issued')).to.exist
-            expect(cy.contains('Complete')).to.exist
+            expect(cy.contains('New')).to.exist;
+            expect(cy.contains('In progress')).to.exist;
+            expect(cy.contains('Issued')).to.exist;
+            expect(cy.contains('Complete')).to.exist;
         })
-          cy.get('.govuk-tabs__panel').should('be.visible')
+          cy.get('.govuk-tabs__panel').should('be.visible');
 
       });
     
       it('Targeter should be able to navigate to /tasks/taskId and view task list details', () => {
           cy.visit('/tasks');   
           cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');      
-          cy.get('.govuk-tabs__panel').should('be.visible')
+          cy.get('.govuk-tabs__panel').should('be.visible');
           cy.wait('@taskLists').then(({ response }) => {
               expect(response.statusCode).to.equal(200);
           })
           cy.get('.govuk-task-list-card:first-of-type').find('.title-container').invoke('text').then((taskId) => {
               cy.visit('/tasks/' + taskId);
               cy.wait(3000);
-              cy.get('.govuk-heading-xl').should('have.text', 'Overview')
-              cy.get('.govuk-caption-xl').should('have.text', taskId)
-              cy.get('.govuk-accordion').should('be.visible')
+              cy.get('.govuk-heading-xl').should('have.text', 'Overview');
+              cy.get('.govuk-caption-xl').should('have.text', taskId);
+              cy.get('.govuk-accordion').should('be.visible');
           })
 
       });
@@ -66,16 +66,16 @@ describe('Targeter should be able to navigate to the different task routes', () 
       it('Targeter should be able to navigate to roro/tasks/taskId and view task list details', () => {
           cy.visit('roro/tasks');   
           cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');      
-          cy.get('.govuk-tabs__panel').should('be.visible')
+          cy.get('.govuk-tabs__panel').should('be.visible');
           cy.wait('@taskLists').then(({ response }) => {
               expect(response.statusCode).to.equal(200);
           })
           cy.get('.govuk-task-list-card:first-of-type').find('.title-container').invoke('text').then((taskId) => {
               cy.visit('roro/tasks/' + taskId);
               cy.wait(3000);
-              cy.get('.govuk-heading-xl').should('have.text', 'Overview')
-              cy.get('.govuk-caption-xl').should('have.text', taskId)
-              cy.get('.govuk-accordion').should('be.visible')
+              cy.get('.govuk-heading-xl').should('have.text', 'Overview');
+              cy.get('.govuk-caption-xl').should('have.text', taskId);
+              cy.get('.govuk-accordion').should('be.visible');
           })
 
       });
@@ -83,18 +83,7 @@ describe('Targeter should be able to navigate to the different task routes', () 
       it('Targeter should be able to navigate to airpax/tasks/taskId and view task list details', () => {
           cy.visit('airpax/tasks');   
           cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');      
-          cy.get('.govuk-tabs__panel').should('be.visible')
-        //   cy.wait('@taskLists').then(({ response }) => {
-        //       expect(response.statusCode).to.equal(200);
-        //   })
-        //   cy.get('.govuk-task-list-card:first-of-type').find('.title-container').invoke('text').then((taskId) => {
-        //       cy.visit('roro/tasks/' + taskId);
-        //       cy.wait(3000);
-        //       cy.get('.govuk-heading-xl').should('have.text', 'Overview')
-        //       cy.get('.govuk-caption-xl').should('have.text', taskId)
-        //       cy.get('.govuk-accordion').should('be.visible')
-        //   })
-
+          cy.get('.govuk-tabs__panel').should('be.visible');
     });
 
 });
