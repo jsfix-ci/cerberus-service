@@ -19,14 +19,14 @@ const getBookingReference = (booking) => {
 
 const toCheckInTimeText = (booking) => {
   const checkinPrefix = 'Check-in';
-  if (!booking.checkInAt) {
+  if (!booking?.checkInAt) {
     return `${checkinPrefix} ${UNKNOWN_TEXT}`;
   }
   return `${checkinPrefix} ${getFormattedDate(booking.checkInAt, STANDARD_HOUR_MINUTE_FORMAT)}`;
 };
 
 const getBookedAt = (booking) => {
-  return booking.bookedAt;
+  return booking?.bookedAt;
 };
 
 const getBookedPriorToDeparture = (bookedAt, departureTime) => {
@@ -34,17 +34,19 @@ const getBookedPriorToDeparture = (bookedAt, departureTime) => {
   return calculateTimeDifference(dateTimeList);
 };
 
-const getBooking = (targetTask) => {
-  return targetTask.movement.booking;
+const hasBooking = (targetTask) => {
+  return !!targetTask?.movement?.booking;
 };
 
-const hasBooking = (targetTask) => {
-  return !!targetTask.movement.booking;
+const getBooking = (targetTask) => {
+  if (hasBooking(targetTask)) {
+    return targetTask.movement.booking;
+  }
+  return null;
 };
 
 const BookingUtil = {
   get: getBooking,
-  has: hasBooking,
   bookedAt: getBookedAt,
   bookedPrior: getBookedPriorToDeparture,
   toCheckInText: toCheckInTimeText,
@@ -54,5 +56,9 @@ const BookingUtil = {
 
 export default BookingUtil;
 
-export { toBookingDateText, getBookingReference, toCheckInTimeText, getBooking,
-  hasBooking, getBookedAt, getBookedPriorToDeparture };
+export { toBookingDateText,
+  getBookingReference,
+  toCheckInTimeText,
+  getBooking,
+  getBookedAt,
+  getBookedPriorToDeparture };

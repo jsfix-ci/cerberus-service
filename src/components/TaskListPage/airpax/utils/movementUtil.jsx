@@ -28,20 +28,26 @@ const getSeatNumber = (flight) => {
   return `${seatPrefix} ${flight.seatNumber}`;
 };
 
-const getFlight = (targetTask) => {
-  return targetTask.movement.flight;
-};
-
 const hasFlight = (targetTask) => {
   return !!targetTask.movement.flight;
 };
 
-const getJourney = (targetTask) => {
-  return targetTask.movement.journey;
+const getFlight = (targetTask) => {
+  if (hasFlight(targetTask)) {
+    return targetTask.movement.flight;
+  }
+  return null;
 };
 
 const hasJourney = (targetTask) => {
   return !!targetTask?.movement?.journey;
+};
+
+const getJourney = (targetTask) => {
+  if (hasJourney(targetTask)) {
+    return targetTask.movement.journey;
+  }
+  return null;
 };
 
 const getDepartureTime = (journey) => {
@@ -88,31 +94,23 @@ const getFlightNumber = (flight) => {
 };
 
 const getAirlineOperator = (flight) => {
+  if (!flight?.operator) {
+    return UNKNOWN_TEXT;
+  }
   return flight.operator;
 };
 
 const getDepartureStatus = (targetTask) => {
   const departureStatus = targetTask?.movement?.flight?.departureStatus;
-  let departureStatusClass;
-  switch (departureStatus) {
-    case 'DC':
-      departureStatusClass = 'departureConfirmed';
-      break;
-    case 'BP':
-      departureStatusClass = 'bookedPassenger';
-      break;
-    case 'CI':
-      departureStatusClass = 'checkedIn';
-      break;
-    case 'DX':
-      departureStatusClass = 'departureException';
-      break;
-    default:
-      break;
-  }
+  const DEPARTURE_CLASSES = {
+    DC: 'departureConfirmed',
+    BP: 'bookedPassenger',
+    CI: 'checkedIn',
+    DX: 'departureException',
+  };
   return (
     departureStatus && (
-    <span className={`govuk-body govuk-tag govuk-tag--${departureStatusClass}`}>
+    <span className={`govuk-body govuk-tag govuk-tag--${DEPARTURE_CLASSES[departureStatus]}`}>
       {departureStatus}
     </span>
     )
@@ -133,26 +131,18 @@ const getMovementTypeText = (targetTask) => {
 const toDescriptionText = (targetTask) => {
   const movementDescription = targetTask?.movement?.description;
   const movementType = targetTask?.movement?.mode;
-  let descriptionText;
   if (movementType === MOVEMENT_MODE_AIR_PASSENGER) {
-    switch (movementDescription) {
-      case MOVEMENT_DESCRIPTION_INDIVIDUAL: {
-        descriptionText = 'Single passenger';
-        break;
-      }
-      case MOVEMENT_DESCRIPTION_GROUP: {
-        descriptionText = `In group of ${getTotalNumberOfPersons(targetTask)}`;
-        break;
-      }
-      default: {
-        return '';
-      }
+    if (movementDescription === MOVEMENT_DESCRIPTION_INDIVIDUAL) {
+      return 'Single passenger';
     }
-    if (movementType === MOVEMENT_MODE_AIR_CREW) {
-      descriptionText = 'Crew member';
+    if (movementDescription === MOVEMENT_DESCRIPTION_GROUP) {
+      return `In group of ${getTotalNumberOfPersons(targetTask)}`;
     }
   }
-  return descriptionText;
+  if (movementType === MOVEMENT_MODE_AIR_CREW) {
+    return 'Crew member';
+  }
+  return UNKNOWN_TEXT;
 };
 
 const toAirlineName = (airlineCode) => {
@@ -166,9 +156,7 @@ const MovementUtil = {
   movementRoute: getRoute,
   convertMovementRoute: toRoute,
   seatNumber: getSeatNumber,
-  hasMovementFlight: hasFlight,
   movementFlight: getFlight,
-  hasMovementJourney: hasJourney,
   movementJourney: getJourney,
   departureTime: getDepartureTime,
   arrivalTime: getArrivalTime,
@@ -186,6 +174,20 @@ const MovementUtil = {
 
 export default MovementUtil;
 
-export { getRoute, toRoute, getSeatNumber, getFlight, hasFlight, getJourney, hasJourney, getDepartureTime,
-  getArrivalTime, toFormattedDepartureDateTime, toFormattedArrivalDateTime, getDepartureLocation, getArrivalLocation,
-  getFlightNumber, getAirlineOperator, getDepartureStatus, getMovementTypeText, toDescriptionText, toAirlineName };
+export { getRoute,
+  toRoute,
+  getSeatNumber,
+  getFlight,
+  getJourney,
+  getDepartureTime,
+  getArrivalTime,
+  toFormattedDepartureDateTime,
+  toFormattedArrivalDateTime,
+  getDepartureLocation,
+  getArrivalLocation,
+  getFlightNumber,
+  getAirlineOperator,
+  getDepartureStatus,
+  getMovementTypeText,
+  toDescriptionText,
+  toAirlineName };

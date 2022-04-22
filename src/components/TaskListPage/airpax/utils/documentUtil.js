@@ -36,7 +36,10 @@ const getDocumentExpiry = (document) => {
 };
 
 const getDocument = (person) => {
-  return person.document;
+  if (person) {
+    return person.document;
+  }
+  return null;
 };
 
 const hasDocument = (person) => {
@@ -54,5 +57,9 @@ const DocumentUtil = {
 
 export default DocumentUtil;
 
-export { getDocumentCountryOfIssue, getDocumentIdentification, getDocumentValidity, getDocumentExpiry,
-  getDocument, hasDocument };
+export { getDocumentCountryOfIssue,
+  getDocumentIdentification,
+  getDocumentValidity,
+  getDocumentExpiry,
+  getDocument,
+  hasDocument };

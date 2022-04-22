@@ -20,6 +20,9 @@ const getDateOfBirth = (person) => {
 };
 
 const getGender = (person) => {
+  if (!person) {
+    return UNKNOWN_TEXT;
+  }
   return formatGender(person.gender);
 };
 
@@ -43,7 +46,7 @@ const toCoTravellers = (otherPersons) => {
   }
   const maxToDisplay = 4;
   const remaining = otherPersons.length > maxToDisplay ? otherPersons.length - maxToDisplay : 0;
-  const coTravellersJsx = otherPersons.map((person, index) => {
+  return otherPersons.map((person, index) => {
     if (index < maxToDisplay) {
       return (
         <li key={index} className="govuk-!-font-weight-bold">
@@ -54,44 +57,40 @@ const toCoTravellers = (otherPersons) => {
       );
     }
   });
-  return (
-    <>
-      {coTravellersJsx}
-    </>
-  );
 };
 
 const getTotalNumberOfPersons = (targetTask) => {
   if (!targetTask?.movement?.person) {
     return 0;
   }
-  // Should the code above not run, count is defaulted to 1 as we can assume there at least someone in the movement.
-  let personsCount = 1;
-  personsCount += targetTask.movement.otherPersons.length;
-  return personsCount;
+  return targetTask.movement.otherPersons.length + 1;
 };
 
 const hasOtherPersons = (targetTask) => {
-  return !!targetTask?.movement?.otherPersons.length;
+  return !!targetTask?.movement?.otherPersons?.length;
 };
 
 const getOtherPersons = (targetTask) => {
-  return targetTask.movement.otherPersons;
-};
-
-const getPerson = (targetTask) => {
-  return targetTask.movement.person;
+  if (hasOtherPersons(targetTask)) {
+    return targetTask.movement.otherPersons;
+  }
+  return null;
 };
 
 const hasPerson = (targetTask) => {
   return !!targetTask?.movement?.person;
 };
 
+const getPerson = (targetTask) => {
+  if (hasPerson(targetTask)) {
+    return targetTask.movement.person;
+  }
+  return null;
+};
+
 const PersonUtil = {
   get: getPerson,
-  has: hasPerson,
   getOthers: getOtherPersons,
-  hasOthers: hasOtherPersons,
   totalPersons: getTotalNumberOfPersons,
   toOthers: toCoTravellers,
   firstname: getFirstName,
@@ -103,5 +102,12 @@ const PersonUtil = {
 
 export default PersonUtil;
 
-export { getNationality, getDateOfBirth, getPerson, hasPerson, getGender, getFirstName, getLastName,
-  toCoTravellers, getTotalNumberOfPersons, hasOtherPersons, getOtherPersons };
+export { getNationality,
+  getDateOfBirth,
+  getPerson,
+  getGender,
+  getFirstName,
+  getLastName,
+  toCoTravellers,
+  getTotalNumberOfPersons,
+  getOtherPersons };

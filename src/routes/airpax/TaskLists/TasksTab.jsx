@@ -38,9 +38,9 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
 
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   const tempData = {
-    data: {
+    data: [
       // paste data from the relevant fixture here for testing this page
-    },
+    ],
   };
 
   const getTaskList = async () => {
@@ -94,39 +94,35 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
     }
   }, [refreshTaskList]);
 
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (targetTasks.length === 0) {
+    return <p className="govuk-body-l">There are no {taskStatus} tasks</p>;
+  }
+
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      <Pagination
+        totalItems={targetTaskCount}
+        itemsPerPage={itemsPerPage}
+        activePage={activePage}
+        totalPages={totalPages}
+      />
 
-      {!isLoading && (targetTasks.length === 0 || !targetTasks.length) && (
-      <p className="govuk-body-l">There are no {taskStatus} tasks</p>
-      )}
+      {targetTasks.map((targetTask) => {
+        return (
+          <TaskListCard key={targetTask.id} targetTask={targetTask} />
+        );
+      })}
 
-      {!isLoading && targetTasks.length > 0 && (
-        <Pagination
-          totalItems={targetTaskCount}
-          itemsPerPage={itemsPerPage}
-          activePage={activePage}
-          totalPages={totalPages}
-        />
-      )}
-
-      {!isLoading
-          && targetTasks.length > 0
-          && targetTasks.map((targetTask) => {
-            return (
-              <TaskListCard key={targetTask.id} targetTask={targetTask} />
-            );
-          })}
-
-      {!isLoading && targetTasks.length > 0 && (
-        <Pagination
-          totalItems={targetTaskCount}
-          itemsPerPage={itemsPerPage}
-          activePage={activePage}
-          totalPages={totalPages}
-        />
-      )}
+      <Pagination
+        totalItems={targetTaskCount}
+        itemsPerPage={itemsPerPage}
+        activePage={activePage}
+        totalPages={totalPages}
+      />
     </>
   );
 };
