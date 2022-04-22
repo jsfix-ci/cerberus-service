@@ -323,7 +323,37 @@
            }
           },
           "matching": null,
-          "features": null,
+          "features": {
+           "feats": {
+            "EAB-SEIZURE-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 2,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "EAB-EXAMINATION-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 0,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "RORO-MOVEMENT-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 3,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            }
+           }
+          },
           "washResponses": null,
           "matchMerge": null,
           "changeHistory": null
@@ -379,7 +409,37 @@
            }
           },
           "matching": null,
-          "features": null,
+          "features": {
+           "feats": {
+            "EAB-SEIZURE-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 0,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "EAB-EXAMINATION-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 3,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "RORO-MOVEMENT-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 1,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            }
+           }
+          },
           "washResponses": null,
           "matchMerge": null,
           "changeHistory": null
@@ -430,7 +490,37 @@
           },
           "attributes": null,
           "matching": null,
-          "features": null,
+          "features": {
+           "feats": {
+            "EAB-SEIZURE-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 1,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "EAB-EXAMINATION-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 3,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "RORO-MOVEMENT-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 0,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            }
+           }
+          },
           "changeHistory": null
          }
         ],
@@ -508,6 +598,33 @@
           "matching": null,
           "features": {
            "feats": {
+            "EAB-SEIZURE-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 1,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "EAB-EXAMINATION-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 3,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "RORO-MOVEMENT-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 4,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
             "EMPTY-TRAILER-ON-ROUND-TRIP": {
              "id": null,
              "type": null,
@@ -598,7 +715,37 @@
            }
           },
           "matching": null,
-          "features": null,
+          "features": {
+           "feats": {
+            "EAB-SEIZURE-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 4,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "EAB-EXAMINATION-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 3,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "RORO-MOVEMENT-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 2,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            }
+           }
+          },
           "washResponses": null,
           "matchMerge": null,
           "changeHistory": null
@@ -747,7 +894,37 @@
            }
           },
           "matching": null,
-          "features": null,
+          "features": {
+           "feats": {
+            "EAB-SEIZURE-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 1,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "EAB-EXAMINATION-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 3,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            },
+            "RORO-MOVEMENT-COUNT": {
+             "id": null,
+             "type": "TXE",
+             "valueType": "INT",
+             "value": 4,
+             "valueList": null,
+             "startTimestamp": null,
+             "endTimestamp": null
+            }
+           }
+          },
           "washResponses": null,
           "matchMerge": null,
           "changeHistory": null
