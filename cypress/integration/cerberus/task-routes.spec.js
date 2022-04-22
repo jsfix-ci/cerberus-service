@@ -22,7 +22,7 @@ describe('Targeter should be able to navigate to the different task routes', () 
       expect(cy.contains('In progress')).to.exist;
       expect(cy.contains('Issued')).to.exist;
       expect(cy.contains('Complete')).to.exist;
-      });
+    });
     cy.get('.govuk-tabs__panel').should('be.visible');
   });
   it('Targeter should be able to navigate to /roro/tasks and view task list', () => {
@@ -36,9 +36,9 @@ describe('Targeter should be able to navigate to the different task routes', () 
     });
     cy.get('.govuk-tabs__panel').should('be.visible');
   });
-  it('Targeter should be able to navigate to /tasks/taskId and view task list details',() => {
+  it('Targeter should be able to navigate to /tasks/taskId and view task list details', () => {
     cy.visit('/tasks');
-    cy.intercept('POST','/camunda/v1/targeting-tasks/pages').as('taskLists');
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');
     cy.get('.govuk-tabs__panel').should('be.visible');
     cy.wait('@taskLists').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
@@ -53,9 +53,9 @@ describe('Targeter should be able to navigate to the different task routes', () 
       cy.get('.govuk-accordion').should('be.visible');
     });
   });
-  it.only('Targeter should be able to navigate to roro/tasks/taskId and view task list details',() => {
+  it('Targeter should be able to navigate to roro/tasks/taskId and view task list details', () => {
     cy.visit('roro/tasks');
-    cy.intercept('POST','/camunda/v1/targeting-tasks/pages').as('taskLists');
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('taskLists');
     cy.get('.govuk-tabs__panel').should('be.visible');
     cy.wait('@taskLists').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
@@ -71,4 +71,3 @@ describe('Targeter should be able to navigate to the different task routes', () 
     });
   });
 });
-
