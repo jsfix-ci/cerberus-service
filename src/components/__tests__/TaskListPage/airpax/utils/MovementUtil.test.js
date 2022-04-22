@@ -1,3 +1,5 @@
+import renderer from 'react-test-renderer';
+
 import { MovementUtil } from '../../../../TaskListPage/airpax/utils/index';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
@@ -80,5 +82,105 @@ describe('MovementUtil', () => {
     expect(output).not.toBeUndefined();
     expect(output).not.toBeNull();
     expect(output).toEqual(targetTaskMin.movement.flight);
+  });
+
+  it('should return a departure time if present', () => {
+    const output = MovementUtil.departureTime(targetTaskMin.movement.journey);
+    expect(output).toEqual(targetTaskMin.movement.journey.departure.time);
+  });
+
+  it('should return arrival time if present', () => {
+    const output = MovementUtil.arrivalTime(targetTaskMin.movement.journey);
+    expect(output).toEqual(targetTaskMin.movement.journey.arrival.time);
+  });
+
+  it('should return a formatted departure date and time if present', () => {
+    const output = MovementUtil.formatDepartureTime(targetTaskMin.movement.journey);
+    expect(output).toEqual('7 Aug 2020 at 18:15');
+  });
+
+  it('should return a formatted arrival date and time if present', () => {
+    const output = MovementUtil.formatArrivalTime(targetTaskMin.movement.journey);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return a departure location if present', () => {
+    const output = MovementUtil.departureLoc(targetTaskMin.movement.journey);
+    expect(output).toEqual(targetTaskMin.movement.journey.departure.location);
+  });
+
+  it('should return an arrival location if present', () => {
+    const output = MovementUtil.arrivalLoc(targetTaskMin.movement.journey);
+    expect(output).toEqual(targetTaskMin.movement.journey.arrival.location);
+  });
+
+  it('should return a flight number if present', () => {
+    const output = MovementUtil.flightNumber(targetTaskMin.movement.flight);
+    expect(output).toEqual(targetTaskMin.movement.flight.number);
+  });
+
+  it('should return the airline operator if present', () => {
+    const output = MovementUtil.airlineOperator(targetTaskMin.movement.flight);
+    expect(output).toEqual(targetTaskMin.movement.flight.operator);
+  });
+
+  it('should render the departure status if present', () => {
+    const tree = renderer.create(MovementUtil.status(targetTaskMin)).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should return the movement type if present', () => {
+    const output = MovementUtil.movementType(targetTaskMin);
+    expect(output).toEqual('Passenger');
+  });
+
+  it('should return the movement description text', () => {
+    const output = MovementUtil.description(targetTaskMin);
+    expect(output).toEqual('Single passenger');
+  });
+
+  it('should return the movement description text for multiple persons', () => {
+    targetTaskMin.movement.description = 'group';
+
+    targetTaskMin.movement.person = {
+      name: {
+        first: 'Isaiah',
+        last: 'Ford',
+        full: 'Isaiah Ford',
+      },
+      role: 'PASSENGER',
+      dateOfBirth: '1966-05-13T00:00:00Z',
+      gender: 'M',
+      nationality: 'GBR',
+      document: null,
+    };
+
+    targetTaskMin.movement.otherPersons = [
+      {
+        name: {
+          first: 'Isaiah',
+          last: 'Ford',
+          full: 'Isaiah Ford',
+        },
+        role: 'PASSENGER',
+        dateOfBirth: '1966-05-13T00:00:00Z',
+        gender: 'M',
+        nationality: 'GBR',
+        document: null,
+      },
+    ];
+
+    const output = MovementUtil.description(targetTaskMin);
+    expect(output).toEqual('In group of 2');
+  });
+
+  it('should convert airline code to airline name', () => {
+    const GIVEN_BA = MovementUtil.airlineName('BA');
+    const GIVEN_AF = MovementUtil.airlineName('AF');
+    const GIVEN_QF = MovementUtil.airlineName('QF');
+
+    expect(GIVEN_BA).toEqual('British Airways');
+    expect(GIVEN_AF).toEqual('Air France');
+    expect(GIVEN_QF).toEqual('Qantas');
   });
 });

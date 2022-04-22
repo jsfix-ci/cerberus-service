@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovementUtil should render the departure status if present 1`] = `
+<span
+  className="govuk-body govuk-tag govuk-tag--departureConfirmed"
+>
+  DC
+</span>
+`;
+
+exports[`MovementUtil should return the departure status if present 1`] = `
+<span
+  className="govuk-body govuk-tag govuk-tag--departureConfirmed"
+>
+  DC
+</span>
+`;
