@@ -61,22 +61,24 @@ const toCoTravellers = (otherPersons) => {
   );
 };
 
+const hasOtherPersons = (targetTask) => {
+  return !!targetTask?.movement?.otherPersons?.length;
+};
+
+const getOtherPersons = (targetTask) => {
+  return targetTask.movement.otherPersons;
+};
+
 const getTotalNumberOfPersons = (targetTask) => {
   if (!targetTask?.movement?.person) {
     return 0;
   }
   // Should the code above not run, count is defaulted to 1 as we can assume there at least someone in the movement.
   let personsCount = 1;
-  personsCount += targetTask.movement.otherPersons.length;
+  if (hasOtherPersons(targetTask)) {
+    personsCount += targetTask.movement.otherPersons.length;
+  }
   return personsCount;
-};
-
-const hasOtherPersons = (targetTask) => {
-  return !!targetTask?.movement?.otherPersons.length;
-};
-
-const getOtherPersons = (targetTask) => {
-  return targetTask.movement.otherPersons;
 };
 
 const getPerson = (targetTask) => {
