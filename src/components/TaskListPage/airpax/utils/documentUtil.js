@@ -57,9 +57,11 @@ const DocumentUtil = {
 
 export default DocumentUtil;
 
-export { getDocumentCountryOfIssue,
+export {
+  getDocumentCountryOfIssue,
   getDocumentIdentification,
   getDocumentValidity,
   getDocumentExpiry,
   getDocument,
-  hasDocument };
+  hasDocument,
+};

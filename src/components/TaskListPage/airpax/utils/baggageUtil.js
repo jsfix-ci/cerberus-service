@@ -20,17 +20,13 @@ const getBaggage = (targetTask) => {
 };
 
 const getCheckedBags = (baggage) => {
-  let checkedBags;
   if (baggage.numberOfCheckedBags === 0) {
-    checkedBags = 'No checked bags';
+    return 'No checked bags';
   }
   if (baggage.numberOfCheckedBags === 1) {
-    checkedBags = `${baggage.numberOfCheckedBags} checked bag`;
+    return `${baggage.numberOfCheckedBags} checked bag`;
   }
-  if (baggage.numberOfCheckedBags > 1) {
-    checkedBags = `${baggage.numberOfCheckedBags} checked bags`;
-  }
-  return checkedBags;
+  return `${baggage.numberOfCheckedBags} checked bags`;
 };
 
 const BaggageUtil = {

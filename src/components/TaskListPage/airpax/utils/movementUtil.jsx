@@ -172,7 +172,8 @@ const MovementUtil = {
 
 export default MovementUtil;
 
-export { getRoute,
+export {
+  getRoute,
   toRoute,
   getSeatNumber,
   getFlight,
@@ -188,4 +189,5 @@ export { getRoute,
   getDepartureStatus,
   getMovementTypeText,
   toDescriptionText,
-  toAirlineName };
+  toAirlineName,
+};
