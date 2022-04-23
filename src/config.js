@@ -32,6 +32,7 @@ const config = {
       y: 'a year',
       yy: '%d years',
     },
+    timezone: 'Europe/London',
   },
 };
 
