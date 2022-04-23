@@ -5,9 +5,12 @@ import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
+import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAndUpdateTaskVersionDifferences';
+
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import TaskVersions from './TaskVersions';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -34,7 +37,12 @@ const TaskDetailsPage = () => {
       // until API is ready we set the temp data in the catch
       // this will be changed to the error handling
       response = tempData;
-      setTaskData(response.data);
+
+      // findAndUpdateTaskVersionDifferences is a mutable function
+      const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(response.data.versions);
+      setTaskData({
+        ...response.data, taskVersionDifferencesCounts: differencesCounts,
+      });
     }
   };
 
@@ -72,7 +80,13 @@ const TaskDetailsPage = () => {
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
-          Versions go here
+          {taskData && (
+            <TaskVersions
+              taskVersions={taskData.versions}
+              businessKey={businessKey}
+              taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
+            />
+          )}
         </div>
         <div className="govuk-grid-column-one-third">
           {currentUser === assignee && <AddANoteForm />}
