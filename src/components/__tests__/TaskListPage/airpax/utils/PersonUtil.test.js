@@ -1,5 +1,6 @@
 import renderer from 'react-test-renderer';
-import { PersonUtil } from '../../../../TaskListPage/airpax/utils/index';
+import { UNKNOWN_TEXT } from '../../../../../constants';
+import PersonUtil from '../../../../TaskListPage/airpax/utils/personUtil';
 
 describe('PersonUtil', () => {
   const person = {
@@ -61,7 +62,7 @@ describe('PersonUtil', () => {
     expect(output).toEqual([person]);
   });
 
-  it('should return total number pf people within the movement', () => {
+  it('should return total number of people within a movement with 1 person', () => {
     const targetTaskMin = {
       movement: {
         person: {
@@ -84,6 +85,42 @@ describe('PersonUtil', () => {
     expect(output).toEqual(1);
   });
 
+  it('should return total number of people within a movement with multiple persons', () => {
+    const targetTaskMin = {
+      movement: {
+        person: {
+          name: {
+            first: 'Isaiah',
+            last: 'Ford',
+            full: 'Isaiah Ford',
+          },
+          role: 'PASSENGER',
+          dateOfBirth: '1966-05-13T00:00:00Z',
+          gender: 'M',
+          nationality: 'GBR',
+          document: null,
+        },
+        otherPersons: [
+          {
+            name: {
+              first: 'John',
+              last: 'Cheese',
+              full: 'John Cheese',
+            },
+            role: 'PASSENGER',
+            dateOfBirth: '1967-05-13T00:00:00Z',
+            gender: 'M',
+            nationality: 'GBR',
+            document: null,
+          },
+        ],
+      },
+    };
+
+    const output = PersonUtil.totalPersons(targetTaskMin);
+    expect(output).toEqual(2);
+  });
+
   it('should return nationality if present', () => {
     const output = PersonUtil.nationality(person);
     expect(output).toEqual(person.nationality);
@@ -94,9 +131,33 @@ describe('PersonUtil', () => {
     expect(output).toEqual('13 May 1966');
   });
 
-  it('should return gender if present', () => {
+  it('should show gender text when person is of gender male', () => {
     const output = PersonUtil.gender(person);
     expect(output).toEqual('Male');
+  });
+
+  it('should show gender text when person is of gender female', () => {
+    person.gender = 'F';
+    const output = PersonUtil.gender(person);
+    expect(output).toEqual('Female');
+  });
+
+  it('should show unknown when person is of no specified gender', () => {
+    person.gender = '';
+    const output = PersonUtil.gender(person);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should show unknown when gender is null', () => {
+    person.gender = null;
+    const output = PersonUtil.gender(person);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should show unknown when gender is undefined', () => {
+    person.gender = undefined;
+    const output = PersonUtil.gender(person);
+    expect(output).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return first name if present', () => {

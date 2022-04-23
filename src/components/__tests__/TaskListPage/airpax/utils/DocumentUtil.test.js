@@ -1,4 +1,4 @@
-import { DocumentUtil } from '../../../../TaskListPage/airpax/utils/index';
+import DocumentUtil from '../../../../TaskListPage/airpax/utils/documentUtil';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('DocumentUtil', () => {
@@ -20,7 +20,7 @@ describe('DocumentUtil', () => {
     expect(output).toBeFalsy();
   });
 
-  it('should get expiry if present', () => {
+  it('should shown unknown expiry when document expiry date is not present', () => {
     const person = {
       document: null,
     };
@@ -29,7 +29,7 @@ describe('DocumentUtil', () => {
     expect(output).toEqual(`Expires ${UNKNOWN_TEXT}`);
   });
 
-  it('should get validity if present', () => {
+  it('should show unknown validity when document validity date is not present', () => {
     const person = {
       document: null,
     };
@@ -38,7 +38,7 @@ describe('DocumentUtil', () => {
     expect(output).toEqual(`Valid from ${UNKNOWN_TEXT}`);
   });
 
-  it('should get indentification if present', () => {
+  it('should shown unknown when document identification is not present', () => {
     const person = {
       document: null,
     };
@@ -47,7 +47,7 @@ describe('DocumentUtil', () => {
     expect(output).toEqual(UNKNOWN_TEXT);
   });
 
-  it('should get country of issue if present', () => {
+  it('should show unknown when document country of issue is not present', () => {
     const person = {
       document: null,
     };

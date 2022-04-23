@@ -1,4 +1,4 @@
-import { BookingUtil } from '../../../../TaskListPage/airpax/utils/index';
+import BookingUtil from '../../../../TaskListPage/airpax/utils/bookingUtil';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('BookingUtil', () => {

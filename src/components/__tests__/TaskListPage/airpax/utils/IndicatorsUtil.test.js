@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import { IndicatorsUtil } from '../../../../TaskListPage/airpax/utils/index';
+import IndicatorsUtil from '../../../../TaskListPage/airpax/utils/indicatorsUtil';
 
 describe('IndicatorsUtil', () => {
   it('should get risk if present', () => {

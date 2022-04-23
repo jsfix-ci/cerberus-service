@@ -1,4 +1,4 @@
-import { BaggageUtil } from '../../../../TaskListPage/airpax/utils/index';
+import BaggageUtil from '../../../../TaskListPage/airpax/utils/baggageUtil';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('BaggageUtil', () => {
@@ -45,7 +45,31 @@ describe('BaggageUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should return undefined if no baggage object is found', () => {
+  it('should return a checked bag', () => {
+    const baggage = {
+      numberOfCheckedBags: 1,
+      weight: '1',
+    };
+
+    const expected = '1 checked bag';
+
+    const output = BaggageUtil.checked(baggage);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return number of checked bags', () => {
+    const baggage = {
+      numberOfCheckedBags: 2,
+      weight: '1',
+    };
+
+    const expected = '2 checked bags';
+
+    const output = BaggageUtil.checked(baggage);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return null if no baggage object is found', () => {
     const targetTaskMin = {
       movement: {},
     };
