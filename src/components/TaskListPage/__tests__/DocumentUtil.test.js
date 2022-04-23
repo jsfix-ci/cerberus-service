@@ -1,5 +1,5 @@
-import DocumentUtil from '../../../../TaskListPage/airpax/utils/documentUtil';
-import { UNKNOWN_TEXT } from '../../../../../constants';
+import { DocumentUtil } from '../airpax/utils';
+import { UNKNOWN_TEXT } from '../../../constants';
 
 describe('DocumentUtil', () => {
   it('should get a document if present', () => {

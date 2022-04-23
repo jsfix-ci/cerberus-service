@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import TaskListCard from '../../TaskListPage/TaskListCard';
+import TaskListCard from '../TaskListCard';
 import targetTask from '../../__fixtures__/targetListData';
 
 describe('TaskListCard', () => {
