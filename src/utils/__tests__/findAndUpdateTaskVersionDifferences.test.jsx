@@ -1,4 +1,4 @@
-import findAndUpdateTaskVersionDifferences from '../findAndUpdateTaskVersionDifferences';
+import { findAndUpdateTaskVersionDifferences } from '../findAndUpdateTaskVersionDifferences';
 
 describe('findAndUpdateTaskVersionDifferences', () => {
   let taskVersions;

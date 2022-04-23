@@ -11,7 +11,7 @@ import config from '../../../config';
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 import { useFormSubmit } from '../../../utils/formioSupport';
-import findAndUpdateTaskVersionDifferences from '../../../utils/findAndUpdateTaskVersionDifferences';
+import { findAndUpdateTaskVersionDifferences } from '../../../utils/findAndUpdateTaskVersionDifferences';
 // Components/Pages
 import ClaimButton from '../../../components/ClaimTaskButton';
 import RenderForm from '../../../components/RenderForm';
