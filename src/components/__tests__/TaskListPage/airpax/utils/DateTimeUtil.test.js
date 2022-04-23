@@ -1,17 +1,7 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-// import timezone from 'dayjs/plugin/timezone';
-
 import { DateTimeUtil } from '../../../../TaskListPage/airpax/utils/index';
 import { LONG_DATE_FORMAT } from '../../../../../constants';
 
 describe('DateTimeUtil', () => {
-  beforeEach(() => {
-    dayjs.extend(utc);
-    // dayjs.extend(timezone);
-    // dayjs.tz.setDefault('Europe/London');
-  });
-
   it('should format the date if present', () => {
     const date = '1966-05-13T00:00:00Z'; // UTC
     const expected = '13 May 1966 at 01:00';
