@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+// import timezone from 'dayjs/plugin/timezone';
 
 import { MovementUtil } from '../../../../TaskListPage/airpax/utils/index';
 import { UNKNOWN_TEXT } from '../../../../../constants';
@@ -9,8 +9,8 @@ import { UNKNOWN_TEXT } from '../../../../../constants';
 describe('MovementUtil', () => {
   beforeEach(() => {
     dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault('Europe/London');
+    // dayjs.extend(timezone);
+    // dayjs.tz.setDefault('Europe/London');
   });
 
   const targetTaskMin = {

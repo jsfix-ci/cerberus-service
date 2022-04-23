@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+// import timezone from 'dayjs/plugin/timezone';
 
 import { DateTimeUtil } from '../../../../TaskListPage/airpax/utils/index';
 import { LONG_DATE_FORMAT } from '../../../../../constants';
@@ -8,8 +8,8 @@ import { LONG_DATE_FORMAT } from '../../../../../constants';
 describe('DateTimeUtil', () => {
   beforeEach(() => {
     dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault('Europe/London');
+    // dayjs.extend(timezone);
+    // dayjs.tz.setDefault('Europe/London');
   });
 
   it('should format the date if present', () => {

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+// import timezone from 'dayjs/plugin/timezone';
 
 import { BookingUtil } from '../../../../TaskListPage/airpax/utils/index';
 import { UNKNOWN_TEXT } from '../../../../../constants';
@@ -8,8 +8,8 @@ import { UNKNOWN_TEXT } from '../../../../../constants';
 describe('BookingUtil', () => {
   beforeEach(() => {
     dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault('Europe/London');
+    // dayjs.extend(timezone);
+    // dayjs.tz.setDefault('Europe/London');
   });
   it('should return a booking object if present', () => {
     const targetTaskMin = {
