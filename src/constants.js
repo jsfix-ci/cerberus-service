@@ -3,6 +3,7 @@ export const SHORT_DATE_FORMAT = 'DD/MM/YYYY';
 export const SHORT_DATE_FORMAT_ALT = 'DD MMM YYYY';
 export const SHORT_DATE_ALT = 'SHORT_DATE_ALT';
 export const STANDARD_HOUR_MINUTE_FORMAT = 'HH:mm';
+export const LONDON_TIMEZONE = 'Europe/London';
 export const FORM_NAME_TARGET_INFORMATION_SHEET = 'targetInformationSheet';
 export const TASK_STATUS_NEW = 'new';
 export const TASK_STATUS_IN_PROGRESS = 'inProgress';
