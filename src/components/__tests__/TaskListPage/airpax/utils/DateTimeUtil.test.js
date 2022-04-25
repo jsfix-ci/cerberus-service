@@ -1,4 +1,4 @@
-import DateTimeUtil from '../../../../TaskListPage/airpax/utils/datetimeUtil';
+import { DateTimeUtil } from '../../../../TaskListPage/airpax/utils';
 import { LONG_DATE_FORMAT } from '../../../../../constants';
 
 describe('DateTimeUtil', () => {

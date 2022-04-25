@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import MovementUtil from '../../../../TaskListPage/airpax/utils/movementUtil';
+import { MovementUtil } from '../../../../TaskListPage/airpax/utils';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('MovementUtil', () => {

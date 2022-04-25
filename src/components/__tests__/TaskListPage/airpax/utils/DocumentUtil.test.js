@@ -1,4 +1,4 @@
-import DocumentUtil from '../../../../TaskListPage/airpax/utils/documentUtil';
+import { DocumentUtil } from '../../../../TaskListPage/airpax/utils';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('DocumentUtil', () => {

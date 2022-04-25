@@ -1,4 +1,4 @@
-import BaggageUtil from '../../../../TaskListPage/airpax/utils/baggageUtil';
+import { BaggageUtil } from '../../../../TaskListPage/airpax/utils';
 import { UNKNOWN_TEXT } from '../../../../../constants';
 
 describe('BaggageUtil', () => {

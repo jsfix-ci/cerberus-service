@@ -3,9 +3,10 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import config from '../../../../config';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const getFormattedDate = (date, dateFormat) => {
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
   return dayjs.utc(date).tz(config.dayjsConfig.timezone).format(dateFormat);
 };
 

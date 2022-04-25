@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import { UNKNOWN_TEXT } from '../../../../../constants';
-import PersonUtil from '../../../../TaskListPage/airpax/utils/personUtil';
+import { PersonUtil } from '../../../../TaskListPage/airpax/utils';
 
 describe('PersonUtil', () => {
   const person = {
