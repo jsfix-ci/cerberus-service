@@ -290,7 +290,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should verify task container list for airpax', () => {
+  it('Should verify task container list for airpax/tasks', () => {
     cy.visit('/airpax/tasks');
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.equal('Task management');
