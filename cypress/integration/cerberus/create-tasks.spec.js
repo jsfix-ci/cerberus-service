@@ -290,6 +290,28 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
+  it('Should verify task container list for airpax', () => {
+    cy.visit('/airpax/tasks');
+    cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
+      expect(Heading).to.equal('Task management');
+      expect(cy.contains('New')).to.exist;
+      expect(cy.contains('In progress')).to.exist;
+      expect(cy.contains('Issued')).to.exist;
+      expect(cy.contains('Complete')).to.exist;
+    });
+    cy.get('.govuk-heading-l').should('have.text', 'New tasks');
+    cy.get('p').should('have.text', 'There are no new tasks');
+    cy.contains('In progress').click();
+    cy.get('.govuk-heading-l').should('have.text', 'In progress tasks');
+    cy.get('p').should('have.text', 'There are no inProgress tasks');
+    cy.contains('Issued').click();
+    cy.get('.govuk-heading-l').should('have.text', 'Target issued tasks');
+    cy.get('p').should('have.text', 'There are no issued tasks');
+    cy.contains('Complete').click();
+    cy.get('.govuk-heading-l').should('have.text', 'Completed tasks');
+    cy.get('p').should('have.text', 'There are no complete tasks');
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
