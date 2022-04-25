@@ -10,6 +10,21 @@ describe('MovementUtil', () => {
     config.dayjsConfig.timezone = LONDON_TIMEZONE;
   });
 
+  const airlineCodesMin = [
+    {
+      'name': 'British Airways',
+      'twolettercode': 'BA',
+    },
+    {
+      'name': 'Air France',
+      'twolettercode': 'AF',
+    },
+    {
+      'name': 'Qantas',
+      'twolettercode': 'QF',
+    },
+  ];
+
   const targetTaskMin = {
     movement: {
       id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
@@ -181,9 +196,9 @@ describe('MovementUtil', () => {
   });
 
   it('should convert airline code to airline name', () => {
-    const GIVEN_BA = MovementUtil.airlineName('BA');
-    const GIVEN_AF = MovementUtil.airlineName('AF');
-    const GIVEN_QF = MovementUtil.airlineName('QF');
+    const GIVEN_BA = MovementUtil.airlineName('BA', airlineCodesMin);
+    const GIVEN_AF = MovementUtil.airlineName('AF', airlineCodesMin);
+    const GIVEN_QF = MovementUtil.airlineName('QF', airlineCodesMin);
 
     expect(GIVEN_BA).toEqual('British Airways');
     expect(GIVEN_AF).toEqual('Air France');

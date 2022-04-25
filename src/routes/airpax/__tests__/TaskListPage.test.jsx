@@ -8,6 +8,7 @@ import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext'
 import TaskListPage from '../TaskLists/TaskListPage';
 // Fixture
 import targetTask from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);
@@ -57,7 +58,9 @@ describe('TaskListPage', () => {
   it('should render a target task on the task list page', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [targetTask]);
+      .reply(200, [targetTask])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 

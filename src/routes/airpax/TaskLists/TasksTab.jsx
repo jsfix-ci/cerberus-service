@@ -22,10 +22,12 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   const keycloak = useKeycloak();
 
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
   const source = axios.CancelToken.source();
 
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
+  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
 
   const [isLoading, setLoading] = useState(true);
   const [refreshTaskList, setRefreshTaskList] = useState(false);
@@ -43,9 +45,19 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
     ],
   };
 
+  // TEMP VALUES FOR TESTING
+  const tempAirlineCodesData = {
+    data: {
+      data: [
+        // paste data from the relevant fixture here for testing this page
+      ],
+    },
+  };
+
   const getTaskList = async () => {
     setLoading(true);
     let response;
+    let airlineCodes;
     const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
     const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
       ? [
@@ -70,11 +82,25 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
         },
       });
       setTargetTasks(response.data);
+
+      try {
+        // Fetch all airline codes
+        const airlineCodesResponse = await refDataClient.get('/v2/entities/carrierlist', {
+          params: {
+            mode: 'dataOnly',
+          },
+        });
+        setRefDataAirlineCodes(airlineCodesResponse.data.data);
+      } catch (e) {
+        setRefDataAirlineCodes([]);
+      }
     } catch (e) {
       // until API is ready we set the temp data in the catch
       // this will be changed to the error handling
       response = tempData;
       setTargetTasks(response.data);
+      airlineCodes = tempAirlineCodesData;
+      setRefDataAirlineCodes(airlineCodes.data.data);
     } finally {
       setLoading(false);
       setRefreshTaskList(false);
@@ -113,7 +139,7 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
 
       {targetTasks.map((targetTask) => {
         return (
-          <TaskListCard key={targetTask.id} targetTask={targetTask} />
+          <TaskListCard key={targetTask.id} targetTask={targetTask} airlineCodes={refDataAirlineCodes} />
         );
       })}
 

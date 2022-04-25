@@ -19,7 +19,7 @@ const renderModeSection = (targetTask) => {
   );
 };
 
-const renderVoyageSection = (targetTask) => {
+const renderVoyageSection = (targetTask, airlineCodes) => {
   const journey = MovementUtil.movementJourney(targetTask);
   const flight = MovementUtil.movementFlight(targetTask);
   const departureTime = MovementUtil.departureTime(journey);
@@ -29,7 +29,7 @@ const renderVoyageSection = (targetTask) => {
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-aircraft" />
       <p className="content-line-one govuk-!-padding-right-2">
-        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight))}, flight ${MovementUtil.flightNumber(flight)}, 
+        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)}, flight ${MovementUtil.flightNumber(flight)}, 
         ${calculateTimeDifference(dateTimeList, 'arrival')}`}
       </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
@@ -53,13 +53,13 @@ const buildTaskTitleSection = (targetTask) => {
   );
 };
 
-const buildVoyageSection = (targetTask) => {
+const buildVoyageSection = (targetTask, airlineCodes) => {
   return (
     <section className="task-list--voyage-section">
       <div>
         <div className="govuk-grid-row grid-background--greyed">
           {renderModeSection(targetTask)}
-          {renderVoyageSection(targetTask)}
+          {renderVoyageSection(targetTask, airlineCodes)}
         </div>
       </div>
     </section>

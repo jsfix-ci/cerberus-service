@@ -1,6 +1,4 @@
 import React from 'react';
-import airlines from 'airline-codes';
-
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
 import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
@@ -145,11 +143,11 @@ const toDescriptionText = (targetTask) => {
   return UNKNOWN_TEXT;
 };
 
-const toAirlineName = (airlineCode) => {
-  if (!airlineCode) {
+const toAirlineName = (airlineCode, airlineCodes) => {
+  if (!airlineCode || !airlineCodes.length) {
     return UNKNOWN_TEXT;
   }
-  return airlines.findWhere({ iata: airlineCode }).get('name');
+  return airlineCodes.find(({ twolettercode }) => twolettercode === airlineCode)?.name;
 };
 
 const MovementUtil = {
