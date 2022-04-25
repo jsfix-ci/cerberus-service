@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // Config
 import config from '../../../config';
+import { TASK_STATUS_IN_PROGRESS, TASK_STATUS_COMPLETED } from '../../../constants';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -9,6 +10,7 @@ import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAn
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
+import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskVersions from './TaskVersions';
 
@@ -18,13 +20,14 @@ const TaskDetailsPage = () => {
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const currentUser = keycloak.tokenParsed.email;
   const [assignee, setAssignee] = useState();
+  const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
   const [isLoading, setLoading] = useState(true);
 
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   const tempData = {
     data: {
-      // paste data from the relevant fixture here for testing this page
+      // add test data from fixture
     },
   };
 
@@ -49,6 +52,7 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     if (taskData) {
       setAssignee(taskData.assignee);
+      setFormattedTaskStatus(taskData.status.toLowerCase());
       setLoading(false);
     }
   }, [taskData, setAssignee, setLoading]);
@@ -76,6 +80,16 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
           <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
+          {(formattedTaskStatus !== TASK_STATUS_IN_PROGRESS && formattedTaskStatus !== TASK_STATUS_COMPLETED)
+            && (
+            <ClaimUnclaimTask
+              assignee={taskData.assignee}
+              currentUser={currentUser}
+              businessKey={businessKey}
+              source={`/airpax/tasks/${businessKey}`}
+              buttonType="textLink"
+            />
+            )}
         </div>
       </div>
       <div className="govuk-grid-row">
