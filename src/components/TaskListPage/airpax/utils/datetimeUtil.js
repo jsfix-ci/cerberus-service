@@ -8,8 +8,6 @@ dayjs.extend(timezone);
 
 const getFormattedDate = (date, dateFormat) => {
   const tz = config.dayjsConfig.timezone || dayjs.tz.guess();
-  // eslint-disable-next-line no-console
-  console.log('TIMEZONE: ', tz);
   return dayjs.utc(date).tz(tz).format(dateFormat);
 };
 

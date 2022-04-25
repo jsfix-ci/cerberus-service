@@ -1,13 +1,13 @@
 import renderer from 'react-test-renderer';
 
 import { MovementUtil } from '../airpax/utils';
-import { UNKNOWN_TEXT } from '../../../constants';
+import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../constants';
 
 import config from '../../../config';
 
 describe('MovementUtil', () => {
   beforeEach(() => {
-    config.dayjsConfig.timezone = 'Europe/London';
+    config.dayjsConfig.timezone = LONDON_TIMEZONE;
   });
 
   const targetTaskMin = {

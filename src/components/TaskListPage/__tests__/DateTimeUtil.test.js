@@ -1,11 +1,11 @@
 import { DateTimeUtil } from '../airpax/utils';
-import { LONG_DATE_FORMAT } from '../../../constants';
+import { LONDON_TIMEZONE, LONG_DATE_FORMAT } from '../../../constants';
 
 import config from '../../../config';
 
 describe('DateTimeUtil', () => {
   beforeEach(() => {
-    config.dayjsConfig.timezone = 'Europe/London';
+    config.dayjsConfig.timezone = LONDON_TIMEZONE;
   });
 
   it('should format the date if present', () => {

@@ -1,11 +1,11 @@
 import { BookingUtil } from '../airpax/utils';
-import { UNKNOWN_TEXT } from '../../../constants';
+import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../constants';
 
 import config from '../../../config';
 
 describe('BookingUtil', () => {
   beforeEach(() => {
-    config.dayjsConfig.timezone = 'Europe/London';
+    config.dayjsConfig.timezone = LONDON_TIMEZONE;
   });
   it('should return a booking object if present', () => {
     const targetTaskMin = {
