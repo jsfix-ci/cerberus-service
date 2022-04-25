@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
 
-import { MovementUtil } from '../../../../TaskListPage/airpax/utils';
-import { UNKNOWN_TEXT } from '../../../../../constants';
+import { MovementUtil } from '../airpax/utils';
+import { UNKNOWN_TEXT } from '../../../constants';
 
 describe('MovementUtil', () => {
   const targetTaskMin = {
