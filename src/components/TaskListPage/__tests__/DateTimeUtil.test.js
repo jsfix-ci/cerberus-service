@@ -1,5 +1,5 @@
-import { DateTimeUtil } from '../../../../TaskListPage/airpax/utils';
-import { LONG_DATE_FORMAT } from '../../../../../constants';
+import { DateTimeUtil } from '../airpax/utils';
+import { LONG_DATE_FORMAT } from '../../../constants';
 
 describe('DateTimeUtil', () => {
   it('should format the date if present', () => {

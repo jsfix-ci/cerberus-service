@@ -1,5 +1,5 @@
-import { BookingUtil } from '../../../../TaskListPage/airpax/utils';
-import { UNKNOWN_TEXT } from '../../../../../constants';
+import { BookingUtil } from '../airpax/utils';
+import { UNKNOWN_TEXT } from '../../../constants';
 
 describe('BookingUtil', () => {
   it('should return a booking object if present', () => {
