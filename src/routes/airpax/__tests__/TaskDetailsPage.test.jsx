@@ -7,6 +7,8 @@ import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
 import dataNoAssignee from '../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
+import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
+import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -76,20 +78,66 @@ describe('Task details page', () => {
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 
-  // it('should render "Claim" button when user is not assigned to the task, the task assignee is null and the target has not been completed or issued', async () => {
-  // });
+  it('should render "Claim" button when the task assignee is null and the target has not been completed or issued', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataNoAssignee);
 
-  // it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
-  // });
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Task not assigned')).toBeInTheDocument();
+    expect(screen.getByText('Claim')).toBeInTheDocument();
+  });
 
-  // it('should render "Assigned to ANOTHER_USER" when user is not assigned to the task, the task assignee is not null and the process has not been completed or issued', async () => {
-  // });
+  it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataCurrentUser);
 
-  // it('should not render user or claim/unclaim buttons when a target is complete', async () => {
-  // });
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Assigned to you')).toBeInTheDocument();
+    expect(screen.getByText('Unclaim task')).toBeInTheDocument();
+  });
 
-  // it('should not render user or claim/unclaim buttons when a target is issued', async () => {
-  // });
+  it('should render "Assigned to ANOTHER_USER" & "unclaim" when task is assigned to another user and the process has not been completed or issued', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataOtherUser);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
+    expect(screen.getByText('Unclaim task')).toBeInTheDocument();
+  });
+
+  it('should not render user or claim/unclaim buttons when a target is complete', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataTaskComplete);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
+  });
+
+  it('should not render user or claim/unclaim buttons when a target is issued', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataTargetIssued);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
+  });
+
+  // it('should refresh page with task now assigned to current user when "claim task" is clicked)
+  // it('should show "Please wait..." while claim/unclaim task is processing)
+  // it('should show "Already assigned to another user" if claim task process fails while claiming due to already assigned)
+  // it('should refresh page with task now unassigned when "unclaim task" is clicked)
 
   // it('should not render action forms when target task type is not equal to "developTarget"', async () => {
   // });

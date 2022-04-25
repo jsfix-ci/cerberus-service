@@ -1,12 +1,18 @@
 {
   "id": "DEV-20220419-001",
-  "status": "NEW",
-  "assignee": null,
+  "status": "ISSUED",
+  "assignee": "notcurrentuser",
   "relisted": false,
   "latestVersionNumber": 1,
   "notes": [
     {
       "id": "123",
+      "content": "task created",
+      "timestamp": "2022-04-19T10:01:48.460594Z",
+      "userId": "rules-based-targeting"
+    },
+    {
+      "id": "124",
       "content": "task created",
       "timestamp": "2022-04-19T10:01:48.460594Z",
       "userId": "rules-based-targeting"
