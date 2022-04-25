@@ -61,53 +61,7 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
   }
 }
 
-.task-list--item-1 {
-  .task-risk-statement {
-    margin-bottom: 0.25em;
-  }
-  .task-heading {
-    margin: 0 0.5em 0.25em 0;
-    /* reduces the GDS header margin */
-    float: left;
-    display: block;
-    word-break: break-word;
-  }
-  .claim-button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
-    padding-right: 10px;
-    .task-list--email {
-      word-break: break-all;
-      padding-right: 0.5em;
-    }
-  }
-  .govuk-grid-row {
-    display: grid;
-    margin: 10px -10px -10px 0;
-    grid-template-columns: 80% 20%;
-    grid-gap: 5px;
-    padding: 5px;
-  }
-  .govuk-grid-row::after {
-    content: '';
-    clear: both;
-  }
-  .govuk-button {
-    margin-bottom: 0px;
-  }
-  .govuk-grid-column {
-    &.task-highest-risk {
-      margin-top: 15px;
-    }
-  }
-  .govuk-tag {
-    padding-bottom: 2px;
-  }
-}
-
-.task-list--item-2 {
+.task-list--voyage-section {
   margin: 1em 0 1em 0;
   padding: 5px;
   .content-line-one {
@@ -130,7 +84,7 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
   padding: 10px 15px 5px 0px;
 }
 
-.task-list--item-3 {
+.task-list--movement-info-section {
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: -1em;
@@ -140,7 +94,7 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
     margin-bottom: 0;
     margin-right: 0.25em;
   }
-  .verticel-dotted-line {
+  .vertical-dotted-line {
     height: 100%;
     border-left: 4px dotted #b1b4b6;
     padding-left: 15px;
@@ -162,7 +116,7 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
   }
 }
 
-.task-list--item-4 {
+.task-list--target-indicator-section {
   padding: 1em 0 1em 3em;
   // padding-left: 3em;
   // padding-right: 0em;
@@ -202,9 +156,6 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
     margin-left: 2px;
     margin-right: 5px;
   }
-  .airpax-tis-container {
-    margin-left: 3em;
-  }
 }
 
 ul.item-list--bulleted {
@@ -223,29 +174,11 @@ ul.item-list--bulleted {
   }
 }
 
-.govuk-tag {
-  @include govuk-font($size: 14, $weight: bold, $line-height: 1);
+.airpax-status {
   height: 19px;
-  color: #fff;
   border-radius: 5px;
+  padding-bottom: 0;
   text-transform: capitalize;
-  &.govuk-tag {
-    margin-bottom: 0.25em;
-    margin-right: 5px;
-    padding: 5px 5px 0px 5px;
-    &--departureConfirmed {
-      background-color: #00703c;
-    }
-    &--bookedPassenger {
-      background-color: #4c2c92;
-    }
-    &--checkedIn {
-      background-color: #1d70b8;
-    }
-    &--departureException {
-      background-color: #bc2410;
-    }
-  }
 }
 
 .font--red {

@@ -29,6 +29,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.37.0",
     "@ukhomeoffice/formio-gds-template": "^1.0.12",
+    "@ukhomeoffice/cop-react-components": "^1.1.2",
     "airline-codes": "^1.0.2",
     "axios": "^0.23.0",
     "browserlist": "^1.0.1",

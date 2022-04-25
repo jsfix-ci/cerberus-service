@@ -55,7 +55,7 @@ const buildTaskTitleSection = (targetTask) => {
 
 const buildVoyageSection = (targetTask) => {
   return (
-    <section className="task-list--item-2">
+    <section className="task-list--voyage-section">
       <div>
         <div className="govuk-grid-row grid-background--greyed">
           {renderModeSection(targetTask)}
@@ -75,7 +75,7 @@ const buildMovementInfoSection = (targetTask) => {
   const document = DocumentUtil.get(person);
   const otherPersons = PersonUtil.getOthers(targetTask);
   return (
-    <section className="task-list--item-3">
+    <section className="task-list--movement-info-section">
       <div className="govuk-grid-row">
         <div className="govuk-grid-item">
           <div>
@@ -102,7 +102,7 @@ const buildMovementInfoSection = (targetTask) => {
           </div>
         </div>
 
-        <div className="govuk-grid-item verticel-dotted-line">
+        <div className="govuk-grid-item vertical-dotted-line">
           <div>
             <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text">
               Document
@@ -122,7 +122,7 @@ const buildMovementInfoSection = (targetTask) => {
           </div>
         </div>
 
-        <div className="govuk-grid-item verticel-dotted-line">
+        <div className="govuk-grid-item vertical-dotted-line">
           <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text">
             Booking
           </h3>
@@ -137,7 +137,7 @@ const buildMovementInfoSection = (targetTask) => {
           </ul>
         </div>
 
-        <div className="govuk-grid-item verticel-dotted-line">
+        <div className="govuk-grid-item vertical-dotted-line">
           <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text">
             Co-travellers
           </h3>
@@ -159,9 +159,9 @@ const buildMovementInfoSection = (targetTask) => {
 const buildTargetIndicatorsSection = (targetTask) => {
   const targetingIndicators = IndicatorsUtil.getIndicators(IndicatorsUtil.getRisks(targetTask));
   return (
-    <section className="task-list--item-4">
+    <section className="task-list--target-indicator-section">
       <div className="govuk-grid-row">
-        <div className="govuk-grid-item airpax-tis-container">
+        <div className="govuk-grid-item">
           <div className="govuk-grid-column">
             <ul className="govuk-list task-labels govuk-!-margin-top-2">
               <li className="task-labels-item">

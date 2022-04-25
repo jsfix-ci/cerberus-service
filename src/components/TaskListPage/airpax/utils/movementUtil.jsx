@@ -1,6 +1,8 @@
 import React from 'react';
 import airlines from 'airline-codes';
 
+import { Tag } from '@ukhomeoffice/cop-react-components';
+
 import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
   MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW } from '../../../../constants';
 
@@ -103,14 +105,14 @@ const getAirlineOperator = (flight) => {
 const getDepartureStatus = (targetTask) => {
   const departureStatus = targetTask?.movement?.flight?.departureStatus;
   const DEPARTURE_CLASSES = {
-    DC: 'departureConfirmed',
-    BP: 'bookedPassenger',
-    CI: 'checkedIn',
-    DX: 'departureException',
+    DC: 'green',
+    BP: 'purple',
+    CI: 'blue',
+    DX: 'red',
   };
   if (departureStatus) {
     return (
-      <span className={`govuk-body govuk-tag govuk-tag--${DEPARTURE_CLASSES[departureStatus]}`}>{departureStatus}</span>
+      <Tag className="airpax-status" classModifiers={DEPARTURE_CLASSES[departureStatus]}>{departureStatus}</Tag>
     );
   }
 };
