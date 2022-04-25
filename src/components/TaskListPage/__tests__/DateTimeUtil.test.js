@@ -1,7 +1,13 @@
 import { DateTimeUtil } from '../airpax/utils';
 import { LONG_DATE_FORMAT } from '../../../constants';
 
+import config from '../../../config';
+
 describe('DateTimeUtil', () => {
+  beforeEach(() => {
+    config.dayjsConfig.timezone = 'Europe/London';
+  });
+
   it('should format the date if present', () => {
     const date = '1966-05-13T00:00:00Z'; // UTC
     const expected = '13 May 1966 at 01:00';

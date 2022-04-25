@@ -3,7 +3,13 @@ import renderer from 'react-test-renderer';
 import { MovementUtil } from '../airpax/utils';
 import { UNKNOWN_TEXT } from '../../../constants';
 
+import config from '../../../config';
+
 describe('MovementUtil', () => {
+  beforeEach(() => {
+    config.dayjsConfig.timezone = 'Europe/London';
+  });
+
   const targetTaskMin = {
     movement: {
       id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
