@@ -45,18 +45,6 @@ describe('BaggageUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should return a checked bag', () => {
-    const baggage = {
-      numberOfCheckedBags: 1,
-      weight: '1',
-    };
-
-    const expected = '1 checked bag';
-
-    const output = BaggageUtil.checked(baggage);
-    expect(output).toEqual(expected);
-  });
-
   it('should return number of checked bags', () => {
     const baggage = {
       numberOfCheckedBags: 2,

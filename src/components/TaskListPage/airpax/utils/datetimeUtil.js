@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import config from '../../../../config';
+// import config from '../../../../config';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const getFormattedDate = (date, dateFormat) => {
-  return dayjs.utc(date).tz(config.dayjsConfig.timezone).format(dateFormat);
+  return dayjs.utc(date).tz(undefined).format(dateFormat);
 };
 
 const toDateTimeList = (dateOne, dateTwo) => {
