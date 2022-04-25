@@ -1,13 +1,13 @@
 import React from 'react';
-import { buildSecondSection, buildThirdSection, buildFourthSection } from './airpax/TaskListSectionBuilder';
+import { buildVoyageSection, buildMovementInfoSection, buildTargetIndicatorsSection } from './airpax/TaskListSectionBuilder';
 
 const TaskListCard = ({ targetTask }) => {
   return (
     <div className="govuk-task-list-card">
       <div className="card-container">
-        {buildSecondSection(targetTask)}
-        {buildThirdSection(targetTask)}
-        {buildFourthSection(targetTask)}
+        {buildVoyageSection(targetTask)}
+        {buildMovementInfoSection(targetTask)}
+        {buildTargetIndicatorsSection(targetTask)}
       </div>
     </div>
   );

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PersonUtil should return a formatted co-travellers block 1`] = `
+Array [
+  <li
+    className="govuk-!-font-weight-bold"
+  >
+    FORD
+    , 
+    Isaiah
+    ,
+     
+    
+  </li>,
+  <li
+    className="govuk-!-font-weight-bold"
+  >
+    BLOGGS
+    , 
+    Joe
+    
+     
+    
+  </li>,
+]
+`;

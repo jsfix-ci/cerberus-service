@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import TaskListCard from '../../TaskListPage/TaskListCard';
+import TaskListCard from '../TaskListCard';
 import targetTask from '../../__fixtures__/targetListData';
 
 describe('TaskListCard', () => {
@@ -26,7 +26,7 @@ describe('TaskListCard', () => {
     expect(screen.getByText(/Male/)).toBeInTheDocument();
     expect(screen.getByText(/13 May 1966/)).toBeInTheDocument();
     expect(screen.getByText('Route')).toBeInTheDocument();
-    expect(screen.getByText(/1 checked bag\(s\)/)).toBeInTheDocument();
+    expect(screen.getByText(/1 checked bag/)).toBeInTheDocument();
     expect(screen.getByText(/Valid from Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Expires Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Issued by Unknown/)).toBeInTheDocument();

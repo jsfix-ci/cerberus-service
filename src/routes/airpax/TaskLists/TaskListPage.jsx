@@ -1,150 +1,22 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import axios from 'axios';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import utc from 'dayjs/plugin/utc';
-// Config
-import config from '../../../config';
-// Utils
 import { useKeycloak } from '../../../utils/keycloak';
-import useAxiosInstance from '../../../utils/axiosInstance';
+
 import { TARGETER_GROUP,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED } from '../../../constants';
+
 // Components/Pages
 import Tabs from '../../../components/Tabs';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import Pagination from '../../../components/Pagination';
-import TaskListCard from '../../../components/TaskListPage/TaskListCard';
+import TasksTab from './TasksTab';
 
 // Styling
 import '../__assets__/TaskListPage.scss';
 
-const TasksTab = ({ taskStatus, filtersToApply, setError, targetTaskCount = 0 }) => {
-  dayjs.extend(relativeTime);
-  dayjs.extend(utc);
-  const keycloak = useKeycloak();
-  const location = useLocation();
-
-  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const source = axios.CancelToken.source();
-
-  const [activePage, setActivePage] = useState(0);
-  const [targetTasks, setTargetTasks] = useState([]);
-
-  const [isLoading, setLoading] = useState(true);
-  const [refreshTaskList, setRefreshTaskList] = useState(false);
-
-  // PAGINATION SETTINGS
-  const index = activePage - 1;
-  const itemsPerPage = 100;
-  const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
-  const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
-
-  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  const tempData = {
-    data: {
-      // paste data from the relevant fixture here for testing this page
-    },
-  };
-
-  const getTaskList = async () => {
-    setLoading(true);
-    let response;
-    const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
-    const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
-      ? [
-        {
-          field: 'ARRIVAL_TIME',
-          order: 'ASC',
-        },
-        {
-          field: 'THREAT_LEVEL',
-          order: 'DESC',
-        },
-      ]
-      : null;
-    try {
-      response = await apiClient.post('/targeting-tasks/pages', {
-        status: tab,
-        filterParams: filtersToApply,
-        sortParams,
-        pageParams: {
-          limit: itemsPerPage,
-          offset,
-        },
-      });
-      setTargetTasks(response.data);
-    } catch (e) {
-      // until API is ready we set the temp data in the catch
-      // this will be changed to the error handling
-      response = tempData;
-      setTargetTasks(response.data);
-    } finally {
-      setLoading(false);
-      setRefreshTaskList(false);
-    }
-  };
-
-  useEffect(() => {
-    setRefreshTaskList(true);
-  }, [filtersToApply]);
-
-  useEffect(() => {
-    if (refreshTaskList === true) {
-      getTaskList();
-      return () => {
-        source.cancel('Cancelling request');
-      };
-    }
-  }, [refreshTaskList]);
-
-  return (
-    <>
-      {isLoading && <LoadingSpinner />}
-
-      {!isLoading && (targetTasks.length === 0 || !targetTasks.length) && (
-        <p className="govuk-body-l">There are no {taskStatus} tasks</p>
-      )}
-
-      {!isLoading && targetTasks.length > 0 && (
-      <Pagination
-        totalItems={targetTaskCount}
-        itemsPerPage={itemsPerPage}
-        activePage={activePage}
-        totalPages={totalPages}
-      />
-      )}
-
-      {!isLoading
-        && targetTasks.length > 0
-        && targetTasks.map((targetTask) => {
-          return (
-            <TaskListCard key={targetTask.id} targetTask={targetTask} />
-          );
-        })}
-
-      {!isLoading && targetTasks.length > 0 && (
-      <Pagination
-        totalItems={targetTaskCount}
-        itemsPerPage={itemsPerPage}
-        activePage={activePage}
-        totalPages={totalPages}
-      />
-      )}
-    </>
-  );
-};
-
 const TaskListPage = () => {
   const keycloak = useKeycloak();
   const [authorisedGroup, setAuthorisedGroup] = useState();
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
@@ -183,7 +55,6 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">New tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_NEW}
-                        setError={setError}
                       />
                     </>
                   ),
@@ -196,7 +67,6 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">In progress tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_IN_PROGRESS}
-                        setError={setError}
                       />
                     </>
                   ),
@@ -209,7 +79,6 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_TARGET_ISSUED}
-                        setError={setError}
                       />
                     </>
                   ),
@@ -222,7 +91,6 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Completed tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_COMPLETED}
-                        setError={setError}
                       />
                     </>
                   ),
