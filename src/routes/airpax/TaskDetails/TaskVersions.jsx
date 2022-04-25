@@ -7,6 +7,25 @@ import { LONG_DATE_FORMAT } from '../../../constants';
 // Components/govuk
 import Accordion from '../../../govuk/Accordion';
 
+const renderDetailsOverview = (version) => {
+  return (
+    <>
+      <div className="govuk-task-details-grid">
+        <div className="govuk-grid-column-one-third">
+          <Passenger passenger={version.person} />
+          <Document passenger={version.document} />
+        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+          <p>Column 2</p>
+        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
+          <p>Column 3</p>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
   dayjs.extend(utc);
   return (
@@ -16,6 +35,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
       items={
         taskVersions.map((version, index) => {
           const threatLevel = version.risks.highestThreatLevel;
+          const sections = renderDetailsOverview(version);
           return {
             expanded: index === 0,
             heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,
@@ -36,7 +56,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
                 </div>
               </>
             ),
-            children: null,
+            children: sections,
           };
         })
       }
