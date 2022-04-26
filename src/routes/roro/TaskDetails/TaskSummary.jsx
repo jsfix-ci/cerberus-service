@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { LONG_DATE_FORMAT, RORO_TOURIST, RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON } from '../../../constants';
+import { LONG_DATE_FORMAT, RORO_TOURIST, INDIVIDUAL_ICON, GROUP_ICON } from '../../../constants';
 import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskList, hasVehicle, hasTrailer, hasDriver } from '../../../utils/roroDataUtil';
 import { formatMovementModeIconText } from '../../../utils/stringConversion';
@@ -10,10 +10,10 @@ import { formatMovementModeIconText } from '../../../utils/stringConversion';
 import '../__assets__/TaskDetailsPage.scss';
 
 const getCaptionText = (movementModeIcon) => {
-  if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
+  if (movementModeIcon === INDIVIDUAL_ICON) {
     return 'Single passenger';
   }
-  if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+  if (movementModeIcon === GROUP_ICON) {
     return 'Group';
   }
 };
@@ -21,7 +21,7 @@ const getCaptionText = (movementModeIcon) => {
 const getSummaryFirstHalf = (movementMode, roroData) => {
   const movementModeIcon = getMovementModeIcon(movementMode, roroData.vehicle, roroData.passengers);
   if (movementMode === RORO_TOURIST) {
-    if (movementModeIcon === RORO_TOURIST_SINGLE_ICON || movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+    if (movementModeIcon === INDIVIDUAL_ICON || movementModeIcon === GROUP_ICON) {
       const captionText = getCaptionText(movementModeIcon);
       return (
         <li>
