@@ -45,19 +45,9 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
     ],
   };
 
-  // TEMP VALUES FOR TESTING
-  const tempAirlineCodesData = {
-    data: {
-      data: [
-        // paste data from the relevant fixture here for testing this page
-      ],
-    },
-  };
-
   const getTaskList = async () => {
     setLoading(true);
     let response;
-    let airlineCodes;
     const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
     const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
       ? [
@@ -82,28 +72,28 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
         },
       });
       setTargetTasks(response.data);
-
-      try {
-        // Fetch all airline codes
-        const airlineCodesResponse = await refDataClient.get('/v2/entities/carrierlist', {
-          params: {
-            mode: 'dataOnly',
-          },
-        });
-        setRefDataAirlineCodes(airlineCodesResponse.data.data);
-      } catch (e) {
-        setRefDataAirlineCodes([]);
-      }
     } catch (e) {
       // until API is ready we set the temp data in the catch
       // this will be changed to the error handling
       response = tempData;
       setTargetTasks(response.data);
-      airlineCodes = tempAirlineCodesData;
-      setRefDataAirlineCodes(airlineCodes.data.data);
     } finally {
       setLoading(false);
       setRefreshTaskList(false);
+    }
+  };
+
+  const getAirlineCodes = async () => {
+    let response;
+    try {
+      response = await refDataClient.get('/v2/entities/carrierlist', {
+        params: {
+          mode: 'dataOnly',
+        },
+      });
+      setRefDataAirlineCodes(response.data.data);
+    } catch (e) {
+      setRefDataAirlineCodes([]);
     }
   };
 
@@ -119,6 +109,13 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
       };
     }
   }, [refreshTaskList]);
+
+  useEffect(() => {
+    getAirlineCodes();
+    return () => {
+      source.cancel('Cancelling request');
+    };
+  }, []);
 
   if (isLoading) {
     return <LoadingSpinner />;
