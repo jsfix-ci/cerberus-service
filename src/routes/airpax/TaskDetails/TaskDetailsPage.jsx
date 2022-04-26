@@ -7,6 +7,7 @@ import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../const
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAndUpdateTaskVersionDifferences';
+import { formatTaskStatusToCamelCase } from '../../../utils/formatTaskStatus';
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
@@ -218,7 +219,7 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     if (taskData) {
       setAssignee(taskData.assignee);
-      setFormattedTaskStatus(taskData.status.toLowerCase());
+      setFormattedTaskStatus(formatTaskStatusToCamelCase(taskData.status));
       setLoading(false);
     }
   }, [taskData, setAssignee, setLoading]);
@@ -239,8 +240,6 @@ const TaskDetailsPage = () => {
   if (isLoading) {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
-
-  console.log(formattedTaskStatus, TASK_STATUS_COMPLETED)
 
   return (
     <>
