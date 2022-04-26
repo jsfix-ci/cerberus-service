@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import "./__assets__/Table.scss";
+import './__assets__/Table.scss';
 
 const Table = ({ headings, rows }) => {
   return (
