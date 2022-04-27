@@ -62,6 +62,11 @@ const TaskDetailsPage = () => {
             type: null,
             price: null,
           },
+          agent: {
+            name: null,
+            iata: null,
+            location: null,
+          },
           country: null,
         },
         journey: {

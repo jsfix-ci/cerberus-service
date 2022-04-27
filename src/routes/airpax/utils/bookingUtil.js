@@ -2,7 +2,44 @@ import lookup from 'country-code-lookup';
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 
-import { UNKNOWN_TEXT, SHORT_DATE_FORMAT_ALT, STANDARD_HOUR_MINUTE_FORMAT } from '../../../constants';
+import {
+  UNKNOWN_TEXT,
+  SHORT_DATE_FORMAT_ALT,
+  STANDARD_HOUR_MINUTE_FORMAT,
+  STANDARD_CARD_EXPIRY_FORMAT,
+} from '../../../constants';
+
+const getAgentLocation = (agent) => {
+  if (!agent?.location) {
+    return UNKNOWN_TEXT;
+  }
+  return agent.location;
+};
+
+const getAgentIata = (agent) => {
+  if (!agent?.iata) {
+    return UNKNOWN_TEXT;
+  }
+  return agent.iata;
+};
+
+const getAgentName = (agent) => {
+  if (!agent?.name) {
+    return UNKNOWN_TEXT;
+  }
+  return agent.name;
+};
+
+const hasAgent = (booking) => {
+  return !!booking.agent;
+};
+
+const getAgent = (booking) => {
+  if (hasAgent(booking)) {
+    return booking.agent;
+  }
+  return null;
+};
 
 const hasPaymentCard = (payment) => {
   return !!payment.card;
@@ -13,6 +50,14 @@ const getPaymentCard = (payment) => {
     return payment.card;
   }
   return null;
+};
+
+const getCardExpiry = (payment) => {
+  const paymentCard = getPaymentCard(payment);
+  if (paymentCard) {
+    return getFormattedDate(paymentCard.expiry, STANDARD_CARD_EXPIRY_FORMAT);
+  }
+  return UNKNOWN_TEXT;
 };
 
 const getCardLastFourDigits = (payment) => {
@@ -146,6 +191,11 @@ const BookingUtil = {
   paymentAmount: getPaymentAmount,
   paymentCard: getPaymentCard,
   cardLastFourDigits: getCardLastFourDigits,
+  cardExpiry: getCardExpiry,
+  agent: getAgent,
+  agentName: getAgentName,
+  agentIata: getAgentIata,
+  agentLocation: getAgentLocation,
 };
 
 export default BookingUtil;
@@ -167,4 +217,9 @@ export {
   getPaymentAmount,
   getPaymentCard,
   getCardLastFourDigits,
+  getCardExpiry,
+  getAgent,
+  getAgentName,
+  getAgentIata,
+  getAgentLocation,
 };
