@@ -12,13 +12,14 @@ import { BookingUtil } from '../utils';
 
 const renderDetailsOverview = (version) => {
   const booking = BookingUtil.get(version);
+  const ticket = BookingUtil.bookingTicket(booking);
   return (
     <>
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third" />
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
           <div className="govuk-task-details-col-2">
-            <Booking booking={booking} />
+            <Booking booking={booking} ticket={ticket} version={version} />
           </div>
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line-two" />
