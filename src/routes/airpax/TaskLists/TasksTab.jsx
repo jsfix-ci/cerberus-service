@@ -43,7 +43,7 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   const tempData = {
     data: [
-     // paste mock data here
+      // paste mock data here
     ],
   };
 
