@@ -148,7 +148,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-    - release-candidate
+    - release-*
     event:
     - push
 
@@ -167,8 +167,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-      exclue:
-       - release-candidate
+       - release-*
     event:
        - push
 
@@ -276,7 +275,7 @@ steps:
     TEST_ENV: dev
   when:
     branch:
-       - release-candidate
+       - release-*
     event:
        - push
 
@@ -338,8 +337,7 @@ steps:
     TEST_ENV: sit
   when:
     branch:
-      exclude:
-        - release-candidate
+        - release-*
     event:
       - push
 
@@ -448,7 +446,7 @@ steps:
       from_secret: SIT_CERBERUS_SERVICE_URL
   when:
     branch:
-    - release-candidate
+    - release-*
     event:
     - promote
     target:
