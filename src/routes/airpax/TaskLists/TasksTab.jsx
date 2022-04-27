@@ -10,6 +10,7 @@ import { useKeycloak } from '../../../utils/keycloak';
 
 // Config
 import config from '../../../config';
+import { formatTaskStatusToCamelCase, formatTaskStatusToSnakeCase } from '../../../utils/formatTaskStatus';
 
 // Components/Pages
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -20,6 +21,7 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
+  const currentUser = keycloak.tokenParsed.email;
 
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
@@ -48,7 +50,7 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   const getTaskList = async () => {
     setLoading(true);
     let response;
-    const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
+    const tab = formatTaskStatusToSnakeCase(taskStatus);
     const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
       ? [
         {
@@ -62,15 +64,16 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
       ]
       : null;
     try {
-      response = await apiClient.post('/targeting-tasks/pages', {
-        status: tab,
-        filterParams: filtersToApply,
-        sortParams,
-        pageParams: {
-          limit: itemsPerPage,
-          offset,
-        },
-      });
+      // response = await apiClient.post('/targeting-tasks/pages', {
+      //   status: tab,
+      //   filterParams: filtersToApply,
+      //   sortParams,
+      //   pageParams: {
+      //     limit: itemsPerPage,
+      //     offset,
+      //   },
+      // });
+      response = tempData;
       setTargetTasks(response.data);
     } catch (e) {
       // until API is ready we set the temp data in the catch
@@ -136,7 +139,13 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
 
       {targetTasks.map((targetTask) => {
         return (
-          <TaskListCard key={targetTask.id} targetTask={targetTask} airlineCodes={refDataAirlineCodes} />
+          <TaskListCard
+            key={targetTask.id}
+            targetTask={targetTask}
+            taskStatus={formatTaskStatusToCamelCase(targetTask.status)}
+            airlineCodes={refDataAirlineCodes}
+            currentUser={currentUser}
+          />
         );
       })}
 
