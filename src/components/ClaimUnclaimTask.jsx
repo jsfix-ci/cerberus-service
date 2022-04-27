@@ -7,8 +7,12 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
   const [isAssignmentInProgress, setIsAssignmentInProgress] = useState(false);
   const [isAlreadyAssignedWarning, setAlreadyAssignedWarning] = useState(false);
 
+  const CommonText = () => {
+    return buttonType === 'textLink' ? 'Task not assigned' : null;
+  };
+
   const CommonButton = (p) => {
-    const linkClass = buttonType === 'textLink' ? 'link-button' : 'link-button govuk-!-font-weight-bold govuk-button';
+    const linkClass = buttonType === 'textLink' ? 'link-button govuk-!-font-size-19' : 'link-button govuk-!-font-weight-bold govuk-button';
     return (
       isAssignmentInProgress
         ? <span className="govuk-body">Please wait...</span>
@@ -52,10 +56,25 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
         </strong>
       </div>
     );
-  } if (!assignee && !isAlreadyAssignedWarning) {
-    return <span className="govuk-body task-list--email">Task not assigned <CommonButton onClick={handleClaim}>Claim</CommonButton></span>;
   }
-  return <span className="govuk-body task-list--email">{`Assigned to ${isAssignedTo}`} <CommonButton onClick={handleUnclaim}>Unclaim task</CommonButton></span>;
+  if (!assignee && !isAlreadyAssignedWarning) {
+    return (
+      <>
+        <span className="govuk-body task-list--assignee">
+          <CommonText />&nbsp;
+        </span>
+        <CommonButton onClick={handleClaim}>Claim</CommonButton>
+      </>
+    );
+  }
+  return (
+    <>
+      <span className="govuk-body task-list--assignee">
+        {`Assigned to ${isAssignedTo}`}&nbsp;
+      </span>
+      <CommonButton onClick={handleUnclaim}>Unclaim task</CommonButton>
+    </>
+  );
 };
 
 export default ClaimUnclaimTask;
