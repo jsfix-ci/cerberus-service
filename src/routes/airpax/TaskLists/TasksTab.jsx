@@ -43,7 +43,7 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   const tempData = {
     data: [
-      // paste data from the relevant fixture here for testing this page
+     // paste mock data here
     ],
   };
 
@@ -64,16 +64,16 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
       ]
       : null;
     try {
-      // response = await apiClient.post('/targeting-tasks/pages', {
-      //   status: tab,
-      //   filterParams: filtersToApply,
-      //   sortParams,
-      //   pageParams: {
-      //     limit: itemsPerPage,
-      //     offset,
-      //   },
-      // });
-      response = tempData;
+      response = await apiClient.post('/targeting-tasks/pages', {
+        status: tab,
+        filterParams: filtersToApply,
+        sortParams,
+        pageParams: {
+          limit: itemsPerPage,
+          offset,
+        },
+      });
+      // response = tempData;
       setTargetTasks(response.data);
     } catch (e) {
       // until API is ready we set the temp data in the catch
