@@ -6,21 +6,22 @@ import * as pluralise from 'pluralise';
 import { LONG_DATE_FORMAT } from '../../../constants';
 // Components/govuk
 import Accordion from '../../../govuk/Accordion';
+import Booking from './builder/Booking';
+
+import { BookingUtil } from '../utils';
 
 const renderDetailsOverview = (version) => {
+  const booking = BookingUtil.get(version);
   return (
     <>
       <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          <Passenger passenger={version.person} />
-          <Document passenger={version.document} />
-        </div>
+        <div className="govuk-grid-column-one-third" />
         <div className="govuk-grid-column-one-third vertical-dotted-line-one">
-          <p>Column 2</p>
+          <div className="govuk-task-details-col-2">
+            <Booking booking={booking} />
+          </div>
         </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-two">
-          <p>Column 3</p>
-        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-two" />
       </div>
     </>
   );
