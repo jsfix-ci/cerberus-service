@@ -61,6 +61,19 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     }
 }
 
+.claim-button-container {
+  display: flex;
+  justify-content: right;
+  padding-right: 10px;
+  button {
+    margin-bottom: 0;
+  }
+  .task-list--email {
+    word-break: break-all;
+    padding-right: 0.5em;
+  }
+}
+
 .task-list--item-1 {
     .task-risk-statement {
         margin-bottom: 0.25em;
