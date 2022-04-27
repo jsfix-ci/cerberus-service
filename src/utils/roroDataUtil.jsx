@@ -62,6 +62,37 @@ const hasDepartureTime = (departureTime) => {
   return departureTime !== null && departureTime !== undefined && departureTime !== '';
 };
 
+const getNamedPassenger = (passenger) => {
+  if (passenger?.contents) {
+    let hasName = false;
+    passenger.contents.map(({ propName, content }) => {
+      if (propName === 'name') {
+        hasName = !!content;
+      }
+    });
+    return hasName && passenger;
+  }
+};
+
+const filterKnownPassengers = (passengers) => {
+  return passengers.filter((passenger) => {
+    if (passenger?.name) {
+      return passenger;
+    }
+    return getNamedPassenger(passenger);
+  });
+};
+
+const isSinglePassenger = (passengers) => {
+  const filteredPassengers = passengers.filter((passenger) => {
+    if (passenger?.name) {
+      return passenger;
+    }
+    return getNamedPassenger(passenger);
+  });
+  return filteredPassengers && filteredPassengers?.length === 1;
+};
+
 // Checks for presence of at least a valid passenger
 const hasTaskVersionPassengers = (passengers) => {
   for (const passengerChildSets of passengers.childSets) {
@@ -183,4 +214,6 @@ export { modifyRoRoPassengersTaskList,
   extractTaskVersionsBookingField,
   getTaskDetailsTotalOccupants,
   hasCarrierCounts,
-  modifyCountryCodeIfPresent };
+  modifyCountryCodeIfPresent,
+  isSinglePassenger,
+  filterKnownPassengers };
