@@ -172,20 +172,6 @@ exports[`Booking should render the booking component 1`] = `
         <li
           className="govuk-grid-key font__light"
         >
-          Agent name
-        </li>
-        <li
-          className="govuk-grid-value font__bold"
-        >
-          Unknown
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li
-          className="govuk-grid-key font__light"
-        >
           Agent IATA
         </li>
         <li

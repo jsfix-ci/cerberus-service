@@ -92,12 +92,6 @@ const Booking = ({ version }) => {
       <div className="govuk-task-details-grid-column govuk-!-margin-top-3">
         <div>
           <ul>
-            <li className="govuk-grid-key font__light">Agent name</li>
-            <li className="govuk-grid-value font__bold">{BookingUtil.agentName(agent)}</li>
-          </ul>
-        </div>
-        <div>
-          <ul>
             <li className="govuk-grid-key font__light">Agent IATA</li>
             <li className="govuk-grid-value font__bold">{BookingUtil.agentIata(agent)}</li>
           </ul>
