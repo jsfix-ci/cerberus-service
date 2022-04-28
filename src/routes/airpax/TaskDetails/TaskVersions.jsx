@@ -6,6 +6,23 @@ import * as pluralise from 'pluralise';
 import { LONG_DATE_FORMAT } from '../../../constants';
 // Components/govuk
 import Accordion from '../../../govuk/Accordion';
+import Passenger from './builder/Passenger';
+
+const renderDetailsOverview = (version) => {
+  return (
+    <>
+      <div className="govuk-task-details-grid">
+        <div className="govuk-grid-column-one-third">
+          <Passenger version={version} />
+        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+          <div className="govuk-task-details-col-2" />
+        </div>
+        <div className="govuk-grid-column-one-third vertical-dotted-line-two" />
+      </div>
+    </>
+  );
+};
 
 const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
   dayjs.extend(utc);
@@ -16,6 +33,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
       items={
         taskVersions.map((version, index) => {
           const threatLevel = version.risks.highestThreatLevel;
+          const sections = renderDetailsOverview(version);
           return {
             expanded: index === 0,
             heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,
@@ -36,12 +54,11 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
                 </div>
               </>
             ),
-            children: null,
+            children: sections,
           };
         })
       }
     />
-
   );
 };
 

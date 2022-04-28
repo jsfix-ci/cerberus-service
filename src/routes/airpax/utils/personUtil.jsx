@@ -1,8 +1,8 @@
 import React from 'react';
-
+import lookup from 'country-code-lookup';
+import dayjs from 'dayjs';
 import formatGender from '../../../utils/genderFormatter';
 import { getFormattedDate } from './datetimeUtil';
-
 import { SHORT_DATE_FORMAT_ALT, UNKNOWN_TEXT } from '../../../constants';
 
 const getNationality = (person) => {
@@ -12,11 +12,25 @@ const getNationality = (person) => {
   return person.nationality;
 };
 
+const getCountryName = (person) => {
+  if (!person?.nationality) {
+    return UNKNOWN_TEXT;
+  }
+  return lookup.byIso(person.nationality).country;
+};
+
 const getDateOfBirth = (person) => {
   if (!person?.dateOfBirth) {
     return UNKNOWN_TEXT;
   }
   return getFormattedDate(person.dateOfBirth, SHORT_DATE_FORMAT_ALT);
+};
+
+const getAge = (person) => {
+  if (!person?.dateOfBirth) {
+    return UNKNOWN_TEXT;
+  }
+  return dayjs.utc().diff(dayjs(person.dateOfBirth), 'year');
 };
 
 const getGender = (person) => {
@@ -38,6 +52,20 @@ const getFirstName = (person) => {
     return UNKNOWN_TEXT;
   }
   return person.name.first;
+};
+
+const getFrequentFlyerNumber = (person) => {
+  if (!person?.frequentFlyerNumber) {
+    return UNKNOWN_TEXT;
+  }
+  return person.frequentFlyerNumber;
+};
+
+const getSSRCodes = (person) => {
+  if (!person?.ssrCodes) {
+    return UNKNOWN_TEXT;
+  }
+  return person.ssrCodes;
 };
 
 const toCoTravellers = (otherPersons) => {
@@ -97,14 +125,20 @@ const PersonUtil = {
   lastname: getLastName,
   gender: getGender,
   dob: getDateOfBirth,
+  age: getAge,
   nationality: getNationality,
+  countryName: getCountryName,
+  frequentFlyerNumber: getFrequentFlyerNumber,
+  ssrCodes: getSSRCodes,
 };
 
 export default PersonUtil;
 
 export {
   getNationality,
+  getCountryName,
   getDateOfBirth,
+  getAge,
   getPerson,
   getGender,
   getFirstName,
@@ -112,4 +146,6 @@ export {
   toCoTravellers,
   getTotalNumberOfPersons,
   getOtherPersons,
+  getFrequentFlyerNumber,
+  getSSRCodes,
 };

@@ -4,6 +4,11 @@ module.exports = {
     es6: true,
     jest: true,
   },
+  settings: {
+    jest: {
+      version: 27,
+    },
+  },
   extends: [
     'airbnb',
     'plugin:import/errors',
