@@ -13,12 +13,12 @@ const renderDetailsOverview = (version) => {
     <>
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third" />
-        <div className="govuk-grid-column-one-third vertical-dotted-line-one">
+        <div className="govuk-grid-column-one-third vertical-dotted-line">
           <div className="govuk-task-details-col-2">
             <Booking version={version} />
           </div>
         </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line-two" />
+        <div className="govuk-grid-column-one-third vertical-dotted-line" />
       </div>
     </>
   );
