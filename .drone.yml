@@ -274,8 +274,8 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests\""
     TEST_ENV: dev
   when:
-    branch:
-       - release-*
+    #branch:
+    #   - release-*
     event:
        - push
 
@@ -336,8 +336,8 @@ steps:
     JOB_NAME: "\"cerberus-functional-tests-sit\""
     TEST_ENV: sit
   when:
-    branch:
-        - release-*
+    #branch:
+    #   - release-*
     event:
       - push
 
@@ -445,8 +445,8 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: SIT_CERBERUS_SERVICE_URL
   when:
-    branch:
-    - release-*
+    #branch:
+    #   - release-*
     event:
     - promote
     target:
