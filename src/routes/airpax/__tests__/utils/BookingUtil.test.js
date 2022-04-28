@@ -4,9 +4,47 @@ import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../../constants';
 import config from '../../../../config';
 
 describe('BookingUtil', () => {
+  let booking;
+
   beforeEach(() => {
     config.dayjsConfig.timezone = LONDON_TIMEZONE;
+
+    booking = {
+      reference: 'LSV4UV',
+      type: null,
+      paymentMethod: null,
+      bookedAt: '2020-02-07T17:15:00Z',
+      checkInAt: null,
+      ticket: {
+        number: null,
+        type: null,
+        price: null,
+      },
+      country: 'GB',
+      payments: [
+        {
+          amount: 2190.48,
+          card: {
+            number: '30XXXXXXXXXXX63X',
+            expiry: '2020-10-01T00:00:00Z',
+          },
+        },
+        {
+          amount: 2151.48,
+          card: {
+            number: '30XXXXXXXXXXX62X',
+            expiry: '2020-10-01T00:00:00Z',
+          },
+        },
+      ],
+      agent: {
+        name: 'TravelX',
+        iata: '987654321',
+        location: 'IE',
+      },
+    };
   });
+
   it('should return a booking object if present', () => {
     const targetTaskMin = {
       movement: {
@@ -128,5 +166,219 @@ describe('BookingUtil', () => {
 
     const output = BookingUtil.bookedPrior(bookedAt, departureTime);
     expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should get the expected country code', () => {
+    const output = BookingUtil.countryCode(booking);
+    expect(output).toEqual('GB');
+  });
+
+  it('should return unknown country code is null', () => {
+    booking.country = null;
+    const output = BookingUtil.countryCode(booking);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the expected country name', () => {
+    let output = BookingUtil.countryName(booking);
+    expect(output).toEqual('United Kingdom');
+
+    booking.country = 'FR';
+    output = BookingUtil.countryName(booking);
+    expect(output).toEqual('France');
+  });
+
+  it('should return unknown when the country name is null', () => {
+    booking.country = null;
+    let output = BookingUtil.countryName(booking);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return booking type when the booking type is present', () => {
+    booking.type = 'Online';
+    const type = BookingUtil.bookingType(booking);
+    expect(type).toEqual(booking.type);
+  });
+
+  it('should return unknown when booking type is not present', () => {
+    const type = BookingUtil.bookingType(booking);
+    expect(type).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return a booking ticket object if present', () => {
+    const ticket = BookingUtil.bookingTicket(booking);
+
+    const expected = {
+      number: null,
+      type: null,
+      price: null,
+    };
+
+    expect(ticket).toEqual(expected);
+  });
+
+  it('should return null when a booking ticket is not present', () => {
+    booking.ticket = null;
+    const ticket = BookingUtil.bookingTicket(booking);
+    expect(ticket).toBeNull();
+  });
+
+  it('should return the ticket number if present', () => {
+    booking.ticket.number = 'TIC-098376';
+    const ticketNumber = BookingUtil.ticketNumber(booking.ticket);
+    expect(ticketNumber).toEqual(booking.ticket.number);
+  });
+
+  it('should return unknown when ticket number is not present', () => {
+    const ticketNumber = BookingUtil.ticketNumber(booking.ticket);
+    expect(ticketNumber).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the ticket type if present', () => {
+    booking.ticket.type = 'Online';
+    const ticketType = BookingUtil.ticketType(booking.ticket);
+    expect(ticketType).toEqual(booking.ticket.type);
+  });
+
+  it('should return unknown when ticket type is not present', () => {
+    const ticketType = BookingUtil.ticketType(booking.ticket);
+    expect(ticketType).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the payment object if present', () => {
+    const payments = BookingUtil.payments(booking);
+
+    const expected = [
+      {
+        amount: 2190.48,
+        card: {
+          number: '30XXXXXXXXXXX63X',
+          expiry: '2020-10-01T00:00:00Z',
+        },
+      },
+      {
+        amount: 2151.48,
+        card: {
+          number: '30XXXXXXXXXXX62X',
+          expiry: '2020-10-01T00:00:00Z',
+        },
+      },
+    ];
+
+    expect(payments).toEqual(expected);
+  });
+
+  it('should return unknown when the payment object is not present', () => {
+    booking.payments = null;
+    const payments = BookingUtil.payments(booking);
+    expect(payments).toBeNull();
+  });
+
+  it('should get a payment amount if present', () => {
+    const paymentAmount = BookingUtil.paymentAmount(booking.payments[0]);
+    expect(paymentAmount).toEqual(2190.48);
+  });
+
+  it('should return unknown when payment amount is not present', () => {
+    booking.payments[0].amount = null;
+    const paymentAmount = BookingUtil.paymentAmount(booking.payments[0]);
+    expect(paymentAmount).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the payment card object', () => {
+    const paymentCard = BookingUtil.paymentCard(booking.payments[0]);
+
+    const expected = {
+      number: '30XXXXXXXXXXX63X',
+      expiry: '2020-10-01T00:00:00Z',
+    };
+
+    expect(paymentCard).toEqual(expected);
+  });
+
+  it('should return null if the payment card object is not present', () => {
+    booking.payments[0] = null;
+
+    const paymentCard = BookingUtil.paymentCard(booking.payments[0]);
+
+    expect(paymentCard).toBeNull();
+  });
+
+  it('should return the payment card number', () => {
+    const cardNumber = BookingUtil.paymentCard(booking.payments[0]).number;
+    expect(cardNumber).toEqual(booking.payments[0].card.number);
+  });
+
+  it('should return the payment card expiry', () => {
+    const cardExpiry = BookingUtil.paymentCard(booking.payments[0]).expiry;
+    expect(cardExpiry).toEqual(booking.payments[0].card.expiry);
+  });
+
+  it('should return the payment card last 4 digits', () => {
+    const cardLastFourDigits = BookingUtil.cardLastFourDigits(booking.payments[0]);
+    const expected = booking.payments[0].card.number.substring(booking.payments[0].card.number.length - 4);
+    expect(cardLastFourDigits).toEqual(expected);
+  });
+
+  it('should return unknown when the payment card\'s last 4 digits is not found', () => {
+    booking.payments[0].card.number = null;
+    const cardLastFourDigits = BookingUtil.cardLastFourDigits(booking.payments[0]);
+    expect(cardLastFourDigits).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the payment card expiry date if present', () => {
+    const cardExpiry = BookingUtil.cardExpiry(booking.payments[0]);
+    expect(cardExpiry).toEqual('10/20');
+  });
+
+  it('should return unknown when the payment card expiry date is not present', () => {
+    booking.payments[0].card.expiry = null;
+    const cardExpiry = BookingUtil.cardExpiry(booking.payments[0]);
+    expect(cardExpiry).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should get the agent object if present', () => {
+    const agent = BookingUtil.agent(booking);
+
+    const expected = {
+      name: 'TravelX',
+      iata: '987654321',
+      location: 'IE',
+    };
+
+    expect(agent).toEqual(expected);
+  });
+
+  it('should get the agent name if present', () => {
+    const agentName = BookingUtil.agentName(booking.agent);
+    expect(agentName).toEqual(booking.agent.name);
+  });
+
+  it('should return unknown when the agent name is not present', () => {
+    booking.agent.name = null;
+    const agentName = BookingUtil.agentName(booking.agent);
+    expect(agentName).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should get the agent iata if present', () => {
+    const agentIata = BookingUtil.agentIata(booking.agent);
+    expect(agentIata).toEqual(booking.agent.iata);
+  });
+
+  it('should return unknown when the agent iata is not present', () => {
+    booking.agent.iata = null;
+    const agentIata = BookingUtil.agentIata(booking.agent);
+    expect(agentIata).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should get the agent location if present', () => {
+    const agentLocation = BookingUtil.agentLocation(booking.agent);
+    expect(agentLocation).toEqual(booking.agent.location);
+  });
+
+  it('should return unknown when the agent location is not present', () => {
+    booking.agent.location = null;
+    const agentLocation = BookingUtil.agentLocation(booking.agent);
+    expect(agentLocation).toEqual(UNKNOWN_TEXT);
   });
 });
