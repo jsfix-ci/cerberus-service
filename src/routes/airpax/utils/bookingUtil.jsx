@@ -1,3 +1,4 @@
+import React from 'react';
 import lookup from 'country-code-lookup';
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
@@ -174,6 +175,22 @@ const getBooking = (targetTask) => {
   return null;
 };
 
+const toPaymentsBlock = (booking) => {
+  const payments = getPayments(booking);
+  if (payments) {
+    return payments.map((payment, index) => {
+      return (
+        <div key={index} className="thin-border govuk-!-margin-top-1">
+          <div className="font__bold">{getPaymentAmount(payment)}</div>
+          <div className="font__regular">
+            Credit card ending {getCardLastFourDigits(payment)}, expiry {getCardExpiry(payment)}
+          </div>
+        </div>
+      );
+    });
+  }
+};
+
 const BookingUtil = {
   get: getBooking,
   bookedAt: getBookedAt,
@@ -196,6 +213,7 @@ const BookingUtil = {
   agentName: getAgentName,
   agentIata: getAgentIata,
   agentLocation: getAgentLocation,
+  paymentsBlock: toPaymentsBlock,
 };
 
 export default BookingUtil;
@@ -222,4 +240,5 @@ export {
   getAgentName,
   getAgentIata,
   getAgentLocation,
+  toPaymentsBlock,
 };

@@ -33,3 +33,6 @@ export const MOVEMENT_DESCRIPTION_GROUP = 'group';
 export const MOVEMENT_MODE_AIR_PASSENGER = 'AIR_PASSENGER';
 export const MOVEMENT_MODE_AIR_CREW = '_TBC_';
 export const UNKNOWN_TEXT = 'Unknown';
+export const DAYJS_PAST = 'ago';
+export const DAYJS_FUTURE = 'before travel';
+export const DAYJS_FUTURE_AIXPAX_REPLACE = 'before travel';

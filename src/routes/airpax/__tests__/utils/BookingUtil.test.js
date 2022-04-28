@@ -1,3 +1,4 @@
+import renderer from 'react-test-renderer';
 import { BookingUtil } from '../../utils';
 import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../../constants';
 
@@ -344,5 +345,10 @@ describe('BookingUtil', () => {
     booking.agent.location = null;
     const agentLocation = BookingUtil.agentLocation(booking.agent);
     expect(agentLocation).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should render the payments block', () => {
+    const section = renderer.create(BookingUtil.paymentsBlock(booking)).toJSON();
+    expect(section).toMatchSnapshot();
   });
 });

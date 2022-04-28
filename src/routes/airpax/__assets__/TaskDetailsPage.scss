@@ -1,22 +1,22 @@
-@import "~govuk-frontend/govuk/vendor/_sass-mq";
-@import "~govuk-frontend/govuk/settings/spacing";
-@import "~govuk-frontend/govuk/helpers/spacing";
-@import "~govuk-frontend/govuk/settings/all";
-@import "~govuk-frontend/govuk/helpers/all";
-@import "~govuk-frontend/govuk/tools/all";
+@import '~govuk-frontend/govuk/vendor/_sass-mq';
+@import '~govuk-frontend/govuk/settings/spacing';
+@import '~govuk-frontend/govuk/helpers/spacing';
+@import '~govuk-frontend/govuk/settings/all';
+@import '~govuk-frontend/govuk/helpers/all';
+@import '~govuk-frontend/govuk/tools/all';
 @include mq($from: tablet) {
-    .task-versions .govuk-accordion__section-summary {
-        display: flex;
-        justify-content: space-between;
-    }
-    .task-versions--right {
-        margin-top: -40px;
-    }
+  .task-versions .govuk-accordion__section-summary {
+    display: flex;
+    justify-content: space-between;
+  }
+  .task-versions--right {
+    margin-top: -40px;
+  }
 }
 
 .vertical-dotted-line {
-    height: inherit;
-    border-left: 4px dotted #b1b4b6;
+  height: inherit;
+  border-left: 4px dotted #b1b4b6;
 }
 
 .thin-border {
@@ -25,5 +25,5 @@
 }
 
 .font__regular {
-    font-weight: lighter;
+  font-weight: lighter;
 }

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingUtil should render the payments block 1`] = `
+Array [
+  <div
+    className="thin-border govuk-!-margin-top-1"
+  >
+    <div
+      className="font__bold"
+    >
+      2190.48
+    </div>
+    <div
+      className="font__regular"
+    >
+      Credit card ending 
+      X63X
+      , expiry 
+      10/20
+    </div>
+  </div>,
+  <div
+    className="thin-border govuk-!-margin-top-1"
+  >
+    <div
+      className="font__bold"
+    >
+      2151.48
+    </div>
+    <div
+      className="font__regular"
+    >
+      Credit card ending 
+      X62X
+      , expiry 
+      10/20
+    </div>
+  </div>,
+]
+`;
