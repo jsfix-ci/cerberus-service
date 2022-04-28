@@ -27,7 +27,7 @@ const TaskDetailsPage = () => {
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   const tempData = {
     data: {
-      // paste data from the relevant fixture here for testing this page
+      // paste mock data here
     },
   };
 

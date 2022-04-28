@@ -38,9 +38,8 @@ describe('BookingUtil', () => {
         },
       ],
       agent: {
-        name: 'TravelX',
         iata: '987654321',
-        location: 'IE',
+        location: 'Galiway, IE',
       },
     };
   });
@@ -318,23 +317,11 @@ describe('BookingUtil', () => {
     const agent = BookingUtil.agent(booking);
 
     const expected = {
-      name: 'TravelX',
       iata: '987654321',
-      location: 'IE',
+      location: 'Galiway, IE',
     };
 
     expect(agent).toEqual(expected);
-  });
-
-  it('should get the agent name if present', () => {
-    const agentName = BookingUtil.agentName(booking.agent);
-    expect(agentName).toEqual(booking.agent.name);
-  });
-
-  it('should return unknown when the agent name is not present', () => {
-    booking.agent.name = null;
-    const agentName = BookingUtil.agentName(booking.agent);
-    expect(agentName).toEqual(UNKNOWN_TEXT);
   });
 
   it('should get the agent iata if present', () => {

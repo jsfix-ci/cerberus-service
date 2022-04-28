@@ -94,7 +94,6 @@ describe('TaskVersions', () => {
     expect(screen.getByText('Ticket type')).toBeInTheDocument();
     expect(screen.getByText('Payments')).toBeInTheDocument();
     expect(screen.queryAllByText(/Credit card ending X63X, expiry 10\/20/)).toHaveLength(2);
-    expect(screen.getByText('Agent name')).toBeInTheDocument();
     expect(screen.getByText('Agent IATA')).toBeInTheDocument();
     expect(screen.getByText('Agent location')).toBeInTheDocument();
   });
