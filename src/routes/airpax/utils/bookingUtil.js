@@ -54,7 +54,7 @@ const getPaymentCard = (payment) => {
 
 const getCardExpiry = (payment) => {
   const paymentCard = getPaymentCard(payment);
-  if (paymentCard && paymentCard?.expiry) {
+  if (paymentCard?.expiry) {
     return getFormattedDate(paymentCard.expiry, STANDARD_CARD_EXPIRY_FORMAT);
   }
   return UNKNOWN_TEXT;
@@ -62,7 +62,7 @@ const getCardExpiry = (payment) => {
 
 const getCardLastFourDigits = (payment) => {
   const paymentCard = getPaymentCard(payment);
-  if (paymentCard && paymentCard?.number) {
+  if (paymentCard?.number) {
     return paymentCard.number.substr(paymentCard.number.length - 4);
   }
   return UNKNOWN_TEXT;
