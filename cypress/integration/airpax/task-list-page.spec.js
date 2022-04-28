@@ -8,7 +8,7 @@ describe('Airpax task list page', () => {
       'New',
       'In progress',
       'Issued',
-      'Complete'];    
+      'Complete'];
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.equal('Task management');
     });
@@ -24,3 +24,4 @@ describe('Airpax task list page', () => {
     cy.url().should('include', Cypress.env('auth_realm'));
   });
 });
+
