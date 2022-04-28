@@ -15,6 +15,8 @@ describe('PersonUtil', () => {
     gender: 'M',
     nationality: 'GBR',
     document: null,
+    ssrCodes: 'ABC',
+    frequentFlyerNumber: 123456,
   };
 
   it('should get a person object if present', () => {
@@ -31,6 +33,8 @@ describe('PersonUtil', () => {
           gender: 'M',
           nationality: 'GBR',
           document: null,
+          ssrCodes: 'ABC',
+          frequentFlyerNumber: 123456,
         },
       },
     };
@@ -54,6 +58,8 @@ describe('PersonUtil', () => {
             gender: 'M',
             nationality: 'GBR',
             document: null,
+            ssrCodes: 'ABC',
+            frequentFlyerNumber: 123456,
           },
         ],
       },
@@ -77,6 +83,8 @@ describe('PersonUtil', () => {
           gender: 'M',
           nationality: 'GBR',
           document: null,
+          ssrCodes: 'ABC',
+          frequentFlyerNumber: 123456,
         },
         otherPersons: [],
       },
@@ -169,6 +177,30 @@ describe('PersonUtil', () => {
   it('should return last name if present', () => {
     const output = PersonUtil.lastname(person);
     expect(output).toEqual(person.name.last.toUpperCase());
+  });
+
+  it('should return country name if nationality present', () => {
+    const output = PersonUtil.countryName(person);
+    expect(output).toEqual('United Kingdom');
+  });
+
+  it('should return frequent flyer number if present', () => {
+    const output = PersonUtil.frequentFlyerNumber(person);
+    expect(output).toEqual(person.frequentFlyerNumber);
+  });
+
+  it('should return SSR codes if present', () => {
+    const output = PersonUtil.ssrCodes(person);
+    expect(output).toEqual(person.ssrCodes);
+  });
+
+  it('should calculate and return age if dob present', () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 10);
+    person.dateOfBirth = date.toISOString();
+
+    const output = PersonUtil.age(person);
+    expect(output).toEqual(10);
   });
 
   it('should return a formatted co-travellers block', () => {

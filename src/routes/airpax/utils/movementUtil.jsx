@@ -106,11 +106,22 @@ const getDepartureStatus = (targetTask) => {
     DC: 'green',
     BP: 'purple',
     CI: 'blue',
-    DX: 'red',
+    DE: 'red',
+  };
+  const DEPARTURE_DESCRIPTIONS = {
+    DC: 'Departure confirmed',
+    BP: 'Booked passenger ',
+    CI: 'Checked-in',
+    DE: 'Departure exception',
   };
   if (departureStatus) {
     return (
-      <Tag className="airpax-status" classModifiers={DEPARTURE_CLASSES[departureStatus]}>{departureStatus}</Tag>
+      <>
+        <span>{DEPARTURE_DESCRIPTIONS[departureStatus] || UNKNOWN_TEXT} </span>
+        <Tag className="airpax-status" classModifiers={DEPARTURE_CLASSES[departureStatus] || 'red'}>
+          {departureStatus}
+        </Tag>
+      </>
     );
   }
 };

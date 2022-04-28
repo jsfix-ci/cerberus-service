@@ -6,13 +6,17 @@ import * as pluralise from 'pluralise';
 import { LONG_DATE_FORMAT } from '../../../constants';
 // Components/govuk
 import Accordion from '../../../govuk/Accordion';
+
 import Booking from './builder/Booking';
+import Passenger from './builder/Passenger';
 
 const renderDetailsOverview = (version) => {
   return (
     <>
       <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third" />
+        <div className="govuk-grid-column-one-third">
+          <Passenger version={version} />
+        </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line">
           <div className="govuk-task-details-col-2">
             <Booking version={version} />
@@ -59,7 +63,6 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
         })
       }
     />
-
   );
 };
 
