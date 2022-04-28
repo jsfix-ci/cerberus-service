@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useKeycloak } from '../../../utils/keycloak';
+
 import { TARGETER_GROUP,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED } from '../../../constants';
-import { useKeycloak } from '../../../utils/keycloak';
-import Tabs from '../../../components/Tabs';
 
-const TasksTab = ({ taskStatus }) => {
-  return (
-    <p>There are no {taskStatus} tasks</p>
-  );
-};
+// Components/Pages
+import Tabs from '../../../components/Tabs';
+import TasksTab from './TasksTab';
+
+// Styling
+import '../__assets__/TaskListPage.scss';
 
 const TaskListPage = () => {
   const keycloak = useKeycloak();

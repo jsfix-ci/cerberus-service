@@ -7,14 +7,14 @@ import * as constants from '../../../constants';
 // Utils
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 import formatGender from '../../../utils/genderFormatter';
-import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer } from '../../../utils/roroDataUtil';
+import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/roroDataUtil';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
     case constants.RORO_TOURIST_CAR_ICON: {
       return 'Vehicle';
     }
-    case constants.RORO_TOURIST_SINGLE_ICON: {
+    case constants.INDIVIDUAL_ICON: {
       return 'Single passenger';
     }
     default: {
@@ -24,15 +24,16 @@ const getMovementModeTypeText = (movementModeIcon) => {
 };
 
 const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
+  const actualPassengers = filterKnownPassengers(passengers);
   switch (movementModeIcon) {
     case constants.RORO_TOURIST_CAR_ICON: {
       return !roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase();
     }
-    case constants.RORO_TOURIST_SINGLE_ICON: {
+    case constants.INDIVIDUAL_ICON: {
       return '1 foot passenger';
     }
     default: {
-      return passengers !== undefined ? `${passengers.length} foot passengers` : '0';
+      return actualPassengers ? `${actualPassengers.length} foot passengers` : '0';
     }
   }
 };
@@ -271,7 +272,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.RORO_TOURIST_SINGLE_ICON) {
+  if (movementModeIcon === constants.INDIVIDUAL_ICON) {
     return (
       <>
         <section className="task-list--item-2">
@@ -288,7 +289,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.RORO_TOURIST_GROUP_ICON) {
+  if (movementModeIcon === constants.GROUP_ICON) {
     return (
       <>
         <section className="task-list--item-2">
