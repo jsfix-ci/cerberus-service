@@ -31,7 +31,7 @@ const getAgentName = (agent) => {
 };
 
 const hasAgent = (booking) => {
-  return !!booking.agent;
+  return !!booking?.agent;
 };
 
 const getAgent = (booking) => {
@@ -42,7 +42,7 @@ const getAgent = (booking) => {
 };
 
 const hasPaymentCard = (payment) => {
-  return !!payment.card;
+  return !!payment?.card;
 };
 
 const getPaymentCard = (payment) => {
@@ -54,7 +54,7 @@ const getPaymentCard = (payment) => {
 
 const getCardExpiry = (payment) => {
   const paymentCard = getPaymentCard(payment);
-  if (paymentCard) {
+  if (paymentCard && paymentCard?.expiry) {
     return getFormattedDate(paymentCard.expiry, STANDARD_CARD_EXPIRY_FORMAT);
   }
   return UNKNOWN_TEXT;
@@ -62,7 +62,7 @@ const getCardExpiry = (payment) => {
 
 const getCardLastFourDigits = (payment) => {
   const paymentCard = getPaymentCard(payment);
-  if (paymentCard) {
+  if (paymentCard && paymentCard?.number) {
     return paymentCard.number.substr(paymentCard.number.length - 4);
   }
   return UNKNOWN_TEXT;
@@ -76,7 +76,7 @@ const getPaymentAmount = (payment) => {
 };
 
 const hasPayments = (booking) => {
-  return !!booking.payments;
+  return !!booking?.payments;
 };
 
 const getPayments = (booking) => {
@@ -101,7 +101,7 @@ const getTicketNumber = (ticket) => {
 };
 
 const hasTicket = (booking) => {
-  return !!booking.ticket;
+  return !!booking?.ticket;
 };
 
 const getTicket = (booking) => {
