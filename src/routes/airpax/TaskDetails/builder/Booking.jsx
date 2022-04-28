@@ -8,7 +8,7 @@ const toBookingTimeDiference = (booking, version) => {
   const journey = MovementUtil.movementJourney(version);
   const departureTime = MovementUtil.departureTime(journey);
   const dateTimeList = DateTimeUtil.toList(BookingUtil.bookedAt(booking), departureTime);
-  return calculateTimeDifference(dateTimeList).replace('ago', 'before departure');
+  return calculateTimeDifference(dateTimeList).replace('before travel', 'before departure');
 };
 
 const toPayments = (booking) => {
