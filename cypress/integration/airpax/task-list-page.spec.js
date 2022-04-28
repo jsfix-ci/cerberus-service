@@ -24,4 +24,3 @@ describe('Airpax task list page', () => {
     cy.url().should('include', Cypress.env('auth_realm'));
   });
 });
-
