@@ -2,6 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TaskVersions from '../TaskDetails/TaskVersions';
 
+import taskDetailsData from '../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
+
 describe('TaskVersions', () => {
   const mockTaskVersionsWithRuleThreat = [
     {
@@ -78,5 +80,22 @@ describe('TaskVersions', () => {
     render(<TaskVersions taskVersions={mockTaskVersionsWithNoThreat} />);
     expect(screen.getByText('Version 2 (latest)')).toBeInTheDocument();
     expect(screen.getAllByText('No rule matches')).toHaveLength(2);
+  });
+
+  it('should render the booking section from version', () => {
+    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} />);
+    expect(screen.getByText('Booking')).toBeInTheDocument();
+    expect(screen.getByText('Reference')).toBeInTheDocument();
+    expect(screen.getByText('LSV4UV')).toBeInTheDocument();
+    expect(screen.getByText('Number of travellers')).toBeInTheDocument();
+    expect(screen.getByText('Booking type')).toBeInTheDocument();
+    expect(screen.getByText('Booking country')).toBeInTheDocument();
+    expect(screen.getByText('Ticket number')).toBeInTheDocument();
+    expect(screen.getByText('Ticket type')).toBeInTheDocument();
+    expect(screen.getByText('Payments')).toBeInTheDocument();
+    expect(screen.queryAllByText(/Credit card ending X63X, expiry 10\/20/)).toHaveLength(2);
+    expect(screen.getByText('Agent name')).toBeInTheDocument();
+    expect(screen.getByText('Agent IATA')).toBeInTheDocument();
+    expect(screen.getByText('Agent location')).toBeInTheDocument();
   });
 });
