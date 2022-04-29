@@ -107,12 +107,14 @@ const getDepartureStatus = (targetTask, taskDetails = false) => {
     BP: 'purple',
     CI: 'blue',
     DE: 'red',
+    DX: 'red',
   };
   const DEPARTURE_DESCRIPTIONS = {
     DC: 'Departure confirmed',
     BP: 'Booked passenger ',
     CI: 'Checked-in',
     DE: 'Departure exception',
+    DX: 'Departure exception',
   };
   if (departureStatus) {
     return (
