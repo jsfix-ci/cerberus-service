@@ -156,7 +156,7 @@ describe('BookingUtil', () => {
     expect(output).toEqual(UNKNOWN_TEXT);
   });
 
-  it('should return unknown country code is invalid', () => {
+  it('should return unknown when country code is invalid', () => {
     booking.country = 'UN';
     const output = BookingUtil.countryName(booking);
     expect(output).toEqual(UNKNOWN_TEXT);
