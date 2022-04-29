@@ -1,11 +1,10 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import MovementUtils from '../../utils/movementUtil';
 import PersonUtils from '../../utils/personUtil';
 
 const renderField = (displayName, value) => {
   return (
-    <div key={uuidv4()}>
+    <div>
       <ul>
         <li className="govuk-grid-key font__light">
           <span className="govuk-grid-key font__light">{displayName}</span>
@@ -30,7 +29,7 @@ const Passenger = ({ version }) => {
         {renderField('Nationality', `${PersonUtils.countryName(person)} (${PersonUtils.nationality(person)})`)}
         {renderField('Age at travel', PersonUtils.age(person))}
         {renderField('Gender', PersonUtils.gender(person))}
-        {renderField('Departure status', MovementUtils.status(version))}
+        {renderField('Departure status', MovementUtils.status(version, true))}
         {renderField('Frequent flyer number', PersonUtils.frequentFlyerNumber(person))}
         {renderField('SSR codes', PersonUtils.ssrCodes(person))}
       </div>

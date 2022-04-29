@@ -1,6 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MovementUtil should render the departure status if present 1`] = `
+<strong
+  className="hods-tag hods-tag--green airpax-status"
+>
+  DC
+</strong>
+`;
+
+
+exports[`MovementUtil should render the departure status and details if present 1`] = `
 Array [
   <span>
     Departure confirmed
