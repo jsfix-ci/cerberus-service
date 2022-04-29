@@ -19,6 +19,7 @@ Cerberus frontend service for cerberus-api
       - [Setup Environment to run the tests against different environment from local machine](#setup-environment-to-run-the-tests-against-different-environment-from-local-machine)
       - [Running cypress test runner](#running-cypress-test-runner)
       - [Running cypress tests using the command line](#running-cypress-tests-using-the-command-line)
+  - [Branching Strategy](#branching-strategy)
 
 ----
 
@@ -183,3 +184,20 @@ export TEST_ENV= dev / sit / staging
 ```sh
 ./scripts/run_tests.sh
 ```
+
+## Branching Strategy
+
+1. Any story worked on is worked on a feature branch with the prefix of the JIRA ticket number e.g. `COP-1234`.
+2. When each story is completed, a PR is raised, it gets reviewed, and is then merged into the `develop` branch.
+3. Any push to the `develop` branch would then automatically get deployed into the `dev` environment so it can be tested.
+4. Over the course of a sprint, the `develop` branch will have all the tickets intended for an upcoming release merged into it.
+5. At the end of the sprint, the `develop` branch will then be merged into the `main` branch.
+
+    a. At this point, stories for the next sprint can start going into the `develop` branch.
+
+    b. If we have any bug fixes for a release that is currently in testing, a PR can be raised against the `main` branch.
+
+    c. Once the PR for a bug fix has been approved and merged into the `main` branch, the `develop` should be rebased to ensure it also gets the bug fix.
+
+6. Once testing is completed and signed off, the `main` branch will be tagged with the release number.
+7. The release can then be performed from the `main` branch (or the `tag`).
