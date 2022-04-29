@@ -148,7 +148,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-    - release-candidate
+    - develop
     event:
     - push
 
@@ -167,7 +167,7 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-       - release-candidate
+       - develop
     event:
        - push
 
@@ -212,7 +212,7 @@ steps:
       from_secret: DEV_CERBERUS_SERVICE_URL
   when:
     branch:
-    - release-candidate
+    - develop
     event:
     - push
 
@@ -275,7 +275,7 @@ steps:
     TEST_ENV: dev
   when:
     branch:
-       - release-candidate
+       - develop
     event:
        - push
 
@@ -337,7 +337,7 @@ steps:
     TEST_ENV: sit
   when:
     branch:
-      - release-candidate
+      - main
     event:
       - promote
     target:
@@ -402,8 +402,8 @@ steps:
   when:
     event:
       - promote
-    ref:
-      - refs/tags/*
+    branch:
+      - main
     target:
       - staging
 
@@ -448,7 +448,7 @@ steps:
       from_secret: SIT_CERBERUS_SERVICE_URL
   when:
     branch:
-    - release-candidate
+    - main
     event:
     - promote
     target:
@@ -496,8 +496,8 @@ steps:
   when:
     event:
     - promote
-    ref:
-    - refs/tags/*
+    branch:
+    - main
     target:
     - staging
 
@@ -543,8 +543,8 @@ steps:
   when:
     event:
     - promote
-    ref:
-    - refs/tags/*
+    branch:
+    - main
     target:
     - production
 
@@ -561,8 +561,8 @@ steps:
   when:
     event:
     - promote
-    ref:
-    - refs/tags/*
+    branch:
+    - main
     status:
     - success
     - failure
