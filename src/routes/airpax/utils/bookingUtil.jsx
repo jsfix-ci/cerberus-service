@@ -127,10 +127,14 @@ const getBookingCountryCode = (booking) => {
 };
 
 const getBookingCountryName = (booking) => {
-  if (getBookingCountryCode(booking) === UNKNOWN_TEXT) {
+  const countryCode = getBookingCountryCode(booking);
+  if (countryCode === UNKNOWN_TEXT) {
     return UNKNOWN_TEXT;
   }
-  return lookup.byIso(getBookingCountryCode(booking)).country;
+  if (lookup.byIso(countryCode) === null) {
+    return UNKNOWN_TEXT;
+  }
+  return lookup.byIso(countryCode).country;
 };
 
 const toBookingDateText = (booking) => {
