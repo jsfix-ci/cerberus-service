@@ -188,7 +188,7 @@ export TEST_ENV= dev / sit / staging
 ## Branching Strategy
 
 1. Any story worked on is worked on a feature branch with the prefix of the JIRA ticket number e.g. `COP-1234`.
-2. When each story is completed, a PR is raised, it gets reviewed, and is then merged into the `develop` branch.
+2. When each story is completed, a PR is raised, it gets reviewed and once approved, it is then merged into the `develop` branch.
 3. Any push to the `develop` branch would then automatically get deployed into the `dev` environment so it can be tested.
 4. Over the course of a sprint, the `develop` branch will have all the tickets intended for an upcoming release merged into it.
 5. At the end of the sprint, the `develop` branch will then be merged into the `main` branch.
