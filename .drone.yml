@@ -212,7 +212,7 @@ steps:
       from_secret: DEV_CERBERUS_SERVICE_URL
   when:
     branch:
-    - release-candidate
+    - develop
     event:
     - push
 
