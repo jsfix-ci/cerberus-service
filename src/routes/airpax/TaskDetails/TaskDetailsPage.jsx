@@ -15,6 +15,9 @@ import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskVersions from './TaskVersions';
 
+// Styling
+import '../__assets__/TaskDetailsPage.scss';
+
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
@@ -28,7 +31,7 @@ const TaskDetailsPage = () => {
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   const tempData = {
     data: {
-      // paste data from the relevant fixture here for testing this page
+      // paste mock data here
     },
   };
 
