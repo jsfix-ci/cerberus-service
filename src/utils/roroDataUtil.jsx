@@ -142,10 +142,7 @@ const modifyRoRoPassengersTaskList = (roroData) => {
 const modifyCountryCodeIfPresent = (bookingField) => {
   const countryCode = bookingField.contents?.find(({ propName }) => propName === 'country')?.content;
   if (countryCode) {
-    if (countryCode.length > 2) {
-      return bookingField;
-    }
-    if (lookup.byIso(countryCode) === null) {
+    if (countryCode.length > 2 || lookup.byIso(countryCode) === null) {
       return bookingField;
     }
     const countryName = lookup.byIso(countryCode) !== null ? lookup.byIso(countryCode).country : 'Unknown';
