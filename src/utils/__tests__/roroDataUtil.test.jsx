@@ -198,7 +198,7 @@ describe('RoRoData Util', () => {
     expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('United Kingdom (GB)');
   });
 
-  it('Should return Falsy when country code is not provided', () => {
+  it('Should return unknown(invalid country code) when an invalid country code is provided', () => {
     const bookingFieldMinified = {
       fieldSetName: 'Booking and check-in',
       hasChildSet: false,
@@ -206,7 +206,7 @@ describe('RoRoData Util', () => {
         {
           fieldName: 'Country',
           type: 'STRING',
-          content: null,
+          content: 'UN',
           versionLastUpdated: null,
           propName: 'country',
         },
@@ -215,7 +215,27 @@ describe('RoRoData Util', () => {
       propName: 'booking',
     };
     const result = modifyCountryCodeIfPresent(bookingFieldMinified);
-    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBeFalsy();
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('Unknown (UN)');
+  });
+
+  it('Should return the booking object when a country code equal to the string equivalent of unknown', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'unknown',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
   });
 
   it('should return false for absence of a valid passenger when not found', () => {

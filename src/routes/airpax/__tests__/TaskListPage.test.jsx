@@ -7,7 +7,11 @@ import '../../../__mocks__/keycloakMock';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 import TaskListPage from '../TaskLists/TaskListPage';
 // Fixture
-import targetTask from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
+import dataNoAssignee from '../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
+import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
+import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 describe('TaskListPage', () => {
@@ -58,7 +62,7 @@ describe('TaskListPage', () => {
   it('should render a target task on the task list page', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [targetTask])
+      .reply(200, [dataCurrentUser])
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
@@ -87,5 +91,68 @@ describe('TaskListPage', () => {
     expect(screen.getByText(/Valid from Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Expires Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Issued by Unknown/)).toBeInTheDocument();
+  });
+
+  it('should render a claim button if the task status is new & there is no assignee', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataNoAssignee])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    expect(screen.getByText('Claim')).toBeInTheDocument();
+  });
+
+  it('should render an unclaim button & assigned to you if the task status is in progress and the assignee is the current user', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataCurrentUser])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'inProgress')));
+    expect(screen.getByText('Assigned to you')).toBeInTheDocument();
+    expect(screen.getByText('Unclaim task')).toBeInTheDocument();
+  });
+
+  it('should render an unclaim button & assignee email if the task status is in progress and the assignee is not the current user', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataOtherUser])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'inProgress')));
+    expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
+    expect(screen.getByText('Unclaim task')).toBeInTheDocument();
+  });
+
+  it('should not render a claim or unclaim button, or assignee, if the task status is issued', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataTargetIssued])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'issued')));
+    expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
+  });
+
+  it('should not render a claim or unclaim button, or assignee, if the task status is complete', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataTaskComplete])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'complete')));
+    expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
+    expect(screen.queryByText('Claim')).not.toBeInTheDocument();
+    expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
 });
