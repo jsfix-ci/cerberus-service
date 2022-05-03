@@ -1,4 +1,5 @@
 export const LONG_DATE_FORMAT = 'D MMM YYYY [at] HH:mm';
+export const LONG_DAY_DATE_FORMAT = 'ddd D MMM YYYY [at] HH:mm';
 export const SHORT_DATE_FORMAT = 'DD/MM/YYYY';
 export const SHORT_DATE_FORMAT_ALT = 'DD MMM YYYY';
 export const SHORT_DATE_ALT = 'SHORT_DATE_ALT';
@@ -36,3 +37,7 @@ export const UNKNOWN_TEXT = 'Unknown';
 export const DAYJS_PAST = 'ago';
 export const DAYJS_FUTURE = 'before travel';
 export const DAYJS_FUTURE_AIXPAX_REPLACE = 'before departure';
+export const FONT_CLASSES = {
+  0: 'font__bold',
+  1: 'font__light',
+};
