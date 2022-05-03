@@ -11,19 +11,17 @@ import Passenger from './builder/Passenger';
 
 const renderDetailsOverview = (version) => {
   return (
-    <>
-      <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          <Passenger version={version} />
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line">
-          <div className="govuk-task-details-col-2">
-            <Booking version={version} />
-          </div>
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line" />
+    <div className="govuk-task-details-grid">
+      <div className="govuk-grid-column-one-third">
+        <Passenger version={version} />
       </div>
-    </>
+      <div className="govuk-grid-column-one-third vertical-dotted-line">
+        <div className="govuk-task-details-col-2">
+          <Booking version={version} />
+        </div>
+      </div>
+      <div className="govuk-grid-column-one-third vertical-dotted-line" />
+    </div>
   );
 };
 
