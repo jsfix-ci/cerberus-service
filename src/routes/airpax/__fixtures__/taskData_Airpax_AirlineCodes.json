@@ -1,0 +1,34 @@
+[
+  {
+    "id": 35,
+    "name": "British Airways",
+    "twolettercode": "BA",
+    "threelettercode": "BAW",
+    "designator": 125,
+    "alliance": "Oneworld",
+    "aviation": true,
+    "sea": false,
+    "land": false,
+    "rail": false,
+    "parcel": false,
+    "validfrom": "2019-01-01T00:00:00.000Z",
+    "validto": null,
+    "updatedby": null
+  },
+  {
+    "id": 14,
+    "name": "Air France",
+    "twolettercode": "AF",
+    "threelettercode": "AFR",
+    "designator": 57,
+    "alliance": "SkyTeam",
+    "aviation": true,
+    "sea": false,
+    "land": false,
+    "rail": false,
+    "parcel": false,
+    "validfrom": "2019-01-01T00:00:00.000Z",
+    "validto": null,
+    "updatedby": null
+  }
+]
