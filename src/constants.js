@@ -1,4 +1,5 @@
 export const LONG_DATE_FORMAT = 'D MMM YYYY [at] HH:mm';
+export const LONG_DAY_DATE_FORMAT = 'ddd D MMM YYYY [at] HH:mm';
 export const SHORT_DATE_FORMAT = 'DD/MM/YYYY';
 export const SHORT_DATE_FORMAT_ALT = 'DD MMM YYYY';
 export const SHORT_DATE_ALT = 'SHORT_DATE_ALT';
@@ -32,3 +33,7 @@ export const MOVEMENT_DESCRIPTION_GROUP = 'group';
 export const MOVEMENT_MODE_AIR_PASSENGER = 'AIR_PASSENGER';
 export const MOVEMENT_MODE_AIR_CREW = '_TBC_';
 export const UNKNOWN_TEXT = 'Unknown';
+export const FONT_CLASSES = {
+  0: 'font__bold',
+  1: 'font__light',
+};

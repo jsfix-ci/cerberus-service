@@ -1,4 +1,5 @@
 import React from 'react';
+import airports from '@nitro-land/airport-codes';
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
 import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
@@ -6,6 +7,10 @@ import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEME
 
 import { getFormattedDate } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
+
+const getByIataCode = (iataCode) => {
+  return airports.findWhere({ iata: iataCode });
+};
 
 const getRoute = (journey) => {
   return journey?.route;
@@ -58,18 +63,26 @@ const getArrivalTime = (journey) => {
   return journey?.arrival?.time;
 };
 
-const toFormattedDepartureDateTime = (journey) => {
+const toFormattedDepartureDateTime = (journey, dateFormat = LONG_DATE_FORMAT) => {
   if (!journey?.departure?.time) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(journey.departure.time, LONG_DATE_FORMAT);
+  return getFormattedDate(journey.departure.time, dateFormat);
 };
 
-const toFormattedArrivalDateTime = (journey) => {
+const toFormattedArrivalDateTime = (journey, dateFormat = LONG_DATE_FORMAT) => {
   if (!journey?.arrival?.time) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(journey.arrival.time, LONG_DATE_FORMAT);
+  return getFormattedDate(journey.arrival.time, dateFormat);
+};
+
+const toFormattedLocation = (location) => {
+  if (!location) {
+    return UNKNOWN_TEXT;
+  }
+  const airport = getByIataCode(location);
+  return `${airport ? airport.get('city') : UNKNOWN_TEXT}, ${airport ? airport.get('country') : UNKNOWN_TEXT}`;
 };
 
 const getDepartureLocation = (journey) => {
@@ -167,7 +180,8 @@ const MovementUtil = {
   status: getDepartureStatus,
   movementType: getMovementTypeText,
   description: toDescriptionText,
-  airlineName: toAirlineName,
+  airlineName: toAirlineName, // HAS TEST ALREADY
+  formatLoc: toFormattedLocation,
 };
 
 export default MovementUtil;
@@ -190,4 +204,5 @@ export {
   getMovementTypeText,
   toDescriptionText,
   toAirlineName,
+  toFormattedLocation,
 };
