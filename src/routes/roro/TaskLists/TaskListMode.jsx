@@ -110,11 +110,11 @@ const renderRoroVoyageSection = (roroData) => {
       <i className="c-icon-ship" />
       <p className="content-line-one govuk-!-padding-right-2">{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
-        {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).local().format(constants.LONG_DATE_FORMAT)}{' '}
+        {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(constants.LONG_DATE_FORMAT)}{' '}
         <span className="dot" />
         <span className="govuk-!-font-weight-bold"> {roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
         <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> <span className="dot" /> {!roroData.eta ? 'unknown'
-          : dayjs.utc(roroData.eta).local().format(constants.LONG_DATE_FORMAT)}
+          : dayjs.utc(roroData.eta).format(constants.LONG_DATE_FORMAT)}
       </p>
     </div>
   );
@@ -154,7 +154,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
           {roroData.bookingDateTime ? (
             <>
-              {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).local().format(constants.SHORT_DATE_FORMAT)}</li>}
+              {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
               {roroData.bookingDateTime && <br />}
               {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
             </>
@@ -247,7 +247,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                 {roroData.bookingDateTime ? (
                   <>
-                    {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).local().format(constants.SHORT_DATE_FORMAT)}</li>}
+                    {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
                     {roroData.bookingDateTime && <br />}
                     {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
                   </>
@@ -363,7 +363,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   {roroData.account ? (
                     <>
                       {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).local().format(constants.SHORT_DATE_FORMAT)}</li>}
+                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
                       {roroData.bookingDateTime && <br />}
                       {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
                     </>
@@ -482,7 +482,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   {roroData.account ? (
                     <>
                       {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).local().format(constants.SHORT_DATE_FORMAT)}</li>}
+                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
                       {roroData.bookingDateTime && <br />}
                       {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
                     </>
