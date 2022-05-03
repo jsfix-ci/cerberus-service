@@ -215,7 +215,7 @@ describe('RoRoData Util', () => {
       propName: 'booking',
     };
     const result = modifyCountryCodeIfPresent(bookingFieldMinified);
-    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('Unknown (UN)');
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('UN');
   });
 
   it('Should return the booking object when a country code equal to the string equivalent of unknown', () => {
@@ -231,6 +231,38 @@ describe('RoRoData Util', () => {
           propName: 'country',
         },
       ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code is null', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: null,
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code data node is missing', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [],
       type: 'null',
       propName: 'booking',
     };
