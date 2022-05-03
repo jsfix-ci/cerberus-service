@@ -144,7 +144,7 @@ const modifyCountryCodeIfPresent = (bookingField) => {
   if (!countryCode && !lookup.byIso(countryCode)?.country) {
     return bookingField;
   }
-  const countryName = countryCode && lookup.byIso(countryCode) !== null ? lookup.byIso(countryCode).country : 'Unknown';
+  const countryName = (countryCode && lookup.byIso(countryCode) !== null) ? lookup.byIso(countryCode).country : 'Unknown';
   bookingField.contents.find(({ propName }) => propName === 'country').content = `${countryName} (${countryCode})`;
   return bookingField;
 };
