@@ -218,26 +218,6 @@ describe('RoRoData Util', () => {
     expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('Unknown (UN)');
   });
 
-  it('Should return Falsy when country code is not provided', () => {
-    const bookingFieldMinified = {
-      fieldSetName: 'Booking and check-in',
-      hasChildSet: false,
-      contents: [
-        {
-          fieldName: 'Country',
-          type: 'STRING',
-          content: null,
-          versionLastUpdated: null,
-          propName: 'country',
-        },
-      ],
-      type: 'null',
-      propName: 'booking',
-    };
-    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
-    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBeFalsy();
-  });
-
   it('should return false for absence of a valid passenger when not found', () => {
     const given = {
       fieldSetName: 'Passengers',
