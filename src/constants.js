@@ -37,3 +37,4 @@ export const FONT_CLASSES = {
   0: 'font__bold',
   1: 'font__light',
 };
+export const UNKNOWN_TIME_DATA = { h: null, m: null, s: null };

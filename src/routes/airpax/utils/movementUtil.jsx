@@ -5,8 +5,27 @@ import { Tag } from '@ukhomeoffice/cop-react-components';
 import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
   MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW } from '../../../constants';
 
-import { getFormattedDate } from './datetimeUtil';
+import { getFormattedDate, toTimeObject } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
+
+const getJourneyDuration = (journey) => {
+  if (!journey?.duration) {
+    return UNKNOWN_TEXT;
+  }
+  return journey.duration;
+};
+
+const getFlightTime = (journey) => {
+  const duration = getJourneyDuration(journey);
+  if (duration === UNKNOWN_TEXT) {
+    return UNKNOWN_TEXT;
+  }
+  const time = toTimeObject(duration);
+  if (!time.h && !time.m) {
+    return UNKNOWN_TEXT;
+  }
+  return `${time.h}h ${time.m}m`;
+};
 
 const getByIataCode = (iataCode) => {
   return airports.findWhere({ iata: iataCode });
@@ -180,8 +199,10 @@ const MovementUtil = {
   status: getDepartureStatus,
   movementType: getMovementTypeText,
   description: toDescriptionText,
-  airlineName: toAirlineName, // HAS TEST ALREADY
+  airlineName: toAirlineName,
   formatLoc: toFormattedLocation,
+  flightDuration: getJourneyDuration,
+  formatFlightTime: getFlightTime,
 };
 
 export default MovementUtil;
@@ -205,4 +226,6 @@ export {
   toDescriptionText,
   toAirlineName,
   toFormattedLocation,
+  getJourneyDuration,
+  getFlightTime,
 };
