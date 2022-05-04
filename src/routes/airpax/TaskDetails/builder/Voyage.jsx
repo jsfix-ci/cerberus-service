@@ -15,9 +15,8 @@ const Voyage = ({ version, airlineCodes }) => {
         {renderBlock('Departure time', [MovementUtil.formatDepartureTime(journey, LONG_DAY_DATE_FORMAT)])}
         {renderBlock('Arrival at', [MovementUtil.arrivalLoc(journey), MovementUtil.formatLoc(MovementUtil.arrivalLoc(journey))])}
         {renderBlock('Arrival time', [MovementUtil.formatArrivalTime(journey, LONG_DAY_DATE_FORMAT)])}
-        {renderBlock('Distance', ['DUB'])}
-        {renderBlock('Scheduled flight time', ['DUB', 'Dublin, Ireland'])}
-        {renderBlock('Flight code', ['DUB'])}
+        {renderBlock('Scheduled flight time', [MovementUtil.formatFlightTime(journey)])}
+        {renderBlock('Flight code', [MovementUtil.flightNumber(flight)])}
         {renderBlock('Operator', [MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)])}
       </div>
     </div>

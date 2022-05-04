@@ -6,7 +6,8 @@ import { modifyRoRoPassengersTaskList,
   extractTaskVersionsBookingField,
   modifyCountryCodeIfPresent,
   isSinglePassenger,
-  filterKnownPassengers } from '../roroDataUtil';
+  filterKnownPassengers,
+  isNotNumber } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -598,5 +599,54 @@ describe('RoRoData Util', () => {
 
     const outcome = isSinglePassenger(passengers);
     expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number', () => {
+    const given = 10;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate true if given is a number and is 0', () => {
+    const given = 0;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate false if given is a number, in a string representation', () => {
+    const given = '10';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate true if given is null and not a number', () => {
+    const given = null;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is undefined and not a number', () => {
+    const given = undefined;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is an empty string and not a number', () => {
+    const given = '';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is a string of mixed chracters and not a number', () => {
+    const given = 'XY1_C!';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
   });
 });
