@@ -31,7 +31,7 @@ const TaskDetailsPage = () => {
   const [isLoading, setLoading] = useState(true);
 
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  const tempData = {
+  let tempData = {
     data: {
       // paste mock data here
     },

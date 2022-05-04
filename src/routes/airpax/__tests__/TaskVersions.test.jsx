@@ -84,7 +84,7 @@ describe('TaskVersions', () => {
   });
 
   it('should render the booking section from version', () => {
-    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} />);
+    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
     expect(screen.getByText('Booking')).toBeInTheDocument();
     expect(screen.getByText('Reference')).toBeInTheDocument();
     expect(screen.getByText('LSV4UV')).toBeInTheDocument();

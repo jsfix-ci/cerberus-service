@@ -25,6 +25,12 @@ describe('Task details page', () => {
   });
 
   it('should render TaskDetailsPage component with a loading state', () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: [] });
+
     render(<TaskDetailsPage />);
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
