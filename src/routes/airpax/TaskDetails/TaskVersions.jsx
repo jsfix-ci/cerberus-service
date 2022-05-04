@@ -41,7 +41,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(version.createdAt).local().format(LONG_DATE_FORMAT)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(version.createdAt).format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
