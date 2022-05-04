@@ -186,7 +186,7 @@ const toPaymentsBlock = (booking) => {
       return (
         <div key={index} className="thin-border govuk-!-margin-top-1">
           <div className="font__bold">{getPaymentAmount(payment)}</div>
-          <div className="font__regular">
+          <div className="font__light">
             Credit card ending {getCardLastFourDigits(payment)}, expiry {getCardExpiry(payment)}
           </div>
         </div>

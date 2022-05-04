@@ -134,7 +134,7 @@ exports[`Booking should render the booking component 1`] = `
       2190.48
     </div>
     <div
-      className="font__regular"
+      className="font__light"
     >
       Credit card ending 
       X63X
@@ -151,7 +151,7 @@ exports[`Booking should render the booking component 1`] = `
       2190.48
     </div>
     <div
-      className="font__regular"
+      className="font__light"
     >
       Credit card ending 
       X63X
