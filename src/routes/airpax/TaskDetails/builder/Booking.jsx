@@ -47,7 +47,7 @@ const Booking = ({ version }) => {
         {renderBlock('Booking country', [
           `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(
             booking,
-          )}`,
+          )})`,
         ])}
         {renderBlock('Booking type', [BookingUtil.bookingType(booking)])}
         {renderBlock('Ticket number', [BookingUtil.ticketNumber(ticket)])}
