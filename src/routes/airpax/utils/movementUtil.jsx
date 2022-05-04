@@ -100,7 +100,7 @@ const getAirlineOperator = (flight) => {
   return flight.operator;
 };
 
-const getDepartureStatus = (targetTask) => {
+const getDepartureStatus = (targetTask, taskDetails = false) => {
   const departureStatus = targetTask?.movement?.flight?.departureStatus;
   const DEPARTURE_CLASSES = {
     DC: 'green',
@@ -108,9 +108,20 @@ const getDepartureStatus = (targetTask) => {
     CI: 'blue',
     DX: 'red',
   };
+  const DEPARTURE_DESCRIPTIONS = {
+    DC: 'Departure confirmed',
+    BP: 'Booked passenger ',
+    CI: 'Checked-in',
+    DX: 'Departure exception',
+  };
   if (departureStatus) {
     return (
-      <Tag className="airpax-status" classModifiers={DEPARTURE_CLASSES[departureStatus]}>{departureStatus}</Tag>
+      <>
+        {taskDetails && <span>{DEPARTURE_DESCRIPTIONS[departureStatus] || UNKNOWN_TEXT} </span>}
+        <Tag className="airpax-status" classModifiers={DEPARTURE_CLASSES[departureStatus]}>
+          {departureStatus}
+        </Tag>
+      </>
     );
   }
 };

@@ -150,6 +150,11 @@ describe('MovementUtil', () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it('should render the departure status and details if present', () => {
+    const tree = renderer.create(MovementUtil.status(targetTaskMin, true)).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
   it('should return the movement type if present', () => {
     const output = MovementUtil.movementType(targetTaskMin);
     expect(output).toEqual('Passenger');

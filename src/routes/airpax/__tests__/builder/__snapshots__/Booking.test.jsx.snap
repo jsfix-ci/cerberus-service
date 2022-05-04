@@ -62,7 +62,7 @@ exports[`Booking should render the booking component 1`] = `
       <li
         className="govuk-grid-value font__bold"
       >
-        Unknown (Unknown
+        Unknown (Unknown)
       </li>
     </ul>
     <ul>
