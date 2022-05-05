@@ -3,10 +3,31 @@ import airports from '@nitro-land/airport-codes';
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
 import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
-  MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW } from '../../../constants';
+  MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW, UNKNOWN_TIME_DATA } from '../../../constants';
 
-import { getFormattedDate, toTimeObject } from './datetimeUtil';
+import { getFormattedDate } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
+
+import { isNotNumber } from '../../../utils/roroDataUtil';
+
+const getFlightTimeObject = (milliseconds) => {
+  if (!milliseconds && milliseconds !== 0) {
+    return UNKNOWN_TIME_DATA;
+  }
+
+  if (isNotNumber(milliseconds)) {
+    return UNKNOWN_TIME_DATA;
+  }
+
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+
+  seconds %= 60;
+  minutes %= 60;
+
+  return { h: hours, m: minutes, s: seconds };
+};
 
 const getJourneyDuration = (journey) => {
   if (!journey?.duration) {
@@ -15,12 +36,12 @@ const getJourneyDuration = (journey) => {
   return journey.duration;
 };
 
-const getFlightTime = (journey) => {
+const toFormattedFlightTime = (journey) => {
   const duration = getJourneyDuration(journey);
   if (duration === UNKNOWN_TEXT) {
     return UNKNOWN_TEXT;
   }
-  const time = toTimeObject(duration);
+  const time = getFlightTimeObject(duration);
   if (!time.h && !time.m) {
     return UNKNOWN_TEXT;
   }
@@ -101,7 +122,7 @@ const toFormattedLocation = (location) => {
     return UNKNOWN_TEXT;
   }
   const airport = getByIataCode(location);
-  return `${airport ? airport.get('city') : UNKNOWN_TEXT}, ${airport ? airport.get('country') : UNKNOWN_TEXT}`;
+  return airport ? `${airport.get('city')}, ${airport.get('country')}` : UNKNOWN_TEXT;
 };
 
 const getDepartureLocation = (journey) => {
@@ -213,7 +234,8 @@ const MovementUtil = {
   airlineName: toAirlineName,
   formatLoc: toFormattedLocation,
   flightDuration: getJourneyDuration,
-  formatFlightTime: getFlightTime,
+  flightTimeObject: getFlightTimeObject,
+  formatFlightTime: toFormattedFlightTime,
 };
 
 export default MovementUtil;
@@ -238,5 +260,6 @@ export {
   toAirlineName,
   toFormattedLocation,
   getJourneyDuration,
-  getFlightTime,
+  toFormattedFlightTime,
+  getFlightTimeObject,
 };

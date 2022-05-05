@@ -608,11 +608,11 @@ describe('RoRoData Util', () => {
     expect(outcome).toBeFalsy();
   });
 
-  it('should validate true if given is a number and is 0', () => {
+  it('should validate false if given is a number and is 0', () => {
     const given = 0;
 
     const outcome = isNotNumber(given);
-    expect(outcome).toBeTruthy();
+    expect(outcome).toBeFalsy();
   });
 
   it('should validate false if given is a number, in a string representation', () => {

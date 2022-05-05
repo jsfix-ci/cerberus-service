@@ -1,10 +1,10 @@
 import lookup from 'country-code-lookup';
 
 const isNotNumber = (number) => {
-  if (!number) {
+  if (!number && number !== 0) {
     return true;
   }
-  return Number.isNaN(Math.floor(number));
+  return isNaN(number);
 };
 
 const hasCarrierCounts = (suppliedPassengerCounts) => {

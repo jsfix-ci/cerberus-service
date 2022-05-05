@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
 
 import { MovementUtil } from '../../utils';
-import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../../constants';
+import { LONDON_TIMEZONE, UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../../../../constants';
 
 import config from '../../../../config';
 
@@ -238,7 +238,7 @@ describe('MovementUtil', () => {
   it('should return unknown when departure location code is invalid string', () => {
     targetTaskMin.movement.journey.departure.location = 'unknown';
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
-    expect(outcome).toEqual(`${UNKNOWN_TEXT}, ${UNKNOWN_TEXT}`);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return a formatted string from the arrival location code when location is present', () => {
@@ -267,7 +267,7 @@ describe('MovementUtil', () => {
   it('should return unknown when arrival location code is invalid string', () => {
     targetTaskMin.movement.journey.arrival.location = 'unknown';
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
-    expect(outcome).toEqual(`${UNKNOWN_TEXT}, ${UNKNOWN_TEXT}`);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return the flight duration when present', () => {
@@ -320,5 +320,49 @@ describe('MovementUtil', () => {
     targetTaskMin.movement.journey.duration = 'A';
     const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
     expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should convert the given time in milliseconds to a time object', () => {
+    const given = '10000000';
+
+    const expected = { h: 2, m: 46, s: 40 };
+
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return a time object when given is 0', () => {
+    const expected = { h: 0, m: 0, s: 0 };
+    const output = MovementUtil.flightTimeObject(0);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return a time object when given is string representation of 0', () => {
+    const expected = { h: 0, m: 0, s: 0 };
+    const output = MovementUtil.flightTimeObject('0');
+    expect(output).toEqual(expected);
+  });
+
+  it('should return a time object with unknown h. m & s when given is null', () => {
+    const given = null;
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return a time object with unknown h. m & s when given is undefined', () => {
+    const given = undefined;
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return a time object with unknown h. m & s when given is empty', () => {
+    const output = MovementUtil.flightTimeObject('');
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return a time object with unknown h. m & s when given is a mixture of numbers & characters', () => {
+    const given = '3600-00000A';
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
   });
 });
