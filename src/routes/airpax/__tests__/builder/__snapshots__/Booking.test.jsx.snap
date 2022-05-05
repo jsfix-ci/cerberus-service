@@ -12,95 +12,109 @@ exports[`Booking should render the booking component 1`] = `
   <div
     className="govuk-task-details-grid-column"
   >
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Reference
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         LSV4UV
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Number of travellers
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         4
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Booking date
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Invalid Date
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Unknown
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Booking country
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Unknown (Unknown)
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Booking type
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Unknown
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Ticket number
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Unknown
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Ticket type
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Unknown
-      </li>
-    </ul>
+      </p>
+    </div>
   </div>
   <div
     className="thin-border"
@@ -120,7 +134,7 @@ exports[`Booking should render the booking component 1`] = `
       2190.48
     </div>
     <div
-      className="font__regular"
+      className="font__light"
     >
       Credit card ending 
       X63X
@@ -137,7 +151,7 @@ exports[`Booking should render the booking component 1`] = `
       2190.48
     </div>
     <div
-      className="font__regular"
+      className="font__light"
     >
       Credit card ending 
       X63X
@@ -148,30 +162,34 @@ exports[`Booking should render the booking component 1`] = `
   <div
     className="govuk-task-details-grid-column govuk-!-margin-top-3"
   >
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Agent IATA
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Unknown
-      </li>
-    </ul>
-    <ul>
-      <li
-        className="govuk-grid-key font__light"
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
       >
         Agent location
-      </li>
-      <li
-        className="govuk-grid-value font__bold"
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
       >
         Unknown
-      </li>
-    </ul>
+      </p>
+    </div>
   </div>
 </div>
 `;

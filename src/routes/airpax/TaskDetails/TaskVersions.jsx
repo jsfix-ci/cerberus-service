@@ -8,8 +8,9 @@ import { LONG_DATE_FORMAT } from '../../../constants';
 import Accordion from '../../../govuk/Accordion';
 import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
+import Voyage from './builder/Voyage';
 
-const renderDetailsOverview = (version) => {
+const renderDetailsOverview = (version, airlineCodes) => {
   return (
     <div className="govuk-task-details-grid">
       <div className="govuk-grid-column-one-third">
@@ -20,12 +21,16 @@ const renderDetailsOverview = (version) => {
           <Booking version={version} />
         </div>
       </div>
-      <div className="govuk-grid-column-one-third vertical-dotted-line" />
+      <div className="govuk-grid-column-one-third vertical-dotted-line">
+        <div className="govuk-task-details-col-3">
+          <Voyage version={version} airlineCodes={airlineCodes} />
+        </div>
+      </div>
     </div>
   );
 };
 
-const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
+const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts, airlineCodes }) => {
   dayjs.extend(utc);
   return (
     <Accordion
@@ -34,7 +39,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
       items={
         taskVersions.map((version, index) => {
           const threatLevel = version.risks.highestThreatLevel;
-          const sections = renderDetailsOverview(version);
+          const sections = renderDetailsOverview(version, airlineCodes);
           return {
             expanded: index === 0,
             heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,

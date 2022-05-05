@@ -1,13 +1,62 @@
 import renderer from 'react-test-renderer';
 
 import { MovementUtil } from '../../utils';
-import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../../constants';
+import { LONDON_TIMEZONE, UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../../../../constants';
 
 import config from '../../../../config';
 
 describe('MovementUtil', () => {
+  let targetTaskMin;
   beforeEach(() => {
     config.dayjsConfig.timezone = LONDON_TIMEZONE;
+
+    targetTaskMin = {
+      movement: {
+        id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
+        status: 'PRE_ARRIVAL',
+        mode: 'AIR_PASSENGER',
+        description: 'individual',
+        journey: {
+          id: 'BA103',
+          arrival: {
+            country: null,
+            location: 'LHR',
+            time: null,
+          },
+          departure: {
+            country: null,
+            location: 'FRA',
+            time: '2020-08-07T17:15:00Z',
+          },
+          route: [
+            'FRA',
+            'LHR',
+          ],
+          itinerary: [
+            {
+              id: 'BA103',
+              arrival: {
+                country: null,
+                location: 'LHR',
+                time: null,
+              },
+              departure: {
+                country: null,
+                location: 'FRA',
+                time: '2020-08-07T17:15:00Z',
+              },
+            },
+          ],
+          duration: 10000000,
+        },
+        flight: {
+          departureStatus: 'DC',
+          number: 'BA103',
+          operator: 'BA',
+          seatNumber: null,
+        },
+      },
+    };
   });
 
   const airlineCodesMin = [
@@ -24,53 +73,6 @@ describe('MovementUtil', () => {
       'twolettercode': 'QF',
     },
   ];
-
-  const targetTaskMin = {
-    movement: {
-      id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
-      status: 'PRE_ARRIVAL',
-      mode: 'AIR_PASSENGER',
-      description: 'individual',
-      journey: {
-        id: 'BA103',
-        arrival: {
-          country: null,
-          location: 'LHR',
-          time: null,
-        },
-        departure: {
-          country: null,
-          location: 'FRA',
-          time: '2020-08-07T17:15:00Z',
-        },
-        route: [
-          'FRA',
-          'LHR',
-        ],
-        itinerary: [
-          {
-            id: 'BA103',
-            arrival: {
-              country: null,
-              location: 'LHR',
-              time: null,
-            },
-            departure: {
-              country: null,
-              location: 'FRA',
-              time: '2020-08-07T17:15:00Z',
-            },
-          },
-        ],
-      },
-      flight: {
-        departureStatus: 'DC',
-        number: 'BA103',
-        operator: 'BA',
-        seatNumber: null,
-      },
-    },
-  };
 
   it('should return the route if present', () => {
     const output = MovementUtil.movementRoute(targetTaskMin.movement.journey);
@@ -208,5 +210,159 @@ describe('MovementUtil', () => {
     expect(GIVEN_BA).toEqual('British Airways');
     expect(GIVEN_AF).toEqual('Air France');
     expect(GIVEN_QF).toEqual('Qantas');
+  });
+
+  it('should return a formatted string from the departure location code when location is present', () => {
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
+    expect(outcome).toEqual('Frankfurt, Germany');
+  });
+
+  it('should return unknown when departure location code is null', () => {
+    targetTaskMin.movement.journey.departure.location = null;
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure location code is undefined', () => {
+    targetTaskMin.movement.journey.departure.location = undefined;
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure location code is empty', () => {
+    targetTaskMin.movement.journey.departure.location = '';
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure location code is invalid string', () => {
+    targetTaskMin.movement.journey.departure.location = 'unknown';
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return a formatted string from the arrival location code when location is present', () => {
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
+    expect(outcome).toEqual('London, United Kingdom');
+  });
+
+  it('should return unknown when arrival location code is null', () => {
+    targetTaskMin.movement.journey.arrival.location = null;
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when arrival location code is undefined', () => {
+    targetTaskMin.movement.journey.arrival.location = undefined;
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when arrival location code is empty', () => {
+    targetTaskMin.movement.journey.arrival.location = '';
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when arrival location code is invalid string', () => {
+    targetTaskMin.movement.journey.arrival.location = 'unknown';
+    const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the flight duration when present', () => {
+    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(targetTaskMin.movement.journey.duration);
+  });
+
+  it('should return unknown when flight duration when duration is null', () => {
+    targetTaskMin.movement.journey.duration = null;
+    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when flight duration when duration is undefined', () => {
+    targetTaskMin.movement.journey.duration = undefined;
+    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when flight duration when duration is empty', () => {
+    targetTaskMin.movement.journey.duration = '';
+    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the flight time flight duration is present', () => {
+    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
+    expect(outcome).toEqual('2h 46m');
+  });
+
+  it('should return unknown when flight duration is null', () => {
+    targetTaskMin.movement.journey.duration = null;
+    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when flight duration is undefined', () => {
+    targetTaskMin.movement.journey.duration = undefined;
+    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when flight duration is empty', () => {
+    targetTaskMin.movement.journey.duration = '';
+    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when flight duration is invalid', () => {
+    targetTaskMin.movement.journey.duration = 'A';
+    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
+    expect(outcome).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should convert the given time in milliseconds to a time object', () => {
+    const given = '10000000';
+
+    const expected = { h: 2, m: 46, s: 40 };
+
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return a time object when given is 0', () => {
+    const expected = { h: 0, m: 0, s: 0 };
+    const output = MovementUtil.flightTimeObject(0);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return a time object when given is string representation of 0', () => {
+    const expected = { h: 0, m: 0, s: 0 };
+    const output = MovementUtil.flightTimeObject('0');
+    expect(output).toEqual(expected);
+  });
+
+  it('should return a time object with unknown h. m & s when given is null', () => {
+    const given = null;
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return a time object with unknown h. m & s when given is undefined', () => {
+    const given = undefined;
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return a time object with unknown h. m & s when given is empty', () => {
+    const output = MovementUtil.flightTimeObject('');
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return a time object with unknown h. m & s when given is a mixture of numbers & characters', () => {
+    const given = '3600-00000A';
+    const output = MovementUtil.flightTimeObject(given);
+    expect(output).toEqual(UNKNOWN_TIME_DATA);
   });
 });

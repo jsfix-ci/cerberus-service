@@ -1,5 +1,12 @@
 import lookup from 'country-code-lookup';
 
+const isNotNumber = (number) => {
+  if (!number && number !== 0) {
+    return true;
+  }
+  return isNaN(number);
+};
+
 const hasCarrierCounts = (suppliedPassengerCounts) => {
   const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
   let hayStack = [];
@@ -218,4 +225,5 @@ export { modifyRoRoPassengersTaskList,
   hasCarrierCounts,
   modifyCountryCodeIfPresent,
   isSinglePassenger,
-  filterKnownPassengers };
+  filterKnownPassengers,
+  isNotNumber };

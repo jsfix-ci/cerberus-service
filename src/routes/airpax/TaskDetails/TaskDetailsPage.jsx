@@ -22,14 +22,16 @@ const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
   const currentUser = keycloak.tokenParsed.email;
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
+  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  const tempData = {
+  let tempData = {
     data: {
       // paste mock data here
     },
@@ -53,6 +55,20 @@ const TaskDetailsPage = () => {
     }
   };
 
+  const getAirlineCodes = async () => {
+    let response;
+    try {
+      response = await refDataClient.get('/v2/entities/carrierlist', {
+        params: {
+          mode: 'dataOnly',
+        },
+      });
+      setRefDataAirlineCodes(response.data.data);
+    } catch (e) {
+      setRefDataAirlineCodes([]);
+    }
+  };
+
   useEffect(() => {
     if (taskData) {
       setAssignee(taskData.assignee);
@@ -63,6 +79,7 @@ const TaskDetailsPage = () => {
 
   useEffect(() => {
     getTaskData(businessKey);
+    getAirlineCodes();
   }, [businessKey]);
 
   // TEMP NOTES FORM FOR TESTING
@@ -103,6 +120,7 @@ const TaskDetailsPage = () => {
               taskVersions={taskData.versions}
               businessKey={businessKey}
               taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
+              airlineCodes={refDataAirlineCodes}
             />
           )}
         </div>

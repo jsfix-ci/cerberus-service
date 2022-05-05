@@ -1,13 +1,16 @@
 import React from 'react';
+import { FONT_CLASSES } from '../../../../../constants';
 
 const renderBlock = (header, items) => {
   return (
-    <ul>
-      <li className="govuk-grid-key font__light">{header}</li>
-      {items && items.map((item, index) => (
-        <li key={index} className="govuk-grid-value font__bold">{item}</li>
-      ))}
-    </ul>
+    <div className="govuk-!-margin-bottom-2">
+      <p className="govuk-!-margin-bottom-0 font__light">{header}</p>
+      {items && items.map((item, index) => {
+        return (
+          <p key={index} className={`govuk-!-margin-bottom-0 ${FONT_CLASSES[index % 2]}`}>{item}</p>
+        );
+      })}
+    </div>
   );
 };
 

@@ -1,11 +1,56 @@
 import React from 'react';
+import airports from '@nitro-land/airport-codes';
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
 import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
-  MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW } from '../../../constants';
+  MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW, UNKNOWN_TIME_DATA } from '../../../constants';
 
 import { getFormattedDate } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
+
+import { isNotNumber } from '../../../utils/roroDataUtil';
+
+const getFlightTimeObject = (milliseconds) => {
+  if (!milliseconds && milliseconds !== 0) {
+    return UNKNOWN_TIME_DATA;
+  }
+
+  if (isNotNumber(milliseconds)) {
+    return UNKNOWN_TIME_DATA;
+  }
+
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+
+  seconds %= 60;
+  minutes %= 60;
+
+  return { h: hours, m: minutes, s: seconds };
+};
+
+const getJourneyDuration = (journey) => {
+  if (!journey?.duration) {
+    return UNKNOWN_TEXT;
+  }
+  return journey.duration;
+};
+
+const toFormattedFlightTime = (journey) => {
+  const duration = getJourneyDuration(journey);
+  if (duration === UNKNOWN_TEXT) {
+    return UNKNOWN_TEXT;
+  }
+  const time = getFlightTimeObject(duration);
+  if (!time.h && !time.m) {
+    return UNKNOWN_TEXT;
+  }
+  return `${time.h}h ${time.m}m`;
+};
+
+const getByIataCode = (iataCode) => {
+  return airports.findWhere({ iata: iataCode });
+};
 
 const getRoute = (journey) => {
   return journey?.route;
@@ -58,18 +103,26 @@ const getArrivalTime = (journey) => {
   return journey?.arrival?.time;
 };
 
-const toFormattedDepartureDateTime = (journey) => {
+const toFormattedDepartureDateTime = (journey, dateFormat = LONG_DATE_FORMAT) => {
   if (!journey?.departure?.time) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(journey.departure.time, LONG_DATE_FORMAT);
+  return getFormattedDate(journey.departure.time, dateFormat);
 };
 
-const toFormattedArrivalDateTime = (journey) => {
+const toFormattedArrivalDateTime = (journey, dateFormat = LONG_DATE_FORMAT) => {
   if (!journey?.arrival?.time) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(journey.arrival.time, LONG_DATE_FORMAT);
+  return getFormattedDate(journey.arrival.time, dateFormat);
+};
+
+const toFormattedLocation = (location) => {
+  if (!location) {
+    return UNKNOWN_TEXT;
+  }
+  const airport = getByIataCode(location);
+  return airport ? `${airport.get('city')}, ${airport.get('country')}` : UNKNOWN_TEXT;
 };
 
 const getDepartureLocation = (journey) => {
@@ -179,6 +232,10 @@ const MovementUtil = {
   movementType: getMovementTypeText,
   description: toDescriptionText,
   airlineName: toAirlineName,
+  formatLoc: toFormattedLocation,
+  flightDuration: getJourneyDuration,
+  flightTimeObject: getFlightTimeObject,
+  formatFlightTime: toFormattedFlightTime,
 };
 
 export default MovementUtil;
@@ -201,4 +258,8 @@ export {
   getMovementTypeText,
   toDescriptionText,
   toAirlineName,
+  toFormattedLocation,
+  getJourneyDuration,
+  toFormattedFlightTime,
+  getFlightTimeObject,
 };

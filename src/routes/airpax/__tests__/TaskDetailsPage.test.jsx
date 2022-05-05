@@ -9,6 +9,7 @@ import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fix
 import dataNoAssignee from '../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
 import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
 import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
+import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -24,6 +25,12 @@ describe('Task details page', () => {
   });
 
   it('should render TaskDetailsPage component with a loading state', () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: [] });
+
     render(<TaskDetailsPage />);
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
@@ -31,7 +38,9 @@ describe('Task details page', () => {
   it('should display the business key', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataNoAssignee);
+      .reply(200, dataNoAssignee)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Overview')).toBeInTheDocument();
@@ -41,7 +50,9 @@ describe('Task details page', () => {
   it('should display the activity log', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataNoAssignee);
+      .reply(200, dataNoAssignee)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Overview')).toBeInTheDocument();
@@ -51,7 +62,9 @@ describe('Task details page', () => {
   it('should not render notes form when task not assigned', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataNoAssignee);
+      .reply(200, dataNoAssignee)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Overview')).toBeInTheDocument();
@@ -61,7 +74,9 @@ describe('Task details page', () => {
   it('should not render notes form when task is assigned to someone other than the current user', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataOtherUser);
+      .reply(200, dataOtherUser)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Overview')).toBeInTheDocument();
@@ -71,7 +86,9 @@ describe('Task details page', () => {
   it('should render notes form when task is assigned to a current user', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataCurrentUser);
+      .reply(200, dataCurrentUser)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Overview')).toBeInTheDocument();
