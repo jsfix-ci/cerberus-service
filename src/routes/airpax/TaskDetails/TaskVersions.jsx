@@ -22,7 +22,7 @@ const renderDetailsOverview = (version, airlineCodes) => {
         </div>
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line">
-        <div className="govuk-task-details-col-2">
+        <div className="govuk-task-details-col-3">
           <Voyage version={version} airlineCodes={airlineCodes} />
         </div>
       </div>
