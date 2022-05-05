@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
-import { v4 as uuidv4 } from 'uuid';
 import '../../../../__assets__/ReactTabs.scss';
 import { capitalizeFirstLetter } from '../../../../utils/stringConversion';
 import { IndicatorsUtil } from '../../utils';
