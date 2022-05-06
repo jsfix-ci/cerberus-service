@@ -22,9 +22,9 @@ describe('should calculate and return relative time diff between booking time an
   );
 
   it('should calculate and return relative time with suffix', () => {
-    const dateTimeArray = ['2020-10-24T01:15:00', '2020-11-20T14:00:00'];
+    const dateTimeArray = ['2020-10-24T01:15:00', '2020-11-08T14:00:00'];
     const suffix = 'later';
-    const expected = '28 days later';
+    const expected = '16 days later';
 
     const formattedDateString = calculateTimeDifference(dateTimeArray, undefined, suffix);
     expect(formattedDateString).toEqual(expected);
