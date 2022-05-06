@@ -2,13 +2,52 @@ import React from 'react';
 import airports from '@nitro-land/airport-codes';
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
-import { UNKNOWN_TEXT, LONG_DATE_FORMAT, MOVEMENT_DESCRIPTION_INDIVIDUAL, MOVEMENT_DESCRIPTION_GROUP,
-  MOVEMENT_MODE_AIR_PASSENGER, MOVEMENT_MODE_AIR_CREW, UNKNOWN_TIME_DATA } from '../../../constants';
+import { UNKNOWN_TEXT,
+  LONG_DATE_FORMAT,
+  MOVEMENT_DESCRIPTION_INDIVIDUAL,
+  MOVEMENT_DESCRIPTION_GROUP,
+  MOVEMENT_MODE_AIR_PASSENGER,
+  MOVEMENT_MODE_AIR_CREW,
+  UNKNOWN_TIME_DATA,
+  LONG_DAY_DATE_FORMAT } from '../../../constants';
 
-import { getFormattedDate } from './datetimeUtil';
+import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
 
 import { isNotNumber } from '../../../utils/roroDataUtil';
+import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+
+const getItineraryArrivalCountryCode = (itinerary) => {
+  if (!itinerary?.arrival?.country) {
+    return UNKNOWN_TEXT;
+  }
+  return itinerary.arrival.country;
+};
+
+const getItineraryDepartureCountryCode = (itinerary) => {
+  if (!itinerary?.departure?.country) {
+    return UNKNOWN_TEXT;
+  }
+  return itinerary.departure.country;
+};
+
+const getItineraryFlightNumber = (itinerary) => {
+  if (!itinerary?.id) {
+    return UNKNOWN_TEXT;
+  }
+  return itinerary.id;
+};
+
+const hasItinerary = (journey) => {
+  return !!journey?.itinerary;
+};
+
+const getMovementItinerary = (journey) => {
+  if (hasItinerary(journey)) {
+    return journey.itinerary;
+  }
+  return null;
+};
 
 const getFlightTimeObject = (milliseconds) => {
   if (!milliseconds && milliseconds !== 0) {
@@ -214,6 +253,46 @@ const toAirlineName = (airlineCode, airlineCodes) => {
   return airlineCodes.find(({ twolettercode }) => twolettercode === airlineCode)?.name;
 };
 
+const toItineraryRelativeTime = (index, itinerary, itineraries) => {
+  const previousLegArrivalTime = getArrivalTime(itineraries[index - 1]);
+  const nextLegDepartureTime = getDepartureTime(itinerary);
+  return (
+    <div className="font__light">
+      {calculateTimeDifference(toDateTimeList(previousLegArrivalTime, nextLegDepartureTime), 'later')}
+    </div>
+  );
+};
+
+const toItineraryBlock = (itinerary) => {
+  const jsxObjects = [];
+  if (itinerary) {
+    itinerary.map((it, index) => {
+      const jsxToRender = [];
+      // If index is not 0, add item to array above this
+      if (index !== 0 && index <= itinerary.length - 1) {
+        jsxToRender.push(toItineraryRelativeTime(index, it, itinerary));
+      }
+      jsxToRender.push(
+        <div key={index} className="font__bold">
+          {getItineraryFlightNumber(it)} <span className="dot" />&nbsp;
+          {getDepartureLocation(it)} <span className="right-arrow font__bold">&#8594;</span>&nbsp;
+          {getArrivalLocation(it)} <span className="dot" />&nbsp;
+          {toFormattedDepartureDateTime(it, LONG_DAY_DATE_FORMAT)}
+        </div>,
+      );
+      jsxToRender.push(
+        <div key={index + 1} className="font__light">
+          {getItineraryDepartureCountryCode(it)} <span className="right-arrow font__bold">&#8594;</span>&nbsp;
+          {getItineraryArrivalCountryCode(it)} <span className="dot" />&nbsp;
+          Arrival {toFormattedArrivalDateTime(it, LONG_DATE_FORMAT)}
+        </div>,
+      );
+      jsxObjects.push(jsxToRender);
+    });
+  }
+  return jsxObjects;
+};
+
 const MovementUtil = {
   movementRoute: getRoute,
   convertMovementRoute: toRoute,
@@ -236,6 +315,11 @@ const MovementUtil = {
   flightDuration: getJourneyDuration,
   flightTimeObject: getFlightTimeObject,
   formatFlightTime: toFormattedFlightTime,
+  movementItinerary: getMovementItinerary,
+  itinFlightNumber: getItineraryFlightNumber,
+  itinDepartureCountryCode: getItineraryDepartureCountryCode,
+  itinArrivalCountryCode: getItineraryArrivalCountryCode,
+  itineraryBlock: toItineraryBlock,
 };
 
 export default MovementUtil;
@@ -262,4 +346,8 @@ export {
   getJourneyDuration,
   toFormattedFlightTime,
   getFlightTimeObject,
+  getItineraryFlightNumber, // WRITE TEST
+  getItineraryDepartureCountryCode, // WRITE TEST
+  getItineraryArrivalCountryCode, // WRITE TEST,
+  toItineraryBlock, // WRITE TEST
 };
