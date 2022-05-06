@@ -1,3 +1,4 @@
+import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
 import { MovementUtil } from '../../utils';
@@ -7,6 +8,52 @@ import config from '../../../../config';
 
 describe('MovementUtil', () => {
   let targetTaskMin;
+
+  const intineries = [
+    {
+      'id': 'AC0850',
+      'arrival': {
+        'country': 'CA',
+        'location': 'YYZ',
+        'time': '2018-10-03T13:05:00Z',
+      },
+      'departure': {
+        'country': 'FR',
+        'location': 'CDG',
+        'time': '2018-10-03T11:00:00Z',
+      },
+      'duration': 7500000,
+    },
+    {
+      'id': 'BD0998',
+      'arrival': {
+        'country': 'CA',
+        'location': 'YYC',
+        'time': '2018-10-03T18:16:00Z',
+      },
+      'departure': {
+        'country': 'CA',
+        'location': 'YYZ',
+        'time': '2018-10-03T16:05:00Z',
+      },
+      'duration': 7860000,
+    },
+    {
+      'id': 'XZ0123',
+      'arrival': {
+        'country': 'GB',
+        'location': 'LHR',
+        'time': '2018-10-03T21:19:20Z',
+      },
+      'departure': {
+        'country': 'CA',
+        'location': 'YYC',
+        'time': '2018-10-03T18:32:40Z',
+      },
+      'duration': 10000000,
+    },
+  ];
+
   beforeEach(() => {
     config.dayjsConfig.timezone = LONDON_TIMEZONE;
 
@@ -364,5 +411,93 @@ describe('MovementUtil', () => {
     const given = '3600-00000A';
     const output = MovementUtil.flightTimeObject(given);
     expect(output).toEqual(UNKNOWN_TIME_DATA);
+  });
+
+  it('should return the itenerary flight number', () => {
+    const expected = 'BA103';
+    const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return unknown when the itenerary flight number is null', () => {
+    targetTaskMin.movement.journey.itinerary[0].id = null;
+    const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the itenerary flight number is undefined', () => {
+    targetTaskMin.movement.journey.itinerary[0].id = undefined;
+    const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the itenerary flight number is an empty string', () => {
+    targetTaskMin.movement.journey.itinerary[0].id = '';
+    const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the itinerary departure country code', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = 'GB';
+    const expected = 'GB';
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return unknown when the itinerary departure country code is null', () => {
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the itinerary departure country code is undefined', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = undefined;
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the itinerary departure country code is an empty string', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = '';
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return the itinerary arrival country code', () => {
+    targetTaskMin.movement.journey.itinerary[0].arrival.country = 'FR';
+    const expected = 'FR';
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return unknown when the itinerary arrival country code is null', () => {
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the itinerary arrival country code is undefined', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = undefined;
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the itinerary arrival country code is an empty string', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = '';
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should render unknown to screen when first element is used to calculate time difference', () => {
+    render(MovementUtil.itinRelativeTime(0, intineries[0], intineries));
+    expect(screen.getByText(UNKNOWN_TEXT)).toBeInTheDocument();
+  });
+
+  describe('toItineraryBlock', () => {
+    const expected = ['Unknown', '3 hours later', '17 minutes later'];
+
+    for (let i = 0; i < intineries.length; i += 1) {
+      it('should calculate time difference between flight legs', () => {
+        render(MovementUtil.itinRelativeTime(i, intineries[i], intineries));
+        expect(screen.getByText(expected[i])).toBeInTheDocument();
+      });
+    }
   });
 });

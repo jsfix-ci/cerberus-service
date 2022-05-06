@@ -318,8 +318,8 @@ export {
   getJourneyDuration,
   toFormattedFlightTime,
   getFlightTimeObject,
-  getItineraryFlightNumber, // TODO Write test
-  getItineraryDepartureCountryCode, // TODO Write test
-  getItineraryArrivalCountryCode, // TODO Write test
+  getItineraryFlightNumber,
+  getItineraryDepartureCountryCode,
+  getItineraryArrivalCountryCode,
   toItineraryRelativeTime, // TODO Write test
 };
