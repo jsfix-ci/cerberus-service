@@ -9,7 +9,7 @@ import { UNKNOWN_TEXT,
   MOVEMENT_MODE_AIR_PASSENGER,
   MOVEMENT_MODE_AIR_CREW,
   UNKNOWN_TIME_DATA,
-  LONG_DAY_DATE_FORMAT } from '../../../constants';
+  LATER_TEXT } from '../../../constants';
 
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
@@ -258,39 +258,11 @@ const toItineraryRelativeTime = (index, itinerary, itineraries) => {
   const nextLegDepartureTime = getDepartureTime(itinerary);
   return (
     <div className="font__light">
-      {calculateTimeDifference(toDateTimeList(previousLegArrivalTime, nextLegDepartureTime), 'later')}
+      {calculateTimeDifference(
+        toDateTimeList(previousLegArrivalTime, nextLegDepartureTime), undefined, LATER_TEXT,
+      )}
     </div>
   );
-};
-
-const toItineraryBlock = (itinerary) => {
-  const jsxObjects = [];
-  if (itinerary) {
-    itinerary.map((it, index) => {
-      const jsxToRender = [];
-      // If index is not 0, add item to array above this
-      if (index !== 0 && index <= itinerary.length - 1) {
-        jsxToRender.push(toItineraryRelativeTime(index, it, itinerary));
-      }
-      jsxToRender.push(
-        <div key={index} className="font__bold">
-          {getItineraryFlightNumber(it)} <span className="dot" />&nbsp;
-          {getDepartureLocation(it)} <span className="right-arrow font__bold">&#8594;</span>&nbsp;
-          {getArrivalLocation(it)} <span className="dot" />&nbsp;
-          {toFormattedDepartureDateTime(it, LONG_DAY_DATE_FORMAT)}
-        </div>,
-      );
-      jsxToRender.push(
-        <div key={index + 1} className="font__light">
-          {getItineraryDepartureCountryCode(it)} <span className="right-arrow font__bold">&#8594;</span>&nbsp;
-          {getItineraryArrivalCountryCode(it)} <span className="dot" />&nbsp;
-          Arrival {toFormattedArrivalDateTime(it, LONG_DATE_FORMAT)}
-        </div>,
-      );
-      jsxObjects.push(jsxToRender);
-    });
-  }
-  return jsxObjects;
 };
 
 const MovementUtil = {
@@ -319,7 +291,7 @@ const MovementUtil = {
   itinFlightNumber: getItineraryFlightNumber,
   itinDepartureCountryCode: getItineraryDepartureCountryCode,
   itinArrivalCountryCode: getItineraryArrivalCountryCode,
-  itineraryBlock: toItineraryBlock,
+  itinRelativeTime: toItineraryRelativeTime,
 };
 
 export default MovementUtil;
@@ -346,8 +318,8 @@ export {
   getJourneyDuration,
   toFormattedFlightTime,
   getFlightTimeObject,
-  getItineraryFlightNumber, // WRITE TEST
-  getItineraryDepartureCountryCode, // WRITE TEST
-  getItineraryArrivalCountryCode, // WRITE TEST,
-  toItineraryBlock, // WRITE TEST
+  getItineraryFlightNumber, // TODO Write test
+  getItineraryDepartureCountryCode, // TODO Write test
+  getItineraryArrivalCountryCode, // TODO Write test
+  toItineraryRelativeTime, // TODO Write test
 };
