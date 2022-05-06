@@ -14,7 +14,7 @@
         "Creator": "test user"
       },
       "group": {
-        "Selector 2021-10": "Supplemental warnings",
+        "Selector 2021-10": "Contagion",
         "entities": [
           {
             "Entity": "Organisation"
@@ -57,7 +57,7 @@
         "Creator": "test user"
       },
       "group": {
-        "Selector 2022-100": "Warnings from testing for group reference",
+        "Selector 2022-100": "Warning details would be shown here",
         "entities": [
           {
             "Entity": "vehicle"
@@ -88,7 +88,7 @@
         "Creator": "user"
       },
       "group": {
-        "Selector 2022-245": "This is a different group reference",
+        "Selector 2022-245": "No warnings",
         "entities": [
           {
             "Entity": "Person"
@@ -119,7 +119,7 @@
         "Creator": "test user"
       },
       "group": {
-        "Selector 2021-278": "Warnings from testing",
+        "Selector 2021-278": "Self Harm",
         "entities": [
           {
             "Entity": "Vehicle"
@@ -162,7 +162,7 @@
         "Creator": "test user"
       },
       "group": {
-        "Selector 2021-279": "bdfbdfbf",
+        "Selector 2021-279": "Contagion,Self Harm",
         "entities": [
           {
             "Entity": "Trailer"
@@ -207,10 +207,10 @@
         "Creator": "test user"
       },
       "group": {
-        "Selector 2021-51": "Supplemental warnings",
-        "Selector 2022-225": "Warnings from testing for group reference",
-        "Selector 2021-278": "Warnings from testing",
-        "Selector 2021-279": "bdfbdfbf",
+        "Selector 2021-278": "Contagion",
+        "Selector 2021-279": "Contagion,Self Harm",
+        "Selector 2021-51": "Firearms",
+        "Selector 2022-225": "Contagion,Self Harm",
         "entities": [
           {
             "Entity": "Organisation"

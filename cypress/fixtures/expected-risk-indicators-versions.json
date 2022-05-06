@@ -2,109 +2,109 @@
   "riskIndicatorsV-3": [
     [
       {
-        "Type": "selectorsMatched",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "selectorsMatched",
+        "Attribute": "equal",
+        "Operator": "true"
       },
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "[Air Freight, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "[Air Freight, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
       }
     ],
     [
       {
-        "Type": "cashPaid",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "cashPaid",
+        "Attribute": "equal",
+        "Operator": "true"
       },
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "[RORO Accompanied Freight, RORO Tourist]"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "[RORO Accompanied Freight, RORO Tourist]"
       }
     ],
     [
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
       },
       {
-        "Type": "checkInLeadTime",
-        "Condition 1": "between",
-        "Expression": "[1, 24]"
+        "Entity type": "checkInLeadTime",
+        "Attribute": "between",
+        "Operator": "[1, 24]"
       }
     ]
   ],
   "riskIndicatorsV-2" :[
     [
       {
-        "Type": "Vehicle Empty",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "Vehicle Empty",
+        "Attribute": "equal",
+        "Operator": "true"
       }
     ],
     [
       {
-        "Type": "selectorsMatched",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "selectorsMatched",
+        "Attribute": "equal",
+        "Operator": "true"
       },
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "[Air Freight, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "[Air Freight, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
       }
     ],
     [
       {
-        "Type": "cashPaid",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "cashPaid",
+        "Attribute": "equal",
+        "Operator": "true"
       },
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "[RORO Accompanied Freight, RORO Tourist]"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "[RORO Accompanied Freight, RORO Tourist]"
       }
     ],
     [
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
       },
       {
-        "Type": "checkInLeadTime",
-        "Condition 1": "between",
-        "Expression": "[1, 24]"
+        "Entity type": "checkInLeadTime",
+        "Attribute": "between",
+        "Operator": "[1, 24]"
       }
     ]
   ],
   "riskIndicatorsV-1": [
     [
       {
-        "Type": "CashPaid",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "CashPaid",
+        "Attribute": "equal",
+        "Operator": "true"
       },
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "RORO Accompanied Freight"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "RORO Accompanied Freight"
       }
     ],
     [
       {
-        "Type": "CashPaid",
-        "Condition 1": "equal",
-        "Expression": "true"
+        "Entity type": "CashPaid",
+        "Attribute": "equal",
+        "Operator": "true"
       },
       {
-        "Type": "mode",
-        "Condition 1": "in",
-        "Expression": "RORO Accompanied Freight"
+        "Entity type": "mode",
+        "Attribute": "in",
+        "Operator": "RORO Accompanied Freight"
       }
     ]
   ]

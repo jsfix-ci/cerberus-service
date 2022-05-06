@@ -466,7 +466,8 @@
                 "attributes": {
                   "attrs": {
                     "referenceNumber": "PO000359675",
-                    "holderName": "Univeral Printers Ltd"
+                    "holderName": "Univeral Printers Ltd",
+                    "shortName": "Univeral short name"
                   }
                 },
                 "matching": null,

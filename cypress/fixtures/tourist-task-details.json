@@ -1,52 +1,70 @@
 {
-  "vehicle": {
-    "Vehicle registration": "IR-9688",
-    "Type": "HGV",
-    "Make": "AUDI",
-    "Model": "V9",
-    "Country of registration": "GB",
-    "Colour": "WHITE"
+  "vehicle-details": {
+    "vehicle": {
+      "Vehicle registration": "IR-9688",
+      "Type": "HGV",
+      "Make": "AUDI",
+      "Model": "V9",
+      "Country of registration": "GB",
+      "Colour": "WHITE"
+    },
+    "enrichmentCount": {
+      "Previous RoRo movements": "4",
+      "Examinations": "3",
+      "Seizures": "1"
+    }
   },
-  "driver": {
-    "Name": "Isiaih Ford",
-    "Date of birth": "13/10/1991",
-    "Gender": "M",
-    "Nationality": "AUS",
-    "Travel document type": "Passport",
-    "Travel document number": "566746DL",
-    "Travel document expiry": "29/10/2023"
-  },
-  "passengers": [
+  "Occupants": [
     {
-      "Name": "Fred Flintstone",
-      "Date of birth": "22/11/1991",
-      "Gender": "F",
-      "Nationality": "DE",
-      "Travel document type": "Passport",
-      "Travel document number": "875786876",
-      "Travel document expiry": "22/03/2022"
+      "Driver": "Isiaih FordMale, born 13 Oct 1991, AUS"
     },
     {
-      "Name": "Barney Rubble",
-      "Date of birth": "01/03/1989",
-      "Gender": "M",
-      "Nationality": "GB",
-      "Travel document type": "Passport",
-      "Travel document number": "244746NL",
-      "Travel document expiry": "01/02/2021"
+      "Passport": "566746DLUnknown (Unknown)",
+      "Validity2 years after travel": "Expires 29 Oct 20232 years after travel"
+    },
+    {
+      "Occupant": "Fred FlintstoneFemale, born 22 Nov 1991, DE"
+    },
+    {
+      "Passport": "875786876Germany (DE)",
+      "Validity5 days before travel": "Expires 22 Mar 20225 days before travel"
+    },
+    {
+      "Occupant": "Barney RubbleMale, born 01 Mar 1989, GB"
+    },
+    {
+      "Passport": "244746NLUnited Kingdom (GB)",
+      "ValidityA year before travel": "Expires 01 Feb 2021A year before travel"
     }
   ],
+  "Occupant-EnrichmentCount": [
+    {
+      "Previous RoRo movements": "4",
+      "Examinations": "3",
+      "Seizures": "1"
+    },
+    {
+      "Previous RoRo movements": "4",
+      "Examinations": "3",
+      "Seizures": "1"
+    }
+  ],
+  "Occupant-hiddenPassenger": {
+    "Previous RoRo movements": "4",
+    "Examinations": "3",
+    "Seizures": "1"
+  },
   "Booking-and-check-in": {
     "Reference": "AB555412781",
     "Ticket number": "1234567",
     "Type": "R",
-    "Name": "",
-    "Address": "",
-    "Date and time": "2 Aug 2020 at 15:50, 5 days before travel",
-    "Country": "GB",
+    "Name": "Unknown",
+    "Address": "Unknown",
+    "Booking date and time": "2 Aug 2020 at 15:50, 5 days before travel",
+    "Country": "United Kingdom (GB)",
     "Payment method": "CQ",
-    "Ticket price": "",
+    "Ticket price": "Unknown",
     "Ticket type": "Return",
-    "Check-in": ""
+    "Check-in date and time": "Unknown"
   }
 }

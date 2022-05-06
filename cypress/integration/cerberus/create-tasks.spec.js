@@ -15,14 +15,23 @@ describe('Create task with different payload from Cerberus', () => {
     cy.fixture('task-vehicle-null.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-      let bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
-      bookingDateTime = Cypress.dayjs(bookingDateTime).format('D MMM YYYY [at] HH:mm');
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-VEHICLE-NULL`).then((response) => {
         cy.wait(4000);
         let businessKey = response.businessKey;
         cy.checkTaskDisplayed(businessKey);
-        cy.checkTaskSummary(null, bookingDateTime);
+        cy.checkTaskSummary(null, Cypress.dayjs().format('D MMM YYYY [at] HH:mm'));
+
+        cy.contains('Back to task list').click();
+
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
+          .click({ force: true });
+
+        cy.contains('Apply filters').click({ force: true });
+
+        cy.wait(2000);
+
         const nextPage = 'a[data-test="next"]';
         cy.visit('/tasks');
         cy.get('body').then(($el) => {
@@ -58,7 +67,53 @@ describe('Create task with different payload from Cerberus', () => {
   });
 
   it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
-    cy.createCerberusTask('RoRo-Tourist-RBT-SBT.json', 'TOURIST-RBT-SBT');
+    cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
+      const dateFormat = 'D MMM YYYY [at] HH:mm';
+      let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+      let taskCreationDateTime = Cypress.dayjs().format(dateFormat);
+      let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().subtract(3, 'year').valueOf();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-TOURIST-RBT-SBT`).then((response) => {
+        cy.wait(10000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+        cy.checkTaskSummary(registrationNumber, taskCreationDateTime);
+      });
+
+      cy.fixture('tourist-task-co-travellers.json').then((expectedDetails) => {
+        cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
+          cy.getEnrichmentCounts(elements).then((count) => {
+            expect(count).to.deep.equal(expectedDetails['vehicle-details'].enrichmentCount);
+          });
+          cy.getVehicleDetails(elements).then((details) => {
+            expect(details).to.deep.equal(expectedDetails['vehicle-details'].vehicle);
+          });
+        });
+
+        cy.get('[id$=-content-1]').within(() => {
+          cy.get('.govuk-task-details-col-3').within(() => {
+            cy.get('.task-details-container').each((occupant, index) => {
+              cy.wrap(occupant).find('.enrichment-counts').within((elements) => {
+                cy.getEnrichmentCounts(elements).then((count) => {
+                  expect(count).to.deep.equal(expectedDetails['Occupant-EnrichmentCount'][index]);
+                });
+              });
+            });
+            cy.getOccupantDetails().then((actualoccupantDetails) => {
+              expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
+            });
+          });
+        });
+
+        cy.contains('h3', 'Booking and check-in').next().within(() => {
+          cy.getTaskDetails().then((details) => {
+            expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
+          });
+        });
+      });
+    });
   });
 
   it('Should create a task with a payload contains RoRo Tourist from SBT', () => {
@@ -148,9 +203,10 @@ describe('Create task with different payload from Cerberus', () => {
       ],
     };
     cy.fixture('RoRo-Tourist-muliple-passengers.json').then((task) => {
-      let date = new Date();
-      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+      let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-MULTIPLE-PASSENGERS`).then((response) => {
         cy.wait(4000);
@@ -170,7 +226,7 @@ describe('Create task with different payload from Cerberus', () => {
       'bookedOn': 'Booked on 02/08/2020',
       'booked': 'Booked 5 days before travel',
       'travellers': [
-        'None',
+        ' ',
       ],
     };
 

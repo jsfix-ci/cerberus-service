@@ -14,10 +14,10 @@
         "Creator": "test user"
       },
       "group": {
-        "Selector 2021-51": "Supplemental warnings",
-        "Selector 2022-225": "Warnings from testing for group reference",
-        "Selector 2021-278": "Warnings from testing",
-        "Selector 2021-279": "bdfbdfbf",
+        "Selector 2021-278": "Contagion,Self Harm,Warning details would be shown here",
+        "Selector 2021-279": "Firearms,Violence,Weapons",
+        "Selector 2021-51": "WarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarninggggWarningggg",
+        "Selector 2022-225": "Warnings currently unavailable",
         "entities": [
           {
             "Entity": "Organisation"
@@ -120,7 +120,7 @@
         "Creator": "user"
       },
       "group": {
-        "Selector 2022-245": "This is a different group reference",
+        "Selector 2022-245": "No warnings",
         "entities": [
           {
             "Entity": "Person"

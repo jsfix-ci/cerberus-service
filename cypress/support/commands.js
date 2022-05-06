@@ -224,6 +224,32 @@ Cypress.Commands.add('findTaskInAllThePages', (taskName, action, taskdetails) =>
   return findItem(taskName, action, taskdetails);
 });
 
+function getNumberOfTasksInPage() {
+  function getCount(count) {
+    cy.get('.pagination').invoke('attr', 'aria-label').as('pages');
+    cy.get('@pages').then((pages) => {
+      let page = pages.match(/\d/g).join('');
+      if (count >= page) {
+        return false;
+      }
+      if (count > 0) {
+        cy.contains('Next').click();
+        cy.wait(1000);
+      }
+      cy.get('.govuk-task-list-card').then((numberOfTasks) => {
+        expect(numberOfTasks.length).lte(100);
+      }).then(() => {
+        getCount(count += 1);
+      });
+    });
+  }
+  getCount(0);
+}
+
+Cypress.Commands.add('findNumberOfTasksInPage', () => {
+  return getNumberOfTasksInPage();
+});
+
 Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
   cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
     cy.wrap(element).invoke('attr', 'id').then((value) => {
@@ -244,7 +270,7 @@ Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
             });
             if (taskdetails.riskTier === 'B') {
               cy.wrap(item).find('.govuk-tag--riskTier').then((elem) => {
-                cy.wrap(elem).parent('.govuk-body').should('contains.text', 'SELECTOR');
+                cy.wrap(elem).prev('.govuk-body').should('contains.text', 'SELECTOR');
               });
             }
           }
@@ -472,6 +498,21 @@ Cypress.Commands.add('getTargetIndicatorDetails', () => {
 
 Cypress.Commands.add(('getVehicleDetails'), (elements) => {
   const obj = {};
+  cy.wrap(elements).eq(1).each((item) => {
+    cy.wrap(item).find('div ul').each((detail) => {
+      cy.wrap(detail).find('span.govuk-grid-key').invoke('text').then((key) => {
+        cy.wrap(detail).find('.govuk-grid-value').invoke('text').then((value) => {
+          obj[key] = value;
+        });
+      });
+    });
+  }).then(() => {
+    return obj;
+  });
+});
+
+Cypress.Commands.add(('getDocumentDetails'), (elements) => {
+  const obj = {};
   cy.wrap(elements).each((item) => {
     cy.wrap(item).find('div ul').each((detail) => {
       cy.wrap(detail).find('span.govuk-grid-key').invoke('text').then((key) => {
@@ -482,6 +523,93 @@ Cypress.Commands.add(('getVehicleDetails'), (elements) => {
     });
   }).then(() => {
     return obj;
+  });
+});
+
+Cypress.Commands.add(('getEnrichmentCounts'), (elements) => {
+  let obj = {};
+  const keys = [];
+  const values = [];
+  cy.wrap(elements).eq(0).within(() => {
+    cy.get('.labels .govuk-grid-column-one-third').each((item) => {
+      cy.wrap(item).find('span.font__light').invoke('text').then((key) => {
+        keys.push(key);
+      });
+    });
+    cy.get('.values .govuk-grid-column-one-third').each((value) => {
+      cy.wrap(value).find('span.font__bold').invoke('text').then((count) => {
+        values.push(count);
+      });
+    });
+  }).then(() => {
+    keys.forEach((k, i) => {
+      obj[k] = values[i];
+    });
+  })
+    .then(() => {
+      return obj;
+    });
+});
+
+Cypress.Commands.add(('getOccupantDetails'), () => {
+  const occupantArray = [];
+  cy.get('.task-details-container').each((occupant) => {
+    cy.wrap(occupant).find('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
+      let obj = {};
+      cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+        cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+          cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+            .then((value) => {
+              obj[key] = value;
+            });
+        });
+      }).then(() => {
+        occupantArray.push(obj);
+      });
+    });
+  }).then(() => {
+    return occupantArray;
+  });
+});
+
+Cypress.Commands.add(('getTaskVersionDetailsDifferenceWithOccupants'), (version, index) => {
+  let valueLocator = '.font__bold .task-versions--highlight';
+  let difference = {};
+  cy.expandTaskDetails(index).then(() => {
+    cy.wrap(version).find('.task-versions--highlight').each((item) => {
+      cy.wrap(item).parent().then((valueElement) => {
+        if (valueElement.find(valueLocator).length > 0) {
+          cy.wrap(item).invoke('text').then((key) => {
+            cy.wrap(valueElement).find(valueLocator).invoke('text').then((value) => {
+              if (key in difference) {
+                if (`${key}-dup` in difference) {
+                  difference[`${key}-dup-${1}`] = value;
+                } else {
+                  difference[`${key}-dup`] = value;
+                }
+              } else {
+                difference[key] = value;
+              }
+            });
+          });
+        } else {
+          cy.wrap(item).invoke('text').then((key) => {
+            if (key in difference) {
+              if (`${key}-dup` in difference) {
+                difference[`${key}-dup-${1}`] = '';
+              } else {
+                difference[`${key}-dup`] = '';
+              }
+            } else {
+              difference[key] = '';
+            }
+          });
+        }
+      });
+    });
+  }).then(() => {
+    console.log(difference);
+    return difference;
   });
 });
 
@@ -512,7 +640,7 @@ Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
 
 Cypress.Commands.add('collapseTaskDetails', () => {
   cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').then((value) => {
-    if (value === true) {
+    if (value === 'true') {
       cy.get('.govuk-accordion__section-button').click();
     }
   });
@@ -681,21 +809,32 @@ function getTaskSummary(businessKey) {
       }
     });
 
-    cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
-      cy.wrap(driverDetails).find('li').each((details, index) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          if (index === 0) {
-            taskSummary.driverFirstName = info;
-          } else if (index === 1) {
-            taskSummary.driverLastName = info;
-          } else {
-            taskSummary.driverNumberOfTrips = info;
-          }
+    if (businessKey.includes('Accompanied')) {
+      cy.wrap(element).contains('Driver details').then((count) => {
+        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((enrichmentCount) => {
+          taskSummary.driverEnrichmentCount = enrichmentCount;
         });
       });
-    });
+      cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
+        cy.wrap(driverDetails).find('li').each((details, index) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            if (index === 0) {
+              taskSummary.driverFirstName = info;
+            } else if (index === 1) {
+              taskSummary.driverLastName = info;
+            } else {
+              taskSummary.driverNumberOfTrips = info;
+            }
+          });
+        });
+      });
 
-    if (businessKey.includes('Accompanied')) {
+      cy.wrap(element).contains('Vehicle details').then((count) => {
+        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((vehicleCount) => {
+          taskSummary.vehicleEnrichmentCount = vehicleCount;
+        });
+      });
+
       cy.wrap(element).contains('Vehicle details').next().then((vehicleDetails) => {
         cy.wrap(vehicleDetails).find('li').each((details, index) => {
           cy.wrap(details).invoke('text').then((info) => {
@@ -711,7 +850,21 @@ function getTaskSummary(businessKey) {
           });
         });
       });
+
+      cy.wrap(element).contains('Passenger details').next().then((passengerDetails) => {
+        cy.wrap(passengerDetails).find('li').each((details) => {
+          cy.wrap(details).invoke('text').then((info) => {
+            taskSummary.passengerDetails = info;
+          });
+        });
+      });
     }
+
+    cy.wrap(element).contains('Account details').then((count) => {
+      cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((accountCount) => {
+        taskSummary.accountEnrichmentCount = accountCount;
+      });
+    });
 
     cy.wrap(element).contains('Account details').next().then((accountDetails) => {
       cy.wrap(accountDetails).find('li').each((details, index) => {
@@ -722,6 +875,12 @@ function getTaskSummary(businessKey) {
             taskSummary.bookedDetails = info;
           }
         });
+      });
+    });
+
+    cy.wrap(element).contains('Haulier details').then((count) => {
+      cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((haulierCount) => {
+        taskSummary.haulierEnrichmentCount = haulierCount;
       });
     });
 
@@ -741,19 +900,19 @@ function getTaskSummary(businessKey) {
       });
     });
 
-    cy.wrap(element).contains('Passenger details').next().then((passengerDetails) => {
-      cy.wrap(passengerDetails).find('li').each((details) => {
-        cy.wrap(details).invoke('text').then((info) => {
-          taskSummary.passengerDetails = info;
+    if (!businessKey.includes('Unknown-Null-vehicle-regNumber')) {
+      cy.wrap(element).contains('Trailer details').then((count) => {
+        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((trailerCount) => {
+          taskSummary.trailerEnrichmentCount = trailerCount;
         });
       });
-    });
+    }
 
     cy.wrap(element).contains('Trailer details').next().then((trailerDetails) => {
       cy.wrap(trailerDetails).find('li').each((details, index) => {
         cy.wrap(details).invoke('text').then((info) => {
           if (index === 0) {
-            taskSummary.trailerRegitration = info;
+            taskSummary.trailerRegistration = info;
           } else {
             taskSummary.trailerTrips = info;
           }
@@ -770,9 +929,14 @@ function getTaskSummary(businessKey) {
     });
 }
 
-Cypress.Commands.add('verifyTaskListInfo', (businessKey) => {
+Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
+
+  cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
+    .click({ force: true });
+
+  cy.contains('Apply filters').click();
   cy.wait(2000);
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
@@ -793,7 +957,7 @@ Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionn
   }
   cy.get(`[id$=-content-${versionInRow}]`).within(() => {
     cy.contains('h3', sectionname)
-      .next()
+      .nextAll()
       .within(() => {
         cy.getTaskDetails()
           .then((details) => {
@@ -811,8 +975,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   sectionHeading.set('vehicle', 'Vehicle');
   sectionHeading.set('account', 'Account details');
   sectionHeading.set('haulier', 'Haulier details');
-  sectionHeading.set('driver', 'Driver');
-  sectionHeading.set('passengers', 'Passengers');
+  sectionHeading.set('Occupants', 'Occupants');
   sectionHeading.set('goods', 'Goods');
   sectionHeading.set('booking', 'Booking and check-in');
   sectionHeading.set('rulesMatched', 'Rules matched');
@@ -836,7 +999,7 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
 
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'vehicle')) {
     cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h3', 'Vehicle').next().within((elements) => {
+      cy.contains('h3', 'Vehicle').nextAll().within((elements) => {
         cy.getVehicleDetails(elements).then((details) => {
           expect(details).to.deep.equal(expectedDetails.vehicle);
         });
@@ -849,12 +1012,17 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'haulier')) {
     cy.verifyTaskDetailSection(expectedDetails.haulier, versionInRow, sectionHeading.get('haulier'));
   }
-  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'driver')) {
-    cy.verifyTaskDetailSection(expectedDetails.driver, versionInRow, sectionHeading.get('driver'));
+  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'Occupants')) {
+    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
+      cy.get('.govuk-task-details-col-3').within(() => {
+        cy.getOccupantDetails().then((actualoccupantDetails) => {
+          console.log('Occupant', actualoccupantDetails);
+          expect(actualoccupantDetails).to.deep.equal(expectedDetails.Occupants);
+        });
+      });
+    });
   }
-  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'passengers')) {
-    cy.verifyTaskDetailSection(expectedDetails.passengers, versionInRow, sectionHeading.get('passengers'));
-  }
+
   if (Object.prototype.hasOwnProperty.call(expectedDetails, 'goods')) {
     cy.verifyTaskDetailSection(expectedDetails.goods, versionInRow, sectionHeading.get('goods'));
   }
@@ -866,16 +1034,6 @@ Cypress.Commands.add('verifyTaskDetailAllSections', (expectedDetails, versionInR
       cy.contains('h2', 'Rules matched').nextAll(() => {
         cy.getAllRuleMatches().then((actualRuleMatches) => {
           expect(actualRuleMatches).to.deep.equal(expectedDetails.rulesMatched);
-        });
-      });
-    });
-  }
-  if (Object.prototype.hasOwnProperty.call(expectedDetails, 'selectorMatch')) {
-    let regex = new RegExp('^[0-9]+ selector matches$', 'g');
-    cy.get(`[id$=-content-${versionInRow}]`).within(() => {
-      cy.contains('h2', regex).then((locator) => {
-        cy.getAllRuleMatches(locator).then((actualSelectorMatches) => {
-          expect(actualSelectorMatches).to.deep.equal(expectedDetails.selectorMatch);
         });
       });
     });
@@ -968,7 +1126,7 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
           cy.wrap(element).invoke('text').then((value) => {
             const text = value.replace('Remove item', '');
             if (values.includes(text)) {
-              cy.wrap(element).find('button').click();
+              cy.wrap(element).find('button').click({ force: true });
             }
           });
         });
@@ -978,21 +1136,19 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = {};
   let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
-  let bookingDateTime;
   const dateFormat = 'D MMM YYYY [at] HH:mm';
+  let taskCreationDateTime = dayjs().format(dateFormat);
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
     const rndInt = Math.floor(Math.random() * 20) + 1;
     task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().add(rndInt, 'day').valueOf();
-    bookingDateTime = task.variables.rbtPayload.value.data.movement.serviceMovement.attributes.attrs.bookingDateTime;
-    bookingDateTime = Cypress.dayjs(bookingDateTime).format(dateFormat);
     let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
     if (taskName.includes('TSV')) {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
       let vehicle = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle;
       let person = task.variables.rbtPayload.value.data.movement.persons[0].person;
-      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).utc().format(dateFormat);
-      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format(dateFormat);
+      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).format(dateFormat);
+      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).format(dateFormat);
       let diff = Cypress.dayjs(voyage.actualArrivalTimestamp).from(Cypress.dayjs());
       expectedTaskSummary.vehicle = `Vehicle${vehicle.registrationNumber} driven by ${person.fullName}`;
       expectedTaskSummary.Ferry = `${voyage.carrier} voyage of ${voyage.craftId}`;
@@ -1009,7 +1165,7 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
           expect(taskSummary).to.deep.equal(expectedTaskSummary);
         });
       }
-      cy.checkTaskSummary(registrationNumber, bookingDateTime);
+      cy.checkTaskSummary(registrationNumber, taskCreationDateTime);
     });
   });
 });
@@ -1109,8 +1265,8 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
 Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
-      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Date and time')));
-      expect(bookingDateTime['Date and time']).to.be.equal(expectedBookingDateTime);
+      const bookingDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Booking date and time')));
+      expect(bookingDateTime['Booking date and time']).to.be.equal(expectedBookingDateTime);
     });
   });
 });
@@ -1118,8 +1274,8 @@ Cypress.Commands.add('verifyBookingDateTime', (expectedBookingDateTime) => {
 Cypress.Commands.add('verifyCheckInDateTime', (expectedCheckInDateTime) => {
   cy.contains('h3', 'Booking and check-in').next().within(() => {
     cy.getTaskDetails().then((details) => {
-      const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in')));
-      expect(checkInDateTime['Check-in']).to.be.equal(expectedCheckInDateTime);
+      const checkInDateTime = Object.fromEntries(Object.entries(details).filter(([key]) => key.includes('Check-in date and time')));
+      expect(checkInDateTime['Check-in date and time']).to.be.equal(expectedCheckInDateTime);
     });
   });
 });
@@ -1400,7 +1556,9 @@ Cypress.Commands.add('verifyIcons', (businessKey, vehicle, ship) => {
 });
 
 Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskResponse) => {
-  cy.contains('Clear all filters').click();
+  cy.contains('Clear all filters').click({ force: true });
+
+  cy.wait(2000);
 
   cy.get(`.govuk-checkboxes [value="${filterValue}"]`)
     .click({ force: true });
@@ -1449,4 +1607,12 @@ Cypress.Commands.add('getSelectorGroupInformation', (elements) => {
     actualSelectorGroupDetails.group.entities = entityArray;
     return actualSelectorGroupDetails;
   });
+});
+
+Cypress.Commands.add('SelectInformBothFreightAndTouristOption', (elementName) => {
+  cy.get(`${formioComponent}${elementName}`).find('input').should('not.be.checked');
+
+  cy.get(`input[name="data[${elementName}]"]`).click();
+
+  cy.get(`${formioComponent}${elementName}`).find('input').should('be.checked');
 });

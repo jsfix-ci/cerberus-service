@@ -2,7 +2,11 @@ import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
   hasCarrierCounts,
-  extractTaskVersionsBookingField } from '../roroDataUtil';
+  hasTaskVersionPassengers,
+  extractTaskVersionsBookingField,
+  modifyCountryCodeIfPresent,
+  isSinglePassenger,
+  filterKnownPassengers } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -172,5 +176,427 @@ describe('RoRoData Util', () => {
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
 
     expect(modifiedCheckInTime).toBeFalsy();
+  });
+
+  it('Should return a country name from country code provided', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'GB',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('United Kingdom (GB)');
+  });
+
+  it('Should return unknown(invalid country code) when an invalid country code is provided', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'UN',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('UN');
+  });
+
+  it('Should return the booking object when a country code equal to the string equivalent of unknown', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'unknown',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code is null', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: null,
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code data node is missing', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('should return false for absence of a valid passenger when not found', () => {
+    const given = {
+      fieldSetName: 'Passengers',
+      hasChildSet: true,
+      contents: [],
+      childSets: [
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/-',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/1',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+      ],
+      type: 'STANDARD',
+      propName: 'passengers',
+    };
+    const outcome = hasTaskVersionPassengers(given);
+    expect(outcome).toEqual(false);
+  });
+
+  it('should return true for presence of a valid passenger when found', () => {
+    const given = {
+      fieldSetName: 'Passengers',
+      hasChildSet: true,
+      contents: [],
+      childSets: [
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: 'JOE BLOGGS',
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/-',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: 'JOHN CHEESE',
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/-',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+      ],
+      type: 'STANDARD',
+      propName: 'passengers',
+    };
+    const outcome = hasTaskVersionPassengers(given);
+    expect(outcome).toEqual(true);
+  });
+
+  it('should return true when there is only one passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: '',
+        dob: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should return false when there is more than one passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESE',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should return only one actual passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: '',
+        dob: '',
+      },
+    ];
+
+    const expected = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+    ];
+
+    const outcome = filterKnownPassengers(passengers);
+    expect(outcome).toEqual(expected);
+  });
+
+  it('should return two actual passengers', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+
+    const expected = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+
+    const outcome = filterKnownPassengers(passengers);
+    expect(outcome).toEqual(expected);
+  });
+
+  it('should return true when there is only one task details passenger)', () => {
+    const passengers = [
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'Isiah Ford',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should return false when there is more than one task details passengers)', () => {
+    const passengers = [
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'Isiah Ford',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'JOHN CHEESE',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeFalsy();
   });
 });

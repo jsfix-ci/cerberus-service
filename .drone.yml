@@ -341,9 +341,7 @@ steps:
     branch:
       - release-candidate
     event:
-      - promote
-    target:
-      - sit
+      - push
 
 - name: create_testjob_staging
   pull: always

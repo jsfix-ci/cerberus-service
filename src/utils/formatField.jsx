@@ -13,7 +13,7 @@ const formatField = (fieldType, content) => {
   dayjs.extend(updateLocale);
   dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
   if (!content) {
-    return '';
+    return 'Unknown';
   }
   let result;
 

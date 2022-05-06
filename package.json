@@ -32,6 +32,7 @@
     "axios": "^0.23.0",
     "browserlist": "^1.0.1",
     "classnames": "^2.3.1",
+    "country-code-lookup": "0.0.20",
     "dayjs": "^1.10.7",
     "dns-packet": "^5.3.0",
     "formiojs": "^4.12.7",
@@ -40,7 +41,7 @@
     "jwt-decode": "^3.1.2",
     "keycloak-js": "^15.0.2",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "pluralise": "^1.0.1",
     "qs": "^6.10.1",
     "react": "^17.0.1",
@@ -67,7 +68,7 @@
     "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
-    "cypress": "^9.3.1",
+    "cypress": "^9.5.0",
     "cypress-get-table": "^1.0.1",
     "cypress-keycloak-commands": "^1.2.0",
     "eslint": "^7.18.0",
@@ -95,6 +96,7 @@
     "webpack": "^5.12.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1",
-    "yargs": "^16.2.0"
+    "yargs": "^16.2.0",
+    "react-test-renderer": "^17.0.2"
   }
 }

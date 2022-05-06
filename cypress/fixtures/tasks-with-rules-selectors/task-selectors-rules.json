@@ -97,6 +97,9 @@
               ],
               "localReference": "Local Reference",
               "warnings": "Supplemental warnings",
+              "selectorWarnings":"FIRE",
+              "warningStatus": "Currently unavailable",
+              "WarningDetails": "Warning details would be shown here",
               "requestingOfficer": "Peter Price",
               "requestingTeam": "RoRo accompanied",
               "indicatorMatches": [

@@ -1,3 +1,5 @@
+import lookup from 'country-code-lookup';
+
 const hasCarrierCounts = (suppliedPassengerCounts) => {
   const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
   let hayStack = [];
@@ -60,17 +62,46 @@ const hasDepartureTime = (departureTime) => {
   return departureTime !== null && departureTime !== undefined && departureTime !== '';
 };
 
-const hasTaskVersionPassengers = (passengers) => {
-  let hasValidPassengers = false;
-  for (const passengerChildSets of passengers.childSets) {
-    for (const passenger of passengerChildSets.contents) {
-      if (passenger.content !== null) {
-        hasValidPassengers = true;
-        break;
+const getNamedPassenger = (passenger) => {
+  if (passenger?.contents) {
+    let hasName = false;
+    passenger.contents.map(({ propName, content }) => {
+      if (propName === 'name') {
+        hasName = !!content;
       }
+    });
+    return hasName && passenger;
+  }
+};
+
+const filterKnownPassengers = (passengers) => {
+  return passengers.filter((passenger) => {
+    if (passenger?.name) {
+      return passenger;
+    }
+    return getNamedPassenger(passenger);
+  });
+};
+
+const isSinglePassenger = (passengers) => {
+  const filteredPassengers = passengers.filter((passenger) => {
+    if (passenger?.name) {
+      return passenger;
+    }
+    return getNamedPassenger(passenger);
+  });
+  return filteredPassengers && filteredPassengers?.length === 1;
+};
+
+// Checks for presence of at least a valid passenger
+const hasTaskVersionPassengers = (passengers) => {
+  for (const passengerChildSets of passengers.childSets) {
+    const passengerName = passengerChildSets.contents.find(({ propName }) => propName === 'name').content;
+    if (passengerName) {
+      return true;
     }
   }
-  return hasValidPassengers;
+  return false;
 };
 
 const isTaskDetailsPassenger = (passenger) => {
@@ -103,6 +134,21 @@ const generateTotalPassengers = (driver, passengers) => {
 const modifyRoRoPassengersTaskList = (roroData) => {
   roroData.passengers = generateTotalPassengers(roroData.driver, roroData.passengers);
   return roroData;
+};
+
+/*
+* This method would modify the country code using country-code-lookup npm module
+*/
+const modifyCountryCodeIfPresent = (bookingField) => {
+  const countryCode = bookingField.contents?.find(({ propName }) => propName === 'country')?.content;
+  if (countryCode) {
+    if (countryCode.length > 2 || lookup.byIso(countryCode) === null) {
+      return bookingField;
+    }
+    const countryName = lookup.byIso(countryCode) !== null ? lookup.byIso(countryCode).country : 'Unknown';
+    bookingField.contents.find(({ propName }) => propName === 'country').content = `${countryName} (${countryCode})`;
+  }
+  return bookingField;
 };
 
 /*
@@ -169,4 +215,7 @@ export { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   extractTaskVersionsBookingField,
   getTaskDetailsTotalOccupants,
-  hasCarrierCounts };
+  hasCarrierCounts,
+  modifyCountryCodeIfPresent,
+  isSinglePassenger,
+  filterKnownPassengers };

@@ -131,6 +131,9 @@
               ],
               "localReference": "SR-220",
               "warnings": "bdfbdfbf",
+              "selectorWarnings":"CTGN,SEH",
+              "warningStatus": "Yes",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer": "Tester",
               "requestingTeam": "MAH gateway",
               "indicatorMatches": [
@@ -173,6 +176,9 @@
               ],
               "localReference": "SR-219",
               "warnings": "Warnings from testing",
+              "selectorWarnings":"CTGN",
+              "warningStatus": "Yes",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer": "Tester",
               "requestingTeam": "MAH gateway",
               "indicatorMatches": [
@@ -215,6 +221,9 @@
               ],
               "localReference":"null",
               "warnings":"Warnings from testing for group reference",
+              "selectorWarnings":"CTGN,SEH",
+              "warningStatus": "Yes",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer":"Tester",
               "requestingTeam":"null",
               "indicatorMatches":[
@@ -251,6 +260,9 @@
               ],
               "localReference": "Local Reference",
               "warnings": "Supplemental warnings",
+              "selectorWarnings":"FIRE",
+              "warningStatus": "Yes",
+              "warningDetails": "Warning details would be shown here",
               "requestingOfficer": "Tester",
               "requestingTeam": "RoRo accompanied",
               "indicatorMatches": [
