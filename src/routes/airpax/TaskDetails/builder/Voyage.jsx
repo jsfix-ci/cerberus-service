@@ -8,7 +8,7 @@ const Voyage = ({ version, airlineCodes }) => {
   const journey = MovementUtil.movementJourney(version);
   const flight = MovementUtil.movementFlight(version);
   return (
-    <div className="task-details-container">
+    <div className="task-details-container bottom-border">
       <h3 className="title-heading airpax-title-heading">Voyage</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Departure from', [MovementUtil.departureLoc(journey), MovementUtil.formatLoc(MovementUtil.departureLoc(journey))])}

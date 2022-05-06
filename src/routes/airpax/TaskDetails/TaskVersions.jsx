@@ -11,6 +11,7 @@ import Document from './builder/Document';
 import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
+import Itinerary from './builder/Itinerary';
 
 const renderDetailsOverview = (version, airlineCodes) => {
   return (
@@ -28,6 +29,7 @@ const renderDetailsOverview = (version, airlineCodes) => {
         <div className="govuk-grid-column-one-third vertical-dotted-line">
           <div className="govuk-task-details-col-3">
             <Voyage version={version} airlineCodes={airlineCodes} />
+            <Itinerary version={version} />
           </div>
         </div>
       </div>
