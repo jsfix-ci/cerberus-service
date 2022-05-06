@@ -16,14 +16,14 @@ const calculateDifference = (startDate, endDate, prefix = '', suffix = '') => {
   const formattedPrefix = prefix ? `${prefix} ` : '';
   const dateTimeStart = dayjs.utc(startDate);
   const dateTimeEnd = dayjs.utc(endDate);
-  let formattedTimeDifference = `${dateTimeEnd.from(dateTimeStart)}`;
+  let dateTimeDifference = `${dateTimeEnd.from(dateTimeStart)}`;
   if (suffix) {
-    formattedTimeDifference = formattedTimeDifference
+    dateTimeDifference = dateTimeDifference
       .replace(AFTER_TRAVEL_TEXT, suffix)
       .replace(BEFORE_TRAVEL_TEXT, suffix)
       .replace(AGO_TEXT, suffix);
   }
-  return `${formattedPrefix}${formattedTimeDifference}`;
+  return `${formattedPrefix}${dateTimeDifference}`;
 };
 
 const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
