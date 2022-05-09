@@ -54,6 +54,10 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
     const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
       ? [
         {
+          field: 'WINDOW_OF_OPPORTUNITY',
+          order: 'ASC',
+        },
+        {
           field: 'ARRIVAL_TIME',
           order: 'ASC',
         },
