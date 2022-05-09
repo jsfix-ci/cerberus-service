@@ -485,16 +485,11 @@ describe('MovementUtil', () => {
     expect(output).toEqual(UNKNOWN_TEXT);
   });
 
-  it('should render unknown to screen when first element is used to calculate time difference', () => {
-    render(MovementUtil.itinRelativeTime(0, intineries[0], intineries));
-    expect(screen.getByText(UNKNOWN_TEXT)).toBeInTheDocument();
-  });
-
   describe('toItineraryBlock', () => {
     const expected = ['Unknown', '3 hours later', '17 minutes later'];
-
     for (let i = 0; i < intineries.length; i += 1) {
       it('should calculate time difference between flight legs', () => {
+        // As the first leg has nothing prior to it, unknown will be returned however not rendered.
         render(MovementUtil.itinRelativeTime(i, intineries[i], intineries));
         expect(screen.getByText(expected[i])).toBeInTheDocument();
       });

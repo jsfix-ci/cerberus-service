@@ -321,5 +321,5 @@ export {
   getItineraryFlightNumber,
   getItineraryDepartureCountryCode,
   getItineraryArrivalCountryCode,
-  toItineraryRelativeTime, // TODO Write test
+  toItineraryRelativeTime,
 };
