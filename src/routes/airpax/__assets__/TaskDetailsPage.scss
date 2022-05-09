@@ -40,7 +40,25 @@
   }
 }
 
+.font_size {
+  font-size: 15px;
+}
+
+.font__light {
+  color: #505a5f;
+  font-weight: lighter;
+  font-size: 15px;
+}
+
 .co-travellers-container {
   font-family: "GDS Transport", arial, sans-serif;
   margin-bottom: 10px;
+
+  .co-travellers-table thead th {
+    @extend .font__light;
+  }
+
+  .co-travellers-table td {
+    @extend .font_size; 
+  }
 }

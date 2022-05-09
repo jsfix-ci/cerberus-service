@@ -103,6 +103,13 @@ const getDocumentCountryOfIssue = (document, taskDetails = false) => {
     : UNKNOWN_TEXT;
 };
 
+const getDocumentCountryOfIssueCode = (document) => {
+  if (!document?.countryOfIssue) {
+    return UNKNOWN_TEXT;
+  }
+  return document.countryOfIssue;
+};
+
 const getDocumentNationality = (document) => {
   if (!document?.nationality) {
     return UNKNOWN_TEXT;
@@ -128,6 +135,7 @@ const DocumentUtil = {
   docName: getDocumentName,
   docIdentification: getDocumentIdentification,
   docCountry: getDocumentCountryOfIssue,
+  docCountryCode: getDocumentCountryOfIssueCode,
   docNationality: getDocumentNationality,
   docDOB: getDocumentDOB,
   calculateExpiry,
@@ -144,6 +152,7 @@ export {
   getDocumentName,
   getDocumentIdentification,
   getDocumentCountryOfIssue,
+  getDocumentCountryOfIssueCode,
   getDocumentNationality,
   getDocumentDOB,
   calculateExpiry,

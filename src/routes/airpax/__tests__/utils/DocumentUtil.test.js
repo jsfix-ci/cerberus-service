@@ -164,4 +164,27 @@ describe('DocumentUtil', () => {
     const output = DocumentUtil.docDOB(document);
     expect(output).toEqual('14 Apr 1970');
   });
+
+  it('should return the document country of issue code when present', () => {
+    const output = DocumentUtil.docCountryCode(document);
+    expect(output).toEqual('FR');
+  });
+
+  it('should return unknown when the document country of issue is null', () => {
+    document.countryOfIssue = null;
+    const output = DocumentUtil.docCountryCode(document);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the document country of issue is undefined', () => {
+    document.countryOfIssue = undefined;
+    const output = DocumentUtil.docCountryCode(document);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when the document country of issue is an empty string', () => {
+    document.countryOfIssue = '';
+    const output = DocumentUtil.docCountryCode(document);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
 });
