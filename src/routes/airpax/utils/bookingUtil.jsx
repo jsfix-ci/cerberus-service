@@ -151,6 +151,13 @@ const getBookingReference = (booking) => {
   return booking.reference;
 };
 
+const getCheckInAt = (booking) => {
+  if (!booking?.checkInAt) {
+    return UNKNOWN_TEXT;
+  }
+  return booking.checkInAt;
+};
+
 const toCheckInTimeText = (booking) => {
   const checkinPrefix = 'Check-in';
   if (!booking?.checkInAt) {
@@ -198,6 +205,7 @@ const toPaymentsBlock = (booking) => {
 const BookingUtil = {
   get: getBooking,
   bookedAt: getBookedAt,
+  checkInAt: getCheckInAt,
   bookedPrior: getBookedPriorToDeparture,
   toCheckInText: toCheckInTimeText,
   bookingRef: getBookingReference,
@@ -228,6 +236,7 @@ export {
   toCheckInTimeText,
   getBooking,
   getBookedAt,
+  getCheckInAt,
   getBookedPriorToDeparture,
   getBookingCountryCode,
   getBookingCountryName,

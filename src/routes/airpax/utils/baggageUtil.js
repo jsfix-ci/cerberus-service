@@ -1,8 +1,9 @@
+import * as pluralise from 'pluralise';
 import { UNKNOWN_TEXT } from '../../../constants';
 import { formatField } from '../../../utils/formatField';
 
 const getBaggageWeight = (baggage) => {
-  if (!baggage) {
+  if (!baggage?.weight) {
     return UNKNOWN_TEXT;
   }
   return formatField('WEIGHT', baggage.weight);
@@ -19,22 +20,45 @@ const getBaggage = (targetTask) => {
   return null;
 };
 
-const getCheckedBags = (baggage) => {
-  if (baggage.numberOfCheckedBags === 0) {
-    return 'No checked bags';
+const getCheckedBags = (baggage, taskDetails = false) => {
+  if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
+    return UNKNOWN_TEXT;
   }
-  if (baggage.numberOfCheckedBags === 1) {
-    return `${baggage.numberOfCheckedBags} checked bag`;
+  return pluralise.withCount(
+    baggage.numberOfCheckedBags,
+    '% checked bag',
+    '% checked bags',
+    (taskDetails ? 'None' : 'No checked bags'),
+  );
+};
+
+const getNumberOfCheckedBags = (baggage) => {
+  if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
+    return UNKNOWN_TEXT;
   }
-  return `${baggage.numberOfCheckedBags} checked bags`;
+  return baggage.numberOfCheckedBags;
+};
+
+const toFormattedCheckedBagsCount = (baggage) => {
+  if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
+    return UNKNOWN_TEXT;
+  }
+  return pluralise.withCount(
+    baggage.numberOfCheckedBags,
+    '% bag',
+    '% bags',
+    'None',
+  );
 };
 
 const BaggageUtil = {
   get: getBaggage,
   weight: getBaggageWeight,
   checked: getCheckedBags,
+  checkedCount: getNumberOfCheckedBags,
+  formatCheckedCount: toFormattedCheckedBagsCount,
 };
 
 export default BaggageUtil;
 
-export { getBaggageWeight, getBaggage, getCheckedBags };
+export { getBaggageWeight, getBaggage, getCheckedBags, getNumberOfCheckedBags };

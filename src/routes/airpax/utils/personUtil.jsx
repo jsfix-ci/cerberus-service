@@ -87,6 +87,17 @@ const toCoTravellers = (otherPersons) => {
   });
 };
 
+const getAllPersons = (person, otherPersons) => {
+  let allPersons = [];
+  if (person) {
+    allPersons.push(person);
+  }
+  if (otherPersons) {
+    allPersons = allPersons.concat(otherPersons);
+  }
+  return allPersons;
+};
+
 const getTotalNumberOfPersons = (targetTask) => {
   if (!targetTask?.movement?.person) {
     return 0;
@@ -121,6 +132,7 @@ const PersonUtil = {
   getOthers: getOtherPersons,
   totalPersons: getTotalNumberOfPersons,
   toOthers: toCoTravellers,
+  allPersons: getAllPersons,
   firstname: getFirstName,
   lastname: getLastName,
   gender: getGender,

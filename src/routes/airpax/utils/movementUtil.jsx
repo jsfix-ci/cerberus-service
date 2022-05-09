@@ -65,12 +65,12 @@ const toRoute = (route) => {
   });
 };
 
-const getSeatNumber = (flight) => {
+const getSeatNumber = (flight, taskDetails = false) => {
   const seatPrefix = 'seat';
   if (!flight?.seatNumber) {
-    return `${seatPrefix} ${UNKNOWN_TEXT}`;
+    return !taskDetails ? `${seatPrefix} ${UNKNOWN_TEXT}` : UNKNOWN_TEXT;
   }
-  return `${seatPrefix} ${flight.seatNumber}`;
+  return !taskDetails ? `${seatPrefix} ${flight.seatNumber}` : flight.seatNumber;
 };
 
 const hasFlight = (targetTask) => {

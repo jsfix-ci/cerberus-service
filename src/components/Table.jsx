@@ -1,10 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import './__assets__/Table.scss';
 
-const Table = ({ headings, rows }) => {
+const Table = ({ className, headings, rows }) => {
   return (
-    <table role="table" className="hods-table">
+    <table role="table" className={classNames('hods-table', className)}>
       <thead className="hods-table__heading">
         <tr role="row">
           {headings.map((header, index) => (
