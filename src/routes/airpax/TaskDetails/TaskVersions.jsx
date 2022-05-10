@@ -13,6 +13,7 @@ import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
 import Itinerary from './builder/Itinerary';
 import SelectorMatches from './builder/SelectorMatches';
+import RuleMatches from './builder/RuleMatches';
 
 const renderDetailsOverview = (version, airlineCodes) => {
   return (
@@ -36,6 +37,9 @@ const renderDetailsOverview = (version, airlineCodes) => {
       </div>
       <div>
         <SelectorMatches version={version} />
+      </div>
+      <div>
+        <RuleMatches version={version} />
       </div>
     </>
   );
