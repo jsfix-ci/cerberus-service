@@ -1,11 +1,19 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import TaskVersions from '../TaskDetails/TaskVersions';
 
+import { LONDON_TIMEZONE } from '../../../constants';
 import taskDetailsData from '../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
+import config from '../../../config';
+
 describe('TaskVersions', () => {
+  beforeEach(() => {
+    config.dayjsConfig.timezone = LONDON_TIMEZONE;
+  });
+
   const mockTaskVersionsWithRuleThreat = [
     {
       number: 1,
@@ -83,29 +91,10 @@ describe('TaskVersions', () => {
     expect(screen.getAllByText('No rule matches')).toHaveLength(2);
   });
 
-  it('should render the document section from version', () => {
-    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
-    expect(screen.getByText('Document')).toBeInTheDocument();
-    expect(screen.getByText('Type')).toBeInTheDocument();
-    expect(screen.getByText('Number')).toBeInTheDocument();
-    expect(screen.getByText('Document nationality')).toBeInTheDocument();
-    expect(screen.getByText('Country of issue')).toBeInTheDocument();
-    expect(screen.getByText('Valid from')).toBeInTheDocument();
-  });
-
-  it('should render the booking section from version', () => {
-    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
-    expect(screen.getByText('Booking')).toBeInTheDocument();
-    expect(screen.getByText('Reference')).toBeInTheDocument();
-    expect(screen.getByText('LSV4UV')).toBeInTheDocument();
-    expect(screen.getByText('Number of travellers')).toBeInTheDocument();
-    expect(screen.getByText('Booking type')).toBeInTheDocument();
-    expect(screen.getByText('Booking country')).toBeInTheDocument();
-    expect(screen.getByText('Ticket number')).toBeInTheDocument();
-    expect(screen.getByText('Ticket type')).toBeInTheDocument();
-    expect(screen.getByText('Payments')).toBeInTheDocument();
-    expect(screen.queryAllByText(/Credit card ending X63X, expiry 10\/20/)).toHaveLength(2);
-    expect(screen.getByText('Agent IATA')).toBeInTheDocument();
-    expect(screen.getByText('Agent location')).toBeInTheDocument();
+  it('should render task versions', () => {
+    const tree = renderer.create(
+      <TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />,
+    ).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });

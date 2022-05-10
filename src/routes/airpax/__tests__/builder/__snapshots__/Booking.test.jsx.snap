@@ -5,7 +5,7 @@ exports[`Booking should render the booking component 1`] = `
   className="task-details-container"
 >
   <h3
-    className="title-heading airpax-title-heading"
+    className="title-heading govuk-!-margin-top-0"
   >
     Booking
   </h3>

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import * as pluralise from 'pluralise';
 import { Link } from '@ukhomeoffice/cop-react-components';
@@ -111,7 +110,7 @@ const CoTraveller = ({ version }) => {
   const allPersons = PersonUtil.allPersons(PersonUtil.get(version), PersonUtil.getOthers(version));
   return (
     <div className="font__bold">
-      <h3 className="title-heading">
+      <h3 className="title-heading govuk-!-margin-top-0 govuk-!-margin-bottom-0">
         {pluralise.withCount(PersonUtil.totalPersons(version), '% traveller', '% travellers', undefined)}
       </h3>
       <Table
