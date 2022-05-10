@@ -655,7 +655,7 @@ exports[`TaskVersions should render task versions 1`] = `
         </div>
       </div>
       <div
-        className="co-travellers-container"
+        className="co-travellers-container govuk-!-margin-bottom-2"
       >
         <div
           className="font__bold"

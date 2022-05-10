@@ -81,6 +81,7 @@ const toBaggageColumnContent = (version) => {
   );
 };
 
+// Update this once we start receiving data
 const toMovementDetailsColumnContent = (index) => {
   return (
     <>
