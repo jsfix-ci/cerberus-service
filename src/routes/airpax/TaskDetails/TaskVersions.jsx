@@ -12,7 +12,7 @@ import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
 import Itinerary from './builder/Itinerary';
-import CoTravellers from './builder/CoTravellers';
+import CoTraveller from './builder/CoTraveller';
 import SelectorMatches from './builder/SelectorMatches';
 
 const renderDetailsOverview = (version, airlineCodes) => {
@@ -36,7 +36,7 @@ const renderDetailsOverview = (version, airlineCodes) => {
         </div>
       </div>
       <div className="co-travellers-container">
-        <CoTravellers version={version} />
+        <CoTraveller version={version} />
       </div>
       <div>
         <SelectorMatches version={version} />
