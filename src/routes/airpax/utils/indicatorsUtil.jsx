@@ -1,6 +1,10 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
+<<<<<<< HEAD
 import { WARNING_CODES_MAPPING, NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../../../constants';
+=======
+import { WARNING_CODES_MAPPING } from '../../../constants';
+>>>>>>> COP-10599: Added selector matches to task versions
 
 const formatTargetIndicators = (targetingIndicators) => {
   if (targetingIndicators?.indicators?.length > 0) {
@@ -44,9 +48,15 @@ const getSelectorWarning = (selector) => {
   let warning;
   let warningDetails;
   const warningStatus = selector.warning.status;
+<<<<<<< HEAD
   if (warningStatus?.toLowerCase() === NO_TEXT.toLowerCase()) warning = 'No warnings';
   if (warningStatus?.toLowerCase() === CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) warning = 'Warnings currently unavailable';
   if (warningStatus?.toLowerCase() === YES_TEXT.toLowerCase()) {
+=======
+  if (warningStatus === 'No' || warningStatus === 'NO') warning = 'No warnings';
+  if (warningStatus === 'Currently unavailable') warning = 'Warnings currently unavailable';
+  if (warningStatus === 'Yes' || warningStatus === 'YES') {
+>>>>>>> COP-10599: Added selector matches to task versions
     const warningTypes = selector.warning.types;
     const containsOther = warningTypes.indexOf('O') > -1;
     if (warningTypes.length > 0) {

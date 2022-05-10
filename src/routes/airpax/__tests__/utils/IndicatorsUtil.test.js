@@ -143,6 +143,7 @@ describe('IndicatorsUtil', () => {
     expect(output).toEqual('Violence, Firearms, Weapons, Contagion, Self Harm');
   });
 
+<<<<<<< HEAD
   it('should render nothing if warning status is null', () => {
     const selector = {
       id: 279,
@@ -160,6 +161,9 @@ describe('IndicatorsUtil', () => {
   });
 
   it('should get indicator matches if present', () => {
+=======
+  it('should get indicators matches if present', () => {
+>>>>>>> COP-10599: Added selector matches to task versions
     const selector = {
       indicatorMatches: [
         {
