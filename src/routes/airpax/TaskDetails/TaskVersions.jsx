@@ -12,6 +12,7 @@ import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
 import CoTraveller from './builder/CoTraveller';
+import SelectorMatches from './builder/SelectorMatches';
 
 const renderDetailsOverview = (version, airlineCodes) => {
   return (
@@ -34,6 +35,8 @@ const renderDetailsOverview = (version, airlineCodes) => {
       </div>
       <div className="co-travellers-container govuk-!-margin-bottom-2">
         <CoTraveller version={version} />
+      <div>
+      <SelectorMatches version={version} />
       </div>
     </>
   );
