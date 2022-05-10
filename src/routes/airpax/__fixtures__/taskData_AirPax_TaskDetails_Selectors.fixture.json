@@ -1,605 +1,750 @@
 {
-    "id":"DEV-20220328-001",
-    "status":"NEW",
-    "assignee":null,
-    "latestVersionNumber":1,
-    "notes":[
+   "id": "DEV-20220328-001",
+   "status": "NEW",
+   "assignee": null,
+   "latestVersionNumber": 1,
+   "notes": [
+     {
+       "content": "task created",
+       "timestamp": "2022-03-28T09:56:56.399861Z",
+       "userId": "rules-based-targeting"
+     }
+   ],
+   "movement": {
+     "id": "ROROTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1036",
+     "status": "PRE_ARRIVAL",
+     "mode": "RORO_ACCOMPANIED_FREIGHT",
+     "description": "vehicle-with-trailer",
+     "booking": {
+       "reference": "357485637",
+       "type": "Online",
+       "paymentMethod": "Account",
+       "bookedAt": "2020-08-02T09:20:00Z",
+       "checkInAt": "2020-08-04T12:10:00Z",
+       "ticket": {
+         "number": "TIC-998765421",
+         "type": "Return",
+         "price": "59.99"
+       },
+       "country": "GB"
+     },
+     "journey": {
+       "id": "19aafdcd743bd63ca19bfe917f75a2db",
+       "arrival": {
+         "location": "CAL",
+         "time": "2020-08-04T13:55:00Z"
+       },
+       "departure": {
+         "location": "DOV",
+         "time": "2020-08-04T13:10:00Z"
+       }
+     },
+     "vessel": {
+       "operator": "DFDS",
+       "name": "KHALEESI SEAWAYS"
+     },
+     "person": {
+       "entitySearchUrl": "http://localhost:5010/search?type=PERSON&term=103000003407504&fields=[%22id%22]",
+       "name": {
+         "first": "Daniel",
+         "last": "Fagan",
+         "full": "Daniel Fagan"
+       },
+       "dateOfBirth": "1984-08-03T00:00:00Z",
+       "gender": "M",
+       "nationality": "GB",
+       "document": {
+         "entitySearchUrl": null,
+         "type": "PASSPORT",
+         "number": "ST0392315",
+         "expiry": "2021-02-01T00:00:00Z"
+       },
+       "movementStats": null
+     },
+     "otherPersons": [
        {
-          "content":"task created",
-          "timestamp":"2022-03-28T09:56:56.399861Z",
-          "userId":"rules-based-targeting"
+         "entitySearchUrl": "http://localhost:5010/search?type=PERSON&term=101234567888,101234567999&fields=[%22id%22]",
+         "name": {
+           "first": "Donald",
+           "last": "Fox",
+           "full": "Donald Fox"
+         },
+         "dateOfBirth": "1981-06-03T00:00:00Z",
+         "gender": "M",
+         "nationality": "GB",
+         "document": {
+           "entitySearchUrl": null,
+           "type": "PASSPORT",
+           "number": "ST0394612",
+           "expiry": "2021-02-01T00:00:00Z"
+         },
+         "movementStats": null
        }
-    ],
-    "movement":{
-       "id":"ROROTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1036",
-       "status":"PRE_ARRIVAL",
-       "mode":"RORO_ACCOMPANIED_FREIGHT",
-       "description":"vehicle-with-trailer",
-       "booking":{
-          "reference":"357485637",
-          "type":"Online",
-          "paymentMethod":"Account",
-          "bookedAt":"2020-08-02T09:20:00Z",
-          "checkInAt":"2020-08-04T12:10:00Z",
-          "ticket":{
-             "number":"TIC-998765421",
-             "type":"Return",
-             "price":"59.99"
-          },
-          "country":"GB"
+     ],
+     "vehicle": {
+       "entitySearchUrl": "http://localhost:5010/search?type=VEHICLE&term=103000003407504&fields=[%22id%22]",
+       "type": "Truck",
+       "registration": "GB57MJP",
+       "nationality": "GB",
+       "colour": "Grey",
+       "model": "R-Series",
+       "make": "Scania",
+       "netWeight": "3455",
+       "grossWeight": "43623",
+       "movementStats": null
+     },
+     "trailer": {
+       "entitySearchUrl": "http://localhost:5010/search?type=VEHICLE&term=103000003407321&fields=[%22id%22]",
+       "type": "TR",
+       "registration": "GB09NFD",
+       "nationality": "GB",
+       "length": "75",
+       "height": "3",
+       "loadStatus": "Empty",
+       "movementStats": null
+     },
+     "goods": {
+       "description": "PPE Masks",
+       "hazardous": false,
+       "weight": null,
+       "destination": null
+     },
+     "haulier": {
+       "entitySearchUrl": null,
+       "name": "Sinkable Hauling",
+       "address": null,
+       "contacts": {
+         "phone": {
+           "value": "289675932",
+           "entitySearchUrl": null
+         },
+         "mobile": {
+           "value": "07809123456",
+           "entitySearchUrl": null
+         }
        },
-       "journey":{
-          "id":"19aafdcd743bd63ca19bfe917f75a2db",
-          "arrival":{
-             "location":"CAL",
-             "time":"2020-08-04T13:55:00Z"
-          },
-          "departure":{
-             "location":"DOV",
-             "time":"2020-08-04T13:10:00Z"
-          }
+       "movementStats": null
+     },
+     "account": {
+       "entitySearchUrl": "http://localhost:5010/search?type=ORGANISATION&term=10311111113407504&fields=[%22id%22]",
+       "name": "Safe Cafe Medical PPE",
+       "shortName": "SCM PPE",
+       "reference": "000361676",
+       "address": {
+         "entitySearchUrl": null,
+         "line1": "University of Portsmouth",
+         "line2": "Royal Dockyards",
+         "city": "Portsmouth",
+         "postcode": "PO1 2EF",
+         "country": "GB"
        },
-       "vessel":{
-          "operator":"DFDS",
-          "name":"KHALEESI SEAWAYS"
+       "contacts": {
+         "phone": {
+           "value": "01234 926459",
+           "entitySearchUrl": null
+         },
+         "mobile": {
+           "value": "07809 386670",
+           "entitySearchUrl": null
+         }
        },
-       "person":{
-          "entitySearchUrl":"http://localhost:5010/search?type=PERSON&term=103000003407504&fields=[%22id%22]",
-          "name":{
-             "first":"Daniel",
-             "last":"Fagan",
-             "full":"Daniel Fagan"
-          },
-          "dateOfBirth":"1984-08-03T00:00:00Z",
-          "gender":"M",
-          "nationality":"GB",
-          "document":{
-             "entitySearchUrl":null,
-             "type":"PASSPORT",
-             "number":"ST0392315",
-             "expiry":"2021-02-01T00:00:00Z"
-          },
-          "movementStats":null
-       },
-       "otherPersons":[
-          {
-             "entitySearchUrl":"http://localhost:5010/search?type=PERSON&term=101234567888,101234567999&fields=[%22id%22]",
-             "name":{
-                "first":"Donald",
-                "last":"Fox",
-                "full":"Donald Fox"
-             },
-             "dateOfBirth":"1981-06-03T00:00:00Z",
-             "gender":"M",
-             "nationality":"GB",
-             "document":{
-                "entitySearchUrl":null,
-                "type":"PASSPORT",
-                "number":"ST0394612",
-                "expiry":"2021-02-01T00:00:00Z"
-             },
-             "movementStats":null
-          }
+       "movementStats": null
+     },
+     "booker": null,
+     "occupants": {
+       "numberOfOaps": 0,
+       "numberOfAdults": 1,
+       "numberOfChildren": 0,
+       "numberOfInfants": 0,
+       "numberOfUnknowns": 3,
+       "numberOfOccupants": 4
+     }
+   },
+   "risks": {
+     "targetingIndicators": {
+       "indicators": [
+         {
+           "id": 1,
+           "name": "VEHICLE-FREIGHT-QUICK-TURNAROUND-0_24_HRS",
+           "description": "Quick turnaround freight (under 24 hours)",
+           "score": 30
+         },
+         {
+           "id": 2,
+           "name": "VEHICLE-TOURIST-QUICK-TURNAROUND-0_24_HRS",
+           "description": "Quick turnaround tourist (under 24 hours)",
+           "score": 30
+         }
        ],
-       "vehicle":{
-          "entitySearchUrl":"http://localhost:5010/search?type=VEHICLE&term=103000003407504&fields=[%22id%22]",
-          "type":"Truck",
-          "registration":"GB57MJP",
-          "nationality":"GB",
-          "colour":"Grey",
-          "model":"R-Series",
-          "make":"Scania",
-          "netWeight":"3455",
-          "grossWeight":"43623",
-          "movementStats":null
-       },
-       "trailer":{
-          "entitySearchUrl":"http://localhost:5010/search?type=VEHICLE&term=103000003407321&fields=[%22id%22]",
-          "type":"TR",
-          "registration":"GB09NFD",
-          "nationality":"GB",
-          "length":"75",
-          "height":"3",
-          "loadStatus":"Empty",
-          "movementStats":null
-       },
-       "goods":{
-          "description":"PPE Masks",
-          "hazardous":false,
-          "weight":null,
-          "destination":null
-       },
-       "haulier":{
-          "entitySearchUrl":null,
-          "name":"Sinkable Hauling",
-          "address":null,
-          "contacts":{
-             "phone":{
-                "value":"289675932",
-                "entitySearchUrl":null
-             },
-             "mobile":{
-                "value":"07809123456",
-                "entitySearchUrl":null
-             }
-          },
-          "movementStats":null
-       },
-       "account":{
-          "entitySearchUrl":"http://localhost:5010/search?type=ORGANISATION&term=10311111113407504&fields=[%22id%22]",
-          "name":"Safe Cafe Medical PPE",
-          "shortName":"SCM PPE",
-          "reference":"000361676",
-          "address":{
-             "entitySearchUrl":null,
-             "line1":"University of Portsmouth",
-             "line2":"Royal Dockyards",
-             "city":"Portsmouth",
-             "postcode":"PO1 2EF",
-             "country":"GB"
-          },
-          "contacts":{
-             "phone":{
-                "value":"01234 926459",
-                "entitySearchUrl":null
-             },
-             "mobile":{
-                "value":"07809 386670",
-                "entitySearchUrl":null
-             }
-          },
-          "movementStats":null
-       },
-       "booker":null,
-       "occupants":{
-          "numberOfOaps":0,
-          "numberOfAdults":1,
-          "numberOfChildren":0,
-          "numberOfInfants":0,
-          "numberOfUnknowns":3,
-          "numberOfOccupants":4
-       }
-    },
-    "risks":{
-       "targetingIndicators":{
-          "indicators":[
-             {
-                "id":1,
-                "name":"VEHICLE-FREIGHT-QUICK-TURNAROUND-0_24_HRS",
-                "description":"Quick turnaround freight (under 24 hours)",
-                "score":30
-             },
-             {
-                "id":2,
-                "name":"VEHICLE-TOURIST-QUICK-TURNAROUND-0_24_HRS",
-                "description":"Quick turnaround tourist (under 24 hours)",
-                "score":30
-             }
-          ],
-          "count":2,
-          "score":60
-       },
-       "matchedRules":[
-          {
-             "id":535,
-             "name":"Selector Matched Rule",
-             "type":"Both",
-             "priority":"Tier 1",
-             "description":"Test",
-             "version":1,
-             "abuseTypes":[
-                "National Security at the Border"
-             ],
-             "indicatorMatches":[
-                {
-                   "entity":"Message",
-                   "descriptor":"mode",
-                   "operator":"in",
-                   "value":"[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-                },
-                {
-                   "entity":"Message",
-                   "descriptor":"selectorsMatched",
-                   "operator":"equal",
-                   "value":"true"
-                }
-             ]
-          },
-          {
-             "id":556,
-             "name":"Checkin lead time",
-             "type":"Both",
-             "priority":"Tier 4",
-             "description":"Qui nesciunt suscip",
-             "version":1,
-             "abuseTypes":[
-                "Class A Drugs"
-             ],
-             "indicatorMatches":[
-                {
-                   "entity":"Booking",
-                   "descriptor":"checkInLeadTime",
-                   "operator":"between",
-                   "value":"[1, 24]"
-                },
-                {
-                   "entity":"Message",
-                   "descriptor":"mode",
-                   "operator":"in",
-                   "value":"[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-                }
-             ]
-          }
-       ],
-       "matchedSelectorGroups":{
-          "groups":[
-             {
-                "groupReference":"SR-245",
-                "groupVersionNumber":1,
-                "requestingOfficer":"fe",
-                "intelligenceSource":"fefe",
-                "category":"A",
-                "threatType":"Class A Drugs",
-                "pointOfContactMessage":"fdvdfb",
-                "pointOfContact":"bfb",
-                "inboundActionCode":"No action required",
-                "outboundActionCode":"No action required",
-                "notes":"notes",
-                "creator":"user",
-                "selectors":[
-                   {
-                      "id":279,
-                      "reference":"2021-279",
-                      "category":"A",
-                      "warning":{
-                         "status":"NO",
-                         "types":[
-                            
-                         ],
-                         "detail":null
-                      },
-                      "indicatorMatches":[
-                         {
-                            "entity":"Message",
-                            "descriptor":"mode",
-                            "operator":"in",
-                            "value":"RORO Accompanied Freight"
-                         },
-                         {
-                            "entity":"Trailer",
-                            "descriptor":"registrationNumber",
-                            "operator":"equal",
-                            "value":"qwerty"
-                         }
-                      ],
-                      "description":"RORO Accompanied Freight qwerty"
-                   },
-                   {
-                      "id":300,
-                      "reference":"2022-300",
-                      "category":"B",
-                      "warning":{
-                         "status":"NO",
-                         "types":[
-                            
-                         ],
-                         "detail":null
-                      },
-                      "indicatorMatches":[
-                         {
-                            "entity":"Trailer",
-                            "descriptor":"registrationNumber",
-                            "operator":"equal",
-                            "value":"GB09NFD"
-                         }
-                      ],
-                      "description":"GB09NFD"
-                   }
-                ]
-             }
-          ],
-          "totalNumberOfSelectors":2
-       },
-       "highestThreatLevelRiskType":"RULE",
-       "highestThreatLevel":"A"
-    },
-    "versions":[
+       "count": 2,
+       "score": 60
+     },
+     "matchedRules": [
        {
-          "number":1,
-          "createdAt":"2022-03-28T09:56:56.402837Z",
-          "movement":{
-             "id":"ROROTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1036",
-             "status":"PRE_ARRIVAL",
-             "mode":"RORO_ACCOMPANIED_FREIGHT",
-             "description":"vehicle-with-trailer",
-             "booking":{
-                "reference":"357485637",
-                "type":"Online",
-                "paymentMethod":"Account",
-                "bookedAt":"2020-08-02T09:20:00Z",
-                "checkInAt":"2020-08-04T12:10:00Z",
-                "ticket":{
-                   "number":"TIC-998765421",
-                   "type":"Return",
-                   "price":"59.99"
-                },
-                "country":"GB"
-             },
-             "journey":{
-                "id":"19aafdcd743bd63ca19bfe917f75a2db",
-                "arrival":{
-                   "location":"CAL",
-                   "time":"2020-08-04T13:55:00Z"
-                },
-                "departure":{
-                   "location":"DOV",
-                   "time":"2020-08-04T13:10:00Z"
-                }
-             },
-             "vessel":{
-                "operator":"DFDS",
-                "name":"KHALEESI SEAWAYS"
-             },
-             "person":{
-                "entitySearchUrl":"http://localhost:5010/search?type=PERSON&term=103000003407504&fields=[%22id%22]",
-                "name":{
-                   "first":"Daniel",
-                   "last":"Fagan",
-                   "full":"Daniel Fagan"
-                },
-                "dateOfBirth":"1984-08-03T00:00:00Z",
-                "gender":"M",
-                "nationality":"GB",
-                "document":{
-                   "entitySearchUrl":null,
-                   "type":"PASSPORT",
-                   "number":"ST0392315",
-                   "expiry":"2021-02-01T00:00:00Z"
-                },
-                "movementStats":null
-             },
-             "otherPersons":[
-                {
-                   "entitySearchUrl":"http://localhost:5010/search?type=PERSON&term=101234567888,101234567999&fields=[%22id%22]",
-                   "name":{
-                      "first":"Donald",
-                      "last":"Fox",
-                      "full":"Donald Fox"
-                   },
-                   "dateOfBirth":"1981-06-03T00:00:00Z",
-                   "gender":"M",
-                   "nationality":"GB",
-                   "document":{
-                      "entitySearchUrl":null,
-                      "type":"PASSPORT",
-                      "number":"ST0394612",
-                      "expiry":"2021-02-01T00:00:00Z"
-                   },
-                   "movementStats":null
-                }
-             ],
-             "vehicle":{
-                "entitySearchUrl":"http://localhost:5010/search?type=VEHICLE&term=103000003407504&fields=[%22id%22]",
-                "type":"Truck",
-                "registration":"GB57MJP",
-                "nationality":"GB",
-                "colour":"Grey",
-                "model":"R-Series",
-                "make":"Scania",
-                "netWeight":"3455",
-                "grossWeight":"43623",
-                "movementStats":null
-             },
-             "trailer":{
-                "entitySearchUrl":"http://localhost:5010/search?type=VEHICLE&term=103000003407321&fields=[%22id%22]",
-                "type":"TR",
-                "registration":"GB09NFD",
-                "nationality":"GB",
-                "length":"75",
-                "height":"3",
-                "loadStatus":"Empty",
-                "movementStats":null
-             },
-             "goods":{
-                "description":"PPE Masks",
-                "hazardous":false,
-                "weight":null,
-                "destination":null
-             },
-             "haulier":{
-                "entitySearchUrl":null,
-                "name":"Sinkable Hauling",
-                "address":null,
-                "contacts":{
-                   "phone":{
-                      "value":"289675932",
-                      "entitySearchUrl":null
-                   },
-                   "mobile":{
-                      "value":"07809123456",
-                      "entitySearchUrl":null
-                   }
-                },
-                "movementStats":null
-             },
-             "account":{
-                "entitySearchUrl":"http://localhost:5010/search?type=ORGANISATION&term=10311111113407504&fields=[%22id%22]",
-                "name":"Safe Cafe Medical PPE",
-                "shortName":"SCM PPE",
-                "reference":"000361676",
-                "address":{
-                   "entitySearchUrl":null,
-                   "line1":"University of Portsmouth",
-                   "line2":"Royal Dockyards",
-                   "city":"Portsmouth",
-                   "postcode":"PO1 2EF",
-                   "country":"GB"
-                },
-                "contacts":{
-                   "phone":{
-                      "value":"01234 926459",
-                      "entitySearchUrl":null
-                   },
-                   "mobile":{
-                      "value":"07809 386670",
-                      "entitySearchUrl":null
-                   }
-                },
-                "movementStats":null
-             },
-             "booker":null,
-             "occupants":{
-                "numberOfOaps":0,
-                "numberOfAdults":1,
-                "numberOfChildren":0,
-                "numberOfInfants":0,
-                "numberOfUnknowns":3,
-                "numberOfOccupants":4
-             }
-          },
-          "risks":{
-             "targetingIndicators":{
-                "indicators":[
-                   {
-                      "id":1,
-                      "name":"VEHICLE-FREIGHT-QUICK-TURNAROUND-0_24_HRS",
-                      "description":"Quick turnaround freight (under 24 hours)",
-                      "score":30
-                   },
-                   {
-                      "id":2,
-                      "name":"VEHICLE-TOURIST-QUICK-TURNAROUND-0_24_HRS",
-                      "description":"Quick turnaround tourist (under 24 hours)",
-                      "score":30
-                   }
-                ],
-                "count":2,
-                "score":60
-             },
-             "matchedRules":[
-                {
-                   "id":535,
-                   "name":"Selector Matched Rule",
-                   "type":"Both",
-                   "priority":"Tier 1",
-                   "description":"Test",
-                   "version":1,
-                   "abuseTypes":[
-                      "National Security at the Border"
-                   ],
-                   "indicatorMatches":[
-                      {
-                         "entity":"Message",
-                         "descriptor":"mode",
-                         "operator":"in",
-                         "value":"[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-                      },
-                      {
-                         "entity":"Message",
-                         "descriptor":"selectorsMatched",
-                         "operator":"equal",
-                         "value":"true"
-                      }
-                   ]
-                },
-                {
-                   "id":556,
-                   "name":"Checkin lead time",
-                   "type":"Both",
-                   "priority":"Tier 4",
-                   "description":"Qui nesciunt suscip",
-                   "version":1,
-                   "abuseTypes":[
-                      "Class A Drugs"
-                   ],
-                   "indicatorMatches":[
-                      {
-                         "entity":"Booking",
-                         "descriptor":"checkInLeadTime",
-                         "operator":"between",
-                         "value":"[1, 24]"
-                      },
-                      {
-                         "entity":"Message",
-                         "descriptor":"mode",
-                         "operator":"in",
-                         "value":"[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-                      }
-                   ]
-                }
-             ],
-             "matchedSelectorGroups":{
-                "groups":[
-                   {
-                      "groupReference":"SR-245",
-                      "groupVersionNumber":1,
-                      "requestingOfficer":"fe",
-                      "intelligenceSource":"fefe",
-                      "category":"A",
-                      "threatType":"Class A Drugs",
-                      "pointOfContactMessage":"fdvdfb",
-                      "pointOfContact":"bfb",
-                      "inboundActionCode":"No action required",
-                      "outboundActionCode":"No action required",
-                      "notes":"notes",
-                      "creator":"user",
-                      "selectors":[
-                         {
-                            "id":279,
-                            "reference":"2021-279",
-                            "category":"A",
-                            "warning":{
-                               "status":"NO",
-                               "types":[
-                                  
-                               ],
-                               "detail":null
-                            },
-                            "indicatorMatches":[
-                               {
-                                  "entity":"Message",
-                                  "descriptor":"mode",
-                                  "operator":"in",
-                                  "value":"RORO Accompanied Freight"
-                               },
-                               {
-                                  "entity":"Trailer",
-                                  "descriptor":"registrationNumber",
-                                  "operator":"equal",
-                                  "value":"qwerty"
-                               }
-                            ],
-                            "description":"RORO Accompanied Freight qwerty"
-                         },
-                         {
-                            "id":300,
-                            "reference":"2022-300",
-                            "category":"B",
-                            "warning":{
-                               "status":"NO",
-                               "types":[
-                                  
-                               ],
-                               "detail":null
-                            },
-                            "indicatorMatches":[
-                               {
-                                  "entity":"Trailer",
-                                  "descriptor":"registrationNumber",
-                                  "operator":"equal",
-                                  "value":"GB09NFD"
-                               }
-                            ],
-                            "description":"GB09NFD"
-                         }
-                      ]
-                   }
-                ],
-                "totalNumberOfSelectors":2
-             },
-             "highestThreatLevelRiskType":"RULE",
-             "highestThreatLevel":"A"
-          }
+         "id": 535,
+         "name": "Selector Matched Rule",
+         "type": "Both",
+         "priority": "Tier 1",
+         "description": "Test",
+         "version": 1,
+         "abuseTypes": [
+           "National Security at the Border"
+         ],
+         "indicatorMatches": [
+           {
+             "entity": "Message",
+             "descriptor": "mode",
+             "operator": "in",
+             "value": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+           },
+           {
+             "entity": "Message",
+             "descriptor": "selectorsMatched",
+             "operator": "equal",
+             "value": "true"
+           }
+         ]
+       },
+       {
+         "id": 556,
+         "name": "Checkin lead time",
+         "type": "Both",
+         "priority": "Tier 4",
+         "description": "Qui nesciunt suscip",
+         "version": 1,
+         "abuseTypes": [
+           "Class A Drugs"
+         ],
+         "indicatorMatches": [
+           {
+             "entity": "Booking",
+             "descriptor": "checkInLeadTime",
+             "operator": "between",
+             "value": "[1, 24]"
+           },
+           {
+             "entity": "Message",
+             "descriptor": "mode",
+             "operator": "in",
+             "value": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+           }
+         ]
        }
-    ]
- } 
+     ],
+     "matchedSelectorGroups": {
+       "groups": [
+         {
+           "groupReference": "SR-245",
+           "groupVersionNumber": 1,
+           "requestingOfficer": "fe",
+           "intelligenceSource": "fefe",
+           "category": "A",
+           "threatType": "Class A Drugs",
+           "pointOfContactMessage": "fdvdfb",
+           "pointOfContact": "bfb",
+           "inboundActionCode": "No action required",
+           "outboundActionCode": "No action required",
+           "notes": "notes",
+           "creator": "user",
+           "selectors": [
+             {
+               "id": 279,
+               "reference": "2021-279",
+               "category": "A",
+               "warning": {
+                 "status": "NO",
+                 "types": [],
+                 "detail": null
+               },
+               "indicatorMatches": [
+                 {
+                   "entity": "Message",
+                   "descriptor": "mode",
+                   "operator": "in",
+                   "value": "RORO Accompanied Freight"
+                 },
+                 {
+                   "entity": "Trailer",
+                   "descriptor": "registrationNumber",
+                   "operator": "equal",
+                   "value": "qwerty"
+                 }
+               ],
+               "description": "RORO Accompanied Freight qwerty"
+             },
+             {
+               "id": 300,
+               "reference": "2022-300",
+               "category": "B",
+               "warning": {
+                 "status": "NO",
+                 "types": [],
+                 "detail": null
+               },
+               "indicatorMatches": [
+                 {
+                   "entity": "Trailer",
+                   "descriptor": "registrationNumber",
+                   "operator": "equal",
+                   "value": "GB09NFD"
+                 }
+               ],
+               "description": "GB09NFD"
+             }
+           ]
+         },
+         {
+           "groupReference": "SR-244",
+           "groupVersionNumber": 1,
+           "requestingOfficer": "fe",
+           "intelligenceSource": "fefe",
+           "category": "A",
+           "threatType": "Class A Drugs",
+           "pointOfContactMessage": "fdvdfb",
+           "pointOfContact": "bfb",
+           "inboundActionCode": "No action required",
+           "outboundActionCode": "No action required",
+           "notes": "notes",
+           "creator": "user",
+           "selectors": [
+             {
+               "id": 279,
+               "reference": "2021-279",
+               "category": "A",
+               "warning": {
+                 "status": "NO",
+                 "types": [],
+                 "detail": null
+               },
+               "indicatorMatches": [
+                 {
+                   "entity": "Message",
+                   "descriptor": "mode",
+                   "operator": "in",
+                   "value": "RORO Accompanied Freight"
+                 },
+                 {
+                   "entity": "Trailer",
+                   "descriptor": "registrationNumber",
+                   "operator": "equal",
+                   "value": "qwerty"
+                 }
+               ],
+               "description": "RORO Accompanied Freight qwerty"
+             },
+             {
+               "id": 300,
+               "reference": "2022-300",
+               "category": "B",
+               "warning": {
+                 "status": "NO",
+                 "types": [],
+                 "detail": null
+               },
+               "indicatorMatches": [
+                 {
+                   "entity": "Trailer",
+                   "descriptor": "registrationNumber",
+                   "operator": "equal",
+                   "value": "GB09NFD"
+                 }
+               ],
+               "description": "GB09NFD"
+             }
+           ]
+         }
+       ],
+       "totalNumberOfSelectors": 4
+     },
+     "highestThreatLevelRiskType": "RULE",
+     "highestThreatLevel": "A"
+   },
+   "versions": [
+     {
+       "number": 1,
+       "createdAt": "2022-03-28T09:56:56.402837Z",
+       "movement": {
+         "id": "ROROTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1036",
+         "status": "PRE_ARRIVAL",
+         "mode": "RORO_ACCOMPANIED_FREIGHT",
+         "description": "vehicle-with-trailer",
+         "booking": {
+           "reference": "357485637",
+           "type": "Online",
+           "paymentMethod": "Account",
+           "bookedAt": "2020-08-02T09:20:00Z",
+           "checkInAt": "2020-08-04T12:10:00Z",
+           "ticket": {
+             "number": "TIC-998765421",
+             "type": "Return",
+             "price": "59.99"
+           },
+           "country": "GB"
+         },
+         "journey": {
+           "id": "19aafdcd743bd63ca19bfe917f75a2db",
+           "arrival": {
+             "location": "CAL",
+             "time": "2020-08-04T13:55:00Z"
+           },
+           "departure": {
+             "location": "DOV",
+             "time": "2020-08-04T13:10:00Z"
+           }
+         },
+         "vessel": {
+           "operator": "DFDS",
+           "name": "KHALEESI SEAWAYS"
+         },
+         "person": {
+           "entitySearchUrl": "http://localhost:5010/search?type=PERSON&term=103000003407504&fields=[%22id%22]",
+           "name": {
+             "first": "Daniel",
+             "last": "Fagan",
+             "full": "Daniel Fagan"
+           },
+           "dateOfBirth": "1984-08-03T00:00:00Z",
+           "gender": "M",
+           "nationality": "GB",
+           "document": {
+             "entitySearchUrl": null,
+             "type": "PASSPORT",
+             "number": "ST0392315",
+             "expiry": "2021-02-01T00:00:00Z"
+           },
+           "movementStats": null
+         },
+         "otherPersons": [
+           {
+             "entitySearchUrl": "http://localhost:5010/search?type=PERSON&term=101234567888,101234567999&fields=[%22id%22]",
+             "name": {
+               "first": "Donald",
+               "last": "Fox",
+               "full": "Donald Fox"
+             },
+             "dateOfBirth": "1981-06-03T00:00:00Z",
+             "gender": "M",
+             "nationality": "GB",
+             "document": {
+               "entitySearchUrl": null,
+               "type": "PASSPORT",
+               "number": "ST0394612",
+               "expiry": "2021-02-01T00:00:00Z"
+             },
+             "movementStats": null
+           }
+         ],
+         "vehicle": {
+           "entitySearchUrl": "http://localhost:5010/search?type=VEHICLE&term=103000003407504&fields=[%22id%22]",
+           "type": "Truck",
+           "registration": "GB57MJP",
+           "nationality": "GB",
+           "colour": "Grey",
+           "model": "R-Series",
+           "make": "Scania",
+           "netWeight": "3455",
+           "grossWeight": "43623",
+           "movementStats": null
+         },
+         "trailer": {
+           "entitySearchUrl": "http://localhost:5010/search?type=VEHICLE&term=103000003407321&fields=[%22id%22]",
+           "type": "TR",
+           "registration": "GB09NFD",
+           "nationality": "GB",
+           "length": "75",
+           "height": "3",
+           "loadStatus": "Empty",
+           "movementStats": null
+         },
+         "goods": {
+           "description": "PPE Masks",
+           "hazardous": false,
+           "weight": null,
+           "destination": null
+         },
+         "haulier": {
+           "entitySearchUrl": null,
+           "name": "Sinkable Hauling",
+           "address": null,
+           "contacts": {
+             "phone": {
+               "value": "289675932",
+               "entitySearchUrl": null
+             },
+             "mobile": {
+               "value": "07809123456",
+               "entitySearchUrl": null
+             }
+           },
+           "movementStats": null
+         },
+         "account": {
+           "entitySearchUrl": "http://localhost:5010/search?type=ORGANISATION&term=10311111113407504&fields=[%22id%22]",
+           "name": "Safe Cafe Medical PPE",
+           "shortName": "SCM PPE",
+           "reference": "000361676",
+           "address": {
+             "entitySearchUrl": null,
+             "line1": "University of Portsmouth",
+             "line2": "Royal Dockyards",
+             "city": "Portsmouth",
+             "postcode": "PO1 2EF",
+             "country": "GB"
+           },
+           "contacts": {
+             "phone": {
+               "value": "01234 926459",
+               "entitySearchUrl": null
+             },
+             "mobile": {
+               "value": "07809 386670",
+               "entitySearchUrl": null
+             }
+           },
+           "movementStats": null
+         },
+         "booker": null,
+         "occupants": {
+           "numberOfOaps": 0,
+           "numberOfAdults": 1,
+           "numberOfChildren": 0,
+           "numberOfInfants": 0,
+           "numberOfUnknowns": 3,
+           "numberOfOccupants": 4
+         }
+       },
+       "risks": {
+         "targetingIndicators": {
+           "indicators": [
+             {
+               "id": 1,
+               "name": "VEHICLE-FREIGHT-QUICK-TURNAROUND-0_24_HRS",
+               "description": "Quick turnaround freight (under 24 hours)",
+               "score": 30
+             },
+             {
+               "id": 2,
+               "name": "VEHICLE-TOURIST-QUICK-TURNAROUND-0_24_HRS",
+               "description": "Quick turnaround tourist (under 24 hours)",
+               "score": 30
+             }
+           ],
+           "count": 2,
+           "score": 60
+         },
+         "matchedRules": [
+           {
+             "id": 535,
+             "name": "Selector Matched Rule",
+             "type": "Both",
+             "priority": "Tier 1",
+             "description": "Test",
+             "version": 1,
+             "abuseTypes": [
+               "National Security at the Border"
+             ],
+             "indicatorMatches": [
+               {
+                 "entity": "Message",
+                 "descriptor": "mode",
+                 "operator": "in",
+                 "value": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+               },
+               {
+                 "entity": "Message",
+                 "descriptor": "selectorsMatched",
+                 "operator": "equal",
+                 "value": "true"
+               }
+             ]
+           },
+           {
+             "id": 556,
+             "name": "Checkin lead time",
+             "type": "Both",
+             "priority": "Tier 4",
+             "description": "Qui nesciunt suscip",
+             "version": 1,
+             "abuseTypes": [
+               "Class A Drugs"
+             ],
+             "indicatorMatches": [
+               {
+                 "entity": "Booking",
+                 "descriptor": "checkInLeadTime",
+                 "operator": "between",
+                 "value": "[1, 24]"
+               },
+               {
+                 "entity": "Message",
+                 "descriptor": "mode",
+                 "operator": "in",
+                 "value": "[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+               }
+             ]
+           }
+         ],
+         "matchedSelectorGroups": {
+           "groups": [
+             {
+               "groupReference": "SR-245",
+               "groupVersionNumber": 1,
+               "requestingOfficer": "fe",
+               "intelligenceSource": "fefe",
+               "category": "A",
+               "threatType": "Class A Drugs",
+               "pointOfContactMessage": "fdvdfb",
+               "pointOfContact": "bfb",
+               "inboundActionCode": "No action required",
+               "outboundActionCode": "No action required",
+               "notes": "notes",
+               "creator": "user",
+               "selectors": [
+                 {
+                   "id": 279,
+                   "reference": "2021-279 A",
+                   "category": "A",
+                   "warning": {
+                     "status": "NO",
+                     "types": [],
+                     "detail": null
+                   },
+                   "indicatorMatches": [
+                     {
+                       "entity": "Message",
+                       "descriptor": "mode",
+                       "operator": "in",
+                       "value": "RORO Accompanied Freight"
+                     },
+                     {
+                       "entity": "Trailer",
+                       "descriptor": "registrationNumber",
+                       "operator": "equal",
+                       "value": "qwerty"
+                     }
+                   ],
+                   "description": "RORO Accompanied Freight qwerty"
+                 },
+                 {
+                   "id": 300,
+                   "reference": "2022-300 A",
+                   "category": "B",
+                   "warning": {
+                     "status": "Currently unavailable",
+                     "types": [],
+                     "detail": null
+                   },
+                   "indicatorMatches": [
+                     {
+                       "entity": "Trailer",
+                       "descriptor": "registrationNumber",
+                       "operator": "equal",
+                       "value": "GB09NFD"
+                     }
+                   ],
+                   "description": "GB09NFD"
+                 },
+                 {
+                   "id": 300,
+                   "reference": "2022-600 A",
+                   "category": "B",
+                   "warning": {
+                     "status": "Yes",
+                     "types": [
+                       "VIOL",
+                       "O",
+                       "FIRE",
+                       "WEAP",
+                       "CTGN",
+                       "SEH"
+                     ],
+                     "detail": "something would go here"
+                   },
+                   "indicatorMatches": [
+                     {
+                       "entity": "Trailer",
+                       "descriptor": "registrationNumber",
+                       "operator": "equal",
+                       "value": "GB09NFD"
+                     }
+                   ],
+                   "description": "GB09NFD"
+                 }
+               ]
+             },
+             {
+               "groupReference": "SR-246",
+               "groupVersionNumber": 1,
+               "requestingOfficer": "fr",
+               "intelligenceSource": "fefefe",
+               "category": "B",
+               "threatType": "Class B Drugs",
+               "pointOfContactMessage": "fdvvvv",
+               "pointOfContact": "bfbbbf",
+               "inboundActionCode": "No action required",
+               "outboundActionCode": "No action required",
+               "notes": "notes",
+               "creator": "user",
+               "selectors": [
+                 {
+                   "id": 279,
+                   "reference": "2021-279 B",
+                   "category": "A",
+                   "warning": {
+                     "status": "NO",
+                     "types": [],
+                     "detail": null
+                   },
+                   "indicatorMatches": [
+                     {
+                       "entity": "Message",
+                       "descriptor": "mode",
+                       "operator": "in",
+                       "value": "RORO Accompanied Freight"
+                     },
+                     {
+                       "entity": "Trailer",
+                       "descriptor": "registrationNumber",
+                       "operator": "equal",
+                       "value": "qwerty"
+                     }
+                   ],
+                   "description": "RORO Accompanied Freight qwerty"
+                 },
+                 {
+                   "id": 300,
+                   "reference": "2022-600 B",
+                   "category": "B",
+                   "warning": {
+                     "status": "Yes",
+                     "types": [
+                       "VIOL",
+                       "O",
+                       "FIRE",
+                       "WEAP",
+                       "CTGN",
+                       "SEH"
+                     ],
+                     "detail": "something would go here"
+                   },
+                   "indicatorMatches": [
+                     {
+                       "entity": "Trailer",
+                       "descriptor": "registrationNumber",
+                       "operator": "equal",
+                       "value": "GB09NFD"
+                     }
+                   ],
+                   "description": "GB09NFD"
+                 }
+               ]
+             }
+           ],
+           "totalNumberOfSelectors": 5
+         },
+         "highestThreatLevelRiskType": "RULE",
+         "highestThreatLevel": "A"
+       }
+     }
+   ]
+ }
