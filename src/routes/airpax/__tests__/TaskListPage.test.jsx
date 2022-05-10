@@ -123,7 +123,7 @@ describe('TaskListPage', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
-    expect(screen.queryByText('There are no new tasks')).not.toBeInTheDocument();
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
   });
 
   it('should render a claim button if the task status is new & there is no assignee', async () => {
