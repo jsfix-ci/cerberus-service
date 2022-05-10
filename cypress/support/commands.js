@@ -224,6 +224,32 @@ Cypress.Commands.add('findTaskInAllThePages', (taskName, action, taskdetails) =>
   return findItem(taskName, action, taskdetails);
 });
 
+function getNumberOfTasksInPage() {
+  function getCount(count) {
+    cy.get('.pagination').invoke('attr', 'aria-label').as('pages');
+    cy.get('@pages').then((pages) => {
+      let page = pages.match(/\d/g).join('');
+      if (count >= page) {
+        return false;
+      }
+      if (count > 0) {
+        cy.contains('Next').click();
+        cy.wait(1000);
+      }
+      cy.get('.govuk-task-list-card').then((numberOfTasks) => {
+        expect(numberOfTasks.length).lte(100);
+      }).then(() => {
+        getCount(count += 1);
+      });
+    });
+  }
+  getCount(0);
+}
+
+Cypress.Commands.add('findNumberOfTasksInPage', () => {
+  return getNumberOfTasksInPage();
+});
+
 Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
   cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
     cy.wrap(element).invoke('attr', 'id').then((value) => {
@@ -1111,7 +1137,7 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = {};
   let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
   const dateFormat = 'D MMM YYYY [at] HH:mm';
-  let taskCreationDateTime = dayjs().format(dateFormat);
+  let taskCreationDateTime = dayjs().utc().format(dateFormat);
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
     const rndInt = Math.floor(Math.random() * 20) + 1;
@@ -1121,8 +1147,8 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
       let vehicle = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle;
       let person = task.variables.rbtPayload.value.data.movement.persons[0].person;
-      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).format(dateFormat);
-      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).format(dateFormat);
+      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).utc().format(dateFormat);
+      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format(dateFormat);
       let diff = Cypress.dayjs(voyage.actualArrivalTimestamp).from(Cypress.dayjs());
       expectedTaskSummary.vehicle = `Vehicle${vehicle.registrationNumber} driven by ${person.fullName}`;
       expectedTaskSummary.Ferry = `${voyage.carrier} voyage of ${voyage.craftId}`;
@@ -1589,4 +1615,19 @@ Cypress.Commands.add('SelectInformBothFreightAndTouristOption', (elementName) =>
   cy.get(`input[name="data[${elementName}]"]`).click();
 
   cy.get(`${formioComponent}${elementName}`).find('input').should('be.checked');
+});
+
+Cypress.Commands.add('verifyDateTime', (elementName, dateTimeFormatted) => {
+  let eta = Cypress.dayjs(dateTimeFormatted);
+  cy.get(`#${elementName}-day`).should('have.value', eta.format('DD'));
+  cy.get(`#${elementName}-month`).should('have.value', eta.format('MM'));
+  cy.get(`#${elementName}-year`).should(
+    'have.value',
+    eta.format('YYYY'),
+  );
+  cy.get(`#${elementName}-hour`).should('have.value', eta.format('HH'));
+  cy.get(`#${elementName}-minute`).should(
+    'have.value',
+    eta.format('mm'),
+  );
 });
