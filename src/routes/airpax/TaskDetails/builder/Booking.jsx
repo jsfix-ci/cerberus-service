@@ -34,7 +34,7 @@ const Booking = ({ version }) => {
 
   return (
     <div className="task-details-container">
-      <h3 className="title-heading airpax-title-heading">Booking</h3>
+      <h3 className="title-heading govuk-!-margin-top-0">Booking</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Reference', [BookingUtil.bookingRef(booking)])}
         {renderBlock('Number of travellers', [

@@ -11,7 +11,7 @@ import Document from './builder/Document';
 import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
-import CoTravellers from './builder/CoTravellers';
+import CoTraveller from './builder/CoTraveller';
 
 const renderDetailsOverview = (version, airlineCodes) => {
   return (
@@ -33,7 +33,7 @@ const renderDetailsOverview = (version, airlineCodes) => {
         </div>
       </div>
       <div className="co-travellers-container">
-        <CoTravellers version={version} />
+        <CoTraveller version={version} />
       </div>
     </>
   );
