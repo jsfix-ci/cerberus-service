@@ -1,0 +1,715 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectorMatches should render SelectorMatches component 1`] = `
+<div>
+  <h2
+    className="govuk-heading-m"
+  >
+    5
+     selector matches
+  </h2>
+  <div
+    className="govuk-!-margin-bottom-6"
+  >
+    <h4
+      className="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-top-2"
+    >
+      SR-245
+    </h4>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        requestingOfficer
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        fe
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        category
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        A
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        threatType
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        Class A Drugs
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        pointOfContactMessage
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        fdvdfb
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        pointOfContact
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        bfb
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        inboundActionCode
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        No action required
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        outboundActionCode
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        No action required
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        notes
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        notes
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        creator
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        user
+      </p>
+    </div>
+    <div
+      className="react-tabs"
+      data-rttabs={true}
+      onClick={[Function]}
+      onKeyDown={[Function]}
+    >
+      <ul
+        className="react-tabs__tab-list"
+        role="tablist"
+      >
+        <li
+          aria-controls="react-tabs-1"
+          aria-disabled="false"
+          aria-selected="true"
+          className="react-tabs__tab react-tabs__tab--selected"
+          data-rttab={true}
+          id="react-tabs-0"
+          role="tab"
+          tabIndex="0"
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16"
+          >
+            RORO Accompanied Freight qwerty
+          </p>
+          <p
+            className="govuk-!-font-size-14 font-light"
+          >
+            2021-279 A
+          </p>
+        </li>
+        <li
+          aria-controls="react-tabs-3"
+          aria-disabled="false"
+          aria-selected="false"
+          className="react-tabs__tab"
+          data-rttab={true}
+          id="react-tabs-2"
+          role="tab"
+          tabIndex={null}
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16"
+          >
+            GB09NFD
+          </p>
+          <p
+            className="govuk-!-font-size-14 font-light"
+          >
+            2022-300 A
+          </p>
+        </li>
+        <li
+          aria-controls="react-tabs-5"
+          aria-disabled="false"
+          aria-selected="false"
+          className="react-tabs__tab"
+          data-rttab={true}
+          id="react-tabs-4"
+          role="tab"
+          tabIndex={null}
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16"
+          >
+            GB09NFD
+          </p>
+          <p
+            className="govuk-!-font-size-14 font-light"
+          >
+            2022-600 A
+          </p>
+        </li>
+      </ul>
+      <div
+        aria-labelledby="react-tabs-0"
+        className="react-tabs__tab-panel react-tabs__tab-panel--selected"
+        id="react-tabs-1"
+        role="tabpanel"
+      >
+        <div
+          className="govuk-grid-row govuk-!-margin-top-1"
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-margin-bottom-0"
+          >
+            Selector 
+            2021-279 A
+          </p>
+          <p
+            className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-right-1 govuk-!-margin-bottom-0 font-warning"
+          >
+            No warnings
+          </p>
+        </div>
+        <p
+          className="govuk-body govuk-!-font-size-16"
+        >
+          All of these attributes are present in this movement.
+        </p>
+        <div
+          className="panel"
+        >
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Entity
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              Message
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Descriptor
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              mode
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Operator
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              in
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Value
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              RORO Accompanied Freight
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Entity
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              Trailer
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Descriptor
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              registrationNumber
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Operator
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              equal
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Value
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              qwerty
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="react-tabs-2"
+        className="react-tabs__tab-panel"
+        id="react-tabs-3"
+        role="tabpanel"
+      />
+      <div
+        aria-labelledby="react-tabs-4"
+        className="react-tabs__tab-panel"
+        id="react-tabs-5"
+        role="tabpanel"
+      />
+    </div>
+  </div>
+  <div
+    className="govuk-!-margin-bottom-6"
+  >
+    <h4
+      className="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-top-2"
+    >
+      SR-246
+    </h4>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        requestingOfficer
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        fr
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        category
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        B
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        threatType
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        Class B Drugs
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        pointOfContactMessage
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        fdvvvv
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        pointOfContact
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        bfbbbf
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        inboundActionCode
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        No action required
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        outboundActionCode
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        No action required
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        notes
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        notes
+      </p>
+    </div>
+    <div
+      className="govuk-grid-row"
+    >
+      <p
+        className="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half"
+      >
+        creator
+      </p>
+      <p
+        className="govuk-body govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-0"
+      >
+        user
+      </p>
+    </div>
+    <div
+      className="react-tabs"
+      data-rttabs={true}
+      onClick={[Function]}
+      onKeyDown={[Function]}
+    >
+      <ul
+        className="react-tabs__tab-list"
+        role="tablist"
+      >
+        <li
+          aria-controls="react-tabs-7"
+          aria-disabled="false"
+          aria-selected="true"
+          className="react-tabs__tab react-tabs__tab--selected"
+          data-rttab={true}
+          id="react-tabs-6"
+          role="tab"
+          tabIndex="0"
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16"
+          >
+            RORO Accompanied Freight qwerty
+          </p>
+          <p
+            className="govuk-!-font-size-14 font-light"
+          >
+            2021-279 B
+          </p>
+        </li>
+        <li
+          aria-controls="react-tabs-9"
+          aria-disabled="false"
+          aria-selected="false"
+          className="react-tabs__tab"
+          data-rttab={true}
+          id="react-tabs-8"
+          role="tab"
+          tabIndex={null}
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16"
+          >
+            GB09NFD
+          </p>
+          <p
+            className="govuk-!-font-size-14 font-light"
+          >
+            2022-600 B
+          </p>
+        </li>
+      </ul>
+      <div
+        aria-labelledby="react-tabs-6"
+        className="react-tabs__tab-panel react-tabs__tab-panel--selected"
+        id="react-tabs-7"
+        role="tabpanel"
+      >
+        <div
+          className="govuk-grid-row govuk-!-margin-top-1"
+        >
+          <p
+            className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-margin-bottom-0"
+          >
+            Selector 
+            2021-279 B
+          </p>
+          <p
+            className="govuk-heading-s govuk-!-font-size-16 govuk-grid-column-one-half govuk-!-padding-right-1 govuk-!-margin-bottom-0 font-warning"
+          >
+            No warnings
+          </p>
+        </div>
+        <p
+          className="govuk-body govuk-!-font-size-16"
+        >
+          All of these attributes are present in this movement.
+        </p>
+        <div
+          className="panel"
+        >
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Entity
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              Message
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Descriptor
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              mode
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Operator
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              in
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Value
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              RORO Accompanied Freight
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Entity
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              Trailer
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Descriptor
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              registrationNumber
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Operator
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              equal
+            </p>
+          </div>
+          <div
+            className="panel-content"
+          >
+            <p
+              className="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-0"
+            >
+              Value
+            </p>
+            <p
+              className="govuk-body govuk-!-font-size-16"
+            >
+              qwerty
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="react-tabs-8"
+        className="react-tabs__tab-panel"
+        id="react-tabs-9"
+        role="tabpanel"
+      />
+    </div>
+  </div>
+</div>
+`;

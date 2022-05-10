@@ -11,6 +11,7 @@ import Document from './builder/Document';
 import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
+import SelectorMatches from './builder/SelectorMatches';
 
 const renderDetailsOverview = (version, airlineCodes) => {
   return (
@@ -30,6 +31,9 @@ const renderDetailsOverview = (version, airlineCodes) => {
             <Voyage version={version} airlineCodes={airlineCodes} />
           </div>
         </div>
+      </div>
+      <div>
+        <SelectorMatches version={version} />
       </div>
     </>
   );

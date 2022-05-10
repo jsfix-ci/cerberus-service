@@ -49,3 +49,13 @@ export const FONT_CLASSES = {
   1: 'font__light',
 };
 export const UNKNOWN_TIME_DATA = { h: null, m: null, s: null };
+export const WARNING_CODES_MAPPING = {
+  VIOL: 'Violence',
+  FIRE: 'Firearms',
+  WEAP: 'Weapons',
+  CTGN: 'Contagion',
+  SEH: 'Self Harm',
+};
+export const NO_TEXT = 'No';
+export const YES_TEXT = 'Yes';
+export const CURRENTLY_UNAVAILABLE_TEXT = 'Currently unavailable';

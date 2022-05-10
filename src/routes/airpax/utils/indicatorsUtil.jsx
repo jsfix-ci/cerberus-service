@@ -1,5 +1,6 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
+import { WARNING_CODES_MAPPING, NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../../../constants';
 
 const formatTargetIndicators = (targetingIndicators) => {
   if (targetingIndicators?.indicators?.length > 0) {
@@ -39,12 +40,56 @@ const getRisk = (targetTask) => {
   return null;
 };
 
+const getSelectorWarning = (selector) => {
+  let warning;
+  let warningDetails;
+  const warningStatus = selector.warning.status;
+  if (warningStatus?.toLowerCase() === NO_TEXT.toLowerCase()) warning = 'No warnings';
+  if (warningStatus?.toLowerCase() === CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) warning = 'Warnings currently unavailable';
+  if (warningStatus?.toLowerCase() === YES_TEXT.toLowerCase()) {
+    const warningTypes = selector.warning.types;
+    const containsOther = warningTypes.indexOf('O') > -1;
+    if (warningTypes.length > 0) {
+      if (containsOther) {
+        warningDetails = selector.warning.detail;
+      }
+      warning = warningTypes.map((w) => (w === 'O' ? warningDetails?.substring(0, 500) : WARNING_CODES_MAPPING[w])).join(', ');
+    }
+  }
+  return warning;
+};
+
+const hasIndicatorMatches = (selector) => {
+  return !!selector?.indicatorMatches;
+};
+
+const getIndicatorMatches = (selector) => {
+  if (hasIndicatorMatches(selector)) {
+    return selector.indicatorMatches;
+  }
+  return null;
+};
+
+const hasSelectorGroups = (version) => {
+  return !!version?.risks?.matchedSelectorGroups;
+};
+
+const getSelectorGroups = (version) => {
+  if (hasSelectorGroups(version)) {
+    return version.risks.matchedSelectorGroups;
+  }
+  return null;
+};
+
 const IndicatorsUtil = {
   getRisks: getRisk,
   format: formatTargetIndicators,
   getIndicators: getTargetingIndicators,
+  getWarning: getSelectorWarning,
+  getMatches: getIndicatorMatches,
+  getGroups: getSelectorGroups,
 };
 
 export default IndicatorsUtil;
 
-export { formatTargetIndicators, getRisk, getTargetingIndicators };
+export { formatTargetIndicators, getRisk, getTargetingIndicators, getSelectorWarning, getIndicatorMatches };
