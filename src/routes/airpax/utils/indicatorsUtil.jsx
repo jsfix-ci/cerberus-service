@@ -44,9 +44,9 @@ const getSelectorWarning = (selector) => {
   let warning;
   let warningDetails;
   const warningStatus = selector.warning.status;
-  if (warningStatus.toLowerCase() === NO_TEXT.toLowerCase()) warning = 'No warnings';
-  if (warningStatus.toLowerCase() === CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) warning = 'Warnings currently unavailable';
-  if (warningStatus.toLowerCase() === YES_TEXT.toLowerCase()) {
+  if (warningStatus?.toLowerCase() === NO_TEXT.toLowerCase()) warning = 'No warnings';
+  if (warningStatus?.toLowerCase() === CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) warning = 'Warnings currently unavailable';
+  if (warningStatus?.toLowerCase() === YES_TEXT.toLowerCase()) {
     const warningTypes = selector.warning.types;
     const containsOther = warningTypes.indexOf('O') > -1;
     if (warningTypes.length > 0) {
