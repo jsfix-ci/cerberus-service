@@ -68,7 +68,7 @@ exports[`TaskVersions should render task versions 1`] = `
           className="govuk-grid-column-one-third"
         >
           <div
-            className="task-details-container bottom-border-thin"
+            className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
           >
             <h3
               className="title-heading govuk-!-margin-top-0"
