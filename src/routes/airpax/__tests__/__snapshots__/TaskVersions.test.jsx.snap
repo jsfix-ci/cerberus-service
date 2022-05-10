@@ -1279,6 +1279,16 @@ exports[`TaskVersions should render task versions 1`] = `
           </table>
         </div>
       </div>
+      <div>
+        <div>
+          <h2
+            className="govuk-heading-m"
+          >
+            0
+             selector matches
+          </h2>
+        </div>
+      </div>
     </div>
   </div>
 </div>
