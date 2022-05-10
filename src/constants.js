@@ -56,3 +56,6 @@ export const WARNING_CODES_MAPPING = {
   CTGN: 'Contagion',
   SEH: 'Self Harm',
 };
+export const NO_TEXT = 'No';
+export const YES_TEXT = 'Yes';
+export const CURRENTLY_UNAVAILABLE_TEXT = 'Currently unavailable';

@@ -143,7 +143,23 @@ describe('IndicatorsUtil', () => {
     expect(output).toEqual('Violence, Firearms, Weapons, Contagion, Self Harm');
   });
 
-  it('should get indicators matches if present', () => {
+  it('should render nothing if warning status is null', () => {
+    const selector = {
+      id: 279,
+      reference: '2021-279 A',
+      category: 'A',
+      warning: {
+        status: null,
+        types: [],
+        detail: null,
+      },
+    };
+
+    const output = IndicatorsUtil.getWarning(selector);
+    expect(output).toEqual(undefined);
+  });
+
+  it('should get indicator matches if present', () => {
     const selector = {
       indicatorMatches: [
         {
@@ -177,5 +193,23 @@ describe('IndicatorsUtil', () => {
     ];
     const output = IndicatorsUtil.getMatches(selector);
     expect(output).toEqual(expected);
+  });
+
+  it('should return empty array if indicator matches does not contain any indicators', () => {
+    const selector = {
+      indicatorMatches: [],
+    };
+
+    const output = IndicatorsUtil.getMatches(selector);
+    expect(output).toEqual([]);
+  });
+
+  it('should return null if indicator matches is null', () => {
+    const selector = {
+      indicatorMatches: null,
+    };
+
+    const output = IndicatorsUtil.getMatches(selector);
+    expect(output).toEqual(null);
   });
 });
