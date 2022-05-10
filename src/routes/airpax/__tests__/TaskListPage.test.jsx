@@ -37,7 +37,7 @@ describe('TaskListPage', () => {
       limit: 100,
       offset: 0,
     },
-  }
+  };
 
   let tabData = {};
 
