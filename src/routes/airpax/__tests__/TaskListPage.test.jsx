@@ -17,6 +17,28 @@ import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);
 
+  const defaultPostPagesParams = {
+    status: 'NEW',
+    sortParams: [
+      {
+        field: 'WINDOW_OF_OPPORTUNITY',
+        order: 'ASC',
+      },
+      {
+        field: 'ARRIVAL_TIME',
+        order: 'ASC',
+      },
+      {
+        field: 'THREAT_LEVEL',
+        order: 'DESC',
+      },
+    ],
+    pageParams: {
+      limit: 100,
+      offset: 0,
+    },
+  };
+
   let tabData = {};
 
   beforeEach(() => {
@@ -91,6 +113,17 @@ describe('TaskListPage', () => {
     expect(screen.getByText(/Valid from Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Expires Unknown/)).toBeInTheDocument();
     expect(screen.getByText(/Issued by Unknown/)).toBeInTheDocument();
+  });
+
+  it('should fetch tasks using default params', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages', defaultPostPagesParams)
+      .reply(200, [dataCurrentUser])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
   });
 
   it('should render a claim button if the task status is new & there is no assignee', async () => {
