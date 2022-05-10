@@ -35,7 +35,7 @@ const renderDetailsOverview = (version, airlineCodes) => {
           </div>
         </div>
       </div>
-      <div className="co-travellers-container">
+      <div className="co-travellers-container govuk-!-margin-bottom-2">
         <CoTraveller version={version} />
       </div>
       <div>
