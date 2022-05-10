@@ -3,10 +3,17 @@ import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import TaskVersions from '../TaskDetails/TaskVersions';
 
+import { LONDON_TIMEZONE } from '../../../constants';
 import taskDetailsData from '../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
+import config from '../../../config';
+
 describe('TaskVersions', () => {
+  beforeEach(() => {
+    config.dayjsConfig.timezone = LONDON_TIMEZONE;
+  });
+
   const mockTaskVersionsWithRuleThreat = [
     {
       number: 1,
