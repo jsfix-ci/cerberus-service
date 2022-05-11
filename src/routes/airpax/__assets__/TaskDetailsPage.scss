@@ -14,6 +14,10 @@
   }
 }
 
+.airpax-title-heading {
+  margin-top: 0px;
+}
+
 .vertical-dotted-line {
   height: inherit;
   border-left: 4px dotted #b1b4b6;
@@ -22,4 +26,16 @@
 .thin-border {
   border-bottom: 1px solid #b1b4b6;
   padding-bottom: 4px;
+}
+
+.dot {
+  &__light{
+    height: 4px;
+    width: 4px;
+    background-color: #505a5f;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 2px;
+  }
 }

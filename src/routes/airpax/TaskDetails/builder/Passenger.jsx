@@ -6,8 +6,8 @@ import PersonUtils from '../../utils/personUtil';
 const Passenger = ({ version }) => {
   const person = PersonUtils.get(version);
   return (
-    <div className="task-details-container bottom-border-thick">
-      <h3 className="title-heading">Passenger</h3>
+    <div className="task-details-container bottom-border">
+      <h3 className="title-heading airpax-title-heading">Passenger</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Name', [`${PersonUtils.lastname(person)}, ${PersonUtils.firstname(person)}`])}
         {renderBlock('Date of birth', [PersonUtils.dob(person)])}
