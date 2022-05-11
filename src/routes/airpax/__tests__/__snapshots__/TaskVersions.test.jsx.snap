@@ -71,7 +71,7 @@ exports[`TaskVersions should render task versions 1`] = `
             className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
           >
             <h3
-              className="title-heading govuk-!-margin-top-0"
+              className="govuk-heading-m govuk-!-margin-top-0"
             >
               Passenger
             </h3>
@@ -195,7 +195,7 @@ exports[`TaskVersions should render task versions 1`] = `
             className="task-details-container"
           >
             <h3
-              className="title-heading govuk-!-margin-top-0"
+              className="govuk-heading-m govuk-!-margin-top-0"
             >
               Document
             </h3>
@@ -337,7 +337,7 @@ exports[`TaskVersions should render task versions 1`] = `
               className="task-details-container"
             >
               <h3
-                className="title-heading govuk-!-margin-top-0"
+                className="govuk-heading-m govuk-!-margin-top-0"
               >
                 Booking
               </h3>
@@ -449,7 +449,7 @@ exports[`TaskVersions should render task versions 1`] = `
                 </div>
               </div>
               <div
-                className="thin-border"
+                className="bottom-border-thin"
               >
                 <span
                   className="font__light"
@@ -458,7 +458,7 @@ exports[`TaskVersions should render task versions 1`] = `
                 </span>
               </div>
               <div
-                className="thin-border govuk-!-margin-top-1"
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
               >
                 <div
                   className="font__bold"
@@ -475,7 +475,7 @@ exports[`TaskVersions should render task versions 1`] = `
                 </div>
               </div>
               <div
-                className="thin-border govuk-!-margin-top-1"
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
               >
                 <div
                   className="font__bold"
@@ -533,10 +533,10 @@ exports[`TaskVersions should render task versions 1`] = `
             className="govuk-task-details-col-3"
           >
             <div
-              className="task-details-container"
+              className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
             >
               <h3
-                className="title-heading govuk-!-margin-top-0"
+                className="govuk-heading-m govuk-!-margin-top-0"
               >
                 Voyage
               </h3>
@@ -651,17 +651,189 @@ exports[`TaskVersions should render task versions 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="task-details-container"
+            >
+              <h3
+                className="govuk-heading-m govuk-!-margin-top-0"
+              >
+                Itinerary
+              </h3>
+              <div
+                className="bottom-border-thin"
+              />
+              <div
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__bold"
+                >
+                  AC0850
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  CDG
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  YYZ
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Wed 3 Oct 2018 at 12:00
+                </div>
+                <div
+                  className="font__light"
+                >
+                  FR
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  CA
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Arrival
+                   
+                  3 Oct 2018 at 14:05
+                </div>
+              </div>
+              <div
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__light"
+                >
+                  3 hours later
+                </div>
+                <div
+                  className="font__bold"
+                >
+                  BD0998
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  YYZ
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  YYC
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Wed 3 Oct 2018 at 17:05
+                </div>
+                <div
+                  className="font__light"
+                >
+                  CA
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  CA
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Arrival
+                   
+                  3 Oct 2018 at 19:16
+                </div>
+              </div>
+              <div
+                className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__light"
+                >
+                  17 minutes later
+                </div>
+                <div
+                  className="font__bold"
+                >
+                  XZ0123
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  YYC
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  LHR
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Wed 3 Oct 2018 at 19:32
+                </div>
+                <div
+                  className="font__light"
+                >
+                  CA
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  GB
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Arrival
+                   
+                  3 Oct 2018 at 22:19
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div
-        className="co-travellers-container govuk-!-margin-bottom-2"
+        className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4"
       >
         <div
           className="font__bold"
         >
           <h3
-            className="title-heading govuk-!-margin-top-0 govuk-!-margin-bottom-0"
+            className="govuk-heading-m govuk-!-margin-bottom-0"
           >
             4 travellers
           </h3>

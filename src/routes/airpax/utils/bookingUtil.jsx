@@ -191,7 +191,7 @@ const toPaymentsBlock = (booking) => {
   if (payments) {
     return payments.map((payment, index) => {
       return (
-        <div key={index} className="thin-border govuk-!-margin-top-1">
+        <div key={index} className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1">
           <div className="font__bold">{getPaymentAmount(payment)}</div>
           <div className="font__light">
             Credit card ending {getCardLastFourDigits(payment)}, expiry {getCardExpiry(payment)}

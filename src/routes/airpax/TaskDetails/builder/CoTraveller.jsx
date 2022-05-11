@@ -111,7 +111,7 @@ const CoTraveller = ({ version }) => {
   const allPersons = PersonUtil.allPersons(PersonUtil.get(version), PersonUtil.getOthers(version));
   return (
     <div className="font__bold">
-      <h3 className="title-heading govuk-!-margin-top-0 govuk-!-margin-bottom-0">
+      <h3 className="govuk-heading-m govuk-!-margin-bottom-0">
         {pluralise.withCount(PersonUtil.totalPersons(version), '% traveller', '% travellers', undefined)}
       </h3>
       <Table

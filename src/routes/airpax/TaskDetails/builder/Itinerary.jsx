@@ -7,11 +7,14 @@ const Itinerary = ({ version }) => {
   const itinerary = MovementUtil.movementItinerary(MovementUtil.movementJourney(version));
   return (
     <div className="task-details-container">
-      <h3 className="title-heading airpax-title-heading">Itinerary</h3>
-      <div className="thin-border" />
+      <h3 className="govuk-heading-m govuk-!-margin-top-0">Itinerary</h3>
+      <div className="bottom-border-thin" />
       {itinerary && itinerary.map((it, index) => {
         return (
-          <div key={index} className={`${index !== itinerary.length - 1 && 'thin-border'} govuk-!-margin-top-1`}>
+          <div
+            key={index}
+            className={`${index !== itinerary.length - 1 && 'bottom-border-thin'} govuk-!-margin-top-1 govuk-!-padding-bottom-1`}
+          >
             {index !== 0 && index <= itinerary.length - 1 && MovementUtil.itinRelativeTime(index, it, itinerary)}
             <div className="font__bold">
               {MovementUtil.itinFlightNumber(it)} <span className="dot__light" />&nbsp;

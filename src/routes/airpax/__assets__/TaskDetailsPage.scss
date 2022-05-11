@@ -1,3 +1,5 @@
+$govuk-font-family: 'GDS Transport', arial, sans-serif;
+
 @import '~govuk-frontend/govuk/vendor/_sass-mq';
 @import '~govuk-frontend/govuk/settings/spacing';
 @import '~govuk-frontend/govuk/helpers/spacing';
@@ -12,10 +14,6 @@
   .task-versions--right {
     margin-top: -40px;
   }
-}
-
-.airpax-title-heading {
-  margin-top: 0px;
 }
 
 .vertical-dotted-line {
@@ -50,8 +48,6 @@
 }
 
 .co-travellers-container {
-  font-family: "GDS Transport", arial, sans-serif;
-
   .co-travellers-table thead th {
     @extend .font__light;
   }

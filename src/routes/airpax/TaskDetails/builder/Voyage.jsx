@@ -8,8 +8,8 @@ const Voyage = ({ version, airlineCodes }) => {
   const journey = MovementUtil.movementJourney(version);
   const flight = MovementUtil.movementFlight(version);
   return (
-    <div className="task-details-container">
-      <h3 className="title-heading govuk-!-margin-top-0">Voyage</h3>
+    <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
+      <h3 className="govuk-heading-m govuk-!-margin-top-0">Voyage</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Departure from', [MovementUtil.departureLoc(journey), MovementUtil.formatLoc(MovementUtil.departureLoc(journey))])}
         {renderBlock('Departure time', [MovementUtil.formatDepartureTime(journey, LONG_DAY_DATE_FORMAT)])}

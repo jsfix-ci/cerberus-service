@@ -3,7 +3,7 @@
 exports[`BookingUtil should render the payments block 1`] = `
 Array [
   <div
-    className="thin-border govuk-!-margin-top-1"
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__bold"
@@ -20,7 +20,7 @@ Array [
     </div>
   </div>,
   <div
-    className="thin-border govuk-!-margin-top-1"
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__bold"
