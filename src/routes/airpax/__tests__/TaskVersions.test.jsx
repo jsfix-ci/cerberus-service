@@ -97,4 +97,29 @@ describe('TaskVersions', () => {
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it('should render the document section from version', () => {
+    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
+    expect(screen.getByText('Document')).toBeInTheDocument();
+    expect(screen.getByText('Type')).toBeInTheDocument();
+    expect(screen.getByText('Number')).toBeInTheDocument();
+    expect(screen.getByText('Document nationality')).toBeInTheDocument();
+    expect(screen.getByText('Country of issue')).toBeInTheDocument();
+    expect(screen.getByText('Valid from')).toBeInTheDocument();
+  });
+
+  it('should render the booking section from version', () => {
+    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
+    expect(screen.getByText('Reference')).toBeInTheDocument();
+    expect(screen.getByText('LSV4UV')).toBeInTheDocument();
+    expect(screen.getByText('Number of travellers')).toBeInTheDocument();
+    expect(screen.getByText('Booking type')).toBeInTheDocument();
+    expect(screen.getByText('Booking country')).toBeInTheDocument();
+    expect(screen.getByText('Ticket number')).toBeInTheDocument();
+    expect(screen.getByText('Ticket type')).toBeInTheDocument();
+    expect(screen.getByText('Payments')).toBeInTheDocument();
+    expect(screen.queryAllByText(/Credit card ending X63X, expiry 10\/20/)).toHaveLength(2);
+    expect(screen.getByText('Agent IATA')).toBeInTheDocument();
+    expect(screen.getByText('Agent location')).toBeInTheDocument();
+  });
 });
