@@ -81,7 +81,7 @@ const getSelectorGroups = (version) => {
   return null;
 };
 
-const IndicatorsUtil = {
+const RisksUtil = {
   getRisks: getRisk,
   format: formatTargetIndicators,
   getIndicators: getTargetingIndicators,
@@ -90,6 +90,6 @@ const IndicatorsUtil = {
   getGroups: getSelectorGroups,
 };
 
-export default IndicatorsUtil;
+export default RisksUtil;
 
 export { formatTargetIndicators, getRisk, getTargetingIndicators, getSelectorWarning, getIndicatorMatches };
