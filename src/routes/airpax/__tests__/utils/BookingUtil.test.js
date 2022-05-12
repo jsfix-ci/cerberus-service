@@ -105,6 +105,30 @@ describe('BookingUtil', () => {
     expect(output).toBeNull();
   });
 
+  it('should return check-in date if present', () => {
+    booking.checkInAt = '1966-05-13T00:00:00Z';
+    const output = BookingUtil.checkInAt(booking);
+    expect(output).toEqual(booking.checkInAt);
+  });
+
+  it('should return unknown if check-in date is null', () => {
+    booking.checkInAt = null;
+    const output = BookingUtil.checkInAt(booking);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown if check-in date is undefined', () => {
+    booking.checkInAt = undefined;
+    const output = BookingUtil.checkInAt(booking);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown if check-in date is an empty string', () => {
+    booking.checkInAt = '';
+    const output = BookingUtil.checkInAt(booking);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
   it('should return formatted check-in text if check-in time is present within the booking', () => {
     booking.checkInAt = '2020-08-07T17:15:00Z';
     const output = BookingUtil.toCheckInText(booking);

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IndicatorsUtil should return a formatted targeting indicators if present 1`] = `
+exports[`RisksUtil should return a formatted targeting indicators if present 1`] = `
 <ul
   className="govuk-list item-list--bulleted"
 >

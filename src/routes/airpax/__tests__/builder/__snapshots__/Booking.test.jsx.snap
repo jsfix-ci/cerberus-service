@@ -5,7 +5,7 @@ exports[`Booking should render the booking component 1`] = `
   className="task-details-container"
 >
   <h3
-    className="title-heading airpax-title-heading"
+    className="govuk-heading-m govuk-!-margin-top-0"
   >
     Booking
   </h3>
@@ -117,7 +117,7 @@ exports[`Booking should render the booking component 1`] = `
     </div>
   </div>
   <div
-    className="thin-border"
+    className="bottom-border-thin"
   >
     <span
       className="font__light"
@@ -126,7 +126,7 @@ exports[`Booking should render the booking component 1`] = `
     </span>
   </div>
   <div
-    className="thin-border govuk-!-margin-top-1"
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__bold"
@@ -143,7 +143,7 @@ exports[`Booking should render the booking component 1`] = `
     </div>
   </div>
   <div
-    className="thin-border govuk-!-margin-top-1"
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__bold"

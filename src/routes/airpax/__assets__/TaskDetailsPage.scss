@@ -1,3 +1,5 @@
+$govuk-font-family: 'GDS Transport', arial, sans-serif;
+
 @import '~govuk-frontend/govuk/vendor/_sass-mq';
 @import '~govuk-frontend/govuk/settings/spacing';
 @import '~govuk-frontend/govuk/helpers/spacing';
@@ -14,18 +16,13 @@
   }
 }
 
-.airpax-title-heading {
-  margin-top: 0px;
-}
-
 .vertical-dotted-line {
   height: inherit;
   border-left: 4px dotted #b1b4b6;
 }
 
-.thin-border {
+.bottom-border-thin {
   border-bottom: 1px solid #b1b4b6;
-  padding-bottom: 4px;
 }
 
 .dot {
@@ -37,5 +34,25 @@
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 2px;
+  }
+}
+
+.font_size {
+  font-size: 15px;
+}
+
+.font__light {
+  color: #505a5f;
+  font-weight: lighter;
+  font-size: 15px;
+}
+
+.co-travellers-container {
+  .co-travellers-table thead th {
+    @extend .font__light;
+  }
+
+  .co-travellers-table td {
+    @extend .font_size; 
   }
 }

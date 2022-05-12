@@ -19,6 +19,75 @@ describe('PersonUtil', () => {
     frequentFlyerNumber: 123456,
   };
 
+  const coTravellers = [
+    {
+      entitySearchUrl: null,
+      name: {
+        first: null,
+        last: 'MAUSSER',
+        full: 'MAUSSER',
+      },
+      role: 'CREW',
+      dateOfBirth: '1970-04-14T00:00:00Z',
+      gender: 'F',
+      nationality: 'GB',
+      document: {
+        type: 'Passport',
+        number: '1234567',
+        countryOfIssue: 'FR',
+        nationality: 'GB',
+        validFrom: '1970-04-14T00:00:00Z',
+        validTo: '1970-04-14T00:00:00Z',
+        name: 'Miss MAUSSER MAUSSER',
+        dateOfBirth: '1970-04-14T00:00:00Z',
+      },
+      movementStats: null,
+      frequentFlyerNumber: null,
+      ssrCodes: [
+        'DOCS',
+        'AUTH',
+      ],
+    },
+    {
+      entitySearchUrl: null,
+      name: {
+        first: 'SHARON',
+        last: 'MAUSSER',
+        full: 'SHARON MAUSSER',
+      },
+      role: 'CREW',
+      dateOfBirth: null,
+      gender: null,
+      nationality: 'FR',
+      document: null,
+      movementStats: null,
+      frequentFlyerNumber: '763381878A',
+      ssrCodes: [
+        'DOCS',
+        'AUTH',
+      ],
+    },
+    {
+      entitySearchUrl: null,
+      name: {
+        first: null,
+        last: null,
+        full: null,
+      },
+      role: 'CREW',
+      dateOfBirth: '1967-06-10T00:00:00Z',
+      gender: 'M',
+      nationality: 'GB',
+      document: null,
+      movementStats: null,
+      frequentFlyerNumber: null,
+      ssrCodes: [
+        'DOCS',
+        'AUTH',
+      ],
+    },
+  ];
+
   it('should get a person object if present', () => {
     const targetTaskMin = {
       movement: {
@@ -232,5 +301,10 @@ describe('PersonUtil', () => {
     ];
     const tree = renderer.create(PersonUtil.toOthers(otherPersons)).toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it('should return a list of all persons within the movement', () => {
+    const output = PersonUtil.allPersons(person, coTravellers);
+    expect(output.length).toEqual(4);
   });
 });

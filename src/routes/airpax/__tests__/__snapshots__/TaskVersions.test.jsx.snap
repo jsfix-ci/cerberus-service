@@ -1,0 +1,1467 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskVersions should render task versions 1`] = `
+<div
+  className="govuk-accordion task-versions"
+  data-module="govuk-accordion"
+  id="task-versions-undefined"
+>
+  <div
+    className="govuk-accordion__section govuk-accordion__section--expanded"
+  >
+    <div
+      className="govuk-accordion__section-header task-details-accordion"
+    >
+      <h2
+        className="govuk-accordion__section-heading"
+      >
+        <span
+          className="govuk-accordion__section-button"
+          id="task-versions-undefined-heading-1"
+        >
+          Version 2 (latest)
+        </span>
+      </h2>
+      <div
+        className="govuk-accordion__section-summary govuk-body"
+        id="task-versions-undefined-summary-1"
+      >
+        <div
+          className="task-versions--left"
+        >
+          <div
+            className="govuk-caption-m"
+          >
+            25 Apr 2022 at 11:55
+          </div>
+        </div>
+        <div
+          className="task-versions--right"
+        >
+          <ul
+            className="govuk-list"
+          >
+            <li>
+              No changes in this version
+            </li>
+            <li>
+              Highest threat level is 
+              <span
+                className="govuk-body govuk-tag govuk-tag--positiveTarget"
+              >
+                Tier 1
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-labelledby="task-versions-undefined-heading-1"
+      className="govuk-accordion__section-content"
+      id="task-versions-undefined-content-1"
+    >
+      <div
+        className="govuk-task-details-grid"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <div
+            className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
+          >
+            <h3
+              className="govuk-heading-m govuk-!-margin-top-0"
+            >
+              Passenger
+            </h3>
+            <div
+              className="govuk-task-details-grid-column"
+            >
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Name
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  MESTA, GEMMA
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Date of birth
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  Unknown
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Nationality
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  Unknown (Unknown)
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Age at travel
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  Unknown
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Gender
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  Unknown
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Departure status
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                />
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Frequent flyer number
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  579419193A
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  SSR codes
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  DOCS
+                  AUTH
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="task-details-container"
+          >
+            <h3
+              className="govuk-heading-m govuk-!-margin-top-0"
+            >
+              Document
+            </h3>
+            <div
+              className="govuk-task-details-grid-column"
+            >
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Type
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  Passport
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Number
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  1234567
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Document nationality
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  United Kingdom (GB)
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Country of issue
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  France (FR)
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Valid from
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  14 Apr 1970
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  52 years before travel
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Valid To
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  14 Apr 1970
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  48 years before travel
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Name
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  MESTA, Miss Gemma
+                </p>
+              </div>
+              <div
+                className="govuk-!-margin-bottom-2"
+              >
+                <p
+                  className="govuk-!-margin-bottom-0 font__light"
+                >
+                  Date of birth
+                </p>
+                <p
+                  className="govuk-!-margin-bottom-0 font__bold"
+                >
+                  14 Apr 1970
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="govuk-grid-column-one-third vertical-dotted-line"
+        >
+          <div
+            className="govuk-task-details-col-2"
+          >
+            <div
+              className="task-details-container"
+            >
+              <h3
+                className="govuk-heading-m govuk-!-margin-top-0"
+              >
+                Booking
+              </h3>
+              <div
+                className="govuk-task-details-grid-column"
+              >
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Reference
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    LSV4UV
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Number of travellers
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    4
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Booking date
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Invalid Date
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Unknown
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Booking country
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Unknown (Unknown)
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Booking type
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Unknown
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Ticket number
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Unknown
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Ticket type
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Unknown
+                  </p>
+                </div>
+              </div>
+              <div
+                className="bottom-border-thin"
+              >
+                <span
+                  className="font__light"
+                >
+                  Payments
+                </span>
+              </div>
+              <div
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__bold"
+                >
+                  2190.48
+                </div>
+                <div
+                  className="font__light"
+                >
+                  Credit card ending 
+                  X63X
+                  , expiry 
+                  10/20
+                </div>
+              </div>
+              <div
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__bold"
+                >
+                  2190.48
+                </div>
+                <div
+                  className="font__light"
+                >
+                  Credit card ending 
+                  X63X
+                  , expiry 
+                  10/20
+                </div>
+              </div>
+              <div
+                className="govuk-task-details-grid-column govuk-!-margin-top-3"
+              >
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Agent IATA
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Unknown
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Agent location
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Unknown
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="govuk-grid-column-one-third vertical-dotted-line"
+        >
+          <div
+            className="govuk-task-details-col-3"
+          >
+            <div
+              className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
+            >
+              <h3
+                className="govuk-heading-m govuk-!-margin-top-0"
+              >
+                Voyage
+              </h3>
+              <div
+                className="govuk-task-details-grid-column"
+              >
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Departure from
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    YYC
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Calgary, Canada
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Departure time
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Wed 3 Oct 2018 at 19:32
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Arrival at
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    LHR
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    London, United Kingdom
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Arrival time
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    Wed 3 Oct 2018 at 22:19
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Scheduled flight time
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    2h 46m
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Flight code
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  >
+                    AC0850
+                  </p>
+                </div>
+                <div
+                  className="govuk-!-margin-bottom-2"
+                >
+                  <p
+                    className="govuk-!-margin-bottom-0 font__light"
+                  >
+                    Operator
+                  </p>
+                  <p
+                    className="govuk-!-margin-bottom-0 font__bold"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              className="task-details-container"
+            >
+              <h3
+                className="govuk-heading-m govuk-!-margin-top-0"
+              >
+                Itinerary
+              </h3>
+              <div
+                className="bottom-border-thin"
+              />
+              <div
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__bold"
+                >
+                  AC0850
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  CDG
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  YYZ
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Wed 3 Oct 2018 at 12:00
+                </div>
+                <div
+                  className="font__light"
+                >
+                  FR
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  CA
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Arrival
+                   
+                  3 Oct 2018 at 14:05
+                </div>
+              </div>
+              <div
+                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__light"
+                >
+                  3 hours later
+                </div>
+                <div
+                  className="font__bold"
+                >
+                  BD0998
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  YYZ
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  YYC
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Wed 3 Oct 2018 at 17:05
+                </div>
+                <div
+                  className="font__light"
+                >
+                  CA
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  CA
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Arrival
+                   
+                  3 Oct 2018 at 19:16
+                </div>
+              </div>
+              <div
+                className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+              >
+                <div
+                  className="font__light"
+                >
+                  17 minutes later
+                </div>
+                <div
+                  className="font__bold"
+                >
+                  XZ0123
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  YYC
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  LHR
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Wed 3 Oct 2018 at 19:32
+                </div>
+                <div
+                  className="font__light"
+                >
+                  CA
+                   
+                  <span
+                    className="right-arrow"
+                  >
+                    →
+                  </span>
+                   
+                  GB
+                   
+                  <span
+                    className="dot__light"
+                  />
+                   
+                  Arrival
+                   
+                  3 Oct 2018 at 22:19
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4"
+      >
+        <div
+          className="font__bold"
+        >
+          <h3
+            className="govuk-heading-m govuk-!-margin-bottom-0"
+          >
+            4 travellers
+          </h3>
+          <table
+            className="hods-table co-travellers-table"
+            role="table"
+          >
+            <thead
+              className="hods-table__heading"
+            >
+              <tr
+                role="row"
+              >
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  Traveller
+                </th>
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  Age
+                </th>
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  Check-in
+                </th>
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  Seat
+                </th>
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  Document
+                </th>
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  Checked baggage
+                </th>
+                <th
+                  role="columnheader"
+                  scope="col"
+                >
+                  
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="hods-table__body"
+            >
+              <tr
+                className="hods-table__row"
+                role="row"
+              >
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Traveller
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    MESTA
+                    , 
+                    GEMMA
+                     
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Unknown
+                    , 
+                    Unknown
+                    , 
+                    Unknown
+                     (
+                    Unknown
+                    )
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Age
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Check-in
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Invalid Date
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    NaN years ago
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Seat
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Document
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Passport
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Issued by 
+                    FR
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Checked baggage
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    
+                  </span>
+                  <div
+                    className="font__light"
+                  >
+                    This movement
+                  </div>
+                </td>
+              </tr>
+              <tr
+                className="hods-table__row"
+                role="row"
+              >
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Traveller
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    MAUSSER
+                    , 
+                    Unknown
+                     
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Female
+                    , 
+                    14 Apr 1970
+                    , 
+                    Unknown
+                     (
+                    Unknown
+                    )
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Age
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    52
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Check-in
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Invalid Date
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    NaN years ago
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Seat
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Document
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Issued by 
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Checked baggage
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    
+                  </span>
+                  <a
+                    className="govuk-link"
+                    data-module="govuk-link"
+                    href="/"
+                    target="_blank"
+                  >
+                    Movement detail
+                  </a>
+                </td>
+              </tr>
+              <tr
+                className="hods-table__row"
+                role="row"
+              >
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Traveller
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    MAUSSER
+                    , 
+                    SHARON
+                     
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Unknown
+                    , 
+                    Unknown
+                    , 
+                    Unknown
+                     (
+                    Unknown
+                    )
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Age
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Check-in
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Invalid Date
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    NaN years ago
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Seat
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Document
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Issued by 
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Checked baggage
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    
+                  </span>
+                  <a
+                    className="govuk-link"
+                    data-module="govuk-link"
+                    href="/"
+                    target="_blank"
+                  >
+                    Movement detail
+                  </a>
+                </td>
+              </tr>
+              <tr
+                className="hods-table__row"
+                role="row"
+              >
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Traveller
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    UNKNOWN
+                    , 
+                    Unknown
+                     
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Male
+                    , 
+                    10 Jun 1967
+                    , 
+                    Unknown
+                     (
+                    Unknown
+                    )
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Age
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    54
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Check-in
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Invalid Date
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    NaN years ago
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Seat
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Document
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                  <div
+                    className="font__light"
+                  >
+                    Issued by 
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    Checked baggage
+                  </span>
+                  <div
+                    className="font__bold"
+                  >
+                    Unknown
+                  </div>
+                </td>
+                <td
+                  className="hods-table__cell"
+                  role="cell"
+                >
+                  <span
+                    className="hods-table__heading"
+                  >
+                    
+                  </span>
+                  <a
+                    className="govuk-link"
+                    data-module="govuk-link"
+                    href="/"
+                    target="_blank"
+                  >
+                    Movement detail
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div>
+          <h2
+            className="govuk-heading-m"
+          >
+            0
+             selector matches
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

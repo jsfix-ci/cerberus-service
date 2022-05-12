@@ -18,7 +18,7 @@ const Document = ({ version }) => {
 
   return (
     <div className="task-details-container">
-      <h3 className="govuk-heading-s">Document</h3>
+      <h3 className="govuk-heading-m govuk-!-margin-top-0">Document</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Type', [DocumentUtil.docType(document)])}
         {renderBlock('Number', [DocumentUtil.docNumber(document)])}

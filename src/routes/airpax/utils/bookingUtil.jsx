@@ -151,6 +151,13 @@ const getBookingReference = (booking) => {
   return booking.reference;
 };
 
+const getCheckInAt = (booking) => {
+  if (!booking?.checkInAt) {
+    return UNKNOWN_TEXT;
+  }
+  return booking.checkInAt;
+};
+
 const toCheckInTimeText = (booking) => {
   const checkinPrefix = 'Check-in';
   if (!booking?.checkInAt) {
@@ -184,7 +191,7 @@ const toPaymentsBlock = (booking) => {
   if (payments) {
     return payments.map((payment, index) => {
       return (
-        <div key={index} className="thin-border govuk-!-margin-top-1">
+        <div key={index} className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1">
           <div className="font__bold">{getPaymentAmount(payment)}</div>
           <div className="font__light">
             Credit card ending {getCardLastFourDigits(payment)}, expiry {getCardExpiry(payment)}
@@ -198,6 +205,7 @@ const toPaymentsBlock = (booking) => {
 const BookingUtil = {
   get: getBooking,
   bookedAt: getBookedAt,
+  checkInAt: getCheckInAt,
   bookedPrior: getBookedPriorToDeparture,
   toCheckInText: toCheckInTimeText,
   bookingRef: getBookingReference,
@@ -228,6 +236,7 @@ export {
   toCheckInTimeText,
   getBooking,
   getBookedAt,
+  getCheckInAt,
   getBookedPriorToDeparture,
   getBookingCountryCode,
   getBookingCountryName,

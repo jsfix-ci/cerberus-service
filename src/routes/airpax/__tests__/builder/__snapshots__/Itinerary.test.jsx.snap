@@ -5,15 +5,15 @@ exports[`Itinerary should render the itinerary component 1`] = `
   className="task-details-container"
 >
   <h3
-    className="title-heading airpax-title-heading"
+    className="govuk-heading-m govuk-!-margin-top-0"
   >
     Itinerary
   </h3>
   <div
-    className="thin-border"
+    className="bottom-border-thin"
   />
   <div
-    className="thin-border govuk-!-margin-top-1"
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__bold"
@@ -63,7 +63,7 @@ exports[`Itinerary should render the itinerary component 1`] = `
     </div>
   </div>
   <div
-    className="thin-border govuk-!-margin-top-1"
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__light"
@@ -118,7 +118,7 @@ exports[`Itinerary should render the itinerary component 1`] = `
     </div>
   </div>
   <div
-    className="false govuk-!-margin-top-1"
+    className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
   >
     <div
       className="font__light"
