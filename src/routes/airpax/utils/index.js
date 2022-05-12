@@ -1,6 +1,6 @@
 import BaggageUtil from './baggageUtil';
 import DateTimeUtil from './datetimeUtil';
-import RisksUtil from './RisksUtil';
+import RisksUtil from './risksUtil';
 import BookingUtil from './bookingUtil';
 import DocumentUtil from './documentUtil';
 import PersonUtil from './personUtil';
