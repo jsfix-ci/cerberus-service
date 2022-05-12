@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
 import '../../../../__assets__/ReactTabs.scss';
 import { capitalizeFirstLetter } from '../../../../utils/stringConversion';
-import { IndicatorsUtil } from '../../utils';
+import { RisksUtil } from '../../utils';
 
 const renderIndicatorMatches = (indicatorMatches) => {
   return indicatorMatches.map((indicators) => {
@@ -33,8 +33,8 @@ const renderOtherGroupFields = (group) => {
 };
 
 const SelectorMatches = ({ version }) => {
-  const groups = IndicatorsUtil.getGroups(version).groups;
-  const totalNoOfSelectors = IndicatorsUtil.getGroups(version).totalNumberOfSelectors;
+  const groups = RisksUtil.getGroups(version).groups;
+  const totalNoOfSelectors = RisksUtil.getGroups(version).totalNumberOfSelectors;
 
   return (
     <div>
@@ -57,8 +57,8 @@ const SelectorMatches = ({ version }) => {
               </TabList>
 
               { group.selectors.map((selector, selectorIndex) => {
-                const indicatorMatches = IndicatorsUtil.getMatches(selector);
-                const warning = IndicatorsUtil.getWarning(selector);
+                const indicatorMatches = RisksUtil.getMatches(selector);
+                const warning = RisksUtil.getWarning(selector);
                 return (
                   <TabPanel key={selectorIndex}>
                     <div className="govuk-grid-row govuk-!-margin-top-1">

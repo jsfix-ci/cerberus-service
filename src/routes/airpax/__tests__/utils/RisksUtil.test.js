@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
-import { IndicatorsUtil } from '../../utils';
+import { RisksUtil } from '../../utils';
 
-describe('IndicatorsUtil', () => {
+describe('RisksUtil', () => {
   it('should get risk if present', () => {
     const targetListDataMin = {
       id: 'DEV-20220415-001',
@@ -36,7 +36,7 @@ describe('IndicatorsUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.getRisks(targetListDataMin);
+    const output = RisksUtil.getRisks(targetListDataMin);
     expect(output).toEqual(expected);
   });
 
@@ -69,7 +69,7 @@ describe('IndicatorsUtil', () => {
       score: 60,
     };
 
-    const output = IndicatorsUtil.getIndicators(risks);
+    const output = RisksUtil.getIndicators(risks);
     expect(output).toEqual(expected);
   });
 
@@ -87,7 +87,7 @@ describe('IndicatorsUtil', () => {
       score: 60,
     };
 
-    const tree = renderer.create(IndicatorsUtil.format(targetingIndicators)).toJSON();
+    const tree = renderer.create(RisksUtil.format(targetingIndicators)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -105,7 +105,7 @@ describe('IndicatorsUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.getWarning(selector);
+    const output = RisksUtil.getWarning(selector);
     expect(output).toEqual('No warnings');
   });
 
@@ -123,7 +123,7 @@ describe('IndicatorsUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.getWarning(selector);
+    const output = RisksUtil.getWarning(selector);
     expect(output).toEqual('Warnings currently unavailable');
   });
 
@@ -139,7 +139,7 @@ describe('IndicatorsUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.getWarning(selector);
+    const output = RisksUtil.getWarning(selector);
     expect(output).toEqual('Violence, Firearms, Weapons, Contagion, Self Harm');
   });
 
@@ -155,7 +155,7 @@ describe('IndicatorsUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.getWarning(selector);
+    const output = RisksUtil.getWarning(selector);
     expect(output).toEqual(undefined);
   });
 
@@ -191,7 +191,7 @@ describe('IndicatorsUtil', () => {
         value: 'qwerty',
       },
     ];
-    const output = IndicatorsUtil.getMatches(selector);
+    const output = RisksUtil.getMatches(selector);
     expect(output).toEqual(expected);
   });
 
@@ -200,7 +200,7 @@ describe('IndicatorsUtil', () => {
       indicatorMatches: [],
     };
 
-    const output = IndicatorsUtil.getMatches(selector);
+    const output = RisksUtil.getMatches(selector);
     expect(output).toEqual([]);
   });
 
@@ -209,7 +209,7 @@ describe('IndicatorsUtil', () => {
       indicatorMatches: null,
     };
 
-    const output = IndicatorsUtil.getMatches(selector);
+    const output = RisksUtil.getMatches(selector);
     expect(output).toEqual(null);
   });
 });

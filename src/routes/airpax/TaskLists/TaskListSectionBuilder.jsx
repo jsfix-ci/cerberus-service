@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { INDIVIDUAL_ICON } from '../../../constants';
 
 // Utils
-import { BaggageUtil, DateTimeUtil, IndicatorsUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
+import { BaggageUtil, DateTimeUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 
 const renderModeSection = (targetTask) => {
@@ -157,7 +157,7 @@ const buildMovementInfoSection = (targetTask) => {
 };
 
 const buildTargetIndicatorsSection = (targetTask) => {
-  const targetingIndicators = IndicatorsUtil.getIndicators(IndicatorsUtil.getRisks(targetTask));
+  const targetingIndicators = RisksUtil.getIndicators(RisksUtil.getRisks(targetTask));
   return (
     <section className="task-list--target-indicator-section">
       <div className="govuk-grid-row">
@@ -174,7 +174,7 @@ const buildTargetIndicatorsSection = (targetTask) => {
           <div className="govuk-grid-column">
             <ul className="govuk-list task-labels govuk-!-margin-top-0">
               <li className="task-labels-item">
-                {IndicatorsUtil.format(targetingIndicators)}
+                {RisksUtil.format(targetingIndicators)}
               </li>
             </ul>
           </div>
