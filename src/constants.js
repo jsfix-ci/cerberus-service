@@ -61,3 +61,13 @@ export const WARNING_CODES_MAPPING = {
 export const NO_TEXT = 'No';
 export const YES_TEXT = 'Yes';
 export const CURRENTLY_UNAVAILABLE_TEXT = 'Currently unavailable';
+export const RULES_FIELD_NAMES = {
+  name: 'Rule name',
+  priority: 'Threat',
+  version: 'Rule Version',
+  abuseTypes: 'Abuse Type',
+};
+export const RULES_FIELD_DESCRIPTION = {
+  description: 'Description',
+  agency: 'Agency',
+};

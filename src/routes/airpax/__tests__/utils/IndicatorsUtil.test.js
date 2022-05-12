@@ -212,4 +212,64 @@ describe('IndicatorsUtil', () => {
     const output = IndicatorsUtil.getMatches(selector);
     expect(output).toEqual(null);
   });
+
+  it('should get rules matches if present', () => {
+    const rules = {
+      risks: {
+        matchedRules: [
+          {
+            id: 535,
+            name: 'Selector Matched Rule',
+            type: 'Both',
+            priority: 'Tier 1',
+            agency: '',
+            description: 'Test Description',
+            version: 1,
+            abuseTypes: [
+              'National Security at the Border',
+            ],
+            indicatorMatches: [
+              {
+                entity: 'Message',
+                descriptor: 'mode',
+                operator: 'in',
+                value: '[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]',
+              },
+              {
+                entity: 'Message',
+                descriptor: 'selectorsMatched',
+                operator: 'equal',
+                value: 'true',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const expected = [
+      { 'abuseTypes': ['National Security at the Border'],
+        'agency': '',
+        'description': 'Test Description',
+        'id': 535,
+        'indicatorMatches': [{ 'descriptor': 'mode', 'entity': 'Message', 'operator': 'in', 'value': '[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]' }, { 'descriptor': 'selectorsMatched', 'entity': 'Message', 'operator': 'equal', 'value': 'true' }],
+        'name': 'Selector Matched Rule',
+        'priority': 'Tier 1',
+        'type': 'Both',
+        'version': 1 }];
+
+    const output = IndicatorsUtil.getRules(rules);
+    expect(output).toEqual(expected);
+  });
+
+  it('should return null if rules matches is null', () => {
+    const rules = {
+      risks: {
+        matchedRules: [],
+      },
+    };
+
+    const output = IndicatorsUtil.getMatches(rules);
+    expect(output).toEqual(null);
+  });
 });
