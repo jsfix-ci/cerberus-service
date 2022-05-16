@@ -258,7 +258,7 @@ describe('RisksUtil', () => {
         'type': 'Both',
         'version': 1 }];
 
-    const output = IndicatorsUtil.getRules(rules);
+    const output = RisksUtil.getRules(rules);
     expect(output).toEqual(expected);
   });
 
@@ -269,7 +269,7 @@ describe('RisksUtil', () => {
       },
     };
 
-    const output = IndicatorsUtil.getMatches(rules);
+    const output = RisksUtil.getMatches(rules);
     expect(output).toEqual(null);
   });
 });

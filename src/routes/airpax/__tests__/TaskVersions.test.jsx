@@ -100,7 +100,7 @@ describe('TaskVersions', () => {
 
   it('should render the document section from version', () => {
     render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
-    expect(screen.getByText('Document')).toBeInTheDocument();
+    expect(screen.getAllByText('Document')).toHaveLength(6);
     expect(screen.getByText('Type')).toBeInTheDocument();
     expect(screen.getByText('Number')).toBeInTheDocument();
     expect(screen.getByText('Document nationality')).toBeInTheDocument();

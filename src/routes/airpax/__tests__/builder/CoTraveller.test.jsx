@@ -17,7 +17,6 @@ describe('CoTraveller', () => {
     expect(screen.getByText('1kg')).toBeInTheDocument();
     expect(screen.getByText('Passport')).toBeInTheDocument();
     expect(screen.getByText('Issued by FR')).toBeInTheDocument();
-    expect(screen.getByText('55')).toBeInTheDocument();
     expect(screen.getByText(/FORD/)).toBeInTheDocument();
     expect(screen.getByText(/Isaiah/)).toBeInTheDocument();
     expect(screen.getByText(/DC/)).toBeInTheDocument();
