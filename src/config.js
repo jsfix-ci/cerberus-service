@@ -12,6 +12,7 @@ const config = {
     },
   },
   refdataApiUrl: process.env.REFDATA_API_URL,
+  fileUploadApiUrl: process.env.FILE_UPLOAD_API_URL,
   formApiUrl: process.env.FORM_API_URL,
   camundaApiUrl: '/camunda/engine-rest',
   camundaApiUrlV1: '/camunda/v1',
