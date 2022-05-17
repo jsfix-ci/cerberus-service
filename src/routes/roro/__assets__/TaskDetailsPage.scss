@@ -422,6 +422,7 @@
     clear: both;
 }
 
+.header-bg-grey,
 .rules-header,
 .other-rules-header {
     background-color: #f3f2f1;
@@ -524,6 +525,10 @@
 
 .govuk-task-details-divider {
     border-bottom: 0.5px solid #b1b4b6;
+}
+
+.float-right {
+    float: right !important;
 }
 
 @media only screen and (max-width: 840px) {

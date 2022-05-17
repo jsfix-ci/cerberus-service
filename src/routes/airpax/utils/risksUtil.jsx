@@ -81,6 +81,17 @@ const getSelectorGroups = (version) => {
   return null;
 };
 
+const hasMatchedRules = (version) => {
+  return !!version?.risks?.matchedRules;
+};
+
+const getMatchedRules = (version) => {
+  if (hasMatchedRules(version)) {
+    return version.risks.matchedRules;
+  }
+  return null;
+};
+
 const RisksUtil = {
   getRisks: getRisk,
   format: formatTargetIndicators,
@@ -88,8 +99,9 @@ const RisksUtil = {
   getWarning: getSelectorWarning,
   getMatches: getIndicatorMatches,
   getGroups: getSelectorGroups,
+  getRules: getMatchedRules,
 };
 
 export default RisksUtil;
 
-export { formatTargetIndicators, getRisk, getTargetingIndicators, getSelectorWarning, getIndicatorMatches };
+export { getRisk, formatTargetIndicators, getTargetingIndicators, getSelectorWarning, getIndicatorMatches, getSelectorGroups, getMatchedRules };
