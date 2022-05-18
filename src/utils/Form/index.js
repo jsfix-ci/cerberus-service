@@ -2,6 +2,7 @@ import formHooks from './formHooks';
 import generateBusinessKey from './generateBusinessKey';
 import getRenderer, { Renderers } from './getRenderer';
 import setupSubmission from './setupSubmission';
+import uploadDocuments from './uploadDocuments';
 
 const FormUtils = {
   formHooks,
@@ -9,6 +10,7 @@ const FormUtils = {
   getRenderer,
   Renderers,
   setupSubmission,
+  uploadDocuments,
 };
 
 export {
