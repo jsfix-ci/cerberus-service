@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Commons Utils should render a jsx block from given 1`] = `
+<div
+  className="govuk-!-margin-bottom-2"
+>
+  <p
+    className="govuk-!-margin-bottom-0 font__light"
+  >
+    Reference
+  </p>
+  <p
+    className="govuk-!-margin-bottom-0 font__bold"
+  >
+    TR-172653
+  </p>
+</div>
+`;

@@ -1,0 +1,58 @@
+$govuk-font-family: 'GDS Transport', arial, sans-serif;
+
+@import '~govuk-frontend/govuk/vendor/_sass-mq';
+@import '~govuk-frontend/govuk/settings/spacing';
+@import '~govuk-frontend/govuk/helpers/spacing';
+@import '~govuk-frontend/govuk/settings/all';
+@import '~govuk-frontend/govuk/helpers/all';
+@import '~govuk-frontend/govuk/tools/all';
+@include mq($from: tablet) {
+  .task-versions .govuk-accordion__section-summary {
+    display: flex;
+    justify-content: space-between;
+  }
+  .task-versions--right {
+    margin-top: -40px;
+  }
+}
+
+.vertical-dotted-line {
+  height: inherit;
+  border-left: 4px dotted #b1b4b6;
+}
+
+.bottom-border-thin {
+  border-bottom: 1px solid #b1b4b6;
+}
+
+.dot {
+  &__light{
+    height: 4px;
+    width: 4px;
+    background-color: #505a5f;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 2px;
+  }
+}
+
+.font_size {
+  font-size: 15px;
+}
+
+.font__light {
+  color: #505a5f;
+  font-weight: lighter;
+  font-size: 15px;
+}
+
+.co-travellers-container {
+  .co-travellers-table thead th {
+    @extend .font__light;
+  }
+
+  .co-travellers-table td {
+    @extend .font_size; 
+  }
+}

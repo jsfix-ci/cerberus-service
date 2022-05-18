@@ -5,24 +5,33 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
 import config from '../config';
+import { AFTER_TRAVEL_TEXT, AGO_TEXT, BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../constants';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
-const calculateDifference = (startDate, endDate, prefix = '') => {
+const calculateDifference = (startDate, endDate, prefix = '', suffix = '') => {
   const formattedPrefix = prefix ? `${prefix} ` : '';
   const dateTimeStart = dayjs.utc(startDate);
   const dateTimeEnd = dayjs.utc(endDate);
-  return `${formattedPrefix}${dateTimeEnd.from(dateTimeStart)}`;
+  let dateTimeDifference = `${dateTimeEnd.from(dateTimeStart)}`;
+  if (suffix) {
+    dateTimeDifference = dateTimeDifference
+      .replace(AFTER_TRAVEL_TEXT, suffix)
+      .replace(BEFORE_TRAVEL_TEXT, suffix)
+      .replace(AGO_TEXT, suffix);
+  }
+  return `${formattedPrefix}${dateTimeDifference}`;
 };
 
-const calculateTimeDifference = (dateTimeArray, prefix = '') => {
-  if (dateTimeArray.length <= 1) {
-    return '';
+const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
+  if (dateTimeArray.length <= 1 || (!dateTimeArray[0] || !dateTimeArray[1])) {
+    const formattedPrefix = prefix ? `${prefix} ` : '';
+    return `${formattedPrefix}${UNKNOWN_TEXT}`;
   }
-  return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix);
+  return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix, suffix);
 };
 
 export default calculateTimeDifference;

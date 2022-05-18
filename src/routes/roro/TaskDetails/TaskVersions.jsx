@@ -10,7 +10,7 @@ import RoRoUnaccompaniedTaskVersion from './TaskVersionsMode/RoRoUnaccompaniedMo
 import RoRoTouristTaskVersion from './TaskVersionsMode/RoRoTouristMode';
 // config
 import { RORO_TOURIST, LONG_DATE_FORMAT, RORO_TOURIST_CAR_ICON,
-  RORO_TOURIST_SINGLE_ICON, RORO_TOURIST_GROUP_ICON, RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT } from '../../../constants';
+  INDIVIDUAL_ICON, GROUP_ICON, RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT } from '../../../constants';
 // utils
 import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
 import { modifyRoRoPassengersTaskDetails } from '../../../utils/roroDataUtil';
@@ -45,10 +45,10 @@ const stripOutSectionsByMovementMode = (version, movementMode) => {
     if (movementModeIcon === RORO_TOURIST_CAR_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
     }
-    if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
+    if (movementModeIcon === INDIVIDUAL_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
     }
-    if (movementModeIcon === RORO_TOURIST_GROUP_ICON) {
+    if (movementModeIcon === GROUP_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
     }
   }
@@ -335,7 +335,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).local().format(LONG_DATE_FORMAT)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">

@@ -4,7 +4,10 @@ import { modifyRoRoPassengersTaskList,
   hasCarrierCounts,
   hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
-  modifyCountryCodeIfPresent } from '../roroDataUtil';
+  modifyCountryCodeIfPresent,
+  isSinglePassenger,
+  filterKnownPassengers,
+  isNotNumber } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -196,7 +199,47 @@ describe('RoRoData Util', () => {
     expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('United Kingdom (GB)');
   });
 
-  it('Should return Falsy when country code is not provided', () => {
+  it('Should return unknown(invalid country code) when an invalid country code is provided', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'UN',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('UN');
+  });
+
+  it('Should return the booking object when a country code equal to the string equivalent of unknown', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: 'unknown',
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code is null', () => {
     const bookingFieldMinified = {
       fieldSetName: 'Booking and check-in',
       hasChildSet: false,
@@ -213,7 +256,19 @@ describe('RoRoData Util', () => {
       propName: 'booking',
     };
     const result = modifyCountryCodeIfPresent(bookingFieldMinified);
-    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBeFalsy();
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code data node is missing', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
   });
 
   it('should return false for absence of a valid passenger when not found', () => {
@@ -358,5 +413,240 @@ describe('RoRoData Util', () => {
     };
     const outcome = hasTaskVersionPassengers(given);
     expect(outcome).toEqual(true);
+  });
+
+  it('should return true when there is only one passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: '',
+        dob: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should return false when there is more than one passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESE',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should return only one actual passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: '',
+        dob: '',
+      },
+    ];
+
+    const expected = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+    ];
+
+    const outcome = filterKnownPassengers(passengers);
+    expect(outcome).toEqual(expected);
+  });
+
+  it('should return two actual passengers', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+
+    const expected = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+
+    const outcome = filterKnownPassengers(passengers);
+    expect(outcome).toEqual(expected);
+  });
+
+  it('should return true when there is only one task details passenger)', () => {
+    const passengers = [
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'Isiah Ford',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should return false when there is more than one task details passengers)', () => {
+    const passengers = [
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'Isiah Ford',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'JOHN CHEESE',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+    ];
+
+    const outcome = isSinglePassenger(passengers);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number', () => {
+    const given = 10;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number and is 0', () => {
+    const given = 0;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number, in a string representation', () => {
+    const given = '10';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate true if given is null and not a number', () => {
+    const given = null;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is undefined and not a number', () => {
+    const given = undefined;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is an empty string and not a number', () => {
+    const given = '';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is a string of mixed chracters and not a number', () => {
+    const given = 'XY1_C!';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
   });
 });

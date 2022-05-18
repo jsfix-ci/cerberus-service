@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Booking should render the booking component 1`] = `
+<div
+  className="task-details-container"
+>
+  <h3
+    className="govuk-heading-m govuk-!-margin-top-0"
+  >
+    Booking
+  </h3>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Reference
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        LSV4UV
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Number of travellers
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        4
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Booking date
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Invalid Date
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Unknown
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Booking country
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Unknown (Unknown)
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Booking type
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Unknown
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Ticket number
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Unknown
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Ticket type
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Unknown
+      </p>
+    </div>
+  </div>
+  <div
+    className="bottom-border-thin"
+  >
+    <span
+      className="font__light"
+    >
+      Payments
+    </span>
+  </div>
+  <div
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+  >
+    <div
+      className="font__bold"
+    >
+      2190.48
+    </div>
+    <div
+      className="font__light"
+    >
+      Credit card ending 
+      X63X
+      , expiry 
+      10/20
+    </div>
+  </div>
+  <div
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+  >
+    <div
+      className="font__bold"
+    >
+      2190.48
+    </div>
+    <div
+      className="font__light"
+    >
+      Credit card ending 
+      X63X
+      , expiry 
+      10/20
+    </div>
+  </div>
+  <div
+    className="govuk-task-details-grid-column govuk-!-margin-top-3"
+  >
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Agent IATA
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Unknown
+      </p>
+    </div>
+    <div
+      className="govuk-!-margin-bottom-2"
+    >
+      <p
+        className="govuk-!-margin-bottom-0 font__light"
+      >
+        Agent location
+      </p>
+      <p
+        className="govuk-!-margin-bottom-0 font__bold"
+      >
+        Unknown
+      </p>
+    </div>
+  </div>
+</div>
+`;

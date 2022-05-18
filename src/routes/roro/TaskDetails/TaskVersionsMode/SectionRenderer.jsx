@@ -12,8 +12,8 @@ import formatGender from '../../../../utils/genderFormatter';
 import {
   RORO_UNACCOMPANIED_FREIGHT,
   RORO_ACCOMPANIED_FREIGHT,
-  RORO_TOURIST_GROUP_ICON,
-  RORO_TOURIST_SINGLE_ICON,
+  GROUP_ICON,
+  INDIVIDUAL_ICON,
   RORO_TOURIST,
   SHORT_DATE_ALT,
 } from '../../../../constants';
@@ -155,7 +155,8 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
     ({ propName }) => propName === 'nationality',
   );
   const passportCountryOfIssue = contents.find(({ propName }) => propName === 'docCountryOfIssue')?.content;
-  const isValidCountryCode = passportCountryOfIssue && passportCountryOfIssue.length === 2;
+  const isValidCountryCode = passportCountryOfIssue && passportCountryOfIssue.length === 2
+  && lookup.byIso(passportCountryOfIssue) !== null;
   const passportNumber = contents.find(
     ({ propName }) => propName === 'docNumber',
   );
@@ -477,8 +478,8 @@ const renderOccupantCarrierCountsSection = (
       let occupantsCountJsxElement;
       let driverName;
       if (
-        movementModeIcon !== RORO_TOURIST_GROUP_ICON
-        && movementModeIcon !== RORO_TOURIST_SINGLE_ICON
+        movementModeIcon !== GROUP_ICON
+        && movementModeIcon !== INDIVIDUAL_ICON
       ) {
         if (driverField.contents.length > 0) {
           driverName = driverField.contents.find(
@@ -612,7 +613,7 @@ const renderPrimaryTraveller = ({ childSets }, movementModeIcon) => {
   const enrichmentCount = primaryTraveller.find(({ propName }) => propName === 'enrichmentCount')?.content;
   if (primaryTraveller.length > 0) {
     let primaryTravellerArray;
-    if (movementModeIcon === RORO_TOURIST_SINGLE_ICON) {
+    if (movementModeIcon === INDIVIDUAL_ICON) {
       primaryTravellerArray = primaryTraveller.filter(({ propName }) => {
         return (
           propName === 'name'
