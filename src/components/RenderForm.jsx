@@ -1,48 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Form, Formio } from 'react-formio';
+// Global imports
+import FormRenderer from '@ukhomeoffice/cop-react-form-renderer';
 import gds from '@ukhomeoffice/formio-gds-template/lib';
-import { isEmpty } from 'lodash';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Form, Formio } from 'react-formio';
 
+// Local imports
 import config from '../config';
-import useAxiosInstance from '../utils/axiosInstance';
-import LoadingSpinner from './LoadingSpinner';
-import { useKeycloak } from '../utils/keycloak';
-import { augmentRequest, interpolate } from '../utils/formioSupport';
 import ErrorSummary from '../govuk/ErrorSummary';
+import useAxiosInstance from '../utils/axiosInstance';
+import FormUtils, { Renderers } from '../utils/Form';
+import { augmentRequest, interpolate } from '../utils/formioSupport';
+import { useKeycloak } from '../utils/keycloak';
+import LoadingSpinner from './LoadingSpinner';
 
 Formio.use(gds);
 
-const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => {
+const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCancel, preFillData, children }) => {
   const [error, setError] = useState(null);
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState(_form);
+  const [renderer, setRenderer] = useState(_renderer);
   const [isLoaderVisible, setLoaderVisibility] = useState(true);
   const [formattedPreFillData, setFormattedPreFillData] = useState();
   const [submitted, setSubmitted] = useState(false);
   const keycloak = useKeycloak();
   const formApiClient = useAxiosInstance(keycloak, config.formApiUrl);
+  const uploadApiClient = useAxiosInstance(keycloak, config.fileUploadApiUrl);
 
   Formio.plugins = [augmentRequest(keycloak)];
 
   useEffect(() => {
-    interpolate(form, {
-      keycloakContext: {
-        accessToken: keycloak.token,
-        refreshToken: keycloak.refreshToken,
-        sessionId: keycloak.tokenParsed.session_state,
-        email: keycloak.tokenParsed.email,
-        givenName: keycloak.tokenParsed.given_name,
-        familyName: keycloak.tokenParsed.family_name,
-        subject: keycloak.subject,
-        url: keycloak.authServerUrl,
-        realm: keycloak.realm,
-        roles: keycloak.tokenParsed.realm_access.roles,
-        groups: keycloak.tokenParsed.groups,
-      },
-      environmentContext: {
-        referenceDataUrl: config.refdataApiUrl,
-      },
-    });
+    if (form) {
+      interpolate(form, {
+        keycloakContext: {
+          accessToken: keycloak.token,
+          refreshToken: keycloak.refreshToken,
+          sessionId: keycloak.tokenParsed.session_state,
+          email: keycloak.tokenParsed.email,
+          givenName: keycloak.tokenParsed.given_name,
+          familyName: keycloak.tokenParsed.family_name,
+          subject: keycloak.subject,
+          url: keycloak.authServerUrl,
+          realm: keycloak.realm,
+          roles: keycloak.tokenParsed.realm_access.roles,
+          groups: keycloak.tokenParsed.groups,
+        },
+        environmentContext: {
+          referenceDataUrl: config.refdataApiUrl,
+        },
+      });
+    }
   }, [form]);
 
   useEffect(() => {
@@ -50,8 +57,13 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
 
     const loadForm = async () => {
       try {
-        const formResponse = await formApiClient.get(`/form/name/${formName}`);
-        setForm(formResponse.data);
+        if (formName) {
+          const formRenderer = FormUtils.getRenderer(formName);
+          const formEndpoint = formRenderer === Renderers.REACT ? 'copform' : 'form';
+          const { data } = await formApiClient.get(`/${formEndpoint}/name/${formName}`);
+          setForm(data);
+          setRenderer(formRenderer);
+        }
       } catch (e) {
         setError(e.message);
       } finally {
@@ -88,54 +100,84 @@ const RenderForm = ({ formName, onSubmit, onCancel, preFillData, children }) => 
   }
 
   return (
-    <>
-      <LoadingSpinner loading={isLoaderVisible}>
-        {error && (
-          <ErrorSummary
-            title="There is a problem"
-            errorList={[
-              { children: error },
-            ]}
-          />
-        )}
-        {!isEmpty(form) && (
-          <Form
-            form={form}
-            submission={formattedPreFillData}
-            onSubmit={async (data) => {
-              setLoaderVisibility(true);
-              try {
-                await onSubmit(data, form);
-                setSubmitted(true);
-              } catch (e) {
-                setError(e.message);
-              } finally {
-                setLoaderVisibility(false);
-              }
-            }}
-            onNextPage={() => {
-              window.scrollTo(0, 0);
-            }}
-            onPrevPage={() => {
-              window.scrollTo(0, 0);
-              setError(null);
-            }}
-            options={{
-              noAlerts: true,
-              hooks: {
-                beforeCancel: async () => {
-                  if (onCancel) {
-                    await onCancel();
-                  } else {
-                    history.go(0);
+    <LoadingSpinner loading={isLoaderVisible}>
+      {error && (
+        <ErrorSummary
+          title="There is a problem"
+          errorList={[
+            { children: error },
+          ]}
+        />
+      )}
+      {form && (
+        <>
+          {renderer === Renderers.FORM_IO && (
+            <Form
+              form={form}
+              submission={formattedPreFillData}
+              onSubmit={async (data) => {
+                setLoaderVisibility(true);
+                try {
+                  await onSubmit(data, form);
+                  setSubmitted(true);
+                } catch (e) {
+                  setError(e.message);
+                } finally {
+                  setLoaderVisibility(false);
+                }
+              }}
+              onNextPage={() => {
+                window.scrollTo(0, 0);
+              }}
+              onPrevPage={() => {
+                window.scrollTo(0, 0);
+                setError(null);
+              }}
+              options={{
+                noAlerts: true,
+                hooks: {
+                  beforeCancel: async () => {
+                    if (onCancel) {
+                      await onCancel();
+                    } else {
+                      history.go(0);
+                    }
+                  },
+                },
+              }}
+            />
+          )}
+          {renderer === Renderers.REACT && (
+            <FormRenderer
+              {...form}
+              data={formattedPreFillData?.data}
+              hooks={{
+                onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
+                onSubmit: async (_, payload, onSuccess) => {
+                  setLoaderVisibility(true);
+                  try {
+                    const { businessKey, submissionPayload } = await FormUtils.setupSubmission(
+                      form,
+                      payload,
+                      keycloak.tokenParsed.email,
+                      formApiClient,
+                    );
+                    await FormUtils.uploadDocuments(uploadApiClient, submissionPayload);
+                    await onSubmit({ data: { ...submissionPayload, businessKey } }, form);
+                    onSuccess({ ...submissionPayload, businessKey });
+                    setSubmitted(true);
+                  } catch (e) {
+                    setError(e.message);
+                  } finally {
+                    setLoaderVisibility(false);
                   }
                 },
-              },
-            }}
-          />
-        )}
-      </LoadingSpinner>
-    </>
+              }}
+            />
+          )}
+        </>
+      )}
+    </LoadingSpinner>
   );
 };
 
