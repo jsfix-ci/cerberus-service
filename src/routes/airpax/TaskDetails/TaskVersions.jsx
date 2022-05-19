@@ -27,14 +27,13 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
   const [pnrData, setPnrData] = useState();
 
   const getPNRData = async (taskId, versionNumber) => {
-    let response;
     // Mock PNR data for testing untill API is ready
-    let tempPNRData = {
+    const tempPNRData = {
       locator: 'LSV4UV',
       raw: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et',
     };
     try {
-      response = await apiClient.get(`/targeting-task/${taskId}/passenger-name-record-versions/${versionNumber}`);
+      const response = await apiClient.get(`/targeting-task/${taskId}/passenger-name-record-versions/${versionNumber}`);
       setPnrData(response);
     } catch (e) {
       // until API is ready we set the tempPNRData in the catch
@@ -90,9 +89,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
             id: 'pnr-data',
             label: 'PNR Data',
             panel: (
-              <>
-                <p>{pnrData ? pnrData.raw : 'PNR data not available'}</p>
-              </>
+              <p>{pnrData ? pnrData.raw : 'PNR data not available'}</p>
             ),
           },
         ]}
