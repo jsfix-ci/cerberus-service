@@ -1,7 +1,5 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
@@ -13,15 +11,12 @@ import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtu
 import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
-// mock useParams
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ businessKey: 'BK-123' }),
-}));
+// Extend the react-router-dom mock from jest.setup.jsx.
+const extendedRouterMock = jest.requireMock('react-router-dom');
+extendedRouterMock.useParams = jest.fn().mockReturnValue({ businessKey: 'BK-123' });
 
 describe('Task details page', () => {
   const mockAxios = new MockAdapter(axios);
-  const history = createMemoryHistory();
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
@@ -34,11 +29,7 @@ describe('Task details page', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: [] });
 
-    render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    );
+    render(<TaskDetailsPage />);
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
 
@@ -49,11 +40,7 @@ describe('Task details page', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.getByText('BK-123')).toBeInTheDocument();
   });
@@ -65,11 +52,7 @@ describe('Task details page', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.getByText('Task activity')).toBeInTheDocument();
   });
@@ -81,11 +64,7 @@ describe('Task details page', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
@@ -97,11 +76,7 @@ describe('Task details page', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
@@ -113,11 +88,7 @@ describe('Task details page', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
@@ -127,11 +98,7 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee);
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Task not assigned')).toBeInTheDocument();
     expect(screen.getByText('Claim')).toBeInTheDocument();
   });
@@ -141,11 +108,7 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataCurrentUser);
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Assigned to you')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -155,11 +118,7 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataOtherUser);
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -169,11 +128,7 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataTaskComplete);
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
@@ -186,11 +141,7 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataTargetIssued);
 
-    await waitFor(() => render(
-      <Router location={history.location} history={history}>
-        <TaskDetailsPage />
-      </Router>,
-    ));
+    await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
