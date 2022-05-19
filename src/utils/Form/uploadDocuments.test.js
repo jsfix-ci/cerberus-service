@@ -104,7 +104,6 @@ describe('utils.Form.uploadDocuments', () => {
       },
     };
     const result = await uploadDocuments(CLIENT, PAYLOAD);
-    console.log('result', result);
     expect(Array.isArray(result)).toBeTruthy();
     expect(result[0]).toMatchObject(PAYLOAD.meta.documents[1]);
     expect(result[1]).toMatchObject(PAYLOAD.meta.documents[2]);
