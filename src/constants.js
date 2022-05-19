@@ -80,3 +80,5 @@ export const RULES_FIELD_DESCRIPTION = {
   description: 'Description',
   agency: 'Agency',
 };
+
+export const BUSINESS_KEY_PATH = '/businessKey/generate';
