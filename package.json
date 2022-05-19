@@ -41,7 +41,6 @@
     "formiojs": "^4.12.7",
     "fs-extra": "^9.0.1",
     "govuk-frontend": "^3.14.0",
-    "history": "^5.3.0",
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
     "keycloak-js": "^15.0.2",
@@ -87,6 +86,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
+    "history": "^5.3.0",
     "html-webpack-plugin": "^4.5.0",
     "jest": "^27.3.1",
     "ls": "^0.2.1",
@@ -94,6 +94,7 @@
     "mochawesome": "^6.3.1",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^6.0.1",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "sass": "^1.32.2",
     "sass-loader": "^10.1.0",
@@ -101,7 +102,6 @@
     "webpack": "^5.12.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1",
-    "yargs": "^16.2.0",
-    "react-test-renderer": "^17.0.2"
+    "yargs": "^16.2.0"
   }
 }
