@@ -3,7 +3,7 @@ import React from 'react';
 import { useFormSubmit } from '../../utils/formioSupport';
 import RenderForm from '../../components/RenderForm';
 import Panel from '../../govuk/Panel';
-import { FORM_NAME_TARGET_INFORMATION_SHEET } from '../../constants';
+import { FORM_NAMES } from '../../constants';
 
 const IssueTargetPage = () => {
   const submitForm = useFormSubmit();
@@ -17,7 +17,7 @@ const IssueTargetPage = () => {
           data.data.businessKey,
           form,
           data.data,
-          FORM_NAME_TARGET_INFORMATION_SHEET,
+          FORM_NAMES.TARGET_INFORMATION_SHEET,
         );
       }}
     >
