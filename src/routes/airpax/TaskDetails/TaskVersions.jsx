@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
@@ -15,36 +15,89 @@ import Itinerary from './builder/Itinerary';
 import CoTraveller from './builder/CoTraveller';
 import SelectorMatches from './builder/SelectorMatches';
 import RuleMatches from './builder/RuleMatches';
+import Tabs from '../../../components/Tabs';
+// Config
+import config from '../../../config';
+import { useKeycloak } from '../../../utils/keycloak';
+import useAxiosInstance from '../../../utils/axiosInstance';
 
-const renderDetailsOverview = (version, airlineCodes) => {
+const renderVersionDetails = (version, airlineCodes, businessKey) => {
+  const keycloak = useKeycloak();
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const [pnrData, setPnrData] = useState();
+
+  const getPNRData = async (taskId, versionNumber) => {
+    let response;
+    // Mock PNR data for testing untill API is ready
+    let tempPNRData = {
+      locator: 'LSV4UV',
+      raw: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et',
+    };
+    try {
+      response = await apiClient.get(`/targeting-task/${taskId}/passenger-name-record-versions/${versionNumber}`);
+      setPnrData(response);
+    } catch (e) {
+      // until API is ready we set the tempPNRData in the catch
+      // this will be changed to the error handling
+      setPnrData(tempPNRData);
+    }
+  };
+
   return (
     <>
-      <div className="govuk-task-details-grid">
-        <div className="govuk-grid-column-one-third">
-          <Passenger version={version} />
-          <Document version={version} />
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line">
-          <div className="govuk-task-details-col-2">
-            <Booking version={version} />
-          </div>
-        </div>
-        <div className="govuk-grid-column-one-third vertical-dotted-line">
-          <div className="govuk-task-details-col-3">
-            <Voyage version={version} airlineCodes={airlineCodes} />
-            <Itinerary version={version} />
-          </div>
-        </div>
-      </div>
-      <div className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4">
-        <CoTraveller version={version} />
-      </div>
-      <div>
-        <SelectorMatches version={version} />
-      </div>
-      <div>
-        <RuleMatches version={version} />
-      </div>
+      <Tabs
+        title="Versions"
+        id="versions-data"
+        onTabClick={(e) => {
+          if (e.id === 'pnr-data') getPNRData(businessKey, version.number);
+        }}
+        items={[
+          {
+            id: 'overview',
+            label: 'Overview',
+            panel: (
+              <>
+                <div className="govuk-task-details-grid">
+                  <div className="govuk-grid-column-one-third">
+                    <Passenger version={version} />
+                    <Document version={version} />
+                  </div>
+                  <div className="govuk-grid-column-one-third vertical-dotted-line">
+                    <div className="govuk-task-details-col-2">
+                      <Booking version={version} />
+                    </div>
+                  </div>
+                  <div className="govuk-grid-column-one-third vertical-dotted-line">
+                    <div className="govuk-task-details-col-3">
+                      <Voyage version={version} airlineCodes={airlineCodes} />
+                      <Itinerary version={version} />
+                    </div>
+                  </div>
+                </div>
+                <div className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4">
+                  <CoTraveller version={version} />
+                </div>
+                <div>
+                  <SelectorMatches version={version} />
+                </div>
+                <div>
+                  <RuleMatches version={version} />
+                </div>
+              </>
+            ),
+          },
+          {
+            id: 'pnr-data',
+            label: 'PNR Data',
+            panel: (
+              <>
+                <p>{pnrData ? pnrData.raw : 'PNR data not available'}</p>
+              </>
+            ),
+          },
+        ]}
+      />
+
     </>
   );
 };
@@ -58,7 +111,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts,
       items={
         taskVersions.map((version, index) => {
           const threatLevel = version.risks.highestThreatLevel;
-          const sections = renderDetailsOverview(version, airlineCodes);
+          const sections = renderVersionDetails(version, airlineCodes, businessKey);
           return {
             expanded: index === 0,
             heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,
