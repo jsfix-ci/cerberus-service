@@ -54,7 +54,7 @@ module.exports = {
       KEYCLOAK_CLIENT_ID: 'cerberus',
       KEYCLOAK_REALM: 'cop-dev',
       FORM_API_URL: undefined,
-      FILE_UPLOAD_API_URL: undefined,
+      FILE_UPLOAD_API_URL: '',
       REFDATA_API_URL: undefined,
     }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
