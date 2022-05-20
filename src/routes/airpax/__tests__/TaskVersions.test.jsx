@@ -73,6 +73,11 @@ describe('TaskVersions', () => {
     },
   ];
 
+  it('should render PNR Data tab in version accordion', () => {
+    render(<TaskVersions taskVersions={mockTaskVersionsWithRuleThreat} airlineCodes={airlineCodes} />);
+    expect(screen.getByText('PNR Data')).toBeInTheDocument();
+  });
+
   it('should render task versions and rule threat level', () => {
     render(<TaskVersions taskVersions={mockTaskVersionsWithRuleThreat} airlineCodes={airlineCodes} />);
     expect(screen.getByText('Version 1 (latest)')).toBeInTheDocument();

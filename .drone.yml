@@ -90,7 +90,7 @@ steps:
   commands:
   - node -v
   - npm -v
-  - npm ci
+  - npm ci --legacy-peer-deps
   - npm run test
   when:
     event:
@@ -206,6 +206,8 @@ steps:
       from_secret: NGINX_TAG
     FORM_API_URL:
       from_secret: DEV_API_FORM_URL
+    FILE_UPLOAD_API_URL:
+      from_secret: DEV_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: DEV_REFDATA_API_URL
     CERBERUS_WORKFLOW_SERVICE_URL:
@@ -442,6 +444,8 @@ steps:
       from_secret: NGINX_TAG
     FORM_API_URL:
       from_secret: SIT_API_FORM_URL
+    FILE_UPLOAD_API_URL:
+      from_secret: SIT_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: SIT_REFDATA_API_URL
     CERBERUS_WORKFLOW_SERVICE_URL:
@@ -489,6 +493,8 @@ steps:
       from_secret: NGINX_TAG
     FORM_API_URL:
       from_secret: STAGING_API_FORM_URL
+    FILE_UPLOAD_API_URL:
+      from_secret: STAGING_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: STAGING_REFDATA_API_URL
     CERBERUS_WORKFLOW_SERVICE_URL:
@@ -536,6 +542,8 @@ steps:
       from_secret: NGINX_TAG
     FORM_API_URL:
       from_secret: PRODUCTION_API_FORM_URL
+    FILE_UPLOAD_API_URL:
+      from_secret: PRODUCTION_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: PRODUCTION_REFDATA_API_URL
     CERBERUS_WORKFLOW_SERVICE_URL:

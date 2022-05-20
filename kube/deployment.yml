@@ -97,6 +97,8 @@ spec:
             value: "{{.DEPLOY_ENV}}"
           - name: FORM_API_URL
             value: "https://{{.FORM_API_URL}}"
+          - name: FILE_UPLOAD_API_URL
+            value: "https://{{.FILE_UPLOAD_API_URL}}"
           - name: REFDATA_API_URL
             value: "https://{{.REFDATA_API_URL}}"
           - name: CERBERUS_API_URL

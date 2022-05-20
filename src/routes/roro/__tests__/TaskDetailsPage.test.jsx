@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
@@ -10,6 +11,7 @@ import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatus
 import noteFormFixure from '../__fixtures__/noteFormResponse.fixture.json';
 import targetModeFreight from '../__fixtures__/targetMode_RoRoFreight.fixture.json';
 import targetModeTourist from '../__fixtures__/targetMode_RoRoTourist.fixture.json';
+import { FORM_NAMES } from '../../../constants';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -355,10 +357,14 @@ describe('TaskDetailsPage', () => {
       targetModeResponse: targetModeTourist,
     });
 
-    // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
-    mockAxios.onGet('/form/name/noteCerberus').reply(404);
-
     await waitFor(() => render(<TaskDetailsPage />));
+
+    // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
+    mockAxios.onGet(`/form/name/${FORM_NAMES.TARGET_INFORMATION_SHEET}`).reply(404);
+
+    // Click the button
+    const issueTargetButton = screen.getByText(/Issue target/i);
+    await waitFor(() => userEvent.click(issueTargetButton));
 
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '../../__mocks__/keycloakMock';
 
@@ -50,7 +50,7 @@ describe('TaskNotes', () => {
   it('should render task notes form when displayForm is true', async () => {
     mockTaskNotesAxiosCalls({});
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
     expect(screen.queryByText('Task activity')).toBeInTheDocument();
   });
@@ -58,7 +58,7 @@ describe('TaskNotes', () => {
   it('should not render task notes form when displayForm is false', async () => {
     mockTaskNotesAxiosCalls({});
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm={false} businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm={false} businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
     expect(screen.queryByText('Task activity')).toBeInTheDocument();
   });
@@ -72,7 +72,7 @@ describe('TaskNotes', () => {
       }],
     });
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('Task received')).toBeInTheDocument();
   });
 
@@ -81,7 +81,7 @@ describe('TaskNotes', () => {
       operationsHistoryResponse: operationsHistoryResponseClaim,
     });
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('User has claimed the task')).toBeInTheDocument();
   });
 
@@ -90,7 +90,7 @@ describe('TaskNotes', () => {
       operationsHistoryResponse: operationsHistoryResponseUnclaim,
     });
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('User has unclaimed the task')).toBeInTheDocument();
   });
 
@@ -99,7 +99,7 @@ describe('TaskNotes', () => {
       operationsHistoryResponse: operationsHistoryResponsePropertyChanged,
     });
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
 
     expect(screen.queryByText('testuser@email.com')).not.toBeInTheDocument();
     expect(screen.queryByText('Property delete changed from false to true')).not.toBeInTheDocument();
@@ -114,7 +114,7 @@ describe('TaskNotes', () => {
       }],
     });
 
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    await waitFor(() => render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />));
     expect(screen.queryByText('Develop the task')).toBeInTheDocument();
   });
 
@@ -123,12 +123,17 @@ describe('TaskNotes', () => {
     const expectedPayload = '\\nthis \\\\is a \\"test\\" \\nnote';
 
     mockTaskNotesAxiosCalls({});
-    await waitFor(() => render(<TaskNotes formName="noteCerberus" displayForm businessKey="ghi" processInstanceId="123" />));
+    const { container } = render(<TaskNotes displayForm businessKey="ghi" processInstanceId="123" />);
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
-    await waitFor(() => userEvent.type(screen.getByRole('textbox', { name: /Add a new note/i }), input));
 
-    await waitFor(() => userEvent.click(screen.getByRole('button', { name: /Save/i })));
+    // Type into the textarea...
+    const textarea = container.getElementsByClassName('govuk-textarea')[0];
+    fireEvent.change(textarea, { target: { name: 'note', value: input } });
+
+    // ... and then click on the submit button.
+    const submit = container.getElementsByClassName('hods-button')[0];
+    await waitFor(() => userEvent.click(submit));
 
     const requestPayload = mockAxios.history.post[0].data;
     const parsedPayload = JSON.parse(JSON.parse(requestPayload).variables.noteCerberus.value).note;

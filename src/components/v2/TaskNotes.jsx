@@ -4,19 +4,23 @@ import { v4 as uuidv4 } from 'uuid';
 // Config
 import config from '../../config';
 // Utils
+import { FORM_NAMES } from '../../constants';
 import useAxiosInstance from '../../utils/axiosInstance';
 import { useFormSubmit } from '../../utils/formioSupport';
 import hyperlinkify from '../../utils/hyperlinkify';
+import { Renderers } from '../../utils/Form';
 import { useKeycloak } from '../../utils/keycloak';
 // Components / Pages
 import RenderForm from '../RenderForm';
+// JSON
+import noteCerberus from '../../cop-forms/noteCerberus';
 
 // See Camunda docs for all operation types:
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskNotes = ({ formName, displayForm, businessKey, processInstanceId, refreshNotes }) => {
+const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }) => {
   const keycloak = useKeycloak();
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const submitForm = useFormSubmit();
@@ -102,9 +106,10 @@ const TaskNotes = ({ formName, displayForm, businessKey, processInstanceId, refr
   }, [processInstanceId, refreshNotes]);
 
   return (
-    <div className="govuk-grid-column-one-third">
+    <>
       {displayForm && (
         <RenderForm
+          preFillData={{ businessKey }}
           onSubmit={
             async (data, form) => {
               data.data.note = escapeJSON(data.data.note);
@@ -113,12 +118,13 @@ const TaskNotes = ({ formName, displayForm, businessKey, processInstanceId, refr
                 businessKey,
                 form,
                 { ...data.data, processInstanceId },
-                formName,
+                FORM_NAMES.NOTE_CERBERUS,
               );
               getNotes();
             }
           }
-          formName={formName}
+          form={noteCerberus}
+          renderer={Renderers.REACT}
         />
       )}
 
@@ -143,7 +149,7 @@ const TaskNotes = ({ formName, displayForm, businessKey, processInstanceId, refr
           );
         }
       })}
-    </div>
+    </>
   );
 };
 

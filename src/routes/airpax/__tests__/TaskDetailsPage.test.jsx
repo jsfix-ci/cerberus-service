@@ -11,11 +11,9 @@ import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtu
 import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
-// mock useParams
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ businessKey: 'BK-123' }),
-}));
+// Extend the react-router-dom mock from jest.setup.jsx.
+const extendedRouterMock = jest.requireMock('react-router-dom');
+extendedRouterMock.useParams = jest.fn().mockReturnValue({ businessKey: 'BK-123' });
 
 describe('Task details page', () => {
   const mockAxios = new MockAdapter(axios);
@@ -43,7 +41,7 @@ describe('Task details page', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
-    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.getByText('BK-123')).toBeInTheDocument();
   });
 
@@ -55,7 +53,7 @@ describe('Task details page', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
-    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.getByText('Task activity')).toBeInTheDocument();
   });
 
@@ -67,7 +65,7 @@ describe('Task details page', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
-    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
@@ -79,7 +77,7 @@ describe('Task details page', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
-    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
@@ -91,7 +89,7 @@ describe('Task details page', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(<TaskDetailsPage />));
-    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 

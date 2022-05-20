@@ -63,6 +63,7 @@ Assuming you have nvm installed to manage your node versions of course!
   \
   REACT_APP_AUTH_CLIENT_ID=your-client-id \
   FORM_API_URL=https://form-api.example.com/ \
+  FILE_UPLOAD_API_URL=https://file-upload-api.example.com/ \
   REFDATA_API_URL=https://refdata-api.example.com/ \
   KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
   KEYCLOAK_CLIENT_ID=your-client-id \
