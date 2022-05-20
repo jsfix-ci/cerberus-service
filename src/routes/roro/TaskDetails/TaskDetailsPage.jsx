@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../../constants';
+import { FORM_NAMES, TASK_STATUS_NEW } from '../../../constants';
 import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -45,7 +45,7 @@ const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarge
           data.data.businessKey,
           form,
           { ...data.data, actionTarget },
-          FORM_NAME_TARGET_INFORMATION_SHEET,
+          FORM_NAMES.TARGET_INFORMATION_SHEET,
         );
         refreshNotes();
         setTargetStatus();
@@ -394,13 +394,14 @@ const TaskDetailsPage = () => {
                 />
               )}
             </div>
-            <TaskNotes
-              formName="noteCerberus"
-              displayForm={assignee === currentUser}
-              businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
-              processInstanceId={processInstanceId}
-              refreshNotes={refreshNotesForm}
-            />
+            <div className="govuk-grid-column-one-third">
+              <TaskNotes
+                displayForm={assignee === currentUser}
+                businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+                processInstanceId={processInstanceId}
+                refreshNotes={refreshNotesForm}
+              />
+            </div>
           </div>
         </>
       )}

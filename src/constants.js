@@ -6,7 +6,6 @@ export const SHORT_DATE_ALT = 'SHORT_DATE_ALT';
 export const STANDARD_HOUR_MINUTE_FORMAT = 'HH:mm';
 export const STANDARD_CARD_EXPIRY_FORMAT = 'MM/YY';
 export const LONDON_TIMEZONE = 'Europe/London';
-export const FORM_NAME_TARGET_INFORMATION_SHEET = 'targetInformationSheet';
 export const TASK_STATUS_NEW = 'new';
 export const TASK_STATUS_IN_PROGRESS = 'inProgress';
 export const TASK_STATUS_TARGET_ISSUED = 'issued';
@@ -79,4 +78,10 @@ export const RULES_FIELD_NAMES = {
 export const RULES_FIELD_DESCRIPTION = {
   description: 'Description',
   agency: 'Agency',
+};
+
+export const BUSINESS_KEY_PATH = '/businessKey/generate';
+export const FORM_NAMES = {
+  NOTE_CERBERUS: 'noteCerberus',
+  TARGET_INFORMATION_SHEET: 'targetInformationSheet',
 };

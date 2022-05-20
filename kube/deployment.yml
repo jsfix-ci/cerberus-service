@@ -23,6 +23,18 @@ spec:
         name: {{.CERBERUS_UI_NAME}}
         service: {{.CERBERUS_UI_NAME}}
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - {{.CERBERUS_UI_NAME}}
+              topologyKey: failure-domain.beta.kubernetes.io/zone
       restartPolicy: Always
       containers:
       - name: {{.CERBERUS_UI_NAME}}-proxy
@@ -70,7 +82,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401" 
+              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401"
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
@@ -85,6 +97,8 @@ spec:
             value: "{{.DEPLOY_ENV}}"
           - name: FORM_API_URL
             value: "https://{{.FORM_API_URL}}"
+          - name: FILE_UPLOAD_API_URL
+            value: "https://{{.FILE_UPLOAD_API_URL}}"
           - name: REFDATA_API_URL
             value: "https://{{.REFDATA_API_URL}}"
           - name: CERBERUS_API_URL
