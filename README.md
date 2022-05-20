@@ -91,6 +91,15 @@ docker run --name cerberus-service -p 8080:8080 \
   --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
   cerberus-service
 ```
+**4. Run the resulting Docker container using docker compose**
+This command requires you have a docker image built locally for the
+[cop-targeting-api](https://gitlab.digital.homeoffice.gov.uk/cop/cop-targeting-api/-/blob/master/README.md)
+If you have an image built locally, this command will run the cerberus-service and cop-targeting-api local
+containers whilst pointing at the DEV environments for the ref data, form server and Cerberus APIs. You
+can change and repoint any of these APIs by updating the environment variables in the `docker-compose.yml` file.
+```sh
+docker-comose up -d
+```
 
 ## Tests in native development
 
