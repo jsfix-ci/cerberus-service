@@ -62,1495 +62,824 @@ exports[`TaskVersions should render task versions 1`] = `
       id="task-versions-undefined-content-1"
     >
       <div
-        className="govuk-task-details-grid"
+        className="govuk-tabs"
+        id="versions-data"
       >
+        <h2
+          className="govuk-tabs__title"
+        >
+          Versions
+        </h2>
+        <ul
+          className="govuk-tabs__list"
+        >
+          <li
+            className="govuk-tabs__list-item govuk-tabs__list-item--selected"
+          >
+            <a
+              className="govuk-tabs__tab"
+              href="#overview"
+              name="Overview"
+              onClick={[Function]}
+            >
+              Overview
+            </a>
+          </li>
+          <li
+            className="govuk-tabs__list-item"
+          >
+            <a
+              className="govuk-tabs__tab"
+              href="#pnr-data"
+              name="PNR Data"
+              onClick={[Function]}
+            >
+              PNR Data
+            </a>
+          </li>
+        </ul>
         <div
-          className="govuk-grid-column-one-third"
+          className="govuk-tabs__panel"
+          id="overview"
         >
           <div
-            className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
-          >
-            <h3
-              className="govuk-heading-m govuk-!-margin-top-0"
-            >
-              Passenger
-            </h3>
-            <div
-              className="govuk-task-details-grid-column"
-            >
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Name
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  MESTA, GEMMA
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Date of birth
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  Unknown
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Nationality
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  Unknown (Unknown)
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Age at travel
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  Unknown
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Gender
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  Unknown
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Departure status
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                />
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Frequent flyer number
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  579419193A
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  SSR codes
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  DOCS
-                  AUTH
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            className="task-details-container"
-          >
-            <h3
-              className="govuk-heading-m govuk-!-margin-top-0"
-            >
-              Document
-            </h3>
-            <div
-              className="govuk-task-details-grid-column"
-            >
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Type
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  Passport
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Number
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  1234567
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Document nationality
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  United Kingdom (GB)
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Country of issue
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  France (FR)
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Valid from
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  14 Apr 1970
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  52 years before travel
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Valid To
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  14 Apr 1970
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  48 years before travel
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Name
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  MESTA, Miss Gemma
-                </p>
-              </div>
-              <div
-                className="govuk-!-margin-bottom-2"
-              >
-                <p
-                  className="govuk-!-margin-bottom-0 font__light"
-                >
-                  Date of birth
-                </p>
-                <p
-                  className="govuk-!-margin-bottom-0 font__bold"
-                >
-                  14 Apr 1970
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="govuk-grid-column-one-third vertical-dotted-line"
-        >
-          <div
-            className="govuk-task-details-col-2"
+            className="govuk-task-details-grid"
           >
             <div
-              className="task-details-container"
+              className="govuk-grid-column-one-third"
             >
-              <h3
-                className="govuk-heading-m govuk-!-margin-top-0"
-              >
-                Booking
-              </h3>
               <div
-                className="govuk-task-details-grid-column"
+                className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
               >
-                <div
-                  className="govuk-!-margin-bottom-2"
+                <h3
+                  className="govuk-heading-m govuk-!-margin-top-0"
                 >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Reference
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    LSV4UV
-                  </p>
-                </div>
+                  Passenger
+                </h3>
                 <div
-                  className="govuk-!-margin-bottom-2"
+                  className="govuk-task-details-grid-column"
                 >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Number of travellers
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Name
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      MESTA, GEMMA
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    4
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Date of birth
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Booking date
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Nationality
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown (Unknown)
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Invalid Date
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Age at travel
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Unknown
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Gender
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Booking country
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Departure status
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    />
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Unknown (Unknown)
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Frequent flyer number
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      579419193A
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Booking type
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Unknown
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Ticket number
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Unknown
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Ticket type
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Unknown
-                  </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      SSR codes
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      DOCS
+                      AUTH
+                    </p>
+                  </div>
                 </div>
               </div>
               <div
-                className="bottom-border-thin"
+                className="task-details-container"
               >
-                <span
-                  className="font__light"
-                >
-                  Payments
-                </span>
-              </div>
-              <div
-                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
-              >
-                <div
-                  className="font__bold"
-                >
-                  2190.48
-                </div>
-                <div
-                  className="font__light"
-                >
-                  Credit card ending 
-                  X63X
-                  , expiry 
-                  10/20
-                </div>
-              </div>
-              <div
-                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
-              >
-                <div
-                  className="font__bold"
-                >
-                  2190.48
-                </div>
-                <div
-                  className="font__light"
-                >
-                  Credit card ending 
-                  X63X
-                  , expiry 
-                  10/20
-                </div>
-              </div>
-              <div
-                className="govuk-task-details-grid-column govuk-!-margin-top-3"
-              >
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Agent IATA
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Unknown
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Agent location
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Unknown
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="govuk-grid-column-one-third vertical-dotted-line"
-        >
-          <div
-            className="govuk-task-details-col-3"
-          >
-            <div
-              className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
-            >
-              <h3
-                className="govuk-heading-m govuk-!-margin-top-0"
-              >
-                Voyage
-              </h3>
-              <div
-                className="govuk-task-details-grid-column"
-              >
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Departure from
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    YYC
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Calgary, Canada
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Departure time
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Wed 3 Oct 2018 at 19:32
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Arrival at
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    LHR
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    London, United Kingdom
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Arrival time
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    Wed 3 Oct 2018 at 22:19
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Scheduled flight time
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    2h 46m
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Flight code
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  >
-                    AC0850
-                  </p>
-                </div>
-                <div
-                  className="govuk-!-margin-bottom-2"
-                >
-                  <p
-                    className="govuk-!-margin-bottom-0 font__light"
-                  >
-                    Operator
-                  </p>
-                  <p
-                    className="govuk-!-margin-bottom-0 font__bold"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              className="task-details-container"
-            >
-              <h3
-                className="govuk-heading-m govuk-!-margin-top-0"
-              >
-                Itinerary
-              </h3>
-              <div
-                className="bottom-border-thin"
-              />
-              <div
-                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
-              >
-                <div
-                  className="font__bold"
-                >
-                  AC0850
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  CDG
-                   
-                  <span
-                    className="right-arrow"
-                  >
-                    →
-                  </span>
-                   
-                  YYZ
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  Wed 3 Oct 2018 at 12:00
-                </div>
-                <div
-                  className="font__light"
-                >
-                  FR
-                   
-                  <span
-                    className="right-arrow"
-                  >
-                    →
-                  </span>
-                   
-                  CA
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  Arrival
-                   
-                  3 Oct 2018 at 14:05
-                </div>
-              </div>
-              <div
-                className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
-              >
-                <div
-                  className="font__light"
-                >
-                  3 hours later
-                </div>
-                <div
-                  className="font__bold"
-                >
-                  BD0998
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  YYZ
-                   
-                  <span
-                    className="right-arrow"
-                  >
-                    →
-                  </span>
-                   
-                  YYC
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  Wed 3 Oct 2018 at 17:05
-                </div>
-                <div
-                  className="font__light"
-                >
-                  CA
-                   
-                  <span
-                    className="right-arrow"
-                  >
-                    →
-                  </span>
-                   
-                  CA
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  Arrival
-                   
-                  3 Oct 2018 at 19:16
-                </div>
-              </div>
-              <div
-                className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
-              >
-                <div
-                  className="font__light"
-                >
-                  17 minutes later
-                </div>
-                <div
-                  className="font__bold"
-                >
-                  XZ0123
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  YYC
-                   
-                  <span
-                    className="right-arrow"
-                  >
-                    →
-                  </span>
-                   
-                  LHR
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  Wed 3 Oct 2018 at 19:32
-                </div>
-                <div
-                  className="font__light"
-                >
-                  CA
-                   
-                  <span
-                    className="right-arrow"
-                  >
-                    →
-                  </span>
-                   
-                  GB
-                   
-                  <span
-                    className="dot__light"
-                  />
-                   
-                  Arrival
-                   
-                  3 Oct 2018 at 22:19
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4"
-      >
-        <div
-          className="font__bold"
-        >
-          <h3
-            className="govuk-heading-m govuk-!-margin-bottom-0"
-          >
-            4 travellers
-          </h3>
-          <table
-            className="hods-table co-travellers-table"
-            role="table"
-          >
-            <thead
-              className="hods-table__heading"
-            >
-              <tr
-                role="row"
-              >
-                <th
-                  role="columnheader"
-                  scope="col"
-                >
-                  Traveller
-                </th>
-                <th
-                  role="columnheader"
-                  scope="col"
-                >
-                  Age
-                </th>
-                <th
-                  role="columnheader"
-                  scope="col"
-                >
-                  Check-in
-                </th>
-                <th
-                  role="columnheader"
-                  scope="col"
-                >
-                  Seat
-                </th>
-                <th
-                  role="columnheader"
-                  scope="col"
+                <h3
+                  className="govuk-heading-m govuk-!-margin-top-0"
                 >
                   Document
-                </th>
-                <th
-                  role="columnheader"
-                  scope="col"
+                </h3>
+                <div
+                  className="govuk-task-details-grid-column"
                 >
-                  Checked baggage
-                </th>
-                <th
-                  role="columnheader"
-                  scope="col"
-                >
-                  
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              className="hods-table__body"
-            >
-              <tr
-                className="hods-table__row"
-                role="row"
-              >
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Traveller
-                  </span>
                   <div
-                    className="font__bold"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    MESTA
-                    , 
-                    GEMMA
-                     
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Type
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Passport
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Unknown
-                    , 
-                    Unknown
-                    , 
-                    Unknown
-                     (
-                    Unknown
-                    )
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Age
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Check-in
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Invalid Date
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Number
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      1234567
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    NaN years ago
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Seat
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Document
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Passport
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Document nationality
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      United Kingdom (GB)
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Issued by 
-                    FR
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Checked baggage
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    
-                  </span>
-                  <div
-                    className="font__light"
-                  >
-                    This movement
-                  </div>
-                </td>
-              </tr>
-              <tr
-                className="hods-table__row"
-                role="row"
-              >
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Traveller
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    MAUSSER
-                    , 
-                    Unknown
-                     
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Country of issue
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      France (FR)
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Female
-                    , 
-                    14 Apr 1970
-                    , 
-                    Unknown
-                     (
-                    Unknown
-                    )
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Age
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    52
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Check-in
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Invalid Date
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Valid from
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      14 Apr 1970
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      52 years before travel
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    NaN years ago
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Seat
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Document
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Valid To
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      14 Apr 1970
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      48 years before travel
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Issued by 
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Checked baggage
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    
-                  </span>
-                  <a
-                    className="govuk-link"
-                    data-module="govuk-link"
-                    href="/"
-                    target="_blank"
-                  >
-                    Movement detail
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="hods-table__row"
-                role="row"
-              >
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Traveller
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    MAUSSER
-                    , 
-                    SHARON
-                     
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Name
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      MESTA, Miss Gemma
+                    </p>
                   </div>
                   <div
-                    className="font__light"
+                    className="govuk-!-margin-bottom-2"
                   >
-                    Unknown
-                    , 
-                    Unknown
-                    , 
-                    Unknown
-                     (
-                    Unknown
-                    )
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Date of birth
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      14 Apr 1970
+                    </p>
                   </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Age
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Check-in
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Invalid Date
-                  </div>
-                  <div
-                    className="font__light"
-                  >
-                    NaN years ago
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Seat
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Document
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                  <div
-                    className="font__light"
-                  >
-                    Issued by 
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Checked baggage
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    
-                  </span>
-                  <a
-                    className="govuk-link"
-                    data-module="govuk-link"
-                    href="/"
-                    target="_blank"
-                  >
-                    Movement detail
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="hods-table__row"
-                role="row"
-              >
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Traveller
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    UNKNOWN
-                    , 
-                    Unknown
-                     
-                  </div>
-                  <div
-                    className="font__light"
-                  >
-                    Male
-                    , 
-                    10 Jun 1967
-                    , 
-                    Unknown
-                     (
-                    Unknown
-                    )
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Age
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    54
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Check-in
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Invalid Date
-                  </div>
-                  <div
-                    className="font__light"
-                  >
-                    NaN years ago
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Seat
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Document
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                  <div
-                    className="font__light"
-                  >
-                    Issued by 
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    Checked baggage
-                  </span>
-                  <div
-                    className="font__bold"
-                  >
-                    Unknown
-                  </div>
-                </td>
-                <td
-                  className="hods-table__cell"
-                  role="cell"
-                >
-                  <span
-                    className="hods-table__heading"
-                  >
-                    
-                  </span>
-                  <a
-                    className="govuk-link"
-                    data-module="govuk-link"
-                    href="/"
-                    target="_blank"
-                  >
-                    Movement detail
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <div>
-          <h2
-            className="govuk-heading-m"
-          >
-            0
-             selector matches
-          </h2>
-        </div>
-      </div>
-      <div>
-        <div>
-          <h2
-            className="govuk-heading-m header-bg-grey"
-          >
-            Rules matched
-          </h2>
-          <div
-            className="govuk-grid-row"
-          >
-            <div
-              className="govuk-grid-column-one-quarter"
-            >
-              <h4
-                className="govuk-heading-s"
-              >
-                Rule name
-              </h4>
-              <p>
-                PNR-Arrival Airport
-              </p>
+                </div>
+              </div>
             </div>
             <div
-              className="govuk-grid-column-one-quarter"
+              className="govuk-grid-column-one-third vertical-dotted-line"
             >
-              <h4
-                className="govuk-heading-s"
+              <div
+                className="govuk-task-details-col-2"
               >
-                Threat
-              </h4>
-              <p>
-                Tier 1
-              </p>
+                <div
+                  className="task-details-container"
+                >
+                  <h3
+                    className="govuk-heading-m govuk-!-margin-top-0"
+                  >
+                    Booking
+                  </h3>
+                  <div
+                    className="govuk-task-details-grid-column"
+                  >
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Reference
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        LSV4UV
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Number of travellers
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        4
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Booking date
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Invalid Date
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Unknown
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Booking country
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown (Unknown)
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Booking type
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Ticket number
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Ticket type
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="bottom-border-thin"
+                  >
+                    <span
+                      className="font__light"
+                    >
+                      Payments
+                    </span>
+                  </div>
+                  <div
+                    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+                  >
+                    <div
+                      className="font__bold"
+                    >
+                      2190.48
+                    </div>
+                    <div
+                      className="font__light"
+                    >
+                      Credit card ending 
+                      X63X
+                      , expiry 
+                      10/20
+                    </div>
+                  </div>
+                  <div
+                    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+                  >
+                    <div
+                      className="font__bold"
+                    >
+                      2190.48
+                    </div>
+                    <div
+                      className="font__light"
+                    >
+                      Credit card ending 
+                      X63X
+                      , expiry 
+                      10/20
+                    </div>
+                  </div>
+                  <div
+                    className="govuk-task-details-grid-column govuk-!-margin-top-3"
+                  >
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Agent IATA
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Agent location
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
-              className="govuk-grid-column-one-quarter"
+              className="govuk-grid-column-one-third vertical-dotted-line"
             >
-              <h4
-                className="govuk-heading-s"
+              <div
+                className="govuk-task-details-col-3"
               >
-                Rule Version
-              </h4>
-              <p>
-                1
-              </p>
-            </div>
-            <div
-              className="govuk-grid-column-one-quarter"
-            >
-              <h4
-                className="govuk-heading-s"
-              >
-                Abuse Type
-              </h4>
-              <p>
-                Alcohol
-              </p>
+                <div
+                  className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
+                >
+                  <h3
+                    className="govuk-heading-m govuk-!-margin-top-0"
+                  >
+                    Voyage
+                  </h3>
+                  <div
+                    className="govuk-task-details-grid-column"
+                  >
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Departure from
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        YYC
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Calgary, Canada
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Departure time
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Wed 3 Oct 2018 at 19:32
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Arrival at
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        LHR
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        London, United Kingdom
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Arrival time
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Wed 3 Oct 2018 at 22:19
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Scheduled flight time
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        2h 46m
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Flight code
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        AC0850
+                      </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Operator
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="task-details-container"
+                >
+                  <h3
+                    className="govuk-heading-m govuk-!-margin-top-0"
+                  >
+                    Itinerary
+                  </h3>
+                  <div
+                    className="bottom-border-thin"
+                  />
+                  <div
+                    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+                  >
+                    <div
+                      className="font__bold"
+                    >
+                      AC0850
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      CDG
+                       
+                      <span
+                        className="right-arrow"
+                      >
+                        →
+                      </span>
+                       
+                      YYZ
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      Wed 3 Oct 2018 at 12:00
+                    </div>
+                    <div
+                      className="font__light"
+                    >
+                      FR
+                       
+                      <span
+                        className="right-arrow"
+                      >
+                        →
+                      </span>
+                       
+                      CA
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      Arrival
+                       
+                      3 Oct 2018 at 14:05
+                    </div>
+                  </div>
+                  <div
+                    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+                  >
+                    <div
+                      className="font__light"
+                    >
+                      3 hours later
+                    </div>
+                    <div
+                      className="font__bold"
+                    >
+                      BD0998
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      YYZ
+                       
+                      <span
+                        className="right-arrow"
+                      >
+                        →
+                      </span>
+                       
+                      YYC
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      Wed 3 Oct 2018 at 17:05
+                    </div>
+                    <div
+                      className="font__light"
+                    >
+                      CA
+                       
+                      <span
+                        className="right-arrow"
+                      >
+                        →
+                      </span>
+                       
+                      CA
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      Arrival
+                       
+                      3 Oct 2018 at 19:16
+                    </div>
+                  </div>
+                  <div
+                    className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+                  >
+                    <div
+                      className="font__light"
+                    >
+                      17 minutes later
+                    </div>
+                    <div
+                      className="font__bold"
+                    >
+                      XZ0123
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      YYC
+                       
+                      <span
+                        className="right-arrow"
+                      >
+                        →
+                      </span>
+                       
+                      LHR
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      Wed 3 Oct 2018 at 19:32
+                    </div>
+                    <div
+                      className="font__light"
+                    >
+                      CA
+                       
+                      <span
+                        className="right-arrow"
+                      >
+                        →
+                      </span>
+                       
+                      GB
+                       
+                      <span
+                        className="dot__light"
+                      />
+                       
+                      Arrival
+                       
+                      3 Oct 2018 at 22:19
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div
-            className="govuk-grid-row"
+            className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4"
           >
             <div
-              className="govuk-grid-column-one-quarter false"
+              className="font__bold"
             >
-              <h4
-                className="govuk-heading-s"
+              <h3
+                className="govuk-heading-m govuk-!-margin-bottom-0"
               >
-                Description
-              </h4>
-              <p>
-                Test
-              </p>
-            </div>
-          </div>
-          <div
-            className="govuk-grid-row"
-          >
-            <div
-              className="govuk-grid-column-full govuk-!-margin-bottom-6"
-            >
-              <h4
-                className="govuk-heading-s govuk-!-margin-bottom-2"
-              >
-                Risk indicators (
-                2
-                )
-              </h4>
+                4 travellers
+              </h3>
               <table
-                className="hods-table"
+                className="hods-table co-travellers-table"
                 role="table"
               >
                 <thead
@@ -1563,25 +892,43 @@ exports[`TaskVersions should render task versions 1`] = `
                       role="columnheader"
                       scope="col"
                     >
-                      Entity type
+                      Traveller
                     </th>
                     <th
                       role="columnheader"
                       scope="col"
                     >
-                      Attribute
+                      Age
                     </th>
                     <th
                       role="columnheader"
                       scope="col"
                     >
-                      Operator
+                      Check-in
                     </th>
                     <th
                       role="columnheader"
                       scope="col"
                     >
-                      Value(s)
+                      Seat
+                    </th>
+                    <th
+                      role="columnheader"
+                      scope="col"
+                    >
+                      Document
+                    </th>
+                    <th
+                      role="columnheader"
+                      scope="col"
+                    >
+                      Checked baggage
+                    </th>
+                    <th
+                      role="columnheader"
+                      scope="col"
+                    >
+                      
                     </th>
                   </tr>
                 </thead>
@@ -1599,9 +946,28 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Entity type
+                        Traveller
                       </span>
-                      Booking
+                      <div
+                        className="font__bold"
+                      >
+                        MESTA
+                        , 
+                        GEMMA
+                         
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Unknown
+                        , 
+                        Unknown
+                        , 
+                        Unknown
+                         (
+                        Unknown
+                        )
+                      </div>
                     </td>
                     <td
                       className="hods-table__cell"
@@ -1610,9 +976,13 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Attribute
+                        Age
                       </span>
-                      arrivalLocations
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
                     </td>
                     <td
                       className="hods-table__cell"
@@ -1621,9 +991,18 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Operator
+                        Check-in
                       </span>
-                      contains_any_of
+                      <div
+                        className="font__bold"
+                      >
+                        Invalid Date
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        NaN years ago
+                      </div>
                     </td>
                     <td
                       className="hods-table__cell"
@@ -1632,9 +1011,64 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Value(s)
+                        Seat
                       </span>
-                      [lhr, man]
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Document
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Passport
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Issued by 
+                        FR
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Checked baggage
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        
+                      </span>
+                      <div
+                        className="font__light"
+                      >
+                        This movement
+                      </div>
                     </td>
                   </tr>
                   <tr
@@ -1648,9 +1082,28 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Entity type
+                        Traveller
                       </span>
-                      Message
+                      <div
+                        className="font__bold"
+                      >
+                        MAUSSER
+                        , 
+                        Unknown
+                         
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Female
+                        , 
+                        14 Apr 1970
+                        , 
+                        Unknown
+                         (
+                        Unknown
+                        )
+                      </div>
                     </td>
                     <td
                       className="hods-table__cell"
@@ -1659,9 +1112,13 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Attribute
+                        Age
                       </span>
-                      mode
+                      <div
+                        className="font__bold"
+                      >
+                        52
+                      </div>
                     </td>
                     <td
                       className="hods-table__cell"
@@ -1670,9 +1127,18 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Operator
+                        Check-in
                       </span>
-                      in
+                      <div
+                        className="font__bold"
+                      >
+                        Invalid Date
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        NaN years ago
+                      </div>
                     </td>
                     <td
                       className="hods-table__cell"
@@ -1681,117 +1147,444 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Value(s)
+                        Seat
                       </span>
-                      [Air Passenger]
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Document
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Issued by 
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Checked baggage
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        
+                      </span>
+                      <a
+                        className="govuk-link"
+                        data-module="govuk-link"
+                        href="/"
+                        target="_blank"
+                      >
+                        Movement detail
+                      </a>
+                    </td>
+                  </tr>
+                  <tr
+                    className="hods-table__row"
+                    role="row"
+                  >
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Traveller
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        MAUSSER
+                        , 
+                        SHARON
+                         
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Unknown
+                        , 
+                        Unknown
+                        , 
+                        Unknown
+                         (
+                        Unknown
+                        )
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Age
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Check-in
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Invalid Date
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        NaN years ago
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Seat
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Document
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Issued by 
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Checked baggage
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        
+                      </span>
+                      <a
+                        className="govuk-link"
+                        data-module="govuk-link"
+                        href="/"
+                        target="_blank"
+                      >
+                        Movement detail
+                      </a>
+                    </td>
+                  </tr>
+                  <tr
+                    className="hods-table__row"
+                    role="row"
+                  >
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Traveller
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        UNKNOWN
+                        , 
+                        Unknown
+                         
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Male
+                        , 
+                        10 Jun 1967
+                        , 
+                        Unknown
+                         (
+                        Unknown
+                        )
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Age
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        54
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Check-in
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Invalid Date
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        NaN years ago
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Seat
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Document
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                      <div
+                        className="font__light"
+                      >
+                        Issued by 
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        Checked baggage
+                      </span>
+                      <div
+                        className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                    </td>
+                    <td
+                      className="hods-table__cell"
+                      role="cell"
+                    >
+                      <span
+                        className="hods-table__heading"
+                      >
+                        
+                      </span>
+                      <a
+                        className="govuk-link"
+                        data-module="govuk-link"
+                        href="/"
+                        target="_blank"
+                      >
+                        Movement detail
+                      </a>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <h2
-            className="govuk-heading-m header-bg-grey"
-          >
-            Other rules matches (
-            6
-            )
-          </h2>
           <div>
-            <div
-              className="govuk-grid-row"
-            >
-              <div
-                className="govuk-grid-column-one-quarter"
+            <div>
+              <h2
+                className="govuk-heading-m"
               >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule name
-                </h4>
-                <p>
-                  Return Leg- Return
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Threat
-                </h4>
-                <p>
-                  Tier 1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule Version
-                </h4>
-                <p>
-                  1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Abuse Type
-                </h4>
-                <p>
-                  Alcohol
-                </p>
-              </div>
+                0
+                 selector matches
+              </h2>
             </div>
-            <details
-              className="govuk-details"
-              data-module="govuk-details"
-            >
-              <summary
-                className="govuk-details__summary"
+          </div>
+          <div>
+            <div>
+              <h2
+                className="govuk-heading-m header-bg-grey"
               >
-                <span
-                  className="govuk-details__summary-text"
-                >
-                  View further details
-                </span>
-              </summary>
+                Rules matched
+              </h2>
               <div
-                className="govuk-details__text"
-                style={
-                  Object {
-                    "overflow": "hidden",
-                  }
-                }
+                className="govuk-grid-row"
               >
                 <div
-                  className="govuk-grid-row govuk-!-margin-left-1"
-                >
-                  <div
-                    className="govuk-grid-column-one-quarter false"
-                  >
-                    <h4
-                      className="govuk-heading-s"
-                    >
-                      Description
-                    </h4>
-                    <p>
-                      Test
-                    </p>
-                  </div>
-                </div>
-                <div
-                  className="govuk-grid-column-full"
+                  className="govuk-grid-column-one-quarter"
                 >
                   <h4
                     className="govuk-heading-s"
+                  >
+                    Rule name
+                  </h4>
+                  <p>
+                    PNR-Arrival Airport
+                  </p>
+                </div>
+                <div
+                  className="govuk-grid-column-one-quarter"
+                >
+                  <h4
+                    className="govuk-heading-s"
+                  >
+                    Threat
+                  </h4>
+                  <p>
+                    Tier 1
+                  </p>
+                </div>
+                <div
+                  className="govuk-grid-column-one-quarter"
+                >
+                  <h4
+                    className="govuk-heading-s"
+                  >
+                    Rule Version
+                  </h4>
+                  <p>
+                    1
+                  </p>
+                </div>
+                <div
+                  className="govuk-grid-column-one-quarter"
+                >
+                  <h4
+                    className="govuk-heading-s"
+                  >
+                    Abuse Type
+                  </h4>
+                  <p>
+                    Alcohol
+                  </p>
+                </div>
+              </div>
+              <div
+                className="govuk-grid-row"
+              >
+                <div
+                  className="govuk-grid-column-one-quarter false"
+                >
+                  <h4
+                    className="govuk-heading-s"
+                  >
+                    Description
+                  </h4>
+                  <p>
+                    Test
+                  </p>
+                </div>
+              </div>
+              <div
+                className="govuk-grid-row"
+              >
+                <div
+                  className="govuk-grid-column-full govuk-!-margin-bottom-6"
+                >
+                  <h4
+                    className="govuk-heading-s govuk-!-margin-bottom-2"
                   >
                     Risk indicators (
                     2
@@ -1860,7 +1653,7 @@ exports[`TaskVersions should render task versions 1`] = `
                           >
                             Attribute
                           </span>
-                          bookingType
+                          arrivalLocations
                         </td>
                         <td
                           className="hods-table__cell"
@@ -1871,7 +1664,7 @@ exports[`TaskVersions should render task versions 1`] = `
                           >
                             Operator
                           </span>
-                          equal
+                          contains_any_of
                         </td>
                         <td
                           className="hods-table__cell"
@@ -1882,7 +1675,7 @@ exports[`TaskVersions should render task versions 1`] = `
                           >
                             Value(s)
                           </span>
-                          RETURN
+                          [lhr, man]
                         </td>
                       </tr>
                       <tr
@@ -1938,1320 +1731,1570 @@ exports[`TaskVersions should render task versions 1`] = `
                   </table>
                 </div>
               </div>
-            </details>
-          </div>
-          <div>
-            <div
-              className="govuk-grid-row"
-            >
-              <div
-                className="govuk-grid-column-one-quarter"
+              <h2
+                className="govuk-heading-m header-bg-grey"
               >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule name
-                </h4>
-                <p>
-                  PNR-Risk-Rule
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Threat
-                </h4>
-                <p>
-                  Tier 1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule Version
-                </h4>
-                <p>
-                  1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Abuse Type
-                </h4>
-                <p>
-                  Class B&C Drugs inc. Cannabis
-                </p>
-              </div>
-            </div>
-            <details
-              className="govuk-details"
-              data-module="govuk-details"
-            >
-              <summary
-                className="govuk-details__summary"
-              >
-                <span
-                  className="govuk-details__summary-text"
-                >
-                  View further details
-                </span>
-              </summary>
-              <div
-                className="govuk-details__text"
-                style={
-                  Object {
-                    "overflow": "hidden",
-                  }
-                }
-              >
+                Other rules matches (
+                6
+                )
+              </h2>
+              <div>
                 <div
-                  className="govuk-grid-row govuk-!-margin-left-1"
+                  className="govuk-grid-row"
                 >
                   <div
-                    className="govuk-grid-column-one-quarter false"
+                    className="govuk-grid-column-one-quarter"
                   >
                     <h4
                       className="govuk-heading-s"
                     >
-                      Description
+                      Rule name
                     </h4>
                     <p>
-                      Test
+                      Return Leg- Return
                     </p>
                   </div>
-                </div>
-                <div
-                  className="govuk-grid-column-full"
-                >
-                  <h4
-                    className="govuk-heading-s"
-                  >
-                    Risk indicators (
-                    2
-                    )
-                  </h4>
-                  <table
-                    className="hods-table"
-                    role="table"
-                  >
-                    <thead
-                      className="hods-table__heading"
-                    >
-                      <tr
-                        role="row"
-                      >
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Entity type
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Attribute
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Operator
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Value(s)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      className="hods-table__body"
-                    >
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Message
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          mode
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          in
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [Air Passenger]
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Voyage
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          arrivalLocation
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          contains
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          LHR
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </details>
-          </div>
-          <div>
-            <div
-              className="govuk-grid-row"
-            >
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule name
-                </h4>
-                <p>
-                  Generic rule - For trailer
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Threat
-                </h4>
-                <p>
-                  Tier 3
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule Version
-                </h4>
-                <p>
-                  1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Abuse Type
-                </h4>
-                <p>
-                  International Trade inc. Missing Trader Intra-Community Fraud (MTIC)
-                </p>
-              </div>
-            </div>
-            <details
-              className="govuk-details"
-              data-module="govuk-details"
-            >
-              <summary
-                className="govuk-details__summary"
-              >
-                <span
-                  className="govuk-details__summary-text"
-                >
-                  View further details
-                </span>
-              </summary>
-              <div
-                className="govuk-details__text"
-                style={
-                  Object {
-                    "overflow": "hidden",
-                  }
-                }
-              >
-                <div
-                  className="govuk-grid-row govuk-!-margin-left-1"
-                >
                   <div
-                    className="govuk-grid-column-one-quarter false"
+                    className="govuk-grid-column-one-quarter"
                   >
                     <h4
                       className="govuk-heading-s"
                     >
-                      Description
+                      Threat
                     </h4>
                     <p>
-                      Test
+                      Tier 1
                     </p>
                   </div>
-                </div>
-                <div
-                  className="govuk-grid-column-full"
-                >
-                  <h4
-                    className="govuk-heading-s"
-                  >
-                    Risk indicators (
-                    2
-                    )
-                  </h4>
-                  <table
-                    className="hods-table"
-                    role="table"
-                  >
-                    <thead
-                      className="hods-table__heading"
-                    >
-                      <tr
-                        role="row"
-                      >
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Entity type
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Attribute
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Operator
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Value(s)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      className="hods-table__body"
-                    >
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Message
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          mode
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          in
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Trailer
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          registrationNumber
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          not_equal
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          AA005022
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </details>
-          </div>
-          <div>
-            <div
-              className="govuk-grid-row"
-            >
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule name
-                </h4>
-                <p>
-                  Predict_Movement_Name_qwerty
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Threat
-                </h4>
-                <p>
-                  Tier 1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule Version
-                </h4>
-                <p>
-                  1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Abuse Type
-                </h4>
-                <p>
-                  Alcohol
-                </p>
-              </div>
-            </div>
-            <details
-              className="govuk-details"
-              data-module="govuk-details"
-            >
-              <summary
-                className="govuk-details__summary"
-              >
-                <span
-                  className="govuk-details__summary-text"
-                >
-                  View further details
-                </span>
-              </summary>
-              <div
-                className="govuk-details__text"
-                style={
-                  Object {
-                    "overflow": "hidden",
-                  }
-                }
-              >
-                <div
-                  className="govuk-grid-row govuk-!-margin-left-1"
-                >
                   <div
-                    className="govuk-grid-column-one-quarter false"
+                    className="govuk-grid-column-one-quarter"
                   >
                     <h4
                       className="govuk-heading-s"
                     >
-                      Description
+                      Rule Version
                     </h4>
                     <p>
-                      Test
+                      1
                     </p>
                   </div>
-                </div>
-                <div
-                  className="govuk-grid-column-full"
-                >
-                  <h4
-                    className="govuk-heading-s"
-                  >
-                    Risk indicators (
-                    4
-                    )
-                  </h4>
-                  <table
-                    className="hods-table"
-                    role="table"
-                  >
-                    <thead
-                      className="hods-table__heading"
-                    >
-                      <tr
-                        role="row"
-                      >
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Entity type
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Attribute
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Operator
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Value(s)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      className="hods-table__body"
-                    >
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Message
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          mode
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          in
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Movement
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          name
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          not_equal
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          qwerty
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Movement
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          name
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          not_equal
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          qwerty
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
-                      >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Movement
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          name
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          not_equal
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          qwerty
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </details>
-          </div>
-          <div>
-            <div
-              className="govuk-grid-row"
-            >
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule name
-                </h4>
-                <p>
-                  Duration of Whole trip
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Threat
-                </h4>
-                <p>
-                  Tier 1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule Version
-                </h4>
-                <p>
-                  1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Abuse Type
-                </h4>
-                <p>
-                  Alcohol
-                </p>
-              </div>
-            </div>
-            <details
-              className="govuk-details"
-              data-module="govuk-details"
-            >
-              <summary
-                className="govuk-details__summary"
-              >
-                <span
-                  className="govuk-details__summary-text"
-                >
-                  View further details
-                </span>
-              </summary>
-              <div
-                className="govuk-details__text"
-                style={
-                  Object {
-                    "overflow": "hidden",
-                  }
-                }
-              >
-                <div
-                  className="govuk-grid-row govuk-!-margin-left-1"
-                >
                   <div
-                    className="govuk-grid-column-one-quarter false"
+                    className="govuk-grid-column-one-quarter"
                   >
                     <h4
                       className="govuk-heading-s"
                     >
-                      Description
+                      Abuse Type
                     </h4>
                     <p>
-                      Test
+                      Alcohol
                     </p>
                   </div>
                 </div>
-                <div
-                  className="govuk-grid-column-full"
+                <details
+                  className="govuk-details"
+                  data-module="govuk-details"
                 >
-                  <h4
-                    className="govuk-heading-s"
+                  <summary
+                    className="govuk-details__summary"
                   >
-                    Risk indicators (
-                    2
-                    )
-                  </h4>
-                  <table
-                    className="hods-table"
-                    role="table"
+                    <span
+                      className="govuk-details__summary-text"
+                    >
+                      View further details
+                    </span>
+                  </summary>
+                  <div
+                    className="govuk-details__text"
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
                   >
-                    <thead
-                      className="hods-table__heading"
+                    <div
+                      className="govuk-grid-row govuk-!-margin-left-1"
                     >
-                      <tr
-                        role="row"
+                      <div
+                        className="govuk-grid-column-one-quarter false"
                       >
-                        <th
-                          role="columnheader"
-                          scope="col"
+                        <h4
+                          className="govuk-heading-s"
                         >
-                          Entity type
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Attribute
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Operator
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Value(s)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      className="hods-table__body"
+                          Description
+                        </h4>
+                        <p>
+                          Test
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="govuk-grid-column-full"
                     >
-                      <tr
-                        className="hods-table__row"
-                        role="row"
+                      <h4
+                        className="govuk-heading-s"
                       >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Booking
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          durationOfWholeTrip
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          between
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [1, 70]
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
+                        Risk indicators (
+                        2
+                        )
+                      </h4>
+                      <table
+                        className="hods-table"
+                        role="table"
                       >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
+                        <thead
+                          className="hods-table__heading"
                         >
-                          <span
-                            className="hods-table__heading"
+                          <tr
+                            role="row"
                           >
-                            Entity type
-                          </span>
-                          Message
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Entity type
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Attribute
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Operator
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Value(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          className="hods-table__body"
                         >
-                          <span
-                            className="hods-table__heading"
+                          <tr
+                            className="hods-table__row"
+                            role="row"
                           >
-                            Attribute
-                          </span>
-                          mode
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Booking
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              bookingType
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              equal
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              RETURN
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
                           >
-                            Operator
-                          </span>
-                          in
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Message
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              mode
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              in
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [Air Passenger]
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
               </div>
-            </details>
-          </div>
-          <div>
-            <div
-              className="govuk-grid-row"
-            >
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule name
-                </h4>
-                <p>
-                  Duration of Stay -days
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Threat
-                </h4>
-                <p>
-                  Tier 1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Rule Version
-                </h4>
-                <p>
-                  1
-                </p>
-              </div>
-              <div
-                className="govuk-grid-column-one-quarter"
-              >
-                <h4
-                  className="govuk-heading-s"
-                >
-                  Abuse Type
-                </h4>
-                <p>
-                  Alcohol
-                </p>
-              </div>
-            </div>
-            <details
-              className="govuk-details"
-              data-module="govuk-details"
-            >
-              <summary
-                className="govuk-details__summary"
-              >
-                <span
-                  className="govuk-details__summary-text"
-                >
-                  View further details
-                </span>
-              </summary>
-              <div
-                className="govuk-details__text"
-                style={
-                  Object {
-                    "overflow": "hidden",
-                  }
-                }
-              >
+              <div>
                 <div
-                  className="govuk-grid-row govuk-!-margin-left-1"
+                  className="govuk-grid-row"
                 >
                   <div
-                    className="govuk-grid-column-one-quarter false"
+                    className="govuk-grid-column-one-quarter"
                   >
                     <h4
                       className="govuk-heading-s"
                     >
-                      Description
+                      Rule name
                     </h4>
                     <p>
-                      Test
+                      PNR-Risk-Rule
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Threat
+                    </h4>
+                    <p>
+                      Tier 1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule Version
+                    </h4>
+                    <p>
+                      1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Abuse Type
+                    </h4>
+                    <p>
+                      Class B&C Drugs inc. Cannabis
                     </p>
                   </div>
                 </div>
-                <div
-                  className="govuk-grid-column-full"
+                <details
+                  className="govuk-details"
+                  data-module="govuk-details"
                 >
-                  <h4
-                    className="govuk-heading-s"
+                  <summary
+                    className="govuk-details__summary"
                   >
-                    Risk indicators (
-                    2
-                    )
-                  </h4>
-                  <table
-                    className="hods-table"
-                    role="table"
+                    <span
+                      className="govuk-details__summary-text"
+                    >
+                      View further details
+                    </span>
+                  </summary>
+                  <div
+                    className="govuk-details__text"
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
                   >
-                    <thead
-                      className="hods-table__heading"
+                    <div
+                      className="govuk-grid-row govuk-!-margin-left-1"
                     >
-                      <tr
-                        role="row"
+                      <div
+                        className="govuk-grid-column-one-quarter false"
                       >
-                        <th
-                          role="columnheader"
-                          scope="col"
+                        <h4
+                          className="govuk-heading-s"
                         >
-                          Entity type
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Attribute
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Operator
-                        </th>
-                        <th
-                          role="columnheader"
-                          scope="col"
-                        >
-                          Value(s)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      className="hods-table__body"
+                          Description
+                        </h4>
+                        <p>
+                          Test
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="govuk-grid-column-full"
                     >
-                      <tr
-                        className="hods-table__row"
-                        role="row"
+                      <h4
+                        className="govuk-heading-s"
                       >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Entity type
-                          </span>
-                          Booking
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Attribute
-                          </span>
-                          durationOfStay
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Operator
-                          </span>
-                          between
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [1, 70]
-                        </td>
-                      </tr>
-                      <tr
-                        className="hods-table__row"
-                        role="row"
+                        Risk indicators (
+                        2
+                        )
+                      </h4>
+                      <table
+                        className="hods-table"
+                        role="table"
                       >
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
+                        <thead
+                          className="hods-table__heading"
                         >
-                          <span
-                            className="hods-table__heading"
+                          <tr
+                            role="row"
                           >
-                            Entity type
-                          </span>
-                          Message
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Entity type
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Attribute
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Operator
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Value(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          className="hods-table__body"
                         >
-                          <span
-                            className="hods-table__heading"
+                          <tr
+                            className="hods-table__row"
+                            role="row"
                           >
-                            Attribute
-                          </span>
-                          mode
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Message
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              mode
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              in
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [Air Passenger]
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
                           >
-                            Operator
-                          </span>
-                          in
-                        </td>
-                        <td
-                          className="hods-table__cell"
-                          role="cell"
-                        >
-                          <span
-                            className="hods-table__heading"
-                          >
-                            Value(s)
-                          </span>
-                          [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Voyage
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              arrivalLocation
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              contains
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              LHR
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
               </div>
-            </details>
+              <div>
+                <div
+                  className="govuk-grid-row"
+                >
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule name
+                    </h4>
+                    <p>
+                      Generic rule - For trailer
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Threat
+                    </h4>
+                    <p>
+                      Tier 3
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule Version
+                    </h4>
+                    <p>
+                      1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Abuse Type
+                    </h4>
+                    <p>
+                      International Trade inc. Missing Trader Intra-Community Fraud (MTIC)
+                    </p>
+                  </div>
+                </div>
+                <details
+                  className="govuk-details"
+                  data-module="govuk-details"
+                >
+                  <summary
+                    className="govuk-details__summary"
+                  >
+                    <span
+                      className="govuk-details__summary-text"
+                    >
+                      View further details
+                    </span>
+                  </summary>
+                  <div
+                    className="govuk-details__text"
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <div
+                      className="govuk-grid-row govuk-!-margin-left-1"
+                    >
+                      <div
+                        className="govuk-grid-column-one-quarter false"
+                      >
+                        <h4
+                          className="govuk-heading-s"
+                        >
+                          Description
+                        </h4>
+                        <p>
+                          Test
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="govuk-grid-column-full"
+                    >
+                      <h4
+                        className="govuk-heading-s"
+                      >
+                        Risk indicators (
+                        2
+                        )
+                      </h4>
+                      <table
+                        className="hods-table"
+                        role="table"
+                      >
+                        <thead
+                          className="hods-table__heading"
+                        >
+                          <tr
+                            role="row"
+                          >
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Entity type
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Attribute
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Operator
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Value(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          className="hods-table__body"
+                        >
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Message
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              mode
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              in
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Trailer
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              registrationNumber
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              not_equal
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              AA005022
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
+              </div>
+              <div>
+                <div
+                  className="govuk-grid-row"
+                >
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule name
+                    </h4>
+                    <p>
+                      Predict_Movement_Name_qwerty
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Threat
+                    </h4>
+                    <p>
+                      Tier 1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule Version
+                    </h4>
+                    <p>
+                      1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Abuse Type
+                    </h4>
+                    <p>
+                      Alcohol
+                    </p>
+                  </div>
+                </div>
+                <details
+                  className="govuk-details"
+                  data-module="govuk-details"
+                >
+                  <summary
+                    className="govuk-details__summary"
+                  >
+                    <span
+                      className="govuk-details__summary-text"
+                    >
+                      View further details
+                    </span>
+                  </summary>
+                  <div
+                    className="govuk-details__text"
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <div
+                      className="govuk-grid-row govuk-!-margin-left-1"
+                    >
+                      <div
+                        className="govuk-grid-column-one-quarter false"
+                      >
+                        <h4
+                          className="govuk-heading-s"
+                        >
+                          Description
+                        </h4>
+                        <p>
+                          Test
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="govuk-grid-column-full"
+                    >
+                      <h4
+                        className="govuk-heading-s"
+                      >
+                        Risk indicators (
+                        4
+                        )
+                      </h4>
+                      <table
+                        className="hods-table"
+                        role="table"
+                      >
+                        <thead
+                          className="hods-table__heading"
+                        >
+                          <tr
+                            role="row"
+                          >
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Entity type
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Attribute
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Operator
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Value(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          className="hods-table__body"
+                        >
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Message
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              mode
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              in
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Movement
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              name
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              not_equal
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              qwerty
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Movement
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              name
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              not_equal
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              qwerty
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Movement
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              name
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              not_equal
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              qwerty
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
+              </div>
+              <div>
+                <div
+                  className="govuk-grid-row"
+                >
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule name
+                    </h4>
+                    <p>
+                      Duration of Whole trip
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Threat
+                    </h4>
+                    <p>
+                      Tier 1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule Version
+                    </h4>
+                    <p>
+                      1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Abuse Type
+                    </h4>
+                    <p>
+                      Alcohol
+                    </p>
+                  </div>
+                </div>
+                <details
+                  className="govuk-details"
+                  data-module="govuk-details"
+                >
+                  <summary
+                    className="govuk-details__summary"
+                  >
+                    <span
+                      className="govuk-details__summary-text"
+                    >
+                      View further details
+                    </span>
+                  </summary>
+                  <div
+                    className="govuk-details__text"
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <div
+                      className="govuk-grid-row govuk-!-margin-left-1"
+                    >
+                      <div
+                        className="govuk-grid-column-one-quarter false"
+                      >
+                        <h4
+                          className="govuk-heading-s"
+                        >
+                          Description
+                        </h4>
+                        <p>
+                          Test
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="govuk-grid-column-full"
+                    >
+                      <h4
+                        className="govuk-heading-s"
+                      >
+                        Risk indicators (
+                        2
+                        )
+                      </h4>
+                      <table
+                        className="hods-table"
+                        role="table"
+                      >
+                        <thead
+                          className="hods-table__heading"
+                        >
+                          <tr
+                            role="row"
+                          >
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Entity type
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Attribute
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Operator
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Value(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          className="hods-table__body"
+                        >
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Booking
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              durationOfWholeTrip
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              between
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [1, 70]
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Message
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              mode
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              in
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
+              </div>
+              <div>
+                <div
+                  className="govuk-grid-row"
+                >
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule name
+                    </h4>
+                    <p>
+                      Duration of Stay -days
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Threat
+                    </h4>
+                    <p>
+                      Tier 1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Rule Version
+                    </h4>
+                    <p>
+                      1
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-grid-column-one-quarter"
+                  >
+                    <h4
+                      className="govuk-heading-s"
+                    >
+                      Abuse Type
+                    </h4>
+                    <p>
+                      Alcohol
+                    </p>
+                  </div>
+                </div>
+                <details
+                  className="govuk-details"
+                  data-module="govuk-details"
+                >
+                  <summary
+                    className="govuk-details__summary"
+                  >
+                    <span
+                      className="govuk-details__summary-text"
+                    >
+                      View further details
+                    </span>
+                  </summary>
+                  <div
+                    className="govuk-details__text"
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <div
+                      className="govuk-grid-row govuk-!-margin-left-1"
+                    >
+                      <div
+                        className="govuk-grid-column-one-quarter false"
+                      >
+                        <h4
+                          className="govuk-heading-s"
+                        >
+                          Description
+                        </h4>
+                        <p>
+                          Test
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="govuk-grid-column-full"
+                    >
+                      <h4
+                        className="govuk-heading-s"
+                      >
+                        Risk indicators (
+                        2
+                        )
+                      </h4>
+                      <table
+                        className="hods-table"
+                        role="table"
+                      >
+                        <thead
+                          className="hods-table__heading"
+                        >
+                          <tr
+                            role="row"
+                          >
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Entity type
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Attribute
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Operator
+                            </th>
+                            <th
+                              role="columnheader"
+                              scope="col"
+                            >
+                              Value(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          className="hods-table__body"
+                        >
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Booking
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              durationOfStay
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              between
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [1, 70]
+                            </td>
+                          </tr>
+                          <tr
+                            className="hods-table__row"
+                            role="row"
+                          >
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Entity type
+                              </span>
+                              Message
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Attribute
+                              </span>
+                              mode
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Operator
+                              </span>
+                              in
+                            </td>
+                            <td
+                              className="hods-table__cell"
+                              role="cell"
+                            >
+                              <span
+                                className="hods-table__heading"
+                              >
+                                Value(s)
+                              </span>
+                              [Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
         </div>
       </div>

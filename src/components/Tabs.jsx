@@ -14,7 +14,7 @@ const Tabs = ({
   id, idPrefix, className, title, items, onTabClick, tabIndex, ...attributes
 }) => {
   const { selectedTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
-  const [currentTabIndex, setCurrentTabIndex] = useState(selectedTabIndex);
+  const [currentTabIndex, setCurrentTabIndex] = useState(selectedTabIndex || 0);
   const currentTab = items[currentTabIndex];
   const currentTabId = currentTab.id || `${idPrefix}-${currentTabIndex}`;
   const panelIsReactElement = typeof currentTab.panel === 'string' || Array.isArray(currentTab.panel) || React.isValidElement(currentTab.panel);
