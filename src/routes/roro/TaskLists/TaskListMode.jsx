@@ -57,11 +57,6 @@ const createCoTravellers = (coTravellers) => {
   );
 };
 
-const hasPreviousSeizures = (enrichmentCounts) => {
-  const seizure = enrichmentCounts?.split('/')[2];
-  return seizure >= 1;
-};
-
 const hasTravellersWithPreviousSeizures = (passengers) => {
   return passengers.find((passenger) => {
     const seizure = passenger?.enrichmentCount?.split('/')[2];
