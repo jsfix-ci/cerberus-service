@@ -35,6 +35,7 @@ COPY /nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --chown=100 /nginx/run.sh /run.sh
 
 RUN chmod 700 /run.sh
+RUN chown nginx /usr/share/nginx/html
 
 # UID for ngnix user
 USER 100
