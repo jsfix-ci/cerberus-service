@@ -99,7 +99,7 @@ If you have an image built locally, this command will run the cerberus-service a
 containers whilst pointing at the DEV environments for the ref data, form server and Cerberus APIs. You
 can change and repoint any of these APIs by updating the environment variables in the `docker-compose.yml` file.
 ```sh
-docker-comose up -d
+docker-compose up -d
 ```
 
 ## Tests in native development
