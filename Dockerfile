@@ -30,13 +30,11 @@ RUN apk upgrade --no-cache && \
     install -d -g nginx -o nginx /run/nginx && \
     chown -R nginx:nginx /etc/nginx /var/log/nginx
 
-COPY --from=builder --chown=100 /src/dist/ /usr/share/nginx/html
+COPY --from=builder /src/dist/ /usr/share/nginx/html
 COPY /nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --chown=100 /nginx/run.sh /run.sh
 
 RUN chmod 700 /run.sh
-RUN chown nginx /etc/nginx/nginx.conf
-RUN chown -R nginx /usr/share/nginx/html
 
 # UID for ngnix user
 USER 100

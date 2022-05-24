@@ -212,6 +212,8 @@ steps:
       from_secret: DEV_REFDATA_API_URL
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: DEV_CERBERUS_SERVICE_URL
+    TARGETING_API_URL: cop-targeting-api.cop-cerberus-dev.svc.cluster.local
+
   when:
     branch:
     - release-candidate

@@ -103,6 +103,8 @@ spec:
             value: "https://{{.REFDATA_API_URL}}"
           - name: CERBERUS_API_URL
             value: "https://{{.CERBERUS_WORKFLOW_SERVICE_URL}}/camunda/"
+          - name: TARGETING_API_URL
+            value: "https://{{.TARGETING_API_URL}}"
       volumes:
       - name: certs
         secret:
