@@ -17,7 +17,11 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import Pagination from '../../../components/Pagination';
 import TaskListCard from './TaskListCard';
 
-const TasksTab = ({ taskStatus, filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' }, targetTaskCount = 0 }) => {
+const TasksTab = ({
+  taskStatus,
+  filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' },
+  targetTaskCount = 0,
+}) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
@@ -39,13 +43,6 @@ const TasksTab = ({ taskStatus, filtersToApply = { taskStatuses: [], movementMod
   const itemsPerPage = 100;
   const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
-
-  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  const tempData = {
-    data: [
-      // paste mock data here
-    ],
-  };
 
   const getTaskList = async () => {
     setLoading(true);
@@ -71,13 +68,9 @@ const TasksTab = ({ taskStatus, filtersToApply = { taskStatuses: [], movementMod
           offset,
         },
       });
-      // response = tempData;
       setTargetTasks(response.data);
     } catch (e) {
-      // until API is ready we set the temp data in the catch
-      // this will be changed to the error handling
-      response = tempData;
-      setTargetTasks(response.data);
+      setTargetTasks([]);
     } finally {
       setLoading(false);
       setRefreshTaskList(false);

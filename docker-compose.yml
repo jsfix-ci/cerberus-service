@@ -26,3 +26,4 @@ services:
       SPRING_PROFILES_ACTIVE: in-memory-db,stubbed,local-logging,security-disabled
       ENTITY_SEARCH_URL: http://localhost:5010
       APP_SSL_ENABLED: "false"
+      

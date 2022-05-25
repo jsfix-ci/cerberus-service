@@ -183,7 +183,7 @@ const buildTargetIndicatorsSection = (targetTask) => {
           <div>
             <Link
               className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-              to={`/tasks/${targetTask.id}`}
+              to={`/airpax/tasks/${targetTask.id}`}
             >
               View details
             </Link>
