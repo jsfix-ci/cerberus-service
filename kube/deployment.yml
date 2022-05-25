@@ -34,7 +34,7 @@ spec:
                   operator: In
                   values:
                   - {{.COP_TARGETING_API_SERVICE_NAME}}
-                topologyKey: failure-domain.beta.kubernetes.io/zone
+              topologyKey: failure-domain.beta.kubernetes.io/zone
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
