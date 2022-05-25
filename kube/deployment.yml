@@ -24,6 +24,16 @@ spec:
         service: {{.CERBERUS_UI_NAME}}
     spec:
       affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            labelSelector:
+              matchExpressions:
+              - key: name
+                operator: In
+                values:
+                - {{.COP_TARGETING_API_SERVICE_NAME}}
+              topologyKey: failure-domain.beta.kubernetes.io/zone
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
