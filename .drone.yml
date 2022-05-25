@@ -149,7 +149,6 @@ steps:
   when:
     branch:
     - release-candidate
-    - COP-10812-configure-new-targeting-api
     event:
     - push
 
@@ -220,7 +219,6 @@ steps:
   when:
     branch:
     - release-candidate
-    - COP-10812-configure-new-targeting-api
     event:
     - push
 
