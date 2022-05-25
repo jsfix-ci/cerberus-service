@@ -7,7 +7,11 @@ spec:
   issuerRef:
     name: platform-ca
     kind: ClusterIssuer
-  commonName: {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}.svc.cluster.local
   dnsNames:
+  - {{.CERBERUS_UI_NAME}}
+  - {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}
+  - {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}.svc
+  - {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}.svc.cluster.local
   - localhost
+  ipAddresses:
   - 127.0.0.1
