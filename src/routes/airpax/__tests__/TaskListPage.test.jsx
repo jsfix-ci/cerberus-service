@@ -25,12 +25,8 @@ describe('TaskListPage', () => {
         order: 'ASC',
       },
       {
-        field: 'ARRIVAL_TIME',
+        field: 'BOOKING_LEAD_TIME',
         order: 'ASC',
-      },
-      {
-        field: 'THREAT_LEVEL',
-        order: 'DESC',
       },
     ],
     pageParams: {

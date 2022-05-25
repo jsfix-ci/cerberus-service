@@ -109,7 +109,7 @@ steps:
   pull: always
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
+  - n=0; while [ "$n" -lt 60 ] && (! docker stats --no-stream &>/dev/null); do n=$(( n + 1 )); sleep 1; done
   - docker build -t cerberus-ui-service:$${DRONE_COMMIT_SHA} .
   when:
     event:
@@ -149,6 +149,7 @@ steps:
   when:
     branch:
     - release-candidate
+    - COP-10812-configure-new-targeting-api
     event:
     - push
 
@@ -167,9 +168,9 @@ steps:
       from_secret: QUAY_USERNAME
   when:
     branch:
-       - release-candidate
+    - release-candidate
     event:
-       - push
+    - push
 
 - name: deploy_to_dev
   pull: if-not-exists
@@ -212,9 +213,14 @@ steps:
       from_secret: DEV_REFDATA_API_URL
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: DEV_CERBERUS_SERVICE_URL
+    COP_TARGETING_API_NAMESPACE:
+      from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
+    COP_TARGETING_API_SERVICE_NAME:
+      from_secret: DEV_COP_TARGETING_API_SERVICE_NAME
   when:
     branch:
     - release-candidate
+    - COP-10812-configure-new-targeting-api
     event:
     - push
 
@@ -277,9 +283,9 @@ steps:
     TEST_ENV: dev
   when:
     branch:
-       - release-candidate
+    - release-candidate
     event:
-       - push
+    - push
 
 - name: create_testjob_sit
   pull: always
@@ -339,11 +345,11 @@ steps:
     TEST_ENV: sit
   when:
     branch:
-      - release-candidate
+    - release-candidate
     event:
-      - promote
+    - promote
     target:
-      - sit
+    - sit
 
 - name: create_testjob_staging
   pull: always
@@ -403,11 +409,11 @@ steps:
     TEST_ENV: staging
   when:
     event:
-      - promote
+    - promote
     ref:
-      - refs/tags/*
+    - refs/tags/*
     target:
-      - staging
+    - staging
 
 - name: deploy_to_sit
   pull: if-not-exists
