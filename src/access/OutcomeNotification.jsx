@@ -18,19 +18,18 @@ const getTitleMessage = (storedUserSession) => {
 const getOutcomeBody = (storedUserSession) => {
   if (storedUserSession.requested) {
     return (
-      <>
+      <div className="govuk-body">
         <p><strong>{PNR_USER_DESCISION.yes.text.title}</strong></p>
         <ul>
           <li>{PNR_USER_DESCISION.yes.text.body.message1}</li>
-          <li>{PNR_USER_DESCISION.yes.text.body.message2}</li>
         </ul>
-      </>
+      </div>
     );
   }
   return undefined;
 };
 
-const OutcomeNotification = ({ setShowForm }) => {
+const OutcomeNotification = ({ setDisplayForm }) => {
   const storedUserSession = JSON.parse(localStorage.getItem(PNR_USER_SESSION_ID));
   return (
     <div className="govuk-width-container ">
@@ -46,9 +45,9 @@ const OutcomeNotification = ({ setShowForm }) => {
             {!storedUserSession.requested && (
             <h1 className="govuk-heading-l"><strong>{getTitleMessage(storedUserSession)}</strong></h1>
             )}
-            <p>{getOutcomeBody(storedUserSession)}</p>
+            {getOutcomeBody(storedUserSession)}
             <ButtonGroup>
-              <Button onClick={() => setShowForm(false)}>
+              <Button onClick={() => setDisplayForm(false)}>
                 Continue
               </Button>
             </ButtonGroup>

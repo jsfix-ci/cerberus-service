@@ -3,7 +3,7 @@ export default {
   version: '1.0.0',
   name: 'cop-view-pnr-data',
   title: 'View passenger name record data',
-  type: 'wizard',
+  type: 'form',
   components: [],
   pages: [
     {
