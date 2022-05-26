@@ -87,3 +87,20 @@ export const FORM_NAMES = {
 };
 
 export const PNR_USER_SESSION_ID = 'pnr-user-session';
+export const PNR_USER_DESCISION = {
+  yes: {
+    text: {
+      title: 'You can now view PNR data.',
+      body: {
+        title: 'What happens next',
+        message1: 'Data up to 6 months old will be visible',
+        message2: 'Data over 6 months old will be hidden but you will be able to provide justifications to show this data',
+      },
+    },
+  },
+  no: {
+    text: {
+      title: 'Continue without viewing PNR data',
+    },
+  },
+};
