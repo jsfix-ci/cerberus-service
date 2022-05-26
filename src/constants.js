@@ -85,3 +85,5 @@ export const FORM_NAMES = {
   NOTE_CERBERUS: 'noteCerberus',
   TARGET_INFORMATION_SHEET: 'targetInformationSheet',
 };
+
+export const PNR_USER_SESSION_ID = 'pnr-user-session';
