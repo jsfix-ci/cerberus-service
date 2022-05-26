@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import config from '../config';
 import { Renderers } from '../utils/Form';
 import { useKeycloak } from '../utils/keycloak';
@@ -10,20 +9,17 @@ import { PNR_USER_SESSION_ID } from '../constants';
 // Components / Pages
 import RenderForm from '../components/RenderForm';
 import Layout from '../components/Layout';
-import LoadingSpinner from '../components/LoadingSpinner';
 import OutcomeNotification from './OutcomeNotification';
 
 // JSON
 import viewPnrData from '../cop-forms/viewPnrData';
 
 const PnrAccessRequest = ({ children }) => {
-  const [isLoading, setLoading] = useState(false);
   const [isSubmitted, setSubmitted] = useState(false);
   const [displayForm, setDisplayForm] = useState(false);
 
   const keycloak = useKeycloak();
   const taskApiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const source = axios.CancelToken.source();
   const RESPONSE = {
     yes: 'yes',
   };
@@ -48,17 +44,8 @@ const PnrAccessRequest = ({ children }) => {
   };
 
   useEffect(async () => {
-    setLoading(true);
     setDisplayForm(shouldRequestPnrAuth());
-    setLoading(false);
-    return () => {
-      source.cancel('Cancelling request');
-    };
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  }, [keycloak.sessionId]);
 
   if (displayForm) {
     return (
@@ -91,7 +78,7 @@ const PnrAccessRequest = ({ children }) => {
                   renderer={Renderers.REACT}
                 />
                 )}
-                {isSubmitted && <OutcomeNotification setShowForm={setDisplayForm} />}
+                {isSubmitted && <OutcomeNotification setDisplayForm={setDisplayForm} />}
               </div>
             </div>
           </main>
@@ -100,10 +87,7 @@ const PnrAccessRequest = ({ children }) => {
     );
   }
 
-  if (!displayForm) {
-    return children;
-  }
-  // return children;
+  return children;
 };
 
 export default PnrAccessRequest;

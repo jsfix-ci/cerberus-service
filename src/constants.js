@@ -94,7 +94,6 @@ export const PNR_USER_DESCISION = {
       body: {
         title: 'What happens next',
         message1: 'Data up to 6 months old will be visible',
-        message2: 'Data over 6 months old will be hidden but you will be able to provide justifications to show this data',
       },
     },
   },
