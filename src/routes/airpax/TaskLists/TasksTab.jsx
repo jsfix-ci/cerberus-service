@@ -17,7 +17,11 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import Pagination from '../../../components/Pagination';
 import TaskListCard from './TaskListCard';
 
-const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
+const TasksTab = ({
+  taskStatus,
+  filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' },
+  targetTaskCount = 0,
+}) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
@@ -40,33 +44,20 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
 
-  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  const tempData = {
-    data: [
-      // paste mock data here
-    ],
-  };
-
   const getTaskList = async () => {
     setLoading(true);
     let response;
     const tab = formatTaskStatusToSnakeCase(taskStatus);
-    const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
-      ? [
-        {
-          field: 'WINDOW_OF_OPPORTUNITY',
-          order: 'ASC',
-        },
-        {
-          field: 'ARRIVAL_TIME',
-          order: 'ASC',
-        },
-        {
-          field: 'THREAT_LEVEL',
-          order: 'DESC',
-        },
-      ]
-      : null;
+    const sortParams = [
+      {
+        field: 'WINDOW_OF_OPPORTUNITY',
+        order: 'ASC',
+      },
+      {
+        field: 'BOOKING_LEAD_TIME',
+        order: 'ASC',
+      },
+    ];
     try {
       response = await apiClient.post('/targeting-tasks/pages', {
         status: tab,
@@ -77,13 +68,9 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
           offset,
         },
       });
-      // response = tempData;
       setTargetTasks(response.data);
     } catch (e) {
-      // until API is ready we set the temp data in the catch
-      // this will be changed to the error handling
-      response = tempData;
-      setTargetTasks(response.data);
+      setTargetTasks([]);
     } finally {
       setLoading(false);
       setRefreshTaskList(false);

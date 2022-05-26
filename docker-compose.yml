@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  cerberus-ui:
+    image: cerberus-service
+    container_name: cerberus-ui
+    ports:
+      - 8080:8080
+    environment:
+      KEYCLOAK_AUTH_URL: https://sso-dev.notprod.homeoffice.gov.uk/auth
+      KEYCLOAK_CLIENT_ID: cerberus
+      KEYCLOAK_REALM: cop-dev
+      FORM_API_URL: https://form-api-server.dev.cop.homeoffice.gov.uk
+      REFDATA_API_URL: https://api.dev.refdata.homeoffice.gov.uk
+      CERBERUS_API_URL: https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/
+      TARGETING_API_URL: http://cop-targeting-api:8080
+    depends_on:
+      - cop-targeting-api
+  
+  cop-targeting-api:
+    image: cop-targeting-api
+    container_name: cop-targeting-api
+    ports:
+      - 8081:8080
+    environment:
+      SPRING_PROFILES_ACTIVE: in-memory-db,stubbed,local-logging,security-disabled
+      ENTITY_SEARCH_URL: http://localhost:5010
+      APP_SSL_ENABLED: "false"
+      

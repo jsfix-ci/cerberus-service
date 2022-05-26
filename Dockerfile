@@ -40,7 +40,4 @@ RUN chown nginx /usr/share/nginx/html
 # UID for ngnix user
 USER 100
 
-EXPOSE 8080
-
 ENTRYPOINT ["/run.sh"]
-
