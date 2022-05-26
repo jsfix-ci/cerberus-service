@@ -5,7 +5,7 @@ import YesNoComponent from './YesNoComponent';
 import './__assets__/JustificationForm.scss';
 
 const PnrRequestForm = ({
-  pnrData,
+  pnrResource,
   handleChange,
   handleSubmit,
   hasError,
@@ -19,7 +19,7 @@ const PnrRequestForm = ({
             <div className="govuk-grid-row">
               <div className="govuk-grid-column-two-thirds">
                 <YesNoComponent
-                  pnrData={pnrData}
+                  pnrResource={pnrResource}
                   handleChange={handleChange}
                   nextAction={handleSubmit}
                   hasError={hasError}
