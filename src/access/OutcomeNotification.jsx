@@ -2,42 +2,35 @@ import React from 'react';
 
 import { Panel, ButtonGroup, Button } from '@ukhomeoffice/cop-react-components';
 
-import { PNR_USER_SESSION_ID } from '../constants';
+import { PNR_USER_SESSION_ID, PNR_USER_DESCISION } from '../constants';
 
-const getClassModifier = (pnrRequested) => {
-  return pnrRequested ? ['confirmation'] : [];
+const getClassModifier = (storedUserSession) => {
+  return storedUserSession.requested ? ['confirmation'] : [];
 };
 
-const getTitleMessage = (pnrResource, pnrRequested) => {
-  if (pnrRequested) {
-    return pnrResource.confirmation.approve.text.title;
+const getTitleMessage = (storedUserSession) => {
+  if (storedUserSession.requested) {
+    return PNR_USER_DESCISION.yes.text.title;
   }
-  return pnrResource.confirmation.reject.text.title;
+  return PNR_USER_DESCISION.no.text.title;
 };
 
-const getOutcomeBody = (pnrResource, storedUserSession) => {
-  const pnrText = pnrResource.confirmation;
-  const approvalMessage = pnrText.approve.text.body;
+const getOutcomeBody = (storedUserSession) => {
   if (storedUserSession.requested) {
     return (
       <>
-        <p><strong>{approvalMessage.title}</strong></p>
+        <p><strong>{PNR_USER_DESCISION.yes.text.title}</strong></p>
         <ul>
-          <li>{approvalMessage.firstLine}</li>
-          <li>{approvalMessage.secondLine}</li>
+          <li>{PNR_USER_DESCISION.yes.text.body.message1}</li>
+          <li>{PNR_USER_DESCISION.yes.text.body.message2}</li>
         </ul>
       </>
     );
   }
-  return (
-    <>
-      <p><strong>What happens next</strong></p>
-      You will not be able to access PNR data. Please try again.
-    </>
-  );
+  return undefined;
 };
 
-const OutcomeNotification = ({ pnrResource, setShowForm }) => {
+const OutcomeNotification = ({ setShowForm }) => {
   const storedUserSession = JSON.parse(localStorage.getItem(PNR_USER_SESSION_ID));
   return (
     <div className="govuk-width-container ">
@@ -46,19 +39,16 @@ const OutcomeNotification = ({ pnrResource, setShowForm }) => {
           <div className="govuk-grid-column-two-thirds">
             {storedUserSession.requested && (
             <Panel
-              title={getTitleMessage(pnrResource, storedUserSession.requested)}
-              classModifiers={getClassModifier(storedUserSession.requested)}
+              title={getTitleMessage(storedUserSession)}
+              classModifiers={getClassModifier(storedUserSession)}
             />
             )}
             {!storedUserSession.requested && (
-            <Panel
-              title={getTitleMessage(pnrResource, storedUserSession.requested)}
-              classModifiers={getClassModifier(storedUserSession.requested)}
-            />
+            <h1 className="govuk-heading-l"><strong>{getTitleMessage(storedUserSession)}</strong></h1>
             )}
-            <p>{getOutcomeBody(pnrResource, storedUserSession)}</p>
+            <p>{getOutcomeBody(storedUserSession)}</p>
             <ButtonGroup>
-              <Button name={pnrResource.id} onClick={() => setShowForm(false)}>
+              <Button onClick={() => setShowForm(false)}>
                 Continue
               </Button>
             </ButtonGroup>

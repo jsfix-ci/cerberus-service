@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config';
+import { Renderers } from '../utils/Form';
 import { useKeycloak } from '../utils/keycloak';
 import useAxiosInstance from '../utils/axiosInstance';
 
-import Layout from '../components/Layout';
-import PnrRequestForm from './PnrRequestForm';
-import LoadingSpinner from '../components/LoadingSpinner';
-
 import { PNR_USER_SESSION_ID } from '../constants';
 
-import PNR_RESOURCE from './resources/pnrData';
+// Components / Pages
+import RenderForm from '../components/RenderForm';
+import Layout from '../components/Layout';
+import LoadingSpinner from '../components/LoadingSpinner';
 import OutcomeNotification from './OutcomeNotification';
+
+// JSON
+import viewPnrData from '../cop-forms/viewPnrData';
 
 const PnrAccessRequest = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [isSubmitted, setSubmitted] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [displayForm, setDisplayForm] = useState(false);
 
   const keycloak = useKeycloak();
   const taskApiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const source = axios.CancelToken.source();
-
-  // Remove any preselected values from the form on page reload
-  window.onunload = function () {
-    localStorage.removeItem(PNR_RESOURCE.id);
+  const RESPONSE = {
+    yes: 'yes',
   };
 
   const storeSession = (key, keycloakSessionId, pnrRequested) => {
@@ -39,46 +39,6 @@ const PnrAccessRequest = ({ children }) => {
     return !!localStorage.getItem(PNR_USER_SESSION_ID);
   };
 
-  const checkError = (e) => {
-    const { name } = e.target;
-    const error = localStorage.getItem(name) === null;
-    setHasError(error);
-    return error;
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    /**
-     * For radio button error handling as useState()
-     * does not update fast enough
-     */
-    localStorage.setItem(name, value);
-    checkError(e);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name } = e.target;
-    if (!checkError(e)) {
-      if (localStorage.getItem(PNR_RESOURCE.id) === 'true') {
-        try {
-          const requestConfig = {
-            headers: { Authorization: `Bearer ${keycloak.token}` },
-          };
-          const response = await taskApiClient.post('/passenger-name-record-access-requests',
-            undefined, requestConfig);
-          storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
-        } catch (ex) {
-          setSubmitted(false);
-        }
-      } else {
-        storeSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
-      }
-      setSubmitted(true);
-      localStorage.removeItem(name);
-    }
-  };
-
   const shouldRequestPnrAuth = () => {
     if (!hasStoredUserSession()) {
       return true;
@@ -88,8 +48,8 @@ const PnrAccessRequest = ({ children }) => {
   };
 
   useEffect(async () => {
-    setLoading(false);
-    setShowForm(shouldRequestPnrAuth());
+    setLoading(true);
+    setDisplayForm(shouldRequestPnrAuth());
     setLoading(false);
     return () => {
       source.cancel('Cancelling request');
@@ -100,24 +60,50 @@ const PnrAccessRequest = ({ children }) => {
     return <LoadingSpinner />;
   }
 
-  if (showForm) {
+  if (displayForm) {
     return (
       <Layout>
-        {!isSubmitted && (
-        <PnrRequestForm
-          pnrResource={PNR_RESOURCE}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          hasError={hasError}
-          isSubmitted={isSubmitted}
-        />
-        )}
-        {isSubmitted && <OutcomeNotification pnrData={PNR_RESOURCE} setShowForm={setShowForm} />}
+        <div className="govuk-width-container ">
+          <main className="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+            <div className="govuk-grid-row">
+              <div className="govuk-grid-column-full">
+                {!isSubmitted && (
+                <RenderForm
+                  onSubmit={async (data) => {
+                    try {
+                      if (data.data.viewPnrData === RESPONSE.yes) {
+                        const requestConfig = {
+                          headers: { Authorization: `Bearer ${keycloak.token}` },
+                        };
+                        const response = await taskApiClient.post('/passenger-name-record-access-requests',
+                          undefined, requestConfig);
+                        storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
+                      } else {
+                        storeSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
+                      }
+                    } catch (e) {
+                      setSubmitted(false);
+                    } finally {
+                      setSubmitted(true);
+                    }
+                  }}
+                  form={viewPnrData}
+                  renderer={Renderers.REACT}
+                />
+                )}
+                {isSubmitted && <OutcomeNotification setShowForm={setDisplayForm} />}
+              </div>
+            </div>
+          </main>
+        </div>
       </Layout>
     );
   }
 
-  return children;
+  if (!displayForm) {
+    return children;
+  }
+  // return children;
 };
 
 export default PnrAccessRequest;
