@@ -1,0 +1,33 @@
+$govuk-assets-path: "~govuk-frontend/govuk/assets/";
+
+@import "~govuk-frontend/govuk/vendor/_sass-mq";
+@import "~govuk-frontend/govuk/settings/all";
+@import "~govuk-frontend/govuk/helpers/all";
+@import "~govuk-frontend/govuk/tools/all";
+
+.govuk-link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    /*input has OS specific font-family*/
+    color: #1d70b8;
+    text-decoration: underline;
+    text-underline-offset: 0.1875rem;
+    cursor: pointer;
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 1;
+}
+
+.govuk-link-btn:visited {
+    color: #4c2c92;
+}
+
+.govuk-link-btn:focus {
+    color: #0b0c0c;
+    background-color: #ffdd00;
+}
+
+.govuk-link-btn:hover {
+    text-decoration-thickness: 0.25em;
+}

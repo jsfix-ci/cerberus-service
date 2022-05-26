@@ -113,3 +113,5 @@ export const NOTE_VARIANT = {
   RORO: 'RORO',
   AIRPAX: 'AIRPAX',
 };
+
+export const PNR_USER_SESSION_ID = 'pnr-user-session';
