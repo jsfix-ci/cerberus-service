@@ -10,7 +10,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 import { PNR_USER_SESSION_ID } from '../constants';
 
-import PNR_DATA from './resources/pnrData';
+import PNR_RESOURCE from './resources/pnrData';
 import OutcomeNotification from './OutcomeNotification';
 
 const PnrAccessRequest = ({ children }) => {
@@ -25,10 +25,10 @@ const PnrAccessRequest = ({ children }) => {
 
   // Remove any preselected values from the form on page reload
   window.onunload = function () {
-    localStorage.removeItem(PNR_DATA.id);
+    localStorage.removeItem(PNR_RESOURCE.id);
   };
 
-  const storeUserSession = (key, keycloakSessionId, pnrRequested) => {
+  const storeSession = (key, keycloakSessionId, pnrRequested) => {
     localStorage.setItem(key, JSON.stringify({
       sessionId: keycloakSessionId,
       requested: pnrRequested,
@@ -37,14 +37,6 @@ const PnrAccessRequest = ({ children }) => {
 
   const hasStoredUserSession = () => {
     return !!localStorage.getItem(PNR_USER_SESSION_ID);
-  };
-
-  const shouldRequestPnrAuth = () => {
-    if (!hasStoredUserSession()) {
-      return true;
-    }
-    const storedUserSession = JSON.parse(localStorage.getItem(PNR_USER_SESSION_ID));
-    return keycloak.sessionId !== storedUserSession.sessionId;
   };
 
   const checkError = (e) => {
@@ -68,34 +60,35 @@ const PnrAccessRequest = ({ children }) => {
     e.preventDefault();
     const { name } = e.target;
     if (!checkError(e)) {
-      if (localStorage.getItem(PNR_DATA.id) === 'true') {
+      if (localStorage.getItem(PNR_RESOURCE.id) === 'true') {
         try {
           const requestConfig = {
             headers: { Authorization: `Bearer ${keycloak.token}` },
           };
           const response = await taskApiClient.post('/passenger-name-record-access-requests',
-            {}, requestConfig);
-          if (response.status === 200) {
-            storeUserSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
-          }
+            undefined, requestConfig);
+          storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
         } catch (ex) {
           setSubmitted(false);
         }
       } else {
-        storeUserSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
+        storeSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
       }
-      // setShowForm(false);
       setSubmitted(true);
       localStorage.removeItem(name);
     }
   };
 
-  useEffect(async () => {
+  const shouldRequestPnrAuth = () => {
     if (!hasStoredUserSession()) {
-      setLoading(true);
-      const response = await taskApiClient.get('/passenger-name-record-access-requests');
-      storeUserSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
+      return true;
     }
+    const storedUserSession = JSON.parse(localStorage.getItem(PNR_USER_SESSION_ID));
+    return keycloak.sessionId !== storedUserSession.sessionId;
+  };
+
+  useEffect(async () => {
+    setLoading(false);
     setShowForm(shouldRequestPnrAuth());
     setLoading(false);
     return () => {
@@ -112,14 +105,14 @@ const PnrAccessRequest = ({ children }) => {
       <Layout>
         {!isSubmitted && (
         <PnrRequestForm
-          pnrData={PNR_DATA}
+          pnrResource={PNR_RESOURCE}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           hasError={hasError}
           isSubmitted={isSubmitted}
         />
         )}
-        {isSubmitted && <OutcomeNotification pnrData={PNR_DATA} setShowForm={setShowForm} />}
+        {isSubmitted && <OutcomeNotification pnrData={PNR_RESOURCE} setShowForm={setShowForm} />}
       </Layout>
     );
   }

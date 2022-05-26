@@ -7,7 +7,7 @@ import { FormGroup,
   Markup,
   ErrorSummary } from '@ukhomeoffice/cop-react-components';
 
-const YesNoComponent = ({ pnrData, handleChange, nextAction, hasError }) => {
+const YesNoComponent = ({ pnrResource, handleChange, nextAction, hasError }) => {
   return (
     <>
       {hasError
@@ -15,7 +15,7 @@ const YesNoComponent = ({ pnrData, handleChange, nextAction, hasError }) => {
       <ErrorSummary
         errors={[
           {
-            error: `${pnrData.text.errorText}`,
+            error: `${pnrResource.text.errorText}`,
           },
         ]}
       />
@@ -24,25 +24,25 @@ const YesNoComponent = ({ pnrData, handleChange, nextAction, hasError }) => {
         id="inline"
         label={(
           <>
-            <h1 className="govuk-heading-l">{pnrData.question}</h1>
-            <Markup>{pnrData.text.firstLine}</Markup>
-            <Markup>{pnrData.text.secondLine}</Markup>
-            <Markup>{pnrData.text.thirdLine}</Markup>
+            <h1 className="govuk-heading-l">{pnrResource.question}</h1>
+            <Markup>{pnrResource.text.firstLine}</Markup>
+            <Markup>{pnrResource.text.secondLine}</Markup>
+            <Markup>{pnrResource.text.thirdLine}</Markup>
           </>
       )}
-        error={hasError && pnrData.text.errorText}
+        error={hasError && pnrResource.text.errorText}
       >
         <Radios
           id="inline"
-          fieldId={pnrData.id}
+          fieldId={pnrResource.id}
           options={[
-            ...pnrData.options,
+            ...pnrResource.options,
           ]}
           onChange={(e) => handleChange(e)}
         />
         <br />
         <ButtonGroup>
-          <Button name={pnrData.id} onClick={(e) => nextAction(e)}>
+          <Button name={pnrResource.id} onClick={(e) => nextAction(e)}>
             Continue
           </Button>
         </ButtonGroup>
