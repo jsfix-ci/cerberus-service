@@ -65,7 +65,7 @@ const getSSRCodes = (person) => {
   if (!person?.ssrCodes) {
     return UNKNOWN_TEXT;
   }
-  return person.ssrCodes;
+  return person.ssrCodes.join(', ');
 };
 
 const toCoTravellers = (otherPersons) => {
