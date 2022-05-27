@@ -9,7 +9,7 @@ describe('PnrAccessRequest', () => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
   });
 
-  it('should render the form when localStorage has no matching stores user session', async () => {
+  it('should render the form when localStorage has no matching stored user session', async () => {
     await waitFor(() => render(<PnrAccessRequest><div /></PnrAccessRequest>));
     expect(screen.getByText('Do you need to view Passenger Name Record (PNR) data')).toBeInTheDocument();
     expect(screen.getByText(/You only need access if you're working to prevent, detect/i)).toBeInTheDocument();
