@@ -36,15 +36,15 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       await apiClient.post(`/targeting-tasks/${businessKey}/claim`, {
         userId: currentUser,
       });
+      setIsAssignmentInProgress(false);
       if (history.location.pathname !== `/airpax/tasks/${businessKey}`) {
-        history.push(source);
+        history.push(`/airpax/tasks/${businessKey}`);
       } else {
         history.go(0);
       }
     } catch {
-      setAlreadyAssignedWarning(true);
-    } finally {
       setIsAssignmentInProgress(false);
+      history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
     }
   };
 
@@ -54,6 +54,7 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       await apiClient.post(`/targeting-tasks/${businessKey}/unclaim`, {
         userId: currentUser,
       });
+      setIsAssignmentInProgress(false);
       history.push(
         { pathname: '/airpax/tasks',
           search: `?tab=${TASK_STATUS_NEW}` },
@@ -61,10 +62,9 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       window.scrollTo(0, 0);
     } catch {
       setIsAssignmentInProgress(false);
-    } finally {
-      setIsAssignmentInProgress(false);
     }
   };
+
 
   if (isAlreadyAssignedWarning) {
     return (
