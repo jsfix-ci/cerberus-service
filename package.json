@@ -87,8 +87,10 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
+    "husky": "^3.1.0",
     "jest": "^27.3.1",
     "ls": "^0.2.1",
+    "lint-staged": "^10.4.0",
     "mocha": "^9.1.3",
     "mochawesome": "^6.3.1",
     "mochawesome-merge": "^4.2.0",
@@ -102,5 +104,14 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.9.0",
     "yargs": "^16.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "./src/**/*.{js,jsx}": "npm run lint"
   }
 }
