@@ -199,7 +199,7 @@ const getDepartureStatus = (targetTask, taskDetails = false) => {
     return (
       <>
         {taskDetails && <span>{DEPARTURE_STATUS[departureStatus].description || UNKNOWN_TEXT} </span>}
-        <Tag className="airpax-status" classModifiers={DEPARTURE_STATUS[departureStatus].classname}>
+        <Tag className={`airpax-status ${DEPARTURE_STATUS[departureStatus].classname}`}>
           {DEPARTURE_STATUS[departureStatus].code}
         </Tag>
       </>

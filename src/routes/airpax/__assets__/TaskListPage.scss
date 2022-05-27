@@ -177,8 +177,24 @@ ul.item-list--bulleted {
 .airpax-status {
   height: 19px;
   border-radius: 5px;
-  padding-bottom: 0;
-  text-transform: capitalize;
+  padding-bottom: 1px !important;
+  text-transform: uppercase !important;
+
+  &.green {
+    background-color: govuk-colour("green");
+  }
+
+  &.purple {
+    background-color: govuk-colour("purple");
+  }
+
+  &.blue {
+    background-color: govuk-colour("blue");
+  }
+
+  &.red {
+    background-color: govuk-colour("red");
+  }
 }
 
 .claim-button-container {
