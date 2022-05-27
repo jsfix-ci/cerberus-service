@@ -35,7 +35,7 @@ const PnrAccessRequest = ({ children }) => {
     return !!localStorage.getItem(PNR_USER_SESSION_ID);
   };
 
-  const shouldRequestPnrAuth = () => {
+  const shouldRequestPnrAccess = () => {
     if (!hasStoredUserSession()) {
       return true;
     }
@@ -44,7 +44,7 @@ const PnrAccessRequest = ({ children }) => {
   };
 
   useEffect(async () => {
-    setDisplayForm(shouldRequestPnrAuth());
+    setDisplayForm(shouldRequestPnrAccess());
   }, []);
 
   if (!displayForm) {
