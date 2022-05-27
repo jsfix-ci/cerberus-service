@@ -282,7 +282,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      United Kingdom (GB)
+                      France (FR)
                     </p>
                   </div>
                   <div
@@ -329,7 +329,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      14 Apr 1970
+                      Unknown
                     </p>
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
@@ -348,7 +348,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      MESTA, Miss Gemma
+                      MESTA, GEMMA
                     </p>
                   </div>
                   <div
@@ -362,7 +362,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      14 Apr 1970
+                      Unknown
                     </p>
                   </div>
                 </div>

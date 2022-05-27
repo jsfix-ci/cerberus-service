@@ -8,7 +8,7 @@ describe('DocumentUtil', () => {
     countryOfIssue: 'FR',
     nationality: 'GB',
     validFrom: '1970-04-14T00:00:00Z',
-    validTo: '1970-04-14T00:00:00Z',
+    expiry: '1970-04-14T00:00:00Z',
     name: 'Miss Gemma Mesta',
     dateOfBirth: '1970-04-14T00:00:00Z',
   };
@@ -30,13 +30,22 @@ describe('DocumentUtil', () => {
         countryOfIssue: 'FR',
         nationality: 'GB',
         validFrom: '1970-04-14T00:00:00Z',
-        validTo: '1970-04-14T00:00:00Z',
-        name: 'Miss Gemma Mesta',
+        expiry: '1970-04-14T00:00:00Z',
         dateOfBirth: '1970-04-14T00:00:00Z',
+      },
+      name: {
+        first: 'Gemma',
+        full: 'Gemma Mesta',
+        last: 'Mesta',
       },
     };
     const output = DocumentUtil.get(person);
-    expect(output).toEqual({ 'countryOfIssue': 'FR', 'dateOfBirth': '1970-04-14T00:00:00Z', 'name': 'Miss Gemma Mesta', 'nationality': 'GB', 'number': '1234567', 'type': 'Passport', 'validFrom': '1970-04-14T00:00:00Z', 'validTo': '1970-04-14T00:00:00Z' });
+    expect(output).toMatchObject({ 'countryOfIssue': 'FR',
+      'nationality': 'GB',
+      'number': '1234567',
+      'type': 'Passport',
+      'validFrom': '1970-04-14T00:00:00Z',
+      'expiry': '1970-04-14T00:00:00Z' });
   });
 
   it('should shown unknown expiry when document expiry date is not present', () => {
@@ -108,7 +117,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docNationality(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(`Issued by ${UNKNOWN_TEXT}`);
   });
 
   it('should show unknown when document date of birth is not present', () => {
@@ -141,8 +150,15 @@ describe('DocumentUtil', () => {
   });
 
   it('should show document name when document name is present', () => {
-    const output = DocumentUtil.docName(document);
-    expect(output).toEqual('MESTA, Miss Gemma');
+    const personMin = {
+      name: {
+        first: 'Gemma',
+        full: 'Gemma Mesta',
+        last: 'Mesta',
+      },
+    };
+    const output = DocumentUtil.docName(personMin);
+    expect(output).toEqual('MESTA, Gemma');
   });
 
   it('should show document identification when document idenfication is present', () => {
@@ -152,12 +168,12 @@ describe('DocumentUtil', () => {
 
   it('should show document country of issue if it is present', () => {
     const output = DocumentUtil.docCountry(document);
-    expect(output).toEqual('France (FR)');
+    expect(output).toEqual('Issued by FR');
   });
 
   it('should show document nationality if it is present', () => {
     const output = DocumentUtil.docNationality(document);
-    expect(output).toEqual('United Kingdom (GB)');
+    expect(output).toEqual('Issued by FR');
   });
 
   it('should show document date of birth if it is present', () => {

@@ -108,16 +108,16 @@ const buildMovementInfoSection = (targetTask) => {
               Document
             </h3>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{DocumentUtil.docIdentification(document)} ({PersonUtil.nationality(person)})</li>
+              <li className="govuk-!-font-weight-bold">{DocumentUtil.docNumber(document)} ({PersonUtil.nationality(person)})</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{DocumentUtil.docValidity(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docValidity(document)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{DocumentUtil.docExpiry(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docExpiry(document)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{DocumentUtil.docCountry(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docCountry(document)}</li>
             </ul>
           </div>
         </div>
