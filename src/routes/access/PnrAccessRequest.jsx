@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import config from '../config';
-import { Renderers } from '../utils/Form';
-import { useKeycloak } from '../utils/keycloak';
-import useAxiosInstance from '../utils/axiosInstance';
+import config from '../../config';
+import { Renderers } from '../../utils/Form';
+import { useKeycloak } from '../../utils/keycloak';
+import useAxiosInstance from '../../utils/axiosInstance';
 
-import { PNR_USER_SESSION_ID } from '../constants';
+import { PNR_USER_SESSION_ID } from '../../constants';
 
 // Components / Pages
-import RenderForm from '../components/RenderForm';
-import Layout from '../components/Layout';
+import RenderForm from '../../components/RenderForm';
+import Layout from '../../components/Layout';
 import OutcomeNotification from './OutcomeNotification';
 
 // JSON
-import viewPnrData from '../cop-forms/viewPnrData';
+import viewPnrData from '../../cop-forms/viewPnrData';
 
 const PnrAccessRequest = ({ children }) => {
   const [isSubmitted, setSubmitted] = useState(false);
@@ -45,16 +45,19 @@ const PnrAccessRequest = ({ children }) => {
 
   useEffect(async () => {
     setDisplayForm(shouldRequestPnrAuth());
-  }, [keycloak.sessionId]);
+  }, []);
 
-  if (displayForm) {
-    return (
-      <Layout>
-        <div className="govuk-width-container ">
-          <main className="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-full">
-                {!isSubmitted && (
+  if (!displayForm) {
+    return children;
+  }
+
+  return (
+    <Layout>
+      <div className="govuk-width-container ">
+        <main className="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-full">
+              {!isSubmitted && (
                 <RenderForm
                   onSubmit={async (data) => {
                     try {
@@ -77,17 +80,14 @@ const PnrAccessRequest = ({ children }) => {
                   form={viewPnrData}
                   renderer={Renderers.REACT}
                 />
-                )}
-                {isSubmitted && <OutcomeNotification setDisplayForm={setDisplayForm} />}
-              </div>
+              )}
+              {isSubmitted && <OutcomeNotification setDisplayForm={setDisplayForm} />}
             </div>
-          </main>
-        </div>
-      </Layout>
-    );
-  }
-
-  return children;
+          </div>
+        </main>
+      </div>
+    </Layout>
+  );
 };
 
 export default PnrAccessRequest;

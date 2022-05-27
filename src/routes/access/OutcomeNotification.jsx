@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { Panel, ButtonGroup, Button } from '@ukhomeoffice/cop-react-components';
+import { Panel, Button } from '@ukhomeoffice/cop-react-components';
 
-import { PNR_USER_SESSION_ID, PNR_USER_DESCISION } from '../constants';
+import { PNR_USER_SESSION_ID, PNR_USER_DESCISION } from '../../constants';
 
 const getClassModifier = (storedUserSession) => {
   return storedUserSession.requested ? ['confirmation'] : [];
 };
 
-const getTitleMessage = (storedUserSession) => {
+const getTitle = (storedUserSession) => {
   if (storedUserSession.requested) {
     return PNR_USER_DESCISION.yes.text.title;
   }
   return PNR_USER_DESCISION.no.text.title;
 };
 
-const getOutcomeBody = (storedUserSession) => {
+const getDescriptionText = (storedUserSession) => {
   if (storedUserSession.requested) {
     return (
       <div className="govuk-body">
@@ -38,19 +38,17 @@ const OutcomeNotification = ({ setDisplayForm }) => {
           <div className="govuk-grid-column-two-thirds">
             {storedUserSession.requested && (
             <Panel
-              title={getTitleMessage(storedUserSession)}
+              title={getTitle(storedUserSession)}
               classModifiers={getClassModifier(storedUserSession)}
             />
             )}
             {!storedUserSession.requested && (
-            <h1 className="govuk-heading-l"><strong>{getTitleMessage(storedUserSession)}</strong></h1>
+            <h1 className="govuk-heading-l"><strong>{getTitle(storedUserSession)}</strong></h1>
             )}
-            {getOutcomeBody(storedUserSession)}
-            <ButtonGroup>
-              <Button onClick={() => setDisplayForm(false)}>
-                Continue
-              </Button>
-            </ButtonGroup>
+            {getDescriptionText(storedUserSession)}
+            <Button onClick={() => setDisplayForm(false)}>
+              Continue
+            </Button>
           </div>
         </div>
       </main>
