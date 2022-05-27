@@ -60,8 +60,10 @@ const TasksTab = ({
     ];
     try {
       response = await apiClient.post('/targeting-tasks/pages', {
-        status: tab,
-        filterParams: filtersToApply,
+        filterParams: {
+          ...filtersToApply,
+          taskStatuses: [tab],
+        },
         sortParams,
         pageParams: {
           limit: itemsPerPage,
