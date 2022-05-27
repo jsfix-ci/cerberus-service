@@ -6,6 +6,12 @@ import '../../../__mocks__/keycloakMock';
 // Components/Pages
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 import TaskListPage from '../TaskLists/TaskListPage';
+
+import { TASK_STATUS_COMPLETED,
+  TASK_STATUS_IN_PROGRESS,
+  TASK_STATUS_NEW,
+  TASK_STATUS_TARGET_ISSUED } from '../../../constants';
+
 // Fixture
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
@@ -17,23 +23,7 @@ import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);
 
-  const defaultPostPagesParams = {
-    status: 'NEW',
-    sortParams: [
-      {
-        field: 'WINDOW_OF_OPPORTUNITY',
-        order: 'ASC',
-      },
-      {
-        field: 'BOOKING_LEAD_TIME',
-        order: 'ASC',
-      },
-    ],
-    pageParams: {
-      limit: 100,
-      offset: 0,
-    },
-  };
+  let defaultPostPagesParams;
 
   let tabData = {};
 
@@ -44,6 +34,28 @@ describe('TaskListPage', () => {
       selectTabIndex: jest.fn(),
     };
     mockAxios.reset();
+
+    defaultPostPagesParams = {
+      filterParams: {
+        taskStatuses: [],
+        movementModes: ['AIR_PASSENGER'],
+        selectors: 'ANY',
+      },
+      sortParams: [
+        {
+          field: 'WINDOW_OF_OPPORTUNITY',
+          order: 'ASC',
+        },
+        {
+          field: 'BOOKING_LEAD_TIME',
+          order: 'ASC',
+        },
+      ],
+      pageParams: {
+        limit: 100,
+        offset: 0,
+      },
+    };
   });
 
   const setTabAndTaskValues = (value, taskStatus = 'new') => {
@@ -112,6 +124,8 @@ describe('TaskListPage', () => {
   });
 
   it('should fetch tasks using default params', async () => {
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+
     mockAxios
       .onPost('/targeting-tasks/pages', defaultPostPagesParams)
       .reply(200, [dataCurrentUser])
@@ -183,5 +197,64 @@ describe('TaskListPage', () => {
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
     expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
+  });
+
+  it('should contain the expect post params for new tab', async () => {
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_NEW)));
+
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+  });
+
+  it('should contain the expect post params for in_progress tab', async () => {
+    const PARAM_IN_PROGRESS = 'IN_PROGRESS';
+    tabData.selectedTabIndex = 1;
+    defaultPostPagesParams.filterParams.taskStatuses = [PARAM_IN_PROGRESS];
+
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
+
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+  });
+
+  it('should contain the expect post params for issued tab', async () => {
+    tabData.selectedTabIndex = 2;
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_TARGET_ISSUED.toUpperCase()];
+
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_TARGET_ISSUED)));
+
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+  });
+
+  it('should contain the expect post params for completed tab', async () => {
+    tabData.selectedTabIndex = 3;
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_COMPLETED.toUpperCase()];
+
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_COMPLETED)));
+
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
   });
 });
