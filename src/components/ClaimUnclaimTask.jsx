@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import useAxiosInstance from '../utils/axiosInstance';
+import { useKeycloak } from '../utils/keycloak';
+import { TASK_STATUS_NEW } from '../constants';
+
+// Config
+import config from '../config';
+
 const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonType }) => {
+  const keycloak = useKeycloak();
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+
   const history = useHistory();
   const isAssignedTo = assignee === currentUser ? 'you' : assignee;
   const [isAssignmentInProgress, setIsAssignmentInProgress] = useState(false);
-  const [isAlreadyAssignedWarning, setAlreadyAssignedWarning] = useState(false);
+  const [isAlreadyAssignedWarning] = useState(false);
 
   const CommonText = () => {
     return buttonType === 'textLink' ? 'Task not assigned' : null;
@@ -23,25 +33,34 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
   const handleClaim = async () => {
     try {
       setIsAssignmentInProgress(true);
-      console.log('await claimTask post', businessKey);
-      history.push(source);
-    } catch {
-      console.log('claimTask post fails as already assigned');
-      setAlreadyAssignedWarning(true);
-    } finally {
+      await apiClient.post(`/targeting-tasks/${businessKey}/claim`, {
+        userId: currentUser,
+      });
       setIsAssignmentInProgress(false);
+      if (history.location.pathname !== `/airpax/tasks/${businessKey}`) {
+        history.push(source);
+      } else {
+        history.go(0);
+      }
+    } catch {
+      setIsAssignmentInProgress(false);
+      history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
     }
   };
 
   const handleUnclaim = async () => {
     try {
       setIsAssignmentInProgress(true);
-      console.log('await unclaimTask post', businessKey);
-      history.push(source);
-    } catch {
-      console.log('unclaim post fails');
+      await apiClient.post(`/targeting-tasks/${businessKey}/unclaim`, {
+        userId: currentUser,
+      });
       setIsAssignmentInProgress(false);
-    } finally {
+      history.push(
+        { pathname: '/airpax/tasks',
+          search: `?tab=${TASK_STATUS_NEW}` },
+      );
+      window.scrollTo(0, 0);
+    } catch {
       setIsAssignmentInProgress(false);
     }
   };

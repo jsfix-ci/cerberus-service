@@ -17,8 +17,8 @@ const TaskListCard = ({
             <ClaimUnclaimTask
               currentUser={currentUser}
               assignee={targetTask.assignee}
-              businessKey={targetTask.businessKey}
-              source={`/airpax/tasks/${targetTask.businessKey}`}
+              businessKey={targetTask.id}
+              source={`/airpax/tasks/${targetTask.id}`}
               buttonType="button"
             />
             )}
