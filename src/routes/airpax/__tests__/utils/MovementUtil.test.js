@@ -2,9 +2,7 @@ import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
 import { MovementUtil } from '../../utils';
-import { LONDON_TIMEZONE, UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../../../../constants';
-
-import config from '../../../../config';
+import { UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../../../../constants';
 
 describe('MovementUtil', () => {
   let targetTaskMin;
@@ -55,8 +53,6 @@ describe('MovementUtil', () => {
   ];
 
   beforeEach(() => {
-    config.dayjsConfig.timezone = LONDON_TIMEZONE;
-
     targetTaskMin = {
       movement: {
         id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
@@ -97,7 +93,7 @@ describe('MovementUtil', () => {
           duration: 10000000,
         },
         flight: {
-          departureStatus: 'DC',
+          departureStatus: 'DEPARTURE_CONFIRMED',
           number: 'BA103',
           operator: 'BA',
           seatNumber: null,
@@ -166,7 +162,7 @@ describe('MovementUtil', () => {
 
   it('should return a formatted departure date and time if present', () => {
     const output = MovementUtil.formatDepartureTime(targetTaskMin.movement.journey);
-    expect(output).toEqual('7 Aug 2020 at 18:15');
+    expect(output).toEqual('7 Aug 2020 at 17:15');
   });
 
   it('should return a formatted arrival date and time if present', () => {

@@ -20,7 +20,7 @@ describe('Passenger', () => {
         frequentFlyerNumber: 123456,
       },
       flight: {
-        departureStatus: 'DC',
+        departureStatus: 'DEPARTURE_CONFIRMED',
       },
     },
   };

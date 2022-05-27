@@ -1,16 +1,10 @@
 import { DateTimeUtil } from '../../utils';
-import { LONDON_TIMEZONE, LONG_DATE_FORMAT } from '../../../../constants';
-
-import config from '../../../../config';
+import { LONG_DATE_FORMAT } from '../../../../constants';
 
 describe('DateTimeUtil', () => {
-  beforeEach(() => {
-    config.dayjsConfig.timezone = LONDON_TIMEZONE;
-  });
-
   it('should format the date if present', () => {
     const date = '1966-05-13T00:00:00Z'; // UTC
-    const expected = '13 May 1966 at 01:00';
+    const expected = '13 May 1966 at 00:00';
 
     const output = DateTimeUtil.format(date, LONG_DATE_FORMAT);
 
