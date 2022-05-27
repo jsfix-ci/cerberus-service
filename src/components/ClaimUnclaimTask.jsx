@@ -15,7 +15,7 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
   const history = useHistory();
   const isAssignedTo = assignee === currentUser ? 'you' : assignee;
   const [isAssignmentInProgress, setIsAssignmentInProgress] = useState(false);
-  const [isAlreadyAssignedWarning, setAlreadyAssignedWarning] = useState(false);
+  const [isAlreadyAssignedWarning] = useState(false);
 
   const CommonText = () => {
     return buttonType === 'textLink' ? 'Task not assigned' : null;
@@ -38,7 +38,7 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       });
       setIsAssignmentInProgress(false);
       if (history.location.pathname !== `/airpax/tasks/${businessKey}`) {
-        history.push(`/airpax/tasks/${businessKey}`);
+        history.push(source);
       } else {
         history.go(0);
       }
@@ -64,7 +64,6 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       setIsAssignmentInProgress(false);
     }
   };
-
 
   if (isAlreadyAssignedWarning) {
     return (
