@@ -24,7 +24,6 @@ describe('OutcomeNotification', () => {
     localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
     render(<OutcomeNotification setDisplayForm={setDisplayForm} />);
 
-    screen.debug(undefined, 200000);
     expect(screen.getByText('Continue without viewing PNR data')).toBeInTheDocument();
     expect(screen.getByText('Continue')).toBeInTheDocument();
   });
