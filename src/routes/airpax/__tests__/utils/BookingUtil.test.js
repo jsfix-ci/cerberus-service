@@ -132,7 +132,7 @@ describe('BookingUtil', () => {
   it('should return formatted check-in text if check-in time is present within the booking', () => {
     booking.checkInAt = '2020-08-07T17:15:00Z';
     const output = BookingUtil.toCheckInText(booking);
-    expect(output).toEqual('Check-in 18:15');
+    expect(output).toEqual('Check-in 17:15');
   });
 
   it('should return default formatted error text if check-in time is not present within the booking', () => {

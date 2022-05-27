@@ -9,7 +9,8 @@ import { UNKNOWN_TEXT,
   MOVEMENT_MODE_AIR_PASSENGER,
   MOVEMENT_MODE_AIR_CREW,
   UNKNOWN_TIME_DATA,
-  LATER_TEXT } from '../../../constants';
+  LATER_TEXT,
+  DEPARTURE_STATUS } from '../../../constants';
 
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
@@ -194,24 +195,12 @@ const getAirlineOperator = (flight) => {
 
 const getDepartureStatus = (targetTask, taskDetails = false) => {
   const departureStatus = targetTask?.movement?.flight?.departureStatus;
-  const DEPARTURE_CLASSES = {
-    DC: 'green',
-    BP: 'purple',
-    CI: 'blue',
-    DX: 'red',
-  };
-  const DEPARTURE_DESCRIPTIONS = {
-    DC: 'Departure confirmed',
-    BP: 'Booked passenger ',
-    CI: 'Checked-in',
-    DX: 'Departure exception',
-  };
   if (departureStatus) {
     return (
       <>
-        {taskDetails && <span>{DEPARTURE_DESCRIPTIONS[departureStatus] || UNKNOWN_TEXT} </span>}
-        <Tag className="airpax-status" classModifiers={DEPARTURE_CLASSES[departureStatus]}>
-          {departureStatus}
+        {taskDetails && <span>{DEPARTURE_STATUS[departureStatus].description || UNKNOWN_TEXT} </span>}
+        <Tag className="airpax-status" classModifiers={DEPARTURE_STATUS[departureStatus].classname}>
+          {DEPARTURE_STATUS[departureStatus].code}
         </Tag>
       </>
     );

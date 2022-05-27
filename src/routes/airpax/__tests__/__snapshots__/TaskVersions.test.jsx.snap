@@ -614,7 +614,7 @@ exports[`TaskVersions should render task versions 1`] = `
                       <p
                         className="govuk-!-margin-bottom-0 font__bold"
                       >
-                        Wed 3 Oct 2018 at 19:32
+                        Wed 3 Oct 2018 at 18:32
                       </p>
                     </div>
                     <div
@@ -647,7 +647,7 @@ exports[`TaskVersions should render task versions 1`] = `
                       <p
                         className="govuk-!-margin-bottom-0 font__bold"
                       >
-                        Wed 3 Oct 2018 at 22:19
+                        Wed 3 Oct 2018 at 21:19
                       </p>
                     </div>
                     <div
@@ -729,7 +729,7 @@ exports[`TaskVersions should render task versions 1`] = `
                         className="dot__light"
                       />
                        
-                      Wed 3 Oct 2018 at 12:00
+                      Wed 3 Oct 2018 at 11:00
                     </div>
                     <div
                       className="font__light"
@@ -750,7 +750,7 @@ exports[`TaskVersions should render task versions 1`] = `
                        
                       Arrival
                        
-                      3 Oct 2018 at 14:05
+                      3 Oct 2018 at 13:05
                     </div>
                   </div>
                   <div
@@ -784,7 +784,7 @@ exports[`TaskVersions should render task versions 1`] = `
                         className="dot__light"
                       />
                        
-                      Wed 3 Oct 2018 at 17:05
+                      Wed 3 Oct 2018 at 16:05
                     </div>
                     <div
                       className="font__light"
@@ -805,7 +805,7 @@ exports[`TaskVersions should render task versions 1`] = `
                        
                       Arrival
                        
-                      3 Oct 2018 at 19:16
+                      3 Oct 2018 at 18:16
                     </div>
                   </div>
                   <div
@@ -839,7 +839,7 @@ exports[`TaskVersions should render task versions 1`] = `
                         className="dot__light"
                       />
                        
-                      Wed 3 Oct 2018 at 19:32
+                      Wed 3 Oct 2018 at 18:32
                     </div>
                     <div
                       className="font__light"
@@ -860,7 +860,7 @@ exports[`TaskVersions should render task versions 1`] = `
                        
                       Arrival
                        
-                      3 Oct 2018 at 22:19
+                      3 Oct 2018 at 21:19
                     </div>
                   </div>
                 </div>

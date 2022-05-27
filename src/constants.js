@@ -85,3 +85,26 @@ export const FORM_NAMES = {
   NOTE_CERBERUS: 'noteCerberus',
   TARGET_INFORMATION_SHEET: 'targetInformationSheet',
 };
+
+export const DEPARTURE_STATUS = {
+  DEPARTURE_CONFIRMED: {
+    classname: 'green',
+    description: 'Departure confirmed',
+    code: 'DC',
+  },
+  BOOKED_PASSENGER: {
+    classname: 'purple',
+    description: 'Booked passenger',
+    code: 'BP',
+  },
+  CHECKED_IN: {
+    classname: 'blue',
+    description: 'Checked-in',
+    code: 'CI',
+  },
+  DEPARTURE_EXCEPTION: {
+    classname: 'red',
+    description: 'Departure exception',
+    code: 'DX',
+  },
+};

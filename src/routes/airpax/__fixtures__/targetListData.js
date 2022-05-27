@@ -82,7 +82,7 @@ const targetListData = {
 
     ],
     flight: {
-      departureStatus: 'DC',
+      departureStatus: 'DEPARTURE_CONFIRMED',
       number: 'BA103',
       operator: 'BA',
       seatNumber: null,
