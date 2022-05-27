@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import useAxiosInstance from '../utils/axiosInstance';
 import { useKeycloak } from '../utils/keycloak';
+import { TASK_STATUS_NEW } from '../constants';
 
 // Config
 import config from '../config';
@@ -41,7 +42,6 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
         history.go(0);
       }
     } catch {
-      console.log('claimTask post fails as already assigned');
       setAlreadyAssignedWarning(true);
     } finally {
       setIsAssignmentInProgress(false);
@@ -55,11 +55,11 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
         userId: currentUser,
       });
       history.push(
-        { pathname: '/airpax/tasks' },
+        { pathname: '/airpax/tasks',
+          search: `?tab=${TASK_STATUS_NEW}` },
       );
       window.scrollTo(0, 0);
     } catch {
-      console.log('unclaim post fails');
       setIsAssignmentInProgress(false);
     } finally {
       setIsAssignmentInProgress(false);

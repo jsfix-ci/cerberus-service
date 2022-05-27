@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useKeycloak } from '../../../utils/keycloak';
 
 import { TARGETER_GROUP,
@@ -16,6 +17,7 @@ import '../__assets__/TaskListPage.scss';
 
 const TaskListPage = () => {
   const keycloak = useKeycloak();
+  const history = useHistory();
   const [authorisedGroup, setAuthorisedGroup] = useState();
 
   useEffect(() => {
@@ -46,6 +48,9 @@ const TaskListPage = () => {
             <Tabs
               title="Title"
               id="tasks"
+              onTabClick={() => {
+                history.push();
+              }}
               items={[
                 {
                   id: TASK_STATUS_NEW,
