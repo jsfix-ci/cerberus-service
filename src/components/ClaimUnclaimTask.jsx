@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import useAxiosInstance from '../utils/axiosInstance';
+import { useKeycloak } from '../utils/keycloak';
+
+// Config
+import config from '../config';
+
 const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonType }) => {
+  const keycloak = useKeycloak();
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+
   const history = useHistory();
   const isAssignedTo = assignee === currentUser ? 'you' : assignee;
   const [isAssignmentInProgress, setIsAssignmentInProgress] = useState(false);
@@ -23,8 +32,14 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
   const handleClaim = async () => {
     try {
       setIsAssignmentInProgress(true);
-      console.log('await claimTask post', businessKey);
-      history.push(source);
+      await apiClient.post(`/targeting-tasks/${businessKey}/claim`, {
+        userId: currentUser,
+      });
+      if (history.location.pathname !== `/airpax/tasks/${businessKey}`) {
+        history.push(source);
+      } else {
+        history.go(0);
+      }
     } catch {
       console.log('claimTask post fails as already assigned');
       setAlreadyAssignedWarning(true);
@@ -36,8 +51,13 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
   const handleUnclaim = async () => {
     try {
       setIsAssignmentInProgress(true);
-      console.log('await unclaimTask post', businessKey);
-      history.push(source);
+      await apiClient.post(`/targeting-tasks/${businessKey}/unclaim`, {
+        userId: currentUser,
+      });
+      history.push(
+        { pathname: '/airpax/tasks' },
+      );
+      window.scrollTo(0, 0);
     } catch {
       console.log('unclaim post fails');
       setIsAssignmentInProgress(false);

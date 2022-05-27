@@ -14,13 +14,13 @@ const TaskListCard = ({
       <div className="claim-button-container">
         {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
             && (
-            <ClaimUnclaimTask
-              currentUser={currentUser}
-              assignee={targetTask.assignee}
-              businessKey={targetTask.businessKey}
-              source={`/airpax/tasks/${targetTask.businessKey}`}
-              buttonType="button"
-            />
+              <ClaimUnclaimTask
+                currentUser={currentUser}
+                assignee={targetTask.assignee}
+                businessKey={targetTask.id}
+                source={`/airpax/tasks/${targetTask.id}`}
+                buttonType="button"
+              />
             )}
       </div>
       <div className="card-container">
