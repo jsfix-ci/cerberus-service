@@ -4,7 +4,7 @@ import { initAll } from 'govuk-frontend';
 
 import { useKeycloak } from '../utils/keycloak';
 import Layout from '../components/Layout';
-import PnrAccessRequest from '../access/PnrAccessRequest';
+import PnrAccessRequest from './access/PnrAccessRequest';
 import AirPaxTaskListPage from './airpax/TaskLists/TaskListPage';
 import AirPaxTaskDetailsPage from './airpax/TaskDetails/TaskDetailsPage';
 import RoRoTaskListPage from './roro/TaskLists/TaskListPage';

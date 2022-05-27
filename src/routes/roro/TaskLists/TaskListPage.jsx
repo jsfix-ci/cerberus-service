@@ -8,6 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import qs from 'qs';
+import { useIsMounted } from '../../../utils/hooks';
 // Config
 import {
   TARGETER_GROUP,
@@ -105,6 +106,7 @@ const TasksTab = ({
   dayjs.extend(utc);
   const keycloak = useKeycloak();
   const location = useLocation();
+  const isMounted = useIsMounted();
   const camundaClientV1 = useAxiosInstance(keycloak, config.camundaApiUrlV1);
   const source = axios.CancelToken.source();
 
@@ -150,13 +152,17 @@ const TasksTab = ({
             offset,
           },
         });
+        if (!isMounted.current) return null;
         setTargetTasks(tasks.data);
       } catch (e) {
+        if (!isMounted.current) return null;
         setError(e.message);
         setTargetTasks([]);
       } finally {
-        setLoading(false);
-        setRefreshTaskList(false);
+        if (isMounted.current) {
+          setLoading(false);
+          setRefreshTaskList(false);
+        }
       }
     }
   };
@@ -510,6 +516,7 @@ const TasksTab = ({
 const TaskListPage = () => {
   const history = useHistory();
   const keycloak = useKeycloak();
+  const isMounted = useIsMounted();
   const camundaClientV1 = useAxiosInstance(keycloak, config.camundaApiUrlV1);
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
@@ -628,8 +635,10 @@ const TaskListPage = () => {
           '/targeting-tasks/status-counts',
           [activeFilters || {}],
         );
+        if (!isMounted.current) return null;
         setTaskCountsByStatus(count.data[0].statusCounts);
       } catch (e) {
+        if (!isMounted.current) return null;
         setError(e.message);
         setTaskCountsByStatus();
       }
@@ -645,8 +654,10 @@ const TaskListPage = () => {
           '/targeting-tasks/status-counts',
           getAppliedFilters(),
         );
+        if (!isMounted.current) return null;
         setFiltersAndSelectorsCount(countsResponse.data);
       } catch (e) {
+        if (!isMounted.current) return null;
         setError(e.message);
         setFiltersAndSelectorsCount();
       }
