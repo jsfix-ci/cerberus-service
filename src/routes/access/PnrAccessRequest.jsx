@@ -59,24 +59,26 @@ const PnrAccessRequest = ({ children }) => {
             <div className="govuk-grid-column-full">
               {!isSubmitted && (
                 <RenderForm
-                  onSubmit={async (data) => {
-                    try {
-                      if (data.data.viewPnrData === RESPONSE.yes) {
-                        const requestConfig = {
-                          headers: { Authorization: `Bearer ${keycloak.token}` },
-                        };
-                        const response = await taskApiClient.post('/passenger-name-record-access-requests',
-                          undefined, requestConfig);
-                        storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
-                      } else {
-                        storeSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
+                  onSubmit={
+                    async (data) => {
+                      try {
+                        if (data.data.viewPnrData === RESPONSE.yes) {
+                          const response = await taskApiClient.post(
+                            '/passenger-name-record-access-requests',
+                            undefined,
+                            { headers: { Authorization: `Bearer ${keycloak.token}` } },
+                          );
+                          storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
+                        } else {
+                          storeSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
+                        }
+                      } catch (e) {
+                        setSubmitted(false);
+                      } finally {
+                        setSubmitted(true);
                       }
-                    } catch (e) {
-                      setSubmitted(false);
-                    } finally {
-                      setSubmitted(true);
                     }
-                  }}
+                  }
                   form={viewPnrData}
                   renderer={Renderers.REACT}
                 />
