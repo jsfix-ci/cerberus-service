@@ -16,7 +16,7 @@ const Document = ({ version }) => {
   const journey = getJourney(version);
   // getFormattedDate() return current datetime if used without parameters
   const validFromExpiry = document ? DocumentUtil.calculateExpiry(document.validFrom, getFormattedDate()) : 'Unknown';
-  const validToExpiry = document ? DocumentUtil.calculateExpiry(document.validTo, getArrivalTime(journey)) : 'Unknown';
+  const validToExpiry = document ? DocumentUtil.calculateExpiry(document.expiry, getArrivalTime(journey)) : 'Unknown';
 
   return (
     <div className="task-details-container">
