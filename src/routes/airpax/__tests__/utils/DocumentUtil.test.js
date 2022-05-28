@@ -161,7 +161,7 @@ describe('DocumentUtil', () => {
     expect(output).toEqual('MESTA, Gemma');
   });
 
-  it('should show document identification when document idenfication is present', () => {
+  it('should return unknown if document identification is not present', () => {
     const output = DocumentUtil.docIdentification(document);
     expect(output).toEqual(UNKNOWN_TEXT);
   });
