@@ -1,6 +1,6 @@
 import React from 'react';
 // Utils
-import { getFormattedDate } from '../../utils/datetimeUtil';
+import { getDate } from '../../utils/datetimeUtil';
 import { getJourney, getArrivalTime } from '../../utils/movementUtil';
 
 import {
@@ -14,8 +14,7 @@ const Document = ({ version }) => {
   const person = PersonUtil.get(version);
   const document = DocumentUtil.get(version.movement.person);
   const journey = getJourney(version);
-  // getFormattedDate() return current datetime if used without parameters
-  const validFromExpiry = document ? DocumentUtil.calculateExpiry(document.validFrom, getFormattedDate()) : 'Unknown';
+  const validFromExpiry = document ? DocumentUtil.calculateExpiry(document.validFrom, getDate()) : 'Unknown';
   const validToExpiry = document ? DocumentUtil.calculateExpiry(document.expiry, getArrivalTime(journey)) : 'Unknown';
 
   return (

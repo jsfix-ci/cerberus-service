@@ -1,5 +1,5 @@
 import { DateTimeUtil } from '../../utils';
-import { LONG_DATE_FORMAT } from '../../../../constants';
+import { LONG_DATE_FORMAT, UNKNOWN_TEXT } from '../../../../constants';
 
 describe('DateTimeUtil', () => {
   it('should format the date if present', () => {
@@ -11,9 +11,9 @@ describe('DateTimeUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should return expected failure message when date is not present', () => {
+  it('should return unknown when date is not present', () => {
     const output = DateTimeUtil.format('', LONG_DATE_FORMAT);
-    expect(output).toEqual('Invalid Date');
+    expect(output).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return an array contaning two entries', () => {
@@ -23,6 +23,7 @@ describe('DateTimeUtil', () => {
     const output = DateTimeUtil.toList(dateOne, dateTwo);
 
     expect(Array.isArray(output)).toBeTruthy();
-    expect(output.length).toEqual(2);
+    expect(output).toHaveLength(2);
+    expect(output).toMatchObject([dateOne, dateTwo]);
   });
 });

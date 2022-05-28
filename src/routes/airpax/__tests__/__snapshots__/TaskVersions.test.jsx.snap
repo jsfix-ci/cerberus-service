@@ -334,7 +334,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
-                      48 years before travel
+                      4 years after travel
                     </p>
                   </div>
                   <div
@@ -424,7 +424,7 @@ exports[`TaskVersions should render task versions 1`] = `
                       <p
                         className="govuk-!-margin-bottom-0 font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </p>
                       <p
                         className="govuk-!-margin-bottom-0 font__light"
