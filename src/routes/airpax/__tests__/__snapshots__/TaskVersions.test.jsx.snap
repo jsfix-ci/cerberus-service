@@ -315,7 +315,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
-                      52 years before travel
+                      NaN years before travel
                     </p>
                   </div>
                   <div
@@ -424,13 +424,20 @@ exports[`TaskVersions should render task versions 1`] = `
                       <p
                         className="govuk-!-margin-bottom-0 font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </p>
                       <p
                         className="govuk-!-margin-bottom-0 font__light"
                       >
                         Unknown
                       </p>
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      />
                     </div>
                     <div
                       className="govuk-!-margin-bottom-2"
