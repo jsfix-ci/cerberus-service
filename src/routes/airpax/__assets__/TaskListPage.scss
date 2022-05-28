@@ -180,20 +180,20 @@ ul.item-list--bulleted {
   padding-bottom: 1px !important;
   text-transform: uppercase !important;
 
-  &.green {
-    background-color: govuk-colour("green");
+  &__green {
+    background-color: govuk-colour("green") !important;
   }
 
-  &.purple {
-    background-color: govuk-colour("purple");
+  &__purple {
+    background-color: govuk-colour("purple") !important;
   }
 
-  &.blue {
-    background-color: govuk-colour("blue");
+  &__blue {
+    background-color: govuk-colour("blue") !important;
   }
 
-  &.red {
-    background-color: govuk-colour("red");
+  &__red {
+    background-color: govuk-colour("red") !important;
   }
 }
 

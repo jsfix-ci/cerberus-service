@@ -7,7 +7,7 @@ Array [
      
   </span>,
   <strong
-    className="hods-tag airpax-status green"
+    className="hods-tag  airpax-status airpax-status__green"
   >
     DC
   </strong>,
@@ -16,7 +16,7 @@ Array [
 
 exports[`MovementUtil should render the departure status if present 1`] = `
 <strong
-  className="hods-tag airpax-status green"
+  className="hods-tag  airpax-status airpax-status__green"
 >
   DC
 </strong>
