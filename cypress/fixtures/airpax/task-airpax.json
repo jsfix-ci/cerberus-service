@@ -1,0 +1,1713 @@
+{
+  "data": {
+    "movementId": "%MOVEMENT_ID%",
+    "riskSubmissionId": 189795,
+    "riskCreatedDate": "2022-03-28T10:42:18.355947Z",
+    "riskType": "Pre-Arrival",
+    "matchedRules": [
+      {
+        "ruleId": 8866,
+        "ruleName": "Duration of Stay -days",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleDescription": "Test",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+          },
+          {
+            "entity": "Booking",
+            "descriptor": "durationOfStay",
+            "operator": "between",
+            "value": "[1, 70]"
+          }
+        ],
+        "abuseTypes": [
+          "Alcohol"
+        ]
+      },
+      {
+        "ruleId": 8865,
+        "ruleName": "Duration of Whole trip",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleDescription": "Duration of Whole trip",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+          },
+          {
+            "entity": "Booking",
+            "descriptor": "durationOfWholeTrip",
+            "operator": "between",
+            "value": "[1, 70]"
+          }
+        ],
+        "abuseTypes": [
+          "Alcohol"
+        ]
+      },
+      {
+        "ruleId": 7808,
+        "ruleName": "PNR-Arrival Airport",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleDescription": "Test",
+        "securityLabels": [
+          "null",
+          "null",
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Booking",
+            "descriptor": "arrivalLocations",
+            "operator": "contains_any_of",
+            "value": "[lhr, man]"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Passenger]"
+          }
+        ],
+        "abuseTypes": [
+          "Alcohol"
+        ]
+      },
+      {
+        "ruleId": 7849,
+        "ruleName": "PNR-Risk-Rule",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleDescription": "test pne",
+        "securityLabels": [
+          "null",
+          "null",
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Voyage",
+            "descriptor": "arrivalLocation",
+            "operator": "contains",
+            "value": "LHR"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Passenger]"
+          }
+        ],
+        "abuseTypes": [
+          "Class B&C Drugs inc. Cannabis"
+        ]
+      },
+      {
+        "ruleId": 7963,
+        "ruleName": "Predict_Movement_Name_qwerty",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleDescription": "Test",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Movement",
+            "descriptor": "name",
+            "operator": "not_equal",
+            "value": "qwerty"
+          },
+          {
+            "entity": "Movement",
+            "descriptor": "name",
+            "operator": "not_equal",
+            "value": "qwerty"
+          },
+          {
+            "entity": "Movement",
+            "descriptor": "name",
+            "operator": "not_equal",
+            "value": "qwerty"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+          }
+        ],
+        "abuseTypes": [
+          "Alcohol"
+        ]
+      },
+      {
+        "ruleId": 7844,
+        "ruleName": "Return Leg- Return",
+        "ruleType": "Both",
+        "ruleVersion": 1,
+        "ruleDescription": "Test",
+        "securityLabels": [
+          "null",
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Passenger]"
+          },
+          {
+            "entity": "Booking",
+            "descriptor": "bookingType",
+            "operator": "equal",
+            "value": "RETURN"
+          }
+        ],
+        "abuseTypes": [
+          "Alcohol"
+        ]
+      },
+      {
+        "ruleId": 7919,
+        "ruleName": "Generic rule - For trailer",
+        "ruleType": "Pre-load",
+        "ruleVersion": 1,
+        "ruleDescription": "Eu velit commodo ill",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
+        "rulePriority": "Tier 3",
+        "indicatorMatches": [
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+          },
+          {
+            "entity": "Trailer",
+            "descriptor": "registrationNumber",
+            "operator": "not_equal",
+            "value": "AA005022"
+          }
+        ],
+        "abuseTypes": [
+          "International Trade inc. Missing Trader Intra-Community Fraud (MTIC)"
+        ]
+      }
+    ],
+    "matchedSelectors": [
+    ],
+    "movement": {
+      "cerberusMovementId": "%MOVEMENT_ID%",
+      "firstCerberusTimestamp": 1648463957601,
+      "cerberusTimestamp": 1648463971376,
+      "latestMessageType": "EVENT_SNAPSHOT",
+      "cerberusInternalLabels": [
+        "completed_wash",
+        "incomplete_travel-history-enrichment",
+        "needs_travel-history"
+      ],
+      "messageAnalysis": {
+        "messageMatches": [
+          {
+            "sourceMessageVersion": 1,
+            "expectedMatches": 8,
+            "countOfMatches": 0,
+            "sourceMsgEnriches": 0
+          },
+          {
+            "sourceMessageVersion": 2,
+            "expectedMatches": 9,
+            "countOfMatches": 9,
+            "sourceMsgEnriches": 0
+          }
+        ],
+        "countOfSourceMessages": 2,
+        "countOfSnapshots": 8,
+        "countOfNoStateChanges": 9,
+        "countOfWashes": 0,
+        "countOfEnrichments": 0,
+        "firstRunlogTimestamp": 1648463957601,
+        "lastRunlogTimestamp": 1648463958528,
+        "firstSnapshotTimestamp": 1648463964840,
+        "lastSnapshotTimestamp": 1648463968142,
+        "firstNSCTimestamp": 1648463978900,
+        "lastNSCTimestamp": 1648463984833,
+        "firstWashTimestamp": 0,
+        "lastWashTimestamp": 0,
+        "firstEnrichTimestamp": 0,
+        "lastEnrichTimestamp": 0,
+        "matchesComplete": true,
+        "latestVersion": "2.9"
+      },
+      "serviceMovement": {
+        "metadata": {
+          "identityRecord": {
+            "poleId": {
+              "v2": {
+                "id": "%MOVEMENT_ID%"
+              },
+              "v1": null
+            },
+            "type": "S"
+          },
+          "sourceRecord": {
+            "name": "APIPNR",
+            "shortName": null,
+            "location": null,
+            "id": null,
+            "audit": {
+              "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+              "createdTimestamp": 1537401580000,
+              "updatedBy": null,
+              "updatedTimestamp": null,
+              "deletedBy": null,
+              "deletedTimestamp": null
+            }
+          },
+          "complianceRecord": {
+            "visibility": "UNKNOWN",
+            "gscMarker": null,
+            "retentionMarkerDays": -1
+          },
+          "mappingRecord": {
+            "name": "APIPNR-Service-Movement",
+            "version": "1"
+          }
+        },
+        "type": "MOVEMENT",
+        "effectiveFromTimestamp": 1537381500000,
+        "effectiveToTimestamp": 1537437600000,
+        "dueTimestamp": null,
+        "status": null,
+        "movement": {
+          "type": "Pre-Arrival",
+          "businessIdentifier": null,
+          "mode": "Air Passenger",
+          "source": "AC",
+          "actualDepartureTimestamp": null
+        },
+        "attributes": {
+          "attrs": {
+            "commonAPIPlus.SourceData.0.subject": "18-0YAC;4V18-A0Y;S59V0;UCCL902;",
+            "commonAPIPlus.SourceData.0.source": "PNRGov",
+            "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.pnrPassengerRef": "2",
+            "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.0.pnrPassengerRef": "1",
+            "commonAPIPlus.manifestDetails.datetimeReceived": "2018-09-19T23:59:40Z",
+            "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.0.uniquePassengerId": "LSV4UV0001",
+            "commonAPIPlus.SourceData.0.component": "PNRGovMessageHandler",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.pnrLocator": "LSV4UV",
+            "commonAPIPlus.manifestDetails.paxCount": "297",
+            "commonAPIPlus.manifestDetails.manifestGUID": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+            "commonAPIPlus.SourceData.0.type": "PNR",
+            "commonAPIPlus.manifestDetails.protocol": "MQ",
+            "commonAPIPlus.manifestDetails.dataType": "PNR",
+            "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.uniquePassengerId": "LSV4UV0002",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.seatNumber": "21C",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.0.tagNumber": "739238",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.1.tagNumber": "739239",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.2.tagNumber": "739240",
+            "checkedInCount": "3",
+            "checkedInWeight": "32kg",
+            "checkinDateTime": "2021-02-02T18:02:00Z"
+          }
+        },
+        "features": {
+          "feats": {
+            "STANDARDISED:movementId": {
+              "id": null,
+              "type": null,
+              "valueType": "STRING",
+              "value": "voyage,pnrLocator",
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
+            "STANDARDISED:role": {
+              "id": null,
+              "type": null,
+              "valueType": "STRING",
+              "value": "CREW",
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
+            "STANDARDISED:lastReportedStatus": {
+              "id": null,
+              "type": null,
+              "valueType": "STRING",
+              "value": "DC",
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            }
+          }
+        },
+        "changeHistory": null
+      },
+      "persons": [
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=452290441af961c257ea91b6cceaba81"
+                },
+                "v1": {
+                  "id": 101000070371808
+                }
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (shell)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERSHELL",
+            "title": null,
+            "familyName": "MESTA",
+            "givenName": "GEMMA",
+            "fullName": "GEMMA MESTA",
+            "dateOfBirth": null,
+            "dateOfDeath": null,
+            "gender": null,
+            "nationality": null,
+            "yearOfBirth": null,
+            "monthOfBirth": null,
+            "dayOfBirth": null,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": null
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "579419193A",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.pnrPassengerRef": "1",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.uniquePassengerId": "LSV4UV0001",
+              "journeyHash": "29eb441dfde1318b19a55a3617932ae5"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=cfac94f9c467ba509154b706317a4f09"
+                },
+                "v1": {
+                  "id": 101000070371810
+                }
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "APIDQ",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (shell)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERSHELL",
+            "title": null,
+            "familyName": "MAUSSER",
+            "givenName": "SHARON",
+            "fullName": "SHARON MAUSSER",
+            "dateOfBirth": null,
+            "dateOfDeath": null,
+            "gender": null,
+            "nationality": null,
+            "yearOfBirth": null,
+            "monthOfBirth": null,
+            "dayOfBirth": null,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": null
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "763381878A",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.pnrPassengerRef": "2",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.uniquePassengerId": "LSV4UV0002",
+              "journeyHash": "29eb441dfde1318b19a55a3617932ae5"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=f5ab3c1c5fc43a7f6690b729c78b347c"
+                },
+                "v1": {
+                  "id": 101000071763636
+                }
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERPAS",
+            "title": null,
+            "familyName": null,
+            "givenName": null,
+            "fullName": null,
+            "dateOfBirth": -936,
+            "dateOfDeath": null,
+            "gender": "M",
+            "nationality": null,
+            "yearOfBirth": 1967,
+            "monthOfBirth": 6,
+            "dayOfBirth": 10,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": null
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "117174474A",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.pnrPassengerRef": "1",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.uniquePassengerId": "R47PCM0001",
+              "journeyHash": "29eb441dfde1318b19a55a3617932ae5"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=98299bf50a873ecf4279fcd6bbdac7d7"
+                },
+                "v1": {
+                  "id": 101000070371815
+                }
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERPAS",
+            "title": null,
+            "familyName": "MAUSSER",
+            "givenName": null,
+            "fullName": "MAUSSER",
+            "dateOfBirth": 103,
+            "dateOfDeath": null,
+            "gender": "F",
+            "nationality": null,
+            "yearOfBirth": 1970,
+            "monthOfBirth": 4,
+            "dayOfBirth": 14,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": null
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "0103812582A",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.pnrPassengerRef": "2",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.uniquePassengerId": "R47PCM0002",
+              "journeyHash": "29eb441dfde1318b19a55a3617932ae5"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        }
+      ],
+      "organisations": [
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=259c2066109a481d71e9c397fa8928d0"
+                },
+                "v1": null
+              },
+              "type": "P"
+            },
+            "sourceRecord": null,
+            "complianceRecord": null,
+            "mappingRecord": null
+          },
+          "type": "ORGANISATION",
+          "organisation": {
+            "type": "ORGTRVL",
+            "name": "987654321",
+            "registrationNumber": null,
+            "vatNumber": null,
+            "industrySector": null,
+            "numberOfEmployees": null
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentCityCode": "Galway",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentCountryCode": "IE",
+              "commonAPIPlus.dcsDetails.dcsData.dcsRecord.ticketNumber": "1234"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        }
+      ],
+      "documents": [
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=f5ab3c1c5fc43a7f6690b729c78b347c,O=37a6259cc0c1dae299a7866489dff0bd"
+                },
+                "v1": {
+                  "id": 102000071763638
+                }
+              },
+              "type": "O"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "TDI (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "DOCUMENT",
+          "party": {
+            "poleId": {
+              "v2": {
+                "id": "PNR:P=f5ab3c1c5fc43a7f6690b729c78b347c"
+              },
+              "v1": null
+            },
+            "type": "P"
+          },
+          "role": "PTOOUSES",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "name": null,
+          "description": null,
+          "additionalInformation": null,
+          "url": null,
+          "document": {
+            "type": "OBJDOC",
+            "value": null,
+            "subject": null,
+            "category": null,
+            "status": null,
+            "placeOfIssue": null,
+            "countryOfIssue": null,
+            "dateOfIssue": null,
+            "validFromDate": null,
+            "expiryDate": null
+          },
+          "attributes": {
+            "attrs": {
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=98299bf50a873ecf4279fcd6bbdac7d7,O=37a6259cc0c1dae299a7866489dff0bd"
+                },
+                "v1": {
+                  "id": 102000070371814
+                }
+              },
+              "type": "O"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "TDI (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "DOCUMENT",
+          "party": {
+            "poleId": {
+              "v2": {
+                "id": "PNR:P=98299bf50a873ecf4279fcd6bbdac7d7"
+              },
+              "v1": null
+            },
+            "type": "P"
+          },
+          "role": "PTOOUSES",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "name": null,
+          "description": null,
+          "additionalInformation": null,
+          "url": null,
+          "document": {
+            "type": "OBJDOC",
+            "value": null,
+            "subject": null,
+            "category": null,
+            "status": null,
+            "placeOfIssue": null,
+            "countryOfIssue": null,
+            "dateOfIssue": null,
+            "validFromDate": null,
+            "expiryDate": null
+          },
+          "attributes": {
+            "attrs": {
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        }
+      ],
+      "vehicles": null,
+      "vessel": null,
+      "addresses": null,
+      "contacts": [
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=Null[06e4f10281cadfed3d882efbef112e20],L=06e4f10281cadfed3d882efbef112e20"
+                },
+                "v1": {
+                  "id": 103000070369007
+                }
+              },
+              "type": "L"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "pnr/whole_flight_AF1234_zatb",
+              "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+              "audit": {
+                "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+                "createdTimestamp": 1537401580000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "BookingContact",
+              "version": "1.0"
+            }
+          },
+          "type": "CONTACT",
+          "party": {
+            "poleId": {
+              "v2": {
+                "id": "PNR:P=Null"
+              },
+              "v1": null
+            },
+            "type": "P"
+          },
+          "role": "UNKNOWN",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "contact": {
+            "type": "LOCEMAIL",
+            "value": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER"
+          },
+          "attributes": null,
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        }
+      ],
+      "voyage": {
+        "metadata": {
+          "identityRecord": {
+            "poleId": {
+              "v2": {
+                "id": "PNR:S=29eb441dfde1318b19a55a3617932ae5"
+              },
+              "v1": {
+                "id": 105000070369083
+              }
+            },
+            "type": "S"
+          },
+          "sourceRecord": {
+            "name": "PNR",
+            "shortName": "PNR",
+            "location": "pnr/whole_flight_AF1234_zatb",
+            "id": "cd6c2921-781f-494a-ab03-4f7366571c6b",
+            "audit": {
+              "createdBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+              "createdTimestamp": 1537401580000,
+              "updatedBy": null,
+              "updatedTimestamp": null,
+              "deletedBy": null,
+              "deletedTimestamp": null
+            }
+          },
+          "complianceRecord": null,
+          "mappingRecord": {
+            "name": "Voyage",
+            "version": "1.0"
+          }
+        },
+        "type": "VOYAGE",
+        "effectiveFromTimestamp": 1537381500000,
+        "effectiveToTimestamp": 1537437600000,
+        "dueTimestamp": null,
+        "status": null,
+        "voyage": {
+          "type": "FLIGHT",
+          "voyageType": null,
+          "departureLocation": "YYC",
+          "departureCountry": "CA",
+          "scheduledDepartureTimestamp": 1538591560000,
+          "actualDepartureTimestamp": null,
+          "arrivalLocation": "LHR",
+          "arrivalCountry": "GB",
+          "scheduledArrivalTimestamp": 1538601560000,
+          "actualArrivalTimestamp": null,
+          "intermediateLocations": null,
+          "passengerCount": 297,
+          "crewCount": null,
+          "durationMinutes": null,
+          "routeId": "AF1234",
+          "carrier": "Air France",
+          "craftId": null
+        },
+        "attributes": {
+          "attrs": {
+            "commonAPIPlus.pnrDetails.flightSummary.flightDepartureAirport": "YYC",
+            "commonAPIPlus.pnrDetails.flightSummary.flightDepartureDate": "2018-09-19",
+            "commonAPIPlus.pnrDetails.flightSummary.flightArrivalTime": "1000",
+            "commonAPIPlus.pnrDetails.flightSummary.airlineCode": "AC",
+            "journeyHash": "29eb441dfde1318b19a55a3617932ae5",
+            "commonAPIPlus.pnrDetails.flightSummary.flightDepartureTime": "1825",
+            "commonAPIPlus.pnrDetails.flightSummary.flightArrivalDate": "2018-09-20",
+            "commonAPIPlus.pnrDetails.flightSummary.flightArrivalAirport": "LHR",
+            "commonAPIPlus.pnrDetails.flightSummary.flightCode": "AF1234"
+          }
+        },
+        "features": {
+          "feats": {
+            "STANDARDISED:departurePort": {
+              "id": null,
+              "type": null,
+              "valueType": "MAP",
+              "value": null,
+              "valueList": {
+                "val": [
+                  {
+                    "IATA": "CDG"
+                  },
+                  {
+                    "UNLO5": "FR CDG"
+                  },
+                  {
+                    "UNLO3": "CDG"
+                  },
+                  {
+                    "ICAO": "EGLL"
+                  },
+                  {
+                    "PortName": "Paris Charles de Gaulle Airport/Paris"
+                  },
+                  {
+                    "CountryCode": "FR"
+                  },
+                  {
+                    "Continent": "Europe"
+                  },
+                  {
+                    "Sector": "Northern Europe"
+                  }
+                ]
+              },
+              "startTimestamp": null,
+              "endTimestamp": 1596110674000
+            }
+          }
+        },
+        "changeHistory": null
+      },
+      "consolidation": null,
+      "consignments": null,
+      "booking": {
+        "metadata": {
+          "identityRecord": {
+            "poleId": {
+              "v2": {
+                "id": "PNR:S=LSV4UV29eb441dfde1318b19a55a3617932ae5"
+              },
+              "v1": {
+                "id": 105000070371824
+              }
+            },
+            "type": "S"
+          },
+          "sourceRecord": {
+            "name": "PNR",
+            "shortName": "PNR",
+            "location": "pnr/whole_flight_AF1234_zatb",
+            "id": "d06ff6ef-736d-47f6-a4a8-af22b2d2cc21",
+            "audit": {
+              "createdBy": "T11SwrIdw7xLBMKyecKOw61rOzZ2",
+              "createdTimestamp": 1537317004000,
+              "updatedBy": "UsOiwqHDo8KlTkPClGNZw7VXwrB4QcOZ",
+              "updatedTimestamp": 1537401580000,
+              "deletedBy": null,
+              "deletedTimestamp": null
+            }
+          },
+          "complianceRecord": null,
+          "mappingRecord": {
+            "name": "Booking",
+            "version": "1.0"
+          }
+        },
+        "type": "BOOKING",
+        "effectiveFromTimestamp": 1531958400000,
+        "effectiveToTimestamp": null,
+        "dueTimestamp": null,
+        "status": null,
+        "booking": {
+          "type": "PNR",
+          "pnrData": {
+            "locator": "LSV4UV",
+            "masterLocator": null,
+            "split": null,
+            "raw": "7S:0A/HN+00I.+1/'+D00SCDYT8+U4:+UK7+K9DUOPAOL:D1U4:+I.KUR+R/*'.:D90:0UAL1DO::0LR3'D?/?KIES2YP+++YO?.I1YDAC:LR1.B'S+AA+UA+EC*2A:+0:A:LI005G+C++10++?50TD+D+S0XIA*:H:UY:5Y:O0SC+:NOT+XTBY:::TTD+AC:0IMLGW:IA'0GI+''AS41+4T+RS:+9AN.7G::++NN/XSHT0L0000'ACC:4+KP:+:G6A4+-*03DV0+P'+.VS0AS:9A:VC:E19O:89'2:+5:X038:2ARQOGA:C4S91/:8?LO+CCE*+C:+C1FLI6FAGAKHA8:0SI1NID/C+YY1+E1ZVMA7ICLW+A2?/:1D:TLXS:0:1'Y10:'O0RA+:EH0:I+1R4L0AB/F09/AV09T+VFE:E1A/::+?NTT'TJFLCWD2F0C:CMWXPA:E:1:E3+CA+I9DY6S:4Y.E.:S:Y'/U+94JB:2'ET9C+:1P-:RY19:8S:1NCH3'I+:T8:2VREUL9D0+4:G'AD100+/:T4AMS/A8A+180810?X3+A:+1/'AR'A115IB9WKAT871C+Y/5A:CL9C0++03:TN4XI/1S0::9IYLE'DRXI8TAC+8MPL8I:XIC+AWXT808AJXAR:DO'17GXS1+FH:T1'II90//:++VC80RLN.3I+3891*DQ/G0{05L'/C1TT8:R4/107811O8SA:DE::0'3:6:A'UT80UX'H10E+TD+1H+,'H+Y8YU+1AD01+:VCK*AA+191O308::'M9*9S9C+:01AY?:E91RW1R0A4YA:T1CU:5/A:+2G23B+:61EV1E'?NE+NB:LOA90::C0'I+C051I++T*:DRC2CC4I7:CDG8A?TN1VNFI'+'Y:1PIA'N:E0A709T0FSXHS80FCZ+160'+:IR1X9+TA+/+T'OE2/J61+S7'.+SE+8+'I77:T3DAR3C5:YC'VI0?E050SI9IYT1.C1C+O+KACLC++::48YTP0H0:ABA7++L1O07EN0::FRI:94EMRN7NS:8:F*M:5WRI:91DBM84:9QL'XI6A:R+G4/83+SAHO:8:X9/HO'930B1+AWL8CT59::,:+9P.+7BOST/SGYVRUO.*:*LITN7C+8'0M8TX.:IKADV1FADM73I:J71/UE20:0SY0:'I:8ETWICF/X'+TDPOLLHO'D?:O9A:0:NX3+VY+7AH:+?XRLX7::1'S+:+D4#A+:'1F4:1+CCYS:+ST9CR050D/H:VCRC:01+D++.HC0:2AXPT4'?0+Y+BICDLIDFA+LR/TMD'II:+C7C0Y8+MRCTS33CA:N:0:*5Y'ISDDA'Q:VA:}::'748A1:AS0'+.+6::65'0S:+1LAO'O+:0TUE:ULRL:'L5S*7LHH::/X913I+0:'WAOU:3GT9SSO31+2O'GA1N:4AR0AL+::7AN+TA'D0+/:+*17C1KA0RA'A::D+:81+?4ZH0::F4AH1E2':'3OX+7S:7::W+T+:1+A1:900DC'R6L6T'P1KCC8':+C8:+AZ0A:S:RT+R2AT++S0:UAH+1:BA0Y1BT+Q:'/0P3L+S+1/W/I0+C+Y+CLY0C:+98KCRT1AFS+F+943MUA.T3DDT'K'L'T4SNVC03S+:?.K?OT.+I'+TA1AA1?NW+X8AHS7UD495A0HT:1LSV/:A+':Y+N50D:J8TDA::T+P4'8R:C+KV0TA3A':411A5S+T:+I+:H83V0I1+RC8D:2A:+-D1ACS:'?ICAFD.10EL08?4DF6D'X2:+IP8++H:V::+:A.RM:DAE91YAF+D1C1AAR.A1A4W:+J'0X4'DACT120TI'XHLT0I0A0FSU0CBM+A2AY8EB#XA3:ACH8-AFVARTCC9WT'T+:3'U010I5DA4OR++'CAO1:++C+S6.RA?51*+::LA+91XASG:1M27LB43:UL5LF7H4#IF++:RIVCEGT+AEFID9V++VIOTF5001D?:VH0EI7TA0L+4R+M08N1Y+A1:+.TSTT1NC8:+L4A:SRTC3DCA4:IA:20'X.1'58++.3I7::CTKSMO+'2CQ,XA+C4TA3DA:+NARK+DIRX8FC:C'1:XE1':ACHD.CTVH8X+01YT14Y0581::T4AT:0'D3LR0L?29'/A1''I++RLETADSD::EA1:SQB9AN1:::ZV:R:09D+:+:S7+S0A4+I011SL+AYC0+/++1D+:63J8DLH:#MATOT8YALU40D1JD'F1D:A?1++ATO*CX1+:NS+T7.RI91DUIB:4BTIXFU81UXYD_C'A64E2QT::DM24YR4C'ASX9CAMVETX.-C0'::1GGSAVSO4RRCT91S+22LR34::0?R/:V9V9511:DY++N0G5AF:8F9GT1+1.8:S+C'CR?0CZ:+I0NT3AIAX:A++CEDLPI:C4YA4WN90M5FDC+''Y:H80:401EL'D+92OC:5:4'1I44RCA1CI1LM+9-.4+A'ACTRS72O/YAE++/:S:+AYTLRD7+DTT5S1:Y+DL0I:0IKCI3:3DYNM:HSESC4TAA+2U9S8C+V0I:9A'::9+1*9R8'C:RCS3V.1Y1:79:2:VV+0+R+:9F+9R6:7:?VTDC++:CBFDOT:RW.1C+AR:A+SGL+'1LT3AXZ:H1:1YZ9+2+1:SIH:8GA01:E/4H0EL5'1E5+U0CA19+NW.YKNXD:+U2W:::GT5O0:+1+KGT.2+0C:BLATOI0T2:TCC4N'LI+3SBICSB41HT6'/0:VC9+3++4A0OLR93X815L'Y:7'?4'17,7D:7T2S+:A:''VT:EC84P+9L342VVU0R:A3H:7",
+            "history": null
+          },
+          "accompaniedByInfant": false,
+          "unaccompaniedMinor": null,
+          "contacts": [
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "7",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": null,
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": null,
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": "CA"
+            },
+            {
+              "type": null,
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": "CTCE",
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": null,
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": null,
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            },
+            {
+              "type": null,
+              "text": "REDACTED@EMAIL.COM, REDACTED ADDRESS, REDACTED PHONE NUMBER",
+              "countryCode": null
+            }
+          ],
+          "itineraryTravel": [
+            {
+              "type": "FLIGHT",
+              "voyageType": null,
+              "departureLocation": "CDG",
+              "departureCountry": "FR",
+              "scheduledDepartureTimestamp": 1538564400000,
+              "actualDepartureTimestamp": null,
+              "arrivalLocation": "YYZ",
+              "arrivalCountry": "CA",
+              "scheduledArrivalTimestamp": 1538571900000,
+              "actualArrivalTimestamp": null,
+              "intermediateLocations": null,
+              "passengerCount": null,
+              "crewCount": null,
+              "durationMinutes": null,
+              "routeId": "AF1234",
+              "carrier": null,
+              "craftId": null
+            },
+            {
+              "type": "FLIGHT",
+              "voyageType": null,
+              "departureLocation": "YYZ",
+              "departureCountry": "CA",
+              "scheduledDepartureTimestamp": 1538582700000,
+              "actualDepartureTimestamp": null,
+              "arrivalLocation": "YYC",
+              "arrivalCountry": "CA",
+              "scheduledArrivalTimestamp": 1538590560000,
+              "actualArrivalTimestamp": null,
+              "intermediateLocations": null,
+              "passengerCount": null,
+              "crewCount": null,
+              "durationMinutes": null,
+              "routeId": "BD0998",
+              "carrier": null,
+              "craftId": null
+            },
+            {
+              "type": "FLIGHT",
+              "voyageType": null,
+              "departureLocation": "YYC",
+              "departureCountry": "CA",
+              "scheduledDepartureTimestamp": 1538591560000,
+              "actualDepartureTimestamp": null,
+              "arrivalLocation": "LHR",
+              "arrivalCountry": "GB",
+              "scheduledArrivalTimestamp": 1538601560000,
+              "actualArrivalTimestamp": null,
+              "intermediateLocations": null,
+              "passengerCount": null,
+              "crewCount": null,
+              "durationMinutes": null,
+              "routeId": "XZ0123",
+              "carrier": null,
+              "craftId": null
+            }
+          ],
+          "payments": [
+            {
+              "type": "MS",
+              "amount": null,
+              "cardNumber": null,
+              "cardExpiryDate": null,
+              "data": "L-/0005109#04",
+              "vendorCode": null
+            },
+            {
+              "type": "CC",
+              "amount": 100.48,
+              "cardNumber": "30XXXXXXXXXXX64X",
+              "cardExpiryDate": 18537,
+              "data": null,
+              "vendorCode": "VI"
+            },
+            {
+              "type": "MS",
+              "amount": null,
+              "cardNumber": null,
+              "cardExpiryDate": null,
+              "data": "AGT0005109#04                   APC: 02339I",
+              "vendorCode": null
+            },
+            {
+              "type": "MS",
+              "amount": null,
+              "cardNumber": null,
+              "cardExpiryDate": null,
+              "data": "L-/0005109#04",
+              "vendorCode": null
+            },
+            {
+              "type": "CC",
+              "amount": 2190.48,
+              "cardNumber": "30XXXXXXXXXXX63X",
+              "cardExpiryDate": 18536,
+              "data": null,
+              "vendorCode": "VI"
+            },
+            {
+              "type": "MS",
+              "amount": null,
+              "cardNumber": null,
+              "cardExpiryDate": null,
+              "data": "AGT0005109#04                   APC: 02339I",
+              "vendorCode": null
+            }
+          ],
+          "tickets": [
+            {
+              "number": "1741815210698",
+              "issueDate": 17731,
+              "priceType": "B",
+              "currencyCode": "CAD",
+              "paymentAmount": "441.0"
+            },
+            {
+              "number": "1741815210698",
+              "issueDate": 17731,
+              "priceType": "T",
+              "currencyCode": "CAD",
+              "paymentAmount": "1095.24"
+            },
+            {
+              "number": "1718705911248",
+              "issueDate": 17731,
+              "priceType": "B",
+              "currencyCode": "CAD",
+              "paymentAmount": "441.0"
+            },
+            {
+              "number": "1718705911248",
+              "issueDate": 17731,
+              "priceType": "T",
+              "currencyCode": "CAD",
+              "paymentAmount": "1095.24"
+            }
+          ],
+          "requests": [
+            {
+              "type": "DOCS",
+              "data": "1'+:ORKSSS:DH:YCY"
+            },
+            {
+              "type": "DOCS",
+              "data": "1'+:ORKSSS:DH:YCY"
+            },
+            {
+              "type": "AUTH",
+              "data": "1WUT:O/C:CJWBHAA:'KEEOWAASC:HW+8UG:C:DS/RCDTAW::1CONELUSU9CA/DOS"
+            },
+            {
+              "type": "AUTH",
+              "data": "+WW1U/GU:IK004SU:LR:A:A:T:SP:1/HS8AGV0CSLWVH:C/J1S9'W"
+            },
+            {
+              "type": "AUTH",
+              "data": "A0HVCU::W1AHWSP:2L04/+9GR::::KSCTISSU1:8AJL0U/W'VW/SG"
+            }
+          ],
+          "excessBaggage": [
+          ],
+          "history": [
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYC",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "LHR",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "CDG",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "YYZ",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYZ",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "YYC",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYC",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "LHR",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "X",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYC",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "LHR",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYC",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "LHR",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "CDG",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "YYZ",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYZ",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "YYC",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "A",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYC",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "LHR",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            },
+            {
+              "status": "X",
+              "historyTimestamp": null,
+              "requests": [
+              ],
+              "contacts": [
+              ],
+              "itineraryTravel": [
+                {
+                  "type": "FLIGHT",
+                  "voyageType": null,
+                  "departureLocation": "YYC",
+                  "departureCountry": null,
+                  "scheduledDepartureTimestamp": null,
+                  "actualDepartureTimestamp": null,
+                  "arrivalLocation": "LHR",
+                  "arrivalCountry": null,
+                  "scheduledArrivalTimestamp": null,
+                  "actualArrivalTimestamp": null,
+                  "intermediateLocations": null,
+                  "passengerCount": null,
+                  "crewCount": null,
+                  "durationMinutes": null,
+                  "routeId": "AF1234",
+                  "carrier": null,
+                  "craftId": null
+                }
+              ]
+            }
+          ]
+        },
+        "attributes": {
+          "attrs": {
+            "commonAPIPlus.pnrDetails.flightSummary.flightDepartureAirport": "YYC",
+            "commonAPIPlus.pnrDetails.flightSummary.flightDepartureDate": "2018-09-19",
+            "commonAPIPlus.pnrDetails.flightSummary.flightArrivalTime": "1000",
+            "commonAPIPlus.pnrDetails.flightSummary.airlineCode": "AC",
+            "journeyHash": "29eb441dfde1318b19a55a3617932ae5",
+            "commonAPIPlus.pnrDetails.flightSummary.flightDepartureTime": "1825",
+            "commonAPIPlus.pnrDetails.flightSummary.flightArrivalDate": "2018-09-20",
+            "commonAPIPlus.pnrDetails.flightSummary.flightArrivalAirport": "LHR",
+            "commonAPIPlus.pnrDetails.flightSummary.flightCode": "AF1234"
+          }
+        },
+        "features": {
+          "feats": {
+            "STANDARDISED:legTimestampDifferenceMilliseconds[1]": {
+              "id": null,
+              "type": null,
+              "valueType": "INT",
+              "value": 1213200000,
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
+            "STANDARDISED:durationWholeTripMilliseconds": {
+              "id": null,
+              "type": null,
+              "valueType": "INT",
+              "value": 1209060000,
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
+            "STANDARDISED:durationStayMilliseconds": {
+              "id": null,
+              "type": null,
+              "valueType": "INT",
+              "value": 1231500000,
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
+            "STANDARDISED:ticketType": {
+              "id": null,
+              "type": null,
+              "valueType": "STRING",
+              "value": "RETURN",
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
+            "STANDARDISED:legTimestampDifferenceMilliseconds[2]": {
+              "id": null,
+              "type": null,
+              "valueType": "INT",
+              "value": 10800000,
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            }
+          }
+        },
+        "changeHistory": null
+      },
+      "seizure": null,
+      "detainment": null
+    }
+  }
+}
