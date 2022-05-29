@@ -16,9 +16,17 @@ $govuk-font-family: 'GDS Transport', arial, sans-serif;
   }
 }
 
-.vertical-dotted-line {
+.vertical-dotted-line__second,
+.vertical-dotted-line__first {
   height: inherit;
   border-left: 4px dotted #b1b4b6;
+}
+
+.govuk-task-details {
+  &__col-2, 
+  &__col-3 {
+    padding-left: 10px;
+  }
 }
 
 .bottom-border-thin {
@@ -54,5 +62,26 @@ $govuk-font-family: 'GDS Transport', arial, sans-serif;
 
   .co-travellers-table td {
     @extend .font_size; 
+  }
+}
+
+@media only screen and (max-width: 840px) {
+  .vertical-dotted-line__second,
+  .vertical-dotted-line__first {
+      border-left: 0px;
+  }
+
+  .govuk-task-details__col-2 {
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 1237px) {
+  .vertical-dotted-line__second {
+      border-left: 0px;
+  }
+
+  .govuk-task-details__col-3 {
+    padding-left: 0px;
   }
 }
