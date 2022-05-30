@@ -138,14 +138,7 @@ exports[`TaskVersions should render task versions 1`] = `
                   >
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
-                    >
-                      Date of birth
-                    </p>
-                    <p
-                      className="govuk-!-margin-bottom-0 font__bold"
-                    >
-                      Unknown
-                    </p>
+                    />
                   </div>
                   <div
                     className="govuk-!-margin-bottom-2"
@@ -153,12 +146,12 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
-                      Nationality
+                      Date of birth
                     </p>
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      Unknown (Unknown)
+                      Unknown
                     </p>
                   </div>
                   <div
@@ -195,10 +188,31 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
+                      Nationality
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown (Unknown)
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
+                  >
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
                       Departure status
                     </p>
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
+                    />
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
+                  >
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
                     />
                   </div>
                   <div
@@ -220,14 +234,20 @@ exports[`TaskVersions should render task versions 1`] = `
                   >
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
+                    />
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
+                  >
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
                     >
                       SSR codes
                     </p>
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      DOCS
-                      AUTH
+                      DOCS, AUTH
                     </p>
                   </div>
                 </div>
@@ -282,7 +302,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      United Kingdom (GB)
+                      France (FR)
                     </p>
                   </div>
                   <div
@@ -329,12 +349,12 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      14 Apr 1970
+                      Unknown
                     </p>
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
-                      48 years before travel
+                      4 years after travel
                     </p>
                   </div>
                   <div
@@ -348,7 +368,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      MESTA, Miss Gemma
+                      MESTA, GEMMA
                     </p>
                   </div>
                   <div
@@ -362,7 +382,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      14 Apr 1970
+                      Unknown
                     </p>
                   </div>
                 </div>
@@ -424,7 +444,7 @@ exports[`TaskVersions should render task versions 1`] = `
                       <p
                         className="govuk-!-margin-bottom-0 font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </p>
                       <p
                         className="govuk-!-margin-bottom-0 font__light"

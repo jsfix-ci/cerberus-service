@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAMES, TASK_STATUS_NEW } from '../../../constants';
+import { FORM_NAMES, TASK_STATUS_NEW, NOTE_VARIANT } from '../../../constants';
 import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -16,7 +16,7 @@ import { findAndUpdateTaskVersionDifferences } from '../../../utils/findAndUpdat
 import ClaimButton from '../../../components/ClaimTaskButton';
 import RenderForm from '../../../components/RenderForm';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import TaskNotes from '../../../components/v2/TaskNotes';
+import TaskNotes from '../../../components/TaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
 import Button from '../../../govuk/Button';
@@ -396,6 +396,7 @@ const TaskDetailsPage = () => {
             </div>
             <div className="govuk-grid-column-one-third">
               <TaskNotes
+                noteVariant={NOTE_VARIANT.RORO}
                 displayForm={assignee === currentUser}
                 businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                 processInstanceId={processInstanceId}
