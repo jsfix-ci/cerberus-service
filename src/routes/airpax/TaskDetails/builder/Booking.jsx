@@ -44,6 +44,7 @@ const Booking = ({ version }) => {
           DateTimeUtil.format(BookingUtil.bookedAt(booking), LONG_DATE_FORMAT),
           toBookingTimeDiference(booking, version),
         ])}
+        {renderBlock(undefined, undefined)}
         {renderBlock('Booking country', [
           `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(
             booking,
@@ -53,10 +54,14 @@ const Booking = ({ version }) => {
         {renderBlock('Ticket number', [BookingUtil.ticketNumber(ticket)])}
         {renderBlock('Ticket type', [BookingUtil.ticketType(ticket)])}
       </div>
-      <div className="bottom-border-thin">
-        <span className="font__light">Payments</span>
-      </div>
-      {BookingUtil.paymentsBlock(booking)}
+      {BookingUtil.containsPayments(booking) ? (
+        <>
+          <div className="bottom-border-thin">
+            <span className="font__light">Payments</span>
+          </div>
+          {BookingUtil.paymentsBlock(booking)}
+        </>
+      ) : <div className="bottom-border-thin" />}
       <div className="govuk-task-details-grid-column govuk-!-margin-top-3">
         {renderBlock('Agent IATA', [BookingUtil.agentIata(agent)])}
         {renderBlock('Agent location', [BookingUtil.agentLocation(agent)])}
