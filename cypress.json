@@ -8,7 +8,7 @@
   "execTimeout": 120000,
   "pageLoadTimeout": 600000,
   "chromeWebSecurity": false,
-  "testFiles": "**/cerberus/*.js",
+  "testFiles": "**/*/*.spec.js",
   "video": false,
   "watchForFileChanges": false,
   "reporter": "mochawesome",
