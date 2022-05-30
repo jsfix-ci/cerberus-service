@@ -394,6 +394,11 @@ Cypress.Commands.add('checkTaskDisplayed', (businessKey) => {
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
 });
 
+Cypress.Commands.add('checkAirPaxTaskDisplayed', (businessKey) => {
+  cy.visit(`/airpax/tasks/${businessKey}`);
+  cy.get('.govuk-caption-xl').should('have.text', businessKey);
+});
+
 Cypress.Commands.add('waitForNoErrors', () => {
   cy.get(formioErrorText).should('not.exist');
 });
@@ -1630,4 +1635,26 @@ Cypress.Commands.add('verifyDateTime', (elementName, dateTimeFormatted) => {
     'have.value',
     eta.format('mm'),
   );
+});
+
+Cypress.Commands.add('createAirPaxTask', (task) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/v2/movement-records`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(201);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('sendPNRrequest', () => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/v2/passenger-name-record-access-requests`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
 });
