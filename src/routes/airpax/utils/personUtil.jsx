@@ -61,11 +61,15 @@ const getFrequentFlyerNumber = (person) => {
   return person.frequentFlyerNumber;
 };
 
+const hasSSRCodes = (person) => {
+  return !!person?.ssrCodes?.length > 0;
+};
+
 const getSSRCodes = (person) => {
-  if (!person?.ssrCodes) {
+  if (!hasSSRCodes(person)) {
     return UNKNOWN_TEXT;
   }
-  return person.ssrCodes;
+  return person.ssrCodes.join(', ');
 };
 
 const toCoTravellers = (otherPersons) => {
