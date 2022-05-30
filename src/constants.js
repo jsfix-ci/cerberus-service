@@ -109,11 +109,6 @@ export const DEPARTURE_STATUS = {
   },
 };
 
-export const NOTE_VARIANT = {
-  RORO: 'RORO',
-  AIRPAX: 'AIRPAX',
-};
-
 export const PNR_USER_SESSION_ID = 'pnr-user-session';
 export const PNR_USER_DESCISION = {
   yes: {
@@ -130,4 +125,9 @@ export const PNR_USER_DESCISION = {
       title: 'Continue without viewing PNR data',
     },
   },
+};
+
+export const NOTE_VARIANT = {
+  RORO: 'RORO',
+  AIRPAX: 'AIRPAX',
 };
