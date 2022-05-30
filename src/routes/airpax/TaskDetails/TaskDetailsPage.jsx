@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // Config
 import config from '../../../config';
-import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
+import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED, NOTE_VARIANT } from '../../../constants';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -14,6 +14,7 @@ import ActivityLog from '../../../components/ActivityLog';
 import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskVersions from './TaskVersions';
+import TaskNotes from '../../../components/TaskNotes';
 
 // Styling
 import '../__assets__/TaskDetailsPage.scss';
@@ -29,6 +30,7 @@ const TaskDetailsPage = () => {
   const [taskData, setTaskData] = useState();
   const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
   // TEMP VALUES FOR TESTING UNTIL API ACTIVE
   let tempData = {
@@ -78,18 +80,13 @@ const TaskDetailsPage = () => {
   }, [taskData, setAssignee, setLoading]);
 
   useEffect(() => {
-    getTaskData(businessKey);
+    getTaskData();
     getAirlineCodes();
   }, [businessKey]);
 
-  // TEMP NOTES FORM FOR TESTING
-  const AddANoteForm = () => {
-    return (
-      <div>
-        Add a new note
-      </div>
-    );
-  };
+  useEffect(() => {
+    getTaskData();
+  }, [refreshNotesForm]);
 
   if (isLoading) {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
@@ -125,7 +122,15 @@ const TaskDetailsPage = () => {
           )}
         </div>
         <div className="govuk-grid-column-one-third">
-          {currentUser === assignee && <AddANoteForm />}
+          {currentUser === assignee
+            && (
+            <TaskNotes
+              noteVariant={NOTE_VARIANT.AIRPAX}
+              displayForm={assignee === currentUser}
+              businessKey={businessKey}
+              setRefreshNotesForm={setRefreshNotesForm}
+            />
+            )}
           <ActivityLog
             activityLog={taskData?.notes}
           />
