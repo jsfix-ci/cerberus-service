@@ -16,7 +16,7 @@ describe('Passenger', () => {
         gender: 'M',
         nationality: 'GBR',
         document: null,
-        ssrCodes: 'ABCDEFGHI',
+        ssrCodes: ['ABCDEFGHI'],
         frequentFlyerNumber: 123456,
       },
       flight: {
