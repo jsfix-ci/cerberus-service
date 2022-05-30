@@ -1,5 +1,6 @@
 import React from 'react';
 import airports from '@nitro-land/airport-codes';
+import lookup from 'country-code-lookup';
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
 import { UNKNOWN_TEXT,
@@ -17,20 +18,6 @@ import { getTotalNumberOfPersons } from './personUtil';
 
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
-
-const getItineraryArrivalCountryCode = (itinerary) => {
-  if (!itinerary?.arrival?.country) {
-    return UNKNOWN_TEXT;
-  }
-  return itinerary.arrival.country;
-};
-
-const getItineraryDepartureCountryCode = (itinerary) => {
-  if (!itinerary?.departure?.country) {
-    return UNKNOWN_TEXT;
-  }
-  return itinerary.departure.country;
-};
 
 const getItineraryFlightNumber = (itinerary) => {
   if (!itinerary?.id) {
@@ -177,6 +164,50 @@ const getArrivalLocation = (journey) => {
     return UNKNOWN_TEXT;
   }
   return journey.arrival.location;
+};
+
+/**
+ * If country code is not provided, it will use the arrival location
+ * to extract the arrival country code.
+ */
+const getItineraryArrivalCountryCode = (itinerary) => {
+  if (!itinerary?.arrival?.country) {
+    const arrivalLoc = getArrivalLocation(itinerary);
+    if (!arrivalLoc) {
+      return UNKNOWN_TEXT;
+    }
+    const arrivalCountry = getByIataCode(arrivalLoc)?.get('country');
+    if (!arrivalCountry) {
+      return UNKNOWN_TEXT;
+    }
+    if (lookup.byCountry(arrivalCountry) !== null) {
+      return lookup.byCountry(arrivalCountry).iso2;
+    }
+    return UNKNOWN_TEXT;
+  }
+  return itinerary.arrival.country;
+};
+
+/**
+ * If country code is not provided, it will use the departure location
+ * to extract the arrival country code.
+ */
+const getItineraryDepartureCountryCode = (itinerary) => {
+  if (!itinerary?.departure?.country) {
+    const departureLoc = getDepartureLocation(itinerary);
+    if (!departureLoc) {
+      return UNKNOWN_TEXT;
+    }
+    const departureCountry = getByIataCode(departureLoc)?.get('country');
+    if (!departureCountry) {
+      return UNKNOWN_TEXT;
+    }
+    if (lookup.byCountry(departureCountry) !== null) {
+      return lookup.byCountry(departureCountry).iso2;
+    }
+    return UNKNOWN_TEXT;
+  }
+  return itinerary.departure.country;
 };
 
 const getFlightNumber = (flight) => {
