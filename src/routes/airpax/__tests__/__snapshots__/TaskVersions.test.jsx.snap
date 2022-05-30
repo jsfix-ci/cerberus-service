@@ -389,10 +389,10 @@ exports[`TaskVersions should render task versions 1`] = `
               </div>
             </div>
             <div
-              className="govuk-grid-column-one-third vertical-dotted-line"
+              className="govuk-grid-column-one-third vertical-dotted-line__first"
             >
               <div
-                className="govuk-task-details-col-2"
+                className="govuk-task-details__col-2"
               >
                 <div
                   className="task-details-container"
@@ -595,10 +595,10 @@ exports[`TaskVersions should render task versions 1`] = `
               </div>
             </div>
             <div
-              className="govuk-grid-column-one-third vertical-dotted-line"
+              className="govuk-grid-column-one-third vertical-dotted-line__second"
             >
               <div
-                className="govuk-task-details-col-3"
+                className="govuk-task-details__col-3"
               >
                 <div
                   className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
@@ -894,11 +894,9 @@ exports[`TaskVersions should render task versions 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4"
-          >
+          <div>
             <div
-              className="font__bold"
+              className="co-travellers-container font__bold govuk-!-padding-top-2 govuk-!-margin-bottom-4"
             >
               <h3
                 className="govuk-heading-m govuk-!-margin-bottom-0"

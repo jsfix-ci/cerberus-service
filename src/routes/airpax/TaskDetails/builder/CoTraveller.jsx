@@ -110,7 +110,7 @@ const toRows = (allPersons, version) => {
 const CoTraveller = ({ version }) => {
   const allPersons = PersonUtil.allPersons(PersonUtil.get(version), PersonUtil.getOthers(version));
   return (
-    <div className="font__bold">
+    <div className="co-travellers-container font__bold govuk-!-padding-top-2 govuk-!-margin-bottom-4">
       <h3 className="govuk-heading-m govuk-!-margin-bottom-0">
         {pluralise.withCount(PersonUtil.totalPersons(version), '% traveller', '% travellers', undefined)}
       </h3>

@@ -61,19 +61,19 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
                     <Passenger version={version} />
                     <Document version={version} />
                   </div>
-                  <div className="govuk-grid-column-one-third vertical-dotted-line">
-                    <div className="govuk-task-details-col-2">
+                  <div className="govuk-grid-column-one-third vertical-dotted-line__first">
+                    <div className="govuk-task-details__col-2">
                       <Booking version={version} />
                     </div>
                   </div>
-                  <div className="govuk-grid-column-one-third vertical-dotted-line">
-                    <div className="govuk-task-details-col-3">
+                  <div className="govuk-grid-column-one-third vertical-dotted-line__second">
+                    <div className="govuk-task-details__col-3">
                       <Voyage version={version} airlineCodes={airlineCodes} />
                       <Itinerary version={version} />
                     </div>
                   </div>
                 </div>
-                <div className="co-travellers-container govuk-!-padding-top-2 govuk-!-margin-bottom-4">
+                <div>
                   <CoTraveller version={version} />
                 </div>
                 <div>
