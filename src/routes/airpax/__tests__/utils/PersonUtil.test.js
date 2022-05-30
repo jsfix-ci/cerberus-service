@@ -15,7 +15,7 @@ describe('PersonUtil', () => {
     gender: 'M',
     nationality: 'GBR',
     document: null,
-    ssrCodes: 'ABC',
+    ssrCodes: ['ABC'],
     frequentFlyerNumber: 123456,
   };
 
@@ -102,7 +102,7 @@ describe('PersonUtil', () => {
           gender: 'M',
           nationality: 'GBR',
           document: null,
-          ssrCodes: 'ABC',
+          ssrCodes: ['ABC'],
           frequentFlyerNumber: 123456,
         },
       },
@@ -127,7 +127,7 @@ describe('PersonUtil', () => {
             gender: 'M',
             nationality: 'GBR',
             document: null,
-            ssrCodes: 'ABC',
+            ssrCodes: ['ABC'],
             frequentFlyerNumber: 123456,
           },
         ],
@@ -260,7 +260,7 @@ describe('PersonUtil', () => {
 
   it('should return SSR codes if present', () => {
     const output = PersonUtil.ssrCodes(person);
-    expect(output).toEqual(person.ssrCodes);
+    expect(output).toEqual(person.ssrCodes.join(', '));
   });
 
   it('should calculate and return age if dob present', () => {
