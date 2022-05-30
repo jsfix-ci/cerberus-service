@@ -457,6 +457,13 @@ exports[`TaskVersions should render task versions 1`] = `
                     >
                       <p
                         className="govuk-!-margin-bottom-0 font__light"
+                      />
+                    </div>
+                    <div
+                      className="govuk-!-margin-bottom-2"
+                    >
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
                       >
                         Booking country
                       </p>
