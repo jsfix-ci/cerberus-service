@@ -77,7 +77,7 @@ const getPaymentAmount = (payment) => {
 };
 
 const hasPayments = (booking) => {
-  return !!booking?.payments;
+  return !!booking?.payments?.length > 0;
 };
 
 const getPayments = (booking) => {
@@ -217,6 +217,7 @@ const BookingUtil = {
   ticketNumber: getTicketNumber,
   ticketType: getTicketType,
   payments: getPayments,
+  containsPayments: hasPayments,
   paymentAmount: getPaymentAmount,
   paymentCard: getPaymentCard,
   cardLastFourDigits: getCardLastFourDigits,
