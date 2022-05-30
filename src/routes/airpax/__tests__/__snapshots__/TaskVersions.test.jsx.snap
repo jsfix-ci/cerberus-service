@@ -335,7 +335,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
-                      NaN years before travel
+                      52 years before travel
                     </p>
                   </div>
                   <div
