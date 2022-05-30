@@ -109,6 +109,24 @@ export const DEPARTURE_STATUS = {
   },
 };
 
+export const PNR_USER_SESSION_ID = 'pnr-user-session';
+export const PNR_USER_DESCISION = {
+  yes: {
+    text: {
+      title: 'You can now view PNR data.',
+      body: {
+        title: 'What happens next',
+        message1: 'Data up to 6 months old will be visible',
+      },
+    },
+  },
+  no: {
+    text: {
+      title: 'Continue without viewing PNR data',
+    },
+  },
+};
+
 export const NOTE_VARIANT = {
   RORO: 'RORO',
   AIRPAX: 'AIRPAX',
