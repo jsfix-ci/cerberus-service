@@ -70,6 +70,12 @@ module.exports = {
         secure: false,
         changeOrigin: true,
       },
+      '/v2': {
+        target: process.env.TARGETING_API_URL,
+        pathRewrite: { '^/v2': '' },
+        secure: false,
+        changeOrigin: true,
+      },
     },
   },
 };

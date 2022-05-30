@@ -69,6 +69,7 @@ Assuming you have nvm installed to manage your node versions of course!
   KEYCLOAK_CLIENT_ID=your-client-id \
   KEYCLOAK_REALM=realm \
   CERBERUS_API_URL=https://cerberus-api.example.com/ \
+  TARGETING_API_URL=https://localhost:9443/v2 \
   npm run start
 ```
 
