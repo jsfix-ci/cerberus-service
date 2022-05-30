@@ -42,10 +42,10 @@ const getDocument = (person) => {
 
 const getDocumentExpiry = (document, taskDetails = false) => {
   const expiryPrefix = 'Expires';
-  if (!document?.validTo) {
+  if (!document?.expiry) {
     return taskDetails ? UNKNOWN_TEXT : `${expiryPrefix} ${UNKNOWN_TEXT}`;
   }
-  return taskDetails ? `${getFormattedDate(document?.validTo, SHORT_DATE_FORMAT_ALT)}` : `${expiryPrefix} ${UNKNOWN_TEXT}`;
+  return taskDetails ? `${getFormattedDate(document?.expiry, SHORT_DATE_FORMAT_ALT)}` : `${expiryPrefix} ${getFormattedDate(document?.expiry, SHORT_DATE_FORMAT_ALT)}`;
 };
 
 const getDocumentValidity = (document, taskDetails = false) => {
@@ -53,7 +53,7 @@ const getDocumentValidity = (document, taskDetails = false) => {
   if (!document?.validFrom) {
     return taskDetails ? UNKNOWN_TEXT : `${validityPrefix} ${UNKNOWN_TEXT}`;
   }
-  return taskDetails ? `${getFormattedDate(document?.validFrom, SHORT_DATE_FORMAT_ALT)}` : `${validityPrefix} ${UNKNOWN_TEXT}`;
+  return taskDetails ? `${getFormattedDate(document?.validFrom, SHORT_DATE_FORMAT_ALT)}` : `${validityPrefix} ${getFormattedDate(document?.validFrom, SHORT_DATE_FORMAT_ALT)}`;
 };
 
 const getDocumentType = (document) => {
@@ -70,13 +70,13 @@ const getDocumentNumber = (document) => {
   return document.number;
 };
 
-const getDocumentName = (document) => {
-  if (!document?.name) {
+const getDocumentName = (person) => {
+  if (!person?.name) {
     return UNKNOWN_TEXT;
   }
-  const firstNames = document.name.split(' ');
-  const lastName = firstNames.pop();
-  return `${lastName.toUpperCase()}, ${firstNames.join(' ')}`;
+  const firstNames = person?.name?.first || UNKNOWN_TEXT;
+  const lastName = person?.name?.last || UNKNOWN_TEXT;
+  return `${lastName.toUpperCase()}, ${firstNames}`;
 };
 
 // TODO finish implementation once data flows through
@@ -99,8 +99,8 @@ const getDocumentCountryOfIssue = (document, taskDetails = false) => {
   }
 
   return lookup.byIso(document.countryOfIssue) !== null
-    ? `${lookup.byIso(document.countryOfIssue).country} (${document.countryOfIssue})`
-    : UNKNOWN_TEXT;
+    ? `${countryOfIssuePrefix} ${document.countryOfIssue}`
+    : `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
 };
 
 const getDocumentCountryOfIssueCode = (document) => {
@@ -110,13 +110,8 @@ const getDocumentCountryOfIssueCode = (document) => {
   return document.countryOfIssue;
 };
 
-const getDocumentNationality = (document) => {
-  if (!document?.nationality) {
-    return UNKNOWN_TEXT;
-  }
-  return lookup.byIso(document.nationality) !== null
-    ? `${lookup.byIso(document.nationality).country} (${document.nationality})`
-    : UNKNOWN_TEXT;
+const getDocumentNationality = (document, taskDetails = false) => {
+  return getDocumentCountryOfIssue(document, taskDetails);
 };
 
 const getDocumentDOB = (document) => {
