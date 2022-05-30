@@ -4,6 +4,10 @@ import { UNKNOWN_TEXT } from '../../../constants';
 
 dayjs.extend(utc);
 
+const getDate = () => {
+  return dayjs.utc().format();
+};
+
 const getFormattedDate = (date, dateFormat) => {
   if (!date) {
     return UNKNOWN_TEXT;
@@ -16,10 +20,11 @@ const toDateTimeList = (dateOne, dateTwo) => {
 };
 
 const DateTimeUtil = {
+  date: getDate,
   format: getFormattedDate,
   toList: toDateTimeList,
 };
 
 export default DateTimeUtil;
 
-export { getFormattedDate, toDateTimeList };
+export { getDate, getFormattedDate, toDateTimeList };

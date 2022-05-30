@@ -11,7 +11,7 @@ describe('DateTimeUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should return expected failure message when date is not present', () => {
+  it('should return unknown when date is not present', () => {
     const output = DateTimeUtil.format('', LONG_DATE_FORMAT);
     expect(output).toEqual(UNKNOWN_TEXT);
   });
@@ -23,6 +23,7 @@ describe('DateTimeUtil', () => {
     const output = DateTimeUtil.toList(dateOne, dateTwo);
 
     expect(Array.isArray(output)).toBeTruthy();
-    expect(output.length).toEqual(2);
+    expect(output).toHaveLength(2);
+    expect(output).toMatchObject([dateOne, dateTwo]);
   });
 });
