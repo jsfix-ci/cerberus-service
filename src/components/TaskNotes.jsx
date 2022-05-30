@@ -2,35 +2,34 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
-import config from '../../config';
+import config from '../config';
 // Utils
-import { FORM_NAMES } from '../../constants';
-import useAxiosInstance from '../../utils/axiosInstance';
-import { useFormSubmit } from '../../utils/formioSupport';
-import hyperlinkify from '../../utils/hyperlinkify';
-import { Renderers } from '../../utils/Form';
-import { useKeycloak } from '../../utils/keycloak';
+import { FORM_NAMES, NOTE_VARIANT } from '../constants';
+import useAxiosInstance from '../utils/axiosInstance';
+import { useFormSubmit } from '../utils/formioSupport';
+import hyperlinkify from '../utils/hyperlinkify';
+import { Renderers } from '../utils/Form';
+import { useKeycloak } from '../utils/keycloak';
 // Components / Pages
-import RenderForm from '../RenderForm';
+import RenderForm from './RenderForm';
 // JSON
-import noteCerberus from '../../cop-forms/noteCerberus';
+import noteCerberus from '../cop-forms/noteCerberus';
 
 // See Camunda docs for all operation types:
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }) => {
-  const keycloak = useKeycloak();
-  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
-  const submitForm = useFormSubmit();
-  const [activityLog, setActivityLog] = useState([]);
+const escapeJSON = (input) => {
+  return input.replace(/\\/g, '\\\\')
+    .replace(/\n/g, '\\n')
+    .replace(/"/g, '\\"');
+};
 
-  const escapeJSON = (input) => {
-    return input.replace(/\\/g, '\\\\')
-      .replace(/\n/g, '\\n')
-      .replace(/"/g, '\\"');
-  };
+const RoRoTaskNotes = ({ keycloak, displayForm, businessKey, processInstanceId, refreshNotes }) => {
+  const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
+  const [activityLog, setActivityLog] = useState([]);
+  const submitForm = useFormSubmit();
 
   const getNotes = async () => {
     const [
@@ -73,10 +72,6 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }
         if ([OPERATION_TYPE_CLAIM, OPERATION_TYPE_ASSIGN].includes(operation.operationType)) {
           return operation.newValue ? 'User has claimed the task' : 'User has unclaimed the task';
         }
-        /*
-         * Line below left as commented out in the event that line affected other parts of the system
-         */
-        // return `Property ${operation.property} changed from ${operation.orgValue || 'none'} to ${operation.newValue || 'none'}`;
         return null;
       };
       return {
@@ -150,6 +145,61 @@ const TaskNotes = ({ displayForm, businessKey, processInstanceId, refreshNotes }
         }
       })}
     </>
+  );
+};
+
+const AirpaxTaskNotes = ({ keycloak, displayForm, businessKey, setRefreshNotesForm }) => {
+  const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  return (
+    <>
+      {displayForm && (
+        <RenderForm
+          preFillData={{ businessKey }}
+          onSubmit={
+            async (data) => {
+              data.data.note = escapeJSON(data.data.note);
+              await apiClient.post(`/targeting-tasks/${businessKey}/notes`, [{
+                content: data.data.note,
+                userId: data.data.form.submittedBy,
+              }]);
+              setRefreshNotesForm(true);
+            }
+          }
+          form={noteCerberus}
+          renderer={Renderers.REACT}
+        />
+      )}
+    </>
+  );
+};
+
+const TaskNotes = ({ noteVariant,
+  displayForm,
+  businessKey,
+  processInstanceId,
+  refreshNotes,
+  setRefreshNotesForm }) => {
+  const keycloak = useKeycloak();
+
+  if (noteVariant === NOTE_VARIANT.RORO) {
+    return (
+      <RoRoTaskNotes
+        keycloak={keycloak}
+        displayForm={displayForm}
+        businessKey={businessKey}
+        processInstanceId={processInstanceId}
+        refreshNotes={refreshNotes}
+      />
+    );
+  }
+
+  return (
+    <AirpaxTaskNotes
+      keycloak={keycloak}
+      displayForm={displayForm}
+      businessKey={businessKey}
+      setRefreshNotesForm={setRefreshNotesForm}
+    />
   );
 };
 

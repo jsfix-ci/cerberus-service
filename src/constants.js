@@ -108,3 +108,8 @@ export const DEPARTURE_STATUS = {
     code: 'DX',
   },
 };
+
+export const NOTE_VARIANT = {
+  RORO: 'RORO',
+  AIRPAX: 'AIRPAX',
+};
