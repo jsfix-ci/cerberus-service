@@ -1658,3 +1658,23 @@ Cypress.Commands.add('sendPNRrequest', () => {
     expect(response.status).to.eq(200);
   });
 });
+
+Cypress.Commands.add(('getairPaxDocument'), (elements) => {
+  const occupantArray = [];
+  cy.wrap(elements).find('div').each((detail) => {
+    let obj = {};
+    cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+      cy.wrap(detail).find('.font__bold').invoke('text')
+        .then((value) => {
+          obj[key] = value;
+        });
+    })
+      .then(() => {
+        console.log(obj);
+        occupantArray.push(obj);
+      });
+  }).then(() => {
+    console.log(occupantArray);
+    return occupantArray;
+  });
+});
