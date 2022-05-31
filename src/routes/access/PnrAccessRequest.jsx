@@ -62,16 +62,18 @@ const PnrAccessRequest = ({ children }) => {
                   onSubmit={
                     async (data) => {
                       try {
+                        let postParam = { requested: false };
                         if (data.data.viewPnrData === RESPONSE.yes) {
-                          const response = await taskApiClient.post(
-                            '/passenger-name-record-access-requests',
-                            undefined,
-                            { headers: { Authorization: `Bearer ${keycloak.token}` } },
-                          );
-                          storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
-                        } else {
-                          storeSession(PNR_USER_SESSION_ID, keycloak.sessionId, false);
+                          postParam.requested = true;
                         }
+                        const response = await taskApiClient.post(
+                          '/passenger-name-record-access-requests', postParam, {
+                            headers: {
+                              Authorization: `Bearer ${keycloak.token}`,
+                            },
+                          },
+                        );
+                        storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
                       } catch (e) {
                         setSubmitted(false);
                       } finally {
