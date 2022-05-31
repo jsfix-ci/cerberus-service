@@ -1,108 +1,152 @@
 {
   "movement" : {
-  "status": "PRE_ARRIVAL",
-  "mode": "AIR_PASSENGER",
-  "description": "individual",
-  "groupSize": 1,
-  "booking": {
-    "reference": "PONQVFT",
-    "type": null,
-    "paymentMethod": null,
-    "bookedAt": null,
-    "checkInAt": "2019-07-20T16:43:35Z",
-    "ticket": {
-      "number": "AL12345",
+    "id": "AIRPAX_248327:CMID=TEST",
+    "status": "PRE_ARRIVAL",
+    "mode": "AIR_PASSENGER",
+    "description": "individual",
+    "groupSize": 1,
+    "booking": {
+      "reference": "LSV4UV",
       "type": null,
-      "price": null
-    },
-    "country": null,
-    "payments": [],
-    "agent": {
-      "iata": "890534932",
-      "location": "LHR, GB"
-    }
-  },
-  "journey": {
-    "id": "BA0103",
-    "arrival": {
+      "paymentMethod": null,
+      "bookedAt": null,
+      "checkInAt": "2019-07-20T16:43:35Z",
+      "ticket": {
+        "number": "AL12345",
+        "type": null,
+        "price": null
+      },
       "country": null,
-      "location": "YYC",
-      "time": "2019-07-21T18:35:00Z"
-    },
-    "departure": {
-      "country": null,
-      "location": "LHR",
-      "time": "2019-07-21T16:40:00Z"
-    },
-    "route": [
-      "LHR",
-      "YYC"
-    ],
-    "itinerary": [
-      {
-        "id": "BA0103",
-        "arrival": {
-          "country": null,
-          "location": "YYC",
-          "time": "2019-07-21T18:35:00Z"
+      "payments": [
+        {
+          "amount": 2190.48,
+          "card": {
+            "number": "30XXXXXXXXXXX63X",
+            "expiry": "2020-10-01T00:00:00Z"
+          }
         },
-        "departure": {
-          "country": null,
-          "location": "LHR",
-          "time": "2019-07-21T16:40:00Z"
-        },
-        "duration": 6900000
+        {
+          "amount": 2190.48,
+          "card": {
+            "number": "30XXXXXXXXXXX63X",
+            "expiry": "2020-10-01T00:00:00Z"
+          }
+        }
+      ],
+      "agent": {
+        "iata": "890534932",
+        "location": "LHR, GB"
       }
-    ],
-    "duration": 6900000
-  },
-  "vessel": null,
-  "person": {
-    "entitySearchUrl": null,
-    "name": {
-      "first": "ZUES CARLO",
-      "last": "BATZ STOUP",
-      "full": "ZUES CARLO BATZ STOUP"
     },
-    "role": "PASSENGER",
-    "dateOfBirth": "1976-12-10T00:00:00Z",
-    "gender": "M",
-    "nationality": "GB",
-    "document": {
+    "journey": {
+      "id": "BA0103",
+      "arrival": {
+        "country": null,
+        "location": "YYC",
+        "time": "2019-07-21T18:35:00Z"
+      },
+      "departure": {
+        "country": null,
+        "location": "LHR",
+        "time": "2019-07-21T16:40:00Z"
+      },
+      "route": [
+        "CDG",
+        "YYZ",
+        "YYC",
+        "LHR"
+      ],
+      "itinerary": [
+        {
+          "id": "AC0850",
+          "arrival": {
+            "country": "CA",
+            "location": "YYZ",
+            "time": "2018-10-03T13:05:00Z"
+          },
+          "departure": {
+            "country": "FR",
+            "location": "CDG",
+            "time": "2018-10-03T11:00:00Z"
+          },
+          "duration": 7500000
+        },
+        {
+          "id": "BD0998",
+          "arrival": {
+            "country": "CA",
+            "location": "YYC",
+            "time": "2018-10-03T18:16:00Z"
+          },
+          "departure": {
+            "country": "CA",
+            "location": "YYZ",
+            "time": "2018-10-03T16:05:00Z"
+          },
+          "duration": 7860000
+        },
+        {
+          "id": "XZ0123",
+          "arrival": {
+            "country": "GB",
+            "location": "LHR",
+            "time": "2018-10-03T21:19:20Z"
+          },
+          "departure": {
+            "country": "CA",
+            "location": "YYC",
+            "time": "2018-10-03T18:32:40Z"
+          },
+          "duration": 10000000
+        }
+      ],
+      "duration": 6900000
+    },
+    "vessel": null,
+    "person": {
       "entitySearchUrl": null,
-      "type": "PASSPORT",
-      "number": "119039375",
-      "validFrom": "2018-04-27T00:00:00Z",
-      "expiry": "2023-04-26T00:00:00Z",
-      "countryOfIssue": "GB"
+      "name": {
+        "first": "ZUES CARLO",
+        "last": "BATZ STOUP",
+        "full": "ZUES CARLO BATZ STOUP"
+      },
+      "role": "PASSENGER",
+      "dateOfBirth": "1976-12-10T00:00:00Z",
+      "gender": "M",
+      "nationality": "GB",
+      "document": {
+        "entitySearchUrl": null,
+        "type": "PASSPORT",
+        "number": "119039375",
+        "validFrom": "2018-04-27T00:00:00Z",
+        "expiry": "2023-04-26T00:00:00Z",
+        "countryOfIssue": "GB"
+      },
+      "movementStats": null,
+      "frequentFlyerNumber": "680419104BA",
+      "ssrCodes": [
+        "DOCS",
+        "AUTH"
+      ]
     },
-    "movementStats": null,
-    "frequentFlyerNumber": "680419104BA",
-    "ssrCodes": [
-      "FQTV",
-      "RQST",
-      "FQTR"
-    ]
-  },
-  "otherPersons": [],
-  "flight": {
-    "departureStatus": "DEPARTURE_CONFIRMED",
-    "number": "BA0103",
-    "operator": "BA",
-    "seatNumber": "34A"
-  },
-  "baggage": {
-    "numberOfCheckedBags": null,
-    "weight": null,
-    "tags": []
-  },
-  "vehicle": null,
-  "trailer": null,
-  "goods": null,
-  "haulier": null,
-  "account": null,
-  "booker": null,
-  "occupants": null
-
+    "otherPersons": [],
+    "flight": {
+      "departureStatus": "DEPARTURE_CONFIRMED",
+      "number": "BA0103",
+      "operator": "BA",
+      "seatNumber": "34A"
+    },
+    "baggage": {
+      "numberOfCheckedBags": null,
+      "weight": null,
+      "tags": []
+    },
+    "vehicle": null,
+    "trailer": null,
+    "goods": null,
+    "haulier": null,
+    "account": null,
+    "booker": null,
+    "occupants": null
   }
 }
