@@ -85,3 +85,17 @@ $govuk-font-family: 'GDS Transport', arial, sans-serif;
     padding-left: 0px;
   }
 }
+
+.task-heading {
+  margin-bottom: auto !important;
+  margin-top: auto !important;
+}
+
+.task-list--assignee {
+  padding-right: 0px !important;
+  margin-right: 2px;
+}
+
+.task-list--voyage-section {
+  margin-top: 5px !important;
+}
