@@ -1,7 +1,7 @@
 describe('Verify AirPax task details of different sections', () => {
   before(() => {
     cy.login(Cypress.env('userName'));
-    cy.sendPNRrequest();
+    cy.acceptPNRTerms();
   });
 
   it('Should check document section of the airPax task', () => {

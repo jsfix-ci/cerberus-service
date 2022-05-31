@@ -1,7 +1,7 @@
 describe('Create AirPax task and verify it on UI', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.sendPNRrequest();
+    cy.acceptPNRTerms();
   });
 
   it('Should create an AirPax task and verify the expected Payload', () => {
@@ -12,18 +12,17 @@ describe('Create AirPax task and verify it on UI', () => {
         expect(response.movement.id).to.contain('AIRPAX');
         console.log(response);
         cy.fixture('airpax/airpax-expected-response.json').then((expectedResponse) => {
-          expect(expectedResponse.flight).to.deep.equal(response.movement.flight);
-          expect(response.movement.person.ssrCodes).to.deep.equal(expectedResponse.person.ssrCodes);
-          expect(response.movement.otherPersons[0].ssrCodes).to.deep.equal(expectedResponse.otherPersons[0].ssrCodes);
-          expect(expectedResponse.baggage).to.deep.equal(response.movement.baggage);
-          expect(expectedResponse.person).to.deep.equal(response.movement.person);
-          expect(expectedResponse.journey.arrival).to.deep.equal(response.movement.journey.arrival);
-          expect(expectedResponse.journey.departure).to.deep.equal(response.movement.journey.departure);
-          expect(expectedResponse.journey.route).to.deep.equal(response.movement.journey.route);
-          expect(expectedResponse.journey.itinerary).to.deep.equal(response.movement.journey.itinerary);
-          expect(expectedResponse.booking.payments).to.deep.equal(response.movement.booking.payments);
-          expect(expectedResponse.booking.agent).to.deep.equal(response.movement.booking.agent);
-          expect(expectedResponse.booking.ticket).to.deep.equal(response.movement.booking.ticket);
+          expect(expectedResponse.movement.flight).to.deep.equal(response.movement.flight);
+          expect(expectedResponse.movement.person.ssrCodes).to.deep.equal(response.movement.person.ssrCodes);
+          expect(expectedResponse.movement.baggage).to.deep.equal(response.movement.baggage);
+          expect(expectedResponse.movement.person).to.deep.equal(response.movement.person);
+          expect(expectedResponse.movement.journey.arrival).to.deep.equal(response.movement.journey.arrival);
+          expect(expectedResponse.movement.journey.departure).to.deep.equal(response.movement.journey.departure);
+          expect(expectedResponse.movement.journey.route).to.deep.equal(response.movement.journey.route);
+          expect(expectedResponse.movement.journey.itinerary).to.deep.equal(response.movement.journey.itinerary);
+          expect(expectedResponse.movement.booking.payments).to.deep.equal(response.movement.booking.payments);
+          expect(expectedResponse.movement.booking.agent).to.deep.equal(response.movement.booking.agent);
+          expect(expectedResponse.movement.booking.ticket).to.deep.equal(response.movement.booking.ticket);
         });
       });
     });
