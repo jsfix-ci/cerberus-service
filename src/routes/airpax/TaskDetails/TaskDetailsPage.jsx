@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // Config
 import config from '../../../config';
-import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED, NOTE_VARIANT } from '../../../constants';
+import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, NOTE_VARIANT } from '../../../constants';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -18,6 +18,7 @@ import TaskNotes from '../../../components/TaskNotes';
 
 // Styling
 import '../__assets__/TaskDetailsPage.scss';
+import Button from '../../../govuk/Button';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -32,28 +33,16 @@ const TaskDetailsPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
-  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  let tempData = {
-    data: {
-      // paste mock data here
-    },
-  };
-
   const getTaskData = async () => {
     let response;
     try {
       response = await apiClient.get(`/targeting-tasks/${businessKey}`);
-      setTaskData(response.data);
-    } catch {
-      // until API is ready we set the temp data in the catch
-      // this will be changed to the error handling
-      response = tempData;
-
-      // findAndUpdateTaskVersionDifferences is a mutable function
       const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(response.data.versions);
       setTaskData({
         ...response.data, taskVersionDifferencesCounts: differencesCounts,
       });
+    } catch (e) {
+      setTaskData({});
     }
   };
 
@@ -108,6 +97,27 @@ const TaskDetailsPage = () => {
               buttonType="textLink"
             />
             )}
+        </div>
+        <div className="govuk-grid-column-one-half task-actions--buttons">
+          {assignee === currentUser && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
+          <>
+            <Button
+              className="govuk-!-margin-right-1"
+            >
+              Issue target
+            </Button>
+            <Button
+              className="govuk-button--secondary govuk-!-margin-right-1"
+            >
+              Assessment complete
+            </Button>
+            <Button
+              className="govuk-button--warning"
+            >
+              Dismiss
+            </Button>
+          </>
+          )}
         </div>
       </div>
       <div className="govuk-grid-row">

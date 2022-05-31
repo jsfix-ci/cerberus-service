@@ -9,6 +9,7 @@ import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fix
 import dataNoAssignee from '../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
 import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
 import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
+import dataClaimedTask from '../__fixtures__/taskData_AirPax_ClaimedTask.fixture.json';
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 // Extend the react-router-dom mock from jest.setup.jsx.
@@ -149,14 +150,26 @@ describe('Task details page', () => {
     expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
 
-  // it('should refresh page with task now assigned to current user when "claim task" is clicked)
-  // it('should show "Please wait..." while claim/unclaim task is processing)
-  // it('should show "Already assigned to another user" if claim task process fails while claiming due to already assigned)
-  // it('should refresh page with task now unassigned when "unclaim task" is clicked)
+  it('should not show action buttons for unclaim tasks', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataTargetIssued);
 
-  // it('should not render action forms when target task type is not equal to "developTarget"', async () => {
-  // });
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
+    expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
+  });
 
-  // it('should render Issue Target button when current user is assigned user, and open issue target form on click', () => {
-  // });
+  it('should show action buttons for claimed tasks', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataClaimedTask);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
+    expect(screen.queryByText('Dismiss')).toBeInTheDocument();
+    expect(screen.queryByText('Issue target')).toBeInTheDocument();
+    expect(screen.queryByText('Assessment complete')).toBeInTheDocument();
+  });
 });
