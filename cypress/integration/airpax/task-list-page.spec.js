@@ -1,6 +1,7 @@
 describe('Airpax task list page', () => {
   before(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
   it('Should verify task container list for airpax/tasks', () => {
     cy.visit('/airpax/tasks');
@@ -19,7 +20,6 @@ describe('Airpax task list page', () => {
   });
 
   after(() => {
-    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
