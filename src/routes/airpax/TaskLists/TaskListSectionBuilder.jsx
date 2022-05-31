@@ -1,19 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { INDIVIDUAL_ICON } from '../../../constants';
+import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
 
 // Utils
 import { BaggageUtil, DateTimeUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 
+// Component
+import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
+
 const renderModeSection = (targetTask) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${INDIVIDUAL_ICON}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{MovementUtil.description(targetTask)}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
+        {MovementUtil.description(targetTask)}
+      </p>
       <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
-        <span className="govuk-font-weight-bold">{MovementUtil.movementType(targetTask)} {MovementUtil.status(targetTask)}</span>
+        <span className="govuk-font-weight-bold">
+          {MovementUtil.movementType(targetTask)} {MovementUtil.status(targetTask)}
+        </span>
       </span>
     </div>
   );
@@ -29,7 +36,8 @@ const renderVoyageSection = (targetTask, airlineCodes) => {
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-aircraft" />
       <p className="content-line-one govuk-!-padding-right-2">
-        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)}, flight ${MovementUtil.flightNumber(flight)}, 
+        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)}, 
+        flight ${MovementUtil.flightNumber(flight)}, 
         ${calculateTimeDifference(dateTimeList, 'arrival')}`}
       </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
@@ -46,10 +54,36 @@ const renderVoyageSection = (targetTask, airlineCodes) => {
   );
 };
 
-// eslint-disable-next-line no-unused-vars
-const buildTaskTitleSection = (targetTask) => {
+const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
   return (
-    <></>
+    <section>
+      <div>
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-two-thirds">
+            <div className="task-title-container govuk-!-padding-top-2 govuk-!-padding-left-2">
+              <h4 className="govuk-heading-s task-heading">
+                {targetTask.id}
+              </h4>
+            </div>
+          </div>
+          <div className="govuk-grid-column-one-third govuk-!-padding-right-3">
+            <div className="claim-button-container">
+              {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
+            && (
+            <ClaimUnclaimTask
+              currentUser={currentUser}
+              assignee={targetTask.assignee}
+              businessKey={targetTask.id}
+              source={`/airpax/tasks/${targetTask.id}`}
+              buttonType="button"
+            />
+            )}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
   );
 };
 

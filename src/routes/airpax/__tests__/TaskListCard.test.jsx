@@ -14,6 +14,7 @@ describe('TaskListCard', () => {
 
   it('should render the task list card for a target task', () => {
     render(<TaskListCard targetTask={targetTask} airlineCodes={airlineCodesMin} />);
+    expect(screen.getByText('DEV-20220419-001')).toBeInTheDocument();
     expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('DC')).toBeInTheDocument();
     expect(screen.getByText('British Airways, flight BA103, arrival Unknown')).toBeInTheDocument();
