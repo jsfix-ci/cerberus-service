@@ -12,7 +12,7 @@ export default {
       title: 'Do you need to view Passenger Name Record (PNR) data',
       components: [
         'This includes both new PNR data, and data older than 6 months.',
-        "You only need access if you're working to prevent, detect or investivate terrorist offencesor serious crime, or to protect the vital interests of an individual.",
+        'You only need access if you\'re working to prevent, detect or investigate terrorist offences or serious crime, or to protect the vital interests of an individual.',
         'This has to be a necessary and proportionate requirement of the work you are doing.',
         {
           id: 'viewPnrData',

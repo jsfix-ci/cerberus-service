@@ -1,7 +1,9 @@
 import React from 'react';
-import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
-import { buildVoyageSection, buildMovementInfoSection, buildTargetIndicatorsSection } from './TaskListSectionBuilder';
-import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
+
+import { buildVoyageSection,
+  buildMovementInfoSection,
+  buildTargetIndicatorsSection,
+  buildTaskTitleSection } from './TaskListSectionBuilder';
 
 const TaskListCard = ({
   targetTask,
@@ -11,19 +13,8 @@ const TaskListCard = ({
 }) => {
   return (
     <div className="govuk-task-list-card">
-      <div className="claim-button-container">
-        {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
-            && (
-            <ClaimUnclaimTask
-              currentUser={currentUser}
-              assignee={targetTask.assignee}
-              businessKey={targetTask.id}
-              source={`/airpax/tasks/${targetTask.id}`}
-              buttonType="button"
-            />
-            )}
-      </div>
       <div className="card-container">
+        {buildTaskTitleSection(targetTask, currentUser, taskStatus)}
         {buildVoyageSection(targetTask, airlineCodes)}
         {buildMovementInfoSection(targetTask)}
         {buildTargetIndicatorsSection(targetTask)}
