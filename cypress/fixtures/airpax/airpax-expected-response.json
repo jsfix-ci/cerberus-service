@@ -1,204 +1,152 @@
 {
-  "id": "AIRPAX_182508:CMID=TEST",
-  "status": "PRE_ARRIVAL",
-  "mode": "AIR_PASSENGER",
-  "description": "group",
-  "booking": {
-    "reference": "LSV4UV",
-    "type": null,
-    "paymentMethod": null,
-    "bookedAt": null,
-    "checkInAt": "2021-02-02T18:02:00Z",
-    "ticket": {
-      "number": "1234",
+  "movement" : {
+    "id": "AIRPAX_248327:CMID=TEST",
+    "status": "PRE_ARRIVAL",
+    "mode": "AIR_PASSENGER",
+    "description": "individual",
+    "groupSize": 1,
+    "booking": {
+      "reference": "LSV4UV",
       "type": null,
-      "price": null
-    },
-    "country": null,
-    "payments": [
-      {
-        "amount": 100.48,
-        "card": {
-          "number": "30XXXXXXXXXXX64X",
-          "expiry": "2020-10-02T00:00:00Z"
+      "paymentMethod": null,
+      "bookedAt": null,
+      "checkInAt": "2019-07-20T16:43:35Z",
+      "ticket": {
+        "number": "AL12345",
+        "type": null,
+        "price": null
+      },
+      "country": null,
+      "payments": [
+        {
+          "amount": 2190.48,
+          "card": {
+            "number": "30XXXXXXXXXXX63X",
+            "expiry": "2020-10-01T00:00:00Z"
+          }
+        },
+        {
+          "amount": 2190.48,
+          "card": {
+            "number": "30XXXXXXXXXXX63X",
+            "expiry": "2020-10-01T00:00:00Z"
+          }
         }
+      ],
+      "agent": {
+        "iata": "890534932",
+        "location": "LHR, GB"
+      }
+    },
+    "journey": {
+      "id": "BA0103",
+      "arrival": {
+        "country": null,
+        "location": "YYC",
+        "time": "2019-07-21T18:35:00Z"
       },
-      {
-        "amount": 2190.48,
-        "card": {
-          "number": "30XXXXXXXXXXX63X",
-          "expiry": "2020-10-01T00:00:00Z"
+      "departure": {
+        "country": null,
+        "location": "LHR",
+        "time": "2019-07-21T16:40:00Z"
+      },
+      "route": [
+        "CDG",
+        "YYZ",
+        "YYC",
+        "LHR"
+      ],
+      "itinerary": [
+        {
+          "id": "AC0850",
+          "arrival": {
+            "country": "CA",
+            "location": "YYZ",
+            "time": "2018-10-03T13:05:00Z"
+          },
+          "departure": {
+            "country": "FR",
+            "location": "CDG",
+            "time": "2018-10-03T11:00:00Z"
+          },
+          "duration": 7500000
+        },
+        {
+          "id": "BD0998",
+          "arrival": {
+            "country": "CA",
+            "location": "YYC",
+            "time": "2018-10-03T18:16:00Z"
+          },
+          "departure": {
+            "country": "CA",
+            "location": "YYZ",
+            "time": "2018-10-03T16:05:00Z"
+          },
+          "duration": 7860000
+        },
+        {
+          "id": "XZ0123",
+          "arrival": {
+            "country": "GB",
+            "location": "LHR",
+            "time": "2018-10-03T21:19:20Z"
+          },
+          "departure": {
+            "country": "CA",
+            "location": "YYC",
+            "time": "2018-10-03T18:32:40Z"
+          },
+          "duration": 10000000
         }
-      }
-    ],
-    "agent": {
-      "iata": "987654321",
-      "location": "Galway, IE"
-    }
-  },
-  "journey": {
-    "id": "AF1234",
-    "arrival": {
-      "country": "GB",
-      "location": "LHR",
-      "time": "2018-10-03T21:19:20Z"
+      ],
+      "duration": 6900000
     },
-    "departure": {
-      "country": "FR",
-      "location": "CDG",
-      "time": "2018-10-03T18:32:40Z"
-    },
-    "route": [
-      "CDG",
-      "YYZ",
-      "YYC",
-      "LHR"
-    ],
-    "itinerary": [
-      {
-        "id": "AF1234",
-        "arrival": {
-          "country": "CA",
-          "location": "YYZ",
-          "time": "2018-10-03T13:05:00Z"
-        },
-        "departure": {
-          "country": "FR",
-          "location": "CDG",
-          "time": "2018-10-03T11:00:00Z"
-        },
-        "duration": 7500000
-      },
-      {
-        "id": "BD0998",
-        "arrival": {
-          "country": "CA",
-          "location": "YYC",
-          "time": "2018-10-03T18:16:00Z"
-        },
-        "departure": {
-          "country": "CA",
-          "location": "YYZ",
-          "time": "2018-10-03T16:05:00Z"
-        },
-        "duration": 7860000
-      },
-      {
-        "id": "XZ0123",
-        "arrival": {
-          "country": "GB",
-          "location": "LHR",
-          "time": "2018-10-03T21:19:20Z"
-        },
-        "departure": {
-          "country": "CA",
-          "location": "YYC",
-          "time": "2018-10-03T18:32:40Z"
-        },
-        "duration": 10000000
-      }
-    ],
-    "duration": 10000000
-  },
-  "vessel": null,
-  "person": {
-    "entitySearchUrl": null,
-    "name": {
-      "first": "GEMMA",
-      "last": "MESTA",
-      "full": "GEMMA MESTA"
-    },
-    "role": "CREW",
-    "dateOfBirth": null,
-    "gender": null,
-    "nationality": null,
-    "document": null,
-    "movementStats": null,
-    "frequentFlyerNumber": "579419193A",
-    "ssrCodes": [
-      "DOCS",
-      "AUTH"
-    ]
-  },
-  "otherPersons": [
-    {
+    "vessel": null,
+    "person": {
       "entitySearchUrl": null,
       "name": {
-        "first": null,
-        "last": "MAUSSER",
-        "full": "MAUSSER"
+        "first": "ZUES CARLO",
+        "last": "BATZ STOUP",
+        "full": "ZUES CARLO BATZ STOUP"
       },
-      "role": "CREW",
-      "dateOfBirth": "1970-04-14T00:00:00Z",
-      "gender": "F",
-      "nationality": null,
-      "document": null,
-      "movementStats": null,
-      "frequentFlyerNumber": "0103812582A",
-      "ssrCodes": [
-        "DOCS",
-        "AUTH"
-      ]
-    },
-    {
-      "entitySearchUrl": null,
-      "name": {
-        "first": "SHARON",
-        "last": "MAUSSER",
-        "full": "SHARON MAUSSER"
-      },
-      "role": "CREW",
-      "dateOfBirth": null,
-      "gender": null,
-      "nationality": null,
-      "document": null,
-      "movementStats": null,
-      "frequentFlyerNumber": "763381878A",
-      "ssrCodes": [
-        "DOCS",
-        "AUTH"
-      ]
-    },
-    {
-      "entitySearchUrl": null,
-      "name": {
-        "first": null,
-        "last": null,
-        "full": null
-      },
-      "role": "CREW",
-      "dateOfBirth": "1967-06-10T00:00:00Z",
+      "role": "PASSENGER",
+      "dateOfBirth": "1976-12-10T00:00:00Z",
       "gender": "M",
-      "nationality": null,
-      "document": null,
+      "nationality": "GB",
+      "document": {
+        "entitySearchUrl": null,
+        "type": "PASSPORT",
+        "number": "119039375",
+        "validFrom": "2018-04-27T00:00:00Z",
+        "expiry": "2023-04-26T00:00:00Z",
+        "countryOfIssue": "GB"
+      },
       "movementStats": null,
-      "frequentFlyerNumber": "117174474A",
+      "frequentFlyerNumber": "680419104BA",
       "ssrCodes": [
         "DOCS",
         "AUTH"
       ]
-    }
-  ],
-  "flight": {
-    "departureStatus": "DEPARTURE_CONFIRMED",
-    "number": "AF1234",
-    "operator": "Air France",
-    "seatNumber": "21C"
-  },
-  "baggage": {
-    "numberOfCheckedBags": 3,
-    "weight": "32kg",
-    "tags": [
-      "739238",
-      "739239",
-      "739240"
-    ]
-  },
-  "vehicle": null,
-  "trailer": null,
-  "goods": null,
-  "haulier": null,
-  "account": null,
-  "booker": null,
-  "occupants": null
+    },
+    "otherPersons": [],
+    "flight": {
+      "departureStatus": "DEPARTURE_CONFIRMED",
+      "number": "BA0103",
+      "operator": "BA",
+      "seatNumber": "34A"
+    },
+    "baggage": {
+      "numberOfCheckedBags": null,
+      "weight": null,
+      "tags": []
+    },
+    "vehicle": null,
+    "trailer": null,
+    "goods": null,
+    "haulier": null,
+    "account": null,
+    "booker": null,
+    "occupants": null
+  }
 }

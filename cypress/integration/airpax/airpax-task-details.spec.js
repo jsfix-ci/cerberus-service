@@ -1,10 +1,10 @@
 describe('Verify AirPax task details of different sections', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.sendPNRrequest();
   });
 
   it('Should check document section of the airPax task', () => {
+    cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -20,6 +20,15 @@ describe('Verify AirPax task details of different sections', () => {
           });
         });
       });
+    });
+  });
+
+  it('Should check airPax task not visible if User not agreed for PNR terms', () => {
+    cy.doNotAcceptPNRTerms();
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.visit('/airpax/tasks');
+    cy.wait('@airpaxTask').then(({ response }) => {
+      expect(response.statusCode).to.be.equal(403);
     });
   });
 
