@@ -150,7 +150,7 @@ describe('Task details page', () => {
     expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
 
-  it('should not show action buttons for unclaim tasks', async () => {
+  it('should not show action buttons for unclaimed tasks', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataTargetIssued);
