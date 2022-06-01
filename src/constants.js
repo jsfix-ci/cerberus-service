@@ -131,3 +131,54 @@ export const NOTE_VARIANT = {
   RORO: 'RORO',
   AIRPAX: 'AIRPAX',
 };
+
+export const TASK_ID_KEY = 'taskId';
+export const FILTERS_KEY = 'filters';
+
+export const DEFAULT_MOVEMENT_MODES = [
+  {
+    taskStatuses: [],
+    movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+    hasSelectors: null,
+  },
+  {
+    taskStatuses: [],
+    movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+    hasSelectors: null,
+  },
+  {
+    taskStatuses: [],
+    movementModes: ['RORO_TOURIST'],
+    hasSelectors: null,
+  },
+];
+
+export const DEFAULT_HAS_SELECTORS = [
+  {
+    taskStatuses: [],
+    movementModes: [],
+    hasSelectors: true,
+  },
+  {
+    taskStatuses: [],
+    movementModes: [],
+    hasSelectors: false,
+  },
+  {
+    taskStatuses: [],
+    movementModes: [],
+    hasSelectors: null,
+  },
+];
+
+export const DEFAULT_APPLIED_FILTER_STATE = {
+  movementModes: [],
+  hasSelectors: null,
+};
+
+export const TAB_STATUS_MAPPING = {
+  new: 'NEW',
+  inProgress: 'IN_PROGRESS',
+  issued: 'ISSUED',
+  complete: 'COMPLETE',
+};

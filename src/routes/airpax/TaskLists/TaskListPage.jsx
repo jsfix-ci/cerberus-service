@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useKeycloak } from '../../../utils/keycloak';
 
 import { TARGETER_GROUP,
   TASK_STATUS_COMPLETED,
@@ -8,9 +7,12 @@ import { TARGETER_GROUP,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED } from '../../../constants';
 
+import { useKeycloak } from '../../../utils/keycloak';
+
 // Components/Pages
 import Tabs from '../../../components/Tabs';
 import TasksTab from './TasksTab';
+import AirpaxFilter from '../../../components/AirpaxFilter';
 
 // Styling
 import '../__assets__/TaskListPage.scss';
@@ -29,6 +31,7 @@ const TaskListPage = () => {
       setAuthorisedGroup(true);
     }
   }, []);
+
   return (
     <>
       <h1 className="govuk-heading-xl">Task management</h1>
@@ -40,6 +43,22 @@ const TaskListPage = () => {
             <div className="cop-filters-container">
               <div className="cop-filters-header">
                 <h2 className="govuk-heading-s">Filters</h2>
+              </div>
+              <div className="cop-filters-header">
+                <h2 className="govuk-heading-s">Filters</h2>
+                <button
+                  className="govuk-link govuk-heading-s "
+                  data-module="govuk-button"
+                  type="button"
+                  onClick={(e) => {
+                    console.log('Clear filters');
+                  }}
+                >
+                  Clear all filters
+                </button>
+              </div>
+              <div>
+                <AirpaxFilter />
               </div>
             </div>
           </section>
