@@ -955,6 +955,92 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
+  it('Should send an update to an existing task with empty Co-traveller block', () => {
+    const reasons = [
+      'Credibility checks carried out no target required',
+      'False BSM/selector match',
+      'Vessel arrived',
+      'Other',
+    ];
+
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+
+    let businessKey = `AUTOTEST-${dateNowFormatted}/RORO-UnAccompanied-Freight/UPDATE_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+
+    const expectedActivity = 'Assessment complete, the reason is \'Vessel arrived\'. Accompanying note: This is for testing';
+
+    let arrivalTime = Cypress.dayjs().subtract(3, 'year').valueOf();
+
+    cy.fixture('RoRo-Unaccompanied-Freight.json').then((task) => {
+      task.businessKey = businessKey;
+      task.variables.rbtPayload.value.data.movementId = businessKey;
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      console.log('Mode--->', mode);
+      cy.postTasks(task, null).then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+        });
+
+        cy.wait(2000);
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+
+        cy.contains('Assessment complete').click();
+
+        cy.clickNext();
+
+        cy.verifyMandatoryErrorMessage('reason', 'You must indicate at least one reason for completing your assessment');
+
+        cy.get('.formio-component-reason .govuk-radios__label').each(($reason, index) => {
+          expect($reason).to.be.visible;
+          let reasonText = $reason.text().replace(/^\s+|\s+$/g, '');
+          expect(reasonText).to.contain(reasons[index]);
+        });
+
+        cy.selectRadioButton('reason', 'Vessel arrived');
+
+        cy.clickNext();
+
+        cy.typeValueInTextArea('addANote', 'This is for testing');
+
+        cy.clickSubmit();
+
+        cy.verifySuccessfulSubmissionHeader('Task has been completed');
+
+        cy.visit(`/tasks/${taskResponse.businessKey}`);
+      });
+
+      cy.getActivityLogs().then((activities) => {
+        expect(activities).to.contain(expectedActivity);
+        expect(activities).not.to.contain('Property delete changed from false to true');
+      });
+
+      cy.fixture('RoRo-Unaccompanied-Freight.json').then((updateTask) => {
+        updateTask.businessKey = businessKey;
+        updateTask.variables.rbtPayload.value.data.movementId = businessKey;
+        updateTask.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalTime;
+        updateTask.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber = 'ABC123';
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].groupReference = 'SR-100';
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].groupVersionNumber = 1;
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].category = 'A';
+        updateTask.variables.rbtPayload.value.data.matchedSelectors[0].selectorId = 2;
+        console.log('Updated Task', updateTask.variables.rbtPayload.value);
+        updateTask.variables.rbtPayload.value = JSON.stringify(updateTask.variables.rbtPayload.value);
+        cy.postTasks(updateTask, null).then((taskResponse) => {
+          cy.wait(10000);
+          cy.visit('/tasks');
+          cy.checkTaskUpdateAndRelistStatus('RORO_UNACCOMPANIED_FREIGHT', taskResponse);
+        });
+      });
+    });
+  });
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
