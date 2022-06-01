@@ -1,5 +1,5 @@
 // Global imports
-import FormRenderer from '@ukhomeoffice/cop-react-form-renderer';
+import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import gds from '@ukhomeoffice/formio-gds-template/lib';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -99,6 +99,16 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
     return children;
   }
 
+  const onGetComponent = (component, wrap) => {
+    if (component.type === 'select') {
+      if (wrap) {
+        return Utils.Component.wrap(component, <select />);
+      }
+      return <select />;
+    }
+    return null;
+  };
+
   return (
     <LoadingSpinner loading={isLoaderVisible}>
       {error && (
@@ -153,6 +163,7 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
               data={formattedPreFillData?.data}
               hooks={{
                 onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
+                onGetComponent,
                 onSubmit: async (_, payload, onSuccess) => {
                   setLoaderVisibility(true);
                   try {
