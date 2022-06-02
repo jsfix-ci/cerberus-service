@@ -51,7 +51,7 @@ const TaskListPage = () => {
                   data-module="govuk-button"
                   type="button"
                   onClick={(e) => {
-                    console.log('Clear filters');
+                    console.log('Clear filters', e);
                   }}
                 >
                   Clear all filters
