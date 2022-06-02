@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useInterval } from 'react-use';
 import { renderHook } from '@testing-library/react-hooks';
 import '../../../__mocks__/keycloakMock';
@@ -208,7 +209,11 @@ describe('TaskListPage', () => {
   let tabData = {};
 
   const setTabAndTaskValues = (value, taskStatus = 'new') => {
-    return (<TaskSelectedTabContext.Provider value={value}><TaskListPage taskStatus={taskStatus} setError={() => { }} /></TaskSelectedTabContext.Provider>);
+    return (
+      <TaskSelectedTabContext.Provider value={value}>
+        <TaskListPage taskStatus={taskStatus} setError={() => { }} />
+      </TaskSelectedTabContext.Provider>
+    );
   };
 
   beforeEach(() => {
@@ -659,13 +664,16 @@ describe('TaskListPage', () => {
       .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
+
+    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
+
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('RoRo unaccompanied freight (0)')).toBeInTheDocument();
     expect(screen.getByText('RoRo accompanied freight (6)')).toBeInTheDocument();
     expect(screen.getByText('RoRo Tourist (2)')).toBeInTheDocument();
-    expect(screen.getByText('Present (29)')).toBeInTheDocument();
-    expect(screen.getByText('Not present (8)')).toBeInTheDocument();
-    expect(screen.getByText('Any (37)')).toBeInTheDocument();
+    expect(screen.getByLabelText('Has selector (29)')).not.toBeChecked();
+    expect(screen.getByLabelText('Has no selector (8)')).not.toBeChecked();
+    expect(screen.getByText('Both (37)')).toBeInTheDocument();
   });
 
   it('should select any radio by default', async () => {
@@ -676,10 +684,12 @@ describe('TaskListPage', () => {
       .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
-    expect(screen.getByLabelText('Present (29)')).not.toBeChecked();
-    expect(screen.getByLabelText('Not present (8)')).not.toBeChecked();
-    expect(screen.getByText('Any (37)')).toBeInTheDocument();
-    expect(screen.getByLabelText('Any (37)')).toBeChecked();
+
+    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
+
+    expect(screen.getByLabelText('Has selector (29)')).not.toBeChecked();
+    expect(screen.getByLabelText('Has no selector (8)')).not.toBeChecked();
+    expect(screen.getByLabelText('Both (37)')).toBeChecked();
   });
 
   it('should render the word SELECTOR next to category label on task', async () => {
@@ -739,10 +749,9 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    expect(mockAxios.history.post).toHaveLength(3);
-    expect(JSON.parse(mockAxios.history.post[2].data)).toEqual({
+    expect(mockAxios.history.post).toHaveLength(4);
+    expect(JSON.parse(mockAxios.history.post[3].data)).toEqual({
       filterParams: {
-        hasSelectors: null,
         movementModes: [],
       },
       pageParams: {

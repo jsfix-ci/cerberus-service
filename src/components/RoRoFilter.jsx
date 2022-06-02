@@ -34,7 +34,8 @@ const RoRoFilter = ({ taskStatus, onApply, appliedFilters, filtersAndSelectorsCo
 
   const setupOptions = (component) => {
     return component.data.options.map((opt) => {
-      const count = getCountForOption(component.fieldId, opt.value);
+      let count = getCountForOption(component.fieldId, opt.value);
+      count = count === undefined ? 0 : count;
       const originalLabel = opt.originalLabel || opt.label;
       const label = count === null ? originalLabel : `${originalLabel} (${count})`;
       return {
