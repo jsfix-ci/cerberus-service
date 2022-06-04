@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { FILTERS_KEY } from '../../../constants';
+import { RORO_FILTERS_KEY } from '../../../constants';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
@@ -175,8 +175,8 @@ describe('TaskListFilters', () => {
     userEvent.click(screen.getByLabelText('Both (0)'));
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(localStorage.getItem(FILTERS_KEY)).not.toBeNull();
-    expect(JSON.parse(localStorage.getItem(FILTERS_KEY))).toMatchObject(expected);
+    expect(localStorage.getItem(RORO_FILTERS_KEY)).not.toBeNull();
+    expect(JSON.parse(localStorage.getItem(RORO_FILTERS_KEY))).toMatchObject(expected);
   });
 
   it('should clear filters when clearAll is clicked', async () => {
@@ -193,13 +193,13 @@ describe('TaskListFilters', () => {
       </TaskSelectedTabContext.Provider>,
     ));
 
-    localStorage.setItem(FILTERS_KEY, STORED_FILTERS);
+    localStorage.setItem(RORO_FILTERS_KEY, STORED_FILTERS);
 
-    expect(localStorage.getItem(FILTERS_KEY)).not.toBeNull();
+    expect(localStorage.getItem(RORO_FILTERS_KEY)).not.toBeNull();
 
     userEvent.click(screen.getByRole('button', { name: 'Clear all filters' }));
 
-    expect(localStorage.getItem(FILTERS_KEY)).toBeNull();
+    expect(localStorage.getItem(RORO_FILTERS_KEY)).toBeNull();
   });
 
   it('should render counts for filters and selectors for IN_PROGRESS', async () => {

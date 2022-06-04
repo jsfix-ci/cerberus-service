@@ -211,6 +211,7 @@ const TaskListPage = () => {
                     <TasksTab
                       taskStatus={TASK_STATUS_NEW}
                       filtersToApply={appliedFilters}
+                      setError={setError}
                       targetTaskCount={taskCountsByStatus?.new}
                     />
                   </>
@@ -225,6 +226,7 @@ const TaskListPage = () => {
                     <TasksTab
                       taskStatus={TASK_STATUS_IN_PROGRESS}
                       filtersToApply={appliedFilters}
+                      setError={setError}
                       targetTaskCount={taskCountsByStatus?.inProgress}
                     />
                   </>
@@ -239,6 +241,7 @@ const TaskListPage = () => {
                     <TasksTab
                       taskStatus={TASK_STATUS_TARGET_ISSUED}
                       filtersToApply={appliedFilters}
+                      setError={setError}
                       targetTaskCount={taskCountsByStatus?.issued}
                     />
                   </>
@@ -253,6 +256,7 @@ const TaskListPage = () => {
                     <TasksTab
                       taskStatus={TASK_STATUS_COMPLETED}
                       filtersToApply={appliedFilters}
+                      setError={setError}
                       targetTaskCount={taskCountsByStatus?.complete}
                     />
                   </>
