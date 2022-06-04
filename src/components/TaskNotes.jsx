@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Config
 import config from '../config';
 // Utils
-import { FORM_NAMES, NOTE_VARIANT } from '../constants';
+import { FORM_NAMES, MOVEMENT_VARIANT } from '../constants';
 import useAxiosInstance from '../utils/axiosInstance';
 import { useFormSubmit } from '../utils/formioSupport';
 import hyperlinkify from '../utils/hyperlinkify';
@@ -181,7 +181,7 @@ const TaskNotes = ({ noteVariant,
   setRefreshNotesForm }) => {
   const keycloak = useKeycloak();
 
-  if (noteVariant === NOTE_VARIANT.RORO) {
+  if (noteVariant === MOVEMENT_VARIANT.RORO) {
     return (
       <RoRoTaskNotes
         keycloak={keycloak}

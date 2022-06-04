@@ -46,11 +46,11 @@ export default {
         data: {
           options: [
             {
-              value: false,
+              value: 'false',
               label: 'Has no selector',
             },
             {
-              value: true,
+              value: 'true',
               label: 'Has selector',
             },
             {
