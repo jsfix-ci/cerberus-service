@@ -1,4 +1,5 @@
 import lookup from 'country-code-lookup';
+import { TASK_STATUS_NEW } from '../constants';
 
 const isNotNumber = (number) => {
   if (!number && number !== 0) {
@@ -208,6 +209,20 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   return bookingField;
 };
 
+const getTaskId = (taskIdKey) => {
+  return localStorage.getItem(taskIdKey) !== null
+    ? localStorage.getItem(taskIdKey) : TASK_STATUS_NEW;
+};
+
+const hasLocalStorageFilters = (filtersKey) => {
+  return localStorage.getItem(filtersKey) !== null
+  && localStorage.getItem(filtersKey) !== 'null';
+};
+
+const getLocalStorageFilters = (filtersKey) => {
+  return JSON.parse(localStorage.getItem(filtersKey));
+};
+
 export { modifyRoRoPassengersTaskList,
   modifyRoRoPassengersTaskDetails,
   hasTaskVersionPassengers,
@@ -226,4 +241,7 @@ export { modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
   isSinglePassenger,
   filterKnownPassengers,
-  isNotNumber };
+  isNotNumber,
+  getTaskId,
+  getLocalStorageFilters,
+  hasLocalStorageFilters };

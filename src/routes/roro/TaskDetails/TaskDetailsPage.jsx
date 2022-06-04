@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAMES, TASK_STATUS_NEW, NOTE_VARIANT } from '../../../constants';
+import { FORM_NAMES, TASK_STATUS_NEW, MOVEMENT_VARIANT } from '../../../constants';
 import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -396,7 +396,7 @@ const TaskDetailsPage = () => {
             </div>
             <div className="govuk-grid-column-one-third">
               <TaskNotes
-                noteVariant={NOTE_VARIANT.RORO}
+                noteVariant={MOVEMENT_VARIANT.RORO}
                 displayForm={assignee === currentUser}
                 businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                 processInstanceId={processInstanceId}

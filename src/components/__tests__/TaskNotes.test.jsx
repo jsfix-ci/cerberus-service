@@ -12,7 +12,7 @@ import operationsHistoryResponseUnclaim from '../../routes/roro/__fixtures__/ope
 import operationsHistoryResponsePropertyChanged from '../../routes/roro/__fixtures__/operationsHistoryResponse_PROPERTY_CHANGED.fixture.json';
 import noteFormFixture from '../../routes/roro/__fixtures__/noteFormResponse.fixture.json';
 
-import { NOTE_VARIANT } from '../../constants';
+import { MOVEMENT_VARIANT } from '../../constants';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -53,7 +53,7 @@ describe('TaskNotes', () => {
     mockTaskNotesAxiosCalls({});
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -66,7 +66,7 @@ describe('TaskNotes', () => {
     mockTaskNotesAxiosCalls({});
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm={false}
       businessKey="ghi"
       processInstanceId="123"
@@ -85,7 +85,7 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -99,7 +99,7 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -113,7 +113,7 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -127,7 +127,7 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -147,7 +147,7 @@ describe('TaskNotes', () => {
     });
 
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -161,7 +161,7 @@ describe('TaskNotes', () => {
 
     mockTaskNotesAxiosCalls({});
     const { container } = render(<TaskNotes
-      noteVariant={NOTE_VARIANT.RORO}
+      noteVariant={MOVEMENT_VARIANT.RORO}
       displayForm
       businessKey="ghi"
       processInstanceId="123"
@@ -184,7 +184,7 @@ describe('TaskNotes', () => {
 
   it('should render the task notes form (airpax)', async () => {
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.AIRPAX}
+      noteVariant={MOVEMENT_VARIANT.AIRPAX}
       displayForm
       businessKey="ghi"
       setRefreshNotesForm={jest.fn()}
@@ -194,7 +194,7 @@ describe('TaskNotes', () => {
 
   it('should not render the task notes form (airpax)', async () => {
     await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.AIRPAX}
+      noteVariant={MOVEMENT_VARIANT.AIRPAX}
       displayForm={false}
       businessKey="ghi"
       setRefreshNotesForm={jest.fn()}
@@ -207,7 +207,7 @@ describe('TaskNotes', () => {
     const expectedPayload = '\\nthis \\\\is a \\"test\\" \\nnote';
 
     const { container } = await waitFor(() => render(<TaskNotes
-      noteVariant={NOTE_VARIANT.AIRPAX}
+      noteVariant={MOVEMENT_VARIANT.AIRPAX}
       displayForm
       businessKey="ghi"
       setRefreshNotesForm={jest.fn()}
