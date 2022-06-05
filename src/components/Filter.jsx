@@ -1,8 +1,7 @@
 import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import React, { useState, useCallback, useEffect } from 'react';
 import { MOVEMENT_VARIANT } from '../constants';
-import roroConfig from '../cop-forms/filter/roro';
-import airpaxConfig from '../cop-forms/filter/airpax';
+import { airpax, roro } from '../cop-forms/filter';
 
 const getCountForOption = (fieldId, value, taskStatus, movementModeCounts, selectorCounts) => {
   if (fieldId === 'hasSelectors') {
@@ -103,11 +102,11 @@ const AirpaxFilter = ({ taskStatus, onApply, appliedFilters, movementModeCounts,
     onApply(payload);
   };
 
-  setupFilterCounts(airpaxConfig, taskStatus, movementModeCounts, selectorCounts);
+  setupFilterCounts(airpax, taskStatus, movementModeCounts, selectorCounts);
 
   return (
     <FormRenderer
-      {...airpaxConfig}
+      {...airpax}
       hooks={{
         onGetComponent,
         onSubmit: onApplyFilter,
@@ -123,11 +122,11 @@ const RoRoFilter = ({ taskStatus, onApply, appliedFilters, movementModeCounts, s
     onApply(payload);
   };
 
-  setupFilterCounts(roroConfig, taskStatus, movementModeCounts, selectorCounts);
+  setupFilterCounts(roro, taskStatus, movementModeCounts, selectorCounts);
 
   return (
     <FormRenderer
-      {...roroConfig}
+      {...roro}
       hooks={{
         onGetComponent,
         onSubmit: onApplyFilter,
