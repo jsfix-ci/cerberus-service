@@ -169,9 +169,6 @@ const TaskListPage = () => {
           <div className="cop-filters-container">
             <div className="cop-filters-header">
               <h2 className="govuk-heading-s">Filters</h2>
-            </div>
-            <div className="cop-filters-header">
-              <h2 className="govuk-heading-s">Filters</h2>
               <button
                 className="govuk-link govuk-heading-s "
                 data-module="govuk-button"
