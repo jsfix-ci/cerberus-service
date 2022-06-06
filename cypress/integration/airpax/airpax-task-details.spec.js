@@ -32,7 +32,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should check Add a new note input box is visible in task details page when a task is claimed', () => {
+  it.only('Should check Add a new note input box is visible in task details page when a task is claimed', () => {
     const textNote = 'This is a test note';
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
@@ -45,8 +45,11 @@ describe('Verify AirPax task details of different sections', () => {
       });
     });
     cy.get('#note').should('not.exist');
+    cy.intercept('POST', '/v2/targeting-tasks/*/claim').as('claim');
     cy.contains('Claim').click({ force: true });
-    cy.wait(3000);
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(200)
+    });
     cy.get('.govuk-label').invoke('text').then(($text) => {
       expect($text).to.equal('Add a new note');
     });
@@ -57,8 +60,12 @@ describe('Verify AirPax task details of different sections', () => {
     cy.get('@taskActivity').then(($activityText) => {
       expect($activityText).includes(textNote);
     });
-    cy.contains('Unclaim task').click();
+    cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
     cy.get('.govuk-caption-xl').invoke('text').as('taskId');
+    cy.contains('Unclaim task').click();
+    cy.wait('@unclaim').then(({ response }) => {
+      expect(response.statusCode).to.equal(200)
+    });
     cy.get('@taskId').then((businessKey) => {
       cy.visit(`/airpax/tasks/${businessKey}`);
       cy.wait(3000);
