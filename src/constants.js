@@ -132,7 +132,7 @@ export const MOVEMENT_VARIANT = {
   AIRPAX: 'AIRPAX',
 };
 
-export const TASK_ID_KEY = 'taskId';
+export const TASK_ID_KEY = 'TASK_ID';
 export const RORO_FILTERS_KEY = 'RORO_FILTERS';
 export const AIRPAX_FILTERS_KEY = 'AIRPAX_FILTERS';
 
