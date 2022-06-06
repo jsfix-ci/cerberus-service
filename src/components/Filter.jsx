@@ -1,15 +1,17 @@
 import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import React, { useState, useCallback, useEffect } from 'react';
-import { MOVEMENT_VARIANT } from '../constants';
+import { DEFAULT_APPLIED_RORO_FILTER_STATE, MOVEMENT_VARIANT } from '../constants';
 import { airpax, roro } from '../cop-forms/filter';
 
 const getCountForOption = (fieldId, value, taskStatus, movementModeCounts, selectorCounts) => {
   if (fieldId === 'hasSelectors') {
-    if (value === '') {
+    if (value === DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors) {
       value = null;
     }
     return selectorCounts?.find((f) => {
-      return f.filterParams[fieldId] === JSON.parse(value);
+      if (value !== 'BOTH') {
+        return f.filterParams[fieldId] === JSON.parse(value);
+      }
     })?.statusCounts[taskStatus];
   }
   if (fieldId === 'selectors') {
@@ -137,13 +139,15 @@ const RoRoFilter = ({ taskStatus, onApply, appliedFilters, movementModeCounts, s
 };
 
 const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
+  let movementModeCounts;
+  let selectorCounts;
   if (mode === MOVEMENT_VARIANT.RORO) {
-    const movementModeCounts = filtersAndSelectorsCount?.slice(0, 3);
-    const selectorCounts = filtersAndSelectorsCount?.slice(3);
+    movementModeCounts = filtersAndSelectorsCount?.slice(0, 3);
+    selectorCounts = filtersAndSelectorsCount?.slice(3);
     return { movementModeCounts, selectorCounts };
   }
-  const movementModeCounts = filtersAndSelectorsCount?.slice(0, 1);
-  const selectorCounts = filtersAndSelectorsCount?.slice(1);
+  movementModeCounts = filtersAndSelectorsCount?.slice(0, 1);
+  selectorCounts = filtersAndSelectorsCount?.slice(1);
   return { movementModeCounts, selectorCounts };
 };
 

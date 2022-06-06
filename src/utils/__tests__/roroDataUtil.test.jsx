@@ -10,7 +10,8 @@ import { modifyRoRoPassengersTaskList,
   filterKnownPassengers,
   isNotNumber,
   getTaskId,
-  hasLocalStorageFilters } from '../roroDataUtil';
+  hasLocalStorageFilters,
+  toRoRoSelectorsValue } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
@@ -681,5 +682,24 @@ describe('RoRoData Util', () => {
   it('should return false if local storage filters are not found', () => {
     const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
     expect(output).toBeFalsy();
+  });
+
+  it('should return true when given is a string representation of boolean true', () => {
+    const GIVEN = 'true';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeTruthy();
+  });
+
+  it('should return false when given is a string representation of boolean false', () => {
+    const GIVEN = 'false';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeFalsy();
+  });
+
+  it('should return null when input is an empty string', () => {
+    expect(toRoRoSelectorsValue('')).toBeNull();
+  });
+
+  it('should return null when input is the default roro hasSelectors filter value', () => {
+    const GIVEN = 'both';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeNull();
   });
 });

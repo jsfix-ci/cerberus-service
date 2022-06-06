@@ -25,7 +25,8 @@ import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 import { getTaskId,
   hasLocalStorageFilters,
-  getLocalStorageFilters } from '../../../utils/roroDataUtil';
+  getLocalStorageFilters,
+  toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
 // Components/Pages
 import TasksTab from './TasksTab';
@@ -58,9 +59,9 @@ const TaskListPage = () => {
         taskStatuses: [TAB_STATUS_MAPPING[taskId]],
         movementModes: mode.movementModes,
         hasSelectors: localStorageFilters?.hasSelectors
-          ? localStorageFilters.hasSelectors : mode.hasSelectors,
+          ? toRoRoSelectorsValue(localStorageFilters.hasSelectors) : toRoRoSelectorsValue(mode.hasSelectors),
       }));
-      const selectedFilters = localStorageFilters ? [localStorageFilters.mode] : [];
+      const selectedFilters = localStorageFilters.mode ? [localStorageFilters.mode] : [];
       const selectors = DEFAULT_RORO_HAS_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskId]],
         movementModes: selectedFilters,
@@ -86,7 +87,10 @@ const TaskListPage = () => {
     try {
       const count = await camundaClientV1.post(
         '/targeting-tasks/status-counts',
-        [activeFilters || {}],
+        [{
+          ...activeFilters,
+          hasSelectors: toRoRoSelectorsValue(activeFilters?.hasSelectors),
+        } || {}],
       );
       if (!isMounted.current) return null;
       setTaskCountsByStatus(count.data[0].statusCounts);
@@ -118,12 +122,14 @@ const TaskListPage = () => {
   const applyFilters = (payload) => {
     setLoading(true);
     localStorage.setItem(RORO_FILTERS_KEY, JSON.stringify(payload));
-    payload = {
+    // Modify the post post param to be different from what is stored in stage.
+    const toApply = {
       ...payload,
       movementModes: payload?.mode ? [payload.mode] : [],
-      hasSelectors: payload?.hasSelectors ? payload.hasSelectors : null,
+      hasSelectors: payload?.hasSelectors !== DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors
+        ? payload?.hasSelectors : null,
     };
-    getTaskCount(payload);
+    getTaskCount(toApply);
     setAppliedFilters(payload);
     getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
     setLoading(false);
@@ -138,8 +144,8 @@ const TaskListPage = () => {
   };
 
   const applySavedFiltersOnLoad = () => {
-    const loadedFilters = localStorage.getItem(RORO_FILTERS_KEY);
-    applyFilters(JSON.parse(loadedFilters));
+    const loadedFilters = getLocalStorageFilters(RORO_FILTERS_KEY) || DEFAULT_APPLIED_RORO_FILTER_STATE;
+    applyFilters(loadedFilters);
     getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
     setLoading(false);
   };
