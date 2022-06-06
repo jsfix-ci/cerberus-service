@@ -13,9 +13,6 @@ const getCountForOption = (fieldId, value, taskStatus, movementModeCounts, selec
     })?.statusCounts[taskStatus];
   }
   if (fieldId === 'selectors') {
-    if (value === '') {
-      value = null;
-    }
     return selectorCounts?.find((f) => {
       return f.filterParams[fieldId] === value;
     })?.statusCounts[taskStatus];
@@ -137,28 +134,28 @@ const RoRoFilter = ({ taskStatus, onApply, appliedFilters, movementModeCounts, s
 };
 
 const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
-  let movementModeCounts;
-  let selectorCounts;
   if (mode === MOVEMENT_VARIANT.RORO) {
-    movementModeCounts = filtersAndSelectorsCount?.slice(0, 3);
-    selectorCounts = filtersAndSelectorsCount?.slice(3);
-    return { movementModeCounts, selectorCounts };
+    return {
+      movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
+      selectorCounts: filtersAndSelectorsCount?.slice(3),
+    };
   }
-  movementModeCounts = filtersAndSelectorsCount?.slice(0, 1);
-  selectorCounts = filtersAndSelectorsCount?.slice(1);
-  return { movementModeCounts, selectorCounts };
+  return {
+    movementModeCounts: filtersAndSelectorsCount?.slice(0, 1),
+    selectorCounts: filtersAndSelectorsCount?.slice(1),
+  };
 };
 
 const Filter = ({ mode, taskStatus, onApply, appliedFilters, filtersAndSelectorsCount }) => {
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
+  const { movementModeCounts, selectorCounts } = getMovementSelectorCounts(mode, filtersAndSelectorsCount);
 
   useEffect(() => {
     forceUpdate();
   }, [filtersAndSelectorsCount]);
 
   if (mode === MOVEMENT_VARIANT.RORO) {
-    const { movementModeCounts, selectorCounts } = getMovementSelectorCounts(mode, filtersAndSelectorsCount);
     return (
       <RoRoFilter
         taskStatus={taskStatus}
@@ -171,7 +168,6 @@ const Filter = ({ mode, taskStatus, onApply, appliedFilters, filtersAndSelectors
     );
   }
 
-  const { movementModeCounts, selectorCounts } = getMovementSelectorCounts(mode, filtersAndSelectorsCount);
   return (
     <AirpaxFilter
       taskStatus={taskStatus}
