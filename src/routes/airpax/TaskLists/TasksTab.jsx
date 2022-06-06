@@ -5,6 +5,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
+import qs from 'qs';
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 
@@ -20,6 +21,7 @@ import TaskListCard from './TaskListCard';
 const TasksTab = ({
   taskStatus,
   filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' },
+  setError,
   targetTaskCount = 0,
 }) => {
   dayjs.extend(relativeTime);
@@ -58,20 +60,23 @@ const TasksTab = ({
         order: 'ASC',
       },
     ];
+    const postParams = {
+      filterParams: {
+        ...filtersToApply,
+        taskStatuses: [tab],
+        movementModes: filtersToApply?.movementModes || [filtersToApply.mode],
+      },
+      sortParams,
+      pageParams: {
+        limit: itemsPerPage,
+        offset,
+      },
+    };
     try {
-      response = await apiClient.post('/targeting-tasks/pages', {
-        filterParams: {
-          ...filtersToApply,
-          taskStatuses: [tab],
-        },
-        sortParams,
-        pageParams: {
-          limit: itemsPerPage,
-          offset,
-        },
-      });
+      response = await apiClient.post('/targeting-tasks/pages', postParams);
       setTargetTasks(response.data);
     } catch (e) {
+      setError(e.message);
       setTargetTasks([]);
     } finally {
       setLoading(false);
@@ -92,6 +97,13 @@ const TasksTab = ({
       setRefDataAirlineCodes([]);
     }
   };
+
+  useEffect(() => {
+    const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const newActivePage = parseInt(page || 1, 10);
+    setActivePage(newActivePage);
+    setRefreshTaskList(true);
+  }, [location.search]);
 
   useEffect(() => {
     setRefreshTaskList(true);

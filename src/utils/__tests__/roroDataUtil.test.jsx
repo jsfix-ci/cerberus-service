@@ -1,3 +1,4 @@
+import { RORO_FILTERS_KEY, TASK_ID_KEY, TASK_STATUS_NEW } from '../../constants';
 import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
@@ -7,11 +8,18 @@ import { modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
   isSinglePassenger,
   filterKnownPassengers,
-  isNotNumber } from '../roroDataUtil';
+  isNotNumber,
+  getTaskId,
+  hasLocalStorageFilters,
+  toRoRoSelectorsValue } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
 describe('RoRoData Util', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should return a modified roroData object with a list of 2 passengers', () => {
     const modifiedRoroData = modifyRoRoPassengersTaskList({ ...testRoroData });
     expect(modifiedRoroData.passengers.length).toEqual(2);
@@ -648,5 +656,50 @@ describe('RoRoData Util', () => {
 
     const outcome = isNotNumber(given);
     expect(outcome).toBeTruthy();
+  });
+
+  it('should return the set task id', () => {
+    const EXPECTED = 'test-task-id';
+    localStorage.setItem(TASK_ID_KEY, EXPECTED);
+
+    const output = getTaskId(TASK_ID_KEY);
+    expect(output).toEqual(EXPECTED);
+  });
+
+  it(`should return task status "${TASK_STATUS_NEW}" if none has been set in local storage`, () => {
+    const output = getTaskId(TASK_ID_KEY);
+    expect(output).toEqual(TASK_STATUS_NEW);
+  });
+
+  it('should return true if local storage filters found', () => {
+    const EXPECTED = 'test-task-id';
+    localStorage.setItem(RORO_FILTERS_KEY, EXPECTED);
+
+    const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
+    expect(output).toBeTruthy();
+  });
+
+  it('should return false if local storage filters are not found', () => {
+    const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
+    expect(output).toBeFalsy();
+  });
+
+  it('should return true when given is a string representation of boolean true', () => {
+    const GIVEN = 'true';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeTruthy();
+  });
+
+  it('should return false when given is a string representation of boolean false', () => {
+    const GIVEN = 'false';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeFalsy();
+  });
+
+  it('should return null when input is an empty string', () => {
+    expect(toRoRoSelectorsValue('')).toBeNull();
+  });
+
+  it('should return null when input is the default roro hasSelectors filter value', () => {
+    const GIVEN = 'both';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeNull();
   });
 });
