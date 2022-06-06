@@ -1,3 +1,31 @@
+const MODE_OPTIONS = [
+  {
+    value: '',
+    label: '',
+    showFor: ['RORO'],
+  },
+  {
+    value: 'AIR_PASSENGER',
+    label: 'Air passenger',
+    showFor: ['AIRPAX'],
+  },
+  {
+    value: 'RORO_UNACCOMPANIED_FREIGHT',
+    label: 'RoRo unaccompanied freight',
+    showFor: ['RORO'],
+  },
+  {
+    value: 'RORO_ACCOMPANIED_FREIGHT',
+    label: 'RoRo accompanied freight',
+    showFor: ['RORO'],
+  },
+  {
+    value: 'RORO_TOURIST',
+    label: 'RoRo Tourist',
+    showFor: ['RORO'],
+  },
+];
+
 export const airpax = {
   id: 'filter',
   version: '0.0.1',
@@ -16,12 +44,7 @@ export const airpax = {
         required: true,
         dynamicOptions: true,
         data: {
-          options: [
-            {
-              value: 'AIR_PASSENGER',
-              label: 'Air passenger',
-            },
-          ],
+          options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('AIRPAX')),
         },
       },
       {
@@ -29,7 +52,7 @@ export const airpax = {
         fieldId: 'selectors',
         label: 'Selectors',
         type: 'radios',
-        required: false,
+        required: true,
         dynamicOptions: true,
         data: {
           options: [
@@ -77,24 +100,7 @@ export const roro = {
         required: true,
         dynamicOptions: true,
         data: {
-          options: [
-            {
-              value: '',
-              label: '',
-            },
-            {
-              value: 'RORO_UNACCOMPANIED_FREIGHT',
-              label: 'RoRo unaccompanied freight',
-            },
-            {
-              value: 'RORO_ACCOMPANIED_FREIGHT',
-              label: 'RoRo accompanied freight',
-            },
-            {
-              value: 'RORO_TOURIST',
-              label: 'RoRo Tourist',
-            },
-          ],
+          options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('RORO')),
         },
       },
       {
@@ -102,7 +108,7 @@ export const roro = {
         fieldId: 'hasSelectors',
         label: 'Selectors',
         type: 'radios',
-        required: false,
+        required: true,
         dynamicOptions: true,
         data: {
           options: [
@@ -115,7 +121,7 @@ export const roro = {
               label: 'Has selector',
             },
             {
-              value: '',
+              value: 'both',
               label: 'Both',
             },
           ],
@@ -123,7 +129,7 @@ export const roro = {
         show_when: {
           field: 'mode',
           op: 'in',
-          values: ['RORO_UNACCOMPANIED_FREIGHT', 'RORO_ACCOMPANIED_FREIGHT', 'RORO_TOURIST'],
+          values: MODE_OPTIONS.map((opt) => opt.value).filter((val) => !!val),
         },
       },
     ],

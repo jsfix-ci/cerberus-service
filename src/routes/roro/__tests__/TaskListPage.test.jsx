@@ -753,6 +753,7 @@ describe('TaskListPage', () => {
     expect(JSON.parse(mockAxios.history.post[3].data)).toEqual({
       filterParams: {
         movementModes: [],
+        mode: '',
         hasSelectors: null,
       },
       pageParams: {

@@ -29,7 +29,7 @@ import { useKeycloak } from '../../../utils/keycloak';
 import { useIsMounted } from '../../../utils/hooks';
 import { calculateTaskListTotalRiskScore } from '../../../utils/rickScoreCalculator';
 import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
-import { modifyRoRoPassengersTaskList } from '../../../utils/roroDataUtil';
+import { modifyRoRoPassengersTaskList, toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
 // Components/Pages
 import ClaimButton from '../../../components/ClaimTaskButton';
@@ -83,6 +83,12 @@ const TasksTab = ({
           },
         ]
         : null;
+      // Modify the post post param to be different from what is stored in stage.
+      filtersToApply = {
+        ...filtersToApply,
+        hasSelectors: toRoRoSelectorsValue(filtersToApply?.hasSelectors),
+        movementModes: filtersToApply?.mode ? [filtersToApply.mode] : [],
+      };
       try {
         const tasks = await camundaClientV1.post('/targeting-tasks/pages', {
           status: tab,
