@@ -27,6 +27,95 @@ describe('TaskListPage', () => {
 
   let tabData = {};
 
+  const countsFiltersAndSelectorsResponse = [
+    {
+      filterParams: {
+        taskStatuses: [
+          'NEW',
+        ],
+        movementModes: [
+          'AIR_PASSENGER',
+        ],
+        departureStatuses: null,
+        selectors: 'ANY',
+        ruleIds: null,
+        searchText: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        new: 2,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: [
+          'NEW',
+        ],
+        movementModes: [
+          'AIR_PASSENGER',
+        ],
+        departureStatuses: null,
+        selectors: 'PRESENT',
+        ruleIds: null,
+        searchText: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        new: 0,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: [
+          'NEW',
+        ],
+        movementModes: [
+          'AIR_PASSENGER',
+        ],
+        departureStatuses: null,
+        selectors: 'NOT_PRESENT',
+        ruleIds: null,
+        searchText: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        new: 2,
+      },
+    },
+    {
+      filterParams: {
+        taskStatuses: [
+          'NEW',
+        ],
+        movementModes: [
+          'AIR_PASSENGER',
+        ],
+        departureStatuses: null,
+        selectors: 'ANY',
+        ruleIds: null,
+        searchText: null,
+      },
+      statusCounts: {
+        inProgress: 0,
+        issued: 0,
+        complete: 0,
+        new: 2,
+      },
+    },
+  ];
+
+  const EXPECTED_POST_PARAM = [{
+    mode: 'AIR_PASSENGER',
+    movementModes: ['AIR_PASSENGER'],
+    selectors: 'ANY',
+  }];
+
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     tabData = {
@@ -59,21 +148,33 @@ describe('TaskListPage', () => {
   });
 
   const setTabAndTaskValues = (value, taskStatus = 'new') => {
-    return (<TaskSelectedTabContext.Provider value={value}><TaskListPage taskStatus={taskStatus} /></TaskSelectedTabContext.Provider>);
+    return (
+      <TaskSelectedTabContext.Provider value={value}>
+        <TaskListPage taskStatus={taskStatus} />
+      </TaskSelectedTabContext.Provider>
+    );
   };
 
   it('should render a message related to the tab clicked, on click', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [])
+      .onPost('/targeting-tasks/status-counts')
+      .reply(200, countsFiltersAndSelectorsResponse)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: [] });
+
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
-    expect(screen.getByText('New')).toBeInTheDocument();
-    expect(screen.getByText('Issued')).toBeInTheDocument();
+    expect(screen.getByText('New tasks')).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByText('There are no new tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
+    expect(screen.getByText('Target issued tasks')).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('There are no issued tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
@@ -106,7 +207,7 @@ describe('TaskListPage', () => {
     expect(screen.getAllByText(/FRA/)).toHaveLength(2);
     expect(screen.getAllByText('LHR')).toHaveLength(2);
 
-    expect(screen.getAllByText(/Passenger/i)).toHaveLength(3);
+    expect(screen.getAllByText(/Passenger/i)).toHaveLength(4);
     expect(screen.getByText('Document')).toBeInTheDocument();
     expect(screen.getByText('Booking')).toBeInTheDocument();
     expect(screen.getByText('Co-travellers')).toBeInTheDocument();
@@ -133,7 +234,8 @@ describe('TaskListPage', () => {
       .reply(200, { data: airlineCodes });
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
-    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should render a claim button if the task status is new & there is no assignee', async () => {
@@ -209,7 +311,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_NEW)));
 
-    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should contain the expect post params for in_progress tab', async () => {
@@ -225,7 +327,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
 
-    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should contain the expect post params for issued tab', async () => {
@@ -240,7 +342,7 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_TARGET_ISSUED)));
 
-    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should contain the expect post params for completed tab', async () => {
@@ -255,6 +357,6 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_COMPLETED)));
 
-    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(defaultPostPagesParams);
+    expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 });

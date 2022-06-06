@@ -127,7 +127,92 @@ export const PNR_USER_DESCISION = {
   },
 };
 
-export const NOTE_VARIANT = {
+export const MOVEMENT_VARIANT = {
   RORO: 'RORO',
   AIRPAX: 'AIRPAX',
+};
+
+export const TASK_ID_KEY = 'TASK_ID';
+export const RORO_FILTERS_KEY = 'RORO_FILTERS';
+export const AIRPAX_FILTERS_KEY = 'AIRPAX_FILTERS';
+
+export const DEFAULT_MOVEMENT_RORO_MODES = [
+  {
+    taskStatuses: [],
+    movementModes: ['RORO_UNACCOMPANIED_FREIGHT'],
+    hasSelectors: null,
+  },
+  {
+    taskStatuses: [],
+    movementModes: ['RORO_ACCOMPANIED_FREIGHT'],
+    hasSelectors: null,
+  },
+  {
+    taskStatuses: [],
+    movementModes: ['RORO_TOURIST'],
+    hasSelectors: null,
+  },
+];
+
+export const DEFAULT_RORO_HAS_SELECTORS = [
+  {
+    taskStatuses: [],
+    movementModes: [],
+    hasSelectors: true,
+  },
+  {
+    taskStatuses: [],
+    movementModes: [],
+    hasSelectors: false,
+  },
+  {
+    taskStatuses: [],
+    movementModes: [],
+    hasSelectors: null,
+  },
+];
+
+export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
+  {
+    taskStatuses: [],
+    movementModes: ['AIR_PASSENGER'],
+    selectors: 'ANY',
+  },
+];
+
+export const DEFAULT_AIRPAX_SELECTORS = [
+  {
+    taskStatuses: [],
+    movementModes: [],
+    selectors: 'PRESENT',
+  },
+  {
+    taskStatuses: [],
+    movementModes: [],
+    selectors: 'NOT_PRESENT',
+  },
+  {
+    taskStatuses: [],
+    movementModes: [],
+    selectors: 'ANY',
+  },
+];
+
+export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
+  movementModes: [],
+  hasSelectors: 'both',
+  mode: '',
+};
+
+export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
+  movementModes: ['AIR_PASSENGER'],
+  mode: 'AIR_PASSENGER',
+  selectors: 'ANY',
+};
+
+export const TAB_STATUS_MAPPING = {
+  new: 'NEW',
+  inProgress: 'IN_PROGRESS',
+  issued: 'ISSUED',
+  complete: 'COMPLETE',
 };

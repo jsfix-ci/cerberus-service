@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // Config
 import config from '../../../config';
-import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, NOTE_VARIANT } from '../../../constants';
+import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, MOVEMENT_VARIANT } from '../../../constants';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -135,7 +135,7 @@ const TaskDetailsPage = () => {
           {currentUser === assignee
             && (
             <TaskNotes
-              noteVariant={NOTE_VARIANT.AIRPAX}
+              noteVariant={MOVEMENT_VARIANT.AIRPAX}
               displayForm={assignee === currentUser}
               businessKey={businessKey}
               setRefreshNotesForm={setRefreshNotesForm}
