@@ -1,8 +1,15 @@
+import { Tag } from '@ukhomeoffice/cop-react-components';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 // Config
 import config from '../../../config';
-import { TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, MOVEMENT_VARIANT } from '../../../constants';
+import { TASK_STATUS_NEW,
+  TASK_STATUS_TARGET_ISSUED,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_IN_PROGRESS,
+  MOVEMENT_VARIANT } from '../../../constants';
+
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -89,13 +96,19 @@ const TaskDetailsPage = () => {
           <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
           {(formattedTaskStatus !== TASK_STATUS_TARGET_ISSUED && formattedTaskStatus !== TASK_STATUS_COMPLETED)
             && (
-            <ClaimUnclaimTask
-              assignee={taskData.assignee}
-              currentUser={currentUser}
-              businessKey={businessKey}
-              source={`/airpax/tasks/${businessKey}`}
-              buttonType="textLink"
-            />
+              <>
+                {formattedTaskStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+                && <Tag className="govuk-tag govuk-tag--newTarget" text={TASK_STATUS_NEW} />}
+                <p className="govuk-body">
+                  <ClaimUnclaimTask
+                    assignee={taskData.assignee}
+                    currentUser={currentUser}
+                    businessKey={businessKey}
+                    source={`/airpax/tasks/${businessKey}`}
+                    buttonType="textLink"
+                  />
+                </p>
+              </>
             )}
         </div>
         <div className="govuk-grid-column-one-half task-actions--buttons">
