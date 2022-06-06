@@ -19,6 +19,15 @@ describe('Airpax task list page', () => {
     });
   });
 
+  it('Should verify /v2/targeting-tasks/pages returns with status code 200', () => {
+    cy.visit('/airpax/tasks');
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    cy.wait('@taskList').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+      cy.get('.card-container').should('be.visible');
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
