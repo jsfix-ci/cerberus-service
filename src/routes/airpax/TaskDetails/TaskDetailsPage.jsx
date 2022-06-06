@@ -9,7 +9,6 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT } from '../../../constants';
-
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
