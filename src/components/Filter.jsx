@@ -9,9 +9,7 @@ const getCountForOption = (fieldId, value, taskStatus, movementModeCounts, selec
       value = null;
     }
     return selectorCounts?.find((f) => {
-      if (value !== 'BOTH') {
-        return f.filterParams[fieldId] === JSON.parse(value);
-      }
+      return f.filterParams[fieldId] === JSON.parse(value);
     })?.statusCounts[taskStatus];
   }
   if (fieldId === 'selectors') {
