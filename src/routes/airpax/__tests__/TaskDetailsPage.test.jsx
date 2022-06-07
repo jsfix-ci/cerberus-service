@@ -172,4 +172,40 @@ describe('Task details page', () => {
     expect(screen.queryByText('Issue target')).toBeInTheDocument();
     expect(screen.queryByText('Assessment complete')).toBeInTheDocument();
   });
+
+  it('should render a new label on a new and unclamied task', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataNoAssignee);
+
+    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(1);
+  });
+
+  it('should not render a new label on a claimed task', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataClaimedTask);
+
+    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
+  });
+
+  it('should not render a new label on an issued task', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataTargetIssued);
+
+    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
+  });
+
+  it('should not render a new label on a complete task', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataTaskComplete);
+
+    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
+  });
 });
