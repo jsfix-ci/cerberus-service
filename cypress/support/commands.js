@@ -815,11 +815,13 @@ function getTaskSummary(businessKey) {
     });
 
     if (businessKey.includes('Accompanied')) {
-      cy.wrap(element).contains('Driver details').then((count) => {
-        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((enrichmentCount) => {
-          taskSummary.driverEnrichmentCount = enrichmentCount;
+      if ((!businessKey.includes('Unknown-Null-vehicle-regNumber'))) {
+        cy.wrap(element).contains('Driver details').then((count) => {
+          cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((enrichmentCount) => {
+            taskSummary.driverEnrichmentCount = enrichmentCount;
+          });
         });
-      });
+      }
       cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
         cy.wrap(driverDetails).find('li').each((details, index) => {
           cy.wrap(details).invoke('text').then((info) => {
@@ -940,6 +942,10 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
 
   cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
     .click({ force: true });
+
+  cy.contains('Clear all filters').click();
+
+  cy.wait(1000);
 
   cy.contains('Apply filters').click();
   cy.wait(2000);
