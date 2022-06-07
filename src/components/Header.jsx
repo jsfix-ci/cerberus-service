@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useKeycloak } from '../utils/keycloak';
 import NavigationItem from './NavigationItem';
@@ -7,6 +7,7 @@ import NavigationItem from './NavigationItem';
 const Header = () => {
   const keycloak = useKeycloak();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = (e) => {
     e.preventDefault();
@@ -57,7 +58,8 @@ const Header = () => {
               }
               aria-label="Navigation menu"
             >
-              <NavigationItem href="/tasks">Tasks</NavigationItem>
+              {location.pathname === '/tasks' && <NavigationItem href="/airpax/tasks">Airpax tasks</NavigationItem>}
+              {location.pathname === '/airpax/tasks' && <NavigationItem href="/tasks">RoRo tasks</NavigationItem>}
               <li className="govuk-header__navigation-item">
                 <Link to="/" onClick={(e) => logout(e)} className="govuk-header__link">Sign out</Link>
               </li>
