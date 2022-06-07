@@ -32,6 +32,47 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should check Add a new note input box is visible in task details page when a task is claimed', () => {
+    const textNote = 'This is a test note';
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+    cy.get('#note').should('not.exist');
+    cy.intercept('POST', '/v2/targeting-tasks/*/claim').as('claim');
+    cy.contains('Claim').click({ force: true });
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
+    cy.get('.govuk-label').invoke('text').then(($text) => {
+      expect($text).to.equal('Add a new note');
+    });
+    cy.get('#note').should('be.visible').type(textNote);
+    cy.get('.hods-button').click();
+    cy.wait(3000);
+    cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
+    cy.get('@taskActivity').then(($activityText) => {
+      expect($activityText).includes(textNote);
+    });
+    cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
+    cy.get('.govuk-caption-xl').invoke('text').as('taskId');
+    cy.contains('Unclaim task').click();
+    cy.wait('@unclaim').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+    });
+    cy.get('@taskId').then((businessKey) => {
+      cy.visit(`/airpax/tasks/${businessKey}`);
+      cy.wait(3000);
+      cy.get('#note').should('not.exist');
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
