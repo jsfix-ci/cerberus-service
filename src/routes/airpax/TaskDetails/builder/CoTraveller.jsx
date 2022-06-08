@@ -12,6 +12,10 @@ import { PersonUtil, MovementUtil, BookingUtil, DateTimeUtil, DocumentUtil, Bagg
 import calculateTimeDifference from '../../../../utils/calculateDatetimeDifference';
 import '../../../../components/__assets__/Table.scss';
 
+const isValid = (value) => {
+  return value !== UNKNOWN_TEXT && !value;
+};
+
 const toTravellerColumnContent = (person, version) => {
   return (
     <>
@@ -39,12 +43,15 @@ const toCheckinColumnContent = (version) => {
   const departureTime = MovementUtil.departureTime(journey);
   return (
     <>
-      <div className="font__bold">{DateTimeUtil.format(checkInAt, LONG_DATE_FORMAT)}</div>
+      <div className="font__bold">
+        {isValid(checkInAt) ? DateTimeUtil.format(checkInAt, LONG_DATE_FORMAT) : UNKNOWN_TEXT}
+      </div>
       <div className="font__light">
-        {calculateTimeDifference(DateTimeUtil.toList(checkInAt, departureTime)).replace(
-          DAYJS_FUTURE,
-          DAYJS_FUTURE_AIXPAX_REPLACE,
-        )}
+        {(isValid(checkInAt) && isValid(departureTime))
+          ? calculateTimeDifference(DateTimeUtil.toList(checkInAt, departureTime)).replace(
+            DAYJS_FUTURE,
+            DAYJS_FUTURE_AIXPAX_REPLACE,
+          ) : UNKNOWN_TEXT}
       </div>
     </>
   );
