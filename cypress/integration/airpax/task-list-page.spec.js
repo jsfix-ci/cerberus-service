@@ -31,7 +31,7 @@ describe('Airpax task list page', () => {
   });
 
   it('Should display departure status in task list page', () => {
-    const statusInitials = ['CI', 'BP', 'DC', 'DX'];
+    const statusInitials = ['CI', 'BP', 'DC', 'DE'];
     const status = ['CHECKED_IN', 'BOOKED_PASSENGER', 'DEPARTURE_CONFIRMED', 'DEPARTURE_EXCEPTION'];
     statusInitials.forEach(function (statusInitials, i) {
       cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
