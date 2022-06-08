@@ -10,6 +10,8 @@ import { useFormSubmit } from '../utils/formioSupport';
 import hyperlinkify from '../utils/hyperlinkify';
 import { Renderers } from '../utils/Form';
 import { useKeycloak } from '../utils/keycloak';
+import { escapeJSON } from '../utils/stringConversion';
+
 // Components / Pages
 import RenderForm from './RenderForm';
 // JSON
@@ -19,12 +21,6 @@ import noteCerberus from '../cop-forms/noteCerberus';
 // https://docs.camunda.org/javadoc/camunda-bpm-platform/7.7/org/camunda/bpm/engine/history/UserOperationLogEntry.html
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
-
-const escapeJSON = (input) => {
-  return input.replace(/\\/g, '\\\\')
-    .replace(/\n/g, '\\n')
-    .replace(/"/g, '\\"');
-};
 
 const RoRoTaskNotes = ({ keycloak, displayForm, businessKey, processInstanceId, refreshNotes }) => {
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);

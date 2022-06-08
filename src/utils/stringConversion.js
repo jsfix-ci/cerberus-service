@@ -18,4 +18,14 @@ const formatMovementModeIconText = (roroData, movementMode) => {
   return output;
 };
 
-export { capitalizeFirstLetter, formatMovementModeIconText };
+const escapeJSON = (input) => {
+  if (!input && input !== 0) {
+    return '';
+  }
+  const inputAsText = String(input);
+  return inputAsText.replace(/\\/g, '\\\\')
+    .replace(/\n/g, '\\n')
+    .replace(/"/g, '\\"');
+};
+
+export { capitalizeFirstLetter, formatMovementModeIconText, escapeJSON };
