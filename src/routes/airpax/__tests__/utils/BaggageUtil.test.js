@@ -20,7 +20,7 @@ describe('BaggageUtil', () => {
       movement: {
         baggage: {
           numberOfCheckedBags: 1,
-          weight: '1',
+          weight: '1kg',
         },
       },
     };
@@ -29,7 +29,7 @@ describe('BaggageUtil', () => {
   it('should return a baggage object', () => {
     const expected = {
       numberOfCheckedBags: 1,
-      weight: '1',
+      weight: '1kg',
     };
 
     const output = BaggageUtil.get(targetTaskMin);
@@ -70,7 +70,7 @@ describe('BaggageUtil', () => {
   });
 
   it('should return baggage weight if present', () => {
-    targetTaskMin.movement.baggage.weight = '1';
+    targetTaskMin.movement.baggage.weight = '1kg';
     const output = BaggageUtil.weight(BaggageUtil.get(targetTaskMin));
     expect(output).toEqual('1kg');
   });
