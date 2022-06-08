@@ -1,7 +1,7 @@
 import { find } from "lodash";
 
 describe('Airpax task list page', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();
   });
@@ -22,8 +22,8 @@ describe('Airpax task list page', () => {
   });
 
   it('Should verify /v2/targeting-tasks/pages returns with status code 200', () => {
-    cy.visit('/airpax/tasks');
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    cy.visit('/airpax/tasks');
     cy.wait('@taskList').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
       cy.get('.card-container').should('be.visible');
@@ -31,8 +31,8 @@ describe('Airpax task list page', () => {
   });
 
   it('Should display departure status in task list page', () => {
-    const statusInitials = ['CI', 'BP', 'DC', 'DE'];
-    const status = ['CHECKED_IN', 'BOOKED_PASSENGER', 'DEPARTURE_CONFIRMED', 'DEPARTURE_EXCEPTION'];
+    const statusInitials = ['CI', 'BP', 'DC'];
+    const status = ['CHECKED_IN', 'BOOKED_PASSENGER', 'DEPARTURE_CONFIRMED'];
     statusInitials.forEach(function (statusInitials, i) {
       cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
       const taskName = 'AIRPAX';
@@ -94,9 +94,7 @@ describe('Airpax task list page', () => {
     });
   });
 
-
-
-  after(() => {
+  afterEach(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
