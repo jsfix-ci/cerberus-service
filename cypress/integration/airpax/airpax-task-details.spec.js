@@ -45,11 +45,7 @@ describe('Verify AirPax task details of different sections', () => {
       });
     });
     cy.get('#note').should('not.exist');
-    cy.intercept('POST', '/v2/targeting-tasks/*/claim').as('claim');
-    cy.contains('Claim').click({ force: true });
-    cy.wait('@claim').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
-    });
+    cy.claimAirPaxTask();
     cy.get('.govuk-label').invoke('text').then(($text) => {
       expect($text).to.equal('Add a new note');
     });
@@ -60,12 +56,8 @@ describe('Verify AirPax task details of different sections', () => {
     cy.get('@taskActivity').then(($activityText) => {
       expect($activityText).includes(textNote);
     });
-    cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
     cy.get('.govuk-caption-xl').invoke('text').as('taskId');
-    cy.contains('Unclaim task').click();
-    cy.wait('@unclaim').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
-    });
+    cy.unClaimAirPaxTask();
     cy.get('@taskId').then((businessKey) => {
       cy.visit(`/airpax/tasks/${businessKey}`);
       cy.wait(3000);
