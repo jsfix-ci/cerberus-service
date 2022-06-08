@@ -156,8 +156,8 @@ const TaskListPage = () => {
 
   return (
     <>
-      <div className="heading-container">
-        <h1 className="govuk-heading-xl airpax-govuk-heading-xl">Task management (AirPax)</h1>
+      <div className="heading-container govuk-!-margin-bottom-8">
+        <h1 className="govuk-heading-xl govuk-!-margin-bottom-0 govuk-!-padding-right-1">Task management (AirPax)</h1>
         <Link className="roro-task-link" to="/tasks">RoRo tasks</Link>
       </div>
       {!authorisedGroup && <p>You are not authorised to view these tasks.</p>}
