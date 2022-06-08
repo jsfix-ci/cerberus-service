@@ -168,6 +168,7 @@ describe('TaskListPage', () => {
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('New tasks')).toBeInTheDocument();
+    expect(screen.getByText(/Task management \(AirPax\)/)).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByText('There are no new tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
