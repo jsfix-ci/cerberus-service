@@ -14,6 +14,8 @@ import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAndUpdateTaskVersionDifferences';
 import { formatTaskStatusToCamelCase } from '../../../utils/formatTaskStatus';
+import { Renderers } from '../../../utils/Form';
+import { escapeJSON } from '../../../utils/stringConversion';
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
@@ -23,8 +25,15 @@ import TaskVersions from './TaskVersions';
 import TaskNotes from '../../../components/TaskNotes';
 
 // Styling
-import '../__assets__/TaskDetailsPage.scss';
 import Button from '../../../govuk/Button';
+import RenderForm from '../../../components/RenderForm';
+import TaskOutcomeMessage from './TaskOutcomeMessage';
+
+// Styling
+import '../__assets__/TaskDetailsPage.scss';
+
+// JSON
+import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -37,6 +46,9 @@ const TaskDetailsPage = () => {
   const [taskData, setTaskData] = useState();
   const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
   const [isLoading, setLoading] = useState(true);
+
+  const [isSubmitted, setSubmitted] = useState();
+  const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
   const getTaskData = async () => {
@@ -93,7 +105,7 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
           <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
-          {(formattedTaskStatus !== TASK_STATUS_TARGET_ISSUED && formattedTaskStatus !== TASK_STATUS_COMPLETED)
+          {!isSubmitted && (formattedTaskStatus !== TASK_STATUS_TARGET_ISSUED && formattedTaskStatus !== TASK_STATUS_COMPLETED)
             && (
               <>
                 {formattedTaskStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
@@ -111,7 +123,7 @@ const TaskDetailsPage = () => {
             )}
         </div>
         <div className="govuk-grid-column-one-half task-actions--buttons">
-          {assignee === currentUser && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
+          {!isSubmitted && assignee === currentUser && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
           <>
             <Button
               className="govuk-!-margin-right-1"
@@ -125,6 +137,9 @@ const TaskDetailsPage = () => {
             </Button>
             <Button
               className="govuk-button--warning"
+              onClick={() => {
+                setDismissTaskFormOpen(true);
+              }}
             >
               Dismiss
             </Button>
@@ -134,7 +149,33 @@ const TaskDetailsPage = () => {
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
-          {taskData && (
+          {isDismissTaskFormOpen && !isSubmitted && (
+            <RenderForm
+              preFillData={{ businessKey }}
+              onSubmit={
+                async (data) => {
+                  await apiClient.post(`/targeting-tasks/${businessKey}/dismissals`, {
+                    reason: data.data.reasonForDismissing,
+                    otherReasonDetail: data.data.otherReasonToDismiss,
+                    note: escapeJSON(data.data.addANote),
+                    userId: data.data.form.submittedBy,
+                  });
+                  setSubmitted(true);
+                }
+              }
+              form={dismissTask}
+              renderer={Renderers.REACT}
+            />
+          )}
+          {isDismissTaskFormOpen && isSubmitted && (
+            <TaskOutcomeMessage
+              message="Task has been dismissed"
+              setSubmitted={setSubmitted}
+              setDismissTaskFormOpen={setDismissTaskFormOpen}
+              setRefreshNotesForm={setRefreshNotesForm}
+            />
+          )}
+          {!isDismissTaskFormOpen && taskData && (
             <TaskVersions
               taskVersions={taskData.versions}
               businessKey={businessKey}
@@ -144,7 +185,7 @@ const TaskDetailsPage = () => {
           )}
         </div>
         <div className="govuk-grid-column-one-third">
-          {currentUser === assignee
+          {!isSubmitted && currentUser === assignee
             && (
             <TaskNotes
               noteVariant={MOVEMENT_VARIANT.AIRPAX}

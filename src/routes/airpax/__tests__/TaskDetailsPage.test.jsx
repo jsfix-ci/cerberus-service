@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
@@ -10,6 +11,8 @@ import dataNoAssignee from '../__fixtures__/taskData_AirPax_NoAssignee.fixture.j
 import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
 import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
 import dataClaimedTask from '../__fixtures__/taskData_AirPax_ClaimedTask.fixture.json';
+import dataDismissedTask from '../__fixtures__/taskData_AirPax_DismissedTask.json';
+
 import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 // Extend the react-router-dom mock from jest.setup.jsx.
@@ -207,5 +210,16 @@ describe('Task details page', () => {
 
     const { container } = await waitFor(() => render(<TaskDetailsPage />));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
+  });
+
+  it('should not show action buttons for task that has been dismissed', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(200, dataDismissedTask);
+
+    await waitFor(() => render(<TaskDetailsPage />));
+    expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
+    expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
+    expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
   });
 });
