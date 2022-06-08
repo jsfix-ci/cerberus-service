@@ -65,6 +65,46 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should see all the action buttons if task claimed by the same user', () => {
+    const actionItems = [
+      'Issue target',
+      'Assessment complete',
+      'Dismiss',
+    ];
+
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+    cy.claimAirPaxTask();
+
+    cy.get('.task-actions--buttons button').each(($items, index) => {
+      expect($items.text()).to.equal(actionItems[index]);
+    });
+  });
+
+  it('Should verify all the action buttons not available for non-task owner', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.claimAirPaxTaskWithUserId(response.id);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+
+    cy.get('.task-actions--buttons button').should('not.exist');
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
