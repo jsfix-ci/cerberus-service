@@ -58,8 +58,8 @@ const Header = () => {
               }
               aria-label="Navigation menu"
             >
-              {location.pathname === '/tasks' && <NavigationItem href="/airpax/tasks">Airpax tasks</NavigationItem>}
-              {location.pathname === '/airpax/tasks' && <NavigationItem href="/tasks">RoRo tasks</NavigationItem>}
+              {location.pathname.startsWith('/tasks') && <NavigationItem href="/tasks">Tasks</NavigationItem>}
+              {location.pathname.startsWith('/airpax/tasks') && <NavigationItem href="/airpax/tasks">Tasks</NavigationItem>}
               <li className="govuk-header__navigation-item">
                 <Link to="/" onClick={(e) => logout(e)} className="govuk-header__link">Sign out</Link>
               </li>

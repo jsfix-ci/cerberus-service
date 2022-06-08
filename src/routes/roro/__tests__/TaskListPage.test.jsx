@@ -269,6 +269,7 @@ describe('TaskListPage', () => {
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
+    expect(screen.getByText(/Task management \(RoRo\)/)).toBeInTheDocument();
     expect(screen.getByText('New (0)')).toBeInTheDocument();
     expect(screen.getByText('Issued (0)')).toBeInTheDocument();
 

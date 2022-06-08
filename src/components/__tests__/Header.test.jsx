@@ -26,16 +26,16 @@ describe('Header', () => {
 
   describe('AirpaxTasks', () => {
     const extendedRouterMock = jest.requireMock('react-router-dom');
-    it('should render the airpax task nav link on the header', () => {
+    it('should render the Tasks wording as a URL when on roro task list page, on the header', () => {
       extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: '/tasks' });
       render(<Header />);
-      expect(screen.getByText('Airpax tasks')).toBeInTheDocument();
+      expect(screen.getByText('Tasks')).toBeInTheDocument();
     });
 
-    it('should render the roro task nav link on the header', () => {
+    it('should render the Tasks wording as a URL when on airpax task list page, on the header', () => {
       extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: '/airpax/tasks' });
       render(<Header />);
-      expect(screen.getByText('RoRo tasks')).toBeInTheDocument();
+      expect(screen.getByText('Tasks')).toBeInTheDocument();
     });
   });
 });
