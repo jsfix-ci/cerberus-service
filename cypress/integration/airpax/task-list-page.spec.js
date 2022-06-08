@@ -28,7 +28,7 @@ describe('Airpax task list page', () => {
     });
   });
 
-  it.only('Should display departure status in task list page', () => {
+  it('Should display departure status in task list page', () => {
     const statusInitials = ['CI', 'BP', 'DC'];
     const status = ['CHECKED_IN', 'BOOKED_PASSENGER', 'DEPARTURE_CONFIRMED'];
     statusInitials.forEach((statusInitial, i) => {
@@ -39,8 +39,8 @@ describe('Airpax task list page', () => {
         task.data.movement.serviceMovement.features.feats['STANDARDISED:lastReportedStatus'].value = statusInitial;
         console.log(task);
         cy.createAirPaxTask(task).then((taskResponse) => {
-          expect(response.movement.id).to.contain('AIRPAX');
-          expect(response.movement.flight.departureStatus).to.contain(status[i]);
+          expect(taskResponse.movement.id).to.contain('AIRPAX');
+          expect(taskResponse.movement.flight.departureStatus).to.contain(status[i]);
           console.log(taskResponse);
           let businessKey = taskResponse.id;
           cy.visit('/airpax/tasks');
@@ -53,7 +53,7 @@ describe('Airpax task list page', () => {
               cy.log('task text', text);
               if (text.includes(businessKey)) {
                 cy.wrap(item).find('.hods-tag').invoke('text').then((statusText) => {
-                  expect(statusText).to.equal(statusInitials);
+                  expect(statusText).to.equal(statusInitial);
                 });
               }
             });
@@ -71,8 +71,8 @@ describe('Airpax task list page', () => {
       task.data.movement.serviceMovement.features.feats['STANDARDISED:lastReportedStatus'].value = null;
       console.log(task);
       cy.createAirPaxTask(task).then((taskResponse) => {
-        expect(response.movement.id).to.contain('AIRPAX');
-        expect(response.movement.flight.departureStatus).to.eql(null);
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        expect(taskResponse.movement.flight.departureStatus).to.eql(null);
         console.log(taskResponse);
         let businessKey = taskResponse.id;
         cy.visit('/airpax/tasks');
