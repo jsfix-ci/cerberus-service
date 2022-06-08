@@ -1694,3 +1694,19 @@ Cypress.Commands.add('doNotAcceptPNRTerms', () => {
   cy.get('h1.govuk-heading-l').should('have.text', 'Continue without viewing PNR data');
   cy.contains('button', 'Continue').click();
 });
+
+Cypress.Commands.add('claimAirPaxTask', () => {
+  cy.intercept('POST', '/v2/targeting-tasks/*/claim').as('claim');
+  cy.contains('Claim').click({ force: true });
+  cy.wait('@claim').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('unClaimAirPaxTask', () => {
+  cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
+  cy.contains('Unclaim task').click();
+  cy.wait('@unclaim').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
