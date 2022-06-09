@@ -1094,6 +1094,9 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         This movement
                       </div>
+                      <span
+                        className="govuk-visually-hidden"
+                      />
                     </td>
                   </tr>
                   <tr
@@ -1225,14 +1228,18 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         
                       </span>
-                      <a
-                        className="govuk-link"
-                        data-module="govuk-link"
-                        href="/"
-                        target="_blank"
+                      <span
+                        className="govuk-visually-hidden"
                       >
-                        Movement detail
-                      </a>
+                        <a
+                          className="govuk-link"
+                          data-module="govuk-link"
+                          href="/airpax/tasks"
+                          target="_blank"
+                        >
+                          Movement detail
+                        </a>
+                      </span>
                     </td>
                   </tr>
                   <tr
@@ -1364,14 +1371,18 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         
                       </span>
-                      <a
-                        className="govuk-link"
-                        data-module="govuk-link"
-                        href="/"
-                        target="_blank"
+                      <span
+                        className="govuk-visually-hidden"
                       >
-                        Movement detail
-                      </a>
+                        <a
+                          className="govuk-link"
+                          data-module="govuk-link"
+                          href="/airpax/tasks"
+                          target="_blank"
+                        >
+                          Movement detail
+                        </a>
+                      </span>
                     </td>
                   </tr>
                   <tr
@@ -1503,14 +1514,18 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         
                       </span>
-                      <a
-                        className="govuk-link"
-                        data-module="govuk-link"
-                        href="/"
-                        target="_blank"
+                      <span
+                        className="govuk-visually-hidden"
                       >
-                        Movement detail
-                      </a>
+                        <a
+                          className="govuk-link"
+                          data-module="govuk-link"
+                          href="/airpax/tasks"
+                          target="_blank"
+                        >
+                          Movement detail
+                        </a>
+                      </span>
                     </td>
                   </tr>
                 </tbody>
