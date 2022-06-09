@@ -8,6 +8,7 @@ import { LONG_DATE_FORMAT } from '../../../constants';
 import Accordion from '../../../govuk/Accordion';
 // Components
 import Document from './builder/Document';
+import Baggage from './builder/Baggage';
 import Booking from './builder/Booking';
 import Passenger from './builder/Passenger';
 import Voyage from './builder/Voyage';
@@ -60,6 +61,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
                   <div className="govuk-grid-column-one-third">
                     <Passenger version={version} />
                     <Document version={version} />
+                    <Baggage version={version} />
                   </div>
                   <div className="govuk-grid-column-one-third vertical-dotted-line__first">
                     <div className="govuk-task-details__col-2">
