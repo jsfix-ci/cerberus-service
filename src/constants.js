@@ -210,6 +210,7 @@ export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
   movementModes: ['AIR_PASSENGER'],
   mode: 'AIR_PASSENGER',
   selectors: 'ANY',
+  rules: [],
 };
 
 export const TAB_STATUS_MAPPING = {

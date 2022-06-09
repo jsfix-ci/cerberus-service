@@ -32,54 +32,64 @@ export const airpax = {
   name: 'filter',
   type: 'form',
   components: [],
-  pages: [{
-    id: 'filter',
-    name: 'filter',
-    components: [
-      {
-        id: 'mode',
-        fieldId: 'mode',
-        label: 'Mode',
-        type: 'select',
-        required: true,
-        dynamicOptions: true,
-        data: {
-          options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('AIRPAX')),
+  pages: [
+    {
+      id: 'filter',
+      name: 'filter',
+      components: [
+        {
+          id: 'mode',
+          fieldId: 'mode',
+          label: 'Mode',
+          type: 'select',
+          required: true,
+          dynamicOptions: true,
+          data: {
+            options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('AIRPAX')),
+          },
         },
-      },
-      {
-        id: 'selectors',
-        fieldId: 'selectors',
-        label: 'Selectors',
-        type: 'radios',
-        required: true,
-        dynamicOptions: true,
-        data: {
-          options: [
-            {
-              value: 'NOT_PRESENT',
-              label: 'Has no selector',
-            },
-            {
-              value: 'PRESENT',
-              label: 'Has selector',
-            },
-            {
-              value: 'ANY',
-              label: 'Both',
-            },
-          ],
+        {
+          id: 'selectors',
+          fieldId: 'selectors',
+          label: 'Selectors',
+          type: 'radios',
+          required: true,
+          dynamicOptions: true,
+          data: {
+            options: [
+              {
+                value: 'NOT_PRESENT',
+                label: 'Has no selector',
+              },
+              {
+                value: 'PRESENT',
+                label: 'Has selector',
+              },
+              {
+                value: 'ANY',
+                label: 'Both',
+              },
+            ],
+          },
         },
-      },
-    ],
-    actions: [
-      {
-        type: 'submit',
-        validate: true,
-        label: 'Apply',
-      },
-    ],
-  }],
+        {
+          id: 'rules',
+          fieldId: 'rules',
+          label: 'Rule matches',
+          type: 'multiautocomplete',
+          multi: true,
+          required: false,
+        },
+      ],
+      actions: [
+        {
+          type: 'submit',
+          validate: true,
+          label: 'Apply',
+        },
+      ],
+    },
+  ],
 };
 
 export const roro = {
