@@ -183,17 +183,17 @@ export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
 export const DEFAULT_AIRPAX_SELECTORS = [
   {
     taskStatuses: [],
-    movementModes: [],
+    movementModes: ['AIR_PASSENGER'],
     selectors: 'PRESENT',
   },
   {
     taskStatuses: [],
-    movementModes: [],
+    movementModes: ['AIR_PASSENGER'],
     selectors: 'NOT_PRESENT',
   },
   {
     taskStatuses: [],
-    movementModes: [],
+    movementModes: ['AIR_PASSENGER'],
     selectors: 'ANY',
   },
 ];
