@@ -253,7 +253,7 @@ exports[`TaskVersions should render task versions 1`] = `
                 </div>
               </div>
               <div
-                className="task-details-container"
+                className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
               >
                 <h3
                   className="govuk-heading-m govuk-!-margin-top-0"
@@ -381,6 +381,68 @@ exports[`TaskVersions should render task versions 1`] = `
                     </p>
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="task-details-container"
+              >
+                <h3
+                  className="govuk-heading-m govuk-!-margin-top-0"
+                >
+                  Baggage
+                </h3>
+                <p
+                  className="font__light"
+                >
+                  This booking is for multiple travellers. Check the travellers list for baggage allocations.
+                </p>
+                <div
+                  className="govuk-task-details-grid-column"
+                >
+                  <div
+                    className="govuk-!-margin-bottom-2"
+                  >
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Checked bags
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown
+                    </p>
+                  </div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
+                  >
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Total weight
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold"
+                    >
+                      Unknown
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="govuk-!-margin-bottom-2"
+                  >
+                    <p
+                      className="govuk-!-margin-bottom-0 font__light"
+                    >
+                      Tag number
+                    </p>
+                    <p
+                      className="govuk-!-margin-bottom-0 font__bold word-break"
                     >
                       Unknown
                     </p>

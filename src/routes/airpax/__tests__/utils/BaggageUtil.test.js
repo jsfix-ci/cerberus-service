@@ -95,6 +95,21 @@ describe('BaggageUtil', () => {
     expect(output).toEqual(0);
   });
 
+  it('should return Unknown if no Tags numbers are found', () => {
+    const output = BaggageUtil.tags(targetTaskMin.movement.baggage);
+    expect(output).toBe('Unknown');
+  });
+
+  it('should return tags as comma separated strings if present', () => {
+    targetTaskMin.movement.baggage.tags = [
+      '739238',
+      '739239',
+      '739240',
+    ];
+    const output = BaggageUtil.tags(targetTaskMin.movement.baggage);
+    expect(output).toEqual('739238, 739239, 739240');
+  });
+
   it.each(invalidValues)(
     'should return unknown for invalid number of checked bags', (invalidValue, expected) => {
       targetTaskMin.movement.baggage.numberOfCheckedBags = invalidValue;
