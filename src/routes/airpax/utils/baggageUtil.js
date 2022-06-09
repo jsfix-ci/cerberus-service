@@ -19,6 +19,17 @@ const getBaggage = (targetTask) => {
   return null;
 };
 
+const hasTags = (targetTask) => {
+  return targetTask?.tags && !!targetTask.tags.length > 0;
+};
+
+const getTags = (targetTask) => {
+  if (hasTags(targetTask)) {
+    return targetTask.tags.join(', ');
+  }
+  return UNKNOWN_TEXT;
+};
+
 const getCheckedBags = (baggage, taskDetails = false) => {
   if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
     return UNKNOWN_TEXT;
@@ -52,6 +63,7 @@ const toFormattedCheckedBagsCount = (baggage) => {
 
 const BaggageUtil = {
   get: getBaggage,
+  tags: getTags,
   weight: getBaggageWeight,
   checked: getCheckedBags,
   checkedCount: getNumberOfCheckedBags,
