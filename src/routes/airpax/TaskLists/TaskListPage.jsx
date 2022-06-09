@@ -46,6 +46,16 @@ const TaskListPage = () => {
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
   const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
+  const [rulesOptions, setRulesOptions] = useState([]);
+
+  const getRulesOptions = async () => {
+    try {
+      const response = await apiClient.get('/filters/rules');
+      setRulesOptions(response.data);
+    } catch (e) {
+      setRulesOptions([]);
+    }
+  };
 
   const getAppliedFilters = () => {
     const taskId = getTaskId(TASK_ID_KEY);
@@ -150,6 +160,10 @@ const TaskListPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    getRulesOptions();
+  }, []);
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -188,6 +202,7 @@ const TaskListPage = () => {
                 onApply={applyFilters}
                 appliedFilters={appliedFilters}
                 filtersAndSelectorsCount={filtersAndSelectorsCount}
+                rulesOptions={rulesOptions}
               />
             </div>
           </div>
