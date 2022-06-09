@@ -1703,6 +1703,19 @@ Cypress.Commands.add('claimAirPaxTask', () => {
   });
 });
 
+Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/v2/targeting-tasks/${taskId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
 Cypress.Commands.add('unClaimAirPaxTask', () => {
   cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
   cy.contains('Unclaim task').click();
