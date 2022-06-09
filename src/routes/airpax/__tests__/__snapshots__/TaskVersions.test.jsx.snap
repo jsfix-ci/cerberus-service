@@ -1021,12 +1021,12 @@ exports[`TaskVersions should render task versions 1`] = `
                       <div
                         className="font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </div>
                       <div
                         className="font__light"
                       >
-                        NaN years ago
+                        Unknown
                       </div>
                     </td>
                     <td
@@ -1157,12 +1157,12 @@ exports[`TaskVersions should render task versions 1`] = `
                       <div
                         className="font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </div>
                       <div
                         className="font__light"
                       >
-                        NaN years ago
+                        Unknown
                       </div>
                     </td>
                     <td
@@ -1296,12 +1296,12 @@ exports[`TaskVersions should render task versions 1`] = `
                       <div
                         className="font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </div>
                       <div
                         className="font__light"
                       >
-                        NaN years ago
+                        Unknown
                       </div>
                     </td>
                     <td
@@ -1435,12 +1435,12 @@ exports[`TaskVersions should render task versions 1`] = `
                       <div
                         className="font__bold"
                       >
-                        Invalid Date
+                        Unknown
                       </div>
                       <div
                         className="font__light"
                       >
-                        NaN years ago
+                        Unknown
                       </div>
                     </td>
                     <td

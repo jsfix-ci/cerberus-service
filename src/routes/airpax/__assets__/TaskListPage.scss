@@ -28,6 +28,11 @@ $govuk-assets-path: '~govuk-frontend/govuk/assets/';
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
+
+  .roro-task-link {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 
 .title-container {
