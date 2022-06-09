@@ -1,6 +1,6 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import { Link } from '@ukhomeoffice/cop-react-components';
+import { Link, VisuallyHidden } from '@ukhomeoffice/cop-react-components';
 import Table from '../../../../components/Table';
 
 import { CO_TRAVELLERS_TABLE_HEADERS,
@@ -93,7 +93,10 @@ const toMovementDetailsColumnContent = (index) => {
   return (
     <>
       {index === 0 && <div className="font__light">This movement</div>}
-      {index !== 0 && <Link href="/" target="_blank">Movement detail</Link>}
+      {/* Line below has been intentionally hidden */}
+      <VisuallyHidden>
+        {index !== 0 && <Link href="/airpax/tasks" target="_blank">Movement detail</Link>}
+      </VisuallyHidden>
     </>
   );
 };

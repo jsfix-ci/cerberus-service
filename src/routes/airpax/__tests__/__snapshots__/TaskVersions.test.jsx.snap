@@ -1225,14 +1225,6 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         
                       </span>
-                      <a
-                        className="govuk-link"
-                        data-module="govuk-link"
-                        href="/"
-                        target="_blank"
-                      >
-                        Movement detail
-                      </a>
                     </td>
                   </tr>
                   <tr
@@ -1364,14 +1356,6 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         
                       </span>
-                      <a
-                        className="govuk-link"
-                        data-module="govuk-link"
-                        href="/"
-                        target="_blank"
-                      >
-                        Movement detail
-                      </a>
                     </td>
                   </tr>
                   <tr
@@ -1503,14 +1487,6 @@ exports[`TaskVersions should render task versions 1`] = `
                       >
                         
                       </span>
-                      <a
-                        className="govuk-link"
-                        data-module="govuk-link"
-                        href="/"
-                        target="_blank"
-                      >
-                        Movement detail
-                      </a>
                     </td>
                   </tr>
                 </tbody>
