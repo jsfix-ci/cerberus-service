@@ -214,13 +214,9 @@ const getTaskId = (taskIdKey) => {
     ? localStorage.getItem(taskIdKey) : TASK_STATUS_NEW;
 };
 
-const hasLocalStorageFilters = (filtersKey) => {
-  return localStorage.getItem(filtersKey) !== null
-  && localStorage.getItem(filtersKey) !== 'null';
-};
-
-const getLocalStorageFilters = (filtersKey) => {
-  return JSON.parse(localStorage.getItem(filtersKey));
+const isLocalStoredPresent = (key) => {
+  return localStorage.getItem(key) !== null
+  && localStorage.getItem(key) !== 'null';
 };
 
 const toRoRoSelectorsValue = (value) => {
@@ -228,6 +224,25 @@ const toRoRoSelectorsValue = (value) => {
     return null;
   }
   return JSON.parse(value);
+};
+
+/**
+ * Gets a particular field out of the stored data.
+ * This can also equally return the whole stored data.
+ *
+ * @param {*} key The key the stored data is associated with.
+ * @param {*} value The value to be returned from the stored data.
+ *            Omitting this parameter will return just the whole stored data item.
+ * @returns A particular item from within the stored data or the whole stored data.
+ */
+const getLocalStoredItemByKeyValue = (key, value = undefined) => {
+  if (!isLocalStoredPresent(key)) {
+    return null;
+  }
+  if (!value && value !== 0) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+  return JSON.parse(localStorage.getItem(key))[value];
 };
 
 export { modifyRoRoPassengersTaskList,
@@ -250,6 +265,5 @@ export { modifyRoRoPassengersTaskList,
   filterKnownPassengers,
   isNotNumber,
   getTaskId,
-  getLocalStorageFilters,
-  hasLocalStorageFilters,
-  toRoRoSelectorsValue };
+  toRoRoSelectorsValue,
+  getLocalStoredItemByKeyValue };
