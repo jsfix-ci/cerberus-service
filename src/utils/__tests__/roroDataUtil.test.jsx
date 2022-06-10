@@ -1,4 +1,4 @@
-import { TASK_ID_KEY, TASK_STATUS_NEW } from '../../constants';
+import { TASK_STATUS_KEY, TASK_STATUS_NEW } from '../../constants';
 import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
@@ -9,7 +9,7 @@ import { modifyRoRoPassengersTaskList,
   isSinglePassenger,
   filterKnownPassengers,
   isNotNumber,
-  getTaskId,
+  getTaskStatus,
   getLocalStoredItemByKeyValue,
   toRoRoSelectorsValue } from '../roroDataUtil';
 
@@ -660,14 +660,14 @@ describe('RoRoData Util', () => {
 
   it('should return the set task id', () => {
     const EXPECTED = 'test-task-id';
-    localStorage.setItem(TASK_ID_KEY, EXPECTED);
+    localStorage.setItem(TASK_STATUS_KEY, EXPECTED);
 
-    const output = getTaskId(TASK_ID_KEY);
+    const output = getTaskStatus(TASK_STATUS_KEY);
     expect(output).toEqual(EXPECTED);
   });
 
   it(`should return task status "${TASK_STATUS_NEW}" if none has been set in local storage`, () => {
-    const output = getTaskId(TASK_ID_KEY);
+    const output = getTaskStatus(TASK_STATUS_KEY);
     expect(output).toEqual(TASK_STATUS_NEW);
   });
 

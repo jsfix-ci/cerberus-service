@@ -12,11 +12,11 @@ import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
-  TASK_ID_KEY,
+  TASK_STATUS_KEY,
   MOVEMENT_VARIANT } from '../../../constants';
 
 // Utils
-import { getTaskId,
+import { getTaskStatus,
   getLocalStoredItemByKeyValue } from '../../../utils/roroDataUtil';
 import { useKeycloak } from '../../../utils/keycloak';
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -58,17 +58,17 @@ const TaskListPage = () => {
   };
 
   const getAppliedFilters = () => {
-    const taskId = getTaskId(TASK_ID_KEY);
+    const taskStatus = getTaskStatus(TASK_STATUS_KEY);
     const storedData = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
     if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
-        taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: mode.movementModes,
         selectors: storedData.selectors || mode.selectors,
         ruleIds: storedData.ruleIds || mode.ruleIds,
       }));
       const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
-        taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: [storedData.mode] || [],
         selectors: storedData.selectors || selector.selectors,
         ruleIds: storedData.ruleIds || [],
@@ -78,12 +78,12 @@ const TaskListPage = () => {
     return [
       ...DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
         ...mode,
-        taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
       })),
       ...DEFAULT_AIRPAX_SELECTORS.map((selector) => {
         return {
           ...selector,
-          taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
     ];
@@ -104,8 +104,8 @@ const TaskListPage = () => {
     }
   };
 
-  const getFiltersAndSelectorsCount = async (taskId = TASK_STATUS_NEW) => {
-    localStorage.setItem(TASK_ID_KEY, taskId);
+  const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS_NEW) => {
+    localStorage.setItem(TASK_STATUS_KEY, taskStatus);
     try {
       const countsResponse = await apiClient.post(
         '/targeting-tasks/status-counts',
@@ -130,21 +130,21 @@ const TaskListPage = () => {
     localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     getTaskCount(payload);
     setAppliedFilters(payload);
-    getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
     setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
     localStorage.removeItem(AIRPAX_FILTERS_KEY);
-    getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
     setAppliedFilters(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
     getTaskCount(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   };
 
   const applySavedFiltersOnLoad = () => {
     applyFilters(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY) || DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
-    getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
     setLoading(false);
   };
 
@@ -197,7 +197,7 @@ const TaskListPage = () => {
             <div>
               <Filter
                 mode={MOVEMENT_VARIANT.AIRPAX}
-                taskStatus={getTaskId(TASK_ID_KEY)}
+                taskStatus={getTaskStatus(TASK_STATUS_KEY)}
                 onApply={applyFilters}
                 appliedFilters={appliedFilters}
                 filtersAndSelectorsCount={filtersAndSelectorsCount}
