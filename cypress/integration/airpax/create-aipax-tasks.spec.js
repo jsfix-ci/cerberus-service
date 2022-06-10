@@ -40,7 +40,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
-  it.only('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
+  it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
     const departure = ['LHR', 'GB'];
     const arrival = ['CAL', 'FR'];
     const taskName = 'AIRPAX';
@@ -64,7 +64,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
-  it.only('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields not present', () => {
+  it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields not present', () => {
     const departure = ['LHR', 'GB'];
     const arrival = ['CAL', 'FR'];
     const taskName = 'AIRPAX';
