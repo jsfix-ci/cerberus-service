@@ -113,6 +113,14 @@ describe('TaskVersions', () => {
     expect(screen.getByText('Valid from')).toBeInTheDocument();
   });
 
+  it('should render the baggage section from version', () => {
+    render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
+    expect(screen.getByText('Baggage')).toBeInTheDocument();
+    expect(screen.getByText('Checked bags')).toBeInTheDocument();
+    expect(screen.getByText('Total weight')).toBeInTheDocument();
+    expect(screen.getByText('Tag number')).toBeInTheDocument();
+  });
+
   it('should render the booking section from version', () => {
     render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
     expect(screen.getByText('Reference')).toBeInTheDocument();

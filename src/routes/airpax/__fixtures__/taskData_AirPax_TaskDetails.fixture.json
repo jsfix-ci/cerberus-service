@@ -98,7 +98,15 @@
     },
     "baggage": {
       "numberOfCheckedBags": 1,
-      "weight": "1kg"
+      "weight": "1kg",    
+      "tags": [
+          "739238",
+          "739239",
+          "739240",
+          "739242",
+          "739243",
+          "73925"
+      ]
     },
     "vehicle": null,
     "trailer": null,
@@ -337,9 +345,7 @@
         "baggage": {
           "numberOfCheckedBags": null,
           "weight": null,
-          "tags": [
-            
-          ]
+          "tags": []
         },
         "vehicle": null,
         "trailer": null,
@@ -747,7 +753,7 @@
         "baggage": {
           "numberOfCheckedBags": null,
           "weight": null,
-          "tags": null
+          "tags": []
         },
         "vehicle": null,
         "trailer": null,
