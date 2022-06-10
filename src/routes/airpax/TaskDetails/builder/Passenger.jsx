@@ -7,7 +7,7 @@ const Passenger = ({ version }) => {
   const person = PersonUtils.get(version);
   return (
     <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
-      <h3 className="govuk-heading-m govuk-!-margin-top-0">Passenger</h3>
+      <h3 className="govuk-heading-m govuk-!-margin-top-0">{MovementUtils.movementType(version)}</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Name', [`${PersonUtils.lastname(person)}, ${PersonUtils.firstname(person)}`])}
         {renderBlock(undefined, undefined)}
