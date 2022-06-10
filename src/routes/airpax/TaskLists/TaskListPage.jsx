@@ -17,8 +17,7 @@ import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
 
 // Utils
 import { getTaskId,
-  hasLocalStorageFilters,
-  getLocalStorageFilters } from '../../../utils/roroDataUtil';
+  getLocalStoredItemByKeyValue } from '../../../utils/roroDataUtil';
 import { useKeycloak } from '../../../utils/keycloak';
 import useAxiosInstance from '../../../utils/axiosInstance';
 
@@ -53,26 +52,26 @@ const TaskListPage = () => {
       const response = await apiClient.get('/filters/rules');
       setRulesOptions(response.data);
     } catch (e) {
+      setError(e.message);
       setRulesOptions([]);
     }
   };
 
   const getAppliedFilters = () => {
     const taskId = getTaskId(TASK_ID_KEY);
-    const localStorageFilters = hasLocalStorageFilters(AIRPAX_FILTERS_KEY)
-      ? getLocalStorageFilters(AIRPAX_FILTERS_KEY) : null;
-    if (localStorageFilters) {
+    const storedData = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
+    if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskId]],
         movementModes: mode.movementModes,
-        selectors: localStorageFilters?.selectors
-          ? localStorageFilters.selectors : mode.selectors,
+        selectors: storedData.selectors || mode.selectors,
+        ruleIds: storedData.ruleIds || mode.ruleIds,
       }));
-      const selectedFilters = localStorageFilters ? [localStorageFilters.mode] : [];
       const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskId]],
-        movementModes: selectedFilters,
-        selectors: selector.selectors,
+        movementModes: [storedData.mode] || [],
+        selectors: storedData.selectors || selector.selectors,
+        ruleIds: storedData.ruleIds || [],
       }));
       return movementModes.concat(selectors);
     }
@@ -123,11 +122,12 @@ const TaskListPage = () => {
 
   const applyFilters = (payload) => {
     setLoading(true);
-    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     payload = {
       ...payload,
       movementModes: payload?.mode ? [payload.mode] : [],
+      ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((val) => !!val) : [],
     };
+    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     getTaskCount(payload);
     setAppliedFilters(payload);
     getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
@@ -143,8 +143,7 @@ const TaskListPage = () => {
   };
 
   const applySavedFiltersOnLoad = () => {
-    const loadedFilters = getLocalStorageFilters(AIRPAX_FILTERS_KEY) || DEFAULT_APPLIED_AIRPAX_FILTER_STATE;
-    applyFilters(loadedFilters);
+    applyFilters(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY) || DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
     getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
     setLoading(false);
   };

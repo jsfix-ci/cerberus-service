@@ -24,8 +24,7 @@ import config from '../../../config';
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 import { getTaskId,
-  hasLocalStorageFilters,
-  getLocalStorageFilters,
+  getLocalStoredItemByKeyValue,
   toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
 // Components/Pages
@@ -52,19 +51,16 @@ const TaskListPage = () => {
 
   const getAppliedFilters = () => {
     const taskId = getTaskId(TASK_ID_KEY);
-    const localStorageFilters = hasLocalStorageFilters(RORO_FILTERS_KEY)
-      ? getLocalStorageFilters(RORO_FILTERS_KEY) : null;
-    if (localStorageFilters) {
+    const storedData = getLocalStoredItemByKeyValue(RORO_FILTERS_KEY);
+    if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_RORO_MODES.map((mode) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskId]],
         movementModes: mode.movementModes,
-        hasSelectors: localStorageFilters?.hasSelectors
-          ? toRoRoSelectorsValue(localStorageFilters.hasSelectors) : toRoRoSelectorsValue(mode.hasSelectors),
+        hasSelectors: toRoRoSelectorsValue(storedData.hasSelectors) || toRoRoSelectorsValue(mode.hasSelectors),
       }));
-      const selectedFilters = localStorageFilters.mode ? [localStorageFilters.mode] : [];
       const selectors = DEFAULT_RORO_HAS_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskId]],
-        movementModes: selectedFilters,
+        movementModes: [storedData.mode] || [],
         hasSelectors: selector.hasSelectors,
       }));
       return movementModes.concat(selectors);
@@ -144,8 +140,7 @@ const TaskListPage = () => {
   };
 
   const applySavedFiltersOnLoad = () => {
-    const loadedFilters = getLocalStorageFilters(RORO_FILTERS_KEY) || DEFAULT_APPLIED_RORO_FILTER_STATE;
-    applyFilters(loadedFilters);
+    applyFilters(getLocalStoredItemByKeyValue(RORO_FILTERS_KEY) || DEFAULT_APPLIED_RORO_FILTER_STATE);
     getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
     setLoading(false);
   };

@@ -1,4 +1,4 @@
-import { RORO_FILTERS_KEY, TASK_ID_KEY, TASK_STATUS_NEW } from '../../constants';
+import { TASK_ID_KEY, TASK_STATUS_NEW } from '../../constants';
 import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
@@ -10,7 +10,7 @@ import { modifyRoRoPassengersTaskList,
   filterKnownPassengers,
   isNotNumber,
   getTaskId,
-  hasLocalStorageFilters,
+  getLocalStoredItemByKeyValue,
   toRoRoSelectorsValue } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
@@ -671,17 +671,37 @@ describe('RoRoData Util', () => {
     expect(output).toEqual(TASK_STATUS_NEW);
   });
 
-  it('should return true if local storage filters found', () => {
-    const EXPECTED = 'test-task-id';
-    localStorage.setItem(RORO_FILTERS_KEY, EXPECTED);
+  it('should return stored data', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
 
-    const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
-    expect(output).toBeTruthy();
+    const storedData = getLocalStoredItemByKeyValue(KEY);
+    expect(storedData).toMatchObject(DATA_TO_STORE);
   });
 
-  it('should return false if local storage filters are not found', () => {
-    const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
-    expect(output).toBeFalsy();
+  it('should evaluate to false if stored data is not found', () => {
+    const KEY = 'key';
+    const storedData = getLocalStoredItemByKeyValue(KEY);
+    expect(storedData).toBeFalsy();
+  });
+
+  it('should return data item within stored data', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedDataItem = getLocalStoredItemByKeyValue(KEY, 'alpha');
+    expect(storedDataItem).toEqual(DATA_TO_STORE.alpha);
+  });
+
+  it('should evaluate returned data to false if data item within stored data is not found', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedDataItem = getLocalStoredItemByKeyValue(KEY, 'charlie');
+    expect(storedDataItem).toBeFalsy();
   });
 
   it('should return true when given is a string representation of boolean true', () => {
