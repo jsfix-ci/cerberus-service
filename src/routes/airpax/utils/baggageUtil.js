@@ -1,11 +1,15 @@
 import * as pluralise from 'pluralise';
 import { UNKNOWN_TEXT } from '../../../constants';
+import { formatField } from '../../../utils/formatField';
 
 const getBaggageWeight = (baggage) => {
   if (!baggage?.weight) {
     return UNKNOWN_TEXT;
   }
-  return baggage.weight;
+  if (baggage.weight.endsWith('kg')) {
+    return baggage.weight;
+  }
+  return formatField('WEIGHT', baggage.weight);
 };
 
 const hasBaggage = (targetTask) => {

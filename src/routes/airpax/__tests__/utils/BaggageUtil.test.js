@@ -75,6 +75,12 @@ describe('BaggageUtil', () => {
     expect(output).toEqual('1kg');
   });
 
+  it('should add kg to baggage weight if not present in the payload', () => {
+    targetTaskMin.movement.baggage.weight = '5';
+    const output = BaggageUtil.weight(BaggageUtil.get(targetTaskMin));
+    expect(output).toEqual('5kg');
+  });
+
   it.each(invalidValues)(
     'should return unknown for invalid weight values', (invalidValue, expected) => {
       targetTaskMin.movement.baggage.weight = invalidValue;
