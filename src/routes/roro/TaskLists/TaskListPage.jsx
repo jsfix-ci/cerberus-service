@@ -15,7 +15,7 @@ import {
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
-  TASK_ID_KEY,
+  TASK_STATUS_KEY,
   MOVEMENT_VARIANT,
 } from '../../../constants';
 import config from '../../../config';
@@ -23,7 +23,7 @@ import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
-import { getTaskId,
+import { getTaskStatus,
   getLocalStoredItemByKeyValue,
   toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
@@ -50,16 +50,16 @@ const TaskListPage = () => {
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_RORO_FILTER_STATE);
 
   const getAppliedFilters = () => {
-    const taskId = getTaskId(TASK_ID_KEY);
+    const taskStatus = getTaskStatus(TASK_STATUS_KEY);
     const storedData = getLocalStoredItemByKeyValue(RORO_FILTERS_KEY);
     if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_RORO_MODES.map((mode) => ({
-        taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: mode.movementModes,
         hasSelectors: toRoRoSelectorsValue(storedData.hasSelectors) || toRoRoSelectorsValue(mode.hasSelectors),
       }));
       const selectors = DEFAULT_RORO_HAS_SELECTORS.map((selector) => ({
-        taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: [storedData.mode] || [],
         hasSelectors: selector.hasSelectors,
       }));
@@ -68,12 +68,12 @@ const TaskListPage = () => {
     return [
       ...DEFAULT_MOVEMENT_RORO_MODES.map((mode) => ({
         ...mode,
-        taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
       })),
       ...DEFAULT_RORO_HAS_SELECTORS.map((selector) => {
         return {
           ...selector,
-          taskStatuses: [TAB_STATUS_MAPPING[taskId]],
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
     ];
@@ -97,8 +97,8 @@ const TaskListPage = () => {
     }
   };
 
-  const getFiltersAndSelectorsCount = async (taskId = TASK_STATUS_NEW) => {
-    localStorage.setItem(TASK_ID_KEY, taskId);
+  const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS_NEW) => {
+    localStorage.setItem(TASK_STATUS_KEY, taskStatus);
     if (camundaClientV1) {
       try {
         const countsResponse = await camundaClientV1.post(
@@ -127,21 +127,21 @@ const TaskListPage = () => {
     };
     getTaskCount(toApply);
     setAppliedFilters(payload);
-    getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
     setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
     localStorage.removeItem(RORO_FILTERS_KEY);
-    getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
     getTaskCount(DEFAULT_APPLIED_RORO_FILTER_STATE);
     setAppliedFilters(DEFAULT_APPLIED_RORO_FILTER_STATE);
   };
 
   const applySavedFiltersOnLoad = () => {
     applyFilters(getLocalStoredItemByKeyValue(RORO_FILTERS_KEY) || DEFAULT_APPLIED_RORO_FILTER_STATE);
-    getFiltersAndSelectorsCount(getTaskId(TASK_ID_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
     setLoading(false);
   };
 
@@ -157,7 +157,7 @@ const TaskListPage = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.removeItem(TASK_ID_KEY);
+    localStorage.removeItem(TASK_STATUS_KEY);
   }, []);
 
   return (
@@ -200,7 +200,7 @@ const TaskListPage = () => {
               </div>
               <Filter
                 mode={MOVEMENT_VARIANT.RORO}
-                taskStatus={getTaskId(TASK_ID_KEY)}
+                taskStatus={getTaskStatus(TASK_STATUS_KEY)}
                 onApply={applyFilters}
                 appliedFilters={appliedFilters}
                 filtersAndSelectorsCount={filtersAndSelectorsCount}

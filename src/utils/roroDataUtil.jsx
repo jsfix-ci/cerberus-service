@@ -209,9 +209,9 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   return bookingField;
 };
 
-const getTaskId = (taskIdKey) => {
-  return localStorage.getItem(taskIdKey) !== null
-    ? localStorage.getItem(taskIdKey) : TASK_STATUS_NEW;
+const getTaskStatus = (taskStatus) => {
+  return localStorage.getItem(taskStatus) !== null
+    ? localStorage.getItem(taskStatus) : TASK_STATUS_NEW;
 };
 
 const isLocalStoredPresent = (key) => {
@@ -264,6 +264,6 @@ export { modifyRoRoPassengersTaskList,
   isSinglePassenger,
   filterKnownPassengers,
   isNotNumber,
-  getTaskId,
+  getTaskStatus,
   toRoRoSelectorsValue,
   getLocalStoredItemByKeyValue };
