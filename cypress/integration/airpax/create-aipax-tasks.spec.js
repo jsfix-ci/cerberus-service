@@ -40,7 +40,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
-  it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
+  it.only('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
     const departure = ['LHR', 'GB'];
     const arrival = ['CAL', 'FR'];
     const taskName = 'AIRPAX';
@@ -54,9 +54,7 @@ describe('Create AirPax task and verify it on UI', () => {
       task.data.movement.voyage.features.feats['STANDARDISED:departurePort'].valueList.val[0].CountryCode = departure[1];
       task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'].valueList.val[0].UNLO3 = arrival[0];
       task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'].valueList.val[0].CountryCode = arrival[1];
-      console.log(task);
       cy.createAirPaxTask(task).then((taskResponse) => {
-        console.log(taskResponse);
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         expect(taskResponse.movement.journey.departure.country).to.eq(departure[1]);
         expect(taskResponse.movement.journey.departure.location).to.eq(departure[0]);
@@ -66,7 +64,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
-  it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields not present', () => {
+  it.only('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields not present', () => {
     const departure = ['LHR', 'GB'];
     const arrival = ['CAL', 'FR'];
     const taskName = 'AIRPAX';
@@ -78,9 +76,7 @@ describe('Create AirPax task and verify it on UI', () => {
       task.data.movement.voyage.voyage.arrivalCountry = arrival[1];
       delete task.data.movement.voyage.features.feats['STANDARDISED:departurePort'];
       delete task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'];
-      console.log(task);
       cy.createAirPaxTask(task).then((taskResponse) => {
-        console.log(taskResponse);
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         expect(taskResponse.movement.journey.departure.country).to.eq(departure[1]);
         expect(taskResponse.movement.journey.departure.location).to.eq(departure[0]);
