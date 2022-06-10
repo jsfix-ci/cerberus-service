@@ -216,3 +216,5 @@ export const TAB_STATUS_MAPPING = {
   issued: 'ISSUED',
   complete: 'COMPLETE',
 };
+
+export const FORM_ACTION_CANCEL = 'cancel';
