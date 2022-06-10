@@ -59,6 +59,9 @@ describe('MovementUtil', () => {
         status: 'PRE_ARRIVAL',
         mode: 'AIR_PASSENGER',
         description: 'individual',
+        person: {
+          role: 'PASSENGER',
+        },
         journey: {
           id: 'BA103',
           arrival: {
@@ -208,6 +211,38 @@ describe('MovementUtil', () => {
   it('should return the movement description text', () => {
     const output = MovementUtil.description(targetTaskMin);
     expect(output).toEqual('Single passenger');
+  });
+
+  it('should return the movement type if present (for crew)', () => {
+    const targetTaskMinCrew = {
+      movement: {
+        id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
+        status: 'PRE_ARRIVAL',
+        mode: 'AIR_PASSENGER',
+        description: 'individual',
+        person: {
+          role: 'CREW',
+        },
+      },
+    };
+    const output = MovementUtil.movementType(targetTaskMinCrew);
+    expect(output).toEqual('Crew');
+  });
+
+  it('should return the movement description text (for crew)', () => {
+    const targetTaskMinCrew = {
+      movement: {
+        id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
+        status: 'PRE_ARRIVAL',
+        mode: 'AIR_PASSENGER',
+        description: 'individual',
+        person: {
+          role: 'CREW',
+        },
+      },
+    };
+    const output = MovementUtil.description(targetTaskMinCrew);
+    expect(output).toEqual('Crew member');
   });
 
   it('should return the movement description text for multiple persons', () => {
