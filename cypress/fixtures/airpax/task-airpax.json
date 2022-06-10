@@ -5,40 +5,222 @@
     "riskCreatedDate": "2022-05-26T11:00:31.779414Z",
     "riskType": "Pre-Arrival",
     "matchedRules": [
+    ],
+    "matchedSelectors": [
       {
-        "ruleId": 11470,
-        "ruleName": "PNR-Number in Party",
-        "ruleType": "Pre-arrival",
-        "ruleVersion": 2,
-        "ruleDescription": "Test",
+        "selectorId": 279,
+        "selectorReference": "2021-279",
+        "groupReference":"SR-215",
+        "groupVersionNumber":1,
+        "startDate": "2021-12-08T08:23:40.257Z",
+        "endDate": "2022-01-19T23:59:59Z",
+        "category": "A",
+        "agencyCode": "Counter Terrorism Police (CTP)",
+        "intelligenceSource": "intel source",
+        "pointOfContact": "Point Of Contact Testing",
+        "pocMessage": "selector for auto testing",
+        "priority": "Selector",
+        "inboundActionCode": "action required",
+        "outboundActionCode": "No action required",
+        "threatType": "National Security at the Border",
+        "notes": "notes testing",
+        "creator": "test user",
+        "approver": "bfbfdbf",
         "securityLabels": [
-          "null",
-          "null",
-          "null",
-          "null"
+          "DATA_RISK_PREARRIVAL"
         ],
-        "ruleMatchedOnDate": "2022-05-26T11:00:31Z",
-        "rulePriority": "Tier 1",
+        "localReference": "SR-220",
+        "warnings": "bdfbdfbf",
+        "selectorWarnings":"CTGN,SEH",
+        "warningStatus": "Yes",
+        "warningDetails": "Warning details would be shown here",
+        "requestingOfficer": "Tester",
+        "requestingTeam": "MAH gateway",
         "indicatorMatches": [
+          {
+            "entity": "Trailer",
+            "descriptor": "registrationNumber",
+            "operator": "equal",
+            "value": "qwerty"
+          },
           {
             "entity": "Message",
             "descriptor": "mode",
             "operator": "in",
-            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-          },
-          {
-            "entity": "Booking",
-            "descriptor": "numInParty",
-            "operator": "greater_or_equal",
-            "value": "1"
+            "value": "RORO Unaccompanied Freight"
           }
         ],
-        "abuseTypes": [
-          "Cash including AVTCs"
-        ]
+        "selectorMatchedOnDate": "2021-12-08T09:19:33.097Z"
+      },
+      {
+        "selectorId": 278,
+        "selectorReference": "2021-278",
+        "groupReference":"SR-216",
+        "groupVersionNumber":1,
+        "startDate": "2021-12-02T16:48:51.203Z",
+        "endDate": "2022-01-13T23:59:59Z",
+        "category": "A",
+        "agencyCode": "Food Standards Agency (FSA)",
+        "intelligenceSource": "intel source",
+        "pointOfContact": "Point Of Contact Testing",
+        "pocMessage": "selector for auto testing",
+        "priority": "Selector",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "threatType": "National Security at the Border",
+        "notes": "notes testing",
+        "creator": "test user",
+        "approver": "jyjyt",
+        "securityLabels": [
+          "DATA_RISK_PREARRIVAL"
+        ],
+        "localReference": "SR-219",
+        "warnings": "Warnings from testing",
+        "selectorWarnings":"SEH",
+        "warningStatus": "Yes",
+        "warningDetails": "Warning details would be shown here",
+        "requestingOfficer": "Tester",
+        "requestingTeam": "MAH gateway",
+        "indicatorMatches": [
+          {
+            "entity": "Vehicle",
+            "descriptor": "registrationNumber",
+            "operator": "equal",
+            "value": "ABC123"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          }
+        ],
+        "selectorMatchedOnDate": "2021-12-08T09:19:33.097Z"
+      },
+      {
+        "selectorId":225,
+        "selectorReference":"2022-100",
+        "groupReference":"SR-217",
+        "groupVersionNumber":1,
+        "startDate":"2022-01-27T10:23:12.732Z",
+        "endDate":"2022-07-27T10:23:12.732Z",
+        "category":"A",
+        "agencyCode":"BF",
+        "intelligenceSource":"intel source",
+        "pointOfContact":"Point Of Contact Testing",
+        "pocMessage":"selector for auto testing",
+        "priority":"Selector",
+        "inboundActionCode":"No action required",
+        "outboundActionCode":"No action required",
+        "threatType":"National Security at the Border",
+        "notes": "notes testing",
+        "creator": "test user",
+        "approver":"null",
+        "securityLabels":[
+          "DATA_RISK_PREARRIVAL"
+        ],
+        "localReference":"null",
+        "warnings":"Warnings from testing for group reference",
+        "selectorWarnings":"O",
+        "warningStatus": "Yes",
+        "warningDetails": "Warning details would be shown here",
+        "requestingOfficer":"Tester",
+        "requestingTeam":"null",
+        "indicatorMatches":[
+          {
+            "entity":"vehicle",
+            "descriptor":"registrationNumber",
+            "operator":"equal",
+            "value":"DK-45678"
+          }
+        ],
+        "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
+      },
+      {
+        "selectorId": 51,
+        "selectorReference": "2021-10",
+        "groupReference":"SR-218",
+        "groupVersionNumber":1,
+        "startDate": "2021-07-09T13:42:48.381Z",
+        "endDate": "2021-08-20T22:59:59Z",
+        "category": "A",
+        "agencyCode": "Counter Terrorism Police (CTP)",
+        "intelligenceSource": "intel source",
+        "pointOfContact": "Point Of Contact Testing",
+        "pocMessage": "selector for auto testing",
+        "priority": "Tier 2",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "threatType": "National Security at the Border",
+        "notes": "notes testing",
+        "creator": "test user",
+        "approver": "Henry Hamlet",
+        "securityLabels": [
+          "DATA_RISK_PREARRIVAL"
+        ],
+        "localReference": "Local Reference",
+        "warnings": "Supplemental warnings",
+        "selectorWarnings":"CTGN",
+        "warningStatus": "Yes",
+        "warningDetails": "Warning details would be shown here",
+        "requestingOfficer": "Tester",
+        "requestingTeam": "RoRo accompanied",
+        "indicatorMatches": [
+          {
+            "entity": "Organisation",
+            "descriptor": "telephone",
+            "operator": "equal",
+            "value": "01234 56723737"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          }
+        ],
+        "selectorMatchedOnDate": "2021-09-05T09:30:02.896Z"
+      },
+      {
+        "selectorId":245,
+        "selectorReference":"2022-245",
+        "groupReference":"SR-227",
+        "groupVersionNumber":1,
+        "startDate":"2022-02-01T09:40:27.767Z",
+        "endDate":"2023-02-01T23:59:59Z",
+        "category":"C",
+        "agencyCode":"Borders and Aviation Security Unit Homeland Security Group (HSG)",
+        "intelligenceSource":"Qui adipisci consectetur ullam consequatur a aspernatur in",
+        "pointOfContact":"Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+        "pocMessage":"Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+        "priority":"Selector",
+        "inboundActionCode":"Worthy of attention",
+        "outboundActionCode":"Monitor only",
+        "threatType":"Alcohol",
+        "notes":"notes",
+        "creator":"user",
+        "approver":"Ut adipisci culpa reiciendis dicta ullam vel duis laboriosam eiusmod",
+        "securityLabels":[
+          "DATA_RISK_PREARRIVAL"
+        ],
+        "localReference":"Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
+        "warnings":"This is a different group reference",
+        "selectorWarnings":"No Warnings",
+        "warningStatus": "No",
+        "warningDetails": "Warning details would be shown here",
+        "requestingOfficer":"Velit in sunt aliquip voluptate tempore consectetur",
+        "requestingTeam":"RoRo tourist",
+        "indicatorMatches":[
+          {
+            "entity":"Person",
+            "descriptor":"familyName",
+            "operator":"equal",
+            "value":"TURNER"
+          }
+        ],
+        "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
       }
     ],
-    "matchedSelectors": [],
     "movement": {
       "cerberusMovementId": "APIPNR:S=c85b5c5426a6696b24ac6ca7851f0977",
       "firstCerberusTimestamp": 1653562817371,
