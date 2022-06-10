@@ -125,7 +125,7 @@ const TaskListPage = () => {
     payload = {
       ...payload,
       movementModes: payload?.mode ? [payload.mode] : [],
-      ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
+      ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((val) => !!val) : [],
     };
     localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     getTaskCount(payload);
