@@ -41,8 +41,8 @@ describe('Create AirPax task and verify it on UI', () => {
   });
 
   it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
-    const departure = ["LHR", "GB"];
-    const arrival = ["CAL", "FR"];
+    const departure = ['LHR', 'GB'];
+    const arrival = ['CAL', 'FR'];
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-no-selectors.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -89,8 +89,8 @@ describe('Create AirPax task and verify it on UI', () => {
       });
     });
   });
-          
- after(() => {
+      
+  after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
