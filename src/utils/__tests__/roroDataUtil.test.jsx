@@ -10,7 +10,6 @@ import { modifyRoRoPassengersTaskList,
   filterKnownPassengers,
   isNotNumber,
   getTaskStatus,
-
   getLocalStoredItemByKeyValue,
   toRoRoSelectorsValue } from '../roroDataUtil';
 
