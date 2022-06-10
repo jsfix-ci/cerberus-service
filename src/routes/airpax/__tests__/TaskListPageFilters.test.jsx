@@ -148,4 +148,49 @@ describe('TaskListFilters', () => {
 
     expect(JSON.parse(mockAxios.history.post[6].data)).toMatchObject(EXPECTED_POST_PARAMS);
   });
+
+  it('should verify post param ruleIds array when options array id is 0', async () => {
+    const STORED_PAYLOAD = {
+      mode: 'AIR_PASSENGER',
+      selectors: 'ANY',
+      movementModes: ['AIR_PASSENGER'],
+      rules: [{ id: 0, name: 'Alpha' }, { id: 1, name: 'Bravo' }],
+      ruleIds: [0, 1],
+      formStatus: {
+        page: 'filter',
+      },
+    };
+
+    const EXPECTED_POST_PARAMS = {
+      filterParams: {
+        ...STORED_PAYLOAD,
+        ruleIds: [0, 1],
+        taskStatuses: [
+          'IN_PROGRESS',
+        ],
+      },
+      sortParams: [
+        {
+          field: 'WINDOW_OF_OPPORTUNITY',
+          order: 'ASC',
+        },
+        {
+          field: 'BOOKING_LEAD_TIME',
+          order: 'ASC',
+        },
+      ],
+      pageParams: {
+        limit: 100,
+        offset: 0,
+      },
+    };
+
+    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(STORED_PAYLOAD));
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }));
+
+    expect(JSON.parse(mockAxios.history.post[6].data)).toMatchObject(EXPECTED_POST_PARAMS);
+  });
 });
