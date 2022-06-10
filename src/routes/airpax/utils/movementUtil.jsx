@@ -7,8 +7,8 @@ import { UNKNOWN_TEXT,
   LONG_DATE_FORMAT,
   MOVEMENT_DESCRIPTION_INDIVIDUAL,
   MOVEMENT_DESCRIPTION_GROUP,
-  MOVEMENT_MODE_AIR_PASSENGER,
-  MOVEMENT_MODE_AIR_CREW,
+  MOVEMENT_ROLE_AIR_PASSENGER,
+  MOVEMENT_ROLE_AIR_CREW,
   UNKNOWN_TIME_DATA,
   LATER_TEXT,
   DEPARTURE_STATUS } from '../../../constants';
@@ -239,11 +239,11 @@ const getDepartureStatus = (targetTask, taskDetails = false) => {
 };
 
 const getMovementTypeText = (targetTask) => {
-  const movementType = targetTask?.movement?.mode;
-  if (!movementType) {
+  const personRole = targetTask?.movement?.person?.role;
+  if (!personRole) {
     return UNKNOWN_TEXT;
   }
-  if (movementType === MOVEMENT_MODE_AIR_PASSENGER) {
+  if (personRole === MOVEMENT_ROLE_AIR_PASSENGER) {
     return 'Passenger';
   }
   return 'Crew';
@@ -251,8 +251,8 @@ const getMovementTypeText = (targetTask) => {
 
 const toDescriptionText = (targetTask) => {
   const movementDescription = targetTask?.movement?.description;
-  const movementType = targetTask?.movement?.mode;
-  if (movementType === MOVEMENT_MODE_AIR_PASSENGER) {
+  const movementRole = targetTask?.movement?.person?.role;
+  if (movementRole === MOVEMENT_ROLE_AIR_PASSENGER) {
     if (movementDescription === MOVEMENT_DESCRIPTION_INDIVIDUAL) {
       return 'Single passenger';
     }
@@ -260,7 +260,7 @@ const toDescriptionText = (targetTask) => {
       return `In group of ${getTotalNumberOfPersons(targetTask)}`;
     }
   }
-  if (movementType === MOVEMENT_MODE_AIR_CREW) {
+  if (movementRole === MOVEMENT_ROLE_AIR_CREW) {
     return 'Crew member';
   }
   return UNKNOWN_TEXT;

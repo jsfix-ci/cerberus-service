@@ -114,7 +114,7 @@ exports[`TaskVersions should render task versions 1`] = `
                 <h3
                   className="govuk-heading-m govuk-!-margin-top-0"
                 >
-                  Passenger
+                  Crew
                 </h3>
                 <div
                   className="govuk-task-details-grid-column"

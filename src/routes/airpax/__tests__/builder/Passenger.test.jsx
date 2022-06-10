@@ -3,27 +3,31 @@ import { render, screen } from '@testing-library/react';
 import Passenger from '../../TaskDetails/builder/Passenger';
 
 describe('Passenger', () => {
-  const version = {
-    movement: {
-      person: {
-        name: {
-          first: 'Isaiah',
-          last: 'Ford',
-          full: 'Isaiah Ford',
+  let version;
+
+  beforeEach(() => {
+    version = {
+      movement: {
+        person: {
+          name: {
+            first: 'Isaiah',
+            last: 'Ford',
+            full: 'Isaiah Ford',
+          },
+          role: 'PASSENGER',
+          dateOfBirth: '1966-05-13T00:00:00Z',
+          gender: 'M',
+          nationality: 'GBR',
+          document: null,
+          ssrCodes: ['ABCDEFGHI'],
+          frequentFlyerNumber: 123456,
         },
-        role: 'PASSENGER',
-        dateOfBirth: '1966-05-13T00:00:00Z',
-        gender: 'M',
-        nationality: 'GBR',
-        document: null,
-        ssrCodes: ['ABCDEFGHI'],
-        frequentFlyerNumber: 123456,
+        flight: {
+          departureStatus: 'DEPARTURE_CONFIRMED',
+        },
       },
-      flight: {
-        departureStatus: 'DEPARTURE_CONFIRMED',
-      },
-    },
-  };
+    };
+  });
 
   it('should render the title', () => {
     render(<Passenger version={version} />);
@@ -80,5 +84,11 @@ describe('Passenger', () => {
     render(<Passenger version={version} />);
     expect(screen.getByText('SSR codes')).toBeInTheDocument();
     expect(screen.getByText('ABCDEFGHI')).toBeInTheDocument();
+  });
+
+  it('should display the Crew header if person has a role of crew', () => {
+    version.movement.person.role = 'CREW';
+    render(<Passenger version={version} />);
+    expect(screen.getByText('Crew')).toBeInTheDocument();
   });
 });
