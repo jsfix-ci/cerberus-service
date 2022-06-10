@@ -40,7 +40,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
-  it.only('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
+  it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields if present', () => {
     const departure = ["LHR", "GB"];
     const arrival = ["CAL", "FR"];
     const taskName = 'AIRPAX';
@@ -56,19 +56,19 @@ describe('Create AirPax task and verify it on UI', () => {
       task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'].valueList.val[0].CountryCode = arrival[1];
       console.log(task);
       cy.createAirPaxTask(task).then((taskResponse) => {
+        console.log(taskResponse);
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         expect(taskResponse.movement.journey.departure.country).to.eq(departure[1]);
         expect(taskResponse.movement.journey.departure.location).to.eq(departure[0]);
         expect(taskResponse.movement.journey.arrival.country).to.eq(arrival[1]);
         expect(taskResponse.movement.journey.arrival.location).to.eq(arrival[0]);
-        console.log(taskResponse);
       });
     });
   });
 
-  it.only('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields not present', () => {
-    const departure = ["LHR", "GB"];
-    const arrival = ["CAL", "FR"];
+  it('Should create an airpax task with STANDARDISED:arrivalPort/departurePort fields not present', () => {
+    const departure = ['LHR', 'GB'];
+    const arrival = ['CAL', 'FR'];
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-no-selectors.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -86,13 +86,11 @@ describe('Create AirPax task and verify it on UI', () => {
         expect(taskResponse.movement.journey.departure.location).to.eq(departure[0]);
         expect(taskResponse.movement.journey.arrival.country).to.eq(arrival[1]);
         expect(taskResponse.movement.journey.arrival.location).to.eq(arrival[0]);
-       // console.log(taskResponse);
       });
     });
   });
           
-
-  after(() => {
+ after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
