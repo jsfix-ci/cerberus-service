@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { RORO_FILTERS_KEY } from '../../../constants';
+import { RORO_FILTERS_KEY, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW } from '../../../constants';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
@@ -15,16 +15,16 @@ describe('TaskListFilters', () => {
     selectTabIndex: jest.fn(),
   };
   beforeEach(() => {
-    jest.spyOn(console, 'error').mockImplementation(() => { });
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     jest.clearAllMocks();
     localStorage.clear();
     mockAxios.reset();
   });
 
-  const setTabAndTaskValues = (value, taskStatus = 'inProgress') => {
+  const setTabAndTaskValues = (value, taskStatus = TASK_STATUS_NEW) => {
     return (
       <TaskSelectedTabContext.Provider value={value}>
-        <TaskListPage taskStatus={taskStatus} setError={() => { }} />
+        <TaskListPage taskStatus={taskStatus} setError={() => {}} />
       </TaskSelectedTabContext.Provider>
     );
   };
@@ -41,7 +41,7 @@ describe('TaskListFilters', () => {
         issued: 0,
         complete: 0,
         total: 5,
-        new: 0,
+        new: 2,
       },
     },
     {
@@ -55,7 +55,7 @@ describe('TaskListFilters', () => {
         issued: 0,
         complete: 0,
         total: 9,
-        new: 0,
+        new: 3,
       },
     },
     {
@@ -69,7 +69,7 @@ describe('TaskListFilters', () => {
         issued: 0,
         complete: 0,
         total: 3,
-        new: 0,
+        new: 5,
       },
     },
     {
@@ -83,7 +83,7 @@ describe('TaskListFilters', () => {
         issued: 0,
         complete: 0,
         total: 15,
-        new: 0,
+        new: 7,
       },
     },
     {
@@ -97,7 +97,7 @@ describe('TaskListFilters', () => {
         issued: 0,
         complete: 0,
         total: 2,
-        new: 0,
+        new: 21,
       },
     },
     {
@@ -111,17 +111,13 @@ describe('TaskListFilters', () => {
         issued: 0,
         complete: 0,
         total: 17,
-        new: 0,
+        new: 4,
       },
     },
   ];
 
   it('should display filter options based on filter config', async () => {
-    await waitFor(() => render(
-      <TaskSelectedTabContext.Provider value={tabData}>
-        <TaskListPage />
-      </TaskSelectedTabContext.Provider>,
-    ));
+    await waitFor(() => render(setTabAndTaskValues(tabData)));
 
     // Titles & Actions
     expect(screen.getByText('Filters')).toBeInTheDocument();
@@ -139,11 +135,7 @@ describe('TaskListFilters', () => {
   });
 
   it('should allow user to select a single radio button in each group', async () => {
-    await waitFor(() => render(
-      <TaskSelectedTabContext.Provider value={tabData}>
-        <TaskListPage />
-      </TaskSelectedTabContext.Provider>,
-    ));
+    await waitFor(() => render(setTabAndTaskValues(tabData)));
 
     userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
 
@@ -164,11 +156,7 @@ describe('TaskListFilters', () => {
       },
     };
 
-    await waitFor(() => render(
-      <TaskSelectedTabContext.Provider value={tabData}>
-        <TaskListPage />
-      </TaskSelectedTabContext.Provider>,
-    ));
+    await waitFor(() => render(setTabAndTaskValues(tabData)));
 
     userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
 
@@ -187,11 +175,7 @@ describe('TaskListFilters', () => {
       },
     };
 
-    await waitFor(() => render(
-      <TaskSelectedTabContext.Provider value={tabData}>
-        <TaskListPage />
-      </TaskSelectedTabContext.Provider>,
-    ));
+    await waitFor(() => render(setTabAndTaskValues(tabData)));
 
     localStorage.setItem(RORO_FILTERS_KEY, STORED_FILTERS);
 
@@ -209,16 +193,16 @@ describe('TaskListFilters', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'IN_PROGRESS')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
 
     userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_ACCOMPANIED_FREIGHT');
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
-    expect(screen.getByText('RoRo unaccompanied freight (0)')).toBeInTheDocument();
-    expect(screen.getByText('RoRo accompanied freight (0)')).toBeInTheDocument();
-    expect(screen.getByText('RoRo Tourist (0)')).toBeInTheDocument();
-    expect(screen.getByText('Has selector (0)')).toBeInTheDocument();
-    expect(screen.getByText('Has no selector (0)')).toBeInTheDocument();
-    expect(screen.getByText('Both (0)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo unaccompanied freight (2)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo accompanied freight (3)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo Tourist (5)')).toBeInTheDocument();
+    expect(screen.getByText('Has selector (7)')).toBeInTheDocument();
+    expect(screen.getByText('Has no selector (21)')).toBeInTheDocument();
+    expect(screen.getByText('Both (4)')).toBeInTheDocument();
   });
 });
