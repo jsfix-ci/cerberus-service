@@ -2,15 +2,34 @@
 /// <reference path="../support/index.d.ts" />
 
 describe('Filter tasks by pre-arrival mode on task management Page', () => {
-  const filterOptions = [
+  const filterOptions = ['',
     'RORO_UNACCOMPANIED_FREIGHT',
     'RORO_ACCOMPANIED_FREIGHT',
     'RORO_TOURIST',
   ];
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
     cy.navigation('Tasks');
   });
+
+  it('Should verify filter by mode and Link to AirPax is displayed', () => {
+      cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
+        expect(Heading).to.contain('RoRo');
+      });
+    cy.get('#mode').should('be.visible');
+      cy.get('.airpax-task-link')
+        .should('have.attr', 'href').and('include', 'airpax/task').then((href) => {
+          cy.intercept('POST', 'v2/targeting-tasks/pages').as('airpaxTaskList');
+          cy.visit(href);
+          cy.wait('@airpaxTaskList').then(({ response }) => {
+            expect(response.statusCode).to.equal(200);
+            cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
+              expect(Heading).to.contain('AirPax');
+            });
+          });
+        });
+     });
 
   it('Should view filter tasks by pre-arrival modes', () => {
     let filterNames = [
