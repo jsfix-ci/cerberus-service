@@ -27,8 +27,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
           cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
             expect(Heading).to.contain('AirPax');
           });
-       });
-    });
+        });
+      });
   });
 
   it('Should view filter tasks by pre-arrival modes', () => {

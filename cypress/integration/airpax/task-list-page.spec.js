@@ -43,8 +43,8 @@ describe('Airpax task list page', () => {
             });
           });
         });
-     });
     });
+  });
 
   it('Should verify /v2/targeting-tasks/pages returns with status code 200', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
