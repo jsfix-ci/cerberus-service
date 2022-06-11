@@ -36,8 +36,8 @@ describe('Airpax task list page', () => {
         .should('have.attr', 'href').and('include', 'task').then((href) => {
           cy.intercept('POST', 'camunda/v1/targeting-tasks/pages').as('roroTaskList');
           cy.visit(href);
-          cy.wait('@roroTaskList').then(({ response }) => {
-            expect(response.statusCode).to.equal(200);
+          cy.wait('@roroTaskList').then(({ roroResponse }) => {
+            expect(roroResponse.statusCode).to.equal(200);
             cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
               expect(Heading).to.contain('RoRo');
             });
