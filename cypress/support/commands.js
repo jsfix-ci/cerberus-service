@@ -956,6 +956,134 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   });
 });
 
+function getAirPaxTaskSummary(businessKey) {
+  let taskSummary = {};
+  cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within((element) => {
+    cy.wrap(element).find('.task-list--voyage-section').within((voyageSection) => {
+      cy.wrap(voyageSection).find('.govuk-body-s.content-line-one').invoke('text').then((passengerGroup) => {
+        taskSummary.passengerGroup = passengerGroup;
+      });
+      cy.wrap(voyageSection).find('span.govuk-font-weight-bold').invoke('text').then((typeOfPassenger) => {
+        taskSummary.passengerType = typeOfPassenger;
+      });
+      cy.wrap(voyageSection).find('.airpax-status').invoke('text').then((departureStatus) => {
+        taskSummary.departureStatus = departureStatus;
+      });
+
+      cy.wrap(voyageSection).find('.govuk-grid-column-three-quarters').within((flightInfo) => {
+        cy.wrap(flightInfo).find('.content-line-one').invoke('text').then((flightArrival) => {
+          let details = flightArrival.split(',');
+          console.log(details);
+          taskSummary.flightName = details[0].trim();
+          taskSummary.flightNumber = details[1].trim();
+          taskSummary.flightArrivalTime = details[2].trim();
+        });
+
+        cy.wrap(flightInfo).find('.content-line-two').then(($dateTime) => {
+          console.log($dateTime.text());
+          let value = $dateTime.text();
+          let departure = (value.split('→')[0].trim());
+          console.log(departure);
+          let arrival = (value.split('→')[1].trim());
+          if (departure.includes('unknown')) {
+            taskSummary.departureAirPort = departure.slice(-7).trim();
+            taskSummary.departureDateTime = departure.slice(0, departure.length - 7).trim();
+          } else {
+            taskSummary.departureAirPort = departure.slice(-3).trim();
+            taskSummary.departureDateTime = departure.slice(0, departure.length - 3).trim();
+          }
+
+          if (arrival.includes('unknown')) {
+            taskSummary.arrivalAirPort = arrival.slice(0, 7).trim();
+            taskSummary.arrivalDateTime = arrival.slice(7, arrival.length).trim();
+          } else {
+            taskSummary.arrivalAirPort = arrival.slice(0, 3).trim();
+            taskSummary.arrivalDateTime = arrival.slice(3, arrival.length).trim();
+          }
+        });
+      });
+
+      cy.wrap(element).find('.task-list--movement-info-section').within((movmentInfoSection) => {
+        let passenger = [];
+        let document = [];
+        let booking = [];
+        cy.wrap(movmentInfoSection).contains('Passenger').nextAll().then((passengerDetails) => {
+          cy.wrap(passengerDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              passenger.push(info);
+            });
+          }).then(() => {
+            const [firstName, lastName, gender, dateOfBirth, nationality, checkedBaggage, baggageWeight, checkInTime, SeatNumber] = passenger;
+            taskSummary.passengerDetails = { firstName, lastName, gender, dateOfBirth, nationality, checkedBaggage, baggageWeight, checkInTime, SeatNumber };
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Document').nextAll().then((documentDetails) => {
+          cy.wrap(documentDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              document.push(info);
+            });
+          }).then(() => {
+            const [passportNumber, validity, expiryDate, issuedBy] = document;
+            taskSummary.documentDetails = { passportNumber, validity, expiryDate, issuedBy };
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Booking').nextAll().then((bookingDetails) => {
+          cy.wrap(bookingDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              booking.push(info);
+            });
+          }).then(() => {
+            const [pnr, bookingDateTime, bookingDuration] = booking;
+            taskSummary.bookingDetails = { pnr, bookingDateTime, bookingDuration };
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Co-travellers').next().then((travellerDetails) => {
+          cy.wrap(travellerDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.coTraveller = info;
+            });
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Route').next().then((travellerDetails) => {
+          cy.wrap(travellerDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.route = info;
+            });
+          });
+        });
+      });
+
+      cy.wrap(element).find('.task-list--target-indicator-section').within((targetIndicatorSection) => {
+        cy.wrap(targetIndicatorSection).find('.task-labels-item strong').invoke('text').then((riskScore) => {
+          taskSummary.riskScore = riskScore;
+        });
+      });
+    });
+  })
+    .then(() => {
+      return taskSummary;
+    });
+}
+
+Cypress.Commands.add('verifyAirPaxTaskListInfo', (businessKey) => {
+  const nextPage = 'a[data-test="next"]';
+  cy.get('body').then(($el) => {
+    if ($el.find(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        return getAirPaxTaskSummary(businessKey);
+      });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        return getAirPaxTaskSummary(businessKey);
+      });
+    }
+  });
+});
+
 Cypress.Commands.add('verifyTaskDetailSection', (expData, versionInRow, sectionname) => {
   if (versionInRow == null) {
     versionInRow = 1;
