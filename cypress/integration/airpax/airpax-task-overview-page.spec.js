@@ -183,6 +183,30 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
+  it('Should check AirPax task information on task overview', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expectedData').then((expectedTaskSumary) => {
+          cy.verifyAirPaxTaskListInfo(businessKey).then((actualTaskSummary) => {
+            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

@@ -1,0 +1,37 @@
+{
+  "passengerGroup": "Single passenger",
+  "passengerType": "Passenger DC",
+  "departureStatus": "DC",
+  "flightName": "British Airways",
+  "flightNumber": "flight BA0103",
+  "flightArrivalTime": "arrival 2 hours before travel",
+  "departureAirPort": "LHR",
+  "departureDateTime": "BA010321 Jul 2019 at 16:40",
+  "arrivalAirPort": "YYC",
+  "arrivalDateTime": "21 Jul 2019 at 18:35",
+  "passengerDetails": {
+    "firstName": "BATZ STOUP, ",
+    "lastName": "ZUES CARLO",
+    "gender": "Male, ",
+    "dateOfBirth": "10 Dec 1976, ",
+    "nationality": "GB",
+    "checkedBaggage": "Unknown, ",
+    "baggageWeight": "Unknown ",
+    "checkInTime": "Check-in 16:43, ",
+    "SeatNumber": "seat 34A "
+  },
+  "documentDetails": {
+    "passportNumber": "119039375 (GB)",
+    "validity": "Valid from 27 Apr 2018",
+    "expiryDate": "Expires 26 Apr 2023",
+    "issuedBy": "Issued by GB"
+  },
+  "bookingDetails": {
+    "pnr": "LSV4UV",
+    "bookingDateTime": "Unknown",
+    "bookingDuration": "Unknown"
+  },
+  "coTraveller": "None",
+  "route": "CDG → YYZ → YYC → LHR  ",
+  "riskScore": "Risk Score: 0"
+}
