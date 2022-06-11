@@ -2,7 +2,7 @@
 /// <reference path="../support/index.d.ts" />
 
 describe('Filter tasks by pre-arrival mode on task management Page', () => {
-  const filterOptions = ['',
+  const filterOptions = [
     'RORO_UNACCOMPANIED_FREIGHT',
     'RORO_ACCOMPANIED_FREIGHT',
     'RORO_TOURIST',
