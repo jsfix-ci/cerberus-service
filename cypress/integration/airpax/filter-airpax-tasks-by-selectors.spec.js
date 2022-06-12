@@ -8,19 +8,6 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     'ANY',
   ];
 
-  const filterOptions2 = [
-    'true',
-    'false',
-    'any',
-  ];
-
-  const statusTab = {
-    'new': 'NEW',
-    'inProgress': 'IN_PROGRESS',
-    'issued': 'ISSUED',
-    'complete': 'COMPLETE',
-  };
-
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();
