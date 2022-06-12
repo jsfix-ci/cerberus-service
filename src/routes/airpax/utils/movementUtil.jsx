@@ -11,7 +11,8 @@ import { UNKNOWN_TEXT,
   MOVEMENT_ROLE_AIR_CREW,
   UNKNOWN_TIME_DATA,
   LATER_TEXT,
-  DEPARTURE_STATUS } from '../../../constants';
+  DEPARTURE_STATUS,
+  TASK_STATUS_UPDATED } from '../../../constants';
 
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
@@ -22,7 +23,7 @@ import calculateTimeDifference from '../../../utils/calculateDatetimeDifference'
 const hasUpdatedStatus = (targetTask) => {
   if (targetTask?.versions?.length > 1 || targetTask?.latestVersionNumber > 1) {
     return (
-      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
+      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">{TASK_STATUS_UPDATED}</p>
     );
   }
 };
@@ -320,7 +321,7 @@ const MovementUtil = {
   itinDepartureCountryCode: getItineraryDepartureCountryCode,
   itinArrivalCountryCode: getItineraryArrivalCountryCode,
   itinRelativeTime: toItineraryRelativeTime,
-  getUpdated: hasUpdatedStatus,
+  updatedStatus: hasUpdatedStatus,
 };
 
 export default MovementUtil;
