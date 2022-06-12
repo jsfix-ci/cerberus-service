@@ -81,8 +81,6 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     cy.get('a[href="#inProgress"]').click();
 
     cy.get('.govuk-radios__item [value=\'ANY\']').should('be.checked');
-
-    // COP-9191 Apply each selectors filter, compare the expected number of targets
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'inProgress').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
@@ -90,7 +88,6 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
           actualTotalTargets += actualTargets;
         }
         cy.getAirPaxTaskCount(null, selector, 'IN_PROGRESS').then((numberOfTasks) => {
-          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
           cy.get('.govuk-radios__label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.inProgress);
@@ -120,8 +117,6 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     cy.get('a[href="#issued"]').click();
 
     cy.get('.govuk-radios__item [value=\'ANY\']').should('be.checked');
-
-    // COP-9191 Apply each selectors filter, compare the expected number of targets
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'issued').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
@@ -129,7 +124,6 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
           actualTotalTargets += actualTargets;
         }
         cy.getAirPaxTaskCount(null, selector, 'ISSUED').then((numberOfTasks) => {
-          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
           cy.get('.govuk-radios__label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.issued);
