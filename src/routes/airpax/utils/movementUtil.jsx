@@ -11,7 +11,8 @@ import { UNKNOWN_TEXT,
   MOVEMENT_ROLE_AIR_CREW,
   UNKNOWN_TIME_DATA,
   LATER_TEXT,
-  DEPARTURE_STATUS } from '../../../constants';
+  DEPARTURE_STATUS,
+  TASK_STATUS_RELISTED } from '../../../constants';
 
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
@@ -23,7 +24,7 @@ const hasRelistedStatus = (targetTask) => {
   if (targetTask?.relisted) {
     return (
       <p className="govuk-body govuk-tag govuk-tag--relistedTarget">
-        Relisted
+        {TASK_STATUS_RELISTED}
       </p>
     );
   }
