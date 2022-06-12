@@ -207,6 +207,155 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
+  it('Should dismiss a task with a reason', () => {
+    const reasons = [
+      'Vessel arrived',
+      'False rule match',
+      'Resource redirected',
+      'Other',
+    ];
+
+    const expectedActivity = 'task dismissed, reason: other reason for testing, note: This is for testing';
+
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+    let taskCreationDateTime = Cypress.dayjs().utc().format(dateFormat);
+
+    cy.acceptPNRTerms();
+    cy.intercept('POST', 'v2/targeting-tasks/*/claim').as('claim');
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.claimAirPaxTask();
+
+        cy.wait(2000);
+
+        cy.contains('Dismiss').click();
+
+        cy.get('div[id="reasonForDismissing"] .govuk-radios__item label').each((reason, index) => {
+          cy.wrap(reason)
+            .should('contain.text', reasons[index]).and('be.visible');
+        });
+
+        cy.contains('Cancel').click();
+
+        cy.on('window:confirm', (str) => {
+          expect(str).to.equal('Are you sure you want to cancel?');
+        });
+
+        cy.on('window:confirm', () => true);
+
+        cy.get('.task-versions .task-versions--left').should('contain.text', taskCreationDateTime);
+
+        cy.contains('Dismiss').click();
+
+        cy.contains('Next').click();
+
+        cy.get('span[id="reasonForDismissing-error"]').should('contain.text', 'You must indicate at least one reason for dismissing the task');
+
+        cy.get('div[id="reasonForDismissing"] .govuk-radios__item')
+          .contains('Other')
+          .closest('div')
+          .find('input')
+          .click({ force: true });
+
+        cy.get('input[name="otherReasonToDismiss"]').type('other reason for testing');
+
+        cy.contains('Next').click();
+
+        cy.waitForNoErrors();
+
+        cy.get('textarea[id="addANote"]').type('This is for testing');
+
+        cy.contains('Submit form').click();
+
+        cy.verifySuccessfulSubmissionHeader('Task has been dismissed');
+
+        cy.visit(`/airpax/tasks/${businessKey}`);
+      });
+
+      cy.getActivityLogs().then((activities) => {
+        expect(activities).to.contain(expectedActivity);
+        expect(activities).not.to.contain('Property delete changed from false to true');
+      });
+    });
+  });
+
+  it('Should dismiss a task with a reason and without notes', () => {
+    const reasons = [
+      'Vessel arrived',
+      'False rule match',
+      'Resource redirected',
+      'Other',
+    ];
+
+    const expectedActivity = 'task dismissed, reason: false rule match';
+
+    cy.acceptPNRTerms();
+    cy.intercept('POST', 'v2/targeting-tasks/*/claim').as('claim');
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.claimAirPaxTask();
+
+        cy.wait(2000);
+
+        cy.contains('Dismiss').click();
+
+        cy.get('div[id="reasonForDismissing"] .govuk-radios__item label').each((reason, index) => {
+          cy.wrap(reason)
+            .should('contain.text', reasons[index]).and('be.visible');
+        });
+
+        cy.contains('Next').click();
+
+        cy.get('span[id="reasonForDismissing-error"]').should('contain.text', 'You must indicate at least one reason for dismissing the task');
+
+        cy.get('div[id="reasonForDismissing"] .govuk-radios__item')
+          .contains('False rule match')
+          .closest('div')
+          .find('input')
+          .click({ force: true });
+
+        cy.contains('Next').click();
+
+        cy.waitForNoErrors();
+
+        cy.contains('Submit form').click();
+
+        cy.verifySuccessfulSubmissionHeader('Task has been dismissed');
+
+        cy.visit(`/airpax/tasks/${businessKey}`);
+      });
+
+      cy.getActivityLogs().then((activities) => {
+        expect(activities).to.contain(expectedActivity);
+        expect(activities).not.to.contain('Property delete changed from false to true');
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
