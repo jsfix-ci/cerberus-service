@@ -52,9 +52,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
           actualTotalTargets += actualTargets;
         }
         cy.getAirPaxTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
-          // COP-9367 Number of tasks per selector filter (logic needs to be changed when COP-9796 implemented)
-         // cy.get('.govuk-radios__item label').eq(index).invoke('text').then((selectorTargets) => {
-            cy.get('.govuk-radios__label').eq(index).invoke('text').then((selectorTargets) => {
+          cy.get('.govuk-radios__label').eq(index).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks.new);
           });
