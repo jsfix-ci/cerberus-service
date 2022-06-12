@@ -14,7 +14,7 @@ describe('Verify AirPax task details of different sections', () => {
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedResponse) => {
           cy.contains('h3', 'Document').nextAll().within((elements) => {
-            cy.getairPaxDocument(elements).then((details) => {
+            cy.getairPaxTaskDetail(elements).then((details) => {
               expect(details).to.deep.equal(expectedResponse.Document);
             });
           });
@@ -103,6 +103,45 @@ describe('Verify AirPax task details of different sections', () => {
     });
 
     cy.get('.task-actions--buttons button').should('not.exist');
+  });
+
+  it('Should verify Baggage details of an AirPax task with Single Passenger on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedResponse) => {
+          cy.contains('h3', 'Baggage').nextAll().within((elements) => {
+            cy.getairPaxTaskDetail(elements).then((details) => {
+              expect(details).to.deep.equal(expectedResponse.Baggage);
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('Should verify Baggage details of an AirPax task with Multiple Passenger on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax-multiple-passengers.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-baggage-expected-multiple-passengers.json').then((expectedResponse) => {
+          cy.contains('h3', 'Baggage').nextAll().within((elements) => {
+            cy.contains('This booking is for multiple travellers. Check the travellers list for baggage allocations.');
+            cy.getairPaxTaskDetail(elements).then((details) => {
+              expect(details).to.deep.equal(expectedResponse.Baggage);
+            });
+          });
+        });
+      });
+    });
   });
 
   after(() => {
