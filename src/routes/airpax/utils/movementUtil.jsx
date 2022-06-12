@@ -12,7 +12,8 @@ import { UNKNOWN_TEXT,
   UNKNOWN_TIME_DATA,
   LATER_TEXT,
   DEPARTURE_STATUS,
-  TASK_STATUS_RELISTED } from '../../../constants';
+  TASK_STATUS_RELISTED,
+  TASK_STATUS_UPDATED } from '../../../constants';
 
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
@@ -31,7 +32,7 @@ const getRelistedStatus = (targetTask) => {
 const getUpdatedStatus = (targetTask) => {
   if (targetTask?.versions?.length > 1 || targetTask?.latestVersionNumber > 1) {
     return (
-      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
+      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">{TASK_STATUS_UPDATED}</p>
     );
   }
 };
