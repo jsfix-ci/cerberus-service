@@ -102,6 +102,7 @@ describe('MovementUtil', () => {
           seatNumber: null,
         },
       },
+      versions: [],
     };
   });
 
@@ -539,5 +540,54 @@ describe('MovementUtil', () => {
         expect(screen.getByText(expected[i])).toBeInTheDocument();
       });
     }
+  });
+
+  it('should return undefined if task version array length is 0', () => {
+    const output = MovementUtil.getUpdated(targetTaskMin);
+    expect(output).toBeUndefined();
+  });
+
+  it('should return undefined if task version array length is 1', () => {
+    targetTaskMin.versions = [undefined];
+
+    const output = MovementUtil.getUpdated(targetTaskMin);
+
+    expect(output).toBeUndefined();
+  });
+
+  it('should render the updated label if task versions array is greater than 1', () => {
+    targetTaskMin.versions = [undefined, undefined];
+
+    const { container } = render(MovementUtil.getUpdated(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
+  });
+
+  it('should render the updated label if task latestVersionNumber is greater than 1', () => {
+    targetTaskMin.latestVersionNumber = 2;
+
+    const { container } = render(MovementUtil.getUpdated(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
+  });
+
+  it('should return undefined when task latestVersionNumber is 1', () => {
+    targetTaskMin.latestVersionNumber = 1;
+
+    const output = MovementUtil.getUpdated(targetTaskMin);
+
+    expect(output).toBeUndefined();
+  });
+
+  it('should render the updated label if version or latest version number is greater than 1', () => {
+    targetTaskMin.versions = [undefined, undefined];
+    targetTaskMin.latestVersionNumber = 1;
+
+    const { container } = render(MovementUtil.getUpdated(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
   });
 });
