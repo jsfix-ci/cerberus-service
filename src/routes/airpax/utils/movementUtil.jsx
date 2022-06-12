@@ -28,6 +28,14 @@ const getRelistedStatus = (targetTask) => {
   }
 };
 
+const getUpdatedStatus = (targetTask) => {
+  if (targetTask?.versions?.length > 1 || targetTask?.latestVersionNumber > 1) {
+    return (
+      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">Updated</p>
+    );
+  }
+};
+
 const getItineraryFlightNumber = (itinerary) => {
   if (!itinerary?.id) {
     return UNKNOWN_TEXT;
@@ -322,6 +330,7 @@ const MovementUtil = {
   itinArrivalCountryCode: getItineraryArrivalCountryCode,
   itinRelativeTime: toItineraryRelativeTime,
   relistStatus: getRelistedStatus,
+  updatedStatus: getUpdatedStatus,
 };
 
 export default MovementUtil;
@@ -353,4 +362,5 @@ export {
   getItineraryArrivalCountryCode,
   toItineraryRelativeTime,
   getRelistedStatus,
+  getUpdatedStatus,
 };

@@ -103,6 +103,7 @@ describe('MovementUtil', () => {
           seatNumber: null,
         },
       },
+      versions: [],
     };
   });
 
@@ -554,6 +555,34 @@ describe('MovementUtil', () => {
 
     const { container } = render(MovementUtil.relistStatus(targetTaskMin));
     const elements = container.getElementsByClassName('govuk-tag--relistedTarget');
+
+    expect(elements).toHaveLength(1);
+  });
+
+  it('should render the updated label if task versions array is greater than 1', () => {
+    targetTaskMin.versions = [undefined, undefined];
+
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
+  });
+
+  it('should render the updated label if task latestVersionNumber is greater than 1', () => {
+    targetTaskMin.latestVersionNumber = 2;
+
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
+  });
+
+  it('should render the updated label if version or latest version number is greater than 1', () => {
+    targetTaskMin.versions = [undefined, undefined];
+    targetTaskMin.latestVersionNumber = 1;
+
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
 
     expect(elements).toHaveLength(1);
   });

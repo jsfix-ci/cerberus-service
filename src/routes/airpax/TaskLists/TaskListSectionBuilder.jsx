@@ -66,10 +66,11 @@ const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
               </h4>
             </div>
             <div className="govuk-grid-column govuk-!-padding-left-2">
+              {MovementUtil.updatedStatus(targetTask)}
               {MovementUtil.relistStatus(targetTask)}
             </div>
           </div>
-          <div className="govuk-grid-column-one-third govuk-!-padding-right-3">
+          <div className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3">
             <div className="claim-button-container">
               {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
             && (
