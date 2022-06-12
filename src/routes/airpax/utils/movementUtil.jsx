@@ -19,6 +19,16 @@ import { getTotalNumberOfPersons } from './personUtil';
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 
+const hasRelistedStatus = (targetTask) => {
+  if (targetTask?.relisted) {
+    return (
+      <p className="govuk-body govuk-tag govuk-tag--relistedTarget">
+        Relisted
+      </p>
+    );
+  }
+};
+
 const getItineraryFlightNumber = (itinerary) => {
   if (!itinerary?.id) {
     return UNKNOWN_TEXT;
@@ -312,6 +322,7 @@ const MovementUtil = {
   itinDepartureCountryCode: getItineraryDepartureCountryCode,
   itinArrivalCountryCode: getItineraryArrivalCountryCode,
   itinRelativeTime: toItineraryRelativeTime,
+  relistStatus: hasRelistedStatus,
 };
 
 export default MovementUtil;
@@ -342,4 +353,5 @@ export {
   getItineraryDepartureCountryCode,
   getItineraryArrivalCountryCode,
   toItineraryRelativeTime,
+  hasRelistedStatus,
 };

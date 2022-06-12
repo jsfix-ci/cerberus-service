@@ -65,6 +65,9 @@ const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
                 {targetTask.id}
               </h4>
             </div>
+            <div className="govuk-grid-column govuk-!-padding-left-2">
+              {MovementUtil.getUpdated(targetTask)}
+            </div>
           </div>
           <div className="govuk-grid-column-one-third govuk-!-padding-right-3">
             <div className="claim-button-container">
