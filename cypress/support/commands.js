@@ -1403,7 +1403,6 @@ Cypress.Commands.add('getAirPaxTaskCount', (modeName, selector, statusTab) => {
     ];
   }
   const baseUrl = 'v2/targeting-tasks/status-counts';
-  console.log(payload)
   cy.request({
     method: 'POST',
     url: baseUrl,
