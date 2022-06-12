@@ -217,6 +217,9 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
 
     const expectedActivity = 'task dismissed, reason: other reason for testing, note: This is for testing';
 
+    const dateFormat = 'D MMM YYYY [at] HH:mm';
+    let taskCreationDateTime = Cypress.dayjs().utc().format(dateFormat);
+
     cy.acceptPNRTerms();
     cy.intercept('POST', 'v2/targeting-tasks/*/claim').as('claim');
     const taskName = 'AIRPAX';
@@ -243,6 +246,18 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           cy.wrap(reason)
             .should('contain.text', reasons[index]).and('be.visible');
         });
+
+        cy.contains('Cancel').click();
+
+        cy.on('window:confirm', (str) => {
+          expect(str).to.equal('Are you sure you want to cancel?');
+        });
+
+        cy.on('window:confirm', () => true);
+
+        cy.get('.task-versions .task-versions--left').should('contain.text', taskCreationDateTime);
+
+        cy.contains('Dismiss').click();
 
         cy.contains('Next').click();
 
