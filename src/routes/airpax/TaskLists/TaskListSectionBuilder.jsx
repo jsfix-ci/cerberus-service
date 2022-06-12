@@ -66,7 +66,7 @@ const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
               </h4>
             </div>
             <div className="govuk-grid-column govuk-!-padding-left-2">
-              {MovementUtil.getUpdated(targetTask)}
+              {MovementUtil.relistStatus(targetTask)}
             </div>
           </div>
           <div className="govuk-grid-column-one-third govuk-!-padding-right-3">
