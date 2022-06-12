@@ -19,6 +19,33 @@ describe('Airpax task list page', () => {
     });
   });
 
+  it('Should verify filter by mode and Link to Roro is displayed', () => {
+    const airpaxModes = 'AIR_PASSENGER';
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTaskList');
+    cy.visit('/airpax/tasks');
+    cy.wait('@airpaxTaskList').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+      cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
+        expect(Heading).to.contain('AirPax');
+      });
+      cy.get('#mode').should('be.visible')
+        .select([0])
+        .invoke('val')
+        .should('deep.equal', airpaxModes);
+      cy.get('.roro-task-link')
+        .should('have.attr', 'href').and('include', 'task').then((href) => {
+          cy.intercept('POST', 'camunda/v1/targeting-tasks/pages').as('roroTaskList');
+          cy.visit(href);
+          cy.wait('@roroTaskList').then(({ roroResponse }) => {
+            expect(roroResponse.statusCode).to.equal(200);
+            cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
+              expect(Heading).to.contain('RoRo');
+            });
+          });
+        });
+    });
+  });
+
   it('Should verify /v2/targeting-tasks/pages returns with status code 200', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     cy.visit('/airpax/tasks');
