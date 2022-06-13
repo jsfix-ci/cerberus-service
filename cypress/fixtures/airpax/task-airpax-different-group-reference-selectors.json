@@ -326,17 +326,10 @@
             "commonAPIPlus.manifestDetails.dataType": "PNR",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.uniquePassengerId": "20058AB300012AD6",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.ticketNumber": "AL12345",
-            "bookingType": "Online",
-            "paymentMethod": "CC",
-            "bookingCountry": "UK",
-            "ticketNumber": "1234",
-            "ticketType": "Return",
-            "ticketPrice": "£25.00",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.0.tagNumber": "739238",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.1.tagNumber": "739239",
-            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.2.tagNumber": "739240",
-            "checkedInCount": "3",
-            "checkedInWeight": "46kg"
+            "checkedInCount": "1",
+            "checkedInWeight": "23kg"
           }
         },
         "features": {
@@ -382,24 +375,6 @@
               "type": null,
               "valueType": "STRING",
               "value": "DC",
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "STANDARDISED:bookingDateTime": {
-              "id": null,
-              "type": null,
-              "valueType": "STRING",
-              "value": "2022-06-09T10:00:00Z",
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "STANDARDISED:checkinDateTime": {
-              "id": null,
-              "type": null,
-              "valueType": "STRING",
-              "value": "2022-06-12T13:00:00Z",
               "valueList": null,
               "startTimestamp": null,
               "endTimestamp": null
@@ -460,6 +435,69 @@
             "maritalStatus": null,
             "religion": null,
             "passportNumber": "119039375"
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "680419104BA"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
+                },
+                "v1": null
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "MT2-PNR1.xml",
+              "id": "502992e4-f319-4422-ac26-09dbdcda5f58",
+              "audit": {
+                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv1jDrQ==",
+                "createdTimestamp": 1563637415000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERPAS",
+            "title": null,
+            "familyName": "Testing FamilyName",
+            "givenName": "Testing GivenName",
+            "fullName": "FamilyName GivenName",
+            "dateOfBirth": 2555,
+            "dateOfDeath": null,
+            "gender": "F",
+            "nationality": "AUS",
+            "yearOfBirth": 1982,
+            "monthOfBirth": 11,
+            "dayOfBirth": 9,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": "119039399"
           },
           "attributes": {
             "attrs": {
