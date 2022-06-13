@@ -99,3 +99,27 @@ $govuk-font-family: 'GDS Transport', arial, sans-serif;
 .task-list--voyage-section {
   margin-top: 5px !important;
 }
+
+.govuk-tag {
+  @include govuk-font($size: 14, $weight: bold, $line-height: 1);
+  height: 19px;
+  color: govuk-color('white');
+  border-radius: 5px;
+  text-transform: capitalize;
+  padding: 3px 5px 0 5px;
+  padding-bottom: 2px !important;
+
+  &--positiveTarget {
+    background-color: govuk-color('red');
+  }
+
+  &--newTarget {
+    background-color: govuk-color('green');
+    margin-bottom: 4px;
+    padding-top: 8px;
+  }
+
+  &--updatedTarget {
+    background-color: govuk-color('orange');
+  }
+}

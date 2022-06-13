@@ -23,9 +23,7 @@ import calculateTimeDifference from '../../../utils/calculateDatetimeDifference'
 const getRelistedStatus = (targetTask) => {
   if (targetTask?.relisted) {
     return (
-      <p className="govuk-body govuk-tag govuk-tag--relistedTarget">
-        {TASK_STATUS_RELISTED}
-      </p>
+      <Tag className="govuk-tag govuk-tag--relistedTarget" text={TASK_STATUS_RELISTED} />
     );
   }
 };
