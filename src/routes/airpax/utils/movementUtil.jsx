@@ -30,9 +30,10 @@ const getRelistedStatus = (targetTask) => {
 };
 
 const getUpdatedStatus = (targetTask) => {
+  // Any of the two sides of the conditional needs to equate to true
   if (targetTask?.versions?.length > 1 || targetTask?.latestVersionNumber > 1) {
     return (
-      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">{TASK_STATUS_UPDATED}</p>
+      <Tag className="govuk-tag govuk-tag--updatedTarget" text={TASK_STATUS_UPDATED} />
     );
   }
 };

@@ -103,6 +103,7 @@ describe('MovementUtil', () => {
           seatNumber: null,
         },
       },
+      latestVersionNumber: 1,
       versions: [],
     };
   });
@@ -543,23 +544,20 @@ describe('MovementUtil', () => {
     }
   });
 
-  it('should not render the relist label when relist flag is false', () => {
-    const { container } = render(MovementUtil.relistStatus(targetTaskMin));
-    const elements = container.getElementsByClassName('govuk-tag--relistedTarget');
-
+  it('should not render the updated label when versions array length is 0 or latestVersionNumber is not greater 1', () => {
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
     expect(elements).toHaveLength(0);
   });
 
-  it('should render the relist label when relist flag is true', () => {
-    targetTaskMin.relisted = true;
-
-    const { container } = render(MovementUtil.relistStatus(targetTaskMin));
-    const elements = container.getElementsByClassName('govuk-tag--relistedTarget');
-
-    expect(elements).toHaveLength(1);
+  it('should not render the updated label when versions array length is 1 and latestVersionNumber is 1', () => {
+    targetTaskMin.versions = [undefined];
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+    expect(elements).toHaveLength(0);
   });
 
-  it('should render the updated label if task versions array is greater than 1', () => {
+  it('should render the updated label if versions array is greater than 1 and latestVersionNumber is 1', () => {
     targetTaskMin.versions = [undefined, undefined];
 
     const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
@@ -568,18 +566,8 @@ describe('MovementUtil', () => {
     expect(elements).toHaveLength(1);
   });
 
-  it('should render the updated label if task latestVersionNumber is greater than 1', () => {
+  it('should render the updated label if latestVersionNumber is greater than 1 and versions array is 0', () => {
     targetTaskMin.latestVersionNumber = 2;
-
-    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
-    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
-
-    expect(elements).toHaveLength(1);
-  });
-
-  it('should render the updated label if version or latest version number is greater than 1', () => {
-    targetTaskMin.versions = [undefined, undefined];
-    targetTaskMin.latestVersionNumber = 1;
 
     const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
     const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
