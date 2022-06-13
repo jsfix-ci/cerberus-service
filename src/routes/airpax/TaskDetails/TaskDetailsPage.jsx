@@ -96,7 +96,7 @@ const TaskDetailsPage = () => {
   }, [refreshNotesForm]);
 
   const onCancel = () => {
-    history.go(0);
+    setDismissTaskFormOpen();
   };
 
   if (isLoading) {

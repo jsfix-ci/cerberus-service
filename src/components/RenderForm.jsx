@@ -167,7 +167,7 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
                 onGetComponent,
                 onSubmit: async (type, payload, onSuccess) => {
                   if (type === FORM_ACTION_CANCEL) {
-                    onCancel();
+                    return onCancel();
                   }
                   setLoaderVisibility(true);
                   try {
