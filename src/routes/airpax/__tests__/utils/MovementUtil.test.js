@@ -54,6 +54,7 @@ describe('MovementUtil', () => {
 
   beforeEach(() => {
     targetTaskMin = {
+      relisted: false,
       movement: {
         id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
         status: 'PRE_ARRIVAL',
@@ -539,5 +540,21 @@ describe('MovementUtil', () => {
         expect(screen.getByText(expected[i])).toBeInTheDocument();
       });
     }
+  });
+
+  it('should not render the relist label when relist flag is false', () => {
+    const { container } = render(MovementUtil.relistStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--relistedTarget');
+
+    expect(elements).toHaveLength(0);
+  });
+
+  it('should render the relist label when relist flag is true', () => {
+    targetTaskMin.relisted = true;
+
+    const { container } = render(MovementUtil.relistStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--relistedTarget');
+
+    expect(elements).toHaveLength(1);
   });
 });

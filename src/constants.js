@@ -10,6 +10,7 @@ export const TASK_STATUS_NEW = 'new';
 export const TASK_STATUS_IN_PROGRESS = 'inProgress';
 export const TASK_STATUS_TARGET_ISSUED = 'issued';
 export const TASK_STATUS_COMPLETED = 'complete';
+export const TASK_STATUS_RELISTED = 'Relisted';
 export const TASK_OUTCOME_POSITIVE = 'positive';
 export const TASK_OUTCOME_NEGATIVE = 'negative';
 export const TASK_OUTCOME_NO_SHOW = 'noShow';
