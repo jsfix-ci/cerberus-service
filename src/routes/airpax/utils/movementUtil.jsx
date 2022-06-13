@@ -353,5 +353,5 @@ export {
   getItineraryDepartureCountryCode,
   getItineraryArrivalCountryCode,
   toItineraryRelativeTime,
-  getUpdatedStatus as hasUpdatedStatus,
+  getUpdatedStatus,
 };
