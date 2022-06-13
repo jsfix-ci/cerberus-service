@@ -20,7 +20,7 @@ import { getTotalNumberOfPersons } from './personUtil';
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
 
-const hasRelistedStatus = (targetTask) => {
+const getRelistedStatus = (targetTask) => {
   if (targetTask?.relisted) {
     return (
       <p className="govuk-body govuk-tag govuk-tag--relistedTarget">
@@ -323,7 +323,7 @@ const MovementUtil = {
   itinDepartureCountryCode: getItineraryDepartureCountryCode,
   itinArrivalCountryCode: getItineraryArrivalCountryCode,
   itinRelativeTime: toItineraryRelativeTime,
-  relistStatus: hasRelistedStatus,
+  relistStatus: getRelistedStatus,
 };
 
 export default MovementUtil;
@@ -354,5 +354,5 @@ export {
   getItineraryDepartureCountryCode,
   getItineraryArrivalCountryCode,
   toItineraryRelativeTime,
-  hasRelistedStatus,
+  getRelistedStatus,
 };

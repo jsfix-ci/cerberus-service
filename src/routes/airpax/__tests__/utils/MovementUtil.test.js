@@ -542,14 +542,14 @@ describe('MovementUtil', () => {
     }
   });
 
-  it('should not render the relist label', () => {
+  it('should not render the relist label when relist flag is false', () => {
     const { container } = render(MovementUtil.relistStatus(targetTaskMin));
     const elements = container.getElementsByClassName('govuk-tag--relistedTarget');
 
     expect(elements).toHaveLength(0);
   });
 
-  it('should render the relist label', () => {
+  it('should render the relist label when relist flag is true', () => {
     targetTaskMin.relisted = true;
 
     const { container } = render(MovementUtil.relistStatus(targetTaskMin));
