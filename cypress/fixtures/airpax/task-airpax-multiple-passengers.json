@@ -329,8 +329,11 @@
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.0.tagNumber": "739238",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.1.tagNumber": "739239",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.2.tagNumber": "739240",
-            "checkedInCount": "3",
-            "checkedInWeight": "46kg"
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.3.tagNumber": "739241",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.4.tagNumber": "739242",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.5.tagNumber": "739243",
+            "checkedInCount": "6",
+            "checkedInWeight": "100kg"
           }
         },
         "features": {
@@ -447,6 +450,69 @@
           "washResponses": null,
           "matchMerge": null,
           "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
+                },
+                "v1": null
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "MT2-PNR1.xml",
+              "id": "502992e4-f319-4422-ac26-09dbdcda5f58",
+              "audit": {
+                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv1jDrQ==",
+                "createdTimestamp": 1563637415000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERPAS",
+            "title": null,
+            "familyName": "Auto Test",
+            "givenName": "Micky Mouse",
+            "fullName": "Auto Test Micky Mouse",
+            "dateOfBirth": 2545,
+            "dateOfDeath": null,
+            "gender": "M",
+            "nationality": "AUS",
+            "yearOfBirth": 1955,
+            "monthOfBirth": 12,
+            "dayOfBirth": 25,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": "119039999"
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "680419104BA"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
         }
       ],
       "organisations": [
@@ -493,7 +559,7 @@
           "attributes": {
             "attrs": {
               "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentCountryCode": "GB",
-              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "8767844",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "8767876",
               "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentCityCode": "LHR",
               "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentType": "A"
             }
@@ -565,6 +631,77 @@
             "dateOfIssue": null,
             "validFromDate": 17648,
             "expiryDate": 19473
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.itinerary.travelSegment.dcsDetails.dcsData.dcsRecord.1.travelDocument.0.travelDocType": "P"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750,O=bec77b0b7613e0d05ff1a7421f6abcf4"
+                },
+                "v1": null
+              },
+              "type": "O"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "MT2-PNR1.xml",
+              "id": "502992e4-f319-4422-ac26-09dbdcda5f58",
+              "audit": {
+                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv1jDrQ==",
+                "createdTimestamp": 1563637415000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "TDI (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "DOCUMENT",
+          "party": {
+            "poleId": {
+              "v2": {
+                "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
+              },
+              "v1": null
+            },
+            "type": "P"
+          },
+          "role": "PTOOUSES",
+          "startTimestamp": null,
+          "endTimestamp": null,
+          "name": null,
+          "description": null,
+          "additionalInformation": null,
+          "url": null,
+          "document": {
+            "type": "OBJDOCPAS",
+            "value": "119039999",
+            "subject": null,
+            "category": null,
+            "status": null,
+            "placeOfIssue": "AUS",
+            "countryOfIssue": null,
+            "dateOfIssue": null,
+            "validFromDate": 17650,
+            "expiryDate": 19480
           },
           "attributes": {
             "attrs": {

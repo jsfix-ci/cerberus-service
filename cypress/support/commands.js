@@ -1843,7 +1843,7 @@ Cypress.Commands.add('sendPNRrequest', () => {
   });
 });
 
-Cypress.Commands.add(('getairPaxDocument'), (elements) => {
+Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
   const occupantArray = [];
   cy.wrap(elements).find('div').each((detail) => {
     let obj = {};
@@ -1854,11 +1854,9 @@ Cypress.Commands.add(('getairPaxDocument'), (elements) => {
         });
     })
       .then(() => {
-        console.log(obj);
         occupantArray.push(obj);
       });
   }).then(() => {
-    console.log(occupantArray);
     return occupantArray;
   });
 });
