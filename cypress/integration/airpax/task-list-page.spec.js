@@ -120,7 +120,7 @@ describe('Airpax task list page', () => {
   });
 
   it('Should display task Id on each task card', () => {
-      cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
