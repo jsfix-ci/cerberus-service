@@ -95,6 +95,10 @@ const TaskDetailsPage = () => {
     getTaskData();
   }, [refreshNotesForm]);
 
+  const onCancel = () => {
+    setDismissTaskFormOpen();
+  };
+
   if (isLoading) {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
@@ -163,6 +167,7 @@ const TaskDetailsPage = () => {
                   setSubmitted(true);
                 }
               }
+              onCancel={onCancel}
               form={dismissTask}
               renderer={Renderers.REACT}
             />
