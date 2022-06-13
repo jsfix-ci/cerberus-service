@@ -144,6 +144,20 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify No selectors & rules on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax-no-rules-selectors.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
