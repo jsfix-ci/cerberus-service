@@ -33,6 +33,20 @@ const getAge = (person) => {
   return dayjs.utc().diff(dayjs(person.dateOfBirth), 'year');
 };
 
+const getTravelAge = (person, departureDate) => {
+  if (!person?.dateOfBirth) {
+    return UNKNOWN_TEXT;
+  }
+  const dateOfBirth = person.dateOfBirth;
+  if (!dateOfBirth || !departureDate) {
+    return UNKNOWN_TEXT;
+  }
+  const dateTimeFormat = 'YYYY-MM-DD';
+  const formattedDob = dayjs(dayjs(dateOfBirth).format(dateTimeFormat));
+  const formattedDepartureDate = dayjs(dayjs(departureDate).format(dateTimeFormat));
+  return formattedDepartureDate.diff(formattedDob, 'year');
+};
+
 const getGender = (person) => {
   if (!person) {
     return UNKNOWN_TEXT;
@@ -142,6 +156,7 @@ const PersonUtil = {
   gender: getGender,
   dob: getDateOfBirth,
   age: getAge,
+  travelAge: getTravelAge,
   nationality: getNationality,
   countryName: getCountryName,
   frequentFlyerNumber: getFrequentFlyerNumber,
@@ -164,4 +179,5 @@ export {
   getOtherPersons,
   getFrequentFlyerNumber,
   getSSRCodes,
+  getTravelAge,
 };

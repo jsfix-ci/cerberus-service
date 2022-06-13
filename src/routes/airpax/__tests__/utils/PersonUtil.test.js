@@ -272,6 +272,54 @@ describe('PersonUtil', () => {
     expect(output).toEqual(10);
   });
 
+  it('should calculate and return the age at time of travel', () => {
+    const PERSON_NODE = {
+      dateOfBirth: '1966-05-13T00:00:00Z',
+    };
+    const DEPARTURE_DATE = '2020-07-21T16:40:00Z';
+
+    const output = PersonUtil.travelAge(PERSON_NODE, DEPARTURE_DATE);
+    expect(output).toEqual(54);
+  });
+
+  it('should return unknown when date of birth is not provided', () => {
+    const PERSON_NODE = {
+      dateOfBirth: null,
+    };
+    const JOURNEY_NODE = {
+      departure: {
+        time: '2020-07-21T16:40:00Z',
+      },
+    };
+
+    const output = PersonUtil.travelAge(PERSON_NODE, JOURNEY_NODE);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure date is not provided', () => {
+    const PERSON_NODE = {
+      dateOfBirth: '1966-05-13T00:00:00Z',
+    };
+    const DEPARTURE_DATE = null;
+
+    const output = PersonUtil.travelAge(PERSON_NODE, DEPARTURE_DATE);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure date & date of birth are not provided', () => {
+    const PERSON_NODE = {
+      dateOfBirth: null,
+    };
+    const JOURNEY_NODE = {
+      departure: {
+        time: '',
+      },
+    };
+
+    const output = PersonUtil.travelAge(PERSON_NODE, JOURNEY_NODE);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
   it('should return a formatted co-travellers block', () => {
     const otherPersons = [
       {
