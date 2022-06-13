@@ -132,7 +132,9 @@ describe('Airpax task list page', () => {
         cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
-        cy.get('.govuk-task-list-card').find('h4.task-heading').invoke('text').then((text) => {
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+          .should('be.visible')
+          .invoke('text').then((text) => {
           expect(text).to.include(businessKey);
         });
       });
