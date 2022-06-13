@@ -11,13 +11,32 @@ import { UNKNOWN_TEXT,
   MOVEMENT_ROLE_AIR_CREW,
   UNKNOWN_TIME_DATA,
   LATER_TEXT,
-  DEPARTURE_STATUS } from '../../../constants';
+  DEPARTURE_STATUS,
+  TASK_STATUS_RELISTED,
+  TASK_STATUS_UPDATED } from '../../../constants';
 
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
 
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+
+const getRelistedStatus = (targetTask) => {
+  if (targetTask?.relisted) {
+    return (
+      <p className="govuk-body govuk-tag govuk-tag--relistedTarget">{TASK_STATUS_RELISTED}</p>
+    );
+  }
+};
+
+const getUpdatedStatus = (targetTask) => {
+  // Any of the two sides of the conditional needs to equate to true
+  if (targetTask?.versions?.length > 1 || targetTask?.latestVersionNumber > 1) {
+    return (
+      <p className="govuk-body govuk-tag govuk-tag--updatedTarget">{TASK_STATUS_UPDATED}</p>
+    );
+  }
+};
 
 const getItineraryFlightNumber = (itinerary) => {
   if (!itinerary?.id) {
@@ -312,6 +331,8 @@ const MovementUtil = {
   itinDepartureCountryCode: getItineraryDepartureCountryCode,
   itinArrivalCountryCode: getItineraryArrivalCountryCode,
   itinRelativeTime: toItineraryRelativeTime,
+  relistStatus: getRelistedStatus,
+  updatedStatus: getUpdatedStatus,
 };
 
 export default MovementUtil;
@@ -342,4 +363,6 @@ export {
   getItineraryDepartureCountryCode,
   getItineraryArrivalCountryCode,
   toItineraryRelativeTime,
+  getRelistedStatus,
+  getUpdatedStatus,
 };

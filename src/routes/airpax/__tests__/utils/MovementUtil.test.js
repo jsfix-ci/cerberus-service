@@ -54,6 +54,7 @@ describe('MovementUtil', () => {
 
   beforeEach(() => {
     targetTaskMin = {
+      relisted: false,
       movement: {
         id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
         status: 'PRE_ARRIVAL',
@@ -102,6 +103,8 @@ describe('MovementUtil', () => {
           seatNumber: null,
         },
       },
+      latestVersionNumber: 1,
+      versions: [],
     };
   });
 
@@ -539,5 +542,36 @@ describe('MovementUtil', () => {
         expect(screen.getByText(expected[i])).toBeInTheDocument();
       });
     }
+  });
+
+  it('should not render the updated label when versions array length is 0 or latestVersionNumber is not greater 1', () => {
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+    expect(elements).toHaveLength(0);
+  });
+
+  it('should not render the updated label when versions array length is 1 and latestVersionNumber is 1', () => {
+    targetTaskMin.versions = [undefined];
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+    expect(elements).toHaveLength(0);
+  });
+
+  it('should render the updated label if versions array is greater than 1 and latestVersionNumber is 1', () => {
+    targetTaskMin.versions = [undefined, undefined];
+
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
+  });
+
+  it('should render the updated label if latestVersionNumber is greater than 1 and versions array is 0', () => {
+    targetTaskMin.latestVersionNumber = 2;
+
+    const { container } = render(MovementUtil.updatedStatus(targetTaskMin));
+    const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
+
+    expect(elements).toHaveLength(1);
   });
 });

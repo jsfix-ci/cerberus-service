@@ -58,7 +58,7 @@ export default {
       ],
       actions: [
         {
-          type: 'close',
+          type: 'cancel',
           label: 'Cancel',
           classModifiers: 'secondary',
         },
