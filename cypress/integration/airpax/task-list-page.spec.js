@@ -134,9 +134,10 @@ describe('Airpax task list page', () => {
         });
         cy.get('.govuk-task-list-card').find('h4.task-heading')
           .should('be.visible')
-          .invoke('text').then((text) => {
-          expect(text).to.include(businessKey);
-        });
+          .invoke('text')
+          .then((text) => {
+            expect(text).to.include(businessKey);
+          });
       });
     });
   });
