@@ -23,7 +23,7 @@ $govuk-font-family: 'GDS Transport', arial, sans-serif !important;
 }
 
 body {
-  font-family: 'GDS Transport', arial, sans-serif !important;
+  font-family: $govuk-font-family;
 }
 
 [class*='govuk-'],
