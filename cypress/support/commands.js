@@ -1359,6 +1359,62 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
   });
 });
 
+Cypress.Commands.add('getAirPaxTaskCount', (modeName, selector, statusTab) => {
+  let payload;
+  if (modeName === null && selector !== 'ANY') {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': ['AIR_PASSENGER'],
+        'selectors': selector,
+      },
+    ];
+  } else if (selector === 'ANY') {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': ['AIR_PASSENGER'],
+        'selectors': selector,
+      },
+    ];
+  } else if (modeName instanceof Array) {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': modeName,
+        'selectors': selector,
+      },
+    ];
+  } else {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': [modeName],
+        'selectors': selector,
+      },
+    ];
+  }
+  const baseUrl = 'v2/targeting-tasks/status-counts';
+  cy.request({
+    method: 'POST',
+    url: baseUrl,
+    headers: { Authorization: `Bearer ${token}` },
+    body: payload,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body);
+    return response.body[0].statusCounts;
+  });
+});
+
 Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
@@ -1388,7 +1444,7 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
       .click({ force: true });
   }
 
-  cy.contains('Apply filters').click();
+  cy.contains('Apply').click();
   cy.wait(2000);
   cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
