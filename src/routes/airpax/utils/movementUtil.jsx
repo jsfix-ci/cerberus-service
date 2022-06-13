@@ -289,7 +289,11 @@ const toAirlineName = (airlineCode, airlineCodes) => {
   if (!airlineCode || !airlineCodes.length) {
     return UNKNOWN_TEXT;
   }
-  return airlineCodes.find(({ twolettercode }) => twolettercode === airlineCode)?.name;
+  const airlineData = airlineCodes.find(({ twolettercode }) => twolettercode === airlineCode);
+  if (!airlineData) {
+    return UNKNOWN_TEXT;
+  }
+  return airlineData.name;
 };
 
 const toItineraryRelativeTime = (index, itinerary, itineraries) => {
