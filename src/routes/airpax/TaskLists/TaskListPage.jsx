@@ -70,7 +70,7 @@ const TaskListPage = () => {
       const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: [storedData.mode] || [],
-        selectors: storedData.selectors || selector.selectors,
+        selectors: selector.selectors,
         ruleIds: storedData.ruleIds || [],
       }));
       return movementModes.concat(selectors);
