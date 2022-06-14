@@ -162,7 +162,9 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/status-counts')
       .reply(200, countsFiltersAndSelectorsResponse)
       .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: [] });
+      .reply(200, { data: [] })
+      .onGet('/filters/rules')
+      .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
