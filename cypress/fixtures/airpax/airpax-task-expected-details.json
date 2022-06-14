@@ -24,5 +24,16 @@
     {
       "Date of birth": "10 Dec 1976"
     }
+  ],
+  "Baggage": [
+    {
+      "Checked bags": "3"
+    },
+    {
+      "Total weight": "46kg"
+    },
+    {
+      "Tag number": "739238, 739239, 739240"
+    }
   ]
 }

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-
+import { useInterval } from 'react-use';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -117,6 +117,13 @@ const TasksTab = ({
       };
     }
   }, [refreshTaskList]);
+
+  useInterval(() => {
+    getTaskList();
+    return () => {
+      source.cancel('Cancelling request');
+    };
+  }, 180000);
 
   useEffect(() => {
     getAirlineCodes();

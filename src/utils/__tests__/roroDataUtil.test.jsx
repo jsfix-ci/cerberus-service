@@ -1,4 +1,4 @@
-import { RORO_FILTERS_KEY, TASK_ID_KEY, TASK_STATUS_NEW } from '../../constants';
+import { TASK_STATUS_KEY, TASK_STATUS_NEW } from '../../constants';
 import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
@@ -9,8 +9,8 @@ import { modifyRoRoPassengersTaskList,
   isSinglePassenger,
   filterKnownPassengers,
   isNotNumber,
-  getTaskId,
-  hasLocalStorageFilters,
+  getTaskStatus,
+  getLocalStoredItemByKeyValue,
   toRoRoSelectorsValue } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
@@ -660,28 +660,48 @@ describe('RoRoData Util', () => {
 
   it('should return the set task id', () => {
     const EXPECTED = 'test-task-id';
-    localStorage.setItem(TASK_ID_KEY, EXPECTED);
+    localStorage.setItem(TASK_STATUS_KEY, EXPECTED);
 
-    const output = getTaskId(TASK_ID_KEY);
+    const output = getTaskStatus(TASK_STATUS_KEY);
     expect(output).toEqual(EXPECTED);
   });
 
   it(`should return task status "${TASK_STATUS_NEW}" if none has been set in local storage`, () => {
-    const output = getTaskId(TASK_ID_KEY);
+    const output = getTaskStatus(TASK_STATUS_KEY);
     expect(output).toEqual(TASK_STATUS_NEW);
   });
 
-  it('should return true if local storage filters found', () => {
-    const EXPECTED = 'test-task-id';
-    localStorage.setItem(RORO_FILTERS_KEY, EXPECTED);
+  it('should return stored data', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
 
-    const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
-    expect(output).toBeTruthy();
+    const storedData = getLocalStoredItemByKeyValue(KEY);
+    expect(storedData).toMatchObject(DATA_TO_STORE);
   });
 
-  it('should return false if local storage filters are not found', () => {
-    const output = hasLocalStorageFilters(RORO_FILTERS_KEY);
-    expect(output).toBeFalsy();
+  it('should evaluate to false if stored data is not found', () => {
+    const KEY = 'key';
+    const storedData = getLocalStoredItemByKeyValue(KEY);
+    expect(storedData).toBeFalsy();
+  });
+
+  it('should return data item within stored data', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedDataItem = getLocalStoredItemByKeyValue(KEY, 'alpha');
+    expect(storedDataItem).toEqual(DATA_TO_STORE.alpha);
+  });
+
+  it('should evaluate returned data to false if data item within stored data is not found', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedDataItem = getLocalStoredItemByKeyValue(KEY, 'charlie');
+    expect(storedDataItem).toBeFalsy();
   });
 
   it('should return true when given is a string representation of boolean true', () => {

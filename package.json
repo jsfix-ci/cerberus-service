@@ -8,7 +8,7 @@
     "build:dev": "webpack --mode=development",
     "lint": "eslint -f table --ext=js,jsx",
     "start": "webpack serve --mode=development",
-    "test": "jest --coverage",
+    "test": "jest --coverage -u",
     "cypress:test:local": "node get_secrets.js local && cypress run",
     "cypress:test:dev": "node get_secrets.js dev && cypress run",
     "cypress:test:sit": "node get_secrets.js sit && cypress run",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.37.0",
     "@nitro-land/airport-codes": "^1.0.4",
-    "@ukhomeoffice/cop-react-components": "^1.3.0",
+    "@ukhomeoffice/cop-react-components": "^1.6.0",
     "@ukhomeoffice/cop-react-form-renderer": "^2.6.2",
     "@ukhomeoffice/formio-gds-template": "^1.0.12",
     "axios": "^0.23.0",
