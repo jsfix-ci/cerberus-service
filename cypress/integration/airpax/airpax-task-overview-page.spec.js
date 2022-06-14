@@ -199,7 +199,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           expect(response.statusCode).to.be.equal(200);
         });
         cy.get('@expectedData').then((expectedTaskSumary) => {
-          cy.verifyAirPaxTaskListInfo(businessKey).then((actualTaskSummary) => {
+          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
             expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
           });
         });
@@ -352,6 +352,32 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       cy.getActivityLogs().then((activities) => {
         expect(activities).to.contain(expectedActivity);
         expect(activities).not.to.contain('Property delete changed from false to true');
+      });
+    });
+  });
+
+  it('Should verify task summary displays Crew', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/taskSummaryExpected-Crew.json').as('expectedData');
+    cy.fixture('airpax/task-airpax-Crew.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expectedData').then((expectedTaskSumary) => {
+          cy.verifyAirPaxTaskListInfo(businessKey, 'Crew').then((actualTaskSummary) => {
+            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
+          });
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.contains('Crew');
       });
     });
   });
