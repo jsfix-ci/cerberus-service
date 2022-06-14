@@ -956,7 +956,7 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   });
 });
 
-function getAirPaxTaskSummary(businessKey) {
+function getAirPaxTaskSummary(businessKey, passengerType) {
   let taskSummary = {};
   cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within((element) => {
     cy.wrap(element).find('.task-list--voyage-section').within((voyageSection) => {
@@ -1007,7 +1007,8 @@ function getAirPaxTaskSummary(businessKey) {
         let passenger = [];
         let document = [];
         let booking = [];
-        cy.wrap(movmentInfoSection).contains('Passenger').nextAll().then((passengerDetails) => {
+
+        cy.wrap(movmentInfoSection).contains(passengerType).nextAll().then((passengerDetails) => {
           cy.wrap(passengerDetails).find('li').each((details) => {
             cy.wrap(details).invoke('text').then((info) => {
               passenger.push(info);
@@ -1069,16 +1070,16 @@ function getAirPaxTaskSummary(businessKey) {
     });
 }
 
-Cypress.Commands.add('verifyAirPaxTaskListInfo', (businessKey) => {
+Cypress.Commands.add('verifyAirPaxTaskListInfo', (businessKey, passengerType) => {
   const nextPage = 'a[data-test="next"]';
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
       cy.findTaskInAllThePages(businessKey, null, null).then(() => {
-        return getAirPaxTaskSummary(businessKey);
+        return getAirPaxTaskSummary(businessKey, passengerType);
       });
     } else {
       cy.findTaskInSinglePage(businessKey, null, null).then(() => {
-        return getAirPaxTaskSummary(businessKey);
+        return getAirPaxTaskSummary(businessKey, passengerType);
       });
     }
   });
