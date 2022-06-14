@@ -382,7 +382,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it('Should display new label for new tasks on task details and not display as new when it is claimed', () => {
+  it('Should display new label for new tasks on task details and not display new label when it is claimed', () => {
     cy.acceptPNRTerms();
     cy.intercept('POST', 'v2/targeting-tasks/*/claim').as('claim');
     cy.intercept('POST', 'v2/targeting-tasks/*/unclaim').as('unclaim');
