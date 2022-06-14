@@ -283,7 +283,7 @@ describe('MovementUtil', () => {
     expect(output).toEqual('In group of 2');
   });
 
-  it('should convert airline code to airline name', () => {
+  it('should return airline name when given valid airline code', () => {
     const GIVEN_BA = MovementUtil.airlineName('BA', airlineCodesMin);
     const GIVEN_AF = MovementUtil.airlineName('AF', airlineCodesMin);
     const GIVEN_QF = MovementUtil.airlineName('QF', airlineCodesMin);
@@ -291,6 +291,18 @@ describe('MovementUtil', () => {
     expect(GIVEN_BA).toEqual('British Airways');
     expect(GIVEN_AF).toEqual('Air France');
     expect(GIVEN_QF).toEqual('Qantas');
+  });
+
+  it('should return unknown when given invalid airline code', () => {
+    const GIVEN_EMPTY = MovementUtil.airlineName('', airlineCodesMin);
+    const GIVEN_NULL = MovementUtil.airlineName('null', airlineCodesMin);
+    const GIVEN_UNDEFINED = MovementUtil.airlineName('undefined', airlineCodesMin);
+    const GIVEN_INVALID = MovementUtil.airlineName('invalid', airlineCodesMin);
+
+    expect(GIVEN_EMPTY).toEqual(UNKNOWN_TEXT);
+    expect(GIVEN_NULL).toEqual(UNKNOWN_TEXT);
+    expect(GIVEN_UNDEFINED).toEqual(UNKNOWN_TEXT);
+    expect(GIVEN_INVALID).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return a formatted string from the departure location code when location is present', () => {
