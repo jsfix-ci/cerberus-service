@@ -39,7 +39,7 @@ const getTravelAge = (person, departureDate) => {
   if (!dateOfBirth || dateOfBirth === UNKNOWN_TEXT) {
     return UNKNOWN_TEXT;
   }
-  if (!departureDate || departureDate === UNKNOWN_TEXT) {
+  if (!departureDate) {
     return UNKNOWN_TEXT;
   }
   const formattedDob = dayjs(dayjs(dateOfBirth));
