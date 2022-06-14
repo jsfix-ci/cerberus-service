@@ -404,7 +404,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.claimAirPaxTaskWithUserId(businessKey);
         cy.checkAirPaxTaskDisplayed(businessKey);
         cy.get('strong.hods-tag.govuk-tag.govuk-tag--newTarget').should('not.exist');
-        cy.wait(2000);      
+        cy.wait(2000);  
         cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim task').click();
 
         cy.wait('@unclaim').then(({ response }) => {
