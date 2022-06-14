@@ -60,7 +60,7 @@ const TaskListPage = () => {
       }));
       const selectors = DEFAULT_RORO_HAS_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: [storedData.mode] || [],
+        movementModes: [storedData.mode].filter((mode) => !!mode) || [],
         hasSelectors: selector.hasSelectors,
       }));
       return movementModes.concat(selectors);
