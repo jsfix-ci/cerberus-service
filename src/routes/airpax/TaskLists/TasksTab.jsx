@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useInterval } from 'react-use';
+import { useLocation } from 'react-router-dom';
+
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -28,6 +30,7 @@ const TasksTab = ({
   dayjs.extend(utc);
   const keycloak = useKeycloak();
   const currentUser = keycloak.tokenParsed.email;
+  const location = useLocation();
 
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);

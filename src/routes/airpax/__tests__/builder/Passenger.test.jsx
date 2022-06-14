@@ -25,6 +25,11 @@ describe('Passenger', () => {
         flight: {
           departureStatus: 'DEPARTURE_CONFIRMED',
         },
+        journey: {
+          departure: {
+            time: '2019-05-13T00:00:00Z',
+          },
+        },
       },
     };
   });
@@ -53,13 +58,10 @@ describe('Passenger', () => {
   });
 
   it('should render Age at travel if present', () => {
-    const date = new Date();
-    date.setFullYear(date.getFullYear() - 55);
-    version.movement.person.dateOfBirth = date.toISOString();
-
     render(<Passenger version={version} />);
+
     expect(screen.getByText('Age at travel')).toBeInTheDocument();
-    expect(screen.getByText('55')).toBeInTheDocument();
+    expect(screen.getByText('53')).toBeInTheDocument();
   });
 
   it('should render Gender if present', () => {

@@ -19,11 +19,11 @@ const getCountryName = (person) => {
   return lookup.byIso(person.nationality).country;
 };
 
-const getDateOfBirth = (person) => {
+const getDateOfBirth = (person, format = SHORT_DATE_FORMAT_ALT) => {
   if (!person?.dateOfBirth) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(person.dateOfBirth, SHORT_DATE_FORMAT_ALT);
+  return getFormattedDate(person.dateOfBirth, format);
 };
 
 const getAge = (person) => {
@@ -31,6 +31,20 @@ const getAge = (person) => {
     return UNKNOWN_TEXT;
   }
   return dayjs.utc().diff(dayjs(person.dateOfBirth), 'year');
+};
+
+const getTravelAge = (person, departureDate) => {
+  const dateFormat = 'YYYY-MM-DD';
+  const dateOfBirth = getDateOfBirth(person, dateFormat);
+  if (!dateOfBirth || dateOfBirth === UNKNOWN_TEXT) {
+    return UNKNOWN_TEXT;
+  }
+  if (!departureDate) {
+    return UNKNOWN_TEXT;
+  }
+  const formattedDob = dayjs(dayjs(dateOfBirth));
+  const formattedDepartureDate = dayjs(dayjs(departureDate).format(dateFormat));
+  return formattedDepartureDate.diff(formattedDob, 'year');
 };
 
 const getGender = (person) => {
@@ -142,6 +156,7 @@ const PersonUtil = {
   gender: getGender,
   dob: getDateOfBirth,
   age: getAge,
+  travelAge: getTravelAge,
   nationality: getNationality,
   countryName: getCountryName,
   frequentFlyerNumber: getFrequentFlyerNumber,
@@ -164,4 +179,5 @@ export {
   getOtherPersons,
   getFrequentFlyerNumber,
   getSSRCodes,
+  getTravelAge,
 };
