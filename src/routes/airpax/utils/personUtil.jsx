@@ -19,11 +19,11 @@ const getCountryName = (person) => {
   return lookup.byIso(person.nationality).country;
 };
 
-const getDateOfBirth = (person) => {
+const getDateOfBirth = (person, format = SHORT_DATE_FORMAT_ALT) => {
   if (!person?.dateOfBirth) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(person.dateOfBirth, SHORT_DATE_FORMAT_ALT);
+  return getFormattedDate(person.dateOfBirth, format);
 };
 
 const getAge = (person) => {
@@ -34,16 +34,16 @@ const getAge = (person) => {
 };
 
 const getTravelAge = (person, departureDate) => {
-  if (!person?.dateOfBirth) {
+  const dateFormat = 'YYYY-MM-DD';
+  const dateOfBirth = getDateOfBirth(person, dateFormat);
+  if (!dateOfBirth || dateOfBirth === UNKNOWN_TEXT) {
     return UNKNOWN_TEXT;
   }
-  const dateOfBirth = person.dateOfBirth;
-  if (!dateOfBirth || !departureDate) {
+  if (!departureDate || departureDate === UNKNOWN_TEXT) {
     return UNKNOWN_TEXT;
   }
-  const dateTimeFormat = 'YYYY-MM-DD';
-  const formattedDob = dayjs(dayjs(dateOfBirth).format(dateTimeFormat));
-  const formattedDepartureDate = dayjs(dayjs(departureDate).format(dateTimeFormat));
+  const formattedDob = dayjs(dayjs(dateOfBirth));
+  const formattedDepartureDate = dayjs(dayjs(departureDate).format(dateFormat));
   return formattedDepartureDate.diff(formattedDob, 'year');
 };
 
