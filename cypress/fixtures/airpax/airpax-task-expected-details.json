@@ -35,5 +35,31 @@
     {
       "Tag number": "739238, 739239, 739240"
     }
+  ],
+  "Booking": [
+    {
+      "Reference": "LSV4UV"
+    },
+    {
+      "Number of travellers": "2"
+    },
+    {
+      "Booking datea month before departure": "9 Jun 2022 at 10:00"
+    },
+    {
+      "": ""
+    },
+    {
+      "Booking country": "United Kingdom (GB)"
+    },
+    {
+      "Booking type": "Online"
+    },
+    {
+      "Ticket number": "1234"
+    },
+    {
+      "Ticket type": "Return"
+    }
   ]
 }

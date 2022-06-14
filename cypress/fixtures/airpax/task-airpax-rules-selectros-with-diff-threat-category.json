@@ -5,6 +5,102 @@
     "riskCreatedDate": "2022-05-26T11:00:31.779414Z",
     "riskType": "Pre-Arrival",
     "matchedRules": [
+      {
+        "ruleId": 293,
+        "ruleName": "Paid by Cash",
+        "ruleType": "Pre-arrival",
+        "ruleVersion": 1,
+        "ruleDescription": "Test",
+        "securityLabels": [
+          "null",
+          "null",
+          "null",
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2021-10-11T09:40:39Z",
+        "rulePriority": "Tier 3",
+        "indicatorMatches": [
+          {
+            "entity": "Vehicle",
+            "descriptor": "Vehicle is empty",
+            "operator": "equal",
+            "value": "true"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          }
+        ],
+        "abuseTypes": [
+          "National Security at the Border"
+        ]
+      },
+      {
+        "ruleId": 346,
+        "ruleName": "Paid by cash1",
+        "ruleType": "Pre-arrival",
+        "ruleVersion": 1,
+        "ruleDescription": "Paid by cash",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2021-10-11T09:40:39Z",
+        "rulePriority": "Tier 2",
+        "indicatorMatches": [
+          {
+            "entity": "Organisation",
+            "descriptor": "telephone",
+            "operator": "equal",
+            "value": "01234 56723737"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          }
+        ],
+        "abuseTypes": [
+          "Class A Drugs"
+        ]
+      },
+      {
+        "ruleId": 347,
+        "ruleName": "Paid by cash1",
+        "ruleType": "Pre-arrival",
+        "ruleVersion": 1,
+        "ruleDescription": "Paid by cash",
+        "securityLabels": [
+          "null",
+          "null",
+          "null"
+        ],
+        "ruleMatchedOnDate": "2021-10-08T14:45:26Z",
+        "rulePriority": "Tier 1",
+        "indicatorMatches": [
+          {
+            "entity": "Organisation",
+            "descriptor": "telephone",
+            "operator": "equal",
+            "value": "01234 56723737"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "AirPax"
+          }
+        ],
+        "abuseTypes": [
+          "Class A Drugs"
+        ]
+      }
     ],
     "matchedSelectors": [
       {
