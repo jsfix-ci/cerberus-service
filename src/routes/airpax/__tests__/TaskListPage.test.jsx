@@ -121,6 +121,7 @@ describe('TaskListPage', () => {
     tabData = {
       selectedTabIndex: 0,
       selectTabIndex: jest.fn(),
+      selectTaskManagementTabIndex: jest.fn(),
     };
     mockAxios.reset();
 

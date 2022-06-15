@@ -1,5 +1,5 @@
 // Third party imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useIsMounted } from '../../../utils/hooks';
 
@@ -34,6 +34,9 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import Tabs from '../../../components/Tabs';
 import Filter from '../../../components/Filter';
 
+// Context
+import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
+
 // Styling
 import '../__assets__/TaskListPage.scss';
 
@@ -48,6 +51,7 @@ const TaskListPage = () => {
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
   const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_RORO_FILTER_STATE);
+  const { selectTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
 
   const getAppliedFilters = () => {
     const taskStatus = getTaskStatus(TASK_STATUS_KEY);
@@ -164,7 +168,13 @@ const TaskListPage = () => {
     <>
       <div className="heading-container govuk-!-margin-bottom-8">
         <h1 className="govuk-heading-xl govuk-!-margin-bottom-0 govuk-!-padding-right-1">Task management (RoRo)</h1>
-        <Link className="airpax-task-link" to="/airpax/tasks">Airpax tasks</Link>
+        <Link
+          className="airpax-task-link"
+          onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
+          to="/airpax/tasks"
+        >
+          Airpax tasks
+        </Link>
       </div>
       {!authorisedGroup && <p>You are not authorised to view these tasks.</p>}
       {isLoading && (

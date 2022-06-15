@@ -225,3 +225,5 @@ export const TAB_STATUS_MAPPING = {
 };
 
 export const FORM_ACTION_CANCEL = 'cancel';
+
+export const TASK_LIST_PATHS = ['/airpax/tasks', '/tasks'];

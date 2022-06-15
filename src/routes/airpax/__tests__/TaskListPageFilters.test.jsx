@@ -121,7 +121,7 @@ describe('TaskListFilters', () => {
       filterParams: {
         ...STORED_PAYLOAD,
         taskStatuses: [
-          'IN_PROGRESS',
+          'NEW',
         ],
       },
       sortParams: [
@@ -166,7 +166,7 @@ describe('TaskListFilters', () => {
         ...STORED_PAYLOAD,
         ruleIds: [0, 1],
         taskStatuses: [
-          'IN_PROGRESS',
+          'NEW',
         ],
       },
       sortParams: [
