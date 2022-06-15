@@ -382,6 +382,58 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
+  it('Should display new label for new tasks on task details and not display new label when it is claimed', () => {
+    cy.acceptPNRTerms();
+    cy.intercept('POST', 'v2/targeting-tasks/*/claim').as('claim');
+    cy.intercept('POST', 'v2/targeting-tasks/*/unclaim').as('unclaim');
+    const nextPage = 'a[data-test="next"]';
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.get('strong.hods-tag.govuk-tag.govuk-tag--newTarget').should('be.visible').and('have.text', 'new');
+        cy.claimAirPaxTaskWithUserId(businessKey);
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.get('strong.hods-tag.govuk-tag.govuk-tag--newTarget').should('not.exist');
+        cy.wait(2000);
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Unclaim task').click();
+
+        cy.wait('@unclaim').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+
+        cy.wait(2000);
+
+        cy.url().should('contain', '/tasks?tab=new');
+
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(`${businessKey}`, null, null).then((returnValue) => {
+              expect(returnValue).to.equal(true);
+            });
+          } else {
+            cy.findTaskInSinglePage(`${businessKey}`, null, null).then((returnValue) => {
+              expect(returnValue).to.equal(true);
+            });
+          }
+        });
+
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.get('strong.hods-tag.govuk-tag.govuk-tag--newTarget').should('be.visible').and('have.text', 'new');
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
