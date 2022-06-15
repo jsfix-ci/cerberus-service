@@ -103,7 +103,7 @@ describe('TaskVersions', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should render the document section from version', () => {
+  it('should render the document section from version', async () => {
     render(<TaskVersions taskVersions={[taskDetailsData.versions[0]]} airlineCodes={airlineCodes} />);
     expect(screen.getAllByText('Document')).toHaveLength(6);
     expect(screen.getByText('Type')).toBeInTheDocument();
