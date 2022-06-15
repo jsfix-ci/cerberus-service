@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import * as pluralise from 'pluralise';
 
 import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
 
@@ -54,7 +55,70 @@ const renderVoyageSection = (targetTask, airlineCodes) => {
   );
 };
 
+const extractHighestThreatLevel = (targetTask) => {
+  const highestThreatLevel = targetTask.risks?.highestThreatLevel;
+  if (!highestThreatLevel) {
+    return;
+  }
+
+  return highestThreatLevel;
+};
+
+const extractRiskType = (targetTask, highestRisk) => {
+  const riskType = [];
+  if (highestRisk.type.toLowerCase() === 'selector') {
+    const selectors = [targetTask.risks.matchedSelectorGroups.groups];
+    selectors.forEach((selector) => {
+      Object.values(selector).every((s) => {
+        if (s.category.toLowerCase() === (highestRisk.value.toLowerCase())) {
+          riskType.push(s.threatType);
+        }
+      });
+    });
+  } else {
+    const rules = [targetTask.risks.matchedRules];
+    rules.forEach((rule) => {
+      Object.values(rule).every((r) => {
+        if (r.priority.toLowerCase() === (highestRisk.value.toLowerCase())) {
+          riskType.push(r.abuseTypes[0]);
+        }
+      });
+    });
+  }
+  return riskType[0];
+};
+
+const formatTargetRisk = (targetTask, highestThreatLevel) => {
+  const risksRules = targetTask.risks.matchedRules?.length + targetTask.risks.matchedSelectorGroups?.totalNumberOfSelectors;
+  if (highestThreatLevel) {
+    const topRisk = extractRiskType(targetTask, highestThreatLevel);
+    const count = risksRules > 0 && risksRules - 1;
+    return `${topRisk} and ${pluralise.withCount(
+      count,
+      '% other rule',
+      '% other rules',
+    )}`;
+  }
+  return null;
+};
+
+const extractRisk = (targetTask, highestThreatLevel) => {
+  return (
+    <h4 className="govuk-heading-s task-highest-risk">
+      {highestThreatLevel.type.toLowerCase() === 'rule' ? '' : highestThreatLevel.type}
+      {' '}
+      <span className="govuk-tag govuk-tag--riskTier">
+        {highestThreatLevel.value}
+      </span>
+      <span className="govuk-body task-risk-statement">
+        {formatTargetRisk(targetTask, highestThreatLevel)}
+      </span>
+    </h4>
+  );
+};
+
 const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
+  const highestRisk = extractHighestThreatLevel(targetTask);
   return (
     <section>
       <div>
@@ -64,13 +128,10 @@ const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
               <h4 className="govuk-heading-s task-heading">
                 {targetTask.id}
               </h4>
-            </div>
-            <div className="govuk-grid-column govuk-!-padding-left-2">
-              {MovementUtil.updatedStatus(targetTask)}
-              {MovementUtil.relistStatus(targetTask)}
+              {highestRisk && extractRisk(targetTask, highestRisk)}
             </div>
           </div>
-          <div className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3">
+          <div className="govuk-grid-column-one-third govuk-!-padding-right-3">
             <div className="claim-button-container">
               {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
             && (
