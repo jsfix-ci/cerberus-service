@@ -134,13 +134,13 @@ describe('RisksUtil', () => {
       category: 'A',
       warning: {
         status: 'YES',
-        types: ['VIOL', 'FIRE', 'WEAP', 'CTGN', 'SEH'],
+        types: ['VIOLENCE', 'FIREARMS', 'WEAPONS', 'CONTAGION', 'SELF_HARM'],
         detail: null,
       },
     };
 
     const output = RisksUtil.getWarning(selector);
-    expect(output).toEqual('Violence, Firearms, Weapons, Contagion, Self Harm');
+    expect(output).toEqual('Violence, Firearms, Weapons, Contagion, Self harm');
   });
 
   it('should render nothing if warning status is null', () => {

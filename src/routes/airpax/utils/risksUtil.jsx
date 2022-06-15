@@ -1,6 +1,7 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import { WARNING_CODES_MAPPING, NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../../../constants';
+import { NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../../../constants';
+import { capitalizeFirstLetter } from '../../../utils/stringConversion';
 
 const formatTargetIndicators = (targetingIndicators) => {
   if (targetingIndicators?.indicators?.length > 0) {
@@ -48,12 +49,8 @@ const getSelectorWarning = (selector) => {
   if (warningStatus?.toLowerCase() === CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) warning = 'Warnings currently unavailable';
   if (warningStatus?.toLowerCase() === YES_TEXT.toLowerCase()) {
     const warningTypes = selector.warning.types;
-    const containsOther = warningTypes.indexOf('O') > -1;
     if (warningTypes.length > 0) {
-      if (containsOther) {
-        warningDetails = selector.warning.detail;
-      }
-      warning = warningTypes.map((w) => (w === 'O' ? warningDetails?.substring(0, 500) : WARNING_CODES_MAPPING[w])).join(', ');
+      warning = warningTypes.map((w) => (w === 'O' ? warningDetails?.substring(0, 500) : capitalizeFirstLetter(w.toLowerCase().replace(/_/g, ' ')))).join(', ');
     }
   }
   return warning;
