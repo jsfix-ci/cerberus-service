@@ -265,11 +265,106 @@ describe('RisksUtil', () => {
   it('should return null if rules matches is null', () => {
     const rules = {
       risks: {
-        matchedRules: [],
+        matchedRules: null,
       },
     };
 
-    const output = RisksUtil.getMatches(rules);
+    const output = RisksUtil.getRules(rules);
     expect(output).toEqual(null);
+  });
+
+  it('should get target task highestThreatLevel if present', () => {
+    const risks = {
+      highestThreatLevel: {
+        type: 'SELECTOR',
+        value: 'B',
+      },
+    };
+
+    const output = RisksUtil.getHighestThreat(risks);
+    expect(output).toEqual(risks.highestThreatLevel);
+  });
+
+  it('should return null if target task highestThreatLevel is null', () => {
+    const risks = {
+      highestThreatLevel: null,
+    };
+
+    const output = RisksUtil.getHighestThreat(risks);
+    expect(output).toEqual(risks.highestThreatLevel);
+  });
+
+  it('should get target task matchedSelectorGroups if present', () => {
+    const risks = {
+      matchedSelectorGroups: {
+        groups: [
+          {
+            groupReference: 'SR-245',
+            groupVersionNumber: 1,
+            category: 'A',
+            threatType: 'Class A Drugs',
+            selectors: [
+              {
+                id: 279,
+                reference: '2021-279',
+                category: 'A',
+                warning: {
+                  status: 'YES',
+                  types: [
+                    'VIOLENCE',
+                  ],
+                  detail: 'other warning details',
+                },
+                indicatorMatches: [],
+                description: 'RORO Accompanied Freight qwerty',
+              },
+            ],
+          },
+        ],
+        totalNumberOfSelectors: 1,
+      },
+    };
+
+    const output = RisksUtil.getMatchedSelectorGroups(risks);
+    expect(output).toEqual(risks.matchedSelectorGroups);
+  });
+
+  it('should return null if target task matchedSelectorGroups is null', () => {
+    const risks = {
+      matchedSelectorGroups: null,
+    };
+
+    const output = RisksUtil.getMatchedSelectorGroups(risks);
+    expect(output).toEqual(risks.matchedSelectorGroups);
+  });
+
+  it('should get target task matchedRules if present', () => {
+    const risks = {
+      matchedRules: [
+        {
+          id: 535,
+          name: 'Selector Matched Rule',
+          type: 'Both',
+          priority: 'Tier 1',
+          version: 1,
+          abuseTypes: [
+            'National Security at the Border',
+          ],
+          indicatorMatches: [],
+        },
+      ],
+    };
+
+    const output = RisksUtil.getMatchedRules(risks);
+    expect(output).toEqual(risks.matchedRules);
+  });
+
+  it('should return null if target task matchedRules is null', () => {
+    const risks = {
+      matchedRules: null,
+    };
+
+    const output = RisksUtil.getMatchedRules(risks);
+    expect(output).toEqual(risks.matchedRules);
   });
 });

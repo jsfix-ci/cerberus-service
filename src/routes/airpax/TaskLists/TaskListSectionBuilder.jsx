@@ -66,6 +66,9 @@ const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
               </h4>
             </div>
             <div className="govuk-grid-column govuk-!-padding-left-2">
+              {RisksUtil.formatHighestThreat(targetTask)}
+            </div>
+            <div className="govuk-grid-column govuk-!-padding-left-2">
               {MovementUtil.updatedStatus(targetTask)}
               {MovementUtil.relistStatus(targetTask)}
             </div>
