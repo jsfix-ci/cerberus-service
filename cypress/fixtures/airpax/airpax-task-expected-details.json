@@ -61,5 +61,16 @@
     {
       "Ticket type": "Return"
     }
+  ],
+  "Payments": [
+    {
+      "Credit card ending X63X, expiry 10/20": "2190.48"
+    },
+    {
+      "Credit card ending X63X, expiry 10/20": "2190.48"
+    },
+    {
+      "Agent IATAAgent location": "890534932LHR, GB"
+    }
   ]
 }

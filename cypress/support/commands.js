@@ -1851,9 +1851,9 @@ Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
     cy.wrap($detail).find('.font__light').invoke('text').then((key) => {
       if ($detail.find('.font__bold').length > 0) {
         cy.wrap($detail).find('.font__bold').invoke('text')
-            .then((value) => {
-              obj[key] = value;
-            });
+          .then((value) => {
+            obj[key] = value;
+          });
       } else {
         obj[key] = '';
       }
@@ -1863,6 +1863,24 @@ Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
       });
   }).then(() => {
     return occupantArray;
+  });
+});
+
+Cypress.Commands.add(('getairPaxPaymentAndAgencyDetails'), (elements) => {
+  const PaymentsArray = [];
+  cy.wrap(elements).each(($detail) => {
+    let obj = {};
+    cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+      cy.wrap($detail).find('.font__light').invoke('text')
+        .then((key) => {
+          obj[key] = value;
+        });
+    })
+      .then(() => {
+        PaymentsArray.push(obj);
+      });
+  }).then(() => {
+    return PaymentsArray;
   });
 });
 

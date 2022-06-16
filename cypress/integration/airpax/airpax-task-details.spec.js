@@ -158,6 +158,11 @@ describe('Verify AirPax task details of different sections', () => {
               expect(actualBookingDetails).to.deep.equal(expectedDetails.Booking);
             });
           });
+          cy.contains('Payments').parent().nextAll().within((elements) => {
+            cy.getairPaxPaymentAndAgencyDetails(elements).then((actualBookingDetails) => {
+              expect(actualBookingDetails).to.deep.equal(expectedDetails.Payments);
+            });
+          });
         });
       });
     });
