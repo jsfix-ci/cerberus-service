@@ -92,6 +92,96 @@ const getMatchedRules = (version) => {
   return null;
 };
 
+const hasHighestThreatLevel = (targetTask) => {
+  return !!targetTask?.risks?.highestThreatLevel;
+};
+
+const getHighestThreatLevel = (targetTask) => {
+  if (hasHighestThreatLevel(targetTask)) {
+    return targetTask.risks.highestThreatLevel;
+  }
+  return null;
+};
+
+const hasRiskMatchedSelectorGroups = (targetTask) => {
+  return !!targetTask?.risks?.matchedSelectorGroups;
+};
+
+const getRiskMatchedSelectorGroups = (targetTask) => {
+  if (hasRiskMatchedSelectorGroups(targetTask)) {
+    return targetTask.risks.matchedSelectorGroups;
+  }
+  return null;
+};
+
+const hasRiskMatchedRules = (targetTask) => {
+  return !!targetTask?.risks?.matchedRules;
+};
+
+const getRiskMatchedRules = (targetTask) => {
+  if (hasRiskMatchedRules(targetTask)) {
+    return targetTask.risks.matchedRules;
+  }
+  return null;
+};
+
+const extractRiskType = (targetTask, highestRisk) => {
+  const riskType = [];
+  if (highestRisk.type.toLowerCase() === 'selector') {
+    const selectors = [getRiskMatchedSelectorGroups(targetTask).groups];
+    selectors.forEach((selector) => {
+      Object.values(selector).every((s) => {
+        if (s.category.toLowerCase() === (highestRisk.value.toLowerCase())) {
+          riskType.push(s.threatType);
+        }
+      });
+    });
+  } else {
+    const rules = [getRiskMatchedRules(targetTask)];
+    rules.forEach((rule) => {
+      Object.values(rule).every((r) => {
+        if (r.priority.toLowerCase() === (highestRisk.value.toLowerCase())) {
+          riskType.push(r.abuseTypes[0]);
+        }
+      });
+    });
+  }
+  return riskType[0];
+};
+
+const formatTargetRisk = (targetTask, highestThreatLevel) => {
+  const risksRules = getRiskMatchedRules(targetTask).length + getRiskMatchedSelectorGroups(targetTask).totalNumberOfSelectors;
+  if (highestThreatLevel) {
+    const topRisk = extractRiskType(targetTask, highestThreatLevel);
+    const count = risksRules > 0 && risksRules - 1;
+    return `${topRisk} and ${pluralise.withCount(
+      count,
+      '% other rule',
+      '% other rules',
+    )}`;
+  }
+  return null;
+};
+
+const formatHighestThreatLevel = (targetTask) => {
+  const highestThreatLevel = getHighestThreatLevel(targetTask);
+  if (!highestThreatLevel) {
+    return;
+  }
+  return (
+    <h4 className="govuk-heading-s task-highest-risk">
+      {highestThreatLevel.type.toLowerCase() === 'rule' ? '' : highestThreatLevel.type}
+      {' '}
+      <span className="govuk-tag govuk-tag--riskTier">
+        {highestThreatLevel.value}
+      </span>
+      <span className="govuk-body task-risk-statement">
+        {formatTargetRisk(targetTask, highestThreatLevel)}
+      </span>
+    </h4>
+  );
+};
+
 const RisksUtil = {
   getRisks: getRisk,
   format: formatTargetIndicators,
@@ -100,8 +190,24 @@ const RisksUtil = {
   getMatches: getIndicatorMatches,
   getGroups: getSelectorGroups,
   getRules: getMatchedRules,
+  getHighestThreat: getHighestThreatLevel,
+  getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
+  getMatchedRules: getRiskMatchedRules,
+  formatHighestThreat: formatHighestThreatLevel,
 };
 
 export default RisksUtil;
 
-export { getRisk, formatTargetIndicators, getTargetingIndicators, getSelectorWarning, getIndicatorMatches, getSelectorGroups, getMatchedRules };
+export {
+  getRisk,
+  formatTargetIndicators,
+  getTargetingIndicators,
+  getSelectorWarning,
+  getIndicatorMatches,
+  getSelectorGroups,
+  getMatchedRules,
+  getHighestThreatLevel,
+  getRiskMatchedSelectorGroups,
+  getRiskMatchedRules,
+  formatHighestThreatLevel,
+};
