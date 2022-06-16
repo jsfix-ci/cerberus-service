@@ -13,7 +13,7 @@ import calculateTimeDifference from '../../../../utils/calculateDatetimeDifferen
 import '../../../../components/__assets__/Table.scss';
 
 const isValid = (value) => {
-  return value !== UNKNOWN_TEXT && !value;
+  return value !== UNKNOWN_TEXT && value;
 };
 
 const toTravellerColumnContent = (person, version) => {
