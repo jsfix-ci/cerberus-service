@@ -112,22 +112,6 @@ export const DEPARTURE_STATUS = {
 };
 
 export const PNR_USER_SESSION_ID = 'pnr-user-session';
-export const PNR_USER_DESCISION = {
-  yes: {
-    text: {
-      title: 'You can now view PNR data.',
-      body: {
-        title: 'What happens next',
-        message1: 'Data up to 6 months old will be visible',
-      },
-    },
-  },
-  no: {
-    text: {
-      title: 'Continue without viewing PNR data',
-    },
-  },
-};
 
 export const MOVEMENT_VARIANT = {
   RORO: 'RORO',
@@ -224,6 +208,9 @@ export const TAB_STATUS_MAPPING = {
   complete: 'COMPLETE',
 };
 
-export const FORM_ACTION_CANCEL = 'cancel';
+export const FORM_ACTIONS = {
+  CANCEL: 'cancel',
+  NEXT: 'next',
+};
 
 export const TASK_LIST_PATHS = ['/airpax/tasks', '/tasks'];

@@ -1,9 +1,21 @@
+import { FORM_ACTIONS } from '../constants';
+
+const VALUES = {
+  YES: 'yes',
+  NO: 'no',
+};
+
+const LABELS = {
+  YES: 'Yes',
+  NO: 'No',
+};
+
 export default {
   id: 'view-pnr-data-request',
   version: '1.0.0',
   name: 'cop-view-pnr-data',
   title: 'View passenger name record data',
-  type: 'form',
+  type: 'wizard',
   components: [],
   pages: [
     {
@@ -12,7 +24,7 @@ export default {
       title: 'Do you need to view Passenger Name Record (PNR) data',
       components: [
         'This includes both new PNR data, and data older than 6 months.',
-        'You only need access if you\'re working to prevent, detect or investigate terrorist offences or serious crime, or to protect the vital interests of an individual.',
+        "You only need access if you're working to prevent, detect or investigate terrorist offences or serious crime, or to protect the vital interests of an individual.",
         'This has to be a necessary and proportionate requirement of the work you are doing.',
         {
           id: 'viewPnrData',
@@ -28,12 +40,12 @@ export default {
           data: {
             options: [
               {
-                value: 'yes',
-                label: 'Yes',
+                value: VALUES.YES,
+                label: LABELS.YES,
               },
               {
-                value: 'no',
-                label: 'No',
+                value: VALUES.NO,
+                label: LABELS.NO,
               },
             ],
           },
@@ -41,9 +53,121 @@ export default {
       ],
       actions: [
         {
+          type: FORM_ACTIONS.NEXT,
+          label: 'Continue',
+          validate: true,
+        },
+      ],
+    },
+    {
+      id: 'working-from-secure-site',
+      name: 'working-from-secure-site',
+      title: 'Are you working from a site that has been approved to access PNR data from?',
+      components: [
+        {
+          id: 'secureSite',
+          fieldId: 'secureSite',
+          type: 'radios',
+          required: true,
+          custom_errors: [
+            {
+              type: 'required',
+              message: 'Select if you want to view PNR data',
+            },
+          ],
+          data: {
+            options: [
+              {
+                value: VALUES.YES,
+                label: LABELS.YES,
+              },
+              {
+                value: VALUES.NO,
+                label: LABELS.NO,
+              },
+            ],
+          },
+        },
+      ],
+      show_when: {
+        field: 'viewPnrData',
+        op: 'eq',
+        value: VALUES.YES,
+      },
+      actions: [
+        {
+          type: FORM_ACTIONS.NEXT,
+          label: 'Continue',
+          validate: true,
+        },
+      ],
+    },
+    {
+      id: 'can-not-view-pnr-data',
+      name: 'can-not-view-pnr-data',
+      title: 'Continue without viewing PNR data',
+      components: [],
+      show_when: {
+        field: 'viewPnrData',
+        op: 'eq',
+        value: VALUES.NO,
+      },
+      actions: [
+        {
           type: 'submit',
           label: 'Continue',
           validate: true,
+        },
+      ],
+    },
+    {
+      id: 'can-only-view-pnr-data',
+      name: 'can-only-view-pnr-data',
+      title: 'You can only view PNR data if you are working from an approved site',
+      components: [],
+      show_when: {
+        field: 'secureSite',
+        op: 'eq',
+        value: VALUES.NO,
+      },
+      actions: [
+        {
+          type: 'submit',
+          label: 'Continue without access to PNR data',
+        },
+      ],
+    },
+    {
+      id: 'can-view-pnr-data',
+      name: 'can-view-pnr-data',
+      components: [
+        {
+          type: 'html',
+          tagName: 'div',
+          content: 'You can now view PNR data',
+          className: 'govuk-panel govuk-panel__body govuk-panel--confirmation',
+        },
+        {
+          type: 'heading',
+          size: 'm',
+          content: 'What happens next',
+        },
+        {
+          type: 'html',
+          tagName: 'li',
+          content: 'Data up to 6 months old will be visible',
+          className: 'govuk-!-margin-bottom-5',
+        },
+      ],
+      show_when: {
+        field: 'secureSite',
+        op: 'eq',
+        value: VALUES.YES,
+      },
+      actions: [
+        {
+          type: 'submit',
+          label: 'Continue',
         },
       ],
     },

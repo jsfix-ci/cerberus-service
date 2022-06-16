@@ -9,7 +9,9 @@ import { PNR_USER_SESSION_ID } from '../../constants';
 // Components / Pages
 import RenderForm from '../../components/RenderForm';
 import Layout from '../../components/Layout';
-import OutcomeNotification from './OutcomeNotification';
+
+// Styling
+import '../airpax/__assets__/PnrAccessRequest.scss';
 
 // JSON
 import viewPnrData from '../../cop-forms/viewPnrData';
@@ -53,17 +55,17 @@ const PnrAccessRequest = ({ children }) => {
 
   return (
     <Layout>
-      <div className="govuk-width-container ">
+      <div className="govuk-width-container pnr-access-form-container">
         <main className="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               {!isSubmitted && (
                 <RenderForm
                   onSubmit={
-                    async (data) => {
+                    async ({ data }) => {
+                      let postParam = { requested: false };
                       try {
-                        let postParam = { requested: false };
-                        if (data.data.viewPnrData === RESPONSE.yes) {
+                        if (data.viewPnrData === RESPONSE.yes && data.secureSite === RESPONSE.yes) {
                           postParam.requested = true;
                         }
                         const response = await taskApiClient.post(
@@ -77,6 +79,7 @@ const PnrAccessRequest = ({ children }) => {
                       } catch (e) {
                         setSubmitted(false);
                       } finally {
+                        setDisplayForm(false);
                         setSubmitted(true);
                       }
                     }
@@ -85,7 +88,6 @@ const PnrAccessRequest = ({ children }) => {
                   renderer={Renderers.REACT}
                 />
               )}
-              {isSubmitted && <OutcomeNotification setDisplayForm={setDisplayForm} />}
             </div>
           </div>
         </main>
