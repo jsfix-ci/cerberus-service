@@ -1,0 +1,312 @@
+{
+  "Selectors-version-2": [
+    {
+      "selectorGroupInfo": {
+        "requestingOfficer": "Tester",
+        "category": "A",
+        "threatType": "National Security at the Border",
+        "pointOfContactMessage": "selector for auto testing",
+        "pointOfContact": "Point Of Contact Testing",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "notes": "notes testing",
+        "creator": "test user",
+        "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight 01234 56723737": "2021-10",
+        "Selector 2021-10": "Contagion"
+      },
+      "group": {
+        "Selector 2021-10": "Contagion",
+        "entities": [
+          {
+            "Entity": "Message"
+          },
+          {
+            "Descriptor": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          },
+          {
+            "Entity": "Organisation"
+          },
+          {
+            "Descriptor": "telephone"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "01234 56723737"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "requestingOfficer": "Tester",
+        "category": "A",
+        "threatType": "National Security at the Border",
+        "pointOfContactMessage": "selector for auto testing",
+        "pointOfContact": "Point Of Contact Testing",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "notes": "notes testing",
+        "creator": "test user",
+        "DK-45678": "2022-100",
+        "Selector 2022-100": "Other"
+      },
+      "group": {
+        "Selector 2022-100": "Other",
+        "entities": [
+          {
+            "Entity": "vehicle"
+          },
+          {
+            "Descriptor": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "DK-45678"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "requestingOfficer": "Velit in sunt aliquip voluptate tempore consectetur",
+        "category": "C",
+        "threatType": "Alcohol",
+        "pointOfContactMessage": "Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+        "pointOfContact": "Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+        "inboundActionCode": "Worthy of attention",
+        "outboundActionCode": "Monitor only",
+        "notes": "notes",
+        "creator": "user",
+        "TURNER": "2022-245",
+        "Selector 2022-245": "No warnings"
+      },
+      "group": {
+        "Selector 2022-245": "No warnings",
+        "entities": [
+          {
+            "Entity": "Person"
+          },
+          {
+            "Descriptor": "familyName"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "TURNER"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "requestingOfficer": "Tester",
+        "category": "A",
+        "threatType": "National Security at the Border",
+        "pointOfContactMessage": "selector for auto testing",
+        "pointOfContact": "Point Of Contact Testing",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "notes": "notes testing",
+        "creator": "test user",
+        "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight ABC123": "2021-278",
+        "Selector 2021-278": "Self harm"
+      },
+      "group": {
+        "Selector 2021-278": "Self harm",
+        "entities": [
+          {
+            "Entity": "Message"
+          },
+          {
+            "Descriptor": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          },
+          {
+            "Entity": "Vehicle"
+          },
+          {
+            "Descriptor": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "ABC123"
+          }
+        ]
+      }
+    },
+    {
+      "selectorGroupInfo": {
+        "requestingOfficer": "Tester",
+        "category": "A",
+        "threatType": "National Security at the Border",
+        "pointOfContactMessage": "selector for auto testing",
+        "pointOfContact": "Point Of Contact Testing",
+        "inboundActionCode": "action required",
+        "outboundActionCode": "No action required",
+        "notes": "notes testing",
+        "creator": "test user",
+        "RORO Unaccompanied Freight qwerty": "2021-279",
+        "Selector 2021-279": "Contagion, Self harm"
+      },
+      "group": {
+        "Selector 2021-279": "Contagion, Self harm",
+        "entities": [
+          {
+            "Entity": "Message"
+          },
+          {
+            "Descriptor": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Unaccompanied Freight"
+          },
+          {
+            "Entity": "Trailer"
+          },
+          {
+            "Descriptor": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "qwerty"
+          }
+        ]
+      }
+    }
+  ],
+  "Selectors-version-1": [
+    {
+      "selectorGroupInfo": {
+        "requestingOfficer": "Tester",
+        "category": "A",
+        "threatType": "National Security at the Border",
+        "pointOfContactMessage": "selector for auto testing",
+        "pointOfContact": "Point Of Contact Testing",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "notes": "notes testing",
+        "creator": "test user",
+        "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight 01234 56723737": "2021-51",
+        "DK-45678": "2022-225",
+        "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight ABC123": "2021-278",
+        "RORO Unaccompanied Freight qwerty": "2021-279",
+        "Selector 2021-51": "Other"
+      },
+      "group": {
+        "Selector 2021-51": "Other",
+        "Selector 2022-225": "",
+        "Selector 2021-278": "Contagion, Self harm, Other",
+        "Selector 2021-279": "Firearms, Violence, Weapons",
+        "entities": [
+          {
+            "Entity": "Message"
+          },
+          {
+            "Descriptor": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          },
+          {
+            "Entity": "Organisation"
+          },
+          {
+            "Descriptor": "telephone"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "01234 56723737"
+          },
+          {
+            "Entity": "vehicle"
+          },
+          {
+            "Descriptor": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "DK-45678"
+          },
+          {
+            "Entity": "Message"
+          },
+          {
+            "Descriptor": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Accompanied Freight,RORO Tourist,RORO Unaccompanied Freight"
+          },
+          {
+            "Entity": "Vehicle"
+          },
+          {
+            "Descriptor": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "ABC123"
+          },
+          {
+            "Entity": "Message"
+          },
+          {
+            "Descriptor": "mode"
+          },
+          {
+            "Operator": "in"
+          },
+          {
+            "Value": "RORO Unaccompanied Freight"
+          },
+          {
+            "Entity": "Trailer"
+          },
+          {
+            "Descriptor": "registrationNumber"
+          },
+          {
+            "Operator": "equal"
+          },
+          {
+            "Value": "qwerty"
+          }
+        ]
+      }
+    }
+  ]
+}
