@@ -170,7 +170,7 @@ const formatHighestThreatLevel = (targetTask) => {
     return;
   }
   return (
-    <h4 className="govuk-heading-s task-highest-risk">
+    <h4 className="govuk-heading-s task-highest-risk govuk-!-margin-bottom-0">
       {highestThreatLevel.type.toLowerCase() === 'rule' ? '' : highestThreatLevel.type}
       {' '}
       <span className="govuk-tag govuk-tag--riskTier">
