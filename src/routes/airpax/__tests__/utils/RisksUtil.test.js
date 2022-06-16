@@ -275,11 +275,9 @@ describe('RisksUtil', () => {
 
   it('should get target task highestThreatLevel if present', () => {
     const highestThreatLevel = {
-      risks: {
-        highestThreatLevel: {
-          type: 'SELECTOR',
-          value: 'B',
-        },
+      highestThreatLevel: {
+        type: 'SELECTOR',
+        value: 'B',
       },
     };
 
@@ -291,9 +289,7 @@ describe('RisksUtil', () => {
 
   it('should return null if target task highestThreatLevel is null', () => {
     const highestThreatLevel = {
-      risks: {
-        highestThreatLevel: null,
-      },
+      highestThreatLevel: null,
     };
 
     const output = RisksUtil.getHighestThreat(highestThreatLevel);
@@ -302,76 +298,32 @@ describe('RisksUtil', () => {
 
   it('should get target task matchedSelectorGroups if present', () => {
     const selectors = {
-      risks: {
-        matchedSelectorGroups: {
-          groups: [
-            {
-              groupReference: 'SR-245',
-              groupVersionNumber: 1,
-              requestingOfficer: 'fe',
-              intelligenceSource: 'fefe',
-              category: 'A',
-              threatType: 'Class A Drugs',
-              pointOfContactMessage: 'fdvdfb',
-              pointOfContact: 'bfb',
-              inboundActionCode: 'No action required',
-              outboundActionCode: 'No action required',
-              notes: 'notes',
-              creator: 'user',
-              selectors: [
-                {
-                  id: 279,
-                  reference: '2021-279',
-                  category: 'A',
-                  warning: {
-                    status: 'YES',
-                    types: [
-                      'VIOLENCE',
-                      'FIREARMS',
-                      'OTHER',
-                    ],
-                    detail: 'other warning details',
-                  },
-                  indicatorMatches: [
-                    {
-                      entity: 'Message',
-                      descriptor: 'mode',
-                      operator: 'in',
-                      value: 'RORO Accompanied Freight',
-                    },
-                    {
-                      entity: 'Trailer',
-                      descriptor: 'registrationNumber',
-                      operator: 'equal',
-                      value: 'qwerty',
-                    },
+      matchedSelectorGroups: {
+        groups: [
+          {
+            groupReference: 'SR-245',
+            groupVersionNumber: 1,
+            category: 'A',
+            threatType: 'Class A Drugs',
+            selectors: [
+              {
+                id: 279,
+                reference: '2021-279',
+                category: 'A',
+                warning: {
+                  status: 'YES',
+                  types: [
+                    'VIOLENCE',
                   ],
-                  description: 'RORO Accompanied Freight qwerty',
+                  detail: 'other warning details',
                 },
-                {
-                  id: 300,
-                  reference: '2022-300',
-                  category: 'B',
-                  warning: {
-                    status: 'NO',
-                    types: [],
-                    detail: null,
-                  },
-                  indicatorMatches: [
-                    {
-                      entity: 'Trailer',
-                      descriptor: 'registrationNumber',
-                      operator: 'equal',
-                      value: 'GB09NFD',
-                    },
-                  ],
-                  description: 'GB09NFD',
-                },
-              ],
-            },
-          ],
-          totalNumberOfSelectors: 2,
-        },
+                indicatorMatches: [],
+                description: 'RORO Accompanied Freight qwerty',
+              },
+            ],
+          },
+        ],
+        totalNumberOfSelectors: 1,
       },
     };
 
@@ -379,32 +331,18 @@ describe('RisksUtil', () => {
       [
         { 'groupReference': 'SR-245',
           'groupVersionNumber': 1,
-          'requestingOfficer': 'fe',
-          'intelligenceSource': 'fefe',
           'category': 'A',
           'threatType': 'Class A Drugs',
-          'pointOfContactMessage': 'fdvdfb',
-          'pointOfContact': 'bfb',
-          'inboundActionCode': 'No action required',
-          'outboundActionCode': 'No action required',
-          'notes': 'notes',
-          'creator': 'user',
           'selectors': [
             { 'id': 279,
               'reference': '2021-279',
               'category': 'A',
-              'warning': { 'status': 'YES', 'types': ['VIOLENCE', 'FIREARMS', 'OTHER'], 'detail': 'other warning details' },
-              'indicatorMatches': [{ 'entity': 'Message', 'descriptor': 'mode', 'operator': 'in', 'value': 'RORO Accompanied Freight' }, { 'entity': 'Trailer', 'descriptor': 'registrationNumber', 'operator': 'equal', 'value': 'qwerty' }],
+              'warning': { 'status': 'YES', 'types': ['VIOLENCE'], 'detail': 'other warning details' },
+              'indicatorMatches': [],
               'description': 'RORO Accompanied Freight qwerty' },
-            { 'id': 300,
-              'reference': '2022-300',
-              'category': 'B',
-              'warning': { 'status': 'NO', 'types': [], 'detail': null },
-              'indicatorMatches': [{ 'entity': 'Trailer', 'descriptor': 'registrationNumber', 'operator': 'equal', 'value': 'GB09NFD' }],
-              'description': 'GB09NFD' },
           ] },
       ],
-    'totalNumberOfSelectors': 2 };
+    'totalNumberOfSelectors': 1 };
 
     const output = RisksUtil.getMatchedSelectorGroups(selectors);
     expect(output).toEqual(expected);
@@ -412,9 +350,7 @@ describe('RisksUtil', () => {
 
   it('should return null if target task matchedSelectorGroups is null', () => {
     const selectors = {
-      risks: {
-        matchedSelectorGroups: null,
-      },
+      matchedSelectorGroups: null,
     };
 
     const output = RisksUtil.getMatchedSelectorGroups(selectors);
@@ -423,44 +359,25 @@ describe('RisksUtil', () => {
 
   it('should get target task matchedRules if present', () => {
     const rules = {
-      risks: {
-        matchedRules: [
-          {
-            id: 535,
-            name: 'Selector Matched Rule',
-            type: 'Both',
-            priority: 'Tier 1',
-            agency: '',
-            description: 'Test Description',
-            version: 1,
-            abuseTypes: [
-              'National Security at the Border',
-            ],
-            indicatorMatches: [
-              {
-                entity: 'Message',
-                descriptor: 'mode',
-                operator: 'in',
-                value: '[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]',
-              },
-              {
-                entity: 'Message',
-                descriptor: 'selectorsMatched',
-                operator: 'equal',
-                value: 'true',
-              },
-            ],
-          },
-        ],
-      },
+      matchedRules: [
+        {
+          id: 535,
+          name: 'Selector Matched Rule',
+          type: 'Both',
+          priority: 'Tier 1',
+          version: 1,
+          abuseTypes: [
+            'National Security at the Border',
+          ],
+          indicatorMatches: [],
+        },
+      ],
     };
 
     const expected = [
       { 'abuseTypes': ['National Security at the Border'],
-        'agency': '',
-        'description': 'Test Description',
         'id': 535,
-        'indicatorMatches': [{ 'descriptor': 'mode', 'entity': 'Message', 'operator': 'in', 'value': '[RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]' }, { 'descriptor': 'selectorsMatched', 'entity': 'Message', 'operator': 'equal', 'value': 'true' }],
+        'indicatorMatches': [],
         'name': 'Selector Matched Rule',
         'priority': 'Tier 1',
         'type': 'Both',
@@ -472,9 +389,7 @@ describe('RisksUtil', () => {
 
   it('should return null if target task matchedRules is null', () => {
     const rules = {
-      risks: {
-        matchedRules: null,
-      },
+      matchedRules: null,
     };
 
     const output = RisksUtil.getMatchedRules(rules);

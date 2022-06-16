@@ -92,43 +92,43 @@ const getMatchedRules = (version) => {
   return null;
 };
 
-const hasHighestThreatLevel = (targetTask) => {
-  return !!targetTask?.risks?.highestThreatLevel;
+const hasHighestThreatLevel = (risks) => {
+  return !!risks?.highestThreatLevel;
 };
 
-const getHighestThreatLevel = (targetTask) => {
-  if (hasHighestThreatLevel(targetTask)) {
-    return targetTask.risks.highestThreatLevel;
+const getHighestThreatLevel = (risks) => {
+  if (hasHighestThreatLevel(risks)) {
+    return risks.highestThreatLevel;
   }
   return null;
 };
 
-const hasRiskMatchedSelectorGroups = (targetTask) => {
-  return !!targetTask?.risks?.matchedSelectorGroups;
+const hasRiskMatchedSelectorGroups = (risks) => {
+  return !!risks?.matchedSelectorGroups;
 };
 
-const getRiskMatchedSelectorGroups = (targetTask) => {
-  if (hasRiskMatchedSelectorGroups(targetTask)) {
-    return targetTask.risks.matchedSelectorGroups;
+const getRiskMatchedSelectorGroups = (risks) => {
+  if (hasRiskMatchedSelectorGroups(risks)) {
+    return risks.matchedSelectorGroups;
   }
   return null;
 };
 
-const hasRiskMatchedRules = (targetTask) => {
-  return !!targetTask?.risks?.matchedRules;
+const hasRiskMatchedRules = (risks) => {
+  return !!risks?.matchedRules;
 };
 
-const getRiskMatchedRules = (targetTask) => {
-  if (hasRiskMatchedRules(targetTask)) {
-    return targetTask.risks.matchedRules;
+const getRiskMatchedRules = (risks) => {
+  if (hasRiskMatchedRules(risks)) {
+    return risks.matchedRules;
   }
   return null;
 };
 
-const extractRiskType = (targetTask, highestRisk) => {
+const extractRiskType = (risks, highestRisk) => {
   const riskType = [];
   if (highestRisk.type.toLowerCase() === 'selector') {
-    const selectors = [getRiskMatchedSelectorGroups(targetTask).groups];
+    const selectors = [getRiskMatchedSelectorGroups(risks).groups];
     selectors.forEach((selector) => {
       Object.values(selector).every((s) => {
         if (s.category.toLowerCase() === (highestRisk.value.toLowerCase())) {
@@ -137,7 +137,7 @@ const extractRiskType = (targetTask, highestRisk) => {
       });
     });
   } else {
-    const rules = [getRiskMatchedRules(targetTask)];
+    const rules = [getRiskMatchedRules(risks)];
     rules.forEach((rule) => {
       Object.values(rule).every((r) => {
         if (r.priority.toLowerCase() === (highestRisk.value.toLowerCase())) {
@@ -149,10 +149,10 @@ const extractRiskType = (targetTask, highestRisk) => {
   return riskType[0];
 };
 
-const formatTargetRisk = (targetTask, highestThreatLevel) => {
-  const risksRules = getRiskMatchedRules(targetTask).length + getRiskMatchedSelectorGroups(targetTask).totalNumberOfSelectors;
+const formatTargetRisk = (risks, highestThreatLevel) => {
+  const risksRules = getRiskMatchedRules(risks).length + getRiskMatchedSelectorGroups(risks).totalNumberOfSelectors;
   if (highestThreatLevel) {
-    const topRisk = extractRiskType(targetTask, highestThreatLevel);
+    const topRisk = extractRiskType(risks, highestThreatLevel);
     const count = risksRules > 0 && risksRules - 1;
     return `${topRisk} and ${pluralise.withCount(
       count,
@@ -164,7 +164,8 @@ const formatTargetRisk = (targetTask, highestThreatLevel) => {
 };
 
 const formatHighestThreatLevel = (targetTask) => {
-  const highestThreatLevel = getHighestThreatLevel(targetTask);
+  const risks = getRisk(targetTask);
+  const highestThreatLevel = getHighestThreatLevel(risks);
   if (!highestThreatLevel) {
     return;
   }
@@ -176,7 +177,7 @@ const formatHighestThreatLevel = (targetTask) => {
         {highestThreatLevel.value}
       </span>
       <span className="govuk-body task-risk-statement">
-        {formatTargetRisk(targetTask, highestThreatLevel)}
+        {formatTargetRisk(risks, highestThreatLevel)}
       </span>
     </h4>
   );
