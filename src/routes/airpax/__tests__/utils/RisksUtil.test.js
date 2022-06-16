@@ -274,30 +274,28 @@ describe('RisksUtil', () => {
   });
 
   it('should get target task highestThreatLevel if present', () => {
-    const highestThreatLevel = {
+    const risks = {
       highestThreatLevel: {
         type: 'SELECTOR',
         value: 'B',
       },
     };
 
-    const expected = { 'type': 'SELECTOR', 'value': 'B' };
-
-    const output = RisksUtil.getHighestThreat(highestThreatLevel);
-    expect(output).toEqual(expected);
+    const output = RisksUtil.getHighestThreat(risks);
+    expect(output).toEqual(risks.highestThreatLevel);
   });
 
   it('should return null if target task highestThreatLevel is null', () => {
-    const highestThreatLevel = {
+    const risks = {
       highestThreatLevel: null,
     };
 
-    const output = RisksUtil.getHighestThreat(highestThreatLevel);
-    expect(output).toEqual(null);
+    const output = RisksUtil.getHighestThreat(risks);
+    expect(output).toEqual(risks.highestThreatLevel);
   });
 
   it('should get target task matchedSelectorGroups if present', () => {
-    const selectors = {
+    const risks = {
       matchedSelectorGroups: {
         groups: [
           {
@@ -327,38 +325,21 @@ describe('RisksUtil', () => {
       },
     };
 
-    const expected = { 'groups':
-      [
-        { 'groupReference': 'SR-245',
-          'groupVersionNumber': 1,
-          'category': 'A',
-          'threatType': 'Class A Drugs',
-          'selectors': [
-            { 'id': 279,
-              'reference': '2021-279',
-              'category': 'A',
-              'warning': { 'status': 'YES', 'types': ['VIOLENCE'], 'detail': 'other warning details' },
-              'indicatorMatches': [],
-              'description': 'RORO Accompanied Freight qwerty' },
-          ] },
-      ],
-    'totalNumberOfSelectors': 1 };
-
-    const output = RisksUtil.getMatchedSelectorGroups(selectors);
-    expect(output).toEqual(expected);
+    const output = RisksUtil.getMatchedSelectorGroups(risks);
+    expect(output).toEqual(risks.matchedSelectorGroups);
   });
 
   it('should return null if target task matchedSelectorGroups is null', () => {
-    const selectors = {
+    const risks = {
       matchedSelectorGroups: null,
     };
 
-    const output = RisksUtil.getMatchedSelectorGroups(selectors);
-    expect(output).toEqual(null);
+    const output = RisksUtil.getMatchedSelectorGroups(risks);
+    expect(output).toEqual(risks.matchedSelectorGroups);
   });
 
   it('should get target task matchedRules if present', () => {
-    const rules = {
+    const risks = {
       matchedRules: [
         {
           id: 535,
@@ -374,25 +355,16 @@ describe('RisksUtil', () => {
       ],
     };
 
-    const expected = [
-      { 'abuseTypes': ['National Security at the Border'],
-        'id': 535,
-        'indicatorMatches': [],
-        'name': 'Selector Matched Rule',
-        'priority': 'Tier 1',
-        'type': 'Both',
-        'version': 1 }];
-
-    const output = RisksUtil.getMatchedRules(rules);
-    expect(output).toEqual(expected);
+    const output = RisksUtil.getMatchedRules(risks);
+    expect(output).toEqual(risks.matchedRules);
   });
 
   it('should return null if target task matchedRules is null', () => {
-    const rules = {
+    const risks = {
       matchedRules: null,
     };
 
-    const output = RisksUtil.getMatchedRules(rules);
-    expect(output).toEqual(null);
+    const output = RisksUtil.getMatchedRules(risks);
+    expect(output).toEqual(risks.matchedRules);
   });
 });
