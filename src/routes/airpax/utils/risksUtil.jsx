@@ -19,26 +19,12 @@ const formatTargetIndicators = (targetingIndicators) => {
   }
 };
 
-const hasTargetingIndicators = (risks) => {
-  return !!risks?.targetingIndicators;
-};
-
 const getTargetingIndicators = (risks) => {
-  if (hasTargetingIndicators(risks)) {
-    return risks.targetingIndicators;
-  }
-  return null;
-};
-
-const hasRisk = (targetTask) => {
-  return !!targetTask?.risks;
+  return risks?.targetingIndicators || null;
 };
 
 const getRisk = (targetTask) => {
-  if (hasRisk(targetTask)) {
-    return targetTask.risks;
-  }
-  return null;
+  return targetTask?.risks || null;
 };
 
 const getSelectorWarning = (selector) => {
@@ -56,70 +42,28 @@ const getSelectorWarning = (selector) => {
   return warning;
 };
 
-const hasIndicatorMatches = (selector) => {
-  return !!selector?.indicatorMatches;
-};
-
 const getIndicatorMatches = (selector) => {
-  if (hasIndicatorMatches(selector)) {
-    return selector.indicatorMatches;
-  }
-  return null;
-};
-
-const hasSelectorGroups = (version) => {
-  return !!version?.risks?.matchedSelectorGroups;
+  return selector?.indicatorMatches || null;
 };
 
 const getSelectorGroups = (version) => {
-  if (hasSelectorGroups(version)) {
-    return version.risks.matchedSelectorGroups;
-  }
-  return null;
-};
-
-const hasMatchedRules = (version) => {
-  return !!version?.risks?.matchedRules;
+  return version?.risks?.matchedSelectorGroups || null;
 };
 
 const getMatchedRules = (version) => {
-  if (hasMatchedRules(version)) {
-    return version.risks.matchedRules;
-  }
-  return null;
-};
-
-const hasHighestThreatLevel = (risks) => {
-  return !!risks?.highestThreatLevel;
+  return version?.risks?.matchedRules || null;
 };
 
 const getHighestThreatLevel = (risks) => {
-  if (hasHighestThreatLevel(risks)) {
-    return risks.highestThreatLevel;
-  }
-  return null;
-};
-
-const hasRiskMatchedSelectorGroups = (risks) => {
-  return !!risks?.matchedSelectorGroups;
+  return risks?.highestThreatLevel || null;
 };
 
 const getRiskMatchedSelectorGroups = (risks) => {
-  if (hasRiskMatchedSelectorGroups(risks)) {
-    return risks.matchedSelectorGroups;
-  }
-  return null;
-};
-
-const hasRiskMatchedRules = (risks) => {
-  return !!risks?.matchedRules;
+  return risks?.matchedSelectorGroups || null;
 };
 
 const getRiskMatchedRules = (risks) => {
-  if (hasRiskMatchedRules(risks)) {
-    return risks.matchedRules;
-  }
-  return null;
+  return risks?.matchedRules || null;
 };
 
 const extractRiskType = (risks, highestRisk) => {
