@@ -20,7 +20,7 @@
         "pointOfContact": "Point Of Contact Testing",
         "pocMessage": "selector for auto testing",
         "priority": "Selector",
-        "inboundActionCode": "action required",
+        "inboundActionCode": "No action required",
         "outboundActionCode": "No action required",
         "threatType": "National Security at the Border",
         "notes": "notes testing",
@@ -31,7 +31,7 @@
         ],
         "localReference": "SR-220",
         "warnings": "bdfbdfbf",
-        "selectorWarnings":"CTGN,SEH",
+        "selectorWarnings":"FIRE,VIOL,WEAP",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer": "Tester",
@@ -55,7 +55,7 @@
       {
         "selectorId": 278,
         "selectorReference": "2021-278",
-        "groupReference":"SR-216",
+        "groupReference":"SR-215",
         "groupVersionNumber":1,
         "startDate": "2021-12-02T16:48:51.203Z",
         "endDate": "2022-01-13T23:59:59Z",
@@ -76,7 +76,7 @@
         ],
         "localReference": "SR-219",
         "warnings": "Warnings from testing",
-        "selectorWarnings":"SEH",
+        "selectorWarnings":"CTGN,SEH,O",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer": "Tester",
@@ -99,8 +99,8 @@
       },
       {
         "selectorId":225,
-        "selectorReference":"2022-100",
-        "groupReference":"SR-217",
+        "selectorReference":"2022-225",
+        "groupReference":"SR-215",
         "groupVersionNumber":1,
         "startDate":"2022-01-27T10:23:12.732Z",
         "endDate":"2022-07-27T10:23:12.732Z",
@@ -121,8 +121,8 @@
         ],
         "localReference":"null",
         "warnings":"Warnings from testing for group reference",
-        "selectorWarnings":"O",
-        "warningStatus": "Yes",
+        "selectorWarnings":"Warnings currently unavailable",
+        "warningStatus": "currently unavailable",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer":"Tester",
         "requestingTeam":"null",
@@ -138,8 +138,8 @@
       },
       {
         "selectorId": 51,
-        "selectorReference": "2021-10",
-        "groupReference":"SR-218",
+        "selectorReference": "2021-51",
+        "groupReference":"SR-215",
         "groupVersionNumber":1,
         "startDate": "2021-07-09T13:42:48.381Z",
         "endDate": "2021-08-20T22:59:59Z",
@@ -160,7 +160,7 @@
         ],
         "localReference": "Local Reference",
         "warnings": "Supplemental warnings",
-        "selectorWarnings":"CTGN",
+        "selectorWarnings":"O",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer": "Tester",
@@ -205,7 +205,7 @@
         ],
         "localReference":"Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
         "warnings":"This is a different group reference",
-        "selectorWarnings":"No Warnings",
+        "selectorWarnings":"No warnings",
         "warningStatus": "No",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer":"Velit in sunt aliquip voluptate tempore consectetur",
@@ -326,17 +326,10 @@
             "commonAPIPlus.manifestDetails.dataType": "PNR",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.uniquePassengerId": "20058AB300012AD6",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.ticketNumber": "AL12345",
-            "bookingType": "Online",
-            "paymentMethod": "CC",
-            "bookingCountry": "GB",
-            "ticketNumber": "1234",
-            "ticketType": "Return",
-            "ticketPrice": "£25.00",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.0.tagNumber": "739238",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.1.tagNumber": "739239",
-            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.2.tagNumber": "739240",
-            "checkedInCount": "3",
-            "checkedInWeight": "46kg"
+            "checkedInCount": "1",
+            "checkedInWeight": "23kg"
           }
         },
         "features": {
@@ -382,24 +375,6 @@
               "type": null,
               "valueType": "STRING",
               "value": "DC",
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "STANDARDISED:bookingDateTime": {
-              "id": null,
-              "type": null,
-              "valueType": "STRING",
-              "value": "2022-06-09T10:00:00Z",
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "STANDARDISED:checkinDateTime": {
-              "id": null,
-              "type": null,
-              "valueType": "STRING",
-              "value": "2022-06-12T13:00:00Z",
               "valueList": null,
               "startTimestamp": null,
               "endTimestamp": null
@@ -460,6 +435,69 @@
             "maritalStatus": null,
             "religion": null,
             "passportNumber": "119039375"
+          },
+          "attributes": {
+            "attrs": {
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "680419104BA"
+            }
+          },
+          "matching": null,
+          "features": null,
+          "washResponses": null,
+          "matchMerge": null,
+          "changeHistory": null
+        },
+        {
+          "metadata": {
+            "identityRecord": {
+              "poleId": {
+                "v2": {
+                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
+                },
+                "v1": null
+              },
+              "type": "P"
+            },
+            "sourceRecord": {
+              "name": "PNR",
+              "shortName": "PNR",
+              "location": "MT2-PNR1.xml",
+              "id": "502992e4-f319-4422-ac26-09dbdcda5f58",
+              "audit": {
+                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv1jDrQ==",
+                "createdTimestamp": 1563637415000,
+                "updatedBy": null,
+                "updatedTimestamp": null,
+                "deletedBy": null,
+                "deletedTimestamp": null
+              }
+            },
+            "complianceRecord": null,
+            "mappingRecord": {
+              "name": "Passenger (dcs)",
+              "version": "1.0"
+            }
+          },
+          "type": "PERSON",
+          "person": {
+            "type": "PERPAS",
+            "title": null,
+            "familyName": "Testing FamilyName",
+            "givenName": "Testing GivenName",
+            "fullName": "FamilyName GivenName",
+            "dateOfBirth": 2555,
+            "dateOfDeath": null,
+            "gender": "F",
+            "nationality": "AUS",
+            "yearOfBirth": 1982,
+            "monthOfBirth": 11,
+            "dayOfBirth": 9,
+            "countryOfBirth": null,
+            "placeOfBirth": null,
+            "ethnicity": null,
+            "maritalStatus": null,
+            "religion": null,
+            "passportNumber": "119039399"
           },
           "attributes": {
             "attrs": {
@@ -647,11 +685,11 @@
           "voyageType": null,
           "departureLocation": "LHR",
           "departureCountry": null,
-          "scheduledDepartureTimestamp": 1657456201000,
+          "scheduledDepartureTimestamp": 1563727200000,
           "actualDepartureTimestamp": null,
           "arrivalLocation": "YYC",
           "arrivalCountry": null,
-          "scheduledArrivalTimestamp": 1657467001000,
+          "scheduledArrivalTimestamp": 1563734100000,
           "actualArrivalTimestamp": null,
           "intermediateLocations": null,
           "passengerCount": 178,

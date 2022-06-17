@@ -158,6 +158,81 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
+    cy.acceptPNRTerms();
+    const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
+    cy.fixture('airpax/task-airpax-same-group-reference-selectors.json').then((task) => {
+      task.data.movementId = movementID;
+      cy.createAirPaxTask(task).then(() => {
+        cy.wait(4000);
+      });
+    });
+
+    cy.fixture('airpax/task-airpax-different-group-reference-selectors.json').then((task) => {
+      task.data.movementId = movementID;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+
+    cy.expandTaskDetails(0);
+
+    cy.get('[id$=-content-1]').within(() => {
+      cy.contains('h4', 'SR-218').nextAll().within((elements) => {
+        cy.fixture('airpax/selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][0]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-217').nextAll().within((elements) => {
+        cy.fixture('airpax/selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][1]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-227').nextAll().within((elements) => {
+        cy.fixture('airpax/selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][2]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-216').nextAll().within((elements) => {
+        cy.fixture('airpax/selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][3]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+
+      cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+        cy.fixture('airpax/selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-2'][4]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+    });
+
+    cy.expandTaskDetails(1);
+
+    cy.get('[id$=-content-2]').within(() => {
+      cy.contains('h4', 'SR-215').nextAll().within((elements) => {
+        cy.fixture('airpax/selectors-group-versions-expected.json').then((expectedDetails) => {
+          cy.getSelectorGroupInformation(elements).then((actualGroupDetails) => {
+            expect(expectedDetails['Selectors-version-1'][0]).to.deep.equal(actualGroupDetails);
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
