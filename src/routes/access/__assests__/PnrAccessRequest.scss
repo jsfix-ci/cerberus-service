@@ -1,0 +1,9 @@
+$govuk-font-family: 'GDS Transport', arial, sans-serif;
+
+.govuk-width-container {
+
+  &.pnr-access-form-container {
+    font-family: $govuk-font-family;
+    width: 800px;
+  }
+}

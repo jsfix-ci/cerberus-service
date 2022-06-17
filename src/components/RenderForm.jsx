@@ -7,7 +7,7 @@ import { Form, Formio } from 'react-formio';
 
 // Local imports
 import config from '../config';
-import { FORM_ACTION_CANCEL } from '../constants';
+import { FORM_ACTIONS } from '../constants';
 import ErrorSummary from '../govuk/ErrorSummary';
 import useAxiosInstance from '../utils/axiosInstance';
 import FormUtils, { Renderers } from '../utils/Form';
@@ -155,8 +155,12 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
               hooks={{
                 onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
                 onSubmit: async (type, payload, onSuccess) => {
-                  if (type === FORM_ACTION_CANCEL) {
+                  if (type === FORM_ACTIONS.CANCEL) {
                     return onCancel();
+                  }
+                  if (type === FORM_ACTIONS.NEXT) {
+                    // Do nothing.
+                    return onSuccess(payload);
                   }
                   setLoaderVisibility(true);
                   try {
