@@ -162,7 +162,7 @@ export default {
         {
           type: 'html',
           tagName: 'div',
-          content: 'You can now view PNR data',
+          content: 'You can now view PNR data.',
           className: 'govuk-panel govuk-panel__body govuk-panel--confirmation',
         },
         {
