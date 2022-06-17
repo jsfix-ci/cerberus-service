@@ -11,7 +11,7 @@ import RenderForm from '../../components/RenderForm';
 import Layout from '../../components/Layout';
 
 // Styling
-import '../airpax/__assets__/PnrAccessRequest.scss';
+import './__assests__/PnrAccessRequest.scss';
 
 // JSON
 import viewPnrData from '../../cop-forms/viewPnrData';
