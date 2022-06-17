@@ -144,6 +144,30 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Booking details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.contains('h3', 'Booking').next().within((elements) => {
+            cy.getairPaxTaskDetail(elements).then((actualBookingDetails) => {
+              expect(actualBookingDetails).to.deep.equal(expectedDetails.Booking);
+            });
+          });
+          cy.contains('Payments').parent().nextAll().within((elements) => {
+            cy.getairPaxPaymentAndAgencyDetails(elements).then((actualBookingDetails) => {
+              expect(actualBookingDetails).to.deep.equal(expectedDetails.Payments);
+            });
+          });
+        });
+      });
+    });
+  });
+
   it('Should verify No selectors & rules on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';

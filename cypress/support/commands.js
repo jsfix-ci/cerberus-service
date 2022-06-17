@@ -1846,19 +1846,41 @@ Cypress.Commands.add('sendPNRrequest', () => {
 
 Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
   const occupantArray = [];
-  cy.wrap(elements).find('div').each((detail) => {
+  cy.wrap(elements).find('div').each(($detail) => {
     let obj = {};
-    cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
-      cy.wrap(detail).find('.font__bold').invoke('text')
-        .then((value) => {
-          obj[key] = value;
-        });
+    cy.wrap($detail).find('.font__light').invoke('text').then((key) => {
+      if ($detail.find('.font__bold').length > 0) {
+        cy.wrap($detail).find('.font__bold').invoke('text')
+          .then((value) => {
+            obj[key] = value;
+          });
+      } else {
+        obj[key] = '';
+      }
     })
       .then(() => {
         occupantArray.push(obj);
       });
   }).then(() => {
     return occupantArray;
+  });
+});
+
+Cypress.Commands.add(('getairPaxPaymentAndAgencyDetails'), (elements) => {
+  const PaymentsArray = [];
+  cy.wrap(elements).each(($detail) => {
+    let obj = {};
+    cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+      cy.wrap($detail).find('.font__light').invoke('text')
+        .then((key) => {
+          obj[key] = value;
+        });
+    })
+      .then(() => {
+        PaymentsArray.push(obj);
+      });
+  }).then(() => {
+    return PaymentsArray;
   });
 });
 
