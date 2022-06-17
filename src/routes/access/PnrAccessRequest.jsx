@@ -65,7 +65,7 @@ const PnrAccessRequest = ({ children }) => {
                     async ({ data }) => {
                       let postParam = { requested: false };
                       try {
-                        if (data.viewPnrData === RESPONSE.yes && data.secureSite === RESPONSE.yes) {
+                        if (data.viewPnrData === RESPONSE.yes && data.approvedSite === RESPONSE.yes) {
                           postParam.requested = true;
                         }
                         const response = await taskApiClient.post(

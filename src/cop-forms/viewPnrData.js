@@ -60,13 +60,13 @@ export default {
       ],
     },
     {
-      id: 'working-from-secure-site',
-      name: 'working-from-secure-site',
+      id: 'working-from-approved-site',
+      name: 'working-from-approved-site',
       title: 'Are you working from a site that has been approved to access PNR data from?',
       components: [
         {
-          id: 'secureSite',
-          fieldId: 'secureSite',
+          id: 'approvedSite',
+          fieldId: 'approvedSite',
           type: 'radios',
           required: true,
           custom_errors: [
@@ -96,6 +96,12 @@ export default {
       },
       actions: [
         {
+          type: 'navigate',
+          label: 'Back',
+          page: 'view-pnr-data',
+          classModifiers: 'secondary',
+        },
+        {
           type: FORM_ACTIONS.NEXT,
           label: 'Continue',
           validate: true,
@@ -103,8 +109,8 @@ export default {
       ],
     },
     {
-      id: 'can-not-view-pnr-data',
-      name: 'can-not-view-pnr-data',
+      id: 'continue-without-pnr-data',
+      name: 'continue-without-pnr-data',
       title: 'Continue without viewing PNR data',
       components: [],
       show_when: {
@@ -113,6 +119,12 @@ export default {
         value: VALUES.NO,
       },
       actions: [
+        {
+          type: 'navigate',
+          label: 'Back',
+          page: 'view-pnr-data',
+          classModifiers: 'secondary',
+        },
         {
           type: 'submit',
           label: 'Continue',
@@ -126,11 +138,17 @@ export default {
       title: 'You can only view PNR data if you are working from an approved site',
       components: [],
       show_when: {
-        field: 'secureSite',
+        field: 'approvedSite',
         op: 'eq',
         value: VALUES.NO,
       },
       actions: [
+        {
+          type: 'navigate',
+          label: 'Back',
+          page: 'working-from-approved-site',
+          classModifiers: 'secondary',
+        },
         {
           type: 'submit',
           label: 'Continue without access to PNR data',
@@ -160,7 +178,7 @@ export default {
         },
       ],
       show_when: {
-        field: 'secureSite',
+        field: 'approvedSite',
         op: 'eq',
         value: VALUES.YES,
       },
