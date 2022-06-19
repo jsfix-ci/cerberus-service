@@ -257,6 +257,127 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should check rule matches details on task details page', () => {
+    cy.fixture('airpax/expected-risk-indicators.json').as('expectedRiskIndicatorMatches');
+
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    const nextPage = 'a[data-test="next"]';
+    cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain(taskName);
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.wait(2000);
+
+        cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+        cy.get('table:not(.co-travellers-table)').each((table, index) => {
+          cy.wrap(table).getTable().then((tableData) => {
+            cy.log(tableData);
+            cy.get('@expectedRiskIndicatorMatches').then((expectedData) => {
+              console.log(expectedData.riskIdicators[`risk-${index}`]);
+              cy.log(tableData);
+              expectedData.riskIdicators[`risk-${index}`].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
+            });
+          });
+        });
+
+        cy.contains('Back to task list').click();
+
+        cy.reload();
+
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(`${businessKey}`, null, {
+              risk: 'Alcohol and 2 other rules',
+              riskTier: 'Tier 1',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          } else {
+            cy.findTaskInSinglePage(`${businessKey}`, null, {
+              risk: 'Alcohol and 2 other rules',
+              riskTier: 'Tier 1',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          }
+        });
+      });
+    });
+  });
+
+  it('Should check  rule matches details for more than one version on task management page', () => {
+    cy.acceptPNRTerms();
+    const movementID = `AUTO-TEST:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
+    const nextPage = 'a[data-test="next"]';
+    let businessKey;
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+
+    cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
+      task.data.movementId = movementID;
+      cy.createAirPaxTask(task).then(() => {
+        cy.wait(4000);
+      });
+    });
+
+    cy.fixture('airpax/task-airpax-rules-v2.json').then((task) => {
+      task.data.movementId = movementID;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        businessKey = response.id;
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ taskResponse }) => {
+          expect(taskResponse.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.wait(3000);
+
+        cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+        cy.contains('Back to task list').click();
+
+        cy.reload();
+
+        cy.wait('@airpaxTask').then(({ taskResponse }) => {
+          expect(taskResponse.statusCode).to.equal(200);
+        });
+
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(`${businessKey}`, null, {
+              risk: 'Alcohol and 1 other rule',
+              riskTier: 'Tier 1',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          } else {
+            cy.findTaskInSinglePage(`${businessKey}`, null, {
+              risk: 'Alcohol and 1 other rule',
+              riskTier: 'Tier 1',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          }
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
