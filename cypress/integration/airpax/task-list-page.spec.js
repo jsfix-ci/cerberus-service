@@ -153,7 +153,7 @@ describe('Airpax task list page', () => {
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
         cy.wait(3000);
-        cy.visit('/airpax/tasks');one
+        cy.visit('/airpax/tasks');
         cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
