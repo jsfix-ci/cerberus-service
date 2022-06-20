@@ -227,9 +227,8 @@ describe('Airpax task list page', () => {
             cy.fixture('airpax/task-airpax-latest.json').then((relistedTask) => {
               relistedTask.data.movementId = movementId;
               cy.createAirPaxTask(relistedTask).then((relistedResponse) => {
-                expect(updateResponse.movement.id).to.contain(movementId);
-                expect(updateResponse.id).to.equal(businessKey);
-                console.log(relistedResponse);
+                expect(relistedResponse.movement.id).to.contain(movementId);
+                expect(relistedResponse.id).to.equal(businessKey);
                 cy.visit('/airpax/tasks');
                 cy.wait(3000);
                 cy.wait('@taskList').then(({ response }) => {
