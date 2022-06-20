@@ -98,6 +98,17 @@ const getByIataCode = (iataCode) => {
   return airports.findWhere({ iata: iataCode });
 };
 
+const getCityByIataCode = (iataCode) => {
+  if (!iataCode) {
+    return UNKNOWN_TEXT;
+  }
+  const city = getByIataCode(iataCode)?.get('city');
+  if (!city) {
+    return UNKNOWN_TEXT;
+  }
+  return city;
+};
+
 const getRoute = (journey) => {
   return journey?.route;
 };
@@ -337,6 +348,7 @@ const MovementUtil = {
   itinRelativeTime: toItineraryRelativeTime,
   relistStatus: getRelistedStatus,
   updatedStatus: getUpdatedStatus,
+  iataToCity: getCityByIataCode,
 };
 
 export default MovementUtil;
@@ -369,4 +381,5 @@ export {
   toItineraryRelativeTime,
   getRelistedStatus,
   getUpdatedStatus,
+  getCityByIataCode,
 };

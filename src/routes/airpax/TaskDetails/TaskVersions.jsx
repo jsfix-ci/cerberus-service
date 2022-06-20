@@ -17,6 +17,7 @@ import CoTraveller from './builder/CoTraveller';
 import SelectorMatches from './builder/SelectorMatches';
 import RuleMatches from './builder/RuleMatches';
 import Tabs from '../../../components/Tabs';
+import TaskSummary from './TaskSummary';
 // Config
 import config from '../../../config';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -28,23 +29,19 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
   const [pnrData, setPnrData] = useState();
 
   const getPNRData = async (taskId, versionNumber) => {
-    // Mock PNR data for testing untill API is ready
-    const tempPNRData = {
-      locator: 'LSV4UV',
-      raw: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et',
-    };
     try {
       const response = await apiClient.get(`/targeting-task/${taskId}/passenger-name-record-versions/${versionNumber}`);
       setPnrData(response);
     } catch (e) {
-      // until API is ready we set the tempPNRData in the catch
-      // this will be changed to the error handling
-      setPnrData(tempPNRData);
+      setPnrData();
     }
   };
 
   return (
     <>
+      <div>
+        <TaskSummary version={version} airlineCodes={airlineCodes} />
+      </div>
       <Tabs
         title="Versions"
         id="versions-data"

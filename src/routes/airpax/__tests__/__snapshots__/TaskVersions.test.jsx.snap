@@ -61,6 +61,83 @@ exports[`TaskVersions should render task versions 1`] = `
       className="govuk-accordion__section-content"
       id="task-versions-undefined-content-1"
     >
+      <div>
+        <section
+          className="task-list--voyage-section overflow-hidden"
+        >
+          <div
+            className="govuk-grid-row grid-background--greyed"
+          >
+            <div
+              className="govuk-grid-column-one-quarter govuk-!-padding-left-9"
+            >
+              <i
+                className="icon-position--left c-icon-person"
+              />
+              <p
+                className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1"
+              >
+                Crew member
+              </p>
+              <span
+                className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1"
+              >
+                <span
+                  className="govuk-font-weight-bold"
+                >
+                  Crew
+                   
+                </span>
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right"
+            >
+              <i
+                className="c-icon-aircraft"
+              />
+              <p
+                className="content-line-one govuk-!-padding-right-2"
+              >
+                Unknown flight, 
+              arrival at London in 3 hours 
+              </p>
+              <p
+                className="govuk-body-s content-line-two govuk-!-padding-right-2"
+              >
+                <span
+                  className="govuk-!-font-weight-bold"
+                >
+                  AC0850
+                </span>
+                <span
+                  className="dot"
+                />
+                3 Oct 2018 at 18:32
+                <span
+                  className="dot"
+                />
+                <span
+                  className="govuk-!-font-weight-bold"
+                >
+                  YYC
+                </span>
+                 →
+                <span
+                  className="govuk-!-font-weight-bold"
+                >
+                   
+                  LHR
+                </span>
+                <span
+                  className="dot"
+                />
+                3 Oct 2018 at 21:19
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
       <div
         className="govuk-tabs"
         id="versions-data"
