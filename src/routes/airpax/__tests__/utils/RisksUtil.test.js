@@ -367,4 +367,54 @@ describe('RisksUtil', () => {
     const output = RisksUtil.getMatchedRules(risks);
     expect(output).toEqual(risks.matchedRules);
   });
+
+  it('should get highest selector from matchedSelectorGroups', () => {
+    const highestRisk = {
+      type: 'SELECTOR',
+      value: 'A',
+    };
+    const risks = {
+      matchedSelectorGroups: {
+        groups: [
+          {
+            category: 'A',
+            threatType: 'Class A Drugs',
+          },
+          {
+            category: 'C',
+            threatType: 'Alcohol',
+          },
+        ],
+        totalNumberOfSelectors: 2,
+      },
+    };
+    const output = RisksUtil.extractHighestRisk(risks, highestRisk);
+    expect(output).toEqual('Class A Drugs');
+  });
+
+  it('should get highest rule from matchedRules', () => {
+    const highestRisk = {
+      type: 'RULES',
+      value: 'Tier 1',
+    };
+    const risks = {
+      matchedRules: [
+        {
+          priority: 'Tier 3',
+          abuseTypes: [
+            'National Security at the Border',
+          ],
+        },
+        {
+          priority: 'Tier 1',
+          abuseTypes: [
+            'Class A Drugs',
+          ],
+        },
+      ],
+    };
+
+    const output = RisksUtil.extractHighestRisk(risks, highestRisk);
+    expect(output).toEqual('Class A Drugs');
+  });
 });
