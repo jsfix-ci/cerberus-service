@@ -194,10 +194,10 @@ describe('Airpax task list page', () => {
                     cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
                       cy.get('p.govuk-tag--relistedTarget').invoke('text').then((text) => {
                         expect(text).to.equal('Relisted');
-                  });
+                      });
+                    });
+                  }
                 });
-              }
-            });
               });
             });
           });
