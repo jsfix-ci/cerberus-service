@@ -434,6 +434,65 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
+  it('Should check rule matches details on task management page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    const nextPage = 'a[data-test="next"]';
+    cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain(taskName);
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.wait(2000);
+
+        cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+        // COP-9672 Display highest threat level in task details
+        cy.get('.task-versions .govuk-accordion__section').each((element) => {
+          cy.wrap(element).find('.task-versions--right .govuk-list li span.govuk-tag--positiveTarget').invoke('text').then((value) => {
+            expect('Tier 1').to.be.equal(value);
+          });
+        });
+
+        cy.contains('Back to task list').click();
+
+        cy.reload();
+
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(`${businessKey}`, null, {
+              selector: 'Paid by cash1',
+              risk: 'Class A Drugs and 2 other rules',
+              riskTier: 'Tier 1',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          } else {
+            cy.findTaskInSinglePage(`${businessKey}`, null, {
+              selector: 'Paid by cash1',
+              risk: 'Class A Drugs and 2 other rules',
+              riskTier: 'Tier 1',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          }
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
