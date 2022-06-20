@@ -187,7 +187,7 @@ describe('Airpax task list page', () => {
       });
     });
   });
-  
+
   it('Should not display RELISTED label on a new task, but display RELISTED after a task has been relisted with new details', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
