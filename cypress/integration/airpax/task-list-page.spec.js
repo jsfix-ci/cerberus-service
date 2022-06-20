@@ -141,8 +141,8 @@ describe('Airpax task list page', () => {
       });
     });
   });
-  
-    it.only('Should not display UPDATED label on a new task, but display UPDATED after a task has been updated with new details', () => {
+
+  it('Should not display UPDATED label on a new task, but display UPDATED after a task has been updated with new details', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-no-selectors.json').then((task) => {
@@ -153,11 +153,11 @@ describe('Airpax task list page', () => {
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
         cy.wait(3000);
-         cy.visit('/airpax/tasks');
-            cy.wait(3000);
-            cy.wait('@taskList').then(({ response }) => {
-              expect(response.statusCode).to.equal(200);
-            });
+        cy.visit('/airpax/tasks');
+        cy.wait(3000);
+        cy.wait('@taskList').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
         cy.get('.govuk-task-list-card').then(($taskListCard) => {
           if ($taskListCard.text().includes(businessKey)) {
             cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
@@ -181,14 +181,14 @@ describe('Airpax task list page', () => {
                   cy.get('p.govuk-tag--updatedTarget').invoke('text').then((text) => {
                     expect(text).to.equal('Updated');
                   });
-               });
+                });
               }
-            });   
+            });
           });
         });
       });
-      });
     });
+  });
 
   afterEach(() => {
     cy.contains('Sign out').click();
