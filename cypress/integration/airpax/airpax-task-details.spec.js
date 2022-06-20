@@ -24,9 +24,18 @@ describe('Verify AirPax task details of different sections', () => {
   });
 
   it('Should check airPax task not visible if User not agreed for PNR terms', () => {
-    cy.doNotAcceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
+    cy.doNotAcceptPNRTerms();
+    cy.wait('@airpaxTask').then(({ response }) => {
+      expect(response.statusCode).to.be.equal(403);
+    });
+  });
+
+  it('Should check airPax task not visible if User not in the authorised location', () => {
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.visit('/airpax/tasks');
+    cy.userNotInApprovedLocation();
     cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(403);
     });

@@ -1899,11 +1899,19 @@ Cypress.Commands.add('doNotAcceptPNRTerms', () => {
   cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
   cy.get('input[name="viewPnrData"][value="no"]').click();
   cy.contains('Continue').click();
+  cy.get('h1.govuk-heading-l').should('have.text', 'Continue without viewing PNR data');
+  cy.contains('button', 'Continue').click();
+});
+
+Cypress.Commands.add('userNotInApprovedLocation', () => {
+  cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
+  cy.get('input[name="viewPnrData"][value="yes"]').click();
+  cy.contains('Continue').click();
   cy.get('h1.govuk-heading-l').should('have.text', 'Are you working from a site that has been approved to access PNR data from?');
   cy.get('input[name="approvedSite"][value="no"]').click();
   cy.contains('Continue').click();
-  cy.get('.govuk-panel--confirmation').should('have.text', 'Continue without viewing PNR data');
-  cy.contains('button', 'Continue').click();
+  cy.get('h1.govuk-heading-l').should('have.text', 'You can only view PNR data if you are working from an approved site');
+  cy.contains('Continue without access to PNR data').click();
 });
 
 Cypress.Commands.add('claimAirPaxTask', () => {
