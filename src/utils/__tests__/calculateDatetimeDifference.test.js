@@ -47,4 +47,22 @@ describe('should calculate and return relative time diff between booking time an
     const formattedDateString = calculateTimeDifference(dateTimeArray);
     expect(formattedDateString).toEqual(expected);
   });
+
+  it('should calculate and return relative time in future with AirPax mode', () => {
+    const dateTimeArray = ['2020-10-24T01:15:00', '2020-11-08T14:00:00'];
+    const mode = 'AirPax';
+    const expected = 'arrival at London in 16 days ';
+
+    const formattedDateString = calculateTimeDifference(dateTimeArray, 'London', '', mode);
+    expect(formattedDateString).toBe(expected);
+  });
+
+  it('should calculate and return relative time in past with AirPax mode', () => {
+    const dateTimeArray = ['2020-10-24T01:15:00', '2020-09-08T14:00:00'];
+    const mode = 'AirPax';
+    const expected = 'arrived at London a month ago';
+
+    const formattedDateString = calculateTimeDifference(dateTimeArray, 'London', '', mode);
+    expect(formattedDateString).toBe(expected);
+  });
 });
