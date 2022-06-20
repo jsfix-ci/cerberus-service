@@ -153,8 +153,7 @@ describe('Airpax task list page', () => {
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
         cy.wait(3000);
-        cy.visit('/airpax/tasks');
-        cy.wait(3000);
+        cy.visit('/airpax/tasks');one
         cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
@@ -170,7 +169,6 @@ describe('Airpax task list page', () => {
           cy.createAirPaxTask(updateTask).then((updateResponse) => {
             expect(updateResponse.movement.id).to.contain(movementId);
             expect(updateResponse.id).to.equal(businessKey);
-            console.log(updateResponse);
             cy.reload();
             cy.wait('@taskList').then(({ response }) => {
               expect(response.statusCode).to.equal(200);
