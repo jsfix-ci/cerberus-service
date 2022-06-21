@@ -188,6 +188,69 @@ describe('Airpax task list page', () => {
     });
   });
 
+  it('Should not display RELISTED label on a new task, but display RELISTED after a task has been relisted with new details', () => {
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        let businessKey = taskResponse.id;
+        let movementId = taskResponse.movement.id;
+        cy.wait(2000);
+        cy.visit('/airpax/tasks');
+        cy.wait('@taskList').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.get('.govuk-task-list-card').then(($taskListCard) => {
+          if ($taskListCard.text().includes(businessKey)) {
+            cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+              cy.get('p.govuk-tag--relistedTarget').should('not.exist');
+            });
+          }
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.claimAirPaxTask();
+        cy.wait(2000);
+        cy.contains('Dismiss').click();
+        cy.get('#reasonForDismissing-3').click();
+        cy.get('#otherReasonToDismiss').type('None');
+        cy.contains('Next').click();
+        cy.contains('Submit form').click();
+        cy.contains('Finish').click();
+        cy.fixture('airpax/task-airpax-same-group-reference-selectors.json').then((updateTask) => {
+          updateTask.data.movementId = movementId;
+          cy.createAirPaxTask(updateTask).then((updateResponse) => {
+            expect(updateResponse.movement.id).to.contain(movementId);
+            expect(updateResponse.id).to.equal(businessKey);
+            cy.wait(2000);
+            cy.fixture('airpax/task-airpax-latest.json').then((relistedTask) => {
+              relistedTask.data.movementId = movementId;
+              cy.createAirPaxTask(relistedTask).then((relistedResponse) => {
+                expect(relistedResponse.movement.id).to.contain(movementId);
+                expect(relistedResponse.id).to.equal(businessKey);
+                cy.visit('/airpax/tasks');
+                cy.wait(3000);
+                cy.wait('@taskList').then(({ response }) => {
+                  expect(response.statusCode).to.equal(200);
+                });
+                cy.get('.govuk-task-list-card').then(($taskListCard) => {
+                  if ($taskListCard.text().includes(businessKey)) {
+                    cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                      cy.get('p.govuk-tag--relistedTarget').invoke('text').then((text) => {
+                        expect(text).to.equal('Relisted');
+                      });
+                    });
+                  }
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
   afterEach(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
