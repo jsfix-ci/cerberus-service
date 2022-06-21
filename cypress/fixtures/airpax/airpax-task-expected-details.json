@@ -107,5 +107,39 @@
     {
       "SSR codes": "DOCS, AUTH"
     }
+  ],
+  "Itinerary": [
+    {
+      "FR → CA  Arrival 3 Oct 2018 at 13:05": "AC0850  CDG → YYZ  Wed 3 Oct 2018 at 11:00"
+    },
+    {
+      "layover": "3 hours later",
+      "CA → CA  Arrival 3 Oct 2018 at 18:16": "BD0998  YYZ → YYC  Wed 3 Oct 2018 at 16:05"
+    },
+    {
+      "layover": "17 minutes later",
+      "CA → GB  Arrival 3 Oct 2018 at 21:19": "XZ0123  YYC → LHR  Wed 3 Oct 2018 at 18:32"
+    }
   ]
+  ],
+  "Co-travellers": [
+      {
+        "Traveller": "TravellerTESTING FAMILYNAME, Testing GivenName DCFemale, 30 Dec 1976, Australia (AU)",
+        "Age": "Age45",
+        "Check-in": "Check-in12 Jun 2022 at 13:00a month before departure",
+        "Seat": "Seat34A",
+        "Document": "DocumentPASSPORTIssued by GB",
+        "Checked baggage": "Checked baggage23kg",
+        "": "This movement"
+      },
+      {
+        "Traveller": "TravellerBATZ STOUP, ZUES CARLO DCMale, 10 Dec 1976, United Kingdom (GB)",
+        "Age": "Age45",
+        "Check-in": "Check-in12 Jun 2022 at 13:00a month before departure",
+        "Seat": "Seat34A",
+        "Document": "DocumentPASSPORTIssued by GB",
+        "Checked baggage": "Checked baggage23kg",
+        "": "Movement detail"
+      }
+    ]
 }

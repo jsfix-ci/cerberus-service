@@ -1884,6 +1884,40 @@ Cypress.Commands.add(('getairPaxPaymentAndAgencyDetails'), (elements) => {
   });
 });
 
+Cypress.Commands.add(('getairPaxItinerayDetails'), (elements) => {
+  const ItinerayDetails = [];
+  cy.wrap(elements).each(($detail) => {
+    let obj = {};
+    if ($detail.find('.font__light').length > 1) {
+      cy.wrap($detail).find('.font__light').eq(0).invoke('text')
+        .then((value) => {
+          obj.layover = value;
+        });
+      cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+        cy.wrap($detail).find('.font__light').eq(1).invoke('text')
+          .then((key) => {
+            obj[key] = value;
+          });
+      })
+        .then(() => {
+          ItinerayDetails.push(obj);
+        });
+    } else {
+      cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+        cy.wrap($detail).find('.font__light').invoke('text')
+          .then((key) => {
+            obj[key] = value;
+          });
+      })
+        .then(() => {
+          ItinerayDetails.push(obj);
+        });
+    }
+  }).then(() => {
+    return ItinerayDetails;
+  });
+});
+
 Cypress.Commands.add('acceptPNRTerms', () => {
   cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
   cy.get('input[name="viewPnrData"][value="yes"]').click();
@@ -1939,6 +1973,18 @@ Cypress.Commands.add('unClaimAirPaxTask', () => {
   cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
   cy.contains('Unclaim task').click();
   cy.wait('@unclaim').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForAirPaxTaks', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForStatusCounts', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
     expect(response.statusCode).to.equal(200);
   });
 });
