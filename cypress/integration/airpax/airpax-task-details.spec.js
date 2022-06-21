@@ -406,6 +406,36 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify tasks are generated with more than one version', () => {
+    cy.acceptPNRTerms();
+    const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = movementID;
+      cy.createAirPaxTask(task).then(() => {
+        cy.wait(4000);
+      });
+    });
+
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = movementID;
+      task.data.movement.persons[0].person.nationality = 'AUS';
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = movementID;
+      task.data.movement.persons[0].person.nationality = 'THA';
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+  });
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
