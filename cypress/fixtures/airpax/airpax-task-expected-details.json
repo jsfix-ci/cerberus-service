@@ -107,5 +107,18 @@
     {
       "SSR codes": "DOCS, AUTH"
     }
+  ],
+  "Itinerary": [
+    {
+      "FR → CA  Arrival 3 Oct 2018 at 13:05": "AC0850  CDG → YYZ  Wed 3 Oct 2018 at 11:00"
+    },
+    {
+      "layover": "3 hours later",
+      "CA → CA  Arrival 3 Oct 2018 at 18:16": "BD0998  YYZ → YYC  Wed 3 Oct 2018 at 16:05"
+    },
+    {
+      "layover": "17 minutes later",
+      "CA → GB  Arrival 3 Oct 2018 at 21:19": "XZ0123  YYC → LHR  Wed 3 Oct 2018 at 18:32"
+    }
   ]
 }
