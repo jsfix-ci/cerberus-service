@@ -69,22 +69,18 @@ const getRiskMatchedRules = (risks) => {
 const extractRiskType = (risks, highestRisk) => {
   const riskType = [];
   if (highestRisk.type.toLowerCase() === 'selector') {
-    const selectors = [getRiskMatchedSelectorGroups(risks).groups];
-    selectors.forEach((selector) => {
-      Object.values(selector).every((s) => {
-        if (s.category.toLowerCase() === (highestRisk.value.toLowerCase())) {
-          riskType.push(s.threatType);
-        }
-      });
+    const selectors = getRiskMatchedSelectorGroups(risks).groups;
+    selectors.forEach(({ category, threatType }) => {
+      if (category.toLowerCase() === (highestRisk.value.toLowerCase())) {
+        riskType.push(threatType);
+      }
     });
   } else {
-    const rules = [getRiskMatchedRules(risks)];
-    rules.forEach((rule) => {
-      Object.values(rule).every((r) => {
-        if (r.priority.toLowerCase() === (highestRisk.value.toLowerCase())) {
-          riskType.push(r.abuseTypes[0]);
-        }
-      });
+    const rules = getRiskMatchedRules(risks);
+    rules.forEach(({ priority, abuseTypes }) => {
+      if (priority.toLowerCase() === (highestRisk.value.toLowerCase())) {
+        riskType.push(abuseTypes[0]);
+      }
     });
   }
   return riskType[0];
@@ -135,6 +131,7 @@ const RisksUtil = {
   getHighestThreat: getHighestThreatLevel,
   getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
   getMatchedRules: getRiskMatchedRules,
+  extractHighestRisk: extractRiskType,
   formatHighestThreat: formatHighestThreatLevel,
 };
 
@@ -151,5 +148,6 @@ export {
   getHighestThreatLevel,
   getRiskMatchedSelectorGroups,
   getRiskMatchedRules,
+  extractRiskType,
   formatHighestThreatLevel,
 };
