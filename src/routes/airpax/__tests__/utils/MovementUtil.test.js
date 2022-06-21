@@ -476,9 +476,9 @@ describe('MovementUtil', () => {
     expect(output).toEqual('Southampton');
   });
 
-  it('should return unknown when given an invalid iata code', () => {
-    const output = MovementUtil.iataToCity('SOUTH');
-    expect(output).toEqual('Unknown');
+  it('should return unknown text when given an invalid iata code', () => {
+    const INVALID_IATA_CODES = ['SOUTH', undefined, null, ''];
+    INVALID_IATA_CODES.forEach((code) => expect(MovementUtil.iataToCity(code)).toEqual('Unknown'));
   });
 
   it('should return unknown when the itenerary flight number is undefined', () => {
