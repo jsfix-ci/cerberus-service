@@ -51,7 +51,6 @@ const TaskSummary = ({ version, airlineCodes }) => {
         </div>
       </div>
     </section>
-
   );
 };
 
