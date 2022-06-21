@@ -107,5 +107,28 @@
     {
       "SSR codes": "DOCS, AUTH"
     }
+  ],
+  "Voyage": [
+    {
+      "Departure from": "LHR"
+    },
+    {
+      "Departure time": "Sun 21 Jul 2019 at 16:40"
+    },
+    {
+      "Arrival at": "YYC"
+    },
+    {
+      "Arrival time": "Sun 21 Jul 2019 at 18:35"
+    },
+    {
+      "Scheduled flight time": "1h 55m"
+    },
+    {
+      "Flight code": "BA0103"
+    },
+    {
+      "Operator": "British Airways"
+    }
   ]
 }

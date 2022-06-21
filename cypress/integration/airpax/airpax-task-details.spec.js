@@ -406,6 +406,27 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+    it.only('Should verify Voyage details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.contains('h3', 'Passenger').next().within((elements) => {
+            cy.getairPaxTaskDetail(elements).then((actualVoyageDetails) => {
+              console.log(actualVoyageDetails);
+              console.log(expectedDetails.Voyage);
+              expect(actualVoyageDetails).to.deep.equal(expectedDetails.Voyage);
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
