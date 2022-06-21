@@ -1942,3 +1942,15 @@ Cypress.Commands.add('unClaimAirPaxTask', () => {
     expect(response.statusCode).to.equal(200);
   });
 });
+
+Cypress.Commands.add('waitForAirPaxTaks', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForStatusCounts', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
