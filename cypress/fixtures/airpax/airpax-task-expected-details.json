@@ -72,5 +72,40 @@
     {
       "Agent IATAAgent location": "890534932LHR, GB"
     }
+  ],
+  "Passenger": [
+    {
+      "Name": "TESTING FAMILYNAME, Testing GivenName"
+    },
+    {
+      "": ""
+    },
+    {
+      "Date of birth": "30 Dec 1976"
+    },
+    {
+      "Age at travel": "45"
+    },
+    {
+      "Gender": "Female"
+    },
+    {
+      "Nationality": "Australia (AU)"
+    },
+    {
+      "Departure status": "Departure confirmed DC"
+    },
+    {
+      "": ""
+    },
+    {
+      "Frequent flyer number": "680419104BA"
+    },
+    {
+      "": ""
+    },
+    {
+      "SSR codes": "DOCS, AUTH"
+    }
   ]
 }
