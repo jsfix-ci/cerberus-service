@@ -436,6 +436,25 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
   });
+  it('Should verify Itinerary details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTOTEST';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.contains('h3', 'Itinerary').next().nextAll().within((elements) => {
+            cy.getairPaxItinerayDetails(elements).then((actualItineraryDetails) => {
+              expect(actualItineraryDetails).to.deep.equal(expectedDetails.Itinerary);
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
