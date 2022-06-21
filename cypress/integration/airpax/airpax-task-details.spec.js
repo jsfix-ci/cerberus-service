@@ -133,7 +133,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Baggage details of an AirPax task with Multiple Passenger on task details page', () => {
+  it.only('Should verify Baggage details of an AirPax task with Multiple Passenger on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-multiple-passengers.json').then((task) => {
@@ -387,7 +387,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Passenger details of an AirPax task on task details page', () => {
+  it.only('Should verify Passenger details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -415,7 +415,7 @@ describe('Verify AirPax task details of different sections', () => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
-          cy.contains('h3', 'Passenger').next().within((elements) => {
+          cy.contains('h3', 'Voyage').next().within((elements) => {
             cy.getairPaxTaskDetail(elements).then((actualVoyageDetails) => {
               console.log(actualVoyageDetails);
               console.log(expectedDetails.Voyage);

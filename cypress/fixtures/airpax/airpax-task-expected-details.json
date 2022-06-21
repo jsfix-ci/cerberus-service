@@ -110,19 +110,19 @@
   ],
   "Voyage": [
     {
-      "Departure from": "LHR"
+      "Departure fromLondon, United Kingdom": "LHR"
     },
     {
-      "Departure time": "Sun 21 Jul 2019 at 16:40"
+      "Departure time": "Sun 10 Jul 2022 at 12:30"
     },
     {
-      "Arrival at": "YYC"
+      "Arrival atCalgary, Canada": "YYC"
     },
     {
-      "Arrival time": "Sun 21 Jul 2019 at 18:35"
+      "Arrival time": "Sun 10 Jul 2022 at 15:30"
     },
     {
-      "Scheduled flight time": "1h 55m"
+      "Scheduled flight time": "3h 0m"
     },
     {
       "Flight code": "BA0103"
