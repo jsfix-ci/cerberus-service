@@ -214,3 +214,7 @@ export const FORM_ACTIONS = {
 };
 
 export const TASK_LIST_PATHS = ['/airpax/tasks', '/tasks'];
+
+export const STATUS_CODES = {
+  FORBIDDEN: 403,
+};

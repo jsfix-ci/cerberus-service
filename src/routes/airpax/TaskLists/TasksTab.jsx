@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import { Button } from '@ukhomeoffice/cop-react-components';
 import { useInterval } from 'react-use';
 import { useLocation } from 'react-router-dom';
 
@@ -19,12 +20,15 @@ import { formatTaskStatusToCamelCase, formatTaskStatusToSnakeCase } from '../../
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Pagination from '../../../components/Pagination';
 import TaskListCard from './TaskListCard';
+import { STATUS_CODES, PNR_USER_SESSION_ID } from '../../../constants';
 
 const TasksTab = ({
   taskStatus,
   filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' },
   setError,
   targetTaskCount = 0,
+  canViewPnr,
+  setCanViewPnr,
 }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
@@ -48,6 +52,11 @@ const TasksTab = ({
   const itemsPerPage = 100;
   const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
+
+  const startPnrAccessRequest = () => {
+    localStorage.removeItem(PNR_USER_SESSION_ID);
+    window.location.reload(false);
+  };
 
   const getTaskList = async () => {
     setLoading(true);
@@ -79,7 +88,11 @@ const TasksTab = ({
       response = await apiClient.post('/targeting-tasks/pages', postParams);
       setTargetTasks(response.data);
     } catch (e) {
-      setError(e.message);
+      if (!e.message.endsWith(STATUS_CODES.FORBIDDEN)) {
+        setError(e.message);
+      } else if (e.message.endsWith(STATUS_CODES.FORBIDDEN)) {
+        setCanViewPnr(false);
+      }
       setTargetTasks([]);
     } finally {
       setLoading(false);
@@ -139,8 +152,17 @@ const TasksTab = ({
     return <LoadingSpinner />;
   }
 
-  if (targetTasks.length === 0) {
+  if (targetTasks.length === 0 && canViewPnr) {
     return <p className="govuk-body-l">There are no {taskStatus} tasks</p>;
+  }
+
+  if (targetTasks.length === 0 && !canViewPnr) {
+    return (
+      <>
+        <p className="govuk-body-l govuk-!-margin-bottom-1">You can not view PNR data</p>
+        <Button onClick={() => startPnrAccessRequest()}>Request PNR Data access</Button>
+      </>
+    );
   }
 
   return (
