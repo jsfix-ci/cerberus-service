@@ -31,7 +31,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
   const getPNRData = async (taskId, versionNumber) => {
     try {
       const response = await apiClient.get(`/targeting-task/${taskId}/passenger-name-record-versions/${versionNumber}`);
-      setPnrData(response);
+      setPnrData(response.data);
     } catch (e) {
       setPnrData();
     }

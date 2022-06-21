@@ -36,10 +36,10 @@ describe('TaskSummary', () => {
                 time: '2022-07-10T12:30:01Z',
               },
               route: [
-                'CDG',
-                'YYZ',
-                'YYC',
                 'LHR',
+                'YYC',
+                'YYZ',
+                'CDG',
               ],
               duration: -4408761000,
             },
