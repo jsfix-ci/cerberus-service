@@ -6,7 +6,7 @@
     {
       "id": 8,
       "mode": "RoRo Freight",
-      "modecode": "rorofrei",
+      "modecode": "rorofrac",
       "crossingtype": [
         "sea"
       ],
