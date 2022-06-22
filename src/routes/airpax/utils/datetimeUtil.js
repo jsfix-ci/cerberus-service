@@ -23,8 +23,7 @@ const toRelativeTime = (date) => {
     return UNKNOWN_TEXT;
   }
   const dateTimeStart = dayjs.utc(date);
-  const currentDatetime = getDate(true);
-  return dateTimeStart.from(currentDatetime);
+  return dateTimeStart.fromNow();
 };
 
 const isInPast = (date) => {

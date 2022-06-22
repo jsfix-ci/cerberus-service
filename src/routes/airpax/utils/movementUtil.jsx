@@ -20,7 +20,7 @@ import DateTimeUtil from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
 
 import { isNotNumber } from '../../../utils/roroDataUtil';
-import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
 
 const toVoyageText = (dateTime, isTaskDetails = false, prefix = '') => {
   const time = DateTimeUtil.relativeTime(dateTime);
