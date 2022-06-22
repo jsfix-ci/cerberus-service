@@ -1848,9 +1848,9 @@ Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
   const occupantArray = [];
   cy.wrap(elements).find('div').each(($detail) => {
     let obj = {};
-    cy.wrap($detail).find('.font__light').invoke('text').then((key) => {
-      if ($detail.find('.font__bold').length > 0) {
-        cy.wrap($detail).find('.font__bold').invoke('text')
+    cy.wrap($detail).find('p.font__light').invoke('text').then((key) => {
+      if ($detail.find('p.font__bold').length > 0) {
+        cy.wrap($detail).find('p.font__bold').invoke('text')
           .then((value) => {
             obj[key] = value;
           });
