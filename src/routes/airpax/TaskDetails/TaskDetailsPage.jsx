@@ -34,6 +34,7 @@ import '../__assets__/TaskDetailsPage.scss';
 
 // JSON
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
+import completeTask from '../../../cop-forms/completeTaskCerberus';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -49,6 +50,7 @@ const TaskDetailsPage = () => {
 
   const [isSubmitted, setSubmitted] = useState();
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
+  const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
   const getTaskData = async () => {
@@ -95,10 +97,6 @@ const TaskDetailsPage = () => {
     getTaskData();
   }, [refreshNotesForm]);
 
-  const onCancel = () => {
-    setDismissTaskFormOpen();
-  };
-
   if (isLoading) {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
@@ -136,6 +134,10 @@ const TaskDetailsPage = () => {
             </Button>
             <Button
               className="govuk-button--secondary govuk-!-margin-right-1"
+              onClick={() => {
+                setCompleteFormOpen(true);
+                setDismissTaskFormOpen(false);
+              }}
             >
               Assessment complete
             </Button>
@@ -143,6 +145,7 @@ const TaskDetailsPage = () => {
               className="govuk-button--warning"
               onClick={() => {
                 setDismissTaskFormOpen(true);
+                setCompleteFormOpen(false);
               }}
             >
               Dismiss
@@ -157,17 +160,19 @@ const TaskDetailsPage = () => {
             <RenderForm
               preFillData={{ businessKey }}
               onSubmit={
-                async (data) => {
+                async ({ data }) => {
                   await apiClient.post(`/targeting-tasks/${businessKey}/dismissals`, {
-                    reason: data.data.reasonForDismissing,
-                    otherReasonDetail: data.data.otherReasonToDismiss,
-                    note: escapeJSON(data.data.addANote),
-                    userId: data.data.form.submittedBy,
+                    reason: data.reasonForDismissing,
+                    otherReasonDetail: data.otherReasonToDismiss,
+                    note: escapeJSON(data.addANote),
+                    userId: data.form.submittedBy,
                   });
                   setSubmitted(true);
                 }
               }
-              onCancel={onCancel}
+              onCancel={() => {
+                setDismissTaskFormOpen();
+              }}
               form={dismissTask}
               renderer={Renderers.REACT}
             />
@@ -176,11 +181,44 @@ const TaskDetailsPage = () => {
             <TaskOutcomeMessage
               message="Task has been dismissed"
               setSubmitted={setSubmitted}
-              setDismissTaskFormOpen={setDismissTaskFormOpen}
+              onFinish={() => {
+                setDismissTaskFormOpen(false);
+              }}
               setRefreshNotesForm={setRefreshNotesForm}
             />
           )}
-          {!isDismissTaskFormOpen && taskData && (
+          {isCompleteFormOpen && !isSubmitted && (
+          <RenderForm
+            preFillData={{ businessKey }}
+            onSubmit={
+              async ({ data }) => {
+                await apiClient.post(`/targeting-tasks/${businessKey}/completions`, {
+                  reason: data.reasonForCompletion,
+                  otherReasonDetail: data.otherReasonForCompletion,
+                  note: escapeJSON(data.addANote),
+                  userId: data.form.submittedBy,
+                });
+                setSubmitted(true);
+              }
+            }
+            onCancel={() => {
+              setCompleteFormOpen();
+            }}
+            form={completeTask}
+            renderer={Renderers.REACT}
+          />
+          )}
+          {isCompleteFormOpen && isSubmitted && (
+          <TaskOutcomeMessage
+            message="Task has been completed"
+            setSubmitted={setSubmitted}
+            onFinish={() => {
+              setCompleteFormOpen(false);
+            }}
+            setRefreshNotesForm={setRefreshNotesForm}
+          />
+          )}
+          {!isDismissTaskFormOpen && !isCompleteFormOpen && taskData && (
             <TaskVersions
               taskVersions={taskData.versions}
               businessKey={businessKey}

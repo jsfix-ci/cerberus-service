@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Panel } from '@ukhomeoffice/cop-react-components';
 
-const TaskOutcomeMessage = ({ message, setSubmitted, setDismissTaskFormOpen, setRefreshNotesForm }) => {
+const TaskOutcomeMessage = ({ message,
+  setSubmitted,
+  onFinish,
+  setRefreshNotesForm }) => {
   setRefreshNotesForm(true);
   return (
     <>
@@ -13,7 +16,7 @@ const TaskOutcomeMessage = ({ message, setSubmitted, setDismissTaskFormOpen, set
         className="govuk-button"
         onClick={() => {
           setSubmitted(true);
-          setDismissTaskFormOpen(false);
+          onFinish();
         }}
       >
         Finish
