@@ -1848,9 +1848,9 @@ Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
   const occupantArray = [];
   cy.wrap(elements).find('div').each(($detail) => {
     let obj = {};
-    cy.wrap($detail).find('.font__light').invoke('text').then((key) => {
-      if ($detail.find('.font__bold').length > 0) {
-        cy.wrap($detail).find('.font__bold').invoke('text')
+    cy.wrap($detail).find('p.font__light').invoke('text').then((key) => {
+      if ($detail.find('p.font__bold').length > 0) {
+        cy.wrap($detail).find('p.font__bold').invoke('text')
           .then((value) => {
             obj[key] = value;
           });
@@ -1881,6 +1881,40 @@ Cypress.Commands.add(('getairPaxPaymentAndAgencyDetails'), (elements) => {
       });
   }).then(() => {
     return PaymentsArray;
+  });
+});
+
+Cypress.Commands.add(('getairPaxItinerayDetails'), (elements) => {
+  const ItinerayDetails = [];
+  cy.wrap(elements).each(($detail) => {
+    let obj = {};
+    if ($detail.find('.font__light').length > 1) {
+      cy.wrap($detail).find('.font__light').eq(0).invoke('text')
+        .then((value) => {
+          obj.layover = value;
+        });
+      cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+        cy.wrap($detail).find('.font__light').eq(1).invoke('text')
+          .then((key) => {
+            obj[key] = value;
+          });
+      })
+        .then(() => {
+          ItinerayDetails.push(obj);
+        });
+    } else {
+      cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+        cy.wrap($detail).find('.font__light').invoke('text')
+          .then((key) => {
+            obj[key] = value;
+          });
+      })
+        .then(() => {
+          ItinerayDetails.push(obj);
+        });
+    }
+  }).then(() => {
+    return ItinerayDetails;
   });
 });
 
@@ -1939,6 +1973,18 @@ Cypress.Commands.add('unClaimAirPaxTask', () => {
   cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
   cy.contains('Unclaim task').click();
   cy.wait('@unclaim').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForAirPaxTaks', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForStatusCounts', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
     expect(response.statusCode).to.equal(200);
   });
 });

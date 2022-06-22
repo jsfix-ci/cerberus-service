@@ -387,6 +387,112 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Passenger details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.contains('h3', 'Passenger').next().within((elements) => {
+            cy.getairPaxTaskDetail(elements).then((actualPassengerDetails) => {
+              expect(actualPassengerDetails).to.deep.equal(expectedDetails.Passenger);
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('Should verify tasks are generated with more than one version', () => {
+    cy.acceptPNRTerms();
+    const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = movementID;
+      cy.createAirPaxTask(task).then(() => {
+        cy.wait(4000);
+      });
+    });
+
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = movementID;
+      task.data.movement.persons[0].person.nationality = 'AUS';
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = movementID;
+      task.data.movement.persons[0].person.nationality = 'THA';
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+
+    cy.get('.govuk-accordion__section-heading').should('have.length', 3);
+  });
+  it('Should verify Itinerary details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTOTEST';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.contains('h3', 'Itinerary').next().nextAll().within((elements) => {
+            cy.getairPaxItinerayDetails(elements).then((actualItineraryDetails) => {
+              expect(actualItineraryDetails).to.deep.equal(expectedDetails.Itinerary);
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('Should verify Co-traveller details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTOTEST';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.get('.co-travellers-container').within(() => {
+            cy.get('table').getTable().then((tableData) => {
+              expectedDetails['Co-travellers'].forEach((traveller) => expect(tableData).to.deep.include(traveller));
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('Should verify Voyage details of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.contains('h3', 'Voyage').next().within((elements) => {
+            cy.getairPaxTaskDetail(elements).then((actualVoyageDetails) => {
+              expect(actualVoyageDetails).to.deep.equal(expectedDetails.Voyage);
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
