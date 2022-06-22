@@ -12,7 +12,7 @@ import {
 } from '../../utils';
 
 import renderBlock from './helper/common';
-import calculateTimeDifference from '../../../../utils/calculateDatetimeDifference';
+import { calculateTimeDifference } from '../../../../utils/DatetimeUtil';
 
 const toBookingTimeDiference = (booking, version) => {
   const journey = MovementUtil.movementJourney(version);

@@ -12,6 +12,21 @@ dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
+const toRelativeTime = (date) => {
+  if (!date) {
+    return UNKNOWN_TEXT;
+  }
+  const dateTimeStart = dayjs.utc(date);
+  return dateTimeStart.fromNow();
+};
+
+const isInPast = (date) => {
+  if (date && date !== UNKNOWN_TEXT) {
+    return toRelativeTime(date)?.endsWith(AGO_TEXT);
+  }
+  return UNKNOWN_TEXT;
+};
+
 const calculateDifference = (startDate, endDate, prefix = '', suffix = '') => {
   const formattedPrefix = prefix ? `${prefix} ` : '';
   const dateTimeStart = dayjs.utc(startDate);
@@ -42,4 +57,12 @@ const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
   return calculateDifference(dateTimeArray[0], dateTimeArray[1], prefix, suffix);
 };
 
-export default calculateTimeDifference;
+const DateTimeUtil = {
+  calculateTimeDifference,
+  isPast: isInPast,
+  relativeTime: toRelativeTime,
+};
+
+export default DateTimeUtil;
+
+export { calculateTimeDifference, isInPast, toRelativeTime };

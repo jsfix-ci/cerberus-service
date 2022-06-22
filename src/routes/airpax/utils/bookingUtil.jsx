@@ -1,7 +1,7 @@
 import React from 'react';
 import lookup from 'country-code-lookup';
 import { getFormattedDate, toDateTimeList } from './datetimeUtil';
-import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
 
 import {
   UNKNOWN_TEXT,

@@ -5,10 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 import * as pluralise from 'pluralise';
 import * as constants from '../../../constants';
 // Utils
-import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
 import formatGender from '../../../utils/genderFormatter';
 import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/roroDataUtil';
 import EnrichmentCount from './TaskListEnrichmentCount';
+import { formatVoyageText } from '../../../utils/stringConversion';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
@@ -104,7 +105,11 @@ const renderRoroVoyageSection = (roroData) => {
   return (
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-ship" />
-      <p className="content-line-one govuk-!-padding-right-2">{roroData.vessel.company && `${roroData.vessel.company} voyage of `}{roroData.vessel.name}{', '}arrival {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).fromNow()}</p>
+      <p className="content-line-one govuk-!-padding-right-2">
+        {roroData.vessel.company
+        && `${roroData.vessel.company} voyage of ${roroData.vessel.name}, 
+        ${!roroData.eta ? 'unknown' : formatVoyageText(roroData.eta)}`}
+      </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
         {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(constants.LONG_DATE_FORMAT)}{' '}
         <span className="dot" />
