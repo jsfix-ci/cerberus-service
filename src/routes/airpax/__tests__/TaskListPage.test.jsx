@@ -184,7 +184,7 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByText('There are no inProgress tasks')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('There are no in progress tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
@@ -362,5 +362,38 @@ describe('TaskListPage', () => {
     await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_COMPLETED)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
+  });
+
+  it('should render the button to request PNR access when the user does not have access to PNR data (new tab)', async () => {
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(403, dataNoAssignee)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_NEW)));
+
+    expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to new PNR data/)).toBeInTheDocument();
+  });
+
+  it('should render the button to request PNR access when the user does not have access to PNR data (in progress tab)', async () => {
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_IN_PROGRESS.toUpperCase()];
+
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(403, dataNoAssignee)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'In progress (0)' })));
+
+    expect(screen.getByText(/You do not have access to view in progress PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view in progress PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to in progress PNR data/)).toBeInTheDocument();
   });
 });

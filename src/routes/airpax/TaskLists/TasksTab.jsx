@@ -20,7 +20,7 @@ import { formatTaskStatusToCamelCase, formatTaskStatusToSnakeCase } from '../../
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Pagination from '../../../components/Pagination';
 import TaskListCard from './TaskListCard';
-import { STATUS_CODES, PNR_USER_SESSION_ID } from '../../../constants';
+import { STATUS_CODES, PNR_USER_SESSION_ID, TASK_STATUS_MAPPING } from '../../../constants';
 
 const TasksTab = ({
   taskStatus,
@@ -152,17 +152,24 @@ const TasksTab = ({
     return <LoadingSpinner />;
   }
 
-  if (targetTasks.length === 0 && canViewPnr) {
-    return <p className="govuk-body-l">There are no {taskStatus} tasks</p>;
-  }
-
-  if (targetTasks.length === 0 && !canViewPnr) {
+  if (!canViewPnr) {
+    const formattedStatus = TASK_STATUS_MAPPING[taskStatus];
     return (
       <>
-        <p className="govuk-body-l govuk-!-margin-bottom-1">You can not view PNR data</p>
-        <Button onClick={() => startPnrAccessRequest()}>Request PNR Data access</Button>
+        <p className="govuk-body-l govuk-!-margin-bottom-1">
+          {`You do not have access to view ${formattedStatus} PNR data. 
+          To view ${formattedStatus} PNR data, 
+          you will need to request access.`}
+        </p>
+        <Button onClick={() => startPnrAccessRequest()}>
+          {`Request access to ${formattedStatus} PNR data`}
+        </Button>
       </>
     );
+  }
+
+  if (targetTasks.length === 0 && canViewPnr) {
+    return <p className="govuk-body-l">There are no {TASK_STATUS_MAPPING[taskStatus]} tasks</p>;
   }
 
   return (
