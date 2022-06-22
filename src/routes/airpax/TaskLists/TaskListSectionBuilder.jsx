@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
 
 // Utils
-import { BaggageUtil, DateTimeUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
-import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+import { BaggageUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
 
 // Component
 import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
@@ -29,16 +28,14 @@ const renderModeSection = (targetTask) => {
 const renderVoyageSection = (targetTask, airlineCodes) => {
   const journey = MovementUtil.movementJourney(targetTask);
   const flight = MovementUtil.movementFlight(targetTask);
-  const departureTime = MovementUtil.departureTime(journey);
   const arrivalTime = MovementUtil.arrivalTime(journey);
-  const dateTimeList = DateTimeUtil.toList(departureTime, arrivalTime);
   return (
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-aircraft" />
       <p className="content-line-one govuk-!-padding-right-2">
         {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)}, 
         flight ${MovementUtil.flightNumber(flight)}, 
-        ${calculateTimeDifference(dateTimeList, 'arrival')}`}
+        ${MovementUtil.voyageText(arrivalTime)}`}
       </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
         <span className="govuk-!-font-weight-bold">{MovementUtil.flightNumber(flight)}</span>

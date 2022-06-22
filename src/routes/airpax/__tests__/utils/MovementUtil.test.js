@@ -1,10 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import { MovementUtil } from '../../utils';
 import { UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../../../../constants';
 
 describe('MovementUtil', () => {
+  dayjs.extend(utc);
+
   let targetTaskMin;
 
   const intineries = [
@@ -595,5 +599,24 @@ describe('MovementUtil', () => {
     const elements = container.getElementsByClassName('govuk-tag--updatedTarget');
 
     expect(elements).toHaveLength(1);
+  });
+
+  it('should return relative time text when given a date that is in the past', () => {
+    const EXPECTED = 'arrived 2 years ago';
+    const PAST_DATE = dayjs.utc().subtract(2, 'year').format();
+
+    expect(MovementUtil.voyageText(PAST_DATE)).toEqual(EXPECTED);
+  });
+
+  it('should return relative time text when given a date that is in the present/future', () => {
+    const EXPECTED = 'arriving in 2 years';
+    const PAST_DATE = dayjs.utc().add(2, 'year').format();
+
+    expect(MovementUtil.voyageText(PAST_DATE)).toEqual(EXPECTED);
+  });
+
+  it('should return unknown text when given date is within an invalid range', () => {
+    const PAST_DATES = [undefined, null, ''];
+    PAST_DATES.forEach((date) => expect(MovementUtil.voyageText(date)).toEqual(UNKNOWN_TEXT));
   });
 });

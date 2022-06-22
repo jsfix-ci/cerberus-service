@@ -9,7 +9,7 @@ import { CO_TRAVELLERS_TABLE_HEADERS,
   UNKNOWN_TEXT } from '../../../../constants';
 
 import { PersonUtil, MovementUtil, BookingUtil, DateTimeUtil, DocumentUtil, BaggageUtil } from '../../utils';
-import calculateTimeDifference from '../../../../utils/calculateDatetimeDifference';
+import { calculateTimeDifference } from '../../../../utils/DatetimeUtil';
 import '../../../../components/__assets__/Table.scss';
 
 const isValid = (value) => {
