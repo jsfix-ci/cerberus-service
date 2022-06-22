@@ -17,7 +17,7 @@ describe('TaskListCard', () => {
     expect(screen.getByText('DEV-20220419-001')).toBeInTheDocument();
     expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('DC')).toBeInTheDocument();
-    expect(screen.getByText('British Airways, flight BA103, arrival Unknown')).toBeInTheDocument();
+    expect(screen.getByText('British Airways, flight BA103, Unknown')).toBeInTheDocument();
     expect(screen.getByText('BA103')).toBeInTheDocument();
     expect(screen.getByText(/7 Aug 2020/)).toBeInTheDocument();
     expect(screen.getAllByText(/FRA/)).toHaveLength(2);

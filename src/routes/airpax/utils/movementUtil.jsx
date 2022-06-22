@@ -13,13 +13,32 @@ import { UNKNOWN_TEXT,
   LATER_TEXT,
   DEPARTURE_STATUS,
   TASK_STATUS_RELISTED,
-  TASK_STATUS_UPDATED } from '../../../constants';
+  TASK_STATUS_UPDATED,
+  BEFORE_TRAVEL_TEXT } from '../../../constants';
 
-import { getFormattedDate, toDateTimeList } from './datetimeUtil';
+import DateTimeUtil from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
 
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+
+const toVoyageText = (dateTime, isTaskDetails = false, prefix = '') => {
+  const time = DateTimeUtil.relativeTime(dateTime);
+  const isPastDate = DateTimeUtil.isPast(dateTime);
+  if (isPastDate !== UNKNOWN_TEXT) {
+    if (!isTaskDetails) {
+      if (isPastDate) {
+        return `arrived ${time}`;
+      }
+      return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`;
+    }
+    if (isPastDate) {
+      return `arrived at ${prefix} ${time}`;
+    }
+    return `arrival at ${prefix} in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`;
+  }
+  return UNKNOWN_TEXT;
+};
 
 const getRelistedStatus = (targetTask) => {
   if (targetTask?.relisted) {
@@ -164,14 +183,14 @@ const toFormattedDepartureDateTime = (journey, dateFormat = LONG_DATE_FORMAT) =>
   if (!journey?.departure?.time) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(journey.departure.time, dateFormat);
+  return DateTimeUtil.format(journey.departure.time, dateFormat);
 };
 
 const toFormattedArrivalDateTime = (journey, dateFormat = LONG_DATE_FORMAT) => {
   if (!journey?.arrival?.time) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(journey.arrival.time, dateFormat);
+  return DateTimeUtil.format(journey.arrival.time, dateFormat);
 };
 
 const toFormattedLocation = (location) => {
@@ -313,7 +332,7 @@ const toItineraryRelativeTime = (index, itinerary, itineraries) => {
   return (
     <div className="font__light">
       {calculateTimeDifference(
-        toDateTimeList(previousLegArrivalTime, nextLegDepartureTime), undefined, LATER_TEXT,
+        DateTimeUtil.toList(previousLegArrivalTime, nextLegDepartureTime), undefined, LATER_TEXT,
       )}
     </div>
   );
@@ -349,6 +368,7 @@ const MovementUtil = {
   relistStatus: getRelistedStatus,
   updatedStatus: getUpdatedStatus,
   iataToCity: getCityByIataCode,
+  voyageText: toVoyageText,
 };
 
 export default MovementUtil;
@@ -382,4 +402,5 @@ export {
   getRelistedStatus,
   getUpdatedStatus,
   getCityByIataCode,
+  toVoyageText as getVoyageText,
 };
