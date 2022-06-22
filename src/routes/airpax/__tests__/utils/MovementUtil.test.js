@@ -608,6 +608,13 @@ describe('MovementUtil', () => {
     expect(MovementUtil.voyageText(PAST_DATE)).toEqual(EXPECTED);
   });
 
+  it('should return relative time text when given a date that is in the present/future', () => {
+    const EXPECTED = 'arriving in 2 years';
+    const PAST_DATE = dayjs.utc().add(2, 'year').format();
+
+    expect(MovementUtil.voyageText(PAST_DATE)).toEqual(EXPECTED);
+  });
+
   it('should return unknown text when given date is within an invalid range', () => {
     const PAST_DATES = [undefined, null, ''];
     PAST_DATES.forEach((date) => expect(MovementUtil.voyageText(date)).toEqual(UNKNOWN_TEXT));

@@ -28,14 +28,14 @@ const toVoyageText = (dateTime, isTaskDetails = false, prefix = '') => {
   if (isPastDate !== UNKNOWN_TEXT) {
     if (!isTaskDetails) {
       if (isPastDate) {
-        return `arrived ${time}`;
+        return `arrived ${time}`.trim();
       }
-      return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`;
+      return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
     }
     if (isPastDate) {
-      return `arrived at ${prefix} ${time}`;
+      return `arrived at ${prefix} ${time}`.trim();
     }
-    return `arrival at ${prefix} in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`;
+    return `arrival at ${prefix} in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
   }
   return UNKNOWN_TEXT;
 };
