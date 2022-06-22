@@ -1,5 +1,7 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import TaskSummary from '../TaskDetails/TaskSummary';
 import taskSummaryAirPaxData from '../__fixtures__/taskSummaryAirPaxData.fixture.json';
@@ -12,44 +14,79 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('TaskSummary', () => {
+  dayjs.extend(utc);
+
   it('should render the summary section', () => {
-    const { container } = render(<TaskSummary version={taskSummaryAirPaxData} airlineCodes={airlineCodes} />);
-    expect(container.firstChild.classList[0]).toEqual('task-list--voyage-section');
+    const { container } = render(
+      <TaskSummary
+        version={taskSummaryAirPaxData}
+        airlineCodes={airlineCodes}
+      />,
+    );
+    expect(container.firstChild.classList[0]).toEqual(
+      'task-list--voyage-section',
+    );
   });
 
   it('should display flight time that arrived in the past', () => {
+    taskSummaryAirPaxData.movement.journey = {
+      id: 'BA0103',
+      arrival: {
+        country: null,
+        location: 'YYC',
+        time: dayjs.utc().subtract(3, 'month').format(),
+      },
+      departure: {
+        country: null,
+        location: 'LHR',
+        time: '2022-07-10T12:30:01Z',
+      },
+      route: ['LHR', 'YYC', 'YYZ', 'CDG'],
+      duration: -4408761000,
+    };
+
     render(
       <TaskSummary
-        version={
-          {
-            ...taskSummaryAirPaxData,
-            journey: {
-              id: 'BA0103',
-              arrival: {
-                country: null,
-                location: 'YYC',
-                time: '2022-05-20T11:50:40Z',
-              },
-              departure: {
-                country: null,
-                location: 'LHR',
-                time: '2022-07-10T12:30:01Z',
-              },
-              route: [
-                'LHR',
-                'YYC',
-                'YYZ',
-                'CDG',
-              ],
-              duration: -4408761000,
-            },
-
-          }
-        }
+        version={{
+          ...taskSummaryAirPaxData,
+        }}
         airlineCodes={airlineCodes}
       />,
     );
 
-    expect(screen.getByText(/arrived at Calgary 2 months ago/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/arrived at Calgary 3 months ago/i),
+    ).toBeInTheDocument();
+  });
+
+  it('should display flight time arriving in the present/ future', () => {
+    const time = dayjs.utc().add(1, 'month').format();
+    taskSummaryAirPaxData.movement.journey = {
+      id: 'BA0103',
+      arrival: {
+        country: null,
+        location: 'YYC',
+        time,
+      },
+      departure: {
+        country: null,
+        location: 'LHR',
+        time: '2022-07-10T12:30:01Z',
+      },
+      route: ['LHR', 'YYC', 'YYZ', 'CDG'],
+      duration: -4408761000,
+    };
+    render(
+      <TaskSummary
+        version={{
+          ...taskSummaryAirPaxData,
+        }}
+        airlineCodes={airlineCodes}
+      />,
+    );
+
+    expect(
+      screen.getByText(/arrival at Calgary in a month/i),
+    ).toBeInTheDocument();
   });
 });

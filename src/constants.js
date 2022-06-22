@@ -51,6 +51,12 @@ export const FONT_CLASSES = {
   0: 'font__bold',
   1: 'font__light',
 };
+
+export const OPERATION = {
+  ADD: 'ADD',
+  SUBTRACT: 'SUBTRACT',
+};
+
 export const UNKNOWN_TIME_DATA = { h: null, m: null, s: null };
 export const CO_TRAVELLERS_TABLE_HEADERS = [
   'Traveller',
