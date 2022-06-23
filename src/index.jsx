@@ -3,13 +3,16 @@ import { render } from 'react-dom';
 import AppRouter from './routes';
 import { KeycloakProvider } from './utils/keycloak';
 import { TaskSelectedTabProvider } from './context/TaskSelectedTabContext';
+import { PnrAccessProvider } from './context/PnrAccessContext';
 import './__assets__/index.scss';
 
 render(
   <KeycloakProvider>
-    <TaskSelectedTabProvider>
-      <AppRouter />
-    </TaskSelectedTabProvider>
+    <PnrAccessProvider>
+      <TaskSelectedTabProvider>
+        <AppRouter />
+      </TaskSelectedTabProvider>
+    </PnrAccessProvider>
   </KeycloakProvider>,
   document.getElementById('root'),
 );

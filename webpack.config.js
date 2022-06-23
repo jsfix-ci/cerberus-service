@@ -75,6 +75,9 @@ module.exports = {
         pathRewrite: { '^/v2': '' },
         secure: false,
         changeOrigin: true,
+        onProxyReq(request) {
+          request.setHeader('origin', process.env.TARGETING_API_URL);
+        },
       },
     },
   },
