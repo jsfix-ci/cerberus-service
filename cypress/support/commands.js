@@ -1834,6 +1834,30 @@ Cypress.Commands.add('createAirPaxTask', (task) => {
   });
 });
 
+Cypress.Commands.add('issueAirPaxTask', (task) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/v2/targets`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(201);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('dismissAirPaxTask', (task, businessKey) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/v2/targeting-tasks/${businessKey}/dismissals`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
 Cypress.Commands.add('sendPNRrequest', () => {
   cy.request({
     method: 'POST',
