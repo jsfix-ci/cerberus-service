@@ -494,7 +494,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
   });
 
   it('Should verify task overview page for a task from each tab loads successfully', () => {
-     cy.acceptPNRTerms();
+    cy.acceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -525,7 +525,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
-        cy.contains('In progress').click()
+        cy.contains('In progress').click();
         cy.get('.govuk-task-list-card').then(($taskListCard) => {
           if ($taskListCard.text().includes(businessKey)) {
             cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
@@ -554,14 +554,14 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
               if ($taskListCard.text().includes(businessKey)) {
                 cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
                   cy.get('a.govuk-link')
-                  .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
-                  .click();
-                cy.wait(2000)
+                    .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
+                    .click();
+                  cy.wait(2000)
                 });
               }
             });
-          })
-        })
+          });
+        });
         cy.get('.govuk-caption-xl').should('have.text', businessKey);
         cy.fixture('airpax/dismiss-task-airpax.json').then((dismissTask) => {
           dismissTask.userId = Cypress.env('userName');
@@ -569,7 +569,6 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           cy.dismissAirPaxTask(dismissTask, businessKey).then((dismissTaskResponse) => {
             expect(dismissTaskResponse.id).to.equals(businessKey);
             expect(dismissTaskResponse.status).to.equals('COMPLETE');
-            console.log(dismissTask)
             cy.wait(2000);
             cy.visit('/airpax/tasks');
             cy.wait('@taskList').then(({ response }) => {
@@ -582,7 +581,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
                   cy.get('a.govuk-link')
                     .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
                     .click();
-                  cy.wait(2000)
+                  cy.wait(2000);
                 });
               }
             });
