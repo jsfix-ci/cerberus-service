@@ -214,9 +214,20 @@ export const TAB_STATUS_MAPPING = {
   complete: 'COMPLETE',
 };
 
+export const TASK_STATUS_MAPPING = {
+  new: 'new',
+  inProgress: 'in progress',
+  issued: 'issued',
+  complete: 'complete',
+};
+
 export const FORM_ACTIONS = {
   CANCEL: 'cancel',
   NEXT: 'next',
 };
 
 export const TASK_LIST_PATHS = ['/airpax/tasks', '/tasks'];
+
+export const STATUS_CODES = {
+  FORBIDDEN: 403,
+};

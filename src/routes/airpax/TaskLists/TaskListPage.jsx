@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 import { useIsMounted } from '../../../utils/hooks';
 
 import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
@@ -42,6 +43,7 @@ const TaskListPage = () => {
   const history = useHistory();
   const isMounted = useIsMounted();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const source = axios.CancelToken.source();
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
@@ -49,13 +51,16 @@ const TaskListPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   const [rulesOptions, setRulesOptions] = useState([]);
+  const [canViewPnr, setCanViewPnr] = useState(true);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
 
   const getRulesOptions = async () => {
     try {
       const response = await apiClient.get('/filters/rules');
+      if (!isMounted.current) return null;
       setRulesOptions(response.data);
     } catch (e) {
+      if (!isMounted.current) return null;
       setError(e.message);
       setRulesOptions([]);
     }
@@ -165,6 +170,9 @@ const TaskListPage = () => {
 
   useEffect(() => {
     getRulesOptions();
+    return () => {
+      source.cancel('Cancelling request');
+    };
   }, []);
 
   useEffect(() => {
@@ -241,6 +249,8 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.new}
+                      canViewPnr={canViewPnr}
+                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
@@ -256,6 +266,8 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.inProgress}
+                      canViewPnr={canViewPnr}
+                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
@@ -271,6 +283,8 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.issued}
+                      canViewPnr={canViewPnr}
+                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
@@ -286,6 +300,8 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.complete}
+                      canViewPnr={canViewPnr}
+                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
