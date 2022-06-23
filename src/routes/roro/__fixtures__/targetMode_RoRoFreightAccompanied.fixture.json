@@ -5,7 +5,7 @@
   "data": [
     {
       "id": 8,
-      "mode": "RoRo Accompanied Freight",
+      "mode": "RoRo Freight Accompanied",
       "modecode": "rorofrac",
       "crossingtype": [
         "sea"
