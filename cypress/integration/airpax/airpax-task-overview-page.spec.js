@@ -493,7 +493,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it.only('Should verify task overview page for a task from each tab loads successfully', () => {
+  it('Should verify task overview page for a task from each tab loads successfully', () => {
      cy.acceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
