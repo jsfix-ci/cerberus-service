@@ -556,7 +556,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
                   cy.get('a.govuk-link')
                     .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
                     .click();
-                  cy.wait(2000)
+                  cy.wait(2000);
                 });
               }
             });
