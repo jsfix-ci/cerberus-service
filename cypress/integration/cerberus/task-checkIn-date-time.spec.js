@@ -2,6 +2,7 @@ describe('Targeter to see how long before departure check-in occurs So that Targ
   // COP-9849
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   it('Should verify Difference between Checkin and departure date is a few seconds ago', () => {

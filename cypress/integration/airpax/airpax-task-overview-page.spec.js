@@ -1,4 +1,9 @@
+import { formatVoyageText } from '../../../src/utils/stringConversion';
+
 describe('AirPax Tasks overview Page - Should check All user journeys', () => {
+  const departureTime = Cypress.dayjs().utc().valueOf();
+  const arrivalTimeInPast = Cypress.dayjs().utc().subtract(1, 'day').valueOf();
+  const arrivalTimeInFeature = Cypress.dayjs().utc().add(3, 'hour').valueOf();
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
   });
@@ -179,30 +184,6 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.checkAirPaxTaskDisplayed(businessKey);
 
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim');
-      });
-    });
-  });
-
-  it('Should check AirPax task information on task overview', () => {
-    cy.acceptPNRTerms();
-    const taskName = 'AIRPAX';
-    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
-    cy.fixture('airpax/task-airpax.json').then((task) => {
-      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
-        expect(taskResponse.movement.id).to.contain('AIRPAX');
-        cy.wait(4000);
-        let businessKey = taskResponse.id;
-        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
-        cy.visit('/airpax/tasks');
-        cy.wait('@airpaxTask').then(({ response }) => {
-          expect(response.statusCode).to.be.equal(200);
-        });
-        cy.get('@expectedData').then((expectedTaskSumary) => {
-          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
-            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
-          });
-        });
       });
     });
   });
@@ -588,6 +569,68 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           });
         });
         cy.get('.govuk-caption-xl').should('have.text', businessKey);
+      });
+    });
+  });
+
+  it('Should check AirPax task information with arrival details in the feature on task overview', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
+      task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInFeature;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain(taskName);
+        cy.wait(5000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expectedData').then((expectedTaskSumary) => {
+          expectedTaskSumary.flightArrivalTime = formatVoyageText(arrivalTimeInFeature);
+          expectedTaskSumary.arrivalDateTime = Cypress.dayjs(arrivalTimeInFeature).utc().format('D MMM YYYY [at] HH:mm');
+          const departureDateTimeFormatted = Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm');
+          expectedTaskSumary.departureDateTime = `${task.data.movement.voyage.voyage.routeId}${departureDateTimeFormatted}`;
+          cy.wait(2000);
+          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
+            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
+          });
+        });
+      });
+    });
+  });
+
+  it('Should check AirPax task information with arrival details in the past on task overview', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
+      task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInPast;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain(taskName);
+        cy.wait(5000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expectedData').then((expectedTaskSumary) => {
+          expectedTaskSumary.flightArrivalTime = formatVoyageText(task.data.movement.voyage.voyage.scheduledArrivalTimestamp);
+          expectedTaskSumary.arrivalDateTime = Cypress.dayjs(arrivalTimeInPast).utc().format('D MMM YYYY [at] HH:mm');
+          const departureDateTimeFormatted = Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm');
+          expectedTaskSumary.departureDateTime = `${task.data.movement.voyage.voyage.routeId}${departureDateTimeFormatted}`;
+          cy.wait(2000);
+          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
+            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
+          });
+        });
       });
     });
   });

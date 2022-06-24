@@ -1,6 +1,7 @@
 describe('Create task with different payload from Cerberus', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   it('Should create a task with a payload contains hazardous cargo without description and passport number as null', () => {

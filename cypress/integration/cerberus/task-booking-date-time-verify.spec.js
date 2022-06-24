@@ -2,6 +2,7 @@ describe('Targeter to see how long before a task is due to arrive So that Target
   // COP-9050
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   it('Should verify Difference between Departure and booking date is a month before travel', () => {
