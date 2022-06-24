@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button } from '@ukhomeoffice/cop-react-components';
 import { useInterval } from 'react-use';
 import { useLocation } from 'react-router-dom';
@@ -22,13 +22,13 @@ import Pagination from '../../../components/Pagination';
 import TaskListCard from './TaskListCard';
 import { STATUS_CODES, PNR_USER_SESSION_ID, TASK_STATUS_MAPPING } from '../../../constants';
 
+import { PnrAccessContext } from '../../../context/PnrAccessContext';
+
 const TasksTab = ({
   taskStatus,
   filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' },
   setError,
   targetTaskCount = 0,
-  canViewPnr,
-  setCanViewPnr,
 }) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
@@ -39,6 +39,8 @@ const TasksTab = ({
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
   const source = axios.CancelToken.source();
+
+  const { canViewPnrData } = useContext(PnrAccessContext);
 
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
@@ -90,8 +92,6 @@ const TasksTab = ({
     } catch (e) {
       if (!e.message.endsWith(STATUS_CODES.FORBIDDEN)) {
         setError(e.message);
-      } else if (e.message.endsWith(STATUS_CODES.FORBIDDEN)) {
-        setCanViewPnr(false);
       }
       setTargetTasks([]);
     } finally {
@@ -152,7 +152,7 @@ const TasksTab = ({
     return <LoadingSpinner />;
   }
 
-  if (!canViewPnr) {
+  if (!canViewPnrData) {
     const formattedStatus = TASK_STATUS_MAPPING[taskStatus];
     return (
       <>
@@ -168,7 +168,7 @@ const TasksTab = ({
     );
   }
 
-  if (targetTasks.length === 0 && canViewPnr) {
+  if (targetTasks.length === 0 && canViewPnrData) {
     return <p className="govuk-body-l">There are no {TASK_STATUS_MAPPING[taskStatus]} tasks</p>;
   }
 

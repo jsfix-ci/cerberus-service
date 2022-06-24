@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import config from '../../config';
 import { Renderers } from '../../utils/Form';
 import { useKeycloak } from '../../utils/keycloak';
 import useAxiosInstance from '../../utils/axiosInstance';
+
+import { PnrAccessContext } from '../../context/PnrAccessContext';
 
 import { PNR_USER_SESSION_ID } from '../../constants';
 
@@ -19,6 +21,7 @@ import viewPnrData from '../../cop-forms/viewPnrData';
 const PnrAccessRequest = ({ children }) => {
   const [isSubmitted, setSubmitted] = useState(false);
   const [displayForm, setDisplayForm] = useState(false);
+  const { setViewPnrData } = useContext(PnrAccessContext);
 
   const keycloak = useKeycloak();
   const taskApiClient = useAxiosInstance(keycloak, config.taskApiUrl);
@@ -76,6 +79,7 @@ const PnrAccessRequest = ({ children }) => {
                           },
                         );
                         storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
+                        setViewPnrData(response.data.requested);
                       } catch (e) {
                         setSubmitted(false);
                       } finally {

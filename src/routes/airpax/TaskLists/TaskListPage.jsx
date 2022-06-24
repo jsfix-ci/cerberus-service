@@ -51,7 +51,6 @@ const TaskListPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   const [rulesOptions, setRulesOptions] = useState([]);
-  const [canViewPnr, setCanViewPnr] = useState(true);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
 
   const getRulesOptions = async () => {
@@ -249,8 +248,6 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.new}
-                      canViewPnr={canViewPnr}
-                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
@@ -266,8 +263,6 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.inProgress}
-                      canViewPnr={canViewPnr}
-                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
@@ -283,8 +278,6 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.issued}
-                      canViewPnr={canViewPnr}
-                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
@@ -300,8 +293,6 @@ const TaskListPage = () => {
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.complete}
-                      canViewPnr={canViewPnr}
-                      setCanViewPnr={setCanViewPnr}
                     />
                   </>
                 ),
