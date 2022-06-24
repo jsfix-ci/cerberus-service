@@ -1,5 +1,11 @@
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
 import { DateTimeUtil } from '../../utils';
+
 import { LONG_DATE_FORMAT, UNKNOWN_TEXT } from '../../../../constants';
+
+dayjs.extend(utc);
 
 describe('DateTimeUtil', () => {
   it('should format the date if present', () => {
@@ -25,5 +31,15 @@ describe('DateTimeUtil', () => {
     expect(Array.isArray(output)).toBeTruthy();
     expect(output).toHaveLength(2);
     expect(output).toMatchObject([dateOne, dateTwo]);
+  });
+
+  it('should return true if date is in past', () => {
+    const dateOne = '1966-05-13T00:00:00Z';
+    expect(DateTimeUtil.isPast(dateOne)).toEqual(true);
+  });
+
+  it('should return false if date is in future', () => {
+    const dateOne = dayjs().utc().add(1, 'year').format();
+    expect(DateTimeUtil.isPast(dateOne)).toEqual(false);
   });
 });

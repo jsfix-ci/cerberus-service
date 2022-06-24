@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 import { useIsMounted } from '../../../utils/hooks';
 
 import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
@@ -42,6 +43,7 @@ const TaskListPage = () => {
   const history = useHistory();
   const isMounted = useIsMounted();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const source = axios.CancelToken.source();
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
@@ -54,8 +56,10 @@ const TaskListPage = () => {
   const getRulesOptions = async () => {
     try {
       const response = await apiClient.get('/filters/rules');
+      if (!isMounted.current) return null;
       setRulesOptions(response.data);
     } catch (e) {
+      if (!isMounted.current) return null;
       setError(e.message);
       setRulesOptions([]);
     }
@@ -165,6 +169,9 @@ const TaskListPage = () => {
 
   useEffect(() => {
     getRulesOptions();
+    return () => {
+      source.cancel('Cancelling request');
+    };
   }, []);
 
   useEffect(() => {
