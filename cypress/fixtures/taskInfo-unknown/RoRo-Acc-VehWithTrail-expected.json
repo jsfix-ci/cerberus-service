@@ -7,11 +7,9 @@
     "departureDateTime": "4 Aug 2020 at 13:05",
     "arrivalPort": "unknown",
     "arrivalDateTime": "4 Aug 2020 at 13:35",
-    "driverEnrichmentCount": "(-/-/-)",
-    "driverFirstName": "? trips",
     "vehicleEnrichmentCount": "(-/-/-)",
     "vehicleRegistration": "0 trips",
-    "passengerDetails": "0 passengers",
+    "passengerDetails": "None",
     "accountEnrichmentCount": "(-/-/-)",
     "bookedDateTime": "Booked on 02/08/2020",
     "bookedDetails": "Booked 2 days before travel",
@@ -20,7 +18,8 @@
     "goods": "Unknown",
     "trailerRegistration": "NL-234-392",
     "trailerTrips": "0 trips",
-    "riskScore": "Risk Score: 0"
+    "riskScore": "Risk Score: 0",
+    "driverFirstName": "Unknown"
   },
   "taskSummary": {
     "vehicle": "TrailerNL-234-392",
