@@ -1919,6 +1919,59 @@ Cypress.Commands.add('issueAirPaxTask', (task) => {
   });
 });
 
+Cypress.Commands.add('acknowledgeTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/acknowledgements`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('captureTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/captures`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('claimTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('recordOutcome', (target, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/outcomes`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: target,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
 Cypress.Commands.add('dismissAirPaxTask', (task, businessKey) => {
   cy.request({
     method: 'POST',
@@ -1947,8 +2000,8 @@ Cypress.Commands.add('setTimeOffset', (time) => {
     url: `https://${targetingApiUrl}/current-time/offset`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      "offset": time
-    }
+      'offset': time,
+    },
   }).then((response) => {
     expect(response.status).to.eq(200);
   });
@@ -1958,7 +2011,7 @@ Cypress.Commands.add('reSetTimeOffset', () => {
   cy.request({
     method: 'DELETE',
     url: `https://${targetingApiUrl}/current-time/offset`,
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(204);
   });
@@ -1968,7 +2021,7 @@ Cypress.Commands.add('archiveTasks', () => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/jobs/archive/targeting-tasks`,
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(204);
   });
@@ -1978,7 +2031,7 @@ Cypress.Commands.add('getArchivedTasks', () => {
   cy.request({
     method: 'GET',
     url: `https://${targetingApiUrl}/v2/targeting-tasks/archive`,
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     return response.body;
   });

@@ -544,7 +544,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           });
         });
         cy.get('.govuk-caption-xl').should('have.text', businessKey);
-        cy.fixture('airpax/dismiss-task-airpax.json').then((dismissTask) => {
+        cy.fixture('dismiss-task.json').then((dismissTask) => {
           dismissTask.userId = Cypress.env('userName');
           console.log(dismissTask);
           cy.dismissAirPaxTask(dismissTask, businessKey).then((dismissTaskResponse) => {
