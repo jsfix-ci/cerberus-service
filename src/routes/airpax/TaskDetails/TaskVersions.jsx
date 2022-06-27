@@ -30,7 +30,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
 
   const getPNRData = async (taskId, versionNumber) => {
     try {
-      const response = await apiClient.get(`/targeting-task/${taskId}/passenger-name-record-versions/${versionNumber}`);
+      const response = await apiClient.get(`/targeting-tasks/${taskId}/passenger-name-record-versions/${versionNumber}`);
       setPnrData(response.data);
     } catch (e) {
       setPnrData();
@@ -88,7 +88,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
             id: 'pnr-data',
             label: 'PNR Data',
             panel: (
-              <p>{pnrData ? pnrData.raw : 'PNR data not available'}</p>
+              <p className="word-break">{pnrData ? pnrData.raw : 'PNR data not available'}</p>
             ),
           },
         ]}
