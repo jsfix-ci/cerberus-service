@@ -240,20 +240,18 @@ describe('TaskNotes', () => {
     />));
 
     // Type into the textarea...
-    const firsttextarea = container.getElementsByClassName('govuk-textarea')[0];
-    fireEvent.change(firsttextarea, { target: { name: 'note', value: firstinput } });
+    let textarea = container.getElementsByClassName('govuk-textarea')[0];
+    fireEvent.change(textarea, { target: { name: 'note', value: firstinput } });
 
     // ... and then click on the submit button.
-    const submit = container.getElementsByClassName('hods-button')[0];
-    await waitFor(() => userEvent.click(submit));
+    await waitFor(() => userEvent.click(container.getElementsByClassName('hods-button')[0]));
 
     // Type into the textarea again...
-    const secondtextarea = container.getElementsByClassName('govuk-textarea')[0];
-    fireEvent.change(secondtextarea, { target: { name: 'note', value: secondinput } });
+    textarea = container.getElementsByClassName('govuk-textarea')[0];
+    fireEvent.change(textarea, { target: { name: 'note', value: secondinput } });
 
     // ... and then click on the submit button. again
-    const secondsubmit = container.getElementsByClassName('hods-button')[0];
-    await waitFor(() => userEvent.click(secondsubmit));
+    await waitFor(() => userEvent.click(container.getElementsByClassName('hods-button')[0]));
 
     const firstRequestPayload = mockAxios.history.post[0].data;
     const firstParsedPayload = JSON.parse(firstRequestPayload)[0].content;
