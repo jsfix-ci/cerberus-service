@@ -24,20 +24,57 @@ describe('Verify AirPax task details of different sections', () => {
   });
 
   it('Should check airPax task not visible if User not agreed for PNR terms', () => {
+    const expectedText = 'You do not have access to view new PNR data. \n'
+        + '          To view new PNR data, \n'
+        + '          you will need to request access.';
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
     cy.doNotAcceptPNRTerms();
     cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(403);
     });
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText);
+    });
+    cy.get('a[href="#inProgress"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'in progress'));
+    });
+    cy.get('a[href="#issued"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'issued'));
+    });
+    cy.get('a[href="#complete"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'complete'));
+    });
   });
 
   it('Should check airPax task not visible if User not in the authorised location', () => {
+    const expectedText = 'You do not have access to view new PNR data. \n'
+        + '          To view new PNR data, \n'
+        + '          you will need to request access.';
+
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
     cy.userNotInApprovedLocation();
     cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(403);
+    });
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText);
+    });
+    cy.get('a[href="#inProgress"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'in progress'));
+    });
+    cy.get('a[href="#issued"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'issued'));
+    });
+    cy.get('a[href="#complete"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'complete'));
     });
   });
 
