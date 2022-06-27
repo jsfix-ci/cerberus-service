@@ -1,6 +1,6 @@
 {
   "env": {
-    "userName": "cypressuser-cerberus@lodev.xyz"
+    "targetingApiUrl": "localhost:9443"
   },
   "defaultCommandTimeout": 10000,
   "requestTimeout": 60000,
@@ -20,5 +20,6 @@
     "overwrite": false,
     "reportTitle": "cerberus-tests"
   },
-  "screenshotsFolder": "mochawesome-report/assets"
+  "screenshotsFolder": "mochawesome-report/assets",
+  "baseUrl": "https://www.dev.cerberus.cop.homeoffice.gov.uk"
 }
