@@ -493,6 +493,37 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Task summary of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    const departureTime = Cypress.dayjs().utc().valueOf();
+    const arrivalTimeInFeature = Cypress.dayjs().utc().add(3, 'hour').valueOf();
+    cy.intercept('GET', '/v2/targeting-tasks/*').as('task');
+    cy.fixture('airpax/airpax-task-details-summary.json').as('expTestData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
+      task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInFeature;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.wait('@task').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expTestData').then((expTestData) => {
+          cy.checkAirPaxTaskSummaryDetails().then((taskSummary) => {
+            cy.toVoyageText(Cypress.dayjs(task.data.movement.voyage.voyage.scheduledArrivalTimestamp), true, 'Calgary').then((arrivalTime) => {
+              expTestData.taskSummary.FlightInfo = `British Airways flight,               ${arrivalTime}`;
+              expTestData.taskSummary.Arrival = `YYC${Cypress.dayjs(arrivalTimeInFeature).utc().format('D MMM YYYY [at] HH:mm')}`;
+              expTestData.taskSummary.Departure = `BA0103${Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm')}LHR`;
+              expect(taskSummary).to.deep.equal(expTestData.taskSummary);
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

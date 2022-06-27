@@ -6,6 +6,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     date = new Date();
     dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   it('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {

@@ -4,6 +4,7 @@
 describe('Cerberus User not in the Targeters Group should not have access to tasks', () => {
   beforeEach(() => {
     cy.login('cypressuser@lodev.xyz');
+    cy.acceptPNRTerms();
     cy.intercept('GET', '/camunda/variable-instance?variableName=taskSummaryBasedOnTIS&processInstanceIdIn=**').as('tasks');
     cy.navigation('Tasks');
   });

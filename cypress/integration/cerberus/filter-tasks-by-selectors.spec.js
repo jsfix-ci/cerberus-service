@@ -17,6 +17,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
     cy.navigation('Tasks');
   });
 
