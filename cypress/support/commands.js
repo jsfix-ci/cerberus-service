@@ -2175,7 +2175,6 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
   });
 });
 
-
 Cypress.Commands.add('unClaimAirPaxTask', () => {
   cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
   cy.contains('Unclaim task').click();
