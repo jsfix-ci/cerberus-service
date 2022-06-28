@@ -19,6 +19,7 @@ dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 let token;
 
 const cerberusServiceUrl = Cypress.env('cerberusServiceUrl');
+const targetingApiUrl = Cypress.env('targetingApiUrl');
 const realm = Cypress.env('auth_realm');
 const formioComponent = '.formio-component-';
 const formioErrorText = '.govuk-error-message > div';
@@ -1897,7 +1898,7 @@ Cypress.Commands.add('verifyDateTime', (elementName, dateTimeFormatted) => {
 Cypress.Commands.add('createAirPaxTask', (task) => {
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/v2/movement-records`,
+    url: `https://${targetingApiUrl}/v2/movement-records`,
     headers: { Authorization: `Bearer ${token}` },
     body: task,
   }).then((response) => {
@@ -1909,11 +1910,64 @@ Cypress.Commands.add('createAirPaxTask', (task) => {
 Cypress.Commands.add('issueAirPaxTask', (task) => {
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/v2/targets`,
+    url: `https://${targetingApiUrl}/v2/targets`,
     headers: { Authorization: `Bearer ${token}` },
     body: task,
   }).then((response) => {
     expect(response.status).to.eq(201);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('acknowledgeTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/acknowledgements`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('captureTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/captures`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('claimTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('recordOutcome', (target, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/outcomes`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: target,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
     return response.body;
   });
 });
@@ -1921,23 +1975,11 @@ Cypress.Commands.add('issueAirPaxTask', (task) => {
 Cypress.Commands.add('dismissAirPaxTask', (task, businessKey) => {
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/v2/targeting-tasks/${businessKey}/dismissals`,
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${businessKey}/dismissals`,
     headers: { Authorization: `Bearer ${token}` },
     body: task,
   }).then((response) => {
     expect(response.status).to.eq(200);
-    return response.body;
-  });
-});
-
-Cypress.Commands.add('createAirPaxTaskWithCustomDetails', (task) => {
-  cy.request({
-    method: 'POST',
-    url: `https://${cerberusServiceUrl}/v2/movement-records`,
-    headers: { Authorization: `Bearer ${token}` },
-    body: task,
-  }).then((response) => {
-    expect(response.status).to.eq(201);
     return response.body;
   });
 });
@@ -1945,10 +1987,53 @@ Cypress.Commands.add('createAirPaxTaskWithCustomDetails', (task) => {
 Cypress.Commands.add('sendPNRrequest', () => {
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/v2/passenger-name-record-access-requests`,
+    url: `https://${targetingApiUrl}/v2/passenger-name-record-access-requests`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('setTimeOffset', (time) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/current-time/offset`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'offset': time,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('reSetTimeOffset', () => {
+  cy.request({
+    method: 'DELETE',
+    url: `https://${targetingApiUrl}/current-time/offset`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+  });
+});
+
+Cypress.Commands.add('archiveTasks', () => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/jobs/archive/targeting-tasks`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+  });
+});
+
+Cypress.Commands.add('getArchivedTasks', () => {
+  cy.request({
+    method: 'GET',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/archive`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    return response.body;
   });
 });
 
@@ -2067,10 +2152,23 @@ Cypress.Commands.add('claimAirPaxTask', () => {
 Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
   cy.request({
     method: 'POST',
-    url: `https://${cerberusServiceUrl}/v2/targeting-tasks/${taskId}/claim`,
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
       'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
     },
   }).then((response) => {
     expect(response.status).to.eq(200);

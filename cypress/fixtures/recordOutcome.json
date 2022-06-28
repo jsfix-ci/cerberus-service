@@ -1,0 +1,72 @@
+{
+  "outcome": "%OUTCOME%",
+  "anyoneArrested": false,
+  "returnTickets": false,
+  "destination": "not sure, didn't show",
+  "user": {
+    "email": "%USER_ID%",
+    "name": "Joe Bloggs"
+  },
+  "shift": {
+    "roles": [
+      "formbuilder-edit",
+      "default-roles-cop-dev",
+      "offline_access",
+      "process_admin",
+      "uma_authorization",
+      "formbuilder-readonly"
+    ],
+    "team": {
+      "id": "419f0bd7-7468-4892-bf9b-f6601d26cacb",
+      "displayname": "Border Systems - COP Admins",
+      "code": "COP_ADMIN",
+      "grouptypeid": 1,
+      "branchid": 10,
+      "keycloakgrouppath": "/COP_ADMIN",
+      "locationid": null,
+      "name": "COP_ADMIN",
+      "selfmanaged": false,
+      "teamid": "f8acd1d6-03da-44c0-a5f7-843efb00361c"
+    },
+    "group": {
+      "id": "419f0bd7-7468-4892-bf9b-f6601d26cacb",
+      "displayname": "Border Systems - COP Admins",
+      "code": "COP_ADMIN",
+      "grouptypeid": 1,
+      "branchid": 10,
+      "keycloakgrouppath": "/COP_ADMIN",
+      "locationid": null,
+      "name": "COP_ADMIN",
+      "selfmanaged": false,
+      "teamid": "f8acd1d6-03da-44c0-a5f7-843efb00361c"
+    },
+    "groups": [
+      "/COP_ADMIN",
+      "/GP0SISLS",
+      "/GP6H24MH",
+      "/GP6PO2H9",
+      "/GP6PO2K2",
+      "/GP6R02K1",
+      "/GP6R02K3",
+      "/GP6R02K7",
+      "/GP6R02K8",
+      "/GP6R02K9",
+      "/GPCSG01J",
+      "/GPLQQM5Q",
+      "/GPT4EHM5",
+      "/bf-intel-targeters",
+      "/bfrole",
+      "/camunda-admin",
+      "/copge",
+      "/process_admin"
+    ]
+  },
+  "form": {
+    "formVersionId": "53a52b33-832e-48a9-97cd-05652367312e",
+    "formId": "1ba679ec-792d-48bb-855c-303fdee35679",
+    "title": "Record Target Outcome",
+    "name": "recordTargetOutcome",
+    "submissionDate": "2022-05-24T08:03:40.739Z",
+    "submittedBy": "%USER_ID%"
+  }
+}
