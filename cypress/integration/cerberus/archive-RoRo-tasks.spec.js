@@ -80,7 +80,7 @@ describe('Airpax tasks archive functionality', () => {
               target.user.email = userName;
               target.form.submittedBy = userName;
               cy.recordOutcome(target, taskID).then((targetResponse) => {
-                console.log(targetResponse);
+                expect(targetResponse.outcome).to.equal('NO_SHOW');
               });
             });
           });
