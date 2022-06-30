@@ -80,8 +80,11 @@ const TaskDetailsPage = () => {
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
   const toModeCode = (mode) => {
-    if (/RORO [A-Z]* Freight/i.test(mode)) {
-      return 'rorofrei';
+    if (/RORO Accompanied Freight/i.test(mode)) {
+      return 'rorofrac';
+    }
+    if (/RORO Unaccompanied Freight/i.test(mode)) {
+      return 'rorofrun';
     }
     if (/RORO Tourist/i.test(mode)) {
       return 'rorotour';

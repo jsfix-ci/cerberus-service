@@ -2,6 +2,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   let dateNowFormatted;
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   before(() => {
@@ -1038,6 +1039,22 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           cy.visit('/tasks');
           cy.checkTaskUpdateAndRelistStatus('RORO_UNACCOMPANIED_FREIGHT', taskResponse);
         });
+      });
+    });
+  });
+
+  it('Should verify Matched Rules with rule name Selector Matched Rule not visible on task details page', () => {
+    cy.fixture('task-roro-selectors-selector-matched-rule.json').then((task) => {
+      let date = new Date();
+      let formattedDate = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${formattedDate}-${mode}-SELCTOR_MATCHED-RULE`).then((response) => {
+        cy.wait(4000);
+        let businessKey = response.businessKey;
+        cy.checkTaskDisplayed(businessKey);
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
       });
     });
   });

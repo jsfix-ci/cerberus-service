@@ -7,6 +7,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
 
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
     cy.navigation('Tasks');
   });

@@ -1,37 +1,37 @@
 {
-  "passengerGroup": "Single passenger",
+  "passengerGroup": "In group of 2",
   "passengerType": "Passenger DC",
   "departureStatus": "DC",
   "flightName": "British Airways",
   "flightNumber": "flight BA0103",
-  "flightArrivalTime": "arrival 2 hours before travel",
+  "flightArrivalTime": "arriving in 3 hours",
   "departureAirPort": "LHR",
-  "departureDateTime": "BA010321 Jul 2019 at 16:40",
+  "departureDateTime": "BA010324 Jun 2022 at 10:10",
   "arrivalAirPort": "YYC",
-  "arrivalDateTime": "21 Jul 2019 at 18:35",
+  "arrivalDateTime": "24 Jun 2022 at 13:10",
   "passengerDetails": {
-    "firstName": "BATZ STOUP, ",
-    "lastName": "ZUES CARLO",
-    "gender": "Male, ",
-    "dateOfBirth": "10 Dec 1976, ",
-    "nationality": "GB",
-    "checkedBaggage": "Unknown, ",
-    "baggageWeight": "Unknown ",
-    "checkInTime": "Check-in 16:43, ",
+    "firstName": "TESTING FAMILYNAME, ",
+    "lastName": "Testing GivenName",
+    "gender": "Female, ",
+    "dateOfBirth": "30 Dec 1976, ",
+    "nationality": "AU",
+    "checkedBaggage": "1 checked bag, ",
+    "baggageWeight": "23kg ",
+    "checkInTime": "Check-in 13:00, ",
     "SeatNumber": "seat 34A "
   },
   "documentDetails": {
-    "passportNumber": "119039375 (GB)",
+    "passportNumber": "119039375 (AU)",
     "validity": "Valid from 27 Apr 2018",
     "expiryDate": "Expires 26 Apr 2023",
     "issuedBy": "Issued by GB"
   },
   "bookingDetails": {
     "pnr": "LSV4UV",
-    "bookingDateTime": "Unknown",
-    "bookingDuration": "Unknown"
+    "bookingDateTime": "09 Jun 2022",
+    "bookingDuration": "15 days before travel"
   },
-  "coTraveller": "None",
+  "coTraveller": "BATZ STOUP, ZUES CARLO ",
   "route": "CDG → YYZ → YYC → LHR  ",
   "riskScore": "Risk Score: 0"
 }

@@ -18,6 +18,7 @@ describe('Task Details of different tasks on task details Page', () => {
   let dateNowFormatted;
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   before(() => {

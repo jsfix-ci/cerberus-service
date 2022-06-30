@@ -24,20 +24,57 @@ describe('Verify AirPax task details of different sections', () => {
   });
 
   it('Should check airPax task not visible if User not agreed for PNR terms', () => {
+    const expectedText = 'You do not have access to view new PNR data. \n'
+        + '          To view new PNR data, \n'
+        + '          you will need to request access.';
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
     cy.doNotAcceptPNRTerms();
     cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(403);
     });
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText);
+    });
+    cy.get('a[href="#inProgress"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'in progress'));
+    });
+    cy.get('a[href="#issued"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'issued'));
+    });
+    cy.get('a[href="#complete"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'complete'));
+    });
   });
 
   it('Should check airPax task not visible if User not in the authorised location', () => {
+    const expectedText = 'You do not have access to view new PNR data. \n'
+        + '          To view new PNR data, \n'
+        + '          you will need to request access.';
+
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
     cy.userNotInApprovedLocation();
     cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(403);
+    });
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText);
+    });
+    cy.get('a[href="#inProgress"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'in progress'));
+    });
+    cy.get('a[href="#issued"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'issued'));
+    });
+    cy.get('a[href="#complete"]').click();
+    cy.get('.govuk-body-l').invoke('text').then((text) => {
+      expect(text.trim()).to.be.equal(expectedText.replace(/new/g, 'complete'));
     });
   });
 
@@ -191,6 +228,20 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Matched Rules with rule name Selector Matched Rule not visible on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax-selectors-selector-matched-rule.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
+      });
+    });
+  });
+
   it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
     cy.acceptPNRTerms();
     const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
@@ -274,6 +325,9 @@ describe('Verify AirPax task details of different sections', () => {
     const nextPage = 'a[data-test="next"]';
     cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.matchedRules[0].rulePriority = 'Tier 2';
+      task.data.matchedRules[1].rulePriority = 'Tier 3';
+      task.data.matchedRules[2].rulePriority = 'Tier 2';
       cy.createAirPaxTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain(taskName);
         cy.wait(4000);
@@ -312,14 +366,14 @@ describe('Verify AirPax task details of different sections', () => {
           if ($el.find(nextPage).length > 0) {
             cy.findTaskInAllThePages(`${businessKey}`, null, {
               risk: 'Alcohol and 2 other rules',
-              riskTier: 'Tier 1',
+              riskTier: 'Tier 2',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
             });
           } else {
             cy.findTaskInSinglePage(`${businessKey}`, null, {
               risk: 'Alcohol and 2 other rules',
-              riskTier: 'Tier 1',
+              riskTier: 'Tier 2',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
             });
@@ -436,6 +490,7 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
   });
+
   it('Should verify Itinerary details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTOTEST';
@@ -488,6 +543,80 @@ describe('Verify AirPax task details of different sections', () => {
               expect(actualVoyageDetails).to.deep.equal(expectedDetails.Voyage);
             });
           });
+        });
+      });
+    });
+  });
+
+  it('Should verify Task summary of an AirPax task on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    const departureTime = Cypress.dayjs().utc().valueOf();
+    const arrivalTimeInFeature = Cypress.dayjs().utc().add(3, 'hour').valueOf();
+    cy.intercept('GET', '/v2/targeting-tasks/*').as('task');
+    cy.fixture('airpax/airpax-task-details-summary.json').as('expTestData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
+      task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInFeature;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.wait('@task').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expTestData').then((expTestData) => {
+          cy.checkAirPaxTaskSummaryDetails().then((taskSummary) => {
+            cy.toVoyageText(Cypress.dayjs(task.data.movement.voyage.voyage.scheduledArrivalTimestamp), true, 'Calgary').then((arrivalTime) => {
+              expTestData.taskSummary.FlightInfo = `British Airways flight,               ${arrivalTime}`;
+              expTestData.taskSummary.Arrival = `YYC${Cypress.dayjs(arrivalTimeInFeature).utc().format('D MMM YYYY [at] HH:mm')}`;
+              expTestData.taskSummary.Departure = `BA0103${Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm')}LHR`;
+              expect(taskSummary).to.deep.equal(expTestData.taskSummary);
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('Should check highest threat level on task list card', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    const nextPage = 'a[data-test="next"]';
+    let businessKey;
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.fixture('airpax/task-airpax-rules-selectros-with-diff-threat-category.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain(taskName);
+        cy.wait(4000);
+        businessKey = response.id;
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+
+        cy.wait(3000);
+
+        cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+        cy.contains('Back to task list').click();
+
+        cy.wait(2000);
+
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(`${businessKey}`, null, {
+              risk: 'National Security at the Border and 7 other rules',
+              riskTier: 'A',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          } else {
+            cy.findTaskInSinglePage(`${businessKey}`, null, {
+              risk: 'National Security at the Border and 7 other rules',
+              riskTier: 'A',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          }
         });
       });
     });
