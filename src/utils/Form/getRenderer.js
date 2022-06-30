@@ -1,10 +1,14 @@
 export const COP_REACT_RENDERER = 'cop-react';
 export const FORM_IO_RENDERER = 'form.io';
 
-export const REACT_FORM_PREFIX = 'cop-';
+export const REACT_FORM_PREFIXS = ['cop-', 'cerberus-'];
+
+function checkStringStartsWith(str, prefixes) {
+  return prefixes.some((prefix) => str.startsWith(prefix));
+}
 
 const getRendererByName = (formName) => {
-  if (formName && formName.startsWith(REACT_FORM_PREFIX)) {
+  if (formName && checkStringStartsWith(formName, REACT_FORM_PREFIXS)) {
     return COP_REACT_RENDERER;
   }
   return FORM_IO_RENDERER;

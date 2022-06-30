@@ -30,6 +30,8 @@ describe('Task details page', () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, [])
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {})
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: [] });
 
@@ -41,6 +43,8 @@ describe('Task details page', () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {})
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
@@ -53,6 +57,8 @@ describe('Task details page', () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {})
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
@@ -65,6 +71,8 @@ describe('Task details page', () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {})
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
@@ -77,6 +85,8 @@ describe('Task details page', () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataOtherUser)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {})
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
@@ -89,6 +99,8 @@ describe('Task details page', () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataCurrentUser)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {})
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
@@ -100,7 +112,9 @@ describe('Task details page', () => {
   it('should render "Claim" button when the task assignee is null and the target has not been completed or issued', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataNoAssignee);
+      .reply(200, dataNoAssignee)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Task not assigned')).toBeInTheDocument();
@@ -110,7 +124,9 @@ describe('Task details page', () => {
   it('should render "Unclaim" button when current user is assigned to the task and the target has not been completed or issued', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataCurrentUser);
+      .reply(200, dataCurrentUser)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Assigned to you')).toBeInTheDocument();
@@ -120,7 +136,9 @@ describe('Task details page', () => {
   it('should render "Assigned to ANOTHER_USER" & "unclaim" when task is assigned to another user and the process has not been completed or issued', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataOtherUser);
+      .reply(200, dataOtherUser)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
@@ -130,7 +148,9 @@ describe('Task details page', () => {
   it('should not render user or claim/unclaim buttons when a target is complete', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataTaskComplete);
+      .reply(200, dataTaskComplete)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
@@ -143,7 +163,9 @@ describe('Task details page', () => {
   it('should not render user or claim/unclaim buttons when a target is issued', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataTargetIssued);
+      .reply(200, dataTargetIssued)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
@@ -156,7 +178,9 @@ describe('Task details page', () => {
   it('should not show action buttons for unclaimed tasks', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataTargetIssued);
+      .reply(200, dataTargetIssued)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
@@ -167,7 +191,9 @@ describe('Task details page', () => {
   it('should show action buttons for claimed tasks', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataClaimedTask);
+      .reply(200, dataClaimedTask)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
@@ -179,7 +205,9 @@ describe('Task details page', () => {
   it('should render a new label on a new and unclamied task', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataNoAssignee);
+      .reply(200, dataNoAssignee)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     const { container } = await waitFor(() => render(<TaskDetailsPage />));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(1);
@@ -188,7 +216,9 @@ describe('Task details page', () => {
   it('should not render a new label on a claimed task', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataClaimedTask);
+      .reply(200, dataClaimedTask)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     const { container } = await waitFor(() => render(<TaskDetailsPage />));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
@@ -197,7 +227,9 @@ describe('Task details page', () => {
   it('should not render a new label on an issued task', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataTargetIssued);
+      .reply(200, dataTargetIssued)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     const { container } = await waitFor(() => render(<TaskDetailsPage />));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
@@ -206,7 +238,9 @@ describe('Task details page', () => {
   it('should not render a new label on a complete task', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataTaskComplete);
+      .reply(200, dataTaskComplete)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     const { container } = await waitFor(() => render(<TaskDetailsPage />));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
@@ -215,7 +249,9 @@ describe('Task details page', () => {
   it('should not show action buttons for task that has been dismissed', async () => {
     mockAxios
       .onGet('/targeting-tasks/BK-123')
-      .reply(200, dataDismissedTask);
+      .reply(200, dataDismissedTask)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(200, {});
 
     await waitFor(() => render(<TaskDetailsPage />));
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();

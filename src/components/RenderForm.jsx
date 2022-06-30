@@ -1,5 +1,6 @@
 // Global imports
-import FormRenderer from '@ukhomeoffice/cop-react-form-renderer';
+import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
+import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import gds from '@ukhomeoffice/formio-gds-template/lib';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -29,6 +30,23 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
   const uploadApiClient = useAxiosInstance(keycloak, config.fileUploadApiUrl);
 
   Formio.plugins = [augmentRequest(keycloak)];
+
+  const onGetComponent = (component, wrap) => {
+    const attrs = Utils.Component.clean(component, ['fieldId', 'dynamicOptions', 'multi']);
+    if (component?.multi === true || component?.multi === 'true') {
+      const multiSelect = (
+        <MultiSelectAutocomplete
+          className="hods-multi-select-autocomplete"
+          {...component}
+        />
+      );
+      if (wrap) {
+        return Utils.Component.wrap(attrs, multiSelect);
+      }
+      return multiSelect;
+    }
+    return null;
+  };
 
   useEffect(() => {
     if (form) {
@@ -153,6 +171,7 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
               {...form}
               data={formattedPreFillData?.data}
               hooks={{
+                onGetComponent,
                 onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
                 onSubmit: async (type, payload, onSuccess) => {
                   if (type === FORM_ACTIONS.CANCEL) {

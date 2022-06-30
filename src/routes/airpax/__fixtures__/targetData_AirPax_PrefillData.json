@@ -1,0 +1,122 @@
+{
+    "id": "DEV-20220629-583",
+    "movement": {
+        "id": "AIRPAX_381294:CMID=TEST",
+        "mode": "AIR_PASSENGER",
+        "refDataMode": {
+            "id": 2,
+            "mode": "Scheduled Air Passenger",
+            "ien": true,
+            "ca": true,
+            "ct": true,
+            "modecode": "airpass",
+            "crossingtype": [
+                "air"
+            ],
+            "validfrom": "2021-05-28T00:01:01Z",
+            "validto": null,
+            "updatedby": "Mohammed Abdul Odud"
+        },
+        "vessel": null,
+        "vehicle": null,
+        "trailer": null,
+        "journey": {
+            "id": "BA0103",
+            "direction": null,
+            "route": "CDG - YYZ - YYC - LHR",
+            "arrival": {
+                "country": null,
+                "location": "YYC",
+                "time": "2019-07-21T18:35:00Z"
+            },
+            "departure": {
+                "country": null,
+                "location": "LHR",
+                "time": "2019-07-21T16:40:00Z"
+            }
+        },
+        "flight": {
+            "seatNumber": "34A"
+        },
+        "person": {
+            "id": "dab092daf6d33e8fd2bfe5e2bcff8750",
+            "name": {
+                "first": "ZUES CARLO",
+                "last": "BATZ STOUP",
+                "full": "ZUES CARLO BATZ STOUP"
+            },
+            "dateOfBirth": "1976-12-10T00:00:00Z",
+            "gender": {
+                "id": "M",
+                "name": "Male",
+                "validfrom": "2019-01-01T00:01:00Z",
+                "validto": null,
+                "updatedby": null
+            },
+            "document": {
+                "type": {
+                    "id": 7,
+                    "code": "P ",
+                    "shortdescription": "Passport and Emergency Travel Document",
+                    "longdescription": "Passport and Emergency Travel Document (ETD)",
+                    "validfrom": "2019-01-01T00:01:00Z",
+                    "validto": null,
+                    "updatedby": null
+                },
+                "number": "119039375",
+                "expiry": "2023-04-26T00:00:00Z"
+            },
+            "nationality": {
+                "id": 290,
+                "nationality": "British Citizen",
+                "description": null,
+                "iso31661alpha3": "GBR",
+                "iso31661alpha2": "GB",
+                "visarequired": false,
+                "evwoptional": false,
+                "diplomaticexception": false,
+                "specialexception": false,
+                "countryid": 0,
+                "validfrom": "2022-01-25T00:00:01Z",
+                "validto": null,
+                "updatedby": "Ben Milnes"
+            },
+            "photograph": null
+        },
+        "otherPersons": [],
+        "baggage": {
+            "numberOfCheckedBags": 3,
+            "weight": "46kg",
+            "tags": "739238, 739239, 739240"
+        },
+        "goods": null,
+        "account": null,
+        "consignee": null,
+        "consignor": null,
+        "haulier": null
+    },
+    "risks": {
+        "targetingIndicators": [],
+        "selector": {
+            "category": "C",
+            "groupReference": null,
+            "warning": {
+                "status": "NO",
+                "types": [],
+                "detail": null
+            }
+        }
+    },
+    "operation": null,
+    "nominalChecks": [],
+    "controlStrategies": [],
+    "selectionReasoning": null,
+    "remarks": null,
+    "submittingUser": null,
+    "issuingHub": null,
+    "eventPort": null,
+    "teamToReceiveTheTarget": null,
+    "informFreightAndTourist": false,
+    "publicInterestImmunity": false,
+    "form": null
+}

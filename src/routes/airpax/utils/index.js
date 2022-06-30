@@ -1,9 +1,17 @@
 import BaggageUtil from './baggageUtil';
-import DateTimeUtil from './datetimeUtil';
-import RisksUtil from './risksUtil';
 import BookingUtil from './bookingUtil';
+import DateTimeUtil from './datetimeUtil';
 import DocumentUtil from './documentUtil';
-import PersonUtil from './personUtil';
 import MovementUtil from './movementUtil';
+import PersonUtil from './personUtil';
+import RisksUtil from './risksUtil';
+import TargetInformationUtil from './targetInformationUtil';
 
-export { BaggageUtil, DateTimeUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil };
+export { BaggageUtil,
+  BookingUtil,
+  DateTimeUtil,
+  DocumentUtil,
+  MovementUtil,
+  PersonUtil,
+  RisksUtil,
+  TargetInformationUtil };

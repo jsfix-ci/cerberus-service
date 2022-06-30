@@ -150,7 +150,7 @@ const getSeatNumber = (flight, taskDetails = false) => {
 };
 
 const hasFlight = (targetTask) => {
-  return !!targetTask.movement.flight;
+  return !!targetTask?.movement?.flight;
 };
 
 const getFlight = (targetTask) => {
@@ -285,6 +285,11 @@ const getDepartureStatus = (targetTask, taskDetails = false) => {
       </>
     );
   }
+  return (
+    <>
+      {taskDetails && <span>{UNKNOWN_TEXT}</span>}
+    </>
+  );
 };
 
 const getMovementTypeText = (targetTask) => {

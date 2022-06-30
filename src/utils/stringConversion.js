@@ -3,6 +3,13 @@ import { BEFORE_TRAVEL_TEXT, RORO_TOURIST, UNKNOWN_TEXT } from '../constants';
 import { hasVehicle, hasTrailer } from './roroDataUtil';
 import DateTimeUtil from './DatetimeUtil';
 
+const INVALID_VALUES = [
+  UNKNOWN_TEXT,
+  null,
+  undefined,
+  'Invalid Date',
+  'NaN'];
+
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
@@ -42,4 +49,15 @@ const escapeJSON = (input) => {
     .replace(/"/g, '\\"');
 };
 
-export { capitalizeFirstLetter, formatMovementModeIconText, escapeJSON, formatVoyageText };
+const replaceInvalidValues = (value) => {
+  if (INVALID_VALUES.includes(value)) {
+    return '';
+  }
+  return value;
+};
+
+export { capitalizeFirstLetter,
+  formatMovementModeIconText,
+  escapeJSON,
+  formatVoyageText,
+  replaceInvalidValues };

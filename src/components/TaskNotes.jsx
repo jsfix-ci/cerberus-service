@@ -158,7 +158,7 @@ const AirpaxTaskNotes = ({ keycloak, displayForm, businessKey, setRefreshNotesFo
                 content: data.data.note,
                 userId: data.data.form.submittedBy,
               }]);
-              setRefreshNotesForm(true);
+              setRefreshNotesForm();
             }
           }
           form={noteCerberus}
