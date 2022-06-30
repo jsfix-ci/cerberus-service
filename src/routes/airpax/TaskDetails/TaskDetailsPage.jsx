@@ -156,37 +156,6 @@ const TaskDetailsPage = () => {
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
-          {isDismissTaskFormOpen && !isSubmitted && (
-            <RenderForm
-              preFillData={{ businessKey }}
-              onSubmit={
-                async ({ data }) => {
-                  await apiClient.post(`/targeting-tasks/${businessKey}/dismissals`, {
-                    reason: data.reasonForDismissing,
-                    otherReasonDetail: data.otherReasonToDismiss,
-                    note: escapeJSON(data.addANote),
-                    userId: data.form.submittedBy,
-                  });
-                  setSubmitted(true);
-                }
-              }
-              onCancel={() => {
-                setDismissTaskFormOpen();
-              }}
-              form={dismissTask}
-              renderer={Renderers.REACT}
-            />
-          )}
-          {isDismissTaskFormOpen && isSubmitted && (
-            <TaskOutcomeMessage
-              message="Task has been dismissed"
-              setSubmitted={setSubmitted}
-              onFinish={() => {
-                setDismissTaskFormOpen(false);
-              }}
-              setRefreshNotesForm={setRefreshNotesForm}
-            />
-          )}
           {isCompleteFormOpen && !isSubmitted && (
           <RenderForm
             preFillData={{ businessKey }}
@@ -201,9 +170,7 @@ const TaskDetailsPage = () => {
                 setSubmitted(true);
               }
             }
-            onCancel={() => {
-              setCompleteFormOpen();
-            }}
+            onCancel={() => setCompleteFormOpen()}
             form={completeTask}
             renderer={Renderers.REACT}
           />
@@ -211,12 +178,35 @@ const TaskDetailsPage = () => {
           {isCompleteFormOpen && isSubmitted && (
           <TaskOutcomeMessage
             message="Task has been completed"
-            setSubmitted={setSubmitted}
-            onFinish={() => {
-              setCompleteFormOpen(false);
-            }}
+            onFinish={() => setCompleteFormOpen()}
             setRefreshNotesForm={setRefreshNotesForm}
           />
+          )}
+          {isDismissTaskFormOpen && !isSubmitted && (
+            <RenderForm
+              preFillData={{ businessKey }}
+              onSubmit={
+                async ({ data }) => {
+                  await apiClient.post(`/targeting-tasks/${businessKey}/dismissals`, {
+                    reason: data.reasonForDismissing,
+                    otherReasonDetail: data.otherReasonToDismiss,
+                    note: escapeJSON(data.addANote),
+                    userId: data.form.submittedBy,
+                  });
+                  setSubmitted(true);
+                }
+              }
+              onCancel={() => setDismissTaskFormOpen()}
+              form={dismissTask}
+              renderer={Renderers.REACT}
+            />
+          )}
+          {isDismissTaskFormOpen && isSubmitted && (
+            <TaskOutcomeMessage
+              message="Task has been dismissed"
+              onFinish={() => setDismissTaskFormOpen()}
+              setRefreshNotesForm={setRefreshNotesForm}
+            />
           )}
           {!isDismissTaskFormOpen && !isCompleteFormOpen && taskData && (
             <TaskVersions

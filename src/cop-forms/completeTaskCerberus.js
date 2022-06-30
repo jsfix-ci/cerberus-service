@@ -1,3 +1,5 @@
+import { FORM_ACTIONS } from '../constants';
+
 export default {
   id: 'completeTask',
   version: '0.0.1',
@@ -59,7 +61,7 @@ export default {
       ],
       actions: [
         {
-          type: 'cancel',
+          type: FORM_ACTIONS.CANCEL,
           label: 'Cancel',
           classModifiers: 'secondary',
         },
@@ -88,7 +90,7 @@ export default {
       ],
       actions: [
         {
-          type: 'cancel',
+          type: FORM_ACTIONS.CANCEL,
           label: 'Cancel',
           classModifiers: 'secondary',
         },
