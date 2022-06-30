@@ -11,9 +11,7 @@ const TaskOutcomeMessage = ({ message, onFinish, setRefreshNotesForm }) => {
       <p className="govuk-body">The task is now paused pending a response.</p>
       <Button
         className="govuk-button"
-        onClick={() => {
-          onFinish();
-        }}
+        onClick={() => onFinish()}
       >
         Finish
       </Button>

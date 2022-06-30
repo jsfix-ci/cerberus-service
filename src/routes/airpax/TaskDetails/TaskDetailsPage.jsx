@@ -36,6 +36,7 @@ import '../__assets__/TaskDetailsPage.scss';
 
 // JSON
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
+import completeTask from '../../../cop-forms/completeTaskCerberus';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -50,6 +51,7 @@ const TaskDetailsPage = () => {
   const [isLoading, setLoading] = useState(true);
 
   const [isSubmitted, setSubmitted] = useState();
+  const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
@@ -145,12 +147,18 @@ const TaskDetailsPage = () => {
               onClick={() => {
                 setIssueTargetFormOpen(true);
                 setDismissTaskFormOpen(false);
+                setCompleteFormOpen(false);
               }}
             >
               Issue target
             </Button>
             <Button
               className="govuk-button--secondary govuk-!-margin-right-1"
+              onClick={() => {
+                setCompleteFormOpen(true);
+                setDismissTaskFormOpen(false);
+                setIssueTargetFormOpen(false);
+              }}
             >
               Assessment complete
             </Button>
@@ -158,6 +166,7 @@ const TaskDetailsPage = () => {
               className="govuk-button--warning"
               onClick={() => {
                 setDismissTaskFormOpen(true);
+                setCompleteFormOpen(false);
                 setIssueTargetFormOpen(false);
               }}
             >
@@ -169,6 +178,51 @@ const TaskDetailsPage = () => {
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
+          {isIssueTargetFormOpen && !isSubmitted && (
+          <RenderForm
+            formName="cerberus-airpax-target-information-sheet"
+            preFillData={preFillData}
+            onSubmit={
+              async ({ data }) => {
+                console.log('Issue Target Data JSON', data);
+              }
+            }
+            renderer={Renderers.REACT}
+          />
+          )}
+          {isIssueTargetFormOpen && isSubmitted && (
+          <TaskOutcomeMessage
+            message="Target created successfully"
+            onFinish={() => setIssueTargetFormOpen()}
+            setRefreshNotesForm={setRefreshNotesForm}
+          />
+          )}
+          {isCompleteFormOpen && !isSubmitted && (
+          <RenderForm
+            preFillData={{ businessKey }}
+            onSubmit={
+              async ({ data }) => {
+                await apiClient.post(`/targeting-tasks/${businessKey}/completions`, {
+                  reason: data.reasonForCompletion,
+                  otherReasonDetail: data.otherReasonForCompletion,
+                  note: escapeJSON(data.addANote),
+                  userId: data.form.submittedBy,
+                });
+                setSubmitted(true);
+              }
+            }
+            onCancel={() => setCompleteFormOpen()}
+            form={completeTask}
+            renderer={Renderers.REACT}
+          />
+          )}
+          {isCompleteFormOpen && isSubmitted && (
+          <TaskOutcomeMessage
+            message="Task has been completed"
+            onFinish={() => setCompleteFormOpen()}
+            setRefreshNotesForm={setRefreshNotesForm}
+          />
+          )}
           {isDismissTaskFormOpen && !isSubmitted && (
             <RenderForm
               preFillData={{ businessKey }}
@@ -195,26 +249,7 @@ const TaskDetailsPage = () => {
               setRefreshNotesForm={setRefreshNotesForm}
             />
           )}
-          {isIssueTargetFormOpen && !isSubmitted && (
-          <RenderForm
-            formName="cerberus-airpax-target-information-sheet"
-            preFillData={preFillData}
-            onSubmit={
-              async ({ data }) => {
-                console.log('Issue Target Data JSON', data);
-              }
-            }
-            renderer={Renderers.REACT}
-          />
-          )}
-          {isIssueTargetFormOpen && isSubmitted && (
-          <TaskOutcomeMessage
-            message="Target created successfully"
-            onFinish={() => setIssueTargetFormOpen()}
-            setRefreshNotesForm={setRefreshNotesForm}
-          />
-          )}
-          {!isDismissTaskFormOpen && !isIssueTargetFormOpen && taskData && (
+          {!isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen && taskData && (
             <TaskVersions
               taskVersions={taskData.versions}
               businessKey={businessKey}
@@ -238,7 +273,6 @@ const TaskDetailsPage = () => {
           />
         </div>
       </div>
-
     </>
   );
 };

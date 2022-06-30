@@ -7,6 +7,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
   it('Should apply filter tasks by different rule ID on newly created tasks', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.intercept('POST', '/v2/targeting-tasks/status-counts').as('statusCount');
+    cy.intercept('GET', '/v2/filters/rules').as('ruleFilters');
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax-rules-with-diff-rule-id.json').then((task) => {
       let ruleNames = [];
@@ -25,6 +26,12 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
         cy.contains('Back to task list').click();
 
         cy.waitForAirPaxTaks();
+
+        cy.wait('@ruleFilters').then((filterResponse) => {
+          const rules = filterResponse.response.body.map(((filterId) => filterId.id));
+          const hasDuplicates = (ruleIds) => ruleIds.length !== new Set(ruleIds).size;
+          expect(hasDuplicates(rules).valueOf()).to.be.equal(false);
+        });
 
         cy.get('div[id="rules"] .hods-multi-select-autocomplete__placeholder').type(ruleNames[0]);
         cy.get(`input[value="${ruleNames[0]}"]`).type('{enter}');
