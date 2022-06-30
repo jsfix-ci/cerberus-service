@@ -228,6 +228,20 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Matched Rules with rule name Selector Matched Rule not visible on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax-selectors-selector-matched-rule.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
+      });
+    });
+  });
+
   it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
     cy.acceptPNRTerms();
     const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
@@ -311,6 +325,9 @@ describe('Verify AirPax task details of different sections', () => {
     const nextPage = 'a[data-test="next"]';
     cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.matchedRules[0].rulePriority = 'Tier 2';
+      task.data.matchedRules[1].rulePriority = 'Tier 3';
+      task.data.matchedRules[2].rulePriority = 'Tier 2';
       cy.createAirPaxTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain(taskName);
         cy.wait(4000);
@@ -349,14 +366,14 @@ describe('Verify AirPax task details of different sections', () => {
           if ($el.find(nextPage).length > 0) {
             cy.findTaskInAllThePages(`${businessKey}`, null, {
               risk: 'Alcohol and 2 other rules',
-              riskTier: 'Tier 1',
+              riskTier: 'Tier 2',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
             });
           } else {
             cy.findTaskInSinglePage(`${businessKey}`, null, {
               risk: 'Alcohol and 2 other rules',
-              riskTier: 'Tier 1',
+              riskTier: 'Tier 2',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
             });
@@ -473,6 +490,7 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.get('.govuk-accordion__section-heading').should('have.length', 3);
   });
+
   it('Should verify Itinerary details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTOTEST';
@@ -556,6 +574,49 @@ describe('Verify AirPax task details of different sections', () => {
               expect(taskSummary).to.deep.equal(expTestData.taskSummary);
             });
           });
+        });
+      });
+    });
+  });
+
+  it('Should check highest threat level on task list card', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    const nextPage = 'a[data-test="next"]';
+    let businessKey;
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.fixture('airpax/task-airpax-rules-selectros-with-diff-threat-category.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain(taskName);
+        cy.wait(4000);
+        businessKey = response.id;
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+
+        cy.wait(3000);
+
+        cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+        cy.contains('Back to task list').click();
+
+        cy.wait(2000);
+
+        cy.get('body').then(($el) => {
+          if ($el.find(nextPage).length > 0) {
+            cy.findTaskInAllThePages(`${businessKey}`, null, {
+              risk: 'National Security at the Border and 7 other rules',
+              riskTier: 'A',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          } else {
+            cy.findTaskInSinglePage(`${businessKey}`, null, {
+              risk: 'National Security at the Border and 7 other rules',
+              riskTier: 'A',
+            }).then((taskFound) => {
+              expect(taskFound).to.equal(true);
+            });
+          }
         });
       });
     });
