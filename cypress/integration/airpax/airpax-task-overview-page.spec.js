@@ -1,4 +1,9 @@
+import { formatVoyageText } from '../../../src/utils/stringConversion';
+
 describe('AirPax Tasks overview Page - Should check All user journeys', () => {
+  const departureTime = Cypress.dayjs().utc().valueOf();
+  const arrivalTimeInPast = Cypress.dayjs().utc().subtract(1, 'day').valueOf();
+  const arrivalTimeInFeature = Cypress.dayjs().utc().add(3, 'hour').valueOf();
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
   });
@@ -179,30 +184,6 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.checkAirPaxTaskDisplayed(businessKey);
 
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim');
-      });
-    });
-  });
-
-  it('Should check AirPax task information on task overview', () => {
-    cy.acceptPNRTerms();
-    const taskName = 'AIRPAX';
-    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
-    cy.fixture('airpax/task-airpax.json').then((task) => {
-      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
-        expect(taskResponse.movement.id).to.contain('AIRPAX');
-        cy.wait(4000);
-        let businessKey = taskResponse.id;
-        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
-        cy.visit('/airpax/tasks');
-        cy.wait('@airpaxTask').then(({ response }) => {
-          expect(response.statusCode).to.be.equal(200);
-        });
-        cy.get('@expectedData').then((expectedTaskSumary) => {
-          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
-            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
-          });
-        });
       });
     });
   });
@@ -488,6 +469,167 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
               expect(taskFound).to.equal(true);
             });
           }
+        });
+      });
+    });
+  });
+
+  it('Should verify task overview page for a task from each tab loads successfully', () => {
+    cy.acceptPNRTerms();
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        let businessKey = taskResponse.id;
+        let movementId = taskResponse.movement.id;
+        cy.wait(2000);
+        cy.visit('/airpax/tasks');
+        cy.wait('@taskList').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.get('.govuk-task-list-card').then(($taskListCard) => {
+          if ($taskListCard.text().includes(businessKey)) {
+            cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+              cy.get('a.govuk-link')
+                .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
+                .click();
+              cy.wait(2000);
+            });
+          }
+        });
+        cy.get('.govuk-caption-xl').should('have.text', businessKey);
+        cy.claimAirPaxTask();
+        cy.wait(2000);
+        cy.visit('/airpax/tasks');
+        cy.wait('@taskList').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.contains('In progress').click();
+        cy.get('.govuk-task-list-card').then(($taskListCard) => {
+          if ($taskListCard.text().includes(businessKey)) {
+            cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+              cy.get('a.govuk-link')
+                .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
+                .click();
+              cy.wait(2000);
+            });
+          }
+        });
+        cy.get('.govuk-caption-xl').should('have.text', businessKey);
+        cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
+          issueTask.id = businessKey;
+          issueTask.movement.id = movementId;
+          issueTask.form.submittedBy = Cypress.env('userName');
+          cy.issueAirPaxTask(issueTask).then((issueTaskResponse) => {
+            expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
+            expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
+            cy.wait(2000);
+            cy.visit('/airpax/tasks');
+            cy.wait('@taskList').then(({ response }) => {
+              expect(response.statusCode).to.equal(200);
+            });
+            cy.contains('Issued').click();
+            cy.get('.govuk-task-list-card').then(($taskListCard) => {
+              if ($taskListCard.text().includes(businessKey)) {
+                cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                  cy.get('a.govuk-link')
+                    .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
+                    .click();
+                  cy.wait(2000);
+                });
+              }
+            });
+          });
+        });
+        cy.get('.govuk-caption-xl').should('have.text', businessKey);
+        cy.fixture('dismiss-task.json').then((dismissTask) => {
+          dismissTask.userId = Cypress.env('userName');
+          console.log(dismissTask);
+          cy.dismissAirPaxTask(dismissTask, businessKey).then((dismissTaskResponse) => {
+            expect(dismissTaskResponse.id).to.equals(businessKey);
+            expect(dismissTaskResponse.status).to.equals('COMPLETE');
+            cy.wait(2000);
+            cy.visit('/airpax/tasks');
+            cy.wait('@taskList').then(({ response }) => {
+              expect(response.statusCode).to.equal(200);
+            });
+            cy.contains('Complete').click();
+            cy.get('.govuk-task-list-card').then(($taskListCard) => {
+              if ($taskListCard.text().includes(businessKey)) {
+                cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+                  cy.get('a.govuk-link')
+                    .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
+                    .click();
+                  cy.wait(2000);
+                });
+              }
+            });
+          });
+        });
+        cy.get('.govuk-caption-xl').should('have.text', businessKey);
+      });
+    });
+  });
+
+  it('Should check AirPax task information with arrival details in the feature on task overview', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
+      task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInFeature;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain(taskName);
+        cy.wait(5000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expectedData').then((expectedTaskSumary) => {
+          expectedTaskSumary.flightArrivalTime = formatVoyageText(arrivalTimeInFeature);
+          expectedTaskSumary.arrivalDateTime = Cypress.dayjs(arrivalTimeInFeature).utc().format('D MMM YYYY [at] HH:mm');
+          const departureDateTimeFormatted = Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm');
+          expectedTaskSumary.departureDateTime = `${task.data.movement.voyage.voyage.routeId}${departureDateTimeFormatted}`;
+          cy.wait(2000);
+          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
+            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
+          });
+        });
+      });
+    });
+  });
+
+  it('Should check AirPax task information with arrival details in the past on task overview', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTO-TEST';
+    cy.fixture('airpax/taskSummaryExpected.json').as('expectedData');
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
+      task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInPast;
+      cy.createAirPaxTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain(taskName);
+        cy.wait(5000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.get('@expectedData').then((expectedTaskSumary) => {
+          expectedTaskSumary.flightArrivalTime = formatVoyageText(task.data.movement.voyage.voyage.scheduledArrivalTimestamp);
+          expectedTaskSumary.arrivalDateTime = Cypress.dayjs(arrivalTimeInPast).utc().format('D MMM YYYY [at] HH:mm');
+          const departureDateTimeFormatted = Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm');
+          expectedTaskSumary.departureDateTime = `${task.data.movement.voyage.voyage.routeId}${departureDateTimeFormatted}`;
+          cy.wait(2000);
+          cy.verifyAirPaxTaskListInfo(businessKey, 'Passenger').then((actualTaskSummary) => {
+            expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
+          });
         });
       });
     });

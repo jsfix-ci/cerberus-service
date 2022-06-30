@@ -5,12 +5,15 @@ import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
 // Components/Pages
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
+import { PnrAccessContext } from '../../../context/PnrAccessContext';
+
 import TaskListPage from '../TaskLists/TaskListPage';
 
 import { TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
-  TASK_STATUS_TARGET_ISSUED } from '../../../constants';
+  TASK_STATUS_TARGET_ISSUED,
+  PNR_USER_SESSION_ID } from '../../../constants';
 
 // Fixture
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
@@ -26,6 +29,8 @@ describe('TaskListPage', () => {
   let defaultPostPagesParams;
 
   let tabData = {};
+
+  let pnrData = {};
 
   const countsFiltersAndSelectorsResponse = [
     {
@@ -123,6 +128,12 @@ describe('TaskListPage', () => {
       selectTabIndex: jest.fn(),
       selectTaskManagementTabIndex: jest.fn(),
     };
+
+    pnrData = {
+      canViewPnrData: true,
+      setViewPnrData: jest.fn(),
+    };
+
     mockAxios.reset();
 
     defaultPostPagesParams = {
@@ -148,15 +159,18 @@ describe('TaskListPage', () => {
     };
   });
 
-  const setTabAndTaskValues = (value, taskStatus = 'new') => {
+  const setTabAndTaskValues = (tabValue, pnrValue, taskStatus = 'new') => {
     return (
-      <TaskSelectedTabContext.Provider value={value}>
-        <TaskListPage taskStatus={taskStatus} />
-      </TaskSelectedTabContext.Provider>
+      <PnrAccessContext.Provider value={pnrValue}>
+        <TaskSelectedTabContext.Provider value={tabValue}>
+          <TaskListPage taskStatus={taskStatus} />
+        </TaskSelectedTabContext.Provider>
+      </PnrAccessContext.Provider>
     );
   };
 
   it('should render a message related to the tab clicked, on click', async () => {
+    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: true }));
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, [])
@@ -167,7 +181,7 @@ describe('TaskListPage', () => {
       .onGet('/filters/rules')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('New tasks')).toBeInTheDocument();
@@ -184,7 +198,7 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
-    await waitFor(() => expect(screen.getByText('There are no inProgress tasks')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('There are no in progress tasks')).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('Request failed with status code 404')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
 
@@ -201,7 +215,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
 
     expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('DC')).toBeInTheDocument();
@@ -237,7 +251,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -249,7 +263,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
     expect(screen.getByText('Claim')).toBeInTheDocument();
   });
 
@@ -260,7 +274,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'inProgress')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'inProgress')));
     expect(screen.getByText('Assigned to you')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -272,7 +286,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'inProgress')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'inProgress')));
     expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -284,7 +298,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'issued')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'issued')));
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
@@ -298,7 +312,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, 'complete')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'complete')));
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
@@ -313,7 +327,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -329,7 +343,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_IN_PROGRESS)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -344,7 +358,7 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_TARGET_ISSUED)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_TARGET_ISSUED)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -359,8 +373,78 @@ describe('TaskListPage', () => {
       .onGet('/v2/entities/carrierlist')
       .reply(200, { data: airlineCodes });
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_COMPLETED)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_COMPLETED)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
+  });
+
+  it('should render button to request PNR access when has no access to PNR data across tabs', async () => {
+    pnrData.canViewPnrData = false;
+    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(403, dataNoAssignee)
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+
+    expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to new PNR data/)).toBeInTheDocument();
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'In progress (0)' })));
+
+    expect(screen.getByText(/You do not have access to view in progress PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view in progress PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to in progress PNR data/)).toBeInTheDocument();
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'Issued (0)' })));
+
+    expect(screen.getByText(/You do not have access to view issued PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view issued PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to issued PNR data/)).toBeInTheDocument();
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'Complete (0)' })));
+    expect(screen.getByText(/You do not have access to view complete PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view complete PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to complete PNR data/)).toBeInTheDocument();
+  });
+
+  it('should render button to request PNR access when user has no access to PNR data and api returns an empty tasks array', async () => {
+    pnrData.canViewPnrData = false;
+    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_IN_PROGRESS.toUpperCase()];
+
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(403, [])
+      .onGet('/v2/entities/carrierlist')
+      .reply(200, { data: airlineCodes });
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+
+    expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to new PNR data/)).toBeInTheDocument();
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'In progress (0)' })));
+
+    expect(screen.getByText(/You do not have access to view in progress PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view in progress PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to in progress PNR data/)).toBeInTheDocument();
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'Issued (0)' })));
+
+    expect(screen.getByText(/You do not have access to view issued PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view issued PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to issued PNR data/)).toBeInTheDocument();
+
+    await waitFor(() => fireEvent.click(screen.getByRole('link', { name: 'Complete (0)' })));
+    expect(screen.getByText(/You do not have access to view complete PNR data/)).toBeInTheDocument();
+    expect(screen.getByText(/To view complete PNR data, you will need to request access/)).toBeInTheDocument();
+    expect(screen.getByText(/Request access to complete PNR data/)).toBeInTheDocument();
   });
 });

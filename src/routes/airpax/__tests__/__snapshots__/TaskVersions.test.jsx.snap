@@ -4,7 +4,7 @@ exports[`TaskVersions should render task versions 1`] = `
 <div
   className="govuk-accordion task-versions"
   data-module="govuk-accordion"
-  id="task-versions-undefined"
+  id="task-versions-BK-123"
 >
   <div
     className="govuk-accordion__section govuk-accordion__section--expanded"
@@ -17,14 +17,14 @@ exports[`TaskVersions should render task versions 1`] = `
       >
         <span
           className="govuk-accordion__section-button"
-          id="task-versions-undefined-heading-1"
+          id="task-versions-BK-123-heading-1"
         >
           Version 2 (latest)
         </span>
       </h2>
       <div
         className="govuk-accordion__section-summary govuk-body"
-        id="task-versions-undefined-summary-1"
+        id="task-versions-BK-123-summary-1"
       >
         <div
           className="task-versions--left"
@@ -57,9 +57,9 @@ exports[`TaskVersions should render task versions 1`] = `
       </div>
     </div>
     <div
-      aria-labelledby="task-versions-undefined-heading-1"
+      aria-labelledby="task-versions-BK-123-heading-1"
       className="govuk-accordion__section-content"
-      id="task-versions-undefined-content-1"
+      id="task-versions-BK-123-content-1"
     >
       <div>
         <section

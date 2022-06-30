@@ -234,7 +234,7 @@ const TaskDetailsPage = () => {
               noteVariant={MOVEMENT_VARIANT.AIRPAX}
               displayForm={assignee === currentUser}
               businessKey={businessKey}
-              setRefreshNotesForm={setRefreshNotesForm}
+              setRefreshNotesForm={() => setRefreshNotesForm(!refreshNotesForm)}
             />
             )}
           <ActivityLog

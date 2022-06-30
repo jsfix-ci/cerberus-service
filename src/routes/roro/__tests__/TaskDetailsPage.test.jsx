@@ -9,7 +9,8 @@ import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
 import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
 import noteFormFixure from '../__fixtures__/noteFormResponse.fixture.json';
-import targetModeFreight from '../__fixtures__/targetMode_RoRoFreight.fixture.json';
+import targetModeFreightAccompanied from '../__fixtures__/targetMode_RoRoFreightAccompanied.fixture.json';
+import targetModeFreightUnaccompanied from '../__fixtures__/targetMode_RoRoFreightUnaccompanied.fixture.json';
 import targetModeTourist from '../__fixtures__/targetMode_RoRoTourist.fixture.json';
 import { FORM_NAMES } from '../../../constants';
 
@@ -197,8 +198,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -221,8 +222,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -299,8 +300,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrun',
+      targetModeResponse: targetModeFreightUnaccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -331,8 +332,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -384,8 +385,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -408,8 +409,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
