@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Panel } from '@ukhomeoffice/cop-react-components';
 
-const TaskOutcomeMessage = ({ message, setSubmitted, setDismissTaskFormOpen, setRefreshNotesForm }) => {
+const TaskOutcomeMessage = ({ message,
+  onFinish,
+  setRefreshNotesForm }) => {
   setRefreshNotesForm(true);
   return (
     <>
@@ -11,10 +13,7 @@ const TaskOutcomeMessage = ({ message, setSubmitted, setDismissTaskFormOpen, set
       <p className="govuk-body">The task is now paused pending a response.</p>
       <Button
         className="govuk-button"
-        onClick={() => {
-          setSubmitted(true);
-          setDismissTaskFormOpen(false);
-        }}
+        onClick={() => onFinish()}
       >
         Finish
       </Button>
