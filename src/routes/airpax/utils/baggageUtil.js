@@ -13,7 +13,7 @@ const getBaggageWeight = (baggage) => {
 };
 
 const hasBaggage = (targetTask) => {
-  return !!targetTask.movement.baggage;
+  return !!targetTask?.movement?.baggage;
 };
 
 const getBaggage = (targetTask) => {

@@ -205,6 +205,18 @@ describe('MovementUtil', () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it('should not render the departure status when status is not present on task list page', () => {
+    targetTaskMin.movement.flight.departureStatus = null;
+    const tree = renderer.create(MovementUtil.status(targetTaskMin)).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should render unknown when the departure status is not present on task details page', () => {
+    targetTaskMin.movement.flight.departureStatus = null;
+    const tree = renderer.create(MovementUtil.status(targetTaskMin, true)).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
   it('should render the departure status and details if present', () => {
     const tree = renderer.create(MovementUtil.status(targetTaskMin, true)).toJSON();
     expect(tree).toMatchSnapshot();

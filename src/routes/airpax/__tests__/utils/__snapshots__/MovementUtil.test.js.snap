@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MovementUtil should not render the departure status when status is not present on task list page 1`] = `null`;
+
 exports[`MovementUtil should render the departure status and details if present 1`] = `
 Array [
   <span>
@@ -20,4 +22,10 @@ exports[`MovementUtil should render the departure status if present 1`] = `
 >
   DC
 </strong>
+`;
+
+exports[`MovementUtil should render unknown when the departure status is not present on task details page 1`] = `
+<span>
+  Unknown
+</span>
 `;

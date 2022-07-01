@@ -1,9 +1,7 @@
 import React from 'react';
 import { Button, Panel } from '@ukhomeoffice/cop-react-components';
 
-const TaskOutcomeMessage = ({ message,
-  onFinish,
-  setRefreshNotesForm }) => {
+const TaskOutcomeMessage = ({ message, onFinish, setRefreshNotesForm }) => {
   setRefreshNotesForm(true);
   return (
     <>

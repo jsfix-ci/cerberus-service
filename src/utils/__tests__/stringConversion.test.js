@@ -10,7 +10,8 @@ import { OPERATION,
 import { capitalizeFirstLetter,
   formatMovementModeIconText,
   escapeJSON,
-  formatVoyageText } from '../stringConversion';
+  formatVoyageText,
+  replaceInvalidValues } from '../stringConversion';
 
 import { testRoroDataTouristWithVehicle,
   testRoroDataAccompaniedFreight,
@@ -99,5 +100,14 @@ describe('String Conversion', () => {
   it('should return unknown for an invalid datetime range', () => {
     const INVALID_DATESTIMES = [undefined, null, ''];
     INVALID_DATESTIMES.forEach((datetime) => expect(formatVoyageText(datetime)).toEqual(UNKNOWN_TEXT));
+  });
+
+  it(`should evaluate to false when input is ${UNKNOWN_TEXT}`, () => {
+    expect(replaceInvalidValues(UNKNOWN_TEXT)).toBeFalsy();
+  });
+
+  it(`should return given when input is not equal to ${UNKNOWN_TEXT}`, () => {
+    const GIVEN = 'alpha';
+    expect(replaceInvalidValues(GIVEN)).toEqual(GIVEN);
   });
 });

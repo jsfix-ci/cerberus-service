@@ -9,6 +9,7 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT } from '../../../constants';
+
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -16,6 +17,7 @@ import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAn
 import { formatTaskStatusToCamelCase } from '../../../utils/formatTaskStatus';
 import { Renderers } from '../../../utils/Form';
 import { escapeJSON } from '../../../utils/stringConversion';
+import { TargetInformationUtil } from '../utils';
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
@@ -49,9 +51,21 @@ const TaskDetailsPage = () => {
   const [isLoading, setLoading] = useState(true);
 
   const [isSubmitted, setSubmitted] = useState();
-  const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
+  const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
+  const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
+  const [preFillData, setPrefillData] = useState({});
+
+  const getPrefillData = async () => {
+    let response;
+    try {
+      response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
+      setPrefillData(TargetInformationUtil.transform(response.data));
+    } catch (e) {
+      setTaskData({});
+    }
+  };
 
   const getTaskData = async () => {
     let response;
@@ -90,6 +104,7 @@ const TaskDetailsPage = () => {
 
   useEffect(() => {
     getTaskData();
+    getPrefillData();
     getAirlineCodes();
   }, [businessKey]);
 
@@ -129,6 +144,11 @@ const TaskDetailsPage = () => {
           <>
             <Button
               className="govuk-!-margin-right-1"
+              onClick={() => {
+                setIssueTargetFormOpen(true);
+                setDismissTaskFormOpen(false);
+                setCompleteFormOpen(false);
+              }}
             >
               Issue target
             </Button>
@@ -137,6 +157,7 @@ const TaskDetailsPage = () => {
               onClick={() => {
                 setCompleteFormOpen(true);
                 setDismissTaskFormOpen(false);
+                setIssueTargetFormOpen(false);
               }}
             >
               Assessment complete
@@ -146,6 +167,7 @@ const TaskDetailsPage = () => {
               onClick={() => {
                 setDismissTaskFormOpen(true);
                 setCompleteFormOpen(false);
+                setIssueTargetFormOpen(false);
               }}
             >
               Dismiss
@@ -156,6 +178,25 @@ const TaskDetailsPage = () => {
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
+          {isIssueTargetFormOpen && !isSubmitted && (
+          <RenderForm
+            formName="cerberus-airpax-target-information-sheet"
+            preFillData={preFillData}
+            onSubmit={
+              async ({ data }) => {
+                console.log('Issue Target Data JSON', data);
+              }
+            }
+            renderer={Renderers.REACT}
+          />
+          )}
+          {isIssueTargetFormOpen && isSubmitted && (
+          <TaskOutcomeMessage
+            message="Target created successfully"
+            onFinish={() => setIssueTargetFormOpen()}
+            setRefreshNotesForm={setRefreshNotesForm}
+          />
+          )}
           {isCompleteFormOpen && !isSubmitted && (
           <RenderForm
             preFillData={{ businessKey }}
@@ -208,7 +249,7 @@ const TaskDetailsPage = () => {
               setRefreshNotesForm={setRefreshNotesForm}
             />
           )}
-          {!isDismissTaskFormOpen && !isCompleteFormOpen && taskData && (
+          {!isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen && taskData && (
             <TaskVersions
               taskVersions={taskData.versions}
               businessKey={businessKey}
@@ -232,7 +273,6 @@ const TaskDetailsPage = () => {
           />
         </div>
       </div>
-
     </>
   );
 };
