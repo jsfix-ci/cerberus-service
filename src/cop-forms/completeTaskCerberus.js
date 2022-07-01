@@ -11,7 +11,6 @@ export default {
     {
       id: 'reason-for-completion',
       name: 'reason-for-completion',
-      title: 'Reason for completion',
       components: [
         {
           id: 'reasonForCompletion',
