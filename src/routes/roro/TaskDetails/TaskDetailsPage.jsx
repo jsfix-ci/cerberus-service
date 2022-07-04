@@ -103,15 +103,14 @@ const TaskDetailsPage = () => {
       : null;
   };
 
-  const populateSex = async ({ targetInformationSheet }) => {
-    let sex = targetInformationSheet?.roro?.details?.driver?.gender;
-    if (sex === '') {
-      sex = 'U';
+  const populateSex = async ({ gender }) => {
+    if (gender === '') {
+      gender = 'U';
     }
-    return sex
+    return gender
       ? refDataClient.get(
         '/v2/entities/sex',
-        { params: { mode: 'dataOnly', filter: `id=eq.${sex}` } },
+        { params: { mode: 'dataOnly', filter: `id=eq.${gender}` } },
       ).then((response) => response.data.data[0])
       : null;
   };
@@ -120,7 +119,13 @@ const TaskDetailsPage = () => {
     let targetInformationSheet = parsedTaskVariables.targetInformationSheet;
     targetInformationSheet.mode = await populateMode(parsedTaskVariables);
     if (targetInformationSheet?.roro?.details?.driver) {
-      targetInformationSheet.roro.details.driver.sex = await populateSex(parsedTaskVariables);
+      targetInformationSheet.roro.details.driver.sex = await populateSex(targetInformationSheet.roro.details.driver);
+    }
+    if (targetInformationSheet?.roro?.details?.passengers) {
+      targetInformationSheet.roro.details.passengers.map(async (passenger) => {
+        passenger.sex = await populateSex(passenger);
+        return passenger;
+      });
     }
     return targetInformationSheet;
   };
