@@ -482,7 +482,7 @@ Cypress.Commands.add('getBusinessKey', (partOfTheBusinessKey) => {
 Cypress.Commands.add('getMovementRecordByProcessInstanceId', (processInstanceId) => {
   cy.request({
     method: 'GET',
-    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/variable-instance?processInstanceIdln=${processInstanceId}&deserializeValues=false`,
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/variable-instance?processInstanceIdIn=${processInstanceId}&deserializeValues=false`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);

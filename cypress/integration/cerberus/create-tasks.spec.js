@@ -348,6 +348,9 @@ describe('Create task with different payload from Cerberus', () => {
           cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
             expect(businessKey).to.equal(response.id);
           });
+          cy.getMovementRecordByProcessInstanceId(processInstanceId).then((responseBody) => {
+            expect(responseBody[0].value).to.deep.include(task.data.movementId);
+          });
         });
       });
     });
@@ -364,7 +367,10 @@ describe('Create task with different payload from Cerberus', () => {
         cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
           cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
             expect(businessKey).to.equal(response.id);
-          })
+          });
+          cy.getMovementRecordByProcessInstanceId(processInstanceId).then((responseBody) => {
+            expect(responseBody[0].value).to.deep.include(task.data.movementId);
+          });
         });
       });
     });
@@ -381,7 +387,10 @@ describe('Create task with different payload from Cerberus', () => {
         cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
           cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
             expect(businessKey).to.equal(response.id);
-          })
+          });
+          cy.getMovementRecordByProcessInstanceId(processInstanceId).then((responseBody) => {
+            expect(responseBody[0].value).to.deep.include(task.data.movementId);
+          });
         });
       });
     });
