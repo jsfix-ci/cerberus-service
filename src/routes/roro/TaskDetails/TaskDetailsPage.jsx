@@ -103,10 +103,25 @@ const TaskDetailsPage = () => {
       : null;
   };
 
+  const populateSex = async ({ targetInformationSheet }) => {
+    let sex = targetInformationSheet?.roro?.details?.driver?.gender;
+    if (sex === '') {
+      sex = 'U';
+    }
+    return sex
+      ? refDataClient.get(
+        '/v2/entities/sex',
+        { params: { mode: 'dataOnly', filter: `id=eq.${sex}` } },
+      ).then((response) => response.data.data[0])
+      : null;
+  };
+
   const populateTIS = async (parsedTaskVariables) => {
     let targetInformationSheet = parsedTaskVariables.targetInformationSheet;
     targetInformationSheet.mode = await populateMode(parsedTaskVariables);
-
+    if (targetInformationSheet?.roro?.details?.driver) {
+      targetInformationSheet.roro.details.driver.sex = await populateSex(parsedTaskVariables);
+    }
     return targetInformationSheet;
   };
 
