@@ -12,9 +12,9 @@
       "bookedAt": null,
       "checkInAt": "2019-07-20T16:43:35Z",
       "ticket": {
-        "number": "AL12345",
-        "type": null,
-        "price": null
+        "number": "1234",
+        "type": "Return",
+        "price": "£25.00"
       },
       "country": null,
       "payments": [
@@ -43,12 +43,12 @@
       "arrival": {
         "country": null,
         "location": "YYC",
-        "time": "2019-07-21T18:35:00Z"
+        "time": "2022-07-10T15:30:01Z"
       },
       "departure": {
         "country": null,
         "location": "LHR",
-        "time": "2019-07-21T16:40:00Z"
+        "time": "2022-07-10T12:30:01Z"
       },
       "route": [
         "CDG",
@@ -106,14 +106,14 @@
     "person": {
       "entitySearchUrl": null,
       "name": {
-        "first": "ZUES CARLO",
-        "last": "BATZ STOUP",
-        "full": "ZUES CARLO BATZ STOUP"
+        "first": "Testing GivenName",
+        "last": "Testing FamilyName",
+        "full": "FamilyName GivenName"
       },
       "role": "PASSENGER",
-      "dateOfBirth": "1976-12-10T00:00:00Z",
-      "gender": "M",
-      "nationality": "GB",
+      "dateOfBirth": "1976-12-30T00:00:00Z",
+      "gender": "F",
+      "nationality": "AU",
       "document": {
         "entitySearchUrl": null,
         "type": "PASSPORT",
@@ -137,9 +137,9 @@
       "seatNumber": "34A"
     },
     "baggage": {
-      "numberOfCheckedBags": null,
-      "weight": null,
-      "tags": []
+      "numberOfCheckedBags": 1,
+      "weight": "23kg",
+      "tags": ["739238"]
     },
     "vehicle": null,
     "trailer": null,

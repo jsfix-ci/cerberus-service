@@ -110,6 +110,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

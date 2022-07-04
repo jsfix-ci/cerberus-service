@@ -336,6 +336,57 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
+  it.only('Should create a Roro-Accompanied task from Cop-targetting API and forward to Ceberus workflow service', () => {
+    const taskName = 'RORO-Accompanied';
+    cy.fixture('RoRo-accompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Accompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
+          cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
+            expect(businessKey).to.equal(response.id);
+          })
+        });
+      });
+    });
+   });
+  
+  it.only('Should create a Roro-Unaccompanied task from Cop-targetting API and forward to Ceberus workflow service', () => {
+    const taskName = 'RORO-Unaccompanied';
+    cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Unaccompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
+          cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
+            expect(businessKey).to.equal(response.id);
+          })
+        });
+      });
+    });
+  });
+  
+  it.only('Should create a Roro-tourist task from Cop-targetting API and forward to Ceberus workflow service', () => {
+    const taskName = 'RORO-tourist';
+    cy.fixture('RoRo-tourist-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createAirPaxTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-tourist');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
+          cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
+            expect(businessKey).to.equal(response.id);
+          })
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
