@@ -355,4 +355,40 @@ describe('PersonUtil', () => {
     const output = PersonUtil.allPersons(person, coTravellers);
     expect(output.length).toEqual(4);
   });
+
+  it('should return the count of all co-travellrs within the movement', () => {
+    const targetTaskMin = {
+      movement: {
+        otherPersons: [...coTravellers],
+      },
+    };
+    expect(PersonUtil.othersCount(targetTaskMin)).toEqual(3);
+  });
+
+  it('should return 0 when co-travellrs is null within the movement', () => {
+    const targetTaskMin = {
+      movement: {
+        otherPersons: null,
+      },
+    };
+    expect(PersonUtil.othersCount(targetTaskMin)).toEqual(0);
+  });
+
+  it('should return 0 when co-travellrs is undefined within the movement', () => {
+    const targetTaskMin = {
+      movement: {
+        otherPersons: undefined,
+      },
+    };
+    expect(PersonUtil.othersCount(targetTaskMin)).toEqual(0);
+  });
+
+  it('should return 0 when co-travellrs is an empty array within the movement', () => {
+    const targetTaskMin = {
+      movement: {
+        otherPersons: [],
+      },
+    };
+    expect(PersonUtil.othersCount(targetTaskMin)).toEqual(0);
+  });
 });
