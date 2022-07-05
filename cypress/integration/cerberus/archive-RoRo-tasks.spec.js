@@ -15,7 +15,7 @@ describe('Airpax tasks archive functionality', () => {
 
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain(taskName);
         cy.wait(4000);
         const taskID = response.id;
@@ -57,7 +57,7 @@ describe('Airpax tasks archive functionality', () => {
     cy.setTimeOffset(diff);
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain(taskName);
         cy.wait(4000);
         const taskID = response.id;
@@ -110,7 +110,7 @@ describe('Airpax tasks archive functionality', () => {
 
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain(taskName);
         cy.wait(4000);
         const taskID = response.id;

@@ -8,7 +8,7 @@ describe('Create AirPax task and verify it on UI', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         console.log(response);
         cy.fixture('airpax/airpax-expected-response.json').then((expectedResponse) => {
@@ -32,7 +32,7 @@ describe('Create AirPax task and verify it on UI', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -54,7 +54,7 @@ describe('Create AirPax task and verify it on UI', () => {
       task.data.movement.voyage.features.feats['STANDARDISED:departurePort'].valueList.val[0].CountryCode = departure[1];
       task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'].valueList.val[0].UNLO3 = arrival[0];
       task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'].valueList.val[0].CountryCode = arrival[1];
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         expect(taskResponse.movement.journey.departure.country).to.eq(departure[1]);
         expect(taskResponse.movement.journey.departure.location).to.eq(departure[0]);
@@ -76,7 +76,7 @@ describe('Create AirPax task and verify it on UI', () => {
       task.data.movement.voyage.voyage.arrivalCountry = arrival[1];
       delete task.data.movement.voyage.features.feats['STANDARDISED:departurePort'];
       delete task.data.movement.voyage.features.feats['STANDARDISED:arrivalPort'];
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         expect(taskResponse.movement.journey.departure.country).to.eq(departure[1]);
         expect(taskResponse.movement.journey.departure.location).to.eq(departure[0]);
@@ -90,7 +90,7 @@ describe('Create AirPax task and verify it on UI', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -102,7 +102,7 @@ describe('Create AirPax task and verify it on UI', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-rules-selectros-with-diff-threat-category.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);

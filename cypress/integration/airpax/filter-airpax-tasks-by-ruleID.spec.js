@@ -18,7 +18,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
         rule.ruleName = `${rule.ruleName}_${randomNumber}`;
         ruleNames.push(rule.ruleName);
       });
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain(taskName);
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -63,7 +63,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
         rule.ruleName = `Auto-test_${randomNumber}`;
         task1RuleNames.push(rule.ruleName);
       });
-      cy.createAirPaxTask(task).then((task1Response) => {
+      cy.createTargetingApiTask(task).then((task1Response) => {
         expect(task1Response.movement.id).to.contain(taskName);
         cy.wait(4000);
       });
@@ -76,7 +76,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
         rule.ruleName = `Auto-test_${randomNumber}`;
         task2RuleNames.push(rule.ruleName);
       });
-      cy.createAirPaxTask(task).then((task2Response) => {
+      cy.createTargetingApiTask(task).then((task2Response) => {
         expect(task2Response.movement.id).to.contain(taskName);
         cy.wait(4000);
 

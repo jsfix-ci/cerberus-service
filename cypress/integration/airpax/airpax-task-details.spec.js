@@ -8,7 +8,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -84,7 +84,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -122,7 +122,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -140,7 +140,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         cy.claimAirPaxTaskWithUserId(response.id);
@@ -156,7 +156,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedResponse) => {
@@ -175,7 +175,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-multiple-passengers.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-baggage-expected-multiple-passengers.json').then((expectedResponse) => {
@@ -195,7 +195,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
@@ -219,7 +219,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-no-rules-selectors.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
@@ -233,7 +233,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-selectors-selector-matched-rule.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
@@ -247,14 +247,14 @@ describe('Verify AirPax task details of different sections', () => {
     const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
     cy.fixture('airpax/task-airpax-same-group-reference-selectors.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createAirPaxTask(task).then(() => {
+      cy.createTargetingApiTask(task).then(() => {
         cy.wait(4000);
       });
     });
 
     cy.fixture('airpax/task-airpax-different-group-reference-selectors.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
       });
@@ -328,7 +328,7 @@ describe('Verify AirPax task details of different sections', () => {
       task.data.matchedRules[0].rulePriority = 'Tier 2';
       task.data.matchedRules[1].rulePriority = 'Tier 3';
       task.data.matchedRules[2].rulePriority = 'Tier 2';
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain(taskName);
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -392,14 +392,14 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createAirPaxTask(task).then(() => {
+      cy.createTargetingApiTask(task).then(() => {
         cy.wait(4000);
       });
     });
 
     cy.fixture('airpax/task-airpax-rules-v2.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         businessKey = response.id;
         cy.visit('/airpax/tasks');
@@ -446,7 +446,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
@@ -465,7 +465,7 @@ describe('Verify AirPax task details of different sections', () => {
     const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createAirPaxTask(task).then(() => {
+      cy.createTargetingApiTask(task).then(() => {
         cy.wait(4000);
       });
     });
@@ -473,7 +473,7 @@ describe('Verify AirPax task details of different sections', () => {
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = movementID;
       task.data.movement.persons[0].person.nationality = 'AUS';
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
       });
@@ -482,7 +482,7 @@ describe('Verify AirPax task details of different sections', () => {
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = movementID;
       task.data.movement.persons[0].person.nationality = 'THA';
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
       });
@@ -496,7 +496,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
@@ -515,7 +515,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
@@ -534,7 +534,7 @@ describe('Verify AirPax task details of different sections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
@@ -559,7 +559,7 @@ describe('Verify AirPax task details of different sections', () => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
       task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInFeature;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
         cy.wait('@task').then(({ response }) => {
@@ -587,7 +587,7 @@ describe('Verify AirPax task details of different sections', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.fixture('airpax/task-airpax-rules-selectros-with-diff-threat-category.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain(taskName);
         cy.wait(4000);
         businessKey = response.id;
