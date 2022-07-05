@@ -2122,6 +2122,28 @@ Cypress.Commands.add(('getairPaxItinerayDetails'), (elements) => {
   });
 });
 
+Cypress.Commands.add(('getairPaxTISDetails'), (elements) => {
+  const occupantArray = [];
+  cy.wrap(elements).find('.govuk-summary-list__row').each(($detail) => {
+    let obj = {};
+    cy.wrap($detail).find('.govuk-summary-list__key').invoke('text').then((key) => {
+      if ($detail.find('.govuk-summary-list__value .hods-readonly').length > 0) {
+        cy.wrap($detail).find('.govuk-summary-list__value .hods-readonly').invoke('text')
+          .then((value) => {
+            obj[key] = value;
+          });
+      } else {
+        obj[key] = '';
+      }
+    })
+      .then(() => {
+        occupantArray.push(obj);
+      });
+  }).then(() => {
+    return occupantArray;
+  });
+});
+
 Cypress.Commands.add('acceptPNRTerms', () => {
   cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
   cy.get('input[name="viewPnrData"][value="yes"]').click();
