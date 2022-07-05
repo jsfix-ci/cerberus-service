@@ -690,14 +690,14 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           expect(response.statusCode).to.equal(200);
         });
         cy.get('.govuk-task-list-card').then(($taskListCard) => {
-          if ($taskListCard.text().includes(businessKey)){
+          if ($taskListCard.text().includes(businessKey)) {
             cy.get('.govuk-task-list-card').within(() => {
               cy.get('h4.task-heading').invoke('text').then((text) => {
                 expect(text).includes(businessKey);
               });
             });
           }
-        })
+        });
       });
     });
   });
