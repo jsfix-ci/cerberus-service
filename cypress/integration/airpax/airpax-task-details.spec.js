@@ -622,7 +622,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it.only('Should verify Movement details from target information sheet on task details page', () => {
+  it('Should verify Movement details from target information sheet on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -643,8 +643,8 @@ describe('Verify AirPax task details of different sections', () => {
       });
     });
    });
-  
-  it.only('Should verify Passenger 1 details from target information sheet on task details page', () => {
+
+  it('Should verify Passenger 1 details from target information sheet on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -665,7 +665,7 @@ describe('Verify AirPax task details of different sections', () => {
       });
     });
   });
-  
+
   it('Should verify Warning details from target information sheet on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';

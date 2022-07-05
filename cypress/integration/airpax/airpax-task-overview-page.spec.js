@@ -664,11 +664,11 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       expect($activityText).includes(textNote);
     });
   });
-  it.only('Should complete a task and validate it is moved to the Complete tab', () => {
+  it('Should complete a task and validate it is moved to the Complete tab', () => {
     cy.acceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
-     const taskName = 'AIRPAX';
-     const reason = 'Other reason Test01';
+    const taskName = 'AIRPAX';
+    const reason = 'Other reason Test01';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       cy.createTargetingApiTask(task).then((taskResponse) => {
@@ -693,8 +693,8 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           if ($taskListCard.text().includes(businessKey)) {
             cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
               cy.get('a.govuk-link')
-              .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
-              .click();
+                .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
+                .click();
               cy.wait(2000);
             });
           }
