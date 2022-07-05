@@ -56,7 +56,7 @@ const toOperationNode = (data) => {
   }
 };
 
-const createPersonNode = (person) => {
+const toPersonNode = (person) => {
   if (person) {
     return {
       name: { ...person?.name },
@@ -86,7 +86,7 @@ const toOtherPersonsNode = (data) => {
   const othersPersons = PersonUtil.getOthers(data);
   if (othersPersons?.length) {
     return {
-      otherPersons: othersPersons.map((person) => createPersonNode(person)),
+      otherPersons: othersPersons.map((person) => toPersonNode(person)),
     };
   }
 };
