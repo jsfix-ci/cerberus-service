@@ -664,7 +664,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       expect($activityText).includes(textNote);
     });
   });
-  it('Should complete a task and validate it is moved to the Complete tab', () => {
+  it.only('Should complete a task and validate it is moved to the Complete tab', () => {
     cy.acceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
@@ -691,14 +691,13 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         });
         cy.get('.govuk-task-list-card').then(($taskListCard) => {
           if ($taskListCard.text().includes(businessKey)) {
-            cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
-              cy.get('a.govuk-link')
-                .should('have.attr', 'href', `/airpax/tasks/${businessKey}`)
-                .click();
-              cy.wait(2000);
+            cy.get('.govuk-task-list-card').within(() => {
+              cy.get('h4.task-heading').invoke('text').then((text) => {
+                expect(text).includes(businessKey);
+              });
             });
           }
-        });
+        })
       });
     });
   });
