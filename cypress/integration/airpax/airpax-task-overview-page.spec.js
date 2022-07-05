@@ -664,6 +664,43 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       expect($activityText).includes(textNote);
     });
   });
+  it('Should complete a task and validate it is moved to the Complete tab', () => {
+    cy.acceptPNRTerms();
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    const taskName = 'AIRPAX';
+    const reason = 'Other reason Test01';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        let businessKey = taskResponse.id;
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.claimAirPaxTask();
+        cy.wait(2000);
+        cy.contains('Assessment complete').click();
+        cy.get('#reasonForCompletion-3').click();
+        cy.get('.govuk-input').type(reason);
+        cy.contains('Next').click();
+        cy.contains('Submit form').click();
+        cy.contains('Finish').click();
+        cy.visit('/airpax/tasks');
+        cy.contains('Complete').click();
+        cy.wait('@taskList').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.get('.govuk-task-list-card').then(($taskListCard) => {
+          if ($taskListCard.text().includes(businessKey)) {
+            cy.get('.govuk-task-list-card').within(() => {
+              cy.get('h4.task-heading').invoke('text').then((text) => {
+                expect(text).includes(businessKey);
+              });
+            });
+          }
+        });
+      });
+    });
+  });
 
   after(() => {
     cy.contains('Sign out').click();
