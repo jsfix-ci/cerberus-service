@@ -65,7 +65,7 @@ describe('Airpax task list page', () => {
         task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
         task.data.movement.serviceMovement.features.feats['STANDARDISED:lastReportedStatus'].value = statusInitial;
         console.log(task);
-        cy.createAirPaxTask(task).then((taskResponse) => {
+        cy.createTargetingApiTask(task).then((taskResponse) => {
           expect(taskResponse.movement.id).to.contain('AIRPAX');
           expect(taskResponse.movement.flight.departureStatus).to.contain(status[i]);
           console.log(taskResponse);
@@ -97,7 +97,7 @@ describe('Airpax task list page', () => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       task.data.movement.serviceMovement.features.feats['STANDARDISED:lastReportedStatus'].value = null;
       console.log(task);
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         expect(taskResponse.movement.flight.departureStatus).to.eql(null);
         console.log(taskResponse);
@@ -124,7 +124,7 @@ describe('Airpax task list page', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         let businessKey = taskResponse.id;
         cy.wait(3000);
@@ -147,7 +147,7 @@ describe('Airpax task list page', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-no-selectors.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         console.log(taskResponse);
         let businessKey = taskResponse.id;
@@ -166,7 +166,7 @@ describe('Airpax task list page', () => {
         });
         cy.fixture('airpax/task-airpax.json').then((updateTask) => {
           updateTask.data.movementId = movementId;
-          cy.createAirPaxTask(updateTask).then((updateResponse) => {
+          cy.createTargetingApiTask(updateTask).then((updateResponse) => {
             expect(updateResponse.movement.id).to.contain(movementId);
             expect(updateResponse.id).to.equal(businessKey);
             cy.reload();
@@ -193,7 +193,7 @@ describe('Airpax task list page', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
@@ -220,13 +220,13 @@ describe('Airpax task list page', () => {
         cy.contains('Finish').click();
         cy.fixture('airpax/task-airpax-same-group-reference-selectors.json').then((updateTask) => {
           updateTask.data.movementId = movementId;
-          cy.createAirPaxTask(updateTask).then((updateResponse) => {
+          cy.createTargetingApiTask(updateTask).then((updateResponse) => {
             expect(updateResponse.movement.id).to.contain(movementId);
             expect(updateResponse.id).to.equal(businessKey);
             cy.wait(2000);
             cy.fixture('airpax/task-airpax-latest.json').then((relistedTask) => {
               relistedTask.data.movementId = movementId;
-              cy.createAirPaxTask(relistedTask).then((relistedResponse) => {
+              cy.createTargetingApiTask(relistedTask).then((relistedResponse) => {
                 expect(relistedResponse.movement.id).to.contain(movementId);
                 expect(relistedResponse.id).to.equal(businessKey);
                 cy.visit('/airpax/tasks');

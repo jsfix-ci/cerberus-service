@@ -15,7 +15,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -91,7 +91,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -141,7 +141,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -206,7 +206,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -287,7 +287,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -343,7 +343,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     cy.fixture('airpax/taskSummaryExpected-Crew.json').as('expectedData');
     cy.fixture('airpax/task-airpax-Crew.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -371,7 +371,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -421,7 +421,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const nextPage = 'a[data-test="next"]';
     cy.fixture('airpax/task-airpax-rules-with-diff-threat.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain(taskName);
         cy.wait(4000);
         let businessKey = taskResponse.id;
@@ -480,7 +480,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
@@ -581,7 +581,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
       task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInFeature;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain(taskName);
         cy.wait(5000);
         let businessKey = taskResponse.id;
@@ -612,7 +612,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       task.data.movement.voyage.voyage.scheduledDepartureTimestamp = departureTime;
       task.data.movement.voyage.voyage.scheduledArrivalTimestamp = arrivalTimeInPast;
-      cy.createAirPaxTask(task).then((taskResponse) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain(taskName);
         cy.wait(5000);
         let businessKey = taskResponse.id;

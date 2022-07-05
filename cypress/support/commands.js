@@ -1918,18 +1918,6 @@ Cypress.Commands.add('createTargetingApiTask', (task) => {
   });
 });
 
-Cypress.Commands.add('createAirPaxTask', (task) => {
-  cy.request({
-    method: 'POST',
-    url: `https://${targetingApiUrl}/v2/movement-records`,
-    headers: { Authorization: `Bearer ${token}` },
-    body: task,
-  }).then((response) => {
-    expect(response.status).to.eq(201);
-    return response.body;
-  });
-});
-
 Cypress.Commands.add('issueAirPaxTask', (task) => {
   cy.request({
     method: 'POST',
