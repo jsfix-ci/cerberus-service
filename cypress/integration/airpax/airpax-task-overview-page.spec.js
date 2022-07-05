@@ -662,7 +662,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
     cy.get('@taskActivity').then(($activityText) => {
       expect($activityText).includes(textNote);
-    }); 
+    });
   });
 
   after(() => {
