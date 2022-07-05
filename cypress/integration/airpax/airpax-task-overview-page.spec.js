@@ -664,7 +664,8 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       expect($activityText).includes(textNote);
     });
   });
-     it('Should complete a task and validate it is moved to the Complete tab', () => {
+  it.only('Should complete a task and validate it is moved to the Complete tab', () => {
+    cy.acceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
      const taskName = 'AIRPAX';
      const reason = 'Other reason Test01';
@@ -677,9 +678,9 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.checkAirPaxTaskDisplayed(businessKey);
         cy.claimAirPaxTask();
         cy.wait(2000);
-        cy.contains('Assesment complete').click();
+        cy.contains('Assessment complete').click();
         cy.get('#reasonForCompletion-3').click();
-        cy.get('govuk-input').type(reason);
+        cy.get('.govuk-input').type(reason);
         cy.contains('Next').click();
         cy.contains('Submit form').click();
         cy.contains('Finish').click();
