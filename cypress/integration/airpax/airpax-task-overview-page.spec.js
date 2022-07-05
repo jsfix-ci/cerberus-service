@@ -635,6 +635,36 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
+  it('Should check notes are shown after correcting validation error', () => {
+    const textNote = 'This is a test note';
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+    cy.get('#note').should('not.exist');
+    cy.claimAirPaxTask();
+    cy.get('.govuk-label').invoke('text').then(($text) => {
+      expect($text).to.equal('Add a new note');
+    });
+    cy.get('.hods-button').click();
+    cy.wait(2000);
+    cy.get('#error-summary').should('be.visible');
+    cy.get('.govuk-list li a').should('have.text', 'Add a new note is required');
+    cy.get('#note').should('be.visible').type(textNote);
+    cy.get('.hods-button').click();
+    cy.wait(2000);
+    cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
+    cy.get('@taskActivity').then(($activityText) => {
+      expect($activityText).includes(textNote);
+    }); 
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
