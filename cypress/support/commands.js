@@ -1906,6 +1906,18 @@ Cypress.Commands.add('verifyDateTime', (elementName, dateTimeFormatted) => {
   );
 });
 
+Cypress.Commands.add('createTargettingApiTask', (task) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/movement-records`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(201);
+    return response.body;
+  });
+});
+
 Cypress.Commands.add('createAirPaxTask', (task) => {
   cy.request({
     method: 'POST',
