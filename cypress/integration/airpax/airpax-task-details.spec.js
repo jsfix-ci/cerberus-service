@@ -642,7 +642,7 @@ describe('Verify AirPax task details of different sections', () => {
         });
       });
     });
-   });
+  });
 
   it('Should verify Passenger 1 details from target information sheet on task details page', () => {
     cy.acceptPNRTerms();
