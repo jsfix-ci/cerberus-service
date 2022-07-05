@@ -1906,7 +1906,7 @@ Cypress.Commands.add('verifyDateTime', (elementName, dateTimeFormatted) => {
   );
 });
 
-Cypress.Commands.add('createTargettingApiTask', (task) => {
+Cypress.Commands.add('createTargetingApiTask', (task) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/movement-records`,

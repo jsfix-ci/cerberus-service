@@ -336,11 +336,11 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a Roro-Accompanied task from Cop-targetting API and forward to Cerberus workflow service', () => {
+  it('Should create a Roro-Accompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
     const taskName = 'RORO-Accompanied';
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargettingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('RORO-Accompanied');
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.id}`);
@@ -356,11 +356,11 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a Roro-Unaccompanied task from Cop-targetting API and forward to Cerberus workflow service', () => {
+  it('Should create a Roro-Unaccompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
     const taskName = 'RORO-Unaccompanied';
     cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargettingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('RORO-Unaccompanied');
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.id}`);
@@ -376,11 +376,11 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a Roro-Tourist task from Cop-targetting API and forward to Cerberus workflow service', () => {
+  it('Should create a Roro-Tourist task from Cop-targeting API and forward to Cerberus workflow service', () => {
     const taskName = 'RORO-Tourist';
     cy.fixture('RoRo-tourist-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargettingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((response) => {
         expect(response.movement.id).to.contain('RORO-Tourist');
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.id}`);
