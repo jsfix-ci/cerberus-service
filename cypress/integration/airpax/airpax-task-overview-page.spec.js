@@ -664,7 +664,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
       expect($activityText).includes(textNote);
     });
   });
-  it.only('Should complete a task and validate it is moved to the Complete tab', () => {
+  it('Should complete a task and validate it is moved to the Complete tab', () => {
     cy.acceptPNRTerms();
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
