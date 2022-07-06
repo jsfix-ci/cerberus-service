@@ -5,8 +5,44 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
-const toWarningsNode = (informationSheet) => {
-  const risks = RisksUtil.getRisks(informationSheet);
+const toSubmittingUser = (formData, keycloak) => {
+  const form = formData?.form;
+  if (form) {
+    return {
+      submittingUser: {
+        name: replaceInvalidValues(`${keycloak.tokenParsed.given_name} ${keycloak.tokenParsed.family_name}`),
+        email: replaceInvalidValues(form?.submittedBy),
+      },
+    };
+  }
+};
+
+const toReasoningNode = (formData) => {
+  if (formData?.whySelected) {
+    return {
+      selectionReasoning: replaceInvalidValues(formData?.whySelected),
+    };
+  }
+};
+
+const toRemarksNode = (formData) => {
+  if (formData?.warnings?.targetActions) {
+    return {
+      remarks: replaceInvalidValues(formData?.warnings?.targetActions),
+    };
+  }
+};
+
+const toTargetReceiptTeamNode = (formData) => {
+  if (formData?.teamToReceiveTheTarget) {
+    return {
+      teamToReceiveTheTarget: formData.teamToReceiveTheTarget,
+    };
+  }
+};
+
+const toWarningsNode = (formData) => {
+  const risks = RisksUtil.getRisks(formData);
   if (risks?.selector) {
     const warning = risks?.selector?.warning;
     if (warning) {
@@ -15,14 +51,15 @@ const toWarningsNode = (informationSheet) => {
           identified: replaceInvalidValues(warning?.status?.toLowerCase()),
           type: warning?.types,
           details: replaceInvalidValues(warning?.detail),
+          targetActions: replaceInvalidValues(formData?.remarks),
         },
       };
     }
   }
 };
 
-const toCategoryNode = (informationSheet) => {
-  const risks = RisksUtil.getRisks(informationSheet);
+const toCategoryNode = (formData) => {
+  const risks = RisksUtil.getRisks(formData);
   if (risks?.selector) {
     const category = risks?.selector?.category;
     if (category) {
@@ -38,8 +75,8 @@ const toCategoryNode = (informationSheet) => {
   }
 };
 
-const toTargetingIndicatorsNode = (informationSheet) => {
-  const risks = RisksUtil.getRisks(informationSheet);
+const toTargetingIndicatorsNode = (formData) => {
+  const risks = RisksUtil.getRisks(formData);
   const targetingIndicators = RisksUtil.getIndicators(risks);
   if (targetingIndicators?.length) {
     return {
@@ -48,18 +85,18 @@ const toTargetingIndicatorsNode = (informationSheet) => {
   }
 };
 
-const toOperationNode = (informationSheet) => {
-  if (informationSheet?.operation) {
+const toOperationNode = (formData) => {
+  if (formData?.operation) {
     return {
-      operation: replaceInvalidValues(informationSheet.operation),
+      operation: replaceInvalidValues(formData.operation),
     };
   }
 };
 
-const toPersonNode = (informationSheet) => {
-  const person = PersonUtil.get(informationSheet);
-  const flight = MovementUtil.movementFlight(informationSheet);
-  const baggage = BaggageUtil.get(informationSheet);
+const toPersonNode = (formData) => {
+  const person = PersonUtil.get(formData);
+  const flight = MovementUtil.movementFlight(formData);
+  const baggage = BaggageUtil.get(formData);
   if (person) {
     return {
       person: {
@@ -93,13 +130,13 @@ const toPersonNode = (informationSheet) => {
   }
 };
 
-const toMovementNode = (informationSheet) => {
-  const flight = MovementUtil.movementFlight(informationSheet);
-  const journey = MovementUtil.movementJourney(informationSheet);
+const toMovementNode = (formData) => {
+  const flight = MovementUtil.movementFlight(formData);
+  const journey = MovementUtil.movementJourney(formData);
   return {
     movement: {
       flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
-      || replaceInvalidValues(informationSheet?.movement?.journey?.id),
+      || replaceInvalidValues(formData?.movement?.journey?.id),
       routeToUK: replaceInvalidValues(MovementUtil.movementRoute(journey)),
       arrival: {
         date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'DD-MM-YYYY')),
@@ -109,21 +146,29 @@ const toMovementNode = (informationSheet) => {
   };
 };
 
-const toPortNode = (informationSheet) => {
-  if (informationSheet?.eventPort) {
+const toIssuingHubNode = (formData) => {
+  if (formData?.issuingHub) {
     return {
-      eventPort: informationSheet.eventPort,
+      issuingHub: formData.issuingHub,
     };
   }
 };
 
-const toIdNode = (informationSheet) => {
-  if (informationSheet?.id) {
-    return { businessKey: informationSheet.id };
+const toPortNode = (formData) => {
+  if (formData?.eventPort) {
+    return {
+      eventPort: formData.eventPort,
+    };
   }
 };
 
-const toTisPrefillData = (informationSheet) => {
+const toIdNode = (formData) => {
+  if (formData?.id) {
+    return { id: formData.id };
+  }
+};
+
+const toTisPrefillPayload = (informationSheet) => {
   let tisPrefillData = {};
   if (informationSheet) {
     tisPrefillData = {
@@ -136,20 +181,35 @@ const toTisPrefillData = (informationSheet) => {
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
       ...toWarningsNode(informationSheet),
+      ...toTargetReceiptTeamNode(informationSheet),
     };
   }
   return tisPrefillData;
 };
 
-const toTisSubmissionPayload = (formData) => {
-
+const toTisSubmissionPayload = (formData, keycloak) => {
+  let submissionPayload = {};
+  if (formData) {
+    submissionPayload = {
+      ...submissionPayload,
+      ...toIdNode(formData),
+      ...toPortNode(formData),
+      ...toIssuingHubNode(formData),
+      ...toTargetReceiptTeamNode(formData),
+      ...toRemarksNode(formData),
+      ...toReasoningNode(formData),
+      ...toOperationNode(formData),
+      ...toSubmittingUser(formData, keycloak),
+    };
+  }
+  return submissionPayload;
 };
 
 const TargetInformationUtil = {
-  toPrefill: toTisPrefillData,
-  toSubmission: toTisSubmissionPayload,
+  prefillPayload: toTisPrefillPayload,
+  submissionPayload: toTisSubmissionPayload,
 };
 
 export default TargetInformationUtil;
 
-export { toTisPrefillData, toTisSubmissionPayload };
+export { toTisPrefillPayload, toTisSubmissionPayload };
