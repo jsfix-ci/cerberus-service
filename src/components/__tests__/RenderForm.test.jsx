@@ -58,7 +58,7 @@ describe('RenderForm', () => {
 
     expect(screen.getByLabelText('Arrived at port')).toBeInTheDocument();
     expect(screen.getByLabelText('Credibility checks carried out no target required')).toBeInTheDocument();
-    expect(screen.getByLabelText('False BSM/selector match')).toBeInTheDocument();
+    expect(screen.getByLabelText('False SBT')).toBeInTheDocument();
     expect(screen.getByLabelText('Other')).toBeInTheDocument();
   });
 });
