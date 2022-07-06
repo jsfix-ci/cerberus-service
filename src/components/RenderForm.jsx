@@ -49,7 +49,7 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
   };
 
   useEffect(() => {
-    if (form) {
+    if (form && renderer === Renderers.FORM_IO) {
       interpolate(form, {
         keycloakContext: {
           accessToken: keycloak.token,
@@ -69,7 +69,7 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
         },
       });
     }
-  }, [form]);
+  }, [form, renderer]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
