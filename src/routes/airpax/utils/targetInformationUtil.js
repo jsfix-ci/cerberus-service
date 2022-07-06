@@ -56,7 +56,42 @@ const toOperationNode = (data) => {
   }
 };
 
-const toPersonNode = (data) => {
+const toPersonNode = (person) => {
+  if (person) {
+    return {
+      name: { ...person?.name },
+      dateOfBirth: replaceInvalidValues(DateTimeUtil.format(person?.dateOfBirth, 'DD-MM-YYYY')),
+      nationality: {
+        ...person?.nationality,
+        value: replaceInvalidValues(person?.nationality?.id),
+        label: replaceInvalidValues(person?.nationality?.nationality),
+      },
+      sex: {
+        ...person?.gender,
+        value: replaceInvalidValues(person?.gender?.id),
+        label: replaceInvalidValues(person?.gender?.name),
+      },
+      document: {
+        type: {
+          ...person?.document?.type,
+        },
+        documentNumber: replaceInvalidValues(person?.document?.number),
+        documentExpiry: replaceInvalidValues(DateTimeUtil.format(person?.document?.expiry, 'DD-MM-YYYY')),
+      },
+    };
+  }
+};
+
+const toOtherPersonsNode = (data) => {
+  const othersPersons = PersonUtil.getOthers(data);
+  if (othersPersons?.length) {
+    return {
+      otherPersons: othersPersons.map((person) => toPersonNode(person)),
+    };
+  }
+};
+
+const toMainPersonNode = (data) => {
   const person = PersonUtil.get(data);
   const flight = MovementUtil.movementFlight(data);
   const baggage = BaggageUtil.get(data);
@@ -131,7 +166,8 @@ const toTisPrefillData = (data) => {
       ...toIdNode(data),
       ...toPortNode(data),
       ...toMovementNode(data),
-      ...toPersonNode(data),
+      ...toMainPersonNode(data),
+      ...toOtherPersonsNode(data),
       ...toOperationNode(data),
       ...toTargetingIndicatorsNode(data),
       ...toCategoryNode(data),
