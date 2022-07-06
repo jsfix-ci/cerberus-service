@@ -26,7 +26,7 @@ export default {
             options: [
               {
                 value: 'ARRIVED',
-                label: 'Vessel arrived',
+                label: 'Arrived at port',
               },
               {
                 value: 'FALSE_RULE_MATCH',
