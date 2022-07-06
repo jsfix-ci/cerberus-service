@@ -87,9 +87,7 @@
       "movementStats": null,
       "frequentFlyerNumber": null
     },
-    "otherPersons": [
-      
-    ],
+    "otherPersons": [],
     "flight": {
       "departureStatus": "DEPARTURE_CONFIRMED",
       "number": "BA103",
@@ -98,14 +96,14 @@
     },
     "baggage": {
       "numberOfCheckedBags": 1,
-      "weight": "1kg",    
+      "weight": "1kg",
       "tags": [
-          "739238",
-          "739239",
-          "739240",
-          "739242",
-          "739243",
-          "73925"
+        "739238",
+        "739239",
+        "739240",
+        "739242",
+        "739243",
+        "73925"
       ]
     },
     "vehicle": null,
@@ -135,13 +133,9 @@
       "count": 2,
       "score": 60
     },
-    "matchedRules": [
-      
-    ],
+    "matchedRules": [],
     "matchedSelectorGroups": {
-      "groups": [
-        
-      ],
+      "groups": [],
       "totalNumberOfSelectors": 0
     },
     "highestThreatLevel": null
@@ -357,9 +351,7 @@
       },
       "risks": {
         "targetingIndicators": {
-          "indicators": [
-            
-          ],
+          "indicators": [],
           "count": 0,
           "score": 0
         },
@@ -553,9 +545,7 @@
           }
         ],
         "matchedSelectorGroups": {
-          "groups": [
-            
-          ],
+          "groups": [],
           "totalNumberOfSelectors": 0
         },
         "highestThreatLevel": {
@@ -765,9 +755,7 @@
       },
       "risks": {
         "targetingIndicators": {
-          "indicators": [
-            
-          ],
+          "indicators": [],
           "count": 0,
           "score": 0
         },
@@ -961,9 +949,7 @@
           }
         ],
         "matchedSelectorGroups": {
-          "groups": [
-            
-          ],
+          "groups": [],
           "totalNumberOfSelectors": 0
         },
         "highestThreatLevel": {
