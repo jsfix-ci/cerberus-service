@@ -5,8 +5,8 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
-const toWarningsNode = (data) => {
-  const risks = RisksUtil.getRisks(data);
+const toWarningsNode = (informationSheet) => {
+  const risks = RisksUtil.getRisks(informationSheet);
   if (risks?.selector) {
     const warning = risks?.selector?.warning;
     if (warning) {
@@ -21,8 +21,8 @@ const toWarningsNode = (data) => {
   }
 };
 
-const toCategoryNode = (data) => {
-  const risks = RisksUtil.getRisks(data);
+const toCategoryNode = (informationSheet) => {
+  const risks = RisksUtil.getRisks(informationSheet);
   if (risks?.selector) {
     const category = risks?.selector?.category;
     if (category) {
@@ -38,8 +38,8 @@ const toCategoryNode = (data) => {
   }
 };
 
-const toTargetingIndicatorsNode = (data) => {
-  const risks = RisksUtil.getRisks(data);
+const toTargetingIndicatorsNode = (informationSheet) => {
+  const risks = RisksUtil.getRisks(informationSheet);
   const targetingIndicators = RisksUtil.getIndicators(risks);
   if (targetingIndicators?.length) {
     return {
@@ -48,18 +48,18 @@ const toTargetingIndicatorsNode = (data) => {
   }
 };
 
-const toOperationNode = (data) => {
-  if (data?.operation) {
+const toOperationNode = (informationSheet) => {
+  if (informationSheet?.operation) {
     return {
-      operation: replaceInvalidValues(data.operation),
+      operation: replaceInvalidValues(informationSheet.operation),
     };
   }
 };
 
-const toPersonNode = (data) => {
-  const person = PersonUtil.get(data);
-  const flight = MovementUtil.movementFlight(data);
-  const baggage = BaggageUtil.get(data);
+const toPersonNode = (informationSheet) => {
+  const person = PersonUtil.get(informationSheet);
+  const flight = MovementUtil.movementFlight(informationSheet);
+  const baggage = BaggageUtil.get(informationSheet);
   if (person) {
     return {
       person: {
@@ -93,13 +93,13 @@ const toPersonNode = (data) => {
   }
 };
 
-const toMovementNode = (data) => {
-  const flight = MovementUtil.movementFlight(data);
-  const journey = MovementUtil.movementJourney(data);
+const toMovementNode = (informationSheet) => {
+  const flight = MovementUtil.movementFlight(informationSheet);
+  const journey = MovementUtil.movementJourney(informationSheet);
   return {
     movement: {
       flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
-      || replaceInvalidValues(data?.movement?.journey?.id),
+      || replaceInvalidValues(informationSheet?.movement?.journey?.id),
       routeToUK: replaceInvalidValues(MovementUtil.movementRoute(journey)),
       arrival: {
         date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'DD-MM-YYYY')),
@@ -109,40 +109,47 @@ const toMovementNode = (data) => {
   };
 };
 
-const toPortNode = (data) => {
-  if (data?.eventPort) {
+const toPortNode = (informationSheet) => {
+  if (informationSheet?.eventPort) {
     return {
-      eventPort: data.eventPort,
+      eventPort: informationSheet.eventPort,
     };
   }
 };
 
-const toIdNode = (data) => {
-  if (data?.id) {
-    return { businessKey: data.id };
+const toIdNode = (informationSheet) => {
+  if (informationSheet?.id) {
+    return { businessKey: informationSheet.id };
   }
 };
 
-const toTisPrefillData = (data) => {
+const toTisPrefillData = (informationSheet) => {
   let tisPrefillData = {};
-  if (data) {
+  if (informationSheet) {
     tisPrefillData = {
       ...tisPrefillData,
-      ...toIdNode(data),
-      ...toPortNode(data),
-      ...toMovementNode(data),
-      ...toPersonNode(data),
-      ...toOperationNode(data),
-      ...toTargetingIndicatorsNode(data),
-      ...toCategoryNode(data),
-      ...toWarningsNode(data),
+      ...toIdNode(informationSheet),
+      ...toPortNode(informationSheet),
+      ...toMovementNode(informationSheet),
+      ...toPersonNode(informationSheet),
+      ...toOperationNode(informationSheet),
+      ...toTargetingIndicatorsNode(informationSheet),
+      ...toCategoryNode(informationSheet),
+      ...toWarningsNode(informationSheet),
     };
   }
   return tisPrefillData;
 };
 
+const toTisSubmissionPayload = (formData) => {
+
+};
+
 const TargetInformationUtil = {
-  transform: toTisPrefillData,
+  toPrefill: toTisPrefillData,
+  toSubmission: toTisSubmissionPayload,
 };
 
 export default TargetInformationUtil;
+
+export { toTisPrefillData, toTisSubmissionPayload };

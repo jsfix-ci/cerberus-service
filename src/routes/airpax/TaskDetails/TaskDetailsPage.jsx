@@ -38,6 +38,9 @@ import '../__assets__/TaskDetailsPage.scss';
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../../cop-forms/completeTaskCerberus';
 
+// TODO: TEST JSON
+import tisForm from '../../../cop-forms/tisForm';
+
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
@@ -61,7 +64,7 @@ const TaskDetailsPage = () => {
     let response;
     try {
       response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-      setPrefillData(TargetInformationUtil.transform(response.data));
+      setPrefillData(TargetInformationUtil.toPrefill(response.data));
     } catch (e) {
       setTaskData({});
     }
@@ -180,7 +183,8 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-two-thirds">
           {isIssueTargetFormOpen && !isSubmitted && (
           <RenderForm
-            formName="cerberus-airpax-target-information-sheet"
+            form={tisForm}
+            // formName="cerberus-airpax-target-information-sheet"
             preFillData={preFillData}
             onSubmit={
               async ({ data }) => {
