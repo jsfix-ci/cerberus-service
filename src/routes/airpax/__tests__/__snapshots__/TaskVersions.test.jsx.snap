@@ -1047,7 +1047,7 @@ exports[`TaskVersions should render task versions 1`] = `
               <h3
                 className="govuk-heading-m govuk-!-margin-bottom-0"
               >
-                4 travellers
+                3 Co-travellers
               </h3>
               <table
                 className="hods-table co-travellers-table"
@@ -1082,77 +1082,6 @@ exports[`TaskVersions should render task versions 1`] = `
                 <tbody
                   className="hods-table__body"
                 >
-                  <tr
-                    className="hods-table__row"
-                    role="row"
-                  >
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Traveller
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        MESTA
-                        , 
-                        GEMMA
-                         
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Unknown
-                        , 
-                        Unknown
-                        , 
-                        Unknown
-                         (
-                        Unknown
-                        )
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Age
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Document
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Passport
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Issued by 
-                        FR
-                      </div>
-                    </td>
-                  </tr>
                   <tr
                     className="hods-table__row"
                     role="row"

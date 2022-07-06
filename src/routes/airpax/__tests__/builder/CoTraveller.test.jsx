@@ -5,8 +5,20 @@ import CoTraveller from '../../TaskDetails/builder/CoTraveller';
 import taskDetailsData from '../../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
 
 describe('CoTraveller', () => {
-  it('should render the co traveller component', () => {
-    const tree = renderer.create(<CoTraveller version={taskDetailsData.versions[0]} />).toJSON();
+  let version = {};
+
+  beforeEach(() => {
+    version = taskDetailsData.versions[0];
+  });
+
+  it('should render the co-traveller component', () => {
+    const tree = renderer.create(<CoTraveller version={version} />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should not render the co-traveller component', () => {
+    version.movement.otherPersons = [];
+    const tree = renderer.create(<CoTraveller version={version} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

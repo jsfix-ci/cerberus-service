@@ -123,6 +123,10 @@ const getTotalNumberOfPersons = (targetTask) => {
   return targetTask.movement.otherPersons.length + 1;
 };
 
+const getTotalNumberOfOtherPersons = (targetTask) => {
+  return targetTask?.movement?.otherPersons?.length || 0;
+};
+
 const hasOtherPersons = (targetTask) => {
   return !!targetTask?.movement?.otherPersons?.length;
 };
@@ -149,6 +153,7 @@ const PersonUtil = {
   get: getPerson,
   getOthers: getOtherPersons,
   totalPersons: getTotalNumberOfPersons,
+  othersCount: getTotalNumberOfOtherPersons,
   toOthers: toCoTravellers,
   allPersons: getAllPersons,
   firstname: getFirstName,
@@ -176,6 +181,7 @@ export {
   getLastName,
   toCoTravellers,
   getTotalNumberOfPersons,
+  getTotalNumberOfOtherPersons,
   getOtherPersons,
   getFrequentFlyerNumber,
   getSSRCodes,
