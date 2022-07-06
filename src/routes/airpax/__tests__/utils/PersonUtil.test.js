@@ -365,7 +365,7 @@ describe('PersonUtil', () => {
     expect(PersonUtil.othersCount(targetTaskMin)).toEqual(3);
   });
 
-  it('should return 0 when co-travellers is either null, undefined or an empry array within the movement', () => {
+  it('should return 0 when co-travellers is either null, undefined or an empty array within the movement', () => {
     const TARGET_TASKS = [
       {
         movement: {
