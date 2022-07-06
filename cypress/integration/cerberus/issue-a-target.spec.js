@@ -43,58 +43,58 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.verifySelectedDropdownValue('mode', 'RoRo Freight Accompanied');
 
-      cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
-        let driiverDOB = targetData.driverTIS['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
-        let driverDocExpiry = targetData.driverTIS['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
+    cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
+      let driiverDOB = targetData.driverTIS['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
+      let driverDocExpiry = targetData.driverTIS['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
 
-        cy.get('.formio-component-driver').within(() => {
-          cy.verifyElementText('firstName', targetData.driverTIS.firstName);
-          cy.verifyElementText('lastName', targetData.driverTIS.lastName);
-          cy.verifyDate('dob', driiverDOB[0], driiverDOB[1], driiverDOB[2]);
-          cy.verifyElementText('docNumber', targetData.driverTIS['Travel document number']);
-          cy.verifyDate('docExpiry', driverDocExpiry[0], driverDocExpiry[1], driverDocExpiry[2]);
-        });
-        cy.verifyElementText('name', targetData.vessel.name);
-        cy.verifyElementText('company', targetData.vessel.shippingCompany);
-        cy.verifyElementText('make', targetData['vehicle-details'].vehicle.Make);
-        cy.verifyElementText('model', targetData['vehicle-details'].vehicle.Model);
-        cy.verifyElementText('colour', targetData['vehicle-details'].vehicle.Colour);
-        cy.verifyElementText('registrationNumber', targetData['vehicle-details'].vehicle['Vehicle registration']);
-        cy.verifyElementText('regNumber', 'IR-6457');
-        cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
-        cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
-        cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
-
-        const name = 'passengers';
-        let row = 0;
-        for (let passenger of targetData.passengersTIS) {
-          row += 1;
-          cy.get(`.formio-component-${name} [ref="datagrid-${name}-tbody"] > div:nth-child(${row})`).should('be.visible').within(() => {
-            cy.verifyElementText('firstName', passenger.Name.split(' ')[0]);
-            cy.verifyElementText('lastName', passenger.Name.split(' ')[1]);
-            let passengerDOB = passenger['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
-            let passengerDocExpiry = passenger['Travel document expiry'].replace(/(^|-)0+/g, '').split('/');
-            cy.verifyDate('dob', passengerDOB[0], passengerDOB[1], passengerDOB[2]);
-            cy.verifyElementText('docNumber', passenger['Travel document number']);
-            cy.verifySelectedDropdownValue('sex', passenger.Gender);
-            cy.verifyDate('docExpiry', passengerDocExpiry[0], passengerDocExpiry[1], passengerDocExpiry[2]);
-          });
-        }
-
-        cy.verifySelectedCheckBox('detailsOf', ['haulier']);
-
-        cy.get('.formio-component-haulier').within(() => {
-          cy.verifyElementText('name', targetData.haulierTIS.Name);
-          cy.verifyElementText('address', targetData.haulierTIS.Address);
-          cy.verifyElementText('city', targetData.haulierTIS.City);
-          cy.verifyElementText('country', targetData.haulierTIS.Country);
-        });
-
-        cy.get('.formio-component-account').within(() => {
-          cy.verifyElementText('name', targetData['account-details'].account['Full name']);
-          cy.verifyElementText('number', targetData['account-details'].account['Reference number']);
-        });
+      cy.get('.formio-component-driver').within(() => {
+        cy.verifyElementText('firstName', targetData.driverTIS.firstName);
+        cy.verifyElementText('lastName', targetData.driverTIS.lastName);
+        cy.verifyDate('dob', driiverDOB[0], driiverDOB[1], driiverDOB[2]);
+        cy.verifyElementText('docNumber', targetData.driverTIS['Travel document number']);
+        cy.verifyDate('docExpiry', driverDocExpiry[0], driverDocExpiry[1], driverDocExpiry[2]);
       });
+      cy.verifyElementText('name', targetData.vessel.name);
+      cy.verifyElementText('company', targetData.vessel.shippingCompany);
+      cy.verifyElementText('make', targetData['vehicle-details'].vehicle.Make);
+      cy.verifyElementText('model', targetData['vehicle-details'].vehicle.Model);
+      cy.verifyElementText('colour', targetData['vehicle-details'].vehicle.Colour);
+      cy.verifyElementText('registrationNumber', targetData['vehicle-details'].vehicle['Vehicle registration']);
+      cy.verifyElementText('regNumber', 'IR-6457');
+      cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
+      cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
+      cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
+
+      const name = 'passengers';
+      let row = 0;
+      for (let passenger of targetData.passengersTIS) {
+        row += 1;
+        cy.get(`.formio-component-${name} [ref="datagrid-${name}-tbody"] > div:nth-child(${row})`).should('be.visible').within(() => {
+          cy.verifyElementText('firstName', passenger.Name.split(' ')[0]);
+          cy.verifyElementText('lastName', passenger.Name.split(' ')[1]);
+          let passengerDOB = passenger['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
+          let passengerDocExpiry = passenger['Travel document expiry'].replace(/(^|-)0+/g, '').split('/');
+          cy.verifyDate('dob', passengerDOB[0], passengerDOB[1], passengerDOB[2]);
+          cy.verifyElementText('docNumber', passenger['Travel document number']);
+          cy.verifySelectedDropdownValue('sex', passenger.Gender);
+          cy.verifyDate('docExpiry', passengerDocExpiry[0], passengerDocExpiry[1], passengerDocExpiry[2]);
+        });
+      }
+
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', targetData.haulierTIS.Name);
+        cy.verifyElementText('address', targetData.haulierTIS.Address);
+        cy.verifyElementText('city', targetData.haulierTIS.City);
+        cy.verifyElementText('country', targetData.haulierTIS.Country);
+      });
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', targetData['account-details'].account['Full name']);
+        cy.verifyElementText('number', targetData['account-details'].account['Reference number']);
+      });
+    });
   });
 
   it('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {
