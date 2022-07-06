@@ -118,16 +118,19 @@ const toRows = (allPersons, version) => {
 };
 
 const CoTraveller = ({ version }) => {
-  const allPersons = PersonUtil.allPersons(PersonUtil.get(version), PersonUtil.getOthers(version));
+  const coTravellers = PersonUtil.getOthers(version);
+  if (!coTravellers) {
+    return null;
+  }
   return (
     <div className="co-travellers-container font__bold govuk-!-padding-top-2 govuk-!-margin-bottom-4">
       <h3 className="govuk-heading-m govuk-!-margin-bottom-0">
-        {pluralise.withCount(PersonUtil.totalPersons(version), '% traveller', '% travellers', undefined)}
+        {pluralise.withCount(PersonUtil.othersCount(version), '% Co-traveller', '% Co-travellers', undefined)}
       </h3>
       <Table
         className="co-travellers-table"
         headings={CO_TRAVELLERS_TABLE_HEADERS}
-        rows={toRows(allPersons, version)}
+        rows={toRows(coTravellers, version)}
       />
     </div>
   );
