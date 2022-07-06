@@ -37,31 +37,7 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           role="columnheader"
           scope="col"
         >
-          Check-in
-        </th>
-        <th
-          role="columnheader"
-          scope="col"
-        >
-          Seat
-        </th>
-        <th
-          role="columnheader"
-          scope="col"
-        >
           Document
-        </th>
-        <th
-          role="columnheader"
-          scope="col"
-        >
-          Checked baggage
-        </th>
-        <th
-          role="columnheader"
-          scope="col"
-        >
-          
         </th>
       </tr>
     </thead>
@@ -124,41 +100,6 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           <span
             className="hods-table__heading"
           >
-            Check-in
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-          <div
-            className="font__light"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            Seat
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
             Document
           </span>
           <div
@@ -172,39 +113,6 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
             Issued by 
             Unknown
           </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            Checked baggage
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            
-          </span>
-          <div
-            className="font__light"
-          >
-            This movement
-          </div>
-          <span
-            className="govuk-visually-hidden"
-          />
         </td>
       </tr>
       <tr
@@ -263,41 +171,6 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           <span
             className="hods-table__heading"
           >
-            Check-in
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-          <div
-            className="font__light"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            Seat
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
             Document
           </span>
           <div
@@ -311,43 +184,6 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
             Issued by 
             Unknown
           </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            Checked baggage
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            
-          </span>
-          <span
-            className="govuk-visually-hidden"
-          >
-            <a
-              className="govuk-link"
-              data-module="govuk-link"
-              href="/airpax/tasks"
-              target="_blank"
-            >
-              Movement detail
-            </a>
-          </span>
         </td>
       </tr>
       <tr
@@ -406,41 +242,6 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           <span
             className="hods-table__heading"
           >
-            Check-in
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-          <div
-            className="font__light"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            Seat
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
             Document
           </span>
           <div
@@ -454,43 +255,6 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
             Issued by 
             Unknown
           </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            Checked baggage
-          </span>
-          <div
-            className="font__bold"
-          >
-            Unknown
-          </div>
-        </td>
-        <td
-          className="hods-table__cell"
-          role="cell"
-        >
-          <span
-            className="hods-table__heading"
-          >
-            
-          </span>
-          <span
-            className="govuk-visually-hidden"
-          >
-            <a
-              className="govuk-link"
-              data-module="govuk-link"
-              href="/airpax/tasks"
-              target="_blank"
-            >
-              Movement detail
-            </a>
-          </span>
         </td>
       </tr>
     </tbody>

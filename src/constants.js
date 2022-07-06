@@ -61,11 +61,7 @@ export const UNKNOWN_TIME_DATA = { h: null, m: null, s: null };
 export const CO_TRAVELLERS_TABLE_HEADERS = [
   'Traveller',
   'Age',
-  'Check-in',
-  'Seat',
   'Document',
-  'Checked baggage',
-  '',
 ];
 export const WARNING_CODES_MAPPING = {
   VIOL: 'Violence',
