@@ -6,6 +6,8 @@ import '../../__mocks__/keycloakMock';
 import RenderForm from '../RenderForm';
 
 import dismissTask from '../../cop-forms/dismissTaskCerberus';
+import completeTask from '../../cop-forms/completeTaskCerberus';
+
 import { Renderers } from '../../utils/Form';
 
 describe('RenderForm', () => {
@@ -32,18 +34,31 @@ describe('RenderForm', () => {
     expect(ON_CANCEL_CALLS).toHaveLength(1);
   });
 
-  it('should submit the form', () => {
+  it('should render the dismiss task form', () => {
     render(<RenderForm
       form={dismissTask}
       onSubmit={jest.fn()}
-      onCancel={ON_CANCEL}
+      onCancel={jest.fn()}
       renderer={Renderers.REACT}
     />);
 
-    userEvent.click(screen.getByRole('radio', { name: 'Vessel arrived' }));
-    userEvent.click(screen.getByRole('button', { name: 'Next' }));
-    userEvent.click(screen.getByRole('button', { name: 'Submit form' }));
+    expect(screen.getByLabelText('Arrived at port')).toBeInTheDocument();
+    expect(screen.getByLabelText('False rule match')).toBeInTheDocument();
+    expect(screen.getByLabelText('Resource redirected')).toBeInTheDocument();
+    expect(screen.getByLabelText('Other')).toBeInTheDocument();
+  });
 
-    expect(ON_CANCEL_CALLS).toHaveLength(0);
+  it('should render the complete task form', () => {
+    render(<RenderForm
+      form={completeTask}
+      onSubmit={jest.fn()}
+      onCancel={jest.fn()}
+      renderer={Renderers.REACT}
+    />);
+
+    expect(screen.getByLabelText('Arrived at port')).toBeInTheDocument();
+    expect(screen.getByLabelText('Credibility checks carried out no target required')).toBeInTheDocument();
+    expect(screen.getByLabelText('False BSM/selector match')).toBeInTheDocument();
+    expect(screen.getByLabelText('Other')).toBeInTheDocument();
   });
 });

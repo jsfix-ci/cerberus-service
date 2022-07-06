@@ -36,7 +36,7 @@ export default {
               },
               {
                 value: 'ARRIVED',
-                label: 'Vessel arrived',
+                label: 'Arrived at port',
               },
               {
                 value: 'OTHER',
