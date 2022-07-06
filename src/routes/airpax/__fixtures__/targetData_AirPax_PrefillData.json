@@ -1,7 +1,7 @@
 {
-    "id": "DEV-20220629-583",
+    "id": "DEV-20220624-781",
     "movement": {
-        "id": "AIRPAX_381294:CMID=TEST",
+        "id": "AIRPAX_344179:CMID=TEST",
         "mode": "AIR_PASSENGER",
         "refDataMode": {
             "id": 2,
@@ -27,12 +27,12 @@
             "arrival": {
                 "country": null,
                 "location": "YYC",
-                "time": "2019-07-21T18:35:00Z"
+                "time": "2022-06-23T11:03:47.440Z"
             },
             "departure": {
                 "country": null,
                 "location": "LHR",
-                "time": "2019-07-21T16:40:00Z"
+                "time": "2022-06-24T11:03:47.440Z"
             }
         },
         "flight": {
@@ -41,14 +41,14 @@
         "person": {
             "id": "dab092daf6d33e8fd2bfe5e2bcff8750",
             "name": {
-                "first": "ZUES CARLO",
-                "last": "BATZ STOUP",
-                "full": "ZUES CARLO BATZ STOUP"
+                "first": "Testing GivenName",
+                "last": "Testing FamilyName",
+                "full": "FamilyName GivenName"
             },
-            "dateOfBirth": "1976-12-10T00:00:00Z",
+            "dateOfBirth": "1976-12-30T00:00:00Z",
             "gender": {
-                "id": "M",
-                "name": "Male",
+                "id": "F",
+                "name": "Female",
                 "validfrom": "2019-01-01T00:01:00Z",
                 "validto": null,
                 "updatedby": null
@@ -67,27 +67,73 @@
                 "expiry": "2023-04-26T00:00:00Z"
             },
             "nationality": {
-                "id": 290,
-                "nationality": "British Citizen",
+                "id": 15,
+                "nationality": "Australia",
                 "description": null,
-                "iso31661alpha3": "GBR",
-                "iso31661alpha2": "GB",
+                "iso31661alpha3": "AUS",
+                "iso31661alpha2": "AU",
                 "visarequired": false,
                 "evwoptional": false,
                 "diplomaticexception": false,
                 "specialexception": false,
-                "countryid": 0,
-                "validfrom": "2022-01-25T00:00:01Z",
+                "countryid": 14,
+                "validfrom": "2019-01-01T00:01:00Z",
                 "validto": null,
-                "updatedby": "Ben Milnes"
+                "updatedby": null
             },
             "photograph": null
         },
-        "otherPersons": [],
+        "otherPersons": [
+            {
+                "id": "dab092daf6d33e8fd2bfe5e2bcff8750",
+                "name": {
+                    "first": "ZUES CARLO",
+                    "last": "BATZ STOUP",
+                    "full": "ZUES CARLO BATZ STOUP"
+                },
+                "dateOfBirth": "1976-12-10T00:00:00Z",
+                "gender": {
+                    "id": "M",
+                    "name": "Male",
+                    "validfrom": "2019-01-01T00:01:00Z",
+                    "validto": null,
+                    "updatedby": null
+                },
+                "document": {
+                    "type": {
+                        "id": 7,
+                        "code": "P ",
+                        "shortdescription": "Passport and Emergency Travel Document",
+                        "longdescription": "Passport and Emergency Travel Document (ETD)",
+                        "validfrom": "2019-01-01T00:01:00Z",
+                        "validto": null,
+                        "updatedby": null
+                    },
+                    "number": "119039375",
+                    "expiry": "2023-04-26T00:00:00Z"
+                },
+                "nationality": {
+                    "id": 290,
+                    "nationality": "British Citizen",
+                    "description": null,
+                    "iso31661alpha3": "GBR",
+                    "iso31661alpha2": "GB",
+                    "visarequired": false,
+                    "evwoptional": false,
+                    "diplomaticexception": false,
+                    "specialexception": false,
+                    "countryid": 0,
+                    "validfrom": "2022-01-25T00:00:01Z",
+                    "validto": null,
+                    "updatedby": "Ben Milnes"
+                },
+                "photograph": null
+            }
+        ],
         "baggage": {
-            "numberOfCheckedBags": 3,
-            "weight": "46kg",
-            "tags": "739238, 739239, 739240"
+            "numberOfCheckedBags": 1,
+            "weight": "23kg",
+            "tags": "739238"
         },
         "goods": null,
         "account": null,
@@ -98,12 +144,14 @@
     "risks": {
         "targetingIndicators": [],
         "selector": {
-            "category": "C",
-            "groupReference": null,
+            "category": "A",
+            "groupReference": "SR-218",
             "warning": {
-                "status": "NO",
-                "types": [],
-                "detail": null
+                "status": "YES",
+                "types": [
+                    "CONTAGION"
+                ],
+                "detail": "Warning details would be shown here"
             }
         }
     },

@@ -11,7 +11,7 @@ describe('Target Information Sheet', () => {
   });
 
   it('should generate prefill data', () => {
-    const EXPECTED_NODE_KEYS = ['businessKey', 'category', 'movement', 'person', 'warnings'];
+    const EXPECTED_NODE_KEYS = ['businessKey', 'category', 'movement', 'otherPersons', 'person', 'warnings'];
 
     const prefillFormData = TargetInformationUtil.transform(PREFILL_DATA);
 
