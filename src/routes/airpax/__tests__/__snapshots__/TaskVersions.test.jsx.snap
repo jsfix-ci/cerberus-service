@@ -601,7 +601,19 @@ exports[`TaskVersions should render task versions 1`] = `
                     >
                       <p
                         className="govuk-!-margin-bottom-0 font__light"
-                      />
+                      >
+                        Check-in date
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Unknown
+                      </p>
                     </div>
                     <div
                       className="govuk-!-margin-bottom-2"

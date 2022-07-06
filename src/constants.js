@@ -227,3 +227,8 @@ export const TASK_LIST_PATHS = ['/airpax/tasks', '/tasks'];
 export const STATUS_CODES = {
   FORBIDDEN: 403,
 };
+
+export const UTC_DATE_REGEXS = [
+  /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
+  /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
+];
