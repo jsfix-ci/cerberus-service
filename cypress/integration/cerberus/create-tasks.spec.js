@@ -435,7 +435,7 @@ describe('Create task with different payload from Cerberus', () => {
 
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
-        cy.wait('@claim').then(({ response }) => {
+        cy.wait('@claim').then(({ claimResponse }) => {
           expect(claimResponse.statusCode).to.equal(204);
         });
         cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
