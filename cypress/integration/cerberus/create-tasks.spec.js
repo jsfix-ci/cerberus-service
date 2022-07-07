@@ -396,6 +396,58 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
+  it('Should verify mode and modeCode for RORO-Accompanied frieght from target information sheet', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+    const taskName = 'RORO-Accompanied';
+    cy.fixture('RoRo-accompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Accompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ claimResponse }) => {
+          expect(claimResponse.statusCode).to.equal(204);
+        });
+        cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
+          expect(responseSheet.id).to.equal(response.id);
+          expect(responseSheet.movement.mode).to.equal('RORO_ACCOMPANIED_FREIGHT');
+          expect(responseSheet.movement.refDataMode.mode).to.equal('RoRo Freight Accompanied');
+          expect(responseSheet.movement.refDataMode.modecode).to.equal('rorofrac');
+        });
+      });
+    });
+  });
+
+  it('Should verify mode and modeCode for RORO-Unaccompanied frieght from target information sheet', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+    const taskName = 'RORO-Unaccompanied';
+    cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Unaccompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ claimResponse }) => {
+          expect(claimResponse.statusCode).to.equal(204);
+        });
+        cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
+          expect(responseSheet.id).to.equal(response.id);
+          expect(responseSheet.movement.mode).to.equal('RORO_UNACCOMPANIED_FREIGHT');
+          expect(responseSheet.movement.refDataMode.mode).to.equal('RoRo Freight Unaccompanied');
+          expect(responseSheet.movement.refDataMode.modecode).to.equal('rorofrun');
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
