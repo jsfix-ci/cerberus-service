@@ -1995,6 +1995,17 @@ Cypress.Commands.add('dismissAirPaxTask', (task, businessKey) => {
   });
 });
 
+Cypress.Commands.add('getInformationSheet', (taskId) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/information-sheets`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    return response.body;
+  });
+});
+
+
 Cypress.Commands.add('sendPNRrequest', () => {
   cy.request({
     method: 'POST',
