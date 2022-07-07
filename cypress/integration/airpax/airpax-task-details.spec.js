@@ -688,7 +688,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-    it('Should verify Co-Passenger details from target information sheet on task details page', () => {
+  it('Should verify Co-Passenger details from target information sheet on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
