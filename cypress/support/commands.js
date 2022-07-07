@@ -2153,18 +2153,19 @@ Cypress.Commands.add(('getOtherPassengersTISDetails'), (elements) => {
       cy.wrap($detail).find('.govuk-summary-list__key').invoke('text').then((key) => {
         if ($detail.find('.govuk-summary-list__value .hods-readonly').length > 0) {
           cy.wrap($detail).find('.govuk-summary-list__value .hods-readonly').invoke('text')
-           .then((value) => {
-             obj[key] = value;
+            .then((value) => {
+              obj[key] = value;
             });
         } else {
-        obj[key] = '';
+          obj[key] = '';
         }
       })
         .then(() => {
           occupantArray.push(obj);
         });
-    }).then(() => {
-      return occupantArray;
+    })
+      .then(() => {
+        return occupantArray;
     });
 });
 
