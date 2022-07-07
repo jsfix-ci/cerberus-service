@@ -190,7 +190,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
 
   it('Should dismiss a task with a reason', () => {
     const reasons = [
-       'Arrived at port',
+      'Arrived at port',
       'False rule match',
       'Resource redirected',
       'Other',
