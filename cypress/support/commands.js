@@ -2164,8 +2164,8 @@ Cypress.Commands.add(('getOtherPassengersTISDetails'), (elements) => {
           occupantArray.push(obj);
         });
     })
-      .then(() => {
-        return occupantArray;
+    .then(() => {
+      return occupantArray;
     });
 });
 
