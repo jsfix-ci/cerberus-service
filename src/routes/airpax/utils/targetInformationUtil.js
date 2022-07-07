@@ -1,4 +1,4 @@
-import { SHORT_DATE_FORMAT, UTC_DATE_FORMAT } from '../../../constants';
+import { UTC_DATE_FORMAT } from '../../../constants';
 import { replaceInvalidValues } from '../../../utils/stringConversion';
 import BaggageUtil from './baggageUtil';
 import DateTimeUtil from './datetimeUtil';
@@ -115,8 +115,44 @@ const toOperationNode = (formData) => {
 
 const toPersonNode = (formData) => {
   const person = PersonUtil.get(formData);
-  const flight = MovementUtil.movementFlight(formData);
-  const baggage = BaggageUtil.get(formData);
+  if (person) {
+    return {
+      name: { ...person?.name },
+      dateOfBirth: replaceInvalidValues(DateTimeUtil.format(person?.dateOfBirth, 'DD-MM-YYYY')),
+      nationality: {
+        ...person?.nationality,
+        value: replaceInvalidValues(person?.nationality?.id),
+        label: replaceInvalidValues(person?.nationality?.nationality),
+      },
+      sex: {
+        ...person?.gender,
+        value: replaceInvalidValues(person?.gender?.id),
+        label: replaceInvalidValues(person?.gender?.name),
+      },
+      document: {
+        type: {
+          ...person?.document?.type,
+        },
+        documentNumber: replaceInvalidValues(person?.document?.number),
+        documentExpiry: replaceInvalidValues(DateTimeUtil.format(person?.document?.expiry, 'DD-MM-YYYY')),
+      },
+    };
+  }
+};
+
+const toOtherPersonsNode = (data) => {
+  const othersPersons = PersonUtil.getOthers(data);
+  if (othersPersons?.length) {
+    return {
+      otherPersons: othersPersons.map((person) => toPersonNode(person)),
+    };
+  }
+};
+
+const toMainPersonNode = (data) => {
+  const person = PersonUtil.get(data);
+  const flight = MovementUtil.movementFlight(data);
+  const baggage = BaggageUtil.get(data);
   if (person) {
     return {
       person: {
@@ -196,7 +232,8 @@ const toTisPrefillPayload = (informationSheet) => {
       ...toIdNode(informationSheet),
       ...toPortNode(informationSheet),
       ...toMovementNode(informationSheet),
-      ...toPersonNode(informationSheet),
+      ...toMainPersonNode(informationSheet),
+      ...toOtherPersonsNode(informationSheet),
       ...toOperationNode(informationSheet),
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
@@ -210,7 +247,6 @@ const toTisPrefillPayload = (informationSheet) => {
 const toMovementSubmissionNode = (taskData, formData) => {
   if (taskData && formData) {
     const journey = MovementUtil.movementJourney(taskData);
-    const person = PersonUtil.get(taskData);
     return {
       movement: {
         id: replaceInvalidValues(taskData?.movement?.id),
@@ -228,7 +264,7 @@ const toMovementSubmissionNode = (taskData, formData) => {
         },
         person: {
           name: formData?.person?.name,
-          dateOfBirth: DateTimeUtil.convertToUTC((formData?.person?.dateOfBirth)?.replace(/-/g, '/'), SHORT_DATE_FORMAT, UTC_DATE_FORMAT),
+          dateOfBirth: DateTimeUtil.convertToUTC(formData?.person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT),
           gender: formData?.person?.sex,
           document: {
             ...formData?.person?.document,

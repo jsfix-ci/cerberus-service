@@ -43,6 +43,20 @@ describe('DateTimeUtil', () => {
     expect(DateTimeUtil.isPast(dateOne)).toEqual(false);
   });
 
+  it('should return true on date validation when date is a valid UTC dates', () => {
+    const VALID_DATES = ['1966-05-13T00:00:00Z', '2022-06-24T13:18:38.076Z'];
+    VALID_DATES.forEach((validDate) => {
+      expect(DateTimeUtil.validate(validDate)).toBeTruthy();
+    });
+  });
+
+  it('should return evaluate to false on date validation when date is invalid', () => {
+    const INVALID_DATES = [null, undefined, '1966-05-13T00:00:000Z', ''];
+    INVALID_DATES.forEach((invalidDate) => {
+      expect(DateTimeUtil.validate(invalidDate)).toBeFalsy();
+    });
+  });
+
   it('should convert a custom date to a UTC date time string', () => {
     const INPUT_DATE = '24-06-2000';
     const INPUT_FORMAT = 'DD-MM-YYYY';

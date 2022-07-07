@@ -601,7 +601,19 @@ exports[`TaskVersions should render task versions 1`] = `
                     >
                       <p
                         className="govuk-!-margin-bottom-0 font__light"
-                      />
+                      >
+                        Check-in date
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__bold"
+                      >
+                        Unknown
+                      </p>
+                      <p
+                        className="govuk-!-margin-bottom-0 font__light"
+                      >
+                        Unknown
+                      </p>
                     </div>
                     <div
                       className="govuk-!-margin-bottom-2"
@@ -1047,7 +1059,7 @@ exports[`TaskVersions should render task versions 1`] = `
               <h3
                 className="govuk-heading-m govuk-!-margin-bottom-0"
               >
-                4 travellers
+                3 Co-travellers
               </h3>
               <table
                 className="hods-table co-travellers-table"
@@ -1075,176 +1087,13 @@ exports[`TaskVersions should render task versions 1`] = `
                       role="columnheader"
                       scope="col"
                     >
-                      Check-in
-                    </th>
-                    <th
-                      role="columnheader"
-                      scope="col"
-                    >
-                      Seat
-                    </th>
-                    <th
-                      role="columnheader"
-                      scope="col"
-                    >
                       Document
-                    </th>
-                    <th
-                      role="columnheader"
-                      scope="col"
-                    >
-                      Checked baggage
-                    </th>
-                    <th
-                      role="columnheader"
-                      scope="col"
-                    >
-                      
                     </th>
                   </tr>
                 </thead>
                 <tbody
                   className="hods-table__body"
                 >
-                  <tr
-                    className="hods-table__row"
-                    role="row"
-                  >
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Traveller
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        MESTA
-                        , 
-                        GEMMA
-                         
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Unknown
-                        , 
-                        Unknown
-                        , 
-                        Unknown
-                         (
-                        Unknown
-                        )
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Age
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Check-in
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Seat
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Document
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Passport
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Issued by 
-                        FR
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Checked baggage
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        
-                      </span>
-                      <div
-                        className="font__light"
-                      >
-                        This movement
-                      </div>
-                      <span
-                        className="govuk-visually-hidden"
-                      />
-                    </td>
-                  </tr>
                   <tr
                     className="hods-table__row"
                     role="row"
@@ -1301,41 +1150,6 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Check-in
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Seat
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
                         Document
                       </span>
                       <div
@@ -1349,43 +1163,6 @@ exports[`TaskVersions should render task versions 1`] = `
                         Issued by 
                         Unknown
                       </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Checked baggage
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        
-                      </span>
-                      <span
-                        className="govuk-visually-hidden"
-                      >
-                        <a
-                          className="govuk-link"
-                          data-module="govuk-link"
-                          href="/airpax/tasks"
-                          target="_blank"
-                        >
-                          Movement detail
-                        </a>
-                      </span>
                     </td>
                   </tr>
                   <tr
@@ -1444,41 +1221,6 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Check-in
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Seat
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
                         Document
                       </span>
                       <div
@@ -1492,43 +1234,6 @@ exports[`TaskVersions should render task versions 1`] = `
                         Issued by 
                         Unknown
                       </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Checked baggage
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        
-                      </span>
-                      <span
-                        className="govuk-visually-hidden"
-                      >
-                        <a
-                          className="govuk-link"
-                          data-module="govuk-link"
-                          href="/airpax/tasks"
-                          target="_blank"
-                        >
-                          Movement detail
-                        </a>
-                      </span>
                     </td>
                   </tr>
                   <tr
@@ -1587,41 +1292,6 @@ exports[`TaskVersions should render task versions 1`] = `
                       <span
                         className="hods-table__heading"
                       >
-                        Check-in
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                      <div
-                        className="font__light"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Seat
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
                         Document
                       </span>
                       <div
@@ -1635,43 +1305,6 @@ exports[`TaskVersions should render task versions 1`] = `
                         Issued by 
                         Unknown
                       </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        Checked baggage
-                      </span>
-                      <div
-                        className="font__bold"
-                      >
-                        Unknown
-                      </div>
-                    </td>
-                    <td
-                      className="hods-table__cell"
-                      role="cell"
-                    >
-                      <span
-                        className="hods-table__heading"
-                      >
-                        
-                      </span>
-                      <span
-                        className="govuk-visually-hidden"
-                      >
-                        <a
-                          className="govuk-link"
-                          data-module="govuk-link"
-                          href="/airpax/tasks"
-                          target="_blank"
-                        >
-                          Movement detail
-                        </a>
-                      </span>
                     </td>
                   </tr>
                 </tbody>

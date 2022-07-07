@@ -122,7 +122,7 @@ describe('TaskVersions', () => {
 
   it('should render the document section from version', async () => {
     await waitFor(() => render(setTabAndTaskValues([taskDetailsData.versions[0]], tabData)));
-    expect(screen.getAllByText('Document')).toHaveLength(6);
+    expect(screen.getAllByText('Document')).toHaveLength(5);
     expect(screen.getByText('Type')).toBeInTheDocument();
     expect(screen.getByText('Number')).toBeInTheDocument();
     expect(screen.getByText('Document nationality')).toBeInTheDocument();

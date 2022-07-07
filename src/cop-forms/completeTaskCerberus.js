@@ -32,11 +32,11 @@ export default {
               },
               {
                 value: 'FALSE_SELECTOR_MATCH',
-                label: 'False BSM/selector match',
+                label: 'False SBT',
               },
               {
                 value: 'ARRIVED',
-                label: 'Vessel arrived',
+                label: 'Arrived at port',
               },
               {
                 value: 'OTHER',

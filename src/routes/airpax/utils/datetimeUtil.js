@@ -2,11 +2,15 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { AGO_TEXT, UNKNOWN_TEXT } from '../../../constants';
+import { AGO_TEXT, UNKNOWN_TEXT, UTC_DATE_REGEXS } from '../../../constants';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
+
+const validateDate = (date) => {
+  return !!(date !== UNKNOWN_TEXT && date && UTC_DATE_REGEXS.some((regex) => regex.test(date)));
+};
 
 /**
  * This will return either a formatted UTC datetime or a dayjs datetime object.
@@ -21,7 +25,7 @@ const getDate = (asDayjsObj = false) => {
 };
 
 const toRelativeTime = (date) => {
-  if (!date) {
+  if (!validateDate(date)) {
     return UNKNOWN_TEXT;
   }
   const dateTimeStart = dayjs.utc(date);
@@ -29,14 +33,14 @@ const toRelativeTime = (date) => {
 };
 
 const isInPast = (date) => {
-  if (date && date !== UNKNOWN_TEXT) {
-    return toRelativeTime(date)?.endsWith(AGO_TEXT);
+  if (!validateDate(date)) {
+    return UNKNOWN_TEXT;
   }
-  return UNKNOWN_TEXT;
+  return toRelativeTime(date)?.endsWith(AGO_TEXT);
 };
 
 const getFormattedDate = (date, dateFormat) => {
-  if (!date) {
+  if (!validateDate(date)) {
     return UNKNOWN_TEXT;
   }
   return dayjs.utc(date).format(dateFormat);
@@ -54,12 +58,13 @@ const toDateTimeList = (dateOne, dateTwo) => {
 };
 
 const DateTimeUtil = {
+  convertToUTC: formatToUTCDate,
   date: getDate,
   format: getFormattedDate,
-  toList: toDateTimeList,
   isPast: isInPast,
+  toList: toDateTimeList,
   relativeTime: toRelativeTime,
-  convertToUTC: formatToUTCDate,
+  validate: validateDate,
 };
 
 export default DateTimeUtil;

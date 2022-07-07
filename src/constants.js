@@ -62,11 +62,7 @@ export const UNKNOWN_TIME_DATA = { h: null, m: null, s: null };
 export const CO_TRAVELLERS_TABLE_HEADERS = [
   'Traveller',
   'Age',
-  'Check-in',
-  'Seat',
   'Document',
-  'Checked baggage',
-  '',
 ];
 export const WARNING_CODES_MAPPING = {
   VIOL: 'Violence',
@@ -232,3 +228,8 @@ export const TASK_LIST_PATHS = ['/airpax/tasks', '/tasks'];
 export const STATUS_CODES = {
   FORBIDDEN: 403,
 };
+
+export const UTC_DATE_REGEXS = [
+  /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
+  /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
+];
