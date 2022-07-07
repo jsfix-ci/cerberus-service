@@ -688,6 +688,28 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+    it('Should verify Co-Passenger details from target information sheet on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(4000);
+        cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
+          cy.contains('h2', 'Other passenger details').next().within((elements) => {
+            cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger2Details);
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
