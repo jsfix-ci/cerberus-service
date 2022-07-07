@@ -6,6 +6,22 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
+const toPersonSubmissionNode = (person) => {
+  if (person) {
+    return {
+      name: person?.name,
+      dateOfBirth: DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT),
+      gender: person?.sex,
+      document: {
+        ...person?.document,
+        number: person?.document?.documentNumber,
+        expiry: DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT),
+      },
+      nationality: person?.nationality,
+    };
+  }
+};
+
 const toRisksSubmissionNode = (formData) => {
   if (formData) {
     return {
@@ -49,6 +65,36 @@ const toRemarksSubmissionNode = (formData) => {
   if (formData?.warnings?.targetActions) {
     return {
       remarks: replaceInvalidValues(formData?.warnings?.targetActions),
+    };
+  }
+};
+
+const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
+  if (taskData && formData) {
+    const journey = MovementUtil.movementJourney(taskData);
+    return {
+      movement: {
+        id: taskData?.movement?.id,
+        mode: taskData?.movement?.mode,
+        refDataMode: airPaxRefDataMode,
+        journey: {
+          id: journey?.id,
+          direction: journey?.direction,
+          route: formData?.movement?.routeToUK,
+          arrival: journey?.arrival,
+          departure: journey?.departure,
+        },
+        flight: {
+          seatNumber: formData?.person?.seatNumber,
+        },
+        person: toPersonSubmissionNode(formData?.person),
+        otherPersons: formData?.otherPersons?.map((person) => toPersonSubmissionNode(person)) || [],
+        baggage: {
+          numberOfCheckedBags: formData?.person?.baggage?.bagCount,
+          weight: formData?.person?.baggage?.weight,
+          tags: formData?.person?.baggage?.tags,
+        },
+      },
     };
   }
 };
@@ -113,8 +159,7 @@ const toOperationNode = (formData) => {
   }
 };
 
-const toPersonNode = (formData) => {
-  const person = PersonUtil.get(formData);
+const toPersonNode = (person) => {
   if (person) {
     return {
       name: { ...person?.name },
@@ -244,41 +289,7 @@ const toTisPrefillPayload = (informationSheet) => {
   return tisPrefillData;
 };
 
-const toMovementSubmissionNode = (taskData, formData) => {
-  if (taskData && formData) {
-    const journey = MovementUtil.movementJourney(taskData);
-    return {
-      movement: {
-        id: replaceInvalidValues(taskData?.movement?.id),
-        mode: replaceInvalidValues(taskData?.movement?.mode),
-        refDataMode: null, // method which calls refData
-        journey: {
-          id: replaceInvalidValues(journey?.id),
-          direction: replaceInvalidValues(journey?.direction),
-          route: replaceInvalidValues(formData?.movement?.routeToUK),
-          arrival: journey?.arrival,
-          departure: journey?.departure,
-        },
-        flight: {
-          seatNumber: replaceInvalidValues(formData?.movement?.flightNumber),
-        },
-        person: {
-          name: formData?.person?.name,
-          dateOfBirth: DateTimeUtil.convertToUTC(formData?.person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT),
-          gender: formData?.person?.sex,
-          document: {
-            ...formData?.person?.document,
-            number: formData?.person?.document?.documentNumber,
-            expiry: formData?.person?.document?.documentExpiry,
-          },
-          nationality: formData?.person?.nationality,
-        },
-      },
-    };
-  }
-};
-
-const toTisSubmissionPayload = (taskData, formData, keycloak) => {
+const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode) => {
   let submissionPayload = {};
   if (formData) {
     submissionPayload = {
@@ -292,7 +303,7 @@ const toTisSubmissionPayload = (taskData, formData, keycloak) => {
       ...toOperationNode(formData),
       ...toSubmittingUserNode(formData, keycloak),
       ...toRisksSubmissionNode(formData),
-      ...toMovementSubmissionNode(taskData, formData),
+      ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
     };
   }
   return submissionPayload;

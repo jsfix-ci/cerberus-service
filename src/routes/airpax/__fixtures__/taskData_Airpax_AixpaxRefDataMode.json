@@ -1,0 +1,14 @@
+{
+  "id": 2,
+  "mode": "Scheduled Air Passenger",
+  "modecode": "airpass",
+  "crossingtype": [
+      "air"
+  ],
+  "ien": true,
+  "ca": true,
+  "ct": true,
+  "validfrom": "2021-05-28T00:01:01.000Z",
+  "validto": null,
+  "updatedby": "Mohammed Abdul Odud"
+}

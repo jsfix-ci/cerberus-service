@@ -1,5 +1,5 @@
 import { Button, Tag } from '@ukhomeoffice/cop-react-components';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Config
@@ -34,18 +34,18 @@ import '../__assets__/TaskDetailsPage.scss';
 // JSON
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../../cop-forms/completeTaskCerberus';
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
+  const { airPaxRefDataMode } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
   const [preFillData, setPrefillData] = useState({});
-  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   const [isSubmitted, setSubmitted] = useState();
@@ -77,20 +77,6 @@ const TaskDetailsPage = () => {
     }
   };
 
-  const getAirlineCodes = async () => {
-    let response;
-    try {
-      response = await refDataClient.get('/v2/entities/carrierlist', {
-        params: {
-          mode: 'dataOnly',
-        },
-      });
-      setRefDataAirlineCodes(response.data.data);
-    } catch (e) {
-      setRefDataAirlineCodes([]);
-    }
-  };
-
   useEffect(() => {
     if (taskData) {
       setAssignee(taskData.assignee);
@@ -102,7 +88,6 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     getTaskData();
     getPrefillData();
-    getAirlineCodes();
   }, [businessKey]);
 
   useEffect(() => {
@@ -181,9 +166,12 @@ const TaskDetailsPage = () => {
             preFillData={preFillData}
             onSubmit={
               async ({ data }) => {
-                const submissionData = TargetInformationUtil.submissionPayload(taskData, data, keycloak);
                 console.log('Issue Target Form Data JSON', data);
+                const submissionData = TargetInformationUtil
+                  .submissionPayload(taskData, data, keycloak, airPaxRefDataMode);
                 console.log('Issue Target Submission Data JSON', submissionData);
+                await apiClient.post('/targets', submissionData);
+                // setSubmitted(true);
               }
             }
             renderer={Renderers.REACT}
@@ -253,7 +241,6 @@ const TaskDetailsPage = () => {
               taskVersions={taskData.versions}
               businessKey={businessKey}
               taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
-              airlineCodes={refDataAirlineCodes}
             />
           )}
         </div>
