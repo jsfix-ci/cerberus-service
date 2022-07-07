@@ -22,6 +22,7 @@ import { TargetInformationUtil } from '../utils';
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
 import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
+import ErrorSummary from '../../../govuk/ErrorSummary';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskVersions from './TaskVersions';
 import TaskNotes from '../../../components/TaskNotes';
@@ -42,6 +43,7 @@ const TaskDetailsPage = () => {
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const { airPaxRefDataMode } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
+  const [error, setError] = useState(null);
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
@@ -100,6 +102,7 @@ const TaskDetailsPage = () => {
 
   return (
     <>
+      {error && <ErrorSummary title={error} />}
       <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
@@ -166,12 +169,17 @@ const TaskDetailsPage = () => {
             preFillData={preFillData}
             onSubmit={
               async ({ data }) => {
-                console.log('Issue Target Form Data JSON', data);
-                const submissionData = TargetInformationUtil
-                  .submissionPayload(taskData, data, keycloak, airPaxRefDataMode);
-                console.log('Issue Target Submission Data JSON', submissionData);
-                await apiClient.post('/targets', submissionData);
-                // setSubmitted(true);
+                try {
+                  await apiClient.post('/targets', TargetInformationUtil
+                    .submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  setSubmitted(true);
+                  if (error) {
+                    setError(null);
+                  }
+                } catch (e) {
+                  setPrefillData(TargetInformationUtil.convertToPrefill(data));
+                  setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
+                }
               }
             }
             renderer={Renderers.REACT}

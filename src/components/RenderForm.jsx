@@ -48,6 +48,23 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
     return null;
   };
 
+  const formatPreFillData = () => {
+    if (!preFillData) {
+      setFormattedPreFillData(null);
+    } else {
+      setFormattedPreFillData(
+        {
+          data: {
+            environmentContext: {
+              referenceDataUrl: config.refdataApiUrl,
+            },
+            ...preFillData,
+          },
+        },
+      );
+    }
+  };
+
   useEffect(() => {
     if (form && renderer === Renderers.FORM_IO) {
       interpolate(form, {
@@ -90,29 +107,16 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
       }
     };
 
-    const formatPreFillData = () => {
-      if (!preFillData) {
-        setFormattedPreFillData(null);
-      } else {
-        setFormattedPreFillData(
-          {
-            data: {
-              environmentContext: {
-                referenceDataUrl: config.refdataApiUrl,
-              },
-              ...preFillData,
-            },
-          },
-        );
-      }
-    };
-
     loadForm();
     formatPreFillData();
     return () => {
       source.cancel('Cancelling request');
     };
   }, []);
+
+  useEffect(() => {
+    formatPreFillData();
+  }, [preFillData]);
 
   if (submitted && children) {
     return children;

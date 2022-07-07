@@ -6,9 +6,10 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
-const toPersonSubmissionNode = (person) => {
+const toPersonSubmissionNode = (person, index) => {
   if (person) {
     return {
+      ...index && { id: index + 1 },
       name: person?.name,
       dateOfBirth: DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT),
       gender: person?.sex,
@@ -88,7 +89,7 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
           seatNumber: formData?.person?.seatNumber,
         },
         person: toPersonSubmissionNode(formData?.person),
-        otherPersons: formData?.otherPersons?.map((person) => toPersonSubmissionNode(person)) || [],
+        otherPersons: formData?.otherPersons?.map((person, index) => toPersonSubmissionNode(person, index)) || [],
         baggage: {
           numberOfCheckedBags: formData?.person?.baggage?.bagCount,
           weight: formData?.person?.baggage?.weight,
@@ -105,6 +106,15 @@ const toTargetReceiptTeamNode = (formData) => {
       teamToReceiveTheTarget: formData.teamToReceiveTheTarget,
     };
   }
+};
+
+const toNorminalChecksNode = (formData) => {
+  if (formData?.nominalChecks?.length) {
+    return {
+      nominalChecks: formData?.nominalChecks,
+    };
+  }
+  return { nominalChecks: [{}] };
 };
 
 const toWarningsNode = (formData) => {
@@ -159,9 +169,10 @@ const toOperationNode = (formData) => {
   }
 };
 
-const toPersonNode = (person) => {
+const toPersonNode = (person, index) => {
   if (person) {
     return {
+      id: index + 1,
       name: { ...person?.name },
       dateOfBirth: replaceInvalidValues(DateTimeUtil.format(person?.dateOfBirth, 'DD-MM-YYYY')),
       nationality: {
@@ -189,7 +200,7 @@ const toOtherPersonsNode = (data) => {
   const othersPersons = PersonUtil.getOthers(data);
   if (othersPersons?.length) {
     return {
-      otherPersons: othersPersons.map((person) => toPersonNode(person)),
+      otherPersons: othersPersons.map((person, index) => toPersonNode(person, index)),
     };
   }
 };
@@ -247,12 +258,15 @@ const toMovementNode = (formData) => {
   };
 };
 
-const toIssuingHubSubmissionNode = (formData) => {
+const toIssuingHubNode = (formData) => {
   if (formData?.issuingHub) {
     return {
       issuingHub: formData.issuingHub,
     };
   }
+  return {
+    issuingHub: null,
+  };
 };
 
 const toPortNode = (formData) => {
@@ -277,12 +291,14 @@ const toTisPrefillPayload = (informationSheet) => {
       ...toIdNode(informationSheet),
       ...toPortNode(informationSheet),
       ...toMovementNode(informationSheet),
+      ...toIssuingHubNode(informationSheet),
       ...toMainPersonNode(informationSheet),
       ...toOtherPersonsNode(informationSheet),
       ...toOperationNode(informationSheet),
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
       ...toWarningsNode(informationSheet),
+      ...toNorminalChecksNode(informationSheet),
       ...toTargetReceiptTeamNode(informationSheet),
     };
   }
@@ -296,22 +312,47 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
       ...submissionPayload,
       ...toIdNode(formData),
       ...toPortNode(formData),
-      ...toIssuingHubSubmissionNode(formData),
+      ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
+      ...toIssuingHubNode(formData),
       ...toTargetReceiptTeamNode(formData),
       ...toRemarksSubmissionNode(formData),
       ...toReasoningSubmissionNode(formData),
       ...toOperationNode(formData),
       ...toSubmittingUserNode(formData, keycloak),
       ...toRisksSubmissionNode(formData),
-      ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
+      ...toNorminalChecksNode(formData),
+      form: {
+        ...formData?.form,
+      },
     };
   }
   return submissionPayload;
 };
 
+const submissionToPrefillPayload = (formData) => {
+  if (formData) {
+    return {
+      id: formData?.id,
+      businessKey: formData?.businessKey,
+      movement: formData?.movement,
+      issuingHub: formData?.issuingHub,
+      person: formData?.person,
+      category: formData?.category,
+      warnings: formData?.warnings,
+      nominalChecks: formData?.nominalChecks,
+      eventPort: formData?.eventPort,
+      formStatus: formData?.formStatus,
+      targetingIndicators: formData?.targetingIndicators,
+      teamToReceiveTheTarget: formData?.teamToReceiveTheTarget,
+      form: formData?.form,
+    };
+  }
+};
+
 const TargetInformationUtil = {
   prefillPayload: toTisPrefillPayload,
   submissionPayload: toTisSubmissionPayload,
+  convertToPrefill: submissionToPrefillPayload,
 };
 
 export default TargetInformationUtil;
