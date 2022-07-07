@@ -190,7 +190,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
 
   it('Should dismiss a task with a reason', () => {
     const reasons = [
-      'Vessel arrived',
+       'Arrived at port',
       'False rule match',
       'Resource redirected',
       'Other',
@@ -274,7 +274,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
 
   it('Should dismiss a task with a reason and without notes', () => {
     const reasons = [
-      'Vessel arrived',
+      'Arrived at port',
       'False rule match',
       'Resource redirected',
       'Other',
@@ -698,6 +698,65 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
             });
           }
         });
+      });
+    });
+  });
+
+  it('Should complete a task with a reason', () => {
+    const reasonOptions = [
+      'Credibility checks carried out no target required',
+      'False SBT',
+      'Arrived at port',
+      'Other',
+    ];
+    const expectedActivity = 'task completed, reason: Other reason for testing, note: This is for testing';
+
+    cy.acceptPNRTerms();
+    cy.intercept('POST', 'v2/targeting-tasks/*/claim').as('claim');
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+        cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.checkAirPaxTaskDisplayed(businessKey);
+
+        cy.claimAirPaxTask();
+
+        cy.wait(2000);
+
+        cy.contains('Assessment complete').click();
+
+        cy.get('div[id="reasonForCompletion"] .govuk-radios__item label').each((reason, index) => {
+          cy.wrap(reason)
+            .should('contain.text', reasonOptions[index]).and('be.visible');
+        });
+
+        cy.get('#reasonForCompletion-3').click();
+        cy.get('input[name="otherReasonForCompletion"]').type('Other reason for testing');
+
+        cy.contains('Next').click();
+
+        cy.waitForNoErrors();
+
+        cy.get('textarea[id="addANote"]').type('This is for testing');
+
+        cy.contains('Submit form').click();
+
+        cy.verifySuccessfulSubmissionHeader('Task has been completed');
+        cy.contains('Finish').click();
+        cy.visit(`/airpax/tasks/${businessKey}`);
+      });
+
+      cy.getActivityLogs().then((activities) => {
+        expect(activities).to.contain(expectedActivity);
+        expect(activities).not.to.contain('Property delete changed from false to true');
       });
     });
   });
