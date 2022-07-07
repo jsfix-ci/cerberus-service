@@ -2005,7 +2005,6 @@ Cypress.Commands.add('getInformationSheet', (taskId) => {
   });
 });
 
-
 Cypress.Commands.add('sendPNRrequest', () => {
   cy.request({
     method: 'POST',
