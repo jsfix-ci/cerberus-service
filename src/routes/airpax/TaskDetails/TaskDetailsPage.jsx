@@ -1,4 +1,4 @@
-import { Tag } from '@ukhomeoffice/cop-react-components';
+import { Button, Tag } from '@ukhomeoffice/cop-react-components';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -25,9 +25,6 @@ import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskVersions from './TaskVersions';
 import TaskNotes from '../../../components/TaskNotes';
-
-// Styling
-import Button from '../../../govuk/Button';
 import RenderForm from '../../../components/RenderForm';
 import TaskOutcomeMessage from './TaskOutcomeMessage';
 
@@ -47,6 +44,7 @@ const TaskDetailsPage = () => {
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
+  const [preFillData, setPrefillData] = useState({});
   const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -55,7 +53,6 @@ const TaskDetailsPage = () => {
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
-  const [preFillData, setPrefillData] = useState({});
 
   const getPrefillData = async () => {
     let response;
@@ -184,7 +181,9 @@ const TaskDetailsPage = () => {
             preFillData={preFillData}
             onSubmit={
               async ({ data }) => {
-                console.log('Issue Target Data JSON', data);
+                const submissionData = TargetInformationUtil.submissionPayload(taskData, data, keycloak);
+                console.log('Issue Target Form Data JSON', data);
+                console.log('Issue Target Submission Data JSON', submissionData);
               }
             }
             renderer={Renderers.REACT}

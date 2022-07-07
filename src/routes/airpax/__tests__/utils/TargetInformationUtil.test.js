@@ -1,20 +1,16 @@
 import '../../../../__mocks__/keycloakMock';
 
 import { TargetInformationUtil } from '../../utils';
+import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import targetPrefillData from '../../__fixtures__/targetData_AirPax_PrefillData.json';
-import targetSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionData.json';
+import tisSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionData.json';
 
 describe('Target Information Sheet', () => {
   let PREFILL_DATA = {};
-  let FORM_DATA = {};
 
   beforeEach(() => {
     PREFILL_DATA = {
       ...targetPrefillData,
-    };
-
-    FORM_DATA = {
-      ...targetSubmissionData,
     };
   });
 
@@ -42,7 +38,7 @@ describe('Target Information Sheet', () => {
         family_name: 'Bloggs',
       },
     };
-    const submissionPayload = TargetInformationUtil.submissionPayload(FORM_DATA, keycloak);
+    const submissionPayload = TargetInformationUtil.submissionPayload(targetData.versions[0], tisSubmissionData, keycloak);
     expect(submissionPayload).toBeDefined();
   });
 });

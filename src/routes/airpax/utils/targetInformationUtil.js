@@ -1,3 +1,4 @@
+import { SHORT_DATE_FORMAT, UTC_DATE_FORMAT } from '../../../constants';
 import { replaceInvalidValues } from '../../../utils/stringConversion';
 import BaggageUtil from './baggageUtil';
 import DateTimeUtil from './datetimeUtil';
@@ -5,7 +6,26 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
-const toSubmittingUser = (formData, keycloak) => {
+const toRisksSubmissionNode = (formData) => {
+  if (formData) {
+    return {
+      risks: {
+        targetingIndicators: formData?.targetingIndicators,
+        selector: {
+          category: replaceInvalidValues(formData?.category?.name),
+          groupReference: null,
+          warning: {
+            status: replaceInvalidValues(formData?.warnings?.identified.toUpperCase()),
+            types: formData?.warnings?.type,
+            detail: replaceInvalidValues(formData?.warnings?.details),
+          },
+        },
+      },
+    };
+  }
+};
+
+const toSubmittingUserNode = (formData, keycloak) => {
   const form = formData?.form;
   if (form) {
     return {
@@ -17,7 +37,7 @@ const toSubmittingUser = (formData, keycloak) => {
   }
 };
 
-const toReasoningNode = (formData) => {
+const toReasoningSubmissionNode = (formData) => {
   if (formData?.whySelected) {
     return {
       selectionReasoning: replaceInvalidValues(formData?.whySelected),
@@ -25,7 +45,7 @@ const toReasoningNode = (formData) => {
   }
 };
 
-const toRemarksNode = (formData) => {
+const toRemarksSubmissionNode = (formData) => {
   if (formData?.warnings?.targetActions) {
     return {
       remarks: replaceInvalidValues(formData?.warnings?.targetActions),
@@ -146,7 +166,7 @@ const toMovementNode = (formData) => {
   };
 };
 
-const toIssuingHubNode = (formData) => {
+const toIssuingHubSubmissionNode = (formData) => {
   if (formData?.issuingHub) {
     return {
       issuingHub: formData.issuingHub,
@@ -187,19 +207,56 @@ const toTisPrefillPayload = (informationSheet) => {
   return tisPrefillData;
 };
 
-const toTisSubmissionPayload = (formData, keycloak) => {
+const toMovementSubmissionNode = (taskData, formData) => {
+  if (taskData && formData) {
+    const journey = MovementUtil.movementJourney(taskData);
+    const person = PersonUtil.get(taskData);
+    return {
+      movement: {
+        id: replaceInvalidValues(taskData?.movement?.id),
+        mode: replaceInvalidValues(taskData?.movement?.mode),
+        refDataMode: null, // method which calls refData
+        journey: {
+          id: replaceInvalidValues(journey?.id),
+          direction: replaceInvalidValues(journey?.direction),
+          route: replaceInvalidValues(formData?.movement?.routeToUK),
+          arrival: journey?.arrival,
+          departure: journey?.departure,
+        },
+        flight: {
+          seatNumber: replaceInvalidValues(formData?.movement?.flightNumber),
+        },
+        person: {
+          name: formData?.person?.name,
+          dateOfBirth: DateTimeUtil.convertToUTC((formData?.person?.dateOfBirth)?.replace(/-/g, '/'), SHORT_DATE_FORMAT, UTC_DATE_FORMAT),
+          gender: formData?.person?.sex,
+          document: {
+            ...formData?.person?.document,
+            number: formData?.person?.document?.documentNumber,
+            expiry: formData?.person?.document?.documentExpiry,
+          },
+          nationality: formData?.person?.nationality,
+        },
+      },
+    };
+  }
+};
+
+const toTisSubmissionPayload = (taskData, formData, keycloak) => {
   let submissionPayload = {};
   if (formData) {
     submissionPayload = {
       ...submissionPayload,
       ...toIdNode(formData),
       ...toPortNode(formData),
-      ...toIssuingHubNode(formData),
+      ...toIssuingHubSubmissionNode(formData),
       ...toTargetReceiptTeamNode(formData),
-      ...toRemarksNode(formData),
-      ...toReasoningNode(formData),
+      ...toRemarksSubmissionNode(formData),
+      ...toReasoningSubmissionNode(formData),
       ...toOperationNode(formData),
-      ...toSubmittingUser(formData, keycloak),
+      ...toSubmittingUserNode(formData, keycloak),
+      ...toRisksSubmissionNode(formData),
+      ...toMovementSubmissionNode(taskData, formData),
     };
   }
   return submissionPayload;

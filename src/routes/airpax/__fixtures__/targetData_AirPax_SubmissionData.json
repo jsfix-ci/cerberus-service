@@ -1,165 +1,165 @@
 {
-  "id": "DEV-20220624-747",
-  "businessKey": "DEV-20220706-671",
-  "movement": {
-      "flightNumber": "BA0103",
-      "routeToUK": "CDG - YYZ - YYC - LHR",
-      "arrival": {
-          "date": "23-06-2022",
-          "time": "10:27"
-      }
-  },
-  "person": {
-      "name": {
-          "first": "Testing GivenName",
-          "last": "Testing FamilyName",
-          "full": "FamilyName GivenName"
-      },
-      "dateOfBirth": "30-12-1976",
-      "seatNumber": "34A",
-      "baggage": {
-          "bagCount": 1,
-          "weight": "23kg",
-          "tags": "739238"
-      },
-      "nationality": {
-          "id": 15,
-          "nationality": "Australia",
-          "description": null,
-          "iso31661alpha3": "AUS",
-          "iso31661alpha2": "AU",
-          "visarequired": false,
-          "evwoptional": false,
-          "diplomaticexception": false,
-          "specialexception": false,
-          "countryid": 14,
-          "validfrom": "2019-01-01T00:01:00Z",
-          "validto": null,
-          "updatedby": null,
-          "value": 15,
-          "label": "Australia"
-      },
-      "sex": {
-          "id": "F",
-          "name": "Female",
-          "validfrom": "2019-01-01T00:01:00Z",
-          "validto": null,
-          "updatedby": null,
-          "value": "F",
-          "label": "Female"
-      },
-      "document": {
-          "type": {
-              "id": 7,
-              "code": "P ",
-              "shortdescription": "Passport and Emergency Travel Document",
-              "longdescription": "Passport and Emergency Travel Document (ETD)",
-              "validfrom": "2019-01-01T00:01:00Z",
-              "validto": null,
-              "updatedby": null
-          },
-          "documentNumber": "119039375",
-          "documentExpiry": "26-04-2023"
-      }
-  },
-  "category": {
-      "id": "target_A",
-      "name": "A",
-      "value": "target_A",
-      "label": "A"
-  },
-  "warnings": {
-      "identified": "yes",
-      "type": [
-          "CONTAGION"
-      ],
-      "details": "Warning details would be shown here",
-      "targetActions": "test remarks"
-  },
-  "issuingHub": {
-      "id": "GAMAH",
-      "name": "GA MAH",
-      "telephone": "01589 654785 Example",
-      "value": "GAMAH",
-      "label": "GA MAH"
-  },
-  "eventPort": {
-      "id": 8217,
-      "name": "135 Dunganno Road",
-      "value": "8217",
-      "label": "135 Dunganno Road"
-  },
-  "formStatus": {
-      "page": "hub"
-  },
-  "operation": "test operation name",
-  "targetingIndicators": [
-      {
-          "id": 19,
-          "featurename": "SWITCH-ACCOUNT-DRIVER",
-          "userfacingtext": "Change of account (Driver)",
-          "vehicle": false,
-          "driver": true,
-          "person": false,
-          "haulier": false,
-          "trailer": false,
-          "movement": false,
-          "booking": false,
-          "organisation": false,
-          "validfrom": "2021-10-22T00:00:02.000Z",
-          "validto": null,
-          "updatedby": "Pedro Curado",
-          "score": 20,
-          "value": 19,
-          "label": "Change of account (Driver)"
-      },
-      {
-          "id": 4,
-          "featurename": "VEHICLE-CHANGE-DRIVER-ON-RETURN-TRIP",
-          "userfacingtext": "Change of driver",
-          "vehicle": true,
-          "driver": false,
-          "person": false,
-          "haulier": false,
-          "trailer": false,
-          "movement": false,
-          "booking": false,
-          "organisation": false,
-          "validfrom": "2021-06-03T00:00:01.000Z",
-          "validto": null,
-          "updatedby": "Mohammed Abdul Odud",
-          "score": 20,
-          "value": 4,
-          "label": "Change of driver"
-      }
-  ],
-  "whySelected": "why was this target selected?",
-  "additionalInfo": "add additional info?",
-  "teamToReceiveTheTarget": {
-      "id": "c08c7de3-7238-4b3c-823d-eedcae8d1f80",
-      "keycloakid": null,
-      "name": "AP1T01P1",
-      "keycloakgrouppath": "/AP1T01P1",
-      "displayname": "Aberdeen Airport Frontline",
-      "grouptypeid": 6,
-      "code": "AP1T01P1",
-      "teamid": null,
-      "branchid": 22,
-      "locationid": null,
-      "selfmanaged": true,
-      "validfrom": "2022-05-27T00:00:01.000Z",
-      "validto": null,
-      "updatedby": "Cerberus Team",
-      "value": "c08c7de3-7238-4b3c-823d-eedcae8d1f80",
-      "label": "Aberdeen Airport Frontline"
-  },
-  "form": {
-      "formId": "cerberus-airpax-target-information-sheet",
-      "formVersionId": "1.0.2",
-      "title": "Target Information Sheet (AirPax)",
-      "name": "cerberus-airpax-target-information-sheet",
-      "submissionDate": "2022-07-06T10:21:40.049Z",
-      "submittedBy": "charles.okafor@digital.homeoffice.gov.uk",
-      "draftForm": true
-  }
+    "id": "DEV-20220624-747",
+    "businessKey": "DEV-20220706-671",
+    "movement": {
+        "flightNumber": "BA0103",
+        "routeToUK": "CDG - YYZ - YYC - LHR",
+        "arrival": {
+            "date": "23-06-2022",
+            "time": "10:27"
+        }
+    },
+    "person": {
+        "name": {
+            "first": "Testing GivenName",
+            "last": "Testing FamilyName",
+            "full": "FamilyName GivenName"
+        },
+        "dateOfBirth": "30-12-1976",
+        "seatNumber": "34A",
+        "baggage": {
+            "bagCount": 1,
+            "weight": "23kg",
+            "tags": "739238"
+        },
+        "nationality": {
+            "id": 15,
+            "nationality": "Australia",
+            "description": null,
+            "iso31661alpha3": "AUS",
+            "iso31661alpha2": "AU",
+            "visarequired": false,
+            "evwoptional": false,
+            "diplomaticexception": false,
+            "specialexception": false,
+            "countryid": 14,
+            "validfrom": "2019-01-01T00:01:00Z",
+            "validto": null,
+            "updatedby": null,
+            "value": 15,
+            "label": "Australia"
+        },
+        "sex": {
+            "id": "F",
+            "name": "Female",
+            "validfrom": "2019-01-01T00:01:00Z",
+            "validto": null,
+            "updatedby": null,
+            "value": "F",
+            "label": "Female"
+        },
+        "document": {
+            "type": {
+                "id": 7,
+                "code": "P ",
+                "shortdescription": "Passport and Emergency Travel Document",
+                "longdescription": "Passport and Emergency Travel Document (ETD)",
+                "validfrom": "2019-01-01T00:01:00Z",
+                "validto": null,
+                "updatedby": null
+            },
+            "documentNumber": "119039375",
+            "documentExpiry": "26-04-2023"
+        }
+    },
+    "category": {
+        "id": "target_A",
+        "name": "A",
+        "value": "target_A",
+        "label": "A"
+    },
+    "warnings": {
+        "identified": "yes",
+        "type": [
+            "CONTAGION"
+        ],
+        "details": "Warning details would be shown here",
+        "targetActions": "test remarks"
+    },
+    "issuingHub": {
+        "id": "GAMAH",
+        "name": "GA MAH",
+        "telephone": "01589 654785 Example",
+        "value": "GAMAH",
+        "label": "GA MAH"
+    },
+    "eventPort": {
+        "id": 8217,
+        "name": "135 Dunganno Road",
+        "value": "8217",
+        "label": "135 Dunganno Road"
+    },
+    "formStatus": {
+        "page": "hub"
+    },
+    "operation": "test operation name",
+    "targetingIndicators": [
+        {
+            "id": 19,
+            "featurename": "SWITCH-ACCOUNT-DRIVER",
+            "userfacingtext": "Change of account (Driver)",
+            "vehicle": false,
+            "driver": true,
+            "person": false,
+            "haulier": false,
+            "trailer": false,
+            "movement": false,
+            "booking": false,
+            "organisation": false,
+            "validfrom": "2021-10-22T00:00:02.000Z",
+            "validto": null,
+            "updatedby": "Pedro Curado",
+            "score": 20,
+            "value": 19,
+            "label": "Change of account (Driver)"
+        },
+        {
+            "id": 4,
+            "featurename": "VEHICLE-CHANGE-DRIVER-ON-RETURN-TRIP",
+            "userfacingtext": "Change of driver",
+            "vehicle": true,
+            "driver": false,
+            "person": false,
+            "haulier": false,
+            "trailer": false,
+            "movement": false,
+            "booking": false,
+            "organisation": false,
+            "validfrom": "2021-06-03T00:00:01.000Z",
+            "validto": null,
+            "updatedby": "Mohammed Abdul Odud",
+            "score": 20,
+            "value": 4,
+            "label": "Change of driver"
+        }
+    ],
+    "whySelected": "why was this target selected?",
+    "additionalInfo": "add additional info?",
+    "teamToReceiveTheTarget": {
+        "id": "c08c7de3-7238-4b3c-823d-eedcae8d1f80",
+        "keycloakid": null,
+        "name": "AP1T01P1",
+        "keycloakgrouppath": "/AP1T01P1",
+        "displayname": "Aberdeen Airport Frontline",
+        "grouptypeid": 6,
+        "code": "AP1T01P1",
+        "teamid": null,
+        "branchid": 22,
+        "locationid": null,
+        "selfmanaged": true,
+        "validfrom": "2022-05-27T00:00:01.000Z",
+        "validto": null,
+        "updatedby": "Cerberus Team",
+        "value": "c08c7de3-7238-4b3c-823d-eedcae8d1f80",
+        "label": "Aberdeen Airport Frontline"
+    },
+    "form": {
+        "formId": "cerberus-airpax-target-information-sheet",
+        "formVersionId": "1.0.2",
+        "title": "Target Information Sheet (AirPax)",
+        "name": "cerberus-airpax-target-information-sheet",
+        "submissionDate": "2022-07-06T10:21:40.049Z",
+        "submittedBy": "charles.okafor@digital.homeoffice.gov.uk",
+        "draftForm": true
+    }
 }
