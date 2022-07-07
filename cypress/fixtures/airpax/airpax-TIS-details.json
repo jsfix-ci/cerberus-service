@@ -65,6 +65,44 @@
             "Approximate photograph date (optional)": ""
         }
     ],
+        "Passenger2Details": [
+            {
+                "Given name": "ZUES CARLO"
+            },
+            {
+                "Family name": "BATZ STOUP"
+            },
+            {
+                "Date of birth": "10 December 1976"
+            },
+            {
+                "Nationality (optional)": "British Citizen"
+            },
+            {
+                "Sex (optional)": "Male"
+            },
+            {
+                "Travel document type": "Passport and Emergency Travel Document"
+            },
+            {
+                "Seat number": ""
+            },
+            {
+                "Number of bags": ""
+            },
+            {
+                "Baggage weight (kg)": ""
+            },
+            {
+                "Tag details": ""
+            },
+            {
+                "Photograph (optional)": ""
+            },
+            {
+                "Approximate photograph date (optional)": ""
+            }
+        ],
     "SelectionDetails": [
         {
             "Operation name (optional)": ""

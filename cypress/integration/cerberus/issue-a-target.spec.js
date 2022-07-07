@@ -294,7 +294,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Accompanied');
 
     cy.fixture('accompanied-task-no-passengers.json').then((targetData) => {
       let driverFirstName = targetData.driver.Name;
@@ -422,7 +422,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Unaccompanied');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('regNumber', expectedDetails['trailer-details'].trailer['Trailer registration number']);
@@ -446,7 +446,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
-      cy.selectDropDownValue('mode', 'RoRo Freight');
+      cy.selectDropDownValue('mode', 'RoRo Freight Unaccompanied');
 
       cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
@@ -546,7 +546,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Unaccompanied');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('regNumber', expectedDetails['trailer-details'].trailer['Trailer registration number']);
@@ -557,7 +557,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
-      cy.selectDropDownValue('mode', 'RoRo Freight');
+      cy.selectDropDownValue('mode', 'RoRo Freight Unaccompanied');
 
       cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
