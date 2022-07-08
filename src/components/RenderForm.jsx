@@ -108,7 +108,6 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
     };
 
     loadForm();
-    formatPreFillData();
     return () => {
       source.cancel('Cancelling request');
     };

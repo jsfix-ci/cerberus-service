@@ -13,24 +13,53 @@ describe('Target Information Sheet', () => {
     };
   });
 
+  const checkObjects = (result, expected) => {
+    expect(expected.every((v) => result.includes(v)));
+  };
+
+  // eslint-disable-next-line jest/expect-expect
   it('should generate prefill data', () => {
-    const EXPECTED_NODE_KEYS = ['id', 'category', 'movement', 'otherPersons', 'person', 'warnings'];
+    const EXPECTED_NODE_KEYS = [
+      'id',
+      'category',
+      'movement',
+      'otherPersons',
+      'person',
+      'warnings',
+    ];
 
     const prefillFormData = TargetInformationUtil.prefillPayload(PREFILL_DATA);
 
-    expect(Object.keys(prefillFormData)).toEqual(expect.arrayContaining(EXPECTED_NODE_KEYS));
+    checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('should generate prefill data when movement node is null', () => {
     PREFILL_DATA.movement = null;
-    const EXPECTED_NODE_KEYS = ['id', 'category', 'movement', 'warnings'];
+    const EXPECTED_NODE_KEYS = [
+      'id',
+      'category',
+      'movement',
+      'warnings',
+    ];
 
     const prefillFormData = TargetInformationUtil.prefillPayload(PREFILL_DATA);
 
-    expect(Object.keys(prefillFormData)).toEqual(expect.arrayContaining(EXPECTED_NODE_KEYS));
+    checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('should generate submission payload', () => {
+    const EXPECTED_NODE_KEYS = [
+      'id',
+      'category',
+      'eventPort',
+      'movement',
+      'operation',
+      'issuingHub',
+      'norminalChecks',
+      'submittingUser'];
+
     const keycloak = {
       tokenParsed: {
         given_name: 'Joe',
@@ -55,6 +84,24 @@ describe('Target Information Sheet', () => {
 
     const submissionPayload = TargetInformationUtil
       .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
-    expect(submissionPayload).toBeDefined();
+
+    checkObjects(Object.keys(submissionPayload), EXPECTED_NODE_KEYS);
+  });
+
+  // eslint-disable-next-line jest/expect-expect
+  it('should convert the form submission data back to a form prefill data', () => {
+    const EXPECTED_NODE_KEYS = [
+      'id',
+      'category',
+      'eventPort',
+      'movement',
+      'operation',
+      'issuingHub',
+      'norminalChecks',
+      'submittingUser'];
+
+    const prefillFormData = TargetInformationUtil.convertToPrefill(targetPrefillData);
+
+    checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 });

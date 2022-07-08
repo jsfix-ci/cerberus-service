@@ -8,7 +8,8 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
-  MOVEMENT_VARIANT } from '../../../constants';
+  MOVEMENT_VARIANT,
+  FORM_NAMES } from '../../../constants';
 
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -165,7 +166,7 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-two-thirds">
           {isIssueTargetFormOpen && !isSubmitted && (
           <RenderForm
-            formName="cerberus-airpax-target-information-sheet"
+            formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
             preFillData={preFillData}
             onSubmit={
               async ({ data }) => {

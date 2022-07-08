@@ -89,6 +89,7 @@ export const BUSINESS_KEY_PATH = '/businessKey/generate';
 export const FORM_NAMES = {
   NOTE_CERBERUS: 'noteCerberus',
   TARGET_INFORMATION_SHEET: 'targetInformationSheet',
+  AIRPAX_TARGET_INFORMATION_SHEET: 'cerberus-airpax-target-information-sheet',
 };
 
 export const DEPARTURE_STATUS = {
