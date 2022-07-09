@@ -10,11 +10,14 @@ import AirPaxTaskDetailsPage from './airpax/TaskDetails/TaskDetailsPage';
 import RoRoTaskListPage from './roro/TaskLists/TaskListPage';
 import RoRoTaskDetailsPage from './roro/TaskDetails/TaskDetailsPage';
 import RoRoIssueTargetPage from './roro/IssueTargetPage';
+import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/hooks';
 
 const AppRouter = () => {
   const keycloak = useKeycloak();
 
   initAll();
+  useGetAirpaxRefDataMode();
+  useGetRefDataAirlineCodes();
 
   if (!keycloak) {
     return null;
