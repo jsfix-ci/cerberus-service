@@ -1995,6 +1995,16 @@ Cypress.Commands.add('dismissAirPaxTask', (task, businessKey) => {
   });
 });
 
+Cypress.Commands.add('getInformationSheet', (taskId) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/information-sheets`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    return response.body;
+  });
+});
+
 Cypress.Commands.add('sendPNRrequest', () => {
   cy.request({
     method: 'POST',
@@ -2142,6 +2152,31 @@ Cypress.Commands.add(('getairPaxTISDetails'), (elements) => {
   }).then(() => {
     return occupantArray;
   });
+});
+
+Cypress.Commands.add(('getOtherPassengersTISDetails'), (elements) => {
+  const occupantArray = [];
+  cy.wrap(elements).find('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title')
+    .next()
+    .each(($detail) => {
+      let obj = {};
+      cy.wrap($detail).find('.govuk-summary-list__key').invoke('text').then((key) => {
+        if ($detail.find('.govuk-summary-list__value .hods-readonly').length > 0) {
+          cy.wrap($detail).find('.govuk-summary-list__value .hods-readonly').invoke('text')
+            .then((value) => {
+              obj[key] = value;
+            });
+        } else {
+          obj[key] = '';
+        }
+      })
+        .then(() => {
+          occupantArray.push(obj);
+        });
+    })
+    .then(() => {
+      return occupantArray;
+    });
 });
 
 Cypress.Commands.add('acceptPNRTerms', () => {
