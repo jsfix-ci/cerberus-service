@@ -1,3 +1,4 @@
+/* eslint-disable jest/expect-expect */
 import { TargetInformationUtil } from '../../utils';
 
 import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
@@ -17,7 +18,6 @@ describe('Target Information Sheet', () => {
     expect(expected.every((v) => result.includes(v)));
   };
 
-  // eslint-disable-next-line jest/expect-expect
   it('should generate prefill data', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
@@ -33,7 +33,6 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it('should generate prefill data when movement node is null', () => {
     PREFILL_DATA.movement = null;
     const EXPECTED_NODE_KEYS = [
@@ -48,7 +47,6 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it('should generate submission payload', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
@@ -88,7 +86,6 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(submissionPayload), EXPECTED_NODE_KEYS);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it('should convert the form submission data back to a form prefill data', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
