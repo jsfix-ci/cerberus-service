@@ -46,7 +46,7 @@ export const useGetRefDataAirlineCodes = () => {
     return () => {
       source.cancel('Cancelling request');
     };
-  }, [keycloak, setRefDataAirlineCodes]);
+  }, [keycloak]);
 };
 
 export const useGetAirpaxRefDataMode = () => {
@@ -77,7 +77,7 @@ export const useGetAirpaxRefDataMode = () => {
     return () => {
       source.cancel('Cancelling request');
     };
-  }, [keycloak, setAirpaxRefDataMode]);
+  }, [keycloak]);
 };
 
 export default useIsMounted;
