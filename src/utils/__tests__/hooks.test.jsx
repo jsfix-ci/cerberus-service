@@ -12,13 +12,6 @@ import airPaxRefDataMode from '../../routes/airpax/__fixtures__/taskData_Airpax_
 
 import { ApplicationContext } from '../../context/ApplicationContext';
 
-jest.mock('react', () => {
-  const ActualReact = jest.requireActual('react');
-  return {
-    ...ActualReact,
-  };
-});
-
 describe('axios hooks', () => {
   const mockAxios = new MockAdapter(axios);
 
