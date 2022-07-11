@@ -9,7 +9,6 @@ describe('Targeter to see how long before departure check-in occurs So that Targ
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movement.serviceMovement.features.feats['STANDARDISED:checkinDateTime'].value = null;
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      console.log(task);
       cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
