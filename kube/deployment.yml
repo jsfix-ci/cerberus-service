@@ -75,12 +75,6 @@ spec:
         volumeMounts:
           - name: certs
             mountPath: /certs
-        readinessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - wget -O - localhost:8080/ping 2>&1| grep "HTTP/1.1 200"
         livenessProbe:
           exec:
             command:
@@ -107,12 +101,6 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
-        readinessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - wget -O - localhost:8080/ping 2>&1| grep "HTTP/1.1 200"
         livenessProbe:
           exec:
             command:
