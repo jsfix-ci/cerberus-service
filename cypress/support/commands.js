@@ -2200,9 +2200,9 @@ Cypress.Commands.add('acceptPNRTerms', () => {
   cy.contains('Continue').click();
   cy.get('.govuk-panel--confirmation').should('have.text', 'You can now view PNR data.');
   cy.contains('Continue').click();
-  cy.wait('@pnrRequest').then(({response}) => {
-		expect(response.statusCode).to.equal(200);
-	});
+  cy.wait('@pnrRequest').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
 });
 
 Cypress.Commands.add('doNotAcceptPNRTerms', () => {
