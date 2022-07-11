@@ -80,7 +80,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401"
+              - wget -O - localhost:8080/camunda/actuator/health 2>&1| grep "HTTP/1.1 200"
         resources:
           requests:
             memory: "512Mi"
@@ -106,7 +106,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401"
+              - wget -O - localhost:8080/camunda/actuator/health 2>&1| grep "HTTP/1.1 200"
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
