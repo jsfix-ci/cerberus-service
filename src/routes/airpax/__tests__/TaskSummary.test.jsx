@@ -3,9 +3,11 @@ import { screen, render } from '@testing-library/react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
+import { ApplicationContext } from '../../../context/ApplicationContext';
+
 import TaskSummary from '../TaskDetails/TaskSummary';
 import taskSummaryAirPaxData from '../__fixtures__/taskSummaryAirPaxData.fixture.json';
-import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -16,12 +18,19 @@ jest.mock('react-router-dom', () => ({
 describe('TaskSummary', () => {
   dayjs.extend(utc);
 
+  const MockApplicationContext = ({ children }) => (
+    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+      {children}
+    </ApplicationContext.Provider>
+  );
+
   it('should render the summary section', () => {
     const { container } = render(
-      <TaskSummary
-        version={taskSummaryAirPaxData}
-        airlineCodes={airlineCodes}
-      />,
+      <MockApplicationContext>
+        <TaskSummary
+          version={taskSummaryAirPaxData}
+        />
+      </MockApplicationContext>,
     );
     expect(container.firstChild.classList[0]).toEqual(
       'task-list--voyage-section',
@@ -46,12 +55,13 @@ describe('TaskSummary', () => {
     };
 
     render(
-      <TaskSummary
-        version={{
-          ...taskSummaryAirPaxData,
-        }}
-        airlineCodes={airlineCodes}
-      />,
+      <MockApplicationContext>
+        <TaskSummary
+          version={{
+            ...taskSummaryAirPaxData,
+          }}
+        />
+      </MockApplicationContext>,
     );
 
     expect(
@@ -77,12 +87,13 @@ describe('TaskSummary', () => {
       duration: -4408761000,
     };
     render(
-      <TaskSummary
-        version={{
-          ...taskSummaryAirPaxData,
-        }}
-        airlineCodes={airlineCodes}
-      />,
+      <MockApplicationContext>
+        <TaskSummary
+          version={{
+            ...taskSummaryAirPaxData,
+          }}
+        />
+      </MockApplicationContext>,
     );
 
     expect(

@@ -320,11 +320,11 @@ const toDescriptionText = (targetTask) => {
   return UNKNOWN_TEXT;
 };
 
-const toAirlineName = (airlineCode, airlineCodes) => {
-  if (!airlineCode || !airlineCodes.length) {
+const toAirlineName = (airlineCode, refDataAirlineCodes) => {
+  if (!airlineCode || !refDataAirlineCodes.length) {
     return UNKNOWN_TEXT;
   }
-  const airlineData = airlineCodes.find(({ twolettercode }) => twolettercode === airlineCode);
+  const airlineData = refDataAirlineCodes.find(({ twolettercode }) => twolettercode === airlineCode);
   if (!airlineData) {
     return UNKNOWN_TEXT;
   }

@@ -1,5 +1,5 @@
-import { Tag } from '@ukhomeoffice/cop-react-components';
-import React, { useEffect, useState } from 'react';
+import { Button, Tag } from '@ukhomeoffice/cop-react-components';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Config
@@ -8,7 +8,8 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
-  MOVEMENT_VARIANT } from '../../../constants';
+  MOVEMENT_VARIANT,
+  FORM_NAMES } from '../../../constants';
 
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -22,12 +23,10 @@ import { TargetInformationUtil } from '../utils';
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';
 import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
+import ErrorSummary from '../../../govuk/ErrorSummary';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TaskVersions from './TaskVersions';
 import TaskNotes from '../../../components/TaskNotes';
-
-// Styling
-import Button from '../../../govuk/Button';
 import RenderForm from '../../../components/RenderForm';
 import TaskOutcomeMessage from './TaskOutcomeMessage';
 
@@ -37,17 +36,19 @@ import '../__assets__/TaskDetailsPage.scss';
 // JSON
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../../cop-forms/completeTaskCerberus';
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
+  const { airPaxRefDataMode } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
+  const [error, setError] = useState(null);
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
-  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
+  const [preFillData, setPrefillData] = useState({});
   const [isLoading, setLoading] = useState(true);
 
   const [isSubmitted, setSubmitted] = useState();
@@ -55,13 +56,12 @@ const TaskDetailsPage = () => {
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
-  const [preFillData, setPrefillData] = useState({});
 
   const getPrefillData = async () => {
     let response;
     try {
       response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-      setPrefillData(TargetInformationUtil.transform(response.data));
+      setPrefillData(TargetInformationUtil.prefillPayload(response.data));
     } catch (e) {
       setTaskData({});
     }
@@ -80,20 +80,6 @@ const TaskDetailsPage = () => {
     }
   };
 
-  const getAirlineCodes = async () => {
-    let response;
-    try {
-      response = await refDataClient.get('/v2/entities/carrierlist', {
-        params: {
-          mode: 'dataOnly',
-        },
-      });
-      setRefDataAirlineCodes(response.data.data);
-    } catch (e) {
-      setRefDataAirlineCodes([]);
-    }
-  };
-
   useEffect(() => {
     if (taskData) {
       setAssignee(taskData.assignee);
@@ -105,7 +91,6 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     getTaskData();
     getPrefillData();
-    getAirlineCodes();
   }, [businessKey]);
 
   useEffect(() => {
@@ -118,6 +103,7 @@ const TaskDetailsPage = () => {
 
   return (
     <>
+      {error && <ErrorSummary title={error} />}
       <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
@@ -180,11 +166,21 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-two-thirds">
           {isIssueTargetFormOpen && !isSubmitted && (
           <RenderForm
-            formName="cerberus-airpax-target-information-sheet"
+            formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
             preFillData={preFillData}
             onSubmit={
               async ({ data }) => {
-                console.log('Issue Target Data JSON', data);
+                try {
+                  await apiClient.post('/targets', TargetInformationUtil
+                    .submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  setSubmitted(true);
+                  if (error) {
+                    setError(null);
+                  }
+                } catch (e) {
+                  setPrefillData(TargetInformationUtil.convertToPrefill(data));
+                  setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
+                }
               }
             }
             renderer={Renderers.REACT}
@@ -254,7 +250,6 @@ const TaskDetailsPage = () => {
               taskVersions={taskData.versions}
               businessKey={businessKey}
               taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
-              airlineCodes={refDataAirlineCodes}
             />
           )}
         </div>

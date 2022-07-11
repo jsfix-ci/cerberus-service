@@ -23,7 +23,7 @@ import config from '../../../config';
 import { useKeycloak } from '../../../utils/keycloak';
 import useAxiosInstance from '../../../utils/axiosInstance';
 
-const renderVersionDetails = (version, airlineCodes, businessKey) => {
+const renderVersionDetails = (version, businessKey) => {
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const [pnrData, setPnrData] = useState();
@@ -40,7 +40,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
   return (
     <>
       <div>
-        <TaskSummary version={version} airlineCodes={airlineCodes} />
+        <TaskSummary version={version} />
       </div>
       <Tabs
         title="Versions"
@@ -67,7 +67,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
                   </div>
                   <div className="govuk-grid-column-one-third vertical-dotted-line__second">
                     <div className="govuk-task-details__col-3">
-                      <Voyage version={version} airlineCodes={airlineCodes} />
+                      <Voyage version={version} />
                       <Itinerary version={version} />
                     </div>
                   </div>
@@ -98,7 +98,7 @@ const renderVersionDetails = (version, airlineCodes, businessKey) => {
   );
 };
 
-const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts, airlineCodes }) => {
+const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts }) => {
   dayjs.extend(utc);
   return (
     <Accordion
@@ -107,7 +107,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts,
       items={
         taskVersions.map((version, index) => {
           const threatLevel = version.risks.highestThreatLevel;
-          const sections = renderVersionDetails(version, airlineCodes, businessKey);
+          const sections = renderVersionDetails(version, businessKey);
           return {
             expanded: index === 0,
             heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,
