@@ -1,11 +1,10 @@
 describe('Targeter to see how long before departure check-in occurs So that Targeter can prioritise a task accordingly', () => {
-  // COP-9849
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();
   });
 
-  it.only('Should verify Difference between Checkin and departure date is a few seconds ago', () => {
+  it('Should verify Difference between Checkin and departure date is a few seconds ago', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movement.serviceMovement.features.feats['STANDARDISED:checkinDateTime'].value = null;
