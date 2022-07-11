@@ -4,7 +4,7 @@ describe('Targeter to see how long before departure check-in occurs So that Targ
     cy.acceptPNRTerms();
   });
 
-  it('Should verify Difference between Checkin and departure date is a few seconds ago', () => {
+  it('Should verify When check-in time is not available, it populates as Unknown in Cerberus UI', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movement.serviceMovement.features.feats['STANDARDISED:checkinDateTime'].value = null;
