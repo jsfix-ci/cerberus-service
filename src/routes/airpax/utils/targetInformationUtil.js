@@ -19,6 +19,12 @@ const toPersonSubmissionNode = (person, index) => {
         expiry: DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT),
       },
       nationality: person?.nationality,
+      ...(person?.photograph && {
+        photograph: {
+          url: person?.photograph?.photograph?.url,
+          approxPhotoTaken: person?.photograph?.date && DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT),
+        },
+      }),
     };
   }
 };
@@ -337,11 +343,13 @@ const submissionToPrefillPayload = (formData) => {
       movement: formData?.movement,
       issuingHub: formData?.issuingHub,
       person: formData?.person,
+      otherPersons: formData?.otherPersons,
       category: formData?.category,
       warnings: formData?.warnings,
       nominalChecks: formData?.nominalChecks,
       eventPort: formData?.eventPort,
       formStatus: formData?.formStatus,
+      meta: formData?.meta,
       targetingIndicators: formData?.targetingIndicators,
       teamToReceiveTheTarget: formData?.teamToReceiveTheTarget,
       form: formData?.form,

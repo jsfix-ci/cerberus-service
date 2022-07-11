@@ -95,7 +95,8 @@ describe('Target Information Sheet', () => {
       'operation',
       'issuingHub',
       'norminalChecks',
-      'submittingUser'];
+      'submittingUser',
+      'meta'];
 
     const prefillFormData = TargetInformationUtil.convertToPrefill(targetPrefillData);
 
