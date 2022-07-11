@@ -80,7 +80,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - wget -O - localhost:8080/camunda/actuator/health 2>&1| grep "HTTP/1.1 200"
+              - wget -O - localhost:8080/ping 2>&1| grep "200 OK"
         resources:
           requests:
             memory: "512Mi"
