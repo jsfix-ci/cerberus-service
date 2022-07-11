@@ -17,7 +17,7 @@ describe('Targeter to see how long before departure check-in occurs So that Targ
       });
     });
   });
-  
+ 
   it('Should verify when check-in time is displayed', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
