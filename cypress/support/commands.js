@@ -2179,7 +2179,19 @@ Cypress.Commands.add(('getOtherPassengersTISDetails'), (elements) => {
     });
 });
 
+Cypress.Commands.add('verifyAirPaxCheckInDateTime', (expectedCheckInDateTime) => {
+  cy.contains('h3', 'Booking').next().within((elements) => {
+    cy.getairPaxTaskDetail(elements).then((details) => {
+      console.log(details[3]);
+      const checkInDateTime = Object.fromEntries(Object.entries(details[3]).filter(([key]) => key.includes('Check-in date')));
+      console.log(checkInDateTime);
+      expect(JSON.stringify(checkInDateTime)).to.include(expectedCheckInDateTime);
+    });
+  });
+});
+
 Cypress.Commands.add('acceptPNRTerms', () => {
+  cy.intercept('POST', '/v2/passenger-name-record-access-requests').as('pnrRequest');
   cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
   cy.get('input[name="viewPnrData"][value="yes"]').click();
   cy.contains('Continue').click();
@@ -2188,6 +2200,9 @@ Cypress.Commands.add('acceptPNRTerms', () => {
   cy.contains('Continue').click();
   cy.get('.govuk-panel--confirmation').should('have.text', 'You can now view PNR data.');
   cy.contains('Continue').click();
+  cy.wait('@pnrRequest').then(({response}) => {
+		expect(response.statusCode).to.equal(200);
+	});
 });
 
 Cypress.Commands.add('doNotAcceptPNRTerms', () => {
