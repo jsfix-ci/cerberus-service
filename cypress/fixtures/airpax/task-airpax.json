@@ -544,7 +544,6 @@
             "commonAPIPlus.SourceData.0.subject": "BA103;LHR;2019-07-21;PONQVFT",
             "commonAPIPlus.SourceData.0.source": "PNRGOV",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.pnrPassengerRef": "3",
-            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.checkinDateTime": "2019-07-20 16:43:35",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.membershipLevel": "BRNZ",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.seatNumber": "34A",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.0.pnrPassengerRef": "2",
