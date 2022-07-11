@@ -37,14 +37,12 @@ const TasksTab = ({
   const location = useLocation();
 
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
   const source = axios.CancelToken.source();
 
   const { canViewPnrData } = useContext(PnrAccessContext);
 
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
-  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
 
   const [isLoading, setLoading] = useState(true);
   const [refreshTaskList, setRefreshTaskList] = useState(false);
@@ -100,20 +98,6 @@ const TasksTab = ({
     }
   };
 
-  const getAirlineCodes = async () => {
-    let response;
-    try {
-      response = await refDataClient.get('/v2/entities/carrierlist', {
-        params: {
-          mode: 'dataOnly',
-        },
-      });
-      setRefDataAirlineCodes(response.data.data);
-    } catch (e) {
-      setRefDataAirlineCodes([]);
-    }
-  };
-
   useEffect(() => {
     const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
     const newActivePage = parseInt(page || 1, 10);
@@ -140,13 +124,6 @@ const TasksTab = ({
       source.cancel('Cancelling request');
     };
   }, 180000);
-
-  useEffect(() => {
-    getAirlineCodes();
-    return () => {
-      source.cancel('Cancelling request');
-    };
-  }, []);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -187,7 +164,6 @@ const TasksTab = ({
             key={targetTask.id}
             targetTask={targetTask}
             taskStatus={formatTaskStatusToCamelCase(targetTask.status)}
-            airlineCodes={refDataAirlineCodes}
             currentUser={currentUser}
           />
         );
