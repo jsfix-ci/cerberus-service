@@ -75,13 +75,20 @@ spec:
         volumeMounts:
           - name: certs
             mountPath: /certs
-        livenessProbe:
+        readinessProbe:
           httpGet:
             path: /ping
             port: 8080
             scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
         resources:
           requests:
             memory: "512Mi"
@@ -102,13 +109,20 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
-        livenessProbe:
+        readinessProbe:
           httpGet:
             path: /camunda/actuator/health
             port: 8080
             scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /camunda/actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
