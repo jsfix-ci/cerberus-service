@@ -43,7 +43,7 @@ export const airpax = {
           label: 'Search',
           type: 'text',
           required: false,
-          placeholder: 'Search',
+          placeholder: 'Passenger Name or Task Id',
         },
         {
           id: 'mode',
