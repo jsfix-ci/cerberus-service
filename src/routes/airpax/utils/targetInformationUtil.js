@@ -11,18 +11,19 @@ const toPersonSubmissionNode = (person, index) => {
     return {
       ...index && { id: index + 1 },
       name: person?.name,
-      dateOfBirth: DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT),
+      dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
       gender: person?.sex,
       document: {
         ...person?.document,
         number: person?.document?.documentNumber,
-        expiry: DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT),
+        expiry: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
       },
       nationality: person?.nationality,
       ...(person?.photograph && {
         photograph: {
           url: person?.photograph?.photograph?.url,
-          approxPhotoTaken: person?.photograph?.date && DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT),
+          approxPhotoTaken: person?.photograph?.date
+            && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
         },
       }),
     };
@@ -254,7 +255,7 @@ const toMovementNode = (formData) => {
   return {
     movement: {
       flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
-      || replaceInvalidValues(formData?.movement?.journey?.id),
+        || replaceInvalidValues(formData?.movement?.journey?.id),
       routeToUK: replaceInvalidValues(MovementUtil.movementRoute(journey)),
       arrival: {
         date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'DD-MM-YYYY')),
