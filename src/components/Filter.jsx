@@ -124,6 +124,22 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
       }
       return multiSelect;
     }
+    if (component.type === "textinput") {
+      const textInput = (
+        <input 
+          type='text'
+          className='govuk-input'
+          id={component.id} 
+          name={component.fieldId} 
+          onChange={component.onChange}
+          onBlur={component.onChange}
+          value={component.value} />
+      );
+      if (wrap) {
+        return Utils.Component.wrap(attrs, textInput);
+      }
+      return textInput;
+    }
     return null;
   };
 

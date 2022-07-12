@@ -38,6 +38,14 @@ export const airpax = {
       name: 'filter',
       components: [
         {
+          id: 'search',
+          fieldId: 'searchText',
+          label: 'Search',
+          type: 'textinput',
+          required: false,
+          dynamicOptions: false
+        },
+        {
           id: 'mode',
           fieldId: 'mode',
           label: 'Mode',
