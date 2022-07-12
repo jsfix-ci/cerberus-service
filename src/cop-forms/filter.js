@@ -43,7 +43,7 @@ export const airpax = {
           label: 'Search',
           type: 'textinput',
           required: false,
-          dynamicOptions: false
+          dynamicOptions: false,
         },
         {
           id: 'mode',

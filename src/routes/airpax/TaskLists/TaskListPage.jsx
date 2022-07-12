@@ -74,14 +74,14 @@ const TaskListPage = () => {
         movementModes: mode.movementModes,
         selectors: storedData.selectors || mode.selectors,
         ruleIds: storedData.ruleIds || mode.ruleIds,
-        searchText: storedData.searchText || mode.searchText
+        searchText: storedData.searchText || mode.searchText,
       }));
       const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: [storedData.mode] || [],
         selectors: selector.selectors,
         ruleIds: storedData.ruleIds || [],
-        searchText: storedData.searchText || selector.searchText
+        searchText: storedData.searchText || selector.searchText,
       }));
       return movementModes.concat(selectors);
     }

@@ -168,7 +168,7 @@ export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
     movementModes: ['AIR_PASSENGER'],
     selectors: 'ANY',
     ruleIds: [],
-    searchText: ""
+    searchText: '',
   },
 ];
 
@@ -178,21 +178,21 @@ export const DEFAULT_AIRPAX_SELECTORS = [
     movementModes: ['AIR_PASSENGER'],
     selectors: 'PRESENT',
     ruleIds: [],
-    searchText: ""
+    searchText: '',
   },
   {
     taskStatuses: [],
     movementModes: ['AIR_PASSENGER'],
     selectors: 'NOT_PRESENT',
     ruleIds: [],
-    searchText: ""
+    searchText: '',
   },
   {
     taskStatuses: [],
     movementModes: ['AIR_PASSENGER'],
     selectors: 'ANY',
     ruleIds: [],
-    searchText: ""
+    searchText: '',
   },
 ];
 
@@ -207,7 +207,7 @@ export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
   mode: 'AIR_PASSENGER',
   selectors: 'ANY',
   rules: [],
-  searchText: ""
+  searchText: '',
 };
 
 export const TAB_STATUS_MAPPING = {
