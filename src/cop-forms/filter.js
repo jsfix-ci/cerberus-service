@@ -41,9 +41,9 @@ export const airpax = {
           id: 'search',
           fieldId: 'searchText',
           label: 'Search',
-          type: 'textinput',
+          type: 'text',
           required: false,
-          dynamicOptions: false,
+          placeholder: 'Search',
         },
         {
           id: 'mode',
