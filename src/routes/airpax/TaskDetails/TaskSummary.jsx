@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { MovementUtil } from '../utils';
 
 import { INDIVIDUAL_ICON } from '../../../constants';
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
-const TaskSummary = ({ version, airlineCodes }) => {
+const TaskSummary = ({ version }) => {
   const journey = MovementUtil.movementJourney(version);
   const flight = MovementUtil.movementFlight(version);
   const arrivalTime = MovementUtil.arrivalTime(journey);
+  const { refDataAirlineCodes } = useContext(ApplicationContext);
   return (
     <section className="task-list--voyage-section overflow-hidden">
       <div className="govuk-grid-row grid-background--greyed">
@@ -24,7 +26,7 @@ const TaskSummary = ({ version, airlineCodes }) => {
         <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
           <i className="c-icon-aircraft" />
           <p className="content-line-one govuk-!-padding-right-2">
-            {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)} flight, 
+            {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes)} flight, 
               ${MovementUtil.voyageText(arrivalTime, true, MovementUtil.iataToCity(MovementUtil.arrivalLoc(journey)))}
               `}
           </p>

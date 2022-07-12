@@ -3,7 +3,7 @@ import utc from 'dayjs/plugin/utc';
 
 import { DateTimeUtil } from '../../utils';
 
-import { LONG_DATE_FORMAT, UNKNOWN_TEXT } from '../../../../constants';
+import { LONG_DATE_FORMAT, UNKNOWN_TEXT, UTC_DATE_FORMAT } from '../../../../constants';
 
 dayjs.extend(utc);
 
@@ -55,5 +55,13 @@ describe('DateTimeUtil', () => {
     INVALID_DATES.forEach((invalidDate) => {
       expect(DateTimeUtil.validate(invalidDate)).toBeFalsy();
     });
+  });
+
+  it('should convert a custom date to a UTC date time string', () => {
+    const INPUT_DATE = '24-06-2000';
+    const INPUT_FORMAT = 'DD-MM-YYYY';
+
+    const output = DateTimeUtil.convertToUTC(INPUT_DATE, INPUT_FORMAT, UTC_DATE_FORMAT);
+    expect(output).toEqual('2000-06-24T00:00:00Z');
   });
 });

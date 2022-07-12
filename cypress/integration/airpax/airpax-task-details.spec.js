@@ -529,6 +529,19 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Co-traveller details not available for an AirPax task with a single passenger on task details page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTOTEST';
+    cy.fixture('airpax/task-airpax-singlePassenger.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.contains('h3', '1 Co-traveller').should('not.exist');
+      });
+    });
+  });
+
   it('Should verify Voyage details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';

@@ -544,6 +544,7 @@
             "commonAPIPlus.SourceData.0.subject": "BA103;LHR;2019-07-21;PONQVFT",
             "commonAPIPlus.SourceData.0.source": "PNRGOV",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.pnrPassengerRef": "3",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.checkinDateTime": "2019-07-20 16:43:35",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.membershipLevel": "BRNZ",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.seatNumber": "34A",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.0.pnrPassengerRef": "2",
@@ -641,69 +642,6 @@
         "changeHistory": null
       },
       "persons": [
-        {
-          "metadata": {
-            "identityRecord": {
-              "poleId": {
-                "v2": {
-                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
-                },
-                "v1": null
-              },
-              "type": "P"
-            },
-            "sourceRecord": {
-              "name": "PNR",
-              "shortName": "PNR",
-              "location": "MT2-PNR1.xml",
-              "id": "502992e4-f319-4422-ac26-09dbdcda5f58",
-              "audit": {
-                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv1jDrQ==",
-                "createdTimestamp": 1563637415000,
-                "updatedBy": null,
-                "updatedTimestamp": null,
-                "deletedBy": null,
-                "deletedTimestamp": null
-              }
-            },
-            "complianceRecord": null,
-            "mappingRecord": {
-              "name": "Passenger (dcs)",
-              "version": "1.0"
-            }
-          },
-          "type": "PERSON",
-          "person": {
-            "type": "PERPAS",
-            "title": null,
-            "familyName": "BATZ STOUP",
-            "givenName": "ZUES CARLO",
-            "fullName": "ZUES CARLO BATZ STOUP",
-            "dateOfBirth": 2535,
-            "dateOfDeath": null,
-            "gender": "M",
-            "nationality": "GBR",
-            "yearOfBirth": 1976,
-            "monthOfBirth": 12,
-            "dayOfBirth": 10,
-            "countryOfBirth": null,
-            "placeOfBirth": null,
-            "ethnicity": null,
-            "maritalStatus": null,
-            "religion": null,
-            "passportNumber": "119039375"
-          },
-          "attributes": {
-            "attrs": {
-              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "680419104BA"
-            }
-          },
-          "matching": null,
-          "features": null,
-          "washResponses": null,
-          "matchMerge": null,
-          "changeHistory": null
-        },
         {
           "metadata": {
             "identityRecord": {

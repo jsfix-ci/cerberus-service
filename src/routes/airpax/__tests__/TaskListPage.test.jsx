@@ -4,6 +4,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
 // Components/Pages
+import { ApplicationContext } from '../../../context/ApplicationContext';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 import { PnrAccessContext } from '../../../context/PnrAccessContext';
 
@@ -21,7 +22,7 @@ import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fix
 import dataNoAssignee from '../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
 import dataTargetIssued from '../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
 import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
-import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 describe('TaskListPage', () => {
   const mockAxios = new MockAdapter(axios);
@@ -121,6 +122,12 @@ describe('TaskListPage', () => {
     selectors: 'ANY',
   }];
 
+  const MockApplicationContext = ({ children }) => (
+    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+      {children}
+    </ApplicationContext.Provider>
+  );
+
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     tabData = {
@@ -161,11 +168,13 @@ describe('TaskListPage', () => {
 
   const setTabAndTaskValues = (tabValue, pnrValue, taskStatus = 'new') => {
     return (
-      <PnrAccessContext.Provider value={pnrValue}>
-        <TaskSelectedTabContext.Provider value={tabValue}>
-          <TaskListPage taskStatus={taskStatus} />
-        </TaskSelectedTabContext.Provider>
-      </PnrAccessContext.Provider>
+      <MockApplicationContext>
+        <PnrAccessContext.Provider value={pnrValue}>
+          <TaskSelectedTabContext.Provider value={tabValue}>
+            <TaskListPage taskStatus={taskStatus} />
+          </TaskSelectedTabContext.Provider>
+        </PnrAccessContext.Provider>
+      </MockApplicationContext>
     );
   };
 
@@ -211,9 +220,7 @@ describe('TaskListPage', () => {
   it('should render a target task on the task list page', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [dataCurrentUser])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataCurrentUser]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
 
@@ -247,9 +254,7 @@ describe('TaskListPage', () => {
 
     mockAxios
       .onPost('/targeting-tasks/pages', defaultPostPagesParams)
-      .reply(200, [dataCurrentUser])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataCurrentUser]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
 
@@ -259,9 +264,7 @@ describe('TaskListPage', () => {
   it('should render a claim button if the task status is new & there is no assignee', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [dataNoAssignee])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataNoAssignee]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
     expect(screen.getByText('Claim')).toBeInTheDocument();
@@ -270,9 +273,7 @@ describe('TaskListPage', () => {
   it('should render an unclaim button & assigned to you if the task status is in progress and the assignee is the current user', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [dataCurrentUser])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataCurrentUser]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'inProgress')));
     expect(screen.getByText('Assigned to you')).toBeInTheDocument();
@@ -282,9 +283,7 @@ describe('TaskListPage', () => {
   it('should render an unclaim button & assignee email if the task status is in progress and the assignee is not the current user', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [dataOtherUser])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataOtherUser]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'inProgress')));
     expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
@@ -294,9 +293,7 @@ describe('TaskListPage', () => {
   it('should not render a claim or unclaim button, or assignee, if the task status is issued', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [dataTargetIssued])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataTargetIssued]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'issued')));
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
@@ -308,9 +305,7 @@ describe('TaskListPage', () => {
   it('should not render a claim or unclaim button, or assignee, if the task status is complete', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [dataTaskComplete])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, [dataTaskComplete]);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'complete')));
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
@@ -323,9 +318,7 @@ describe('TaskListPage', () => {
     defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
 
@@ -339,9 +332,7 @@ describe('TaskListPage', () => {
 
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_IN_PROGRESS)));
 
@@ -354,9 +345,7 @@ describe('TaskListPage', () => {
 
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_TARGET_ISSUED)));
 
@@ -369,9 +358,7 @@ describe('TaskListPage', () => {
 
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(200, [])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_COMPLETED)));
 
@@ -385,9 +372,7 @@ describe('TaskListPage', () => {
 
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(403, dataNoAssignee)
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(403, dataNoAssignee);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
 
@@ -420,9 +405,7 @@ describe('TaskListPage', () => {
 
     mockAxios
       .onPost('/targeting-tasks/pages')
-      .reply(403, [])
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(403, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
 

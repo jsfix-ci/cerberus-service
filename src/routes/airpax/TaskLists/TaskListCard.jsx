@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
 import { buildVoyageSection,
   buildMovementInfoSection,
@@ -7,15 +8,15 @@ import { buildVoyageSection,
 
 const TaskListCard = ({
   targetTask,
-  airlineCodes,
   taskStatus,
   currentUser,
 }) => {
+  const { refDataAirlineCodes } = useContext(ApplicationContext);
   return (
     <div className="govuk-task-list-card">
       <div className="card-container">
         {buildTaskTitleSection(targetTask, currentUser, taskStatus)}
-        {buildVoyageSection(targetTask, airlineCodes)}
+        {buildVoyageSection(targetTask, refDataAirlineCodes)}
         {buildMovementInfoSection(targetTask)}
         {buildTargetIndicatorsSection(targetTask)}
       </div>

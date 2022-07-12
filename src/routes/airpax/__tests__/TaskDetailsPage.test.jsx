@@ -4,6 +4,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
+
+import { ApplicationContext } from '../../../context/ApplicationContext';
+
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import dataOtherUser from '../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
@@ -13,7 +16,7 @@ import dataTaskComplete from '../__fixtures__/taskData_AirPax_TaskComplete.fixtu
 import dataClaimedTask from '../__fixtures__/taskData_AirPax_ClaimedTask.fixture.json';
 import dataDismissedTask from '../__fixtures__/taskData_AirPax_DismissedTask.json';
 
-import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 // Extend the react-router-dom mock from jest.setup.jsx.
 const extendedRouterMock = jest.requireMock('react-router-dom');
@@ -21,6 +24,13 @@ extendedRouterMock.useParams = jest.fn().mockReturnValue({ businessKey: 'BK-123'
 
 describe('Task details page', () => {
   const mockAxios = new MockAdapter(axios);
+
+  const MockApplicationContext = ({ children }) => (
+    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+      {children}
+    </ApplicationContext.Provider>
+  );
+
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
@@ -31,11 +41,13 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, [])
       .onGet('/targeting-tasks/BK-123/information-sheets')
-      .reply(200, {})
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: [] });
+      .reply(200, {});
 
-    render(<TaskDetailsPage />);
+    render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    );
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
 
@@ -44,11 +56,13 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee)
       .onGet('/targeting-tasks/BK-123/information-sheets')
-      .reply(200, {})
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.getByText('BK-123')).toBeInTheDocument();
   });
@@ -58,11 +72,13 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee)
       .onGet('/targeting-tasks/BK-123/information-sheets')
-      .reply(200, {})
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.getByText('Task activity')).toBeInTheDocument();
   });
@@ -72,11 +88,13 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataNoAssignee)
       .onGet('/targeting-tasks/BK-123/information-sheets')
-      .reply(200, {})
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
@@ -86,11 +104,13 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataOtherUser)
       .onGet('/targeting-tasks/BK-123/information-sheets')
-      .reply(200, {})
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
@@ -100,11 +120,13 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123')
       .reply(200, dataCurrentUser)
       .onGet('/targeting-tasks/BK-123/information-sheets')
-      .reply(200, {})
-      .onGet('/v2/entities/carrierlist')
-      .reply(200, { data: airlineCodes });
+      .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getAllByText('Overview')).toHaveLength(4);
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
@@ -116,7 +138,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getByText('Task not assigned')).toBeInTheDocument();
     expect(screen.getByText('Claim')).toBeInTheDocument();
   });
@@ -128,7 +154,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getByText('Assigned to you')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -140,7 +170,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -152,7 +186,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
@@ -167,7 +205,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.queryByText('Task not assigned')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
@@ -182,7 +224,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
@@ -195,7 +241,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.queryByText('Unclaim task')).toBeInTheDocument();
     expect(screen.queryByText('Dismiss')).toBeInTheDocument();
     expect(screen.queryByText('Issue target')).toBeInTheDocument();
@@ -209,7 +259,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    const { container } = await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(1);
   });
 
@@ -220,7 +274,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    const { container } = await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
   });
 
@@ -231,7 +289,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    const { container } = await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
   });
 
@@ -242,7 +304,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    const { container } = await waitFor(() => render(<TaskDetailsPage />));
+    const { container } = await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(container.getElementsByClassName('govuk-tag--newTarget')).toHaveLength(0);
   });
 
@@ -253,7 +319,11 @@ describe('Task details page', () => {
       .onGet('/targeting-tasks/BK-123/information-sheets')
       .reply(200, {});
 
-    await waitFor(() => render(<TaskDetailsPage />));
+    await waitFor(() => render(
+      <MockApplicationContext>
+        <TaskDetailsPage />
+      </MockApplicationContext>,
+    ));
     expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
     expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();

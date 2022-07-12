@@ -4,11 +4,12 @@ import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import TaskVersions from '../TaskDetails/TaskVersions';
+import { ApplicationContext } from '../../../context/ApplicationContext';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 
 import { LONDON_TIMEZONE } from '../../../constants';
 import taskDetailsData from '../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
-import airlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 import config from '../../../config';
 
@@ -16,6 +17,12 @@ describe('TaskVersions', () => {
   const mockAxios = new MockAdapter(axios);
 
   let tabData = {};
+
+  const MockApplicationContext = ({ children }) => (
+    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+      {children}
+    </ApplicationContext.Provider>
+  );
 
   beforeEach(() => {
     config.dayjsConfig.timezone = LONDON_TIMEZONE;
@@ -27,14 +34,15 @@ describe('TaskVersions', () => {
 
   const setTabAndTaskValues = (taskVersions, selectTabData, businessKey = 'BK-123', taskVersionDifferencesCounts = 0) => {
     return (
-      <TaskSelectedTabContext.Provider value={selectTabData}>
-        <TaskVersions
-          taskVersions={taskVersions}
-          businessKey={businessKey}
-          taskVersionDifferencesCounts={taskVersionDifferencesCounts}
-          airlineCodes={airlineCodes}
-        />
-      </TaskSelectedTabContext.Provider>
+      <MockApplicationContext>
+        <TaskSelectedTabContext.Provider value={selectTabData}>
+          <TaskVersions
+            taskVersions={taskVersions}
+            businessKey={businessKey}
+            taskVersionDifferencesCounts={taskVersionDifferencesCounts}
+          />
+        </TaskSelectedTabContext.Provider>
+      </MockApplicationContext>
     );
   };
 
