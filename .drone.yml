@@ -149,6 +149,7 @@ steps:
   when:
     branch:
     - release-candidate
+    - COP-11260-attempt-to-fix-504-issue
     event:
     - push
 
@@ -219,6 +220,7 @@ steps:
   when:
     branch:
     - release-candidate
+    - COP-11260-attempt-to-fix-504-issue
     event:
     - push
 
