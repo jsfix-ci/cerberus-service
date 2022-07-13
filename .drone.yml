@@ -220,7 +220,6 @@ steps:
   when:
     branch:
     - release-candidate
-    
     event:
     - push
 

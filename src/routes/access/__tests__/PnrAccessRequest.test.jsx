@@ -11,10 +11,6 @@ describe('PnrAccessRequest', () => {
     config.copTargetingApiEnabled = true;
   });
 
-  afterEach(() => {
-    config.copTargetingApiEnabled = true;
-  });
-
   it('should render the form when localStorage has no matching stored user session and cop targeitng api is enabled', async () => {
     await waitFor(() => render(<PnrAccessRequest><div /></PnrAccessRequest>));
 
