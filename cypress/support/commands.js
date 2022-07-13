@@ -2264,25 +2264,25 @@ Cypress.Commands.add('filterPageByAssignee', (userName) => {
     url: `https://${targetingApiUrl}/v2/targets/pages`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'filterParams': {
+      'filterParams': { 
         'movementModes': [],
         'statuses': [],
         'groupCodes': [
-            'GP6PO2H9',
-            'GP6R02K8'
+          'GP6PO2H9',
+          'GP6R02K8'
         ],
         'assignees': [userName]
-    },
-    'sortParams': [
+      },
+      'sortParams': [ 
         {
-            'field': 'ARRIVAL_TIME',
-            'order': 'DESC'
+          'field': 'ARRIVAL_TIME',
+          'order': 'DESC'
         }
-    ],
-    'pageParams': {
+      ],
+      'pageParams': {
         'limit': 100,
         'offset': 0
-    }
+      }
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
@@ -2300,21 +2300,21 @@ Cypress.Commands.add('filterJourneysByAssignee', (userName) => {
         'movementModes': [],
         'statuses': [],
         'groupCodes': [
-            'GP6PO2H9',
-            'GP6R02K8'
+          'GP6PO2H9',
+          'GP6R02K8'
         ],
         'assignees': [userName]
-    },
-    'sortParams': [
-        {
-            'field': 'ARRIVAL_TIME',
-            'order': 'DESC'
-        }
-    ],
-    'pageParams': {
+      },
+      'sortParams': [
+      {
+        'field': 'ARRIVAL_TIME',
+        'order': 'DESC'
+      }
+      ],
+      'pageParams': {
         'limit': 100,
         'offset': 0
-    }
+      }
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
