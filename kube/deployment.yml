@@ -126,7 +126,7 @@ spec:
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
-        env:
+        env:            
           - name: KEYCLOAK_AUTH_URL
             value: "https://{{.KEYCLOAK_AUTH_URL}}"
           - name: KEYCLOAK_CLIENT_ID
@@ -147,8 +147,10 @@ spec:
             value: "{{.COP_TARGETING_API_NAMESPACE}}"
           - name: COP_TARGETING_API_SERVICE_NAME
             value: "{{.COP_TARGETING_API_SERVICE_NAME}}"
-          - name: TARGETING_API_URL
+          - name: COP_TARGETING_API_URL
             value: "https://$(COP_TARGETING_API_SERVICE_NAME).$(COP_TARGETING_API_NAMESPACE)"
+          - name: COP_TARGETING_API_ENABLED
+            value: "{{.COP_TARGETING_API_ENABLED}}"
       volumes:
       - name: certs
         secret:

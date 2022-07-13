@@ -17,10 +17,10 @@ do
   sed -i 's,REPLACE_FORM_API_URL,'${FORM_API_URL}',g' $file
   sed -i 's,REPLACE_FILE_UPLOAD_API_URL,'${FILE_UPLOAD_API_URL}',g' $file
   sed -i 's,REPLACE_REFDATA_API_URL,'${REFDATA_API_URL}',g' $file
+  sed -i 's,REPLACE_COP_TARGETING_API_ENABLED,'${COP_TARGETING_API_ENABLED}',g' $file
 done
 echo "== Finished ENV sub =="
 # --- End Insert ENV to JS bundle ---
-
 
 # config file takes precedence
 if [[ -f ${NGINX_CONFIG_FILE} ]]; then
@@ -30,9 +30,9 @@ if [[ -f ${NGINX_CONFIG_FILE} ]]; then
   sed -i 's,REPLACE_CERBERUS_API_URL,'${CERBERUS_API_URL}',g' ${NGINX_CONFIG_FILE}
   sed -i 's,REPLACE_CERBERUS_API_SERVER,'${CERBERUS_API_SERVER}',g' ${NGINX_CONFIG_FILE}
 
-  export TARGETING_API_SERVER=`echo ${TARGETING_API_URL} | awk -F/ '{print $3}'`
-  sed -i 's,REPLACE_TARGETING_API_URL,'${TARGETING_API_URL}',g' ${NGINX_CONFIG_FILE}
-  sed -i 's,REPLACE_TARGETING_API_SERVER,'${TARGETING_API_SERVER}',g' ${NGINX_CONFIG_FILE}
+  export COP_TARGETING_API_SERVER=`echo ${COP_TARGETING_API_URL} | awk -F/ '{print $3}'`
+  sed -i 's,REPLACE_COP_TARGETING_API_URL,'${COP_TARGETING_API_URL}',g' ${NGINX_CONFIG_FILE}
+  sed -i 's,REPLACE_COP_TARGETING_API_SERVER,'${COP_TARGETING_API_SERVER}',g' ${NGINX_CONFIG_FILE}
 
   nginx -g 'daemon off;' -c ${NGINX_CONFIG_FILE}
 elif [[ -n ${NGINX_CONFIG} ]]; then
