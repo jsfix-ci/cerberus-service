@@ -69,7 +69,8 @@ Assuming you have nvm installed to manage your node versions of course!
   KEYCLOAK_CLIENT_ID=your-client-id \
   KEYCLOAK_REALM=realm \
   CERBERUS_API_URL=https://cerberus-api.example.com/ \
-  TARGETING_API_URL=https://localhost:9443/v2 \
+  COP_TARGETING_API_ENABLED=true \
+  COP_TARGETING_API_URL=https://localhost:9443/v2 \
   npm run start
 ```
 
@@ -91,6 +92,8 @@ docker run --name cerberus-service -p 8080:8080 \
   --env FORM_API_URL=https://form-api-server.dev.cop.homeoffice.gov.uk \
   --env REFDATA_API_URL=https://api.dev.refdata.homeoffice.gov.uk \
   --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
+  --env COP_TARGETING_API_ENABLED=true \
+  --env COP_TARGETING_API_URL=https://localhost:9443/v2 \
   cerberus-service
 ```
 **4. Run the resulting Docker container using docker compose**

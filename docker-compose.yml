@@ -13,7 +13,8 @@ services:
       FORM_API_URL: https://form-api-server.dev.cop.homeoffice.gov.uk
       REFDATA_API_URL: https://api.dev.refdata.homeoffice.gov.uk
       CERBERUS_API_URL: https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/
-      TARGETING_API_URL: http://cop-targeting-api:8080
+      COP_TARGETING_API_ENABLED: true
+      COP_TARGETING_API_URL: http://cop-targeting-api:8080
     depends_on:
       - cop-targeting-api
   
