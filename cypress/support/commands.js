@@ -1918,7 +1918,7 @@ Cypress.Commands.add('createTargetingApiTask', (task) => {
   });
 });
 
-Cypress.Commands.add('issueAirPaxTask', (task) => {
+Cypress.Commands.add('issueTarget', (task) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/targets`,
@@ -2255,6 +2255,70 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('filterPageByAssignee', (userName) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'filterParams': {
+        'movementModes': [],
+        'statuses': [],
+        'groupCodes': [
+            'GP6PO2H9',
+            'GP6R02K8'
+        ],
+        'assignees': [userName]
+    },
+    'sortParams': [
+        {
+            'field': 'ARRIVAL_TIME',
+            'order': 'DESC'
+        }
+    ],
+    'pageParams': {
+        'limit': 100,
+        'offset': 0
+    }
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('filterJourneysByAssignee', (userName) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/journeys/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'filterParams': {
+        'movementModes': [],
+        'statuses': [],
+        'groupCodes': [
+            'GP6PO2H9',
+            'GP6R02K8'
+        ],
+        'assignees': [userName]
+    },
+    'sortParams': [
+        {
+            'field': 'ARRIVAL_TIME',
+            'order': 'DESC'
+        }
+    ],
+    'pageParams': {
+        'limit': 100,
+        'offset': 0
+    }
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
   });
 });
 
