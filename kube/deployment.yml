@@ -75,6 +75,27 @@ spec:
         volumeMounts:
           - name: certs
             mountPath: /certs
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
       - name: {{.CERBERUS_UI_NAME}}
         image: {{.CERBERUS_UI_IMAGE}}:{{.CERBERUS_UI_TAG}}
         imagePullPolicy: Always
@@ -88,12 +109,20 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /tasks
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401"
+          httpGet:
+            path: /tasks
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
