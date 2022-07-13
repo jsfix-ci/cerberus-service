@@ -4,7 +4,7 @@ describe('Create AirPax task and issue target', () => {
     cy.acceptPNRTerms();
   });
 
-  it('Should verify filter targets by Assignee ', () => {
+  it('Should verify filter targets by Assignee', () => {
     const userId = Cypress.env('userName');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -36,7 +36,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-   it('Should verify filter target journeys by Assignee ', () => {
+   it('Should verify filter target journeys by Assignee', () => {
     const userId = Cypress.env('userName');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
