@@ -23,7 +23,6 @@ describe('Create AirPax task and issue target', () => {
             expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
             cy.wait(2000);
-            console.log(issueTaskResponse);
             cy.acknowledgeTarget(userId, businessKey);
             cy.wait(2000);
             cy.claimTarget(userId, businessKey);
@@ -55,7 +54,6 @@ describe('Create AirPax task and issue target', () => {
             expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
             cy.wait(2000);
-            console.log(issueTaskResponse);
             cy.acknowledgeTarget(userId, businessKey);
             cy.wait(2000);
             cy.claimTarget(userId, businessKey);
