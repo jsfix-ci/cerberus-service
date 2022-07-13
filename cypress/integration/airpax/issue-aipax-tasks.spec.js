@@ -13,7 +13,7 @@ describe('Create AirPax task and issue target', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
-        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`,userId,);
+        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`, userId);
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
@@ -45,7 +45,7 @@ describe('Create AirPax task and issue target', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
-        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`,userId,);
+        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`, userId);
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
