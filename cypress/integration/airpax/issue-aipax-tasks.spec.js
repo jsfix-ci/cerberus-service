@@ -18,7 +18,7 @@ describe('Create AirPax task and issue target', () => {
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
           issueTask.movement.id = movementId;
-          issueTask.form.submittedBy = Cypress.env('userName');
+          issueTask.form.submittedBy = userId;
           cy.issueTarget(issueTask).then((issueTaskResponse) => {
             expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
@@ -26,8 +26,11 @@ describe('Create AirPax task and issue target', () => {
             cy.acknowledgeTarget(userId, businessKey);
             cy.wait(2000);
             cy.claimTarget(userId, businessKey);
-            cy.filterPageByAssignee(userId).then((filterResponse) => {
-              expect(filterResponse[0].assignee).to.eql(userId);
+            cy.fixture('airpax/filterTargetPage.json').then((filter) => {
+              filter.filterParams.assignees[0] = userId;
+              cy.filterPageByAssignee(filter).then((filterResponse) => {
+                expect(filterResponse[0].assignee).to.eql(userId);
+              });
             });
           });
         });
@@ -35,7 +38,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should verify filter target journeys by Assignee', () => {
+  it.only('Should verify filter target journeys by Assignee', () => {
     const userId = Cypress.env('userName');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -49,7 +52,7 @@ describe('Create AirPax task and issue target', () => {
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
           issueTask.movement.id = movementId;
-          issueTask.form.submittedBy = Cypress.env('userName');
+          issueTask.form.submittedBy = userId;
           cy.issueTarget(issueTask).then((issueTaskResponse) => {
             expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
@@ -57,8 +60,11 @@ describe('Create AirPax task and issue target', () => {
             cy.acknowledgeTarget(userId, businessKey);
             cy.wait(2000);
             cy.claimTarget(userId, businessKey);
-            cy.filterJourneysByAssignee(userId).then((filterResponse) => {
-              expect(filterResponse[0].targets[0].assignee).to.eql(userId);
+            cy.fixture('airpax/filterTargetPage.json').then((filter) => {
+              filter.filterParams.assignees[0] = userId;
+              cy.filterJourneysByAssignee(filter).then((filterResponse) => {
+                expect(filterResponse[0].targets[0].assignee).to.eql(userId);
+              });
             });
           });
         });

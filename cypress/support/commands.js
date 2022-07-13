@@ -2258,58 +2258,24 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
   });
 });
 
-Cypress.Commands.add('filterPageByAssignee', (userName) => {
+Cypress.Commands.add('filterPageByAssignee', (filter) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/targets/pages`,
     headers: { Authorization: `Bearer ${token}` },
-    body: {
-      'filterParams': {
-        'movementModes': [],
-        'statuses': [],
-        'groupCodes': ['GP6PO2H9','GP6R02K8'],
-        'assignees': [userName]
-      },
-      'sortParams': [
-        {
-          'field': 'ARRIVAL_TIME',
-          'order': 'DESC'
-        }
-      ],
-      'pageParams': {
-        'limit': 100,
-        'offset': 0
-      }
-    },
+    body: filter,
   }).then((response) => {
     expect(response.status).to.eq(200);
     return response.body;
   });
 });
 
-Cypress.Commands.add('filterJourneysByAssignee', (userName) => {
+Cypress.Commands.add('filterJourneysByAssignee', (filter) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/targets/journeys/pages`,
     headers: { Authorization: `Bearer ${token}` },
-    body: {
-      'filterParams': {
-        'movementModes': [],
-        'statuses': [],
-        'groupCodes': ['GP6PO2H9','GP6R02K8'],
-        'assignees': [userName]
-      },
-      'sortParams': [
-        {
-          'field': 'ARRIVAL_TIME',
-          'order': 'DESC'
-        }
-      ],
-      'pageParams': {
-        'limit': 100,
-        'offset': 0
-      }
-    },
+    body: filter,
   }).then((response) => {
     expect(response.status).to.eq(200);
     return response.body;
