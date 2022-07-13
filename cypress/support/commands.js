@@ -2268,12 +2268,14 @@ Cypress.Commands.add('filterPageByAssignee', (userName) => {
         'movementModes': [],
         'statuses': [],
         'groupCodes': ['GP6PO2H9','GP6R02K8'],
-        'assignees': [userName]},
+        'assignees': [userName]
+      },
       'sortParams': [
         {
           'field': 'ARRIVAL_TIME',
           'order': 'DESC'
-        }],
+        }
+      ],
       'pageParams': {
         'limit': 100,
         'offset': 0
@@ -2301,7 +2303,8 @@ Cypress.Commands.add('filterJourneysByAssignee', (userName) => {
         {
           'field': 'ARRIVAL_TIME',
           'order': 'DESC'
-        }],
+        }
+      ],
       'pageParams': {
         'limit': 100,
         'offset': 0
