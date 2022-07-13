@@ -56,6 +56,7 @@ module.exports = {
       FORM_API_URL: '',
       FILE_UPLOAD_API_URL: '',
       REFDATA_API_URL: '',
+      COP_TARGETING_API_ENABLED: '',
     }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
   ],
@@ -71,12 +72,12 @@ module.exports = {
         changeOrigin: true,
       },
       '/v2': {
-        target: process.env.TARGETING_API_URL,
+        target: process.env.COP_TARGETING_API_URL,
         pathRewrite: { '^/v2': '' },
         secure: false,
         changeOrigin: true,
         onProxyReq(request) {
-          request.setHeader('origin', process.env.TARGETING_API_URL);
+          request.setHeader('origin', process.env.COP_TARGETING_API_URL);
         },
       },
     },
