@@ -90,11 +90,13 @@ describe('Create AirPax task and issue target', () => {
           cy.get('#eventPort').type(targetData.eventPort.name);
           cy.get('#eventPort__option--0').contains((targetData.eventPort.name)).click();
           cy.contains('Continue').click();
-          //Update Co-traveller details
-          cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name').siblings('.govuk-summary-list__actions').within(() => {
-            cy.get('.govuk-link').contains('Change').click();
-            cy.wait(2000);
-          });
+          // Update Co-traveller details
+          cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name')
+            .siblings('.govuk-summary-list__actions')
+            .within(() => {
+              cy.get('.govuk-link').contains('Change').click();
+              cy.wait(2000);
+            });
           cy.get('input[name="seatNumber"]').type('34B');
           cy.get('#bagCount').type('1');
           cy.get('#weight').type(targetData.movement.baggage.weight);
@@ -108,7 +110,7 @@ describe('Create AirPax task and issue target', () => {
           cy.get('#category').type(targetData.risks.selector.category);
           cy.contains('Continue').click();
 
-          //Add Nominal Details
+          // Add Nominal Details
           cy.clickChangeInTIS('Nominal type');
           cy.get('.hods-autocomplete__input').type(targetData.nominalChecks[0].type);
           cy.get('.hods-autocomplete__option').contains('Account').click();
@@ -116,14 +118,14 @@ describe('Create AirPax task and issue target', () => {
           cy.get('.hods-multi-select-autocomplete__menu').contains(targetData.nominalChecks[0].checks[0].name).click();
           cy.contains('Continue').click();
 
-          //Select team to receive target
+          // Select team to receive target
           cy.clickChangeInTIS('Select the team that should receive the target');
           cy.get('.hods-autocomplete__input').type(targetData.teamToReceiveTheTarget.displayname);
           cy.get('.hods-autocomplete__option').contains(targetData.teamToReceiveTheTarget.displayname).click();
           cy.contains('Continue').click();
           cy.contains('Accept and send').click();
           cy.contains('Finish').click();
-        })
+        });
       });
     });
   });
