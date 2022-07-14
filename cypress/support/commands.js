@@ -407,6 +407,13 @@ Cypress.Commands.add('waitForNoErrors', () => {
   cy.get(formioErrorText).should('not.exist');
 });
 
+Cypress.Commands.add('clickChangeInTIS', (section) => {
+  cy.get('.govuk-summary-list__row').contains(section).siblings('.govuk-summary-list__actions').within(() => {
+          cy.get('.govuk-link').contains('Change').click({ force: true });
+  });
+  cy.wait(2000);
+});
+
 Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
   cy.get(`${formioComponent}textfield${formioComponent}${elementName} input`)
 

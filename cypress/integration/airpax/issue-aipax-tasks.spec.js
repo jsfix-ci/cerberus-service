@@ -72,6 +72,62 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
+  it('Should submit a target successfully from a AirPax task', () => {
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.fixture('airpax/issue-task-airpax.json').then((targetData) => {
+          // Update Issuing Hub details
+          cy.clickChangeInTIS('Issuing hub');
+          cy.get('#issuingHub').type(targetData.issuingHub.name);
+          cy.get('#issuingHub__option--0').contains(targetData.issuingHub.name).click();
+          cy.get('#eventPort').type(targetData.eventPort.name);
+          cy.get('#eventPort__option--0').contains((targetData.eventPort.name)).click();
+          cy.contains('Continue').click();
+          //Update Co-traveller details
+          cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name').siblings('.govuk-summary-list__actions').within(() => {
+            cy.get('.govuk-link').contains('Change').click();
+            cy.wait(2000);
+          });
+          cy.get('input[name="seatNumber"]').type('34B');
+          cy.get('#bagCount').type('1');
+          cy.get('#weight').type(targetData.movement.baggage.weight);
+          cy.get('#tags').type(targetData.movement.baggage.tags);
+          cy.contains('Continue').click();
+
+          // Add Selection Details
+          cy.clickChangeInTIS('Targeting indicators');
+          cy.get('.hods-multi-select-autocomplete__placeholder').type('Paid by cash');
+          cy.get('.hods-multi-select-autocomplete__menu').contains('Paid by cash').click();
+          cy.get('#category').type(targetData.risks.selector.category);
+          cy.contains('Continue').click();
+
+          //Add Nominal Details
+          cy.clickChangeInTIS('Nominal type');
+          cy.get('.hods-autocomplete__input').type(targetData.nominalChecks[0].type);
+          cy.get('.hods-autocomplete__option').contains('Account').click();
+          cy.get('.hods-multi-select-autocomplete__placeholder').type(targetData.nominalChecks[0].checks[0].name);
+          cy.get('.hods-multi-select-autocomplete__menu').contains(targetData.nominalChecks[0].checks[0].name).click();
+          cy.contains('Continue').click();
+
+          //Select team to receive target
+          cy.clickChangeInTIS('Select the team that should receive the target');
+          cy.get('.hods-autocomplete__input').type(targetData.teamToReceiveTheTarget.displayname);
+          cy.get('.hods-autocomplete__option').contains(targetData.teamToReceiveTheTarget.displayname).click();
+          cy.contains('Continue').click();
+          cy.contains('Accept and send').click();
+          cy.contains('Finish').click();
+        })
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
