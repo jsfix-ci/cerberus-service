@@ -1,5 +1,4 @@
 describe('Filter airpax tasks by TaskId or Passenger name', () => {
-
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();
@@ -10,9 +9,9 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(3000);
-        let businessKey = response.id;
+        let businessKey = taskResponse.id;
         cy.visit('/airpax/tasks');
         cy.get('.govuk-input').should('be.visible').type(businessKey);
         cy.contains('Apply').click();
@@ -23,7 +22,6 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
       });
     });
   });
-
 
   after(() => {
     cy.contains('Sign out').click();
