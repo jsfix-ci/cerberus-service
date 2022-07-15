@@ -45,9 +45,8 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskSummary(null, Cypress.dayjs().utc().format('D MMM YYYY [at] HH:mm'));
 
         cy.contains('Back to task list').click();
-
-        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-          .click({ force: true });
+        cy.wait(2000);
+        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT')
 
         cy.contains('Apply filters').click({ force: true });
 
@@ -195,7 +194,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {
         cy.wait(4000);
         cy.navigation('Tasks');
-        cy.get('.govuk-heading-xl').should('have.text', 'Task management');
+        cy.get('.govuk-heading-xl').should('have.text', 'Task management (RoRo)');
         cy.checkTaskDisplayed(`${response.businessKey}`);
 
         // COP-9672 Display No Rule matches in task details if there are no Rule / Selector
@@ -258,9 +257,8 @@ describe('Create task with different payload from Cerberus', () => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.visit('/tasks');
-
-        cy.get('.govuk-checkboxes [value=RORO_TOURIST]')
-          .click({ force: true });
+        cy.wait(2000);
+        cy.get('select').select('RORO_TOURIST');
 
         cy.contains('Apply filters').click();
         cy.wait(2000);
@@ -289,8 +287,8 @@ describe('Create task with different payload from Cerberus', () => {
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
       cy.visit('/tasks');
 
-      cy.get('.govuk-checkboxes [value=RORO_TOURIST]')
-        .click({ force: true });
+      cy.wait(2000);
+      cy.get('select').select('RORO_TOURIST');
 
       cy.contains('Apply filters').click();
       cy.wait(2000);

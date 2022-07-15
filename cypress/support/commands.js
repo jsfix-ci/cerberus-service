@@ -955,14 +955,14 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
 
-  cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
-    .click({ force: true });
+  cy.wait(2000);
+  cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
 
   cy.contains('Clear all filters').click();
 
   cy.wait(1000);
 
-  cy.contains('Apply filters').click();
+  cy.contains('Apply').click();
   cy.wait(2000);
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
@@ -1501,20 +1501,22 @@ Cypress.Commands.add('getAirPaxTaskCount', (modeName, selector, statusTab) => {
 });
 
 Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
+  cy.intercept('POST', '/camunda/v1/targeting-tasks/status-counts').as('counts');
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
-      cy.get(`.govuk-checkboxes [value=${option}]`)
-        .click({ force: true });
+      cy.get('select').select(option).should('have.value', option);
     });
   } else {
-    cy.get(`.govuk-checkboxes [value=${filterOptions}]`)
-      .click({ force: true });
+    cy.get('select').select(filterOptions).should('have.value', filterOptions);
   }
 
-  cy.contains('Apply filters').click();
-  cy.wait(2000);
-  cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
-    return parseInt(targets.match(/\d+/)[0], 10);
+  cy.contains('Apply').click();
+  cy.wait('@counts').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+    cy.wait(3000);
+    cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
+      return parseInt(targets.match(/\d+/)[0], 10);
+    })
   });
 });
 

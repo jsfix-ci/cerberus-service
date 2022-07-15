@@ -1,6 +1,3 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
 describe('Render tasks from Camunda and manage them on task management Page', () => {
   const MAX_TASK_PER_PAGE = 100;
   const nextPage = 'a[data-test="next"]';
@@ -432,7 +429,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it('Should check selector & rule matches details for more than one version on task management page', () => {
+  it.only('Should check selector & rule matches details for more than one version on task management page', () => {
     let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -473,11 +470,10 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.wait('@tasks').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
+    cy.wait(2000);
+    cy.get('select').select('RORO_TOURIST');
 
-    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-      .click({ force: true });
-
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -502,7 +498,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.get('.govuk-radios__item [value="false"]')
       .click({ force: true });
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.get('.govuk-tabs__list li a').each((navigationItem) => {
       cy.wrap(navigationItem).click();

@@ -1,7 +1,4 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
-describe('Filter tasks by Selectors on task management Page', () => {
+describe.skip('Filter tasks by Selectors on task management Page', () => {
   const filterOptions = [
     'true',
     'false',

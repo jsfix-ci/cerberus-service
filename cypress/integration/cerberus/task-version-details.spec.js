@@ -705,11 +705,10 @@ describe('Task Details of different tasks on task details Page', () => {
     }
 
     cy.visit('/tasks');
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
-
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -837,10 +836,9 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.visit('/tasks');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -925,11 +923,10 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
-
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -1029,10 +1026,10 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.visit('/tasks');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -1407,10 +1404,9 @@ describe('Task Details of different tasks on task details Page', () => {
 
         cy.wait(2000);
 
-        cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-          .click({ force: true });
+        cy.get('select').select('RORO_TOURIST');
 
-        cy.contains('Apply filters').click({ force: true });
+        cy.contains('Apply').click({ force: true });
 
         cy.wait(2000);
 

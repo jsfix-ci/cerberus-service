@@ -9,10 +9,8 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
       cy.get('span.govuk-caption-xl').invoke('text').then((businessKey) => {
         cy.visit('/tasks');
         cy.wait(3000);
-        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-          .click({ force: true });
-
-        cy.contains('Apply filters').click();
+        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+        cy.contains('Apply').click();
 
         cy.wait(2000);
 
@@ -24,10 +22,9 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for multiple passengers task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-      .click({ force: true });
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
     cy.getBusinessKey('MULTIPLE-PASSENGERS').then((businessKeys) => {
@@ -39,10 +36,9 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Tourist task with No vehicle task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-      .click({ force: true });
+    cy.get('select').select('RORO_TOURIST');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
     cy.getBusinessKey('TOURIST-NO-VEHICLE').then((businessKeys) => {
@@ -54,10 +50,9 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Tourist task with Passengers task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-      .click({ force: true });
+    cy.get('select').select('RORO_TOURIST');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
     cy.getBusinessKey('TOURIST-WITH-PASSENGERS').then((businessKeys) => {
@@ -69,10 +64,9 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Unaccompanied task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
     cy.getBusinessKey('RoRo-UNACC-RBT-SBT').then((businessKeys) => {
@@ -84,10 +78,9 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Unaccompanied with trailer task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
     cy.getBusinessKey('RoRo-UNACC-SBT').then((businessKeys) => {
