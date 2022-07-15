@@ -53,31 +53,34 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
   });
 
-  it('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
+  it.skip('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
     let actualTotalTargets = 0;
-
-    // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
-    filterOptions.forEach((mode) => {
-      cy.applyModesFilter(mode, 'new').then((actualTargets) => {
-        cy.log('actual targets', actualTargets);
-        actualTotalTargets += actualTargets;
-        cy.getTaskCount(mode, null, 'NEW').then((response) => {
-          expect(response.new).be.equal(actualTargets);
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
+    cy.wait('@pages').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+      // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
+      filterOptions.forEach((mode) => {
+        cy.applyModesFilter(mode, 'new').then((actualTargets) => {
+          cy.log('actual targets', actualTargets);
+          actualTotalTargets += actualTargets;
+          cy.getTaskCount(mode, null, 'NEW').then((response) => {
+            expect(response.new).be.equal(actualTargets);
+          });
+          cy.contains('Clear all filters').click();
+          cy.wait(2000);
         });
-        cy.contains('Clear all filters').click();
-        cy.wait(2000);
       });
-    });
 
-    // clear the filter
-    cy.contains('Clear all filters').click();
+      // clear the filter
+      cy.contains('Clear all filters').click();
 
-    cy.wait(2000);
+      cy.wait(2000);
 
-    // compare total number of expected and actual targets
-    cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
-      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
-      expect(totalTargets).be.equal(actualTotalTargets);
+      // compare total number of expected and actual targets
+      cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
+        totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+        expect(totalTargets).be.equal(actualTotalTargets);
+      });
     });
   });
 
@@ -180,7 +183,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should retain applied filter after page reload & navigating between pages', () => {
     // COP-5715 switch between the tabs, filter should be retained
-  //  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
+    cy.wait(2000);
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.getTaskCount(mode, null, 'NEW').then((response) => {
@@ -197,7 +200,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       });
     });
 
-    // COP-5715 reload the page after filter applied on the page, filter should be retained
+      // COP-5715 reload the page after filter applied on the page, filter should be retained
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.getTaskCount(mode, null, 'NEW').then((response) => {
@@ -214,7 +217,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       });
     });
 
-    // COP-9661 Multi-select modes persist selection on page refresh
+      // COP-9661 Multi-select modes persist selection on page refresh
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.getTaskCount(mode, null, 'NEW').then((response) => {

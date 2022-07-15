@@ -773,9 +773,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.wait('@tasks').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
-
-      cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
-        .click({ force: true });
+      cy.wait(2000);
+      cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
 
       cy.contains('Apply').click();
 
@@ -959,7 +958,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should send an update to an existing task with empty Co-traveller block', () => {
     const reasons = [
       'Credibility checks carried out no target required',
-      'False BSM/selector match',
+      'False SBT',
       'Vessel arrived',
       'Other',
     ];

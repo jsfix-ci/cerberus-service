@@ -47,7 +47,7 @@ describe('Airpax tasks archive functionality', () => {
     });
   });
 
-  it('Should verify RoRo targets older than 6 months are archived', () => {
+  it.only('Should verify RoRo targets older than 6 months are archived', () => {
     const taskName = 'AUTO_TEST';
     cy.fixture('issue-roro-task.json').as('issueTargetPayload');
     cy.fixture('recordOutcome.json').as('recordOutcomePayload');
@@ -70,7 +70,7 @@ describe('Airpax tasks archive functionality', () => {
           issueTask.id = taskID;
           issueTask.movement.id = response.movement.id;
           issueTask.form.submittedBy = userName;
-          cy.issueAirPaxTask(issueTask).then((issueTaskResponse) => {
+          cy.issueTarget(issueTask).then((issueTaskResponse) => {
             expect(issueTaskResponse.informationSheet.id).to.equals(taskID);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(task.data.movementId);
             cy.acknowledgeTarget(userName, taskID);

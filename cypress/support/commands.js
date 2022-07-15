@@ -2003,6 +2003,7 @@ Cypress.Commands.add('getInformationSheet', (taskId) => {
     url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/information-sheets`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
+    expect(response.status).to.eq(200);
     return response.body;
   });
 });
