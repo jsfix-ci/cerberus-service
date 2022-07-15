@@ -46,7 +46,7 @@ describe('Create task with different payload from Cerberus', () => {
 
         cy.contains('Back to task list').click();
         cy.wait(2000);
-        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT')
+        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
         cy.contains('Apply filters').click({ force: true });
 

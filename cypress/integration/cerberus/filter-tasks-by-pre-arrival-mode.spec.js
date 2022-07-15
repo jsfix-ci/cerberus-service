@@ -59,22 +59,22 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
-          cy.log('actual targets', actualTargets);
+        cy.log('actual targets', actualTargets);
         actualTotalTargets += actualTargets;
-          cy.getTaskCount(mode, null, 'NEW').then((response) => {
-            expect(response.new).be.equal(actualTargets);
-          });
-          cy.contains('Clear all filters').click();
-         // cy.wait(3000);
+        cy.getTaskCount(mode, null, 'NEW').then((response) => {
+          expect(response.new).be.equal(actualTargets);
         });
+        cy.contains('Clear all filters').click();
+        cy.wait(2000);
       });
+    });
 
-    //clear the filter
-   cy.contains('Clear all filters').click();
+    // clear the filter
+    cy.contains('Clear all filters').click();
 
-   cy.wait(2000);
+    cy.wait(2000);
 
-    //compare total number of expected and actual targets
+    // compare total number of expected and actual targets
     cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
       totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
       expect(totalTargets).be.equal(actualTotalTargets);
@@ -92,8 +92,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
         cy.applyModesFilter(mode, 'inProgress').then((actualTargets) => {
           cy.log('actual targets', actualTargets);
           actualTotalTargets += actualTargets;
-          cy.getTaskCount(mode, null, 'IN_PROGRESS').then((response) => {
-            expect(response.inProgress).be.equal(actualTargets);
+          cy.getTaskCount(mode, null, 'IN_PROGRESS').then((taskResponse) => {
+            expect(taskResponse.inProgress).be.equal(actualTargets);
           });
           cy.contains('Clear all filters').click();
           cy.wait(2000);
@@ -125,8 +125,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
         cy.applyModesFilter(mode, 'issued').then((actualTargets) => {
           cy.log('actual targets', actualTargets);
           actualTotalTargets += actualTargets;
-          cy.getTaskCount(mode, null, 'ISSUED').then((response) => {
-            expect(response.issued).be.equal(actualTargets);
+          cy.getTaskCount(mode, null, 'ISSUED').then((taskResponse) => {
+            expect(taskResponse.issued).be.equal(actualTargets);
           });
           cy.contains('Clear all filters').click();
           cy.wait(2000);
@@ -157,8 +157,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
         cy.applyModesFilter(mode, 'complete').then((actualTargets) => {
           cy.log('actual targets', actualTargets);
           actualTotalTargets += actualTargets;
-          cy.getTaskCount(mode, null, 'COMPLETE').then((response) => {
-            expect(response.complete).be.equal(actualTargets);
+          cy.getTaskCount(mode, null, 'COMPLETE').then((taskResponse) => {
+            expect(taskResponse.complete).be.equal(actualTargets);
           });
           cy.contains('Clear all filters').click();
           cy.wait(2000);
@@ -193,7 +193,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
           expect(response.new).be.equal(actualTargets);
         });
         cy.contains('Clear all filters').click();
-        cy.wait(2000)
+        cy.wait(2000);
       });
     });
 
@@ -288,7 +288,6 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       expect(expectedTargets).be.equal(totalTargets);
     });
   });
-
 
   it.skip('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
     let actualTotalTargets = 0;

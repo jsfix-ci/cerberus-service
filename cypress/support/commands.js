@@ -1516,7 +1516,7 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
     cy.wait(3000);
     cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
       return parseInt(targets.match(/\d+/)[0], 10);
-    })
+    });
   });
 });
 

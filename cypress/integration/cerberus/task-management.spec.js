@@ -429,7 +429,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it.only('Should check selector & rule matches details for more than one version on task management page', () => {
+  it('Should check selector & rule matches details for more than one version on task management page', () => {
     let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
     let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Tourist-selectors-rules-versions_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
