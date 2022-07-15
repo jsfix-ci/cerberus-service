@@ -47,7 +47,7 @@ describe('Airpax tasks archive functionality', () => {
     });
   });
 
-  it.only('Should verify RoRo targets older than 6 months are archived', () => {
+  it('Should verify RoRo targets older than 6 months are archived', () => {
     const taskName = 'AUTO_TEST';
     cy.fixture('issue-roro-task.json').as('issueTargetPayload');
     cy.fixture('recordOutcome.json').as('recordOutcomePayload');
