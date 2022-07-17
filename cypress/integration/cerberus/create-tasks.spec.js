@@ -421,7 +421,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it.only('Should verify mode and modeCode for RORO-Unaccompanied frieght from target information sheet', () => {
+  it('Should verify mode and modeCode for RORO-Unaccompanied frieght from target information sheet', () => {
     cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
     const taskName = 'RORO-Unaccompanied';
     cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
