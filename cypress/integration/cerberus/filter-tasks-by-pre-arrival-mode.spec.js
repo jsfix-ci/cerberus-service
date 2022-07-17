@@ -63,8 +63,8 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
         cy.applyModesFilter(mode, 'new').then((actualTargets) => {
           cy.log('actual targets', actualTargets);
           actualTotalTargets += actualTargets;
-          cy.getTaskCount(mode, null, 'NEW').then((response) => {
-            expect(response.new).be.equal(actualTargets);
+          cy.getTaskCount(mode, null, 'NEW').then((taskResponse) => {
+            expect(taskResponse.new).be.equal(actualTargets);
           });
           cy.contains('Clear all filters').click();
           cy.wait(2000);
@@ -200,7 +200,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       });
     });
 
-      // COP-5715 reload the page after filter applied on the page, filter should be retained
+    // COP-5715 reload the page after filter applied on the page, filter should be retained
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.getTaskCount(mode, null, 'NEW').then((response) => {
@@ -217,7 +217,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       });
     });
 
-      // COP-9661 Multi-select modes persist selection on page refresh
+    // COP-9661 Multi-select modes persist selection on page refresh
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.getTaskCount(mode, null, 'NEW').then((response) => {
