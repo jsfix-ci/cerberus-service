@@ -45,7 +45,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
       });
     });
   });
-  
+
   it('Should not be able to filter by taskID that does not exist', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('pages');
     cy.visit('/airpax/tasks');
@@ -57,7 +57,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
     });
     cy.get('.govuk-task-list-card').should('not.exist');
   });
-  
+
   it('Should be able to filter by valid passenger name', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('pages');
     const taskName = 'AIRPAX';
@@ -78,7 +78,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
       });
     });
   });
-  
+
   it('Should be able to filter by valid partial passenger name', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('pages');
     const taskName = 'AIRPAX';
@@ -100,7 +100,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
       });
     });
   });
-  
+
   it('Should not be able to filter by passenger name that does not exist', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('pages');
     cy.visit('/airpax/tasks');
@@ -108,7 +108,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
     cy.get('.govuk-input').should('be.visible').type('AutomationTester NotExist');
     cy.contains('Apply').click();
     cy.wait('@pages').then(({ response }) => {
-      xpect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(200);
     });
     cy.get('.govuk-task-list-card').should('not.exist');
   });

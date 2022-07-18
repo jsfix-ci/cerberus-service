@@ -142,7 +142,7 @@ describe('Create AirPax task and issue target', () => {
       'Nominal type is required',
       'System checks completed is required',
       'Select the team that should receive the target is required'];
-    
+
     let expectedErrorNames = [];
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
