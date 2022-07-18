@@ -130,6 +130,44 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
+  it('Should not be able to submit a target successfully from a AirPax task due to mandatory field error validation', () => {
+    let errorNames = [
+      'Issuing hub is required',
+      'Port is required',
+      'Seat number is required',
+      'Number of bags is required',
+      'Baggage weight (kg) is required',
+      'Tag details is required',
+      'Targeting indicators is required',
+      'Nominal type is required',
+      'System checks completed is required',
+      'Select the team that should receive the target is required'
+    ];
+    let expectedErrorNames = [];
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.contains('Accept and send').click();
+        cy.get('.govuk-error-summary').should('be.visible').within(() => {
+          cy.get('.govuk-error-summary__title').should('have.text', 'There is a problem');
+          cy.get('.govuk-error-summary__list li a').each((element) => {
+            cy.wrap(element).invoke('text').then((value) => {
+              expectedErrorNames.push(value);
+            });
+          }).then(() => {
+            expect(expectedErrorNames).to.deep.equal(errorNames);
+          });
+        })
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
