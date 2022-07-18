@@ -258,7 +258,7 @@ const TaskDetailsPage = () => {
             && (
             <TaskNotes
               noteVariant={MOVEMENT_VARIANT.AIRPAX}
-              displayForm={assignee === currentUser}
+              displayForm={assignee === currentUser && !isCompleteFormOpen && !isDismissTaskFormOpen}
               businessKey={businessKey}
               setRefreshNotesForm={() => setRefreshNotesForm(!refreshNotesForm)}
             />

@@ -75,7 +75,7 @@ export default {
     {
       id: 'add-a-note',
       name: 'add-a-note',
-      title: 'Add a note?',
+      title: 'Add a note',
       hint: 'Add any additional information related to your request',
       components: [
         {
