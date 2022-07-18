@@ -569,4 +569,31 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
+
+  it('should hide the notes form on clicking the issue target button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const issueTargetButton = screen.getByRole('button', { name: 'Issue target' });
+    fireEvent.click(issueTargetButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
 });

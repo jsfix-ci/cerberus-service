@@ -420,7 +420,8 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-third">
               <TaskNotes
                 noteVariant={MOVEMENT_VARIANT.RORO}
-                displayForm={assignee === currentUser && !isCompleteFormOpen && !isDismissFormOpen}
+                displayForm={assignee === currentUser
+                  && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissFormOpen}
                 businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                 processInstanceId={processInstanceId}
                 refreshNotes={refreshNotesForm}
