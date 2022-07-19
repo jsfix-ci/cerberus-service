@@ -963,6 +963,7 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   cy.wait(1000);
 
   cy.contains('Apply').click();
+ 
   cy.wait(2000);
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
@@ -1836,10 +1837,9 @@ Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskRespons
 
   cy.wait(2000);
 
-  cy.get(`.govuk-checkboxes [value="${filterValue}"]`)
-    .click({ force: true });
+  cy.get('select').select(filterValue).should('have.value', filterValue);
 
-  cy.contains('Apply filters').click({ force: true });
+  cy.contains('Apply').click({ force: true });
 
   cy.wait(2000);
 

@@ -19,7 +19,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     });
   });
 
-  it('Display Vehicle and Vessel Icons for multiple passengers task', () => {
+  it.skip('Display Vehicle and Vessel Icons for multiple passengers task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');

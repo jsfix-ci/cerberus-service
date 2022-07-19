@@ -9,13 +9,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
   });
 
-  it.skip('Should navigate to task details page', () => {
-    cy.get('.govuk-radios__item [value=\'true\']')
-      .click({ force: true });
-
-    cy.contains('Apply').click();
-
-    cy.wait(2000);
+  it('Should navigate to task details page', () => {
 
     cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
       cy.get('.govuk-task-list-card a').eq(0).click();
@@ -364,7 +358,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should complete assessment of a task with a reason as take no further action', () => {
     const reasons = [
       'Credibility checks carried out no target required',
-      'False BSM/selector match',
+      'False SBT',
       'Vessel arrived',
       'Other',
     ];
@@ -637,9 +631,12 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
               cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
+                console.log(taskListDetails);
+                console.log(expTestData.taskListDetails);
                 expect(taskListDetails).to.deep.equal(expTestData.taskListDetails);
               });
             });
+            cy.wait(2000);
             cy.checkTaskDisplayed(`${response.businessKey}`);
           });
       });
@@ -687,6 +684,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
+            cy.wait(2000);
             cy.checkTaskDisplayed(`${response.businessKey}`);
           });
       });
@@ -721,6 +719,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
+            cy.wait(2000);
             cy.checkTaskDisplayed(`${response.businessKey}`);
             cy.get('@expTestData').then((expectedData) => {
               cy.verifyTaskDetailAllSections(expectedData.versions[0], 1);
