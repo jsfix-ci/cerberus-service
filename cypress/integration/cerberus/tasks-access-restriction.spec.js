@@ -1,6 +1,3 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
 describe('Cerberus User not in the Targeters Group should not have access to tasks', () => {
   beforeEach(() => {
     cy.login('cypressuser@lodev.xyz');
@@ -9,7 +6,7 @@ describe('Cerberus User not in the Targeters Group should not have access to tas
     cy.navigation('Tasks');
   });
 
-  it('Should render all the tabs on task management page and check access is restricted to view the tasks', () => {
+  it.only('Should render all the tabs on task management page and check access is restricted to view the tasks', () => {
     cy.get('#main-content p').should('have.text', 'You are not authorised to view these tasks.');
   });
 
