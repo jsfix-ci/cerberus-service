@@ -55,7 +55,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
     let actualTotalTargets = 0;
-      // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
+    // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {
       cy.applyModesFilter(mode, 'new').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
@@ -68,12 +68,12 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       });
     });
 
-      // clear the filter
+    // clear the filter
     cy.contains('Clear all filters').click();
 
     cy.wait(2000);
 
-      // compare total number of expected and actual targets
+    // compare total number of expected and actual targets
     cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
       totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
       expect(totalTargets).be.equal(actualTotalTargets);

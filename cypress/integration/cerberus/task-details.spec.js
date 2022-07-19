@@ -10,7 +10,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should navigate to task details page', () => {
-
     cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
       cy.get('.govuk-task-list-card a').eq(0).click();
       cy.get('.govuk-caption-xl').invoke('text').then((taskTitle) => {
