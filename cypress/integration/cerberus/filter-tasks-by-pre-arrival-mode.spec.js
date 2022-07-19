@@ -53,34 +53,30 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
   });
 
-  it.skip('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
+  it.only('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
     let actualTotalTargets = 0;
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
-    cy.wait('@pages').then(({ response }) => {
-      expect(response.statusCode).to.equal(200);
       // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
-      filterOptions.forEach((mode) => {
-        cy.applyModesFilter(mode, 'new').then((actualTargets) => {
-          cy.log('actual targets', actualTargets);
-          actualTotalTargets += actualTargets;
-          cy.getTaskCount(mode, null, 'NEW').then((taskResponse) => {
-            expect(taskResponse.new).be.equal(actualTargets);
-          });
-          cy.contains('Clear all filters').click();
-          cy.wait(2000);
+    filterOptions.forEach((mode) => {
+      cy.applyModesFilter(mode, 'new').then((actualTargets) => {
+        cy.log('actual targets', actualTargets);
+        actualTotalTargets += actualTargets;
+        cy.getTaskCount(mode, null, 'NEW').then((taskResponse) => {
+          expect(taskResponse.new).be.equal(actualTargets);
         });
+        cy.contains('Clear all filters').click();
+        cy.wait(2000);
       });
+    });
 
       // clear the filter
-      cy.contains('Clear all filters').click();
+    cy.contains('Clear all filters').click();
 
-      cy.wait(2000);
+    cy.wait(2000);
 
       // compare total number of expected and actual targets
-      cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
-        totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
-        expect(totalTargets).be.equal(actualTotalTargets);
-      });
+    cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
+      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+      expect(totalTargets).be.equal(actualTotalTargets);
     });
   });
 

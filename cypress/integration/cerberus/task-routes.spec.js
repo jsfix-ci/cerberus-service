@@ -1,4 +1,4 @@
-describe.skip('Targeter should be able to navigate to the different task routes', () => {
+describe('Targeter should be able to navigate to the different task routes', () => {
 // COP-10496
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
@@ -7,7 +7,7 @@ describe.skip('Targeter should be able to navigate to the different task routes'
   it('Targeter should be able to navigate to /tasks and view task list', () => {
     cy.visit('/tasks');
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-      expect(Heading).to.equal('Task management');
+      expect(Heading).to.equal('Task management (RoRo)');
       expect(cy.contains('New')).to.exist;
       expect(cy.contains('In progress')).to.exist;
       expect(cy.contains('Issued')).to.exist;
@@ -18,7 +18,7 @@ describe.skip('Targeter should be able to navigate to the different task routes'
   it('Targeter should be able to navigate to /airpax/tasks and view task list', () => {
     cy.visit('/airpax/tasks');
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-      expect(Heading).to.equal('Task management');
+      expect(Heading).to.equal('Task management (AirPax)');
       expect(cy.contains('New')).to.exist;
       expect(cy.contains('In progress')).to.exist;
       expect(cy.contains('Issued')).to.exist;
@@ -29,7 +29,7 @@ describe.skip('Targeter should be able to navigate to the different task routes'
   it('Targeter should be able to navigate to /roro/tasks and view task list', () => {
     cy.visit('/roro/tasks');
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-      expect(Heading).to.equal('Task management');
+      expect(Heading).to.equal('Task management (RoRo)');
       expect(cy.contains('New')).to.exist;
       expect(cy.contains('In progress')).to.exist;
       expect(cy.contains('Issued')).to.exist;
