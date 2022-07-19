@@ -53,7 +53,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
   });
 
-  it.only('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
+  it('Should apply filter tasks by pre-arrival modes on newly created tasks', () => {
     let actualTotalTargets = 0;
       // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
     filterOptions.forEach((mode) => {

@@ -702,7 +702,7 @@ describe('Task Details of different tasks on task details Page', () => {
               console.log('risk indicator matches', tableData);
               cy.get('@expectedRiskIndicatorMatches').then((expectedData) => {
                 console.log('This is tableData', tableData);
-                expectedData[`riskIndicatorsV-${index}`][1].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
+                expectedData[`riskIndicatorsV-${index}`][indexOfRisk].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
               });
             });
           });
