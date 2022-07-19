@@ -64,6 +64,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       let passengerName = task.data.movement.persons[1].person.familyName;
+      const passengerRegex = new RegExp(passengerName, 'i');
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(3000);
         console.log(taskResponse);
@@ -74,7 +75,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
         cy.wait('@pages').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
-        cy.get('.govuk-task-list-card').contains(passengerName.toUpperCase());
+        cy.get('.govuk-task-list-card').contains(passengerRegex);
       });
     });
   });
@@ -86,6 +87,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       let passengerName = task.data.movement.persons[1].person.familyName;
       const partialPassengerName = passengerName.split(' ');
+      const passengerRegex = new RegExp(partialPassengerName[0], 'i');
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(3000);
         console.log(taskResponse);
@@ -96,7 +98,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
         cy.wait('@pages').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
         });
-        cy.get('.govuk-task-list-card').contains(partialPassengerName[0].toUpperCase());
+        cy.get('.govuk-task-list-card').contains(passengerRegex);
       });
     });
   });
