@@ -50,7 +50,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('pages');
     cy.visit('/airpax/tasks');
     cy.wait(2000);
-    cy.get('.govuk-input').should('be.visible').type('DEV-22000629-1273');
+    cy.get('.govuk-input').should('be.visible').type('DEV-AIRPAX-30010629-1273');
     cy.contains('Apply').click();
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
