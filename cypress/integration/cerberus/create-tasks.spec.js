@@ -402,7 +402,6 @@ describe('Create task with different payload from Cerberus', () => {
       cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('RORO-Accompanied');
         cy.wait(4000);
-        console.log(taskResponse.id);
         cy.checkTaskDisplayed(taskResponse.id);
         cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 

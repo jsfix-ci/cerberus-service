@@ -970,7 +970,7 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   cy.wait(1000);
 
   cy.contains('Apply').click();
- 
+
   cy.wait(2000);
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
