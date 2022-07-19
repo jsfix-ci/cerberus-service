@@ -78,7 +78,7 @@ export default {
         {
           id: 'addANote',
           fieldId: 'addANote',
-          label: 'Add a note?',
+          label: 'Add a note',
           hint: 'Add any additional information related to your request',
           type: 'textarea',
         },
