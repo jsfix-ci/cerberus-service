@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Itinerary should render the itinerary component 1`] = `
+<div
+  className="task-details-container"
+>
+  <h3
+    className="govuk-heading-m govuk-!-margin-top-0"
+  >
+    Itinerary
+  </h3>
+  <div
+    className="bottom-border-thin"
+  />
+  <div
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+  >
+    <div
+      className="font__bold"
+    >
+      AC0850
+       
+      <span
+        className="dot__light"
+      />
+       
+      YYC
+       
+      <span
+        className="right-arrow"
+      >
+        →
+      </span>
+       
+      LHR
+       
+      <span
+        className="dot__light"
+      />
+       
+      Wed 19 Sep 2018 at 18:25
+    </div>
+    <div
+      className="font__light"
+    >
+      CA
+       
+      <span
+        className="right-arrow"
+      >
+        →
+      </span>
+       
+      GB
+       
+      <span
+        className="dot__light"
+      />
+       
+      Arrival
+       
+      19 Sep 2018 at 10:00
+    </div>
+  </div>
+  <div
+    className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+  >
+    <div
+      className="font__light"
+    >
+      14 days later
+    </div>
+    <div
+      className="font__bold"
+    >
+      AC0850
+       
+      <span
+        className="dot__light"
+      />
+       
+      CDG
+       
+      <span
+        className="right-arrow"
+      >
+        →
+      </span>
+       
+      YYZ
+       
+      <span
+        className="dot__light"
+      />
+       
+      Wed 3 Oct 2018 at 11:00
+    </div>
+    <div
+      className="font__light"
+    >
+      FR
+       
+      <span
+        className="right-arrow"
+      >
+        →
+      </span>
+       
+      CA
+       
+      <span
+        className="dot__light"
+      />
+       
+      Arrival
+       
+      3 Oct 2018 at 13:05
+    </div>
+  </div>
+  <div
+    className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+  >
+    <div
+      className="font__light"
+    >
+      3 hours later
+    </div>
+    <div
+      className="font__bold"
+    >
+      AC0850
+       
+      <span
+        className="dot__light"
+      />
+       
+      YYZ
+       
+      <span
+        className="right-arrow"
+      >
+        →
+      </span>
+       
+      YYC
+       
+      <span
+        className="dot__light"
+      />
+       
+      Wed 3 Oct 2018 at 16:05
+    </div>
+    <div
+      className="font__light"
+    >
+      CA
+       
+      <span
+        className="right-arrow"
+      >
+        →
+      </span>
+       
+      CA
+       
+      <span
+        className="dot__light"
+      />
+       
+      Arrival
+       
+      3 Oct 2018 at 18:16
+    </div>
+  </div>
+</div>
+`;

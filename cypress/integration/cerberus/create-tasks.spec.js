@@ -1,6 +1,7 @@
 describe('Create task with different payload from Cerberus', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
 
   it('Should create a task with a payload contains hazardous cargo without description and passport number as null', () => {
@@ -11,18 +12,41 @@ describe('Create task with different payload from Cerberus', () => {
     cy.createCerberusTask('tasks-org-null.json', 'ORG-NULL');
   });
 
+  it('Should create a task with a payload contains invalid country code', () => {
+    let dateNowFormatted = Cypress.dayjs(new Date()).format('DD-MM-YYYY');
+    let payloads = [
+      'RoRo-Accompanied-Freight-Invalid-Country-code-2.json',
+      'RoRo-Accompanied-Freight-Invalid-Country-code.json',
+    ];
+    payloads.forEach((payload) => {
+      cy.fixture(payload).then((task) => {
+        let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+        task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+        cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-INVALID-COUNTRY-CODE`).then((taskResponse) => {
+          cy.wait(6000);
+          cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+            cy.navigateToTaskDetailsPage(tasks);
+          });
+        });
+      });
+    });
+  });
+
   it('Should create a task with a payload contains vehicle value as null', () => {
     cy.fixture('task-vehicle-null.json').then((task) => {
       let date = new Date();
-      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
-      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-VEHICLE-NULL`).then((response) => {
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-VEHICLE-NULL`).then((response) => {
         cy.wait(4000);
         let businessKey = response.businessKey;
         cy.checkTaskDisplayed(businessKey);
-        cy.checkTaskSummary(null, Cypress.dayjs().format('D MMM YYYY [at] HH:mm'));
+        cy.checkTaskSummary(null, Cypress.dayjs().utc().format('D MMM YYYY [at] HH:mm'));
 
-        cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
+        cy.contains('Back to task list').click();
+
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
           .click({ force: true });
 
         cy.contains('Apply filters').click({ force: true });
@@ -66,8 +90,8 @@ describe('Create task with different payload from Cerberus', () => {
   it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
     cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
       const dateFormat = 'D MMM YYYY [at] HH:mm';
-      let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
-      let taskCreationDateTime = Cypress.dayjs().format(dateFormat);
+      let dateNowFormatted = Cypress.dayjs().utc().format('DD-MM-YYYY');
+      let taskCreationDateTime = Cypress.dayjs().utc().format(dateFormat);
       let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = Cypress.dayjs().subtract(3, 'year').valueOf();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
@@ -165,7 +189,7 @@ describe('Create task with different payload from Cerberus', () => {
     cy.intercept('POST', '/camunda/task/*/claim').as('claim');
     cy.fixture('task-risks-null.json').then((task) => {
       let date = new Date();
-      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {
@@ -200,7 +224,7 @@ describe('Create task with different payload from Cerberus', () => {
       ],
     };
     cy.fixture('RoRo-Tourist-muliple-passengers.json').then((task) => {
-      let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs().utc().format('DD-MM-YYYY');
       let arrivalDateTime = Cypress.dayjs().subtract(3, 'year').valueOf();
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = arrivalDateTime;
@@ -222,14 +246,12 @@ describe('Create task with different payload from Cerberus', () => {
       'documentDetails': '566746DL',
       'bookedOn': 'Booked on 02/08/2020',
       'booked': 'Booked 5 days before travel',
-      'travellers': [
-        ' ',
-      ],
+      'travellers': ['None'],
     };
 
     cy.fixture('RoRo-Tourist-single-passengers.json').then((task) => {
       let date = new Date();
-      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-SINGLE-PASSENGER`).then((response) => {
@@ -281,11 +303,147 @@ describe('Create task with different payload from Cerberus', () => {
   it('Should create a task with a payload contains RoRo Tourist - no vehicle but has a lead and another passenger', () => {
     cy.fixture('RoRo-Tourist-NoVehicle.json').then((task) => {
       let date = new Date();
-      let dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
+      let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-TOURIST-NO-VEHICLE`).then((response) => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+  });
+
+  it('Should create a task with a payload contains RoRo Accompanied - Empty Co-passenger array', () => {
+    cy.fixture('task-passenger-array-empty.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CO-PASSENGER_EMPTY-ACC`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+  });
+
+  it('Should create a task with a payload contains RoRo Tourist - Empty Co-passenger array', () => {
+    cy.fixture('task-passenger-array-empty.json').then((task) => {
+      let date = new Date();
+      let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-CO-PASSENGER_EMPTY-TOURIST`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+  });
+
+  it('Should create a Roro-Accompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
+    const taskName = 'RORO-Accompanied';
+    cy.fixture('RoRo-accompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Accompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
+          cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
+            expect(businessKey).to.equal(response.id);
+          });
+          cy.getMovementRecordByProcessInstanceId(processInstanceId).then((responseBody) => {
+            expect(responseBody[0].value).to.deep.include(task.data.movementId);
+          });
+        });
+      });
+    });
+  });
+
+  it('Should create a Roro-Unaccompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
+    const taskName = 'RORO-Unaccompanied';
+    cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Unaccompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
+          cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
+            expect(businessKey).to.equal(response.id);
+          });
+          cy.getMovementRecordByProcessInstanceId(processInstanceId).then((responseBody) => {
+            expect(responseBody[0].value).to.deep.include(task.data.movementId);
+          });
+        });
+      });
+    });
+  });
+
+  it('Should create a Roro-Tourist task from Cop-targeting API and forward to Cerberus workflow service', () => {
+    const taskName = 'RORO-Tourist';
+    cy.fixture('RoRo-tourist-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Tourist');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.getProcessInstanceId(`${response.id}`).then((processInstanceId) => {
+          cy.getBusinessKeyByProcessInstanceId(processInstanceId).then((businessKey) => {
+            expect(businessKey).to.equal(response.id);
+          });
+          cy.getMovementRecordByProcessInstanceId(processInstanceId).then((responseBody) => {
+            expect(responseBody[0].value).to.deep.include(task.data.movementId);
+          });
+        });
+      });
+    });
+  });
+
+  it('Should verify mode and modeCode for RORO-Accompanied frieght from target information sheet', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+    const taskName = 'RORO-Accompanied';
+    cy.fixture('RoRo-accompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Accompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ claimResponse }) => {
+          expect(claimResponse.statusCode).to.equal(204);
+        });
+        cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
+          expect(responseSheet.id).to.equal(response.id);
+          expect(responseSheet.movement.mode).to.equal('RORO_ACCOMPANIED_FREIGHT');
+          expect(responseSheet.movement.refDataMode.mode).to.equal('RoRo Freight Accompanied');
+          expect(responseSheet.movement.refDataMode.modecode).to.equal('rorofrac');
+        });
+      });
+    });
+  });
+
+  it('Should verify mode and modeCode for RORO-Unaccompanied frieght from target information sheet', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+    const taskName = 'RORO-Unaccompanied';
+    cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('RORO-Unaccompanied');
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.id}`);
+        cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+        cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+        cy.wait('@claim').then(({ claimResponse }) => {
+          expect(claimResponse.statusCode).to.equal(204);
+        });
+        cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
+          expect(responseSheet.id).to.equal(response.id);
+          expect(responseSheet.movement.mode).to.equal('RORO_UNACCOMPANIED_FREIGHT');
+          expect(responseSheet.movement.refDataMode.mode).to.equal('RoRo Freight Unaccompanied');
+          expect(responseSheet.movement.refDataMode.modecode).to.equal('rorofrun');
+        });
       });
     });
   });

@@ -1,7 +1,8 @@
-describe('Targeter should be able to navigate to the different task routes', () => {
+describe.skip('Targeter should be able to navigate to the different task routes', () => {
 // COP-10496
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
   });
   it('Targeter should be able to navigate to /tasks and view task list', () => {
     cy.visit('/tasks');

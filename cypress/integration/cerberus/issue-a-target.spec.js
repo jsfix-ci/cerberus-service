@@ -1,10 +1,100 @@
 describe('Issue target from cerberus UI using target sheet information form', () => {
   let dateNowFormatted;
   let date;
+  let etaDateTimeHintText = 'Please note, the date and time displayed here is in local time not UTC time';
   beforeEach(() => {
     date = new Date();
     dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
     cy.login(Cypress.env('userName'));
+    cy.acceptPNRTerms();
+  });
+
+  it('Should a Issue a target from a RoRo-accompanied task and fields meant to autopopulate are visible in target information sheet', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+
+    cy.fixture('target-information.json').as('inputData');
+
+    cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+        });
+      });
+    });
+
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.contains('Issue target').click();
+
+    cy.wait(2000);
+
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Accompanied');
+
+    cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
+      let driiverDOB = targetData.driverTIS['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
+      let driverDocExpiry = targetData.driverTIS['Travel document expiry'].replace(/(^|-)0+/g, '$1').split('/');
+
+      cy.get('.formio-component-driver').within(() => {
+        cy.verifyElementText('firstName', targetData.driverTIS.firstName);
+        cy.verifyElementText('lastName', targetData.driverTIS.lastName);
+        cy.verifyDate('dob', driiverDOB[0], driiverDOB[1], driiverDOB[2]);
+        cy.verifyElementText('docNumber', targetData.driverTIS['Travel document number']);
+        cy.verifyDate('docExpiry', driverDocExpiry[0], driverDocExpiry[1], driverDocExpiry[2]);
+      });
+      cy.verifyElementText('name', targetData.vessel.name);
+      cy.verifyElementText('company', targetData.vessel.shippingCompany);
+      cy.verifyElementText('make', targetData['vehicle-details'].vehicle.Make);
+      cy.verifyElementText('model', targetData['vehicle-details'].vehicle.Model);
+      cy.verifyElementText('colour', targetData['vehicle-details'].vehicle.Colour);
+      cy.verifyElementText('registrationNumber', targetData['vehicle-details'].vehicle['Vehicle registration']);
+      cy.verifyElementText('regNumber', 'IR-6457');
+      cy.verifyMultiSelectDropdown('threatIndicators', ['Paid by cash', 'Empty trailer for round trip', 'Empty vehicle']);
+      cy.removeOptionFromMultiSelectDropdown('threatIndicators', ['Paid by cash']);
+      cy.verifyMultiSelectDropdown('threatIndicators', ['Empty trailer for round trip', 'Empty vehicle']);
+
+      const name = 'passengers';
+      let row = 0;
+      for (let passenger of targetData.passengersTIS) {
+        row += 1;
+        cy.get(`.formio-component-${name} [ref="datagrid-${name}-tbody"] > div:nth-child(${row})`).should('be.visible').within(() => {
+          cy.verifyElementText('firstName', passenger.Name.split(' ')[0]);
+          cy.verifyElementText('lastName', passenger.Name.split(' ')[1]);
+          let passengerDOB = passenger['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
+          let passengerDocExpiry = passenger['Travel document expiry'].replace(/(^|-)0+/g, '').split('/');
+          cy.verifyDate('dob', passengerDOB[0], passengerDOB[1], passengerDOB[2]);
+          cy.verifyElementText('docNumber', passenger['Travel document number']);
+          cy.verifySelectedDropdownValue('sex', passenger.Gender);
+          cy.verifyDate('docExpiry', passengerDocExpiry[0], passengerDocExpiry[1], passengerDocExpiry[2]);
+        });
+      }
+
+      cy.verifySelectedCheckBox('detailsOf', ['haulier']);
+
+      cy.get('.formio-component-haulier').within(() => {
+        cy.verifyElementText('name', targetData.haulierTIS.Name);
+        cy.verifyElementText('address', targetData.haulierTIS.Address);
+        cy.verifyElementText('city', targetData.haulierTIS.City);
+        cy.verifyElementText('country', targetData.haulierTIS.Country);
+      });
+
+      cy.get('.formio-component-account').within(() => {
+        cy.verifyElementText('name', targetData['account-details'].account['Full name']);
+        cy.verifyElementText('number', targetData['account-details'].account['Reference number']);
+      });
+    });
   });
 
   it('Should submit a target successfully from a RoRo-accompanied task and it should be moved to target issued tab', () => {
@@ -39,7 +129,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Accompanied');
 
     cy.fixture('accompanied-task-2-passengers-details.json').then((targetData) => {
       let driiverDOB = targetData.driverTIS['Date of birth'].replace(/(^|-)0+/g, '$1').split('/');
@@ -75,6 +165,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
           let passengerDocExpiry = passenger['Travel document expiry'].replace(/(^|-)0+/g, '').split('/');
           cy.verifyDate('dob', passengerDOB[0], passengerDOB[1], passengerDOB[2]);
           cy.verifyElementText('docNumber', passenger['Travel document number']);
+          cy.verifySelectedDropdownValue('sex', passenger.Gender);
           cy.verifyDate('docExpiry', passengerDocExpiry[0], passengerDocExpiry[1], passengerDocExpiry[2]);
         });
       }
@@ -99,7 +190,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-      cy.typeTodaysDateTime('eta');
+      cy.verifyDateTime('eta', date);
+
+      cy.get('.formio-component-eta').within(() => {
+        cy.get('.govuk-hint').should('contain.text', etaDateTimeHintText);
+      });
 
       cy.verifySelectedDropdownValue('category', 'A');
 
@@ -199,7 +294,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Accompanied');
 
     cy.fixture('accompanied-task-no-passengers.json').then((targetData) => {
       let driverFirstName = targetData.driver.Name;
@@ -227,7 +322,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-      cy.typeTodaysDateTime('eta');
+      cy.verifyDateTime('eta', date);
+
+      cy.get('.formio-component-eta').within(() => {
+        cy.get('.govuk-hint').should('contain.text', etaDateTimeHintText);
+      });
 
       cy.verifySelectedDropdownValue('category', 'B');
 
@@ -323,7 +422,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Unaccompanied');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('regNumber', expectedDetails['trailer-details'].trailer['Trailer registration number']);
@@ -347,13 +446,17 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
-      cy.selectDropDownValue('mode', 'RoRo Freight');
+      cy.selectDropDownValue('mode', 'RoRo Freight Unaccompanied');
 
       cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-      cy.typeTodaysDateTime('eta');
+      cy.verifyDateTime('eta', date);
+
+      cy.get('.formio-component-eta').within(() => {
+        cy.get('.govuk-hint').should('contain.text', etaDateTimeHintText);
+      });
 
       cy.verifySelectedDropdownValue('category', 'B');
 
@@ -443,7 +546,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
 
-    cy.verifySelectedDropdownValue('mode', 'RoRo Freight');
+    cy.verifySelectedDropdownValue('mode', 'RoRo Freight Unaccompanied');
 
     cy.fixture('unaccompanied-task-details.json').then((expectedDetails) => {
       cy.verifyElementText('regNumber', expectedDetails['trailer-details'].trailer['Trailer registration number']);
@@ -454,13 +557,17 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
 
     cy.fixture('target-information.json').then((targetInfo) => {
-      cy.selectDropDownValue('mode', 'RoRo Freight');
+      cy.selectDropDownValue('mode', 'RoRo Freight Unaccompanied');
 
       cy.selectDropDownValue('eventPort', targetInfo.port[Math.floor(Math.random() * targetInfo.port.length)]);
 
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-      cy.typeTodaysDateTime('eta');
+      cy.verifyDateTime('eta', date);
+
+      cy.get('.formio-component-eta').within(() => {
+        cy.get('.govuk-hint').should('contain.text', etaDateTimeHintText);
+      });
 
       cy.verifySelectedDropdownValue('category', 'B');
 
@@ -594,7 +701,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
 
       cy.selectDropDownValue('issuingHub', targetInfo.issuingHub[Math.floor(Math.random() * targetInfo.issuingHub.length)]);
 
-      cy.typeTodaysDateTime('eta');
+      cy.verifyDateTime('eta', date);
+
+      cy.get('.formio-component-eta').within(() => {
+        cy.get('.govuk-hint').should('contain.text', etaDateTimeHintText);
+      });
 
       cy.verifySelectedDropdownValue('category', 'C');
 

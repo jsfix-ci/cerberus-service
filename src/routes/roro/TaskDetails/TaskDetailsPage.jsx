@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAME_TARGET_INFORMATION_SHEET, TASK_STATUS_NEW } from '../../../constants';
+import { FORM_NAMES, TASK_STATUS_NEW, MOVEMENT_VARIANT } from '../../../constants';
 import config from '../../../config';
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -16,7 +16,7 @@ import { findAndUpdateTaskVersionDifferences } from '../../../utils/findAndUpdat
 import ClaimButton from '../../../components/ClaimTaskButton';
 import RenderForm from '../../../components/RenderForm';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import TaskNotes from '../../../components/v2/TaskNotes';
+import TaskNotes from '../../../components/TaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
 import Button from '../../../govuk/Button';
@@ -45,7 +45,7 @@ const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarge
           data.data.businessKey,
           form,
           { ...data.data, actionTarget },
-          FORM_NAME_TARGET_INFORMATION_SHEET,
+          FORM_NAMES.TARGET_INFORMATION_SHEET,
         );
         refreshNotes();
         setTargetStatus();
@@ -80,8 +80,11 @@ const TaskDetailsPage = () => {
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
   const toModeCode = (mode) => {
-    if (/RORO [A-Z]* Freight/i.test(mode)) {
-      return 'rorofrei';
+    if (/RORO Accompanied Freight/i.test(mode)) {
+      return 'rorofrac';
+    }
+    if (/RORO Unaccompanied Freight/i.test(mode)) {
+      return 'rorofrun';
     }
     if (/RORO Tourist/i.test(mode)) {
       return 'rorotour';
@@ -100,10 +103,30 @@ const TaskDetailsPage = () => {
       : null;
   };
 
+  const populateSex = async ({ gender }) => {
+    if (gender === '') {
+      gender = 'U';
+    }
+    return gender
+      ? refDataClient.get(
+        '/v2/entities/sex',
+        { params: { mode: 'dataOnly', filter: `id=eq.${gender}` } },
+      ).then((response) => response.data.data[0])
+      : null;
+  };
+
   const populateTIS = async (parsedTaskVariables) => {
     let targetInformationSheet = parsedTaskVariables.targetInformationSheet;
     targetInformationSheet.mode = await populateMode(parsedTaskVariables);
-
+    if (targetInformationSheet?.roro?.details?.driver) {
+      targetInformationSheet.roro.details.driver.sex = await populateSex(targetInformationSheet.roro.details.driver);
+    }
+    if (targetInformationSheet?.roro?.details?.passengers) {
+      targetInformationSheet.roro.details.passengers.map(async (passenger) => {
+        passenger.sex = await populateSex(passenger);
+        return passenger;
+      });
+    }
     return targetInformationSheet;
   };
 
@@ -394,13 +417,16 @@ const TaskDetailsPage = () => {
                 />
               )}
             </div>
-            <TaskNotes
-              formName="noteCerberus"
-              displayForm={assignee === currentUser}
-              businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
-              processInstanceId={processInstanceId}
-              refreshNotes={refreshNotesForm}
-            />
+            <div className="govuk-grid-column-one-third">
+              <TaskNotes
+                noteVariant={MOVEMENT_VARIANT.RORO}
+                displayForm={assignee === currentUser
+                  && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissFormOpen}
+                businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
+                processInstanceId={processInstanceId}
+                refreshNotes={refreshNotesForm}
+              />
+            </div>
           </div>
         </>
       )}

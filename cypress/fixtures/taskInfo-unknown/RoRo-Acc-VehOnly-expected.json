@@ -1,31 +1,30 @@
 {
   "taskListDetails": {
-    "rules": "Class A Drugs and 0 other rules",
-    "voyage": "Brittany Ferries voyage of BARFLEUR",
-    "arrival": "arrival 2 years ago",
-    "departurePort": "unknown",
-    "departureDateTime": "4 Aug 2020 at 14:05",
-    "arrivalPort": "unknown",
-    "arrivalDateTime": "4 Aug 2020 at 14:35",
-    "driverEnrichmentCount": "(-/-/-)",
-    "driverFirstName": "? trips",
-    "vehicleEnrichmentCount": "(4/1/0)",
-    "vehicleRegistration": "0 trips",
-    "passengerDetails": "0 passengers",
     "accountEnrichmentCount": "(4/1/0)",
+    "arrival": "arrival 2 years ago",
+    "arrivalDateTime": "4 Aug 2020 at 13:35",
+    "arrivalPort": "unknown",
     "bookedDateTime": "Booked on 02/08/2020",
     "bookedDetails": "Booked 2 days before travel",
-    "haulierEnrichmentCount": "(4/1/0)",
-    "haulier": "Unknown",
+    "departureDateTime": "4 Aug 2020 at 13:05",
+    "departurePort": "unknown",
+    "driverFirstName": "Unknown",
     "goods": "Unknown",
+    "haulier": "Unknown",
+    "haulierEnrichmentCount": "(4/1/0)",
+    "passengerDetails": "None",
+    "riskScore": "Risk Score: 0",
+    "rules": "Class A Drugs and 0 other rules",
     "trailerRegistration": "0 trips",
-    "riskScore": "Risk Score: 0"
+    "vehicleEnrichmentCount": "(4/1/0)",
+    "vehicleRegistration": "0 trips",
+    "voyage": "Brittany Ferries voyage of BARFLEUR"
   },
   "taskSummary": {
     "vehicle": "",
     "Ferry": "Brittany Ferries voyage of BARFLEUR",
-    "Departure": "4 Aug 2020 at 14:05",
-    "Arrival": "4 Aug 2020 at 14:35",
+    "Departure": "4 Aug 2020 at 13:05",
+    "Arrival": "4 Aug 2020 at 13:35",
     "Account": "Arrival 2 years ago"
   }
 }

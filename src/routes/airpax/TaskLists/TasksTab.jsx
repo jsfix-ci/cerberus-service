@@ -1,33 +1,48 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Button } from '@ukhomeoffice/cop-react-components';
+import { useInterval } from 'react-use';
+import { useLocation } from 'react-router-dom';
 
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
+import qs from 'qs';
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
 
 // Config
 import config from '../../../config';
+import { formatTaskStatusToCamelCase, formatTaskStatusToSnakeCase } from '../../../utils/formatTaskStatus';
 
 // Components/Pages
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Pagination from '../../../components/Pagination';
 import TaskListCard from './TaskListCard';
+import { STATUS_CODES, PNR_USER_SESSION_ID, TASK_STATUS_MAPPING } from '../../../constants';
 
-const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
+import { PnrAccessContext } from '../../../context/PnrAccessContext';
+
+const TasksTab = ({
+  taskStatus,
+  filtersToApply = { taskStatuses: [], movementModes: ['AIR_PASSENGER'], selectors: 'ANY' },
+  setError,
+  targetTaskCount = 0,
+}) => {
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   const keycloak = useKeycloak();
+  const currentUser = keycloak.tokenParsed.email;
+  const location = useLocation();
 
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
   const source = axios.CancelToken.source();
+
+  const { canViewPnrData } = useContext(PnrAccessContext);
 
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
-  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
 
   const [isLoading, setLoading] = useState(true);
   const [refreshTaskList, setRefreshTaskList] = useState(false);
@@ -38,64 +53,57 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
   const offset = index * itemsPerPage < 0 ? 0 : index * itemsPerPage;
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
 
-  // TEMP VALUES FOR TESTING UNTIL API ACTIVE
-  const tempData = {
-    data: [
-      // paste data from the relevant fixture here for testing this page
-    ],
+  const startPnrAccessRequest = () => {
+    localStorage.removeItem(PNR_USER_SESSION_ID);
+    window.location.reload(false);
   };
 
   const getTaskList = async () => {
     setLoading(true);
     let response;
-    const tab = taskStatus === 'inProgress' ? 'IN_PROGRESS' : taskStatus.toUpperCase();
-    const sortParams = taskStatus === 'new' || taskStatus === 'inProgress'
-      ? [
-        {
-          field: 'ARRIVAL_TIME',
-          order: 'ASC',
-        },
-        {
-          field: 'THREAT_LEVEL',
-          order: 'DESC',
-        },
-      ]
-      : null;
+    const tab = formatTaskStatusToSnakeCase(taskStatus);
+    const sortParams = [
+      {
+        field: 'WINDOW_OF_OPPORTUNITY',
+        order: 'ASC',
+      },
+      {
+        field: 'BOOKING_LEAD_TIME',
+        order: 'ASC',
+      },
+    ];
+    const postParams = {
+      filterParams: {
+        ...filtersToApply,
+        taskStatuses: [tab],
+        movementModes: filtersToApply?.movementModes || [filtersToApply.mode],
+      },
+      sortParams,
+      pageParams: {
+        limit: itemsPerPage,
+        offset,
+      },
+    };
     try {
-      response = await apiClient.post('/targeting-tasks/pages', {
-        status: tab,
-        filterParams: filtersToApply,
-        sortParams,
-        pageParams: {
-          limit: itemsPerPage,
-          offset,
-        },
-      });
+      response = await apiClient.post('/targeting-tasks/pages', postParams);
       setTargetTasks(response.data);
     } catch (e) {
-      // until API is ready we set the temp data in the catch
-      // this will be changed to the error handling
-      response = tempData;
-      setTargetTasks(response.data);
+      if (!e.message.endsWith(STATUS_CODES.FORBIDDEN)) {
+        setError(e.message);
+      }
+      setTargetTasks([]);
     } finally {
       setLoading(false);
       setRefreshTaskList(false);
     }
   };
 
-  const getAirlineCodes = async () => {
-    let response;
-    try {
-      response = await refDataClient.get('/v2/entities/carrierlist', {
-        params: {
-          mode: 'dataOnly',
-        },
-      });
-      setRefDataAirlineCodes(response.data.data);
-    } catch (e) {
-      setRefDataAirlineCodes([]);
-    }
-  };
+  useEffect(() => {
+    const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const newActivePage = parseInt(page || 1, 10);
+    setActivePage(newActivePage);
+    setRefreshTaskList(true);
+  }, [location.search]);
 
   useEffect(() => {
     setRefreshTaskList(true);
@@ -110,19 +118,35 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
     }
   }, [refreshTaskList]);
 
-  useEffect(() => {
-    getAirlineCodes();
+  useInterval(() => {
+    getTaskList();
     return () => {
       source.cancel('Cancelling request');
     };
-  }, []);
+  }, 180000);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (targetTasks.length === 0) {
-    return <p className="govuk-body-l">There are no {taskStatus} tasks</p>;
+  if (!canViewPnrData) {
+    const formattedStatus = TASK_STATUS_MAPPING[taskStatus];
+    return (
+      <>
+        <p className="govuk-body-l govuk-!-margin-bottom-1">
+          {`You do not have access to view ${formattedStatus} PNR data. 
+          To view ${formattedStatus} PNR data, 
+          you will need to request access.`}
+        </p>
+        <Button onClick={() => startPnrAccessRequest()}>
+          {`Request access to ${formattedStatus} PNR data`}
+        </Button>
+      </>
+    );
+  }
+
+  if (targetTasks.length === 0 && canViewPnrData) {
+    return <p className="govuk-body-l">There are no {TASK_STATUS_MAPPING[taskStatus]} tasks</p>;
   }
 
   return (
@@ -136,7 +160,12 @@ const TasksTab = ({ taskStatus, filtersToApply, targetTaskCount = 0 }) => {
 
       {targetTasks.map((targetTask) => {
         return (
-          <TaskListCard key={targetTask.id} targetTask={targetTask} airlineCodes={refDataAirlineCodes} />
+          <TaskListCard
+            key={targetTask.id}
+            targetTask={targetTask}
+            taskStatus={formatTaskStatusToCamelCase(targetTask.status)}
+            currentUser={currentUser}
+          />
         );
       })}
 

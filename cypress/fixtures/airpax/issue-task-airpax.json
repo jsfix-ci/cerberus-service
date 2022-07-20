@@ -1,0 +1,226 @@
+{
+    "id": "{{task-id}}",
+    "movement": {
+        "id": "{{movement-id}}",
+        "mode": "AIR_PASSENGER",
+        "refDataMode": {
+            "id": 2,
+            "mode": "Scheduled Air Passenger",
+            "ien": true,
+            "ca": true,
+            "ct": true,
+            "modecode": "airpass",
+            "crossingtype": [
+                "air"
+            ],
+            "validfrom": "2021-05-28T00:01:01Z",
+            "validto": null,
+            "updatedby": "Mohammed Abdul Odud"
+        },
+        "vessel": null,
+        "vehicle": null,
+        "trailer": null,
+        "journey": {
+            "id": "BA0103",
+            "direction": null,
+            "route": "CDG - YYZ - YYC - LHR",
+            "arrival": {
+                "country": null,
+                "location": "YYC",
+                "time": "2022-07-10T15:30:01Z"
+            },
+            "departure": {
+                "country": null,
+                "location": "LHR",
+                "time": "2022-07-10T12:30:01Z"
+            }
+        },
+        "flight": {
+            "seatNumber": "34A"
+        },
+        "person": {
+            "id": "dab092daf6d33e8fd2bfe5e2bcff8750",
+            "name": {
+                "first": "Testing GivenName",
+                "last": "Testing FamilyName",
+                "full": "FamilyName GivenName"
+            },
+            "dateOfBirth": "1976-12-30T00:00:00Z",
+            "gender": {
+                "id": "F",
+                "name": "Female",
+                "validfrom": "2019-01-01T00:01:00Z",
+                "validto": null,
+                "updatedby": null
+            },
+            "document": {
+                "type": {
+                    "id": 7,
+                    "code": "P ",
+                    "shortdescription": "Passport and Emergency Travel Document",
+                    "longdescription": "Passport and Emergency Travel Document (ETD)",
+                    "validfrom": "2019-01-01T00:01:00Z",
+                    "validto": null,
+                    "updatedby": null
+                },
+                "number": "119039375",
+                "expiry": "2023-04-26T00:00:00Z"
+            },
+            "nationality": {
+                "id": 15,
+                "nationality": "Australia",
+                "description": null,
+                "iso31661alpha3": "AUS",
+                "iso31661alpha2": "AU",
+                "visarequired": false,
+                "evwoptional": false,
+                "diplomaticexception": false,
+                "specialexception": false,
+                "countryid": 14,
+                "validfrom": "2019-01-01T00:01:00Z",
+                "validto": null,
+                "updatedby": null
+            },
+            "photograph": null
+        },
+        "otherPersons": [
+            {
+                "id": "dab092daf6d33e8fd2bfe5e2bcff8750",
+                "name": {
+                    "first": "ZUES CARLO",
+                    "last": "BATZ STOUP",
+                    "full": "ZUES CARLO BATZ STOUP"
+                },
+                "dateOfBirth": "1976-12-10T00:00:00Z",
+                "gender": {
+                    "id": "M",
+                    "name": "Male",
+                    "validfrom": "2019-01-01T00:01:00Z",
+                    "validto": null,
+                    "updatedby": null
+                },
+                "document": {
+                    "type": {
+                        "id": 7,
+                        "code": "P ",
+                        "shortdescription": "Passport and Emergency Travel Document",
+                        "longdescription": "Passport and Emergency Travel Document (ETD)",
+                        "validfrom": "2019-01-01T00:01:00Z",
+                        "validto": null,
+                        "updatedby": null
+                    },
+                    "number": "119039375",
+                    "expiry": "2023-04-26T00:00:00Z"
+                },
+                "nationality": {
+                    "id": 290,
+                    "nationality": "British Citizen",
+                    "description": null,
+                    "iso31661alpha3": "GBR",
+                    "iso31661alpha2": "GB",
+                    "visarequired": false,
+                    "evwoptional": false,
+                    "diplomaticexception": false,
+                    "specialexception": false,
+                    "countryid": 0,
+                    "validfrom": "2022-01-25T00:00:01Z",
+                    "validto": null,
+                    "updatedby": "Ben Milnes"
+                },
+                "photograph": null
+            }
+        ],
+        "baggage": {
+            "numberOfCheckedBags": 1,
+            "weight": "23kg",
+            "tags": "739238"
+        },
+        "goods": null,
+        "account": null,
+        "consignee": null,
+        "consignor": null,
+        "haulier": null
+    },
+    "risks": {
+        "targetingIndicators": [],
+        "selector": {
+            "category": "A",
+            "groupReference": "SR-216",
+            "warning": {
+                "status": "NO",
+                "types": [
+                    "SELF_HARM"
+                ],
+                "detail": "Warning details would be shown here"
+            }
+        }
+    },
+    "operation": "mruocco-test-operation-name",
+    "nominalChecks": [
+        {
+            "type": "account",
+            "checks": [
+                {
+                    "id": 74,
+                    "name": "Anti Fraud Information System",
+                    "shortcode": "AFIS",
+                    "validfrom": "2021-04-01T00:01:00Z",
+                    "validto": null,
+                    "updatedby": null
+                }
+            ],
+            "comments": "these are my test check comments"
+        }
+    ],
+    "controlStrategies": [
+        {
+            "id": 2,
+            "strategy": "Clandestine Entry",
+            "priority": "A",
+            "code": "CLANDEST",
+            "validfrom": "2019-01-01T00:01:00Z",
+            "validto": null,
+            "updatedby": null
+        }
+    ],
+    "selectionReasoning": "these are my test comments for a selection reason",
+    "remarks": "these are my remarks",
+    "submittingUser": {
+        "name": "Joe bloggs",
+        "email": "joe.bloggs@homeoffice.gov.uk"
+    },
+    "issuingHub": {
+        "name": "People Hub - PICU",
+        "telephone": "01589 654785 Example"
+    },
+    "eventPort": {
+        "id": 8217,
+        "name": "135 Dunganno Road"
+    },
+    "teamToReceiveTheTarget": {
+        "id": "c08c7de3-7238-4b3c-823d-eedcae8d1f80",
+        "name": "AP1T01P1",
+        "code": "AP1T01P1",
+        "keycloakid": null,
+        "keycloakgrouppath": "/AP1T01P1",
+        "displayname": "Aberdeen Airport Frontline",
+        "grouptypeid": 6,
+        "teamid": null,
+        "branchid": 22,
+        "locationid": 0,
+        "selfmanaged": true,
+        "validfrom": "2022-05-27T00:00:01Z",
+        "validto": null,
+        "updatedby": "Cerberus Team"
+    },
+    "informFreightAndTourist": false,
+    "publicInterestImmunity": false,
+    "form": {
+        "formVersionId": "1.1.1",
+        "formId": "cerberus-airpax-target-information-sheet",
+        "title": "Target Information Sheet (AirPax)",
+        "name": "cerberus-airpax-target-information-sheet",
+        "submissionDate": "2022-07-14T12:48:10.799Z",
+        "submittedBy": "acceptance-cerberus-user@system.local"
+    }
+}

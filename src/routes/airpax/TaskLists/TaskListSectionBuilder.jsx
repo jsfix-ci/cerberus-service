@@ -1,36 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { INDIVIDUAL_ICON } from '../../../constants';
+import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
 
 // Utils
-import { BaggageUtil, DateTimeUtil, IndicatorsUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
-import calculateTimeDifference from '../../../utils/calculateDatetimeDifference';
+import { BaggageUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
+
+// Component
+import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
 
 const renderModeSection = (targetTask) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${INDIVIDUAL_ICON}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{MovementUtil.description(targetTask)}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
+        {MovementUtil.description(targetTask)}
+      </p>
       <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
-        <span className="govuk-font-weight-bold">{MovementUtil.movementType(targetTask)} {MovementUtil.status(targetTask)}</span>
+        <span className="govuk-font-weight-bold">
+          {MovementUtil.movementType(targetTask)} {MovementUtil.status(targetTask)}
+        </span>
       </span>
     </div>
   );
 };
 
-const renderVoyageSection = (targetTask, airlineCodes) => {
+const renderVoyageSection = (targetTask, refDataAirlineCodes) => {
   const journey = MovementUtil.movementJourney(targetTask);
   const flight = MovementUtil.movementFlight(targetTask);
-  const departureTime = MovementUtil.departureTime(journey);
   const arrivalTime = MovementUtil.arrivalTime(journey);
-  const dateTimeList = DateTimeUtil.toList(departureTime, arrivalTime);
   return (
     <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
       <i className="c-icon-aircraft" />
       <p className="content-line-one govuk-!-padding-right-2">
-        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), airlineCodes)}, flight ${MovementUtil.flightNumber(flight)}, 
-        ${calculateTimeDifference(dateTimeList, 'arrival')}`}
+        {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes)}, 
+        flight ${MovementUtil.flightNumber(flight)}, 
+        ${MovementUtil.voyageText(arrivalTime)}`}
       </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
         <span className="govuk-!-font-weight-bold">{MovementUtil.flightNumber(flight)}</span>
@@ -46,20 +51,53 @@ const renderVoyageSection = (targetTask, airlineCodes) => {
   );
 };
 
-// eslint-disable-next-line no-unused-vars
-const buildTaskTitleSection = (targetTask) => {
+const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
   return (
-    <></>
+    <section>
+      <div>
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-two-thirds">
+            <div className="task-title-container govuk-!-padding-top-2 govuk-!-padding-left-2">
+              <h4 className="govuk-heading-s task-heading">
+                {targetTask.id}
+              </h4>
+            </div>
+            <div className="govuk-grid-column govuk-!-padding-left-2">
+              {RisksUtil.formatHighestThreat(targetTask)}
+            </div>
+            <div className="govuk-grid-column govuk-!-padding-left-2">
+              {MovementUtil.updatedStatus(targetTask)}
+              {MovementUtil.relistStatus(targetTask)}
+            </div>
+          </div>
+          <div className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3">
+            <div className="claim-button-container">
+              {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
+            && (
+            <ClaimUnclaimTask
+              currentUser={currentUser}
+              assignee={targetTask.assignee}
+              businessKey={targetTask.id}
+              source={`/airpax/tasks/${targetTask.id}`}
+              buttonType="button"
+            />
+            )}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
   );
 };
 
-const buildVoyageSection = (targetTask, airlineCodes) => {
+const buildVoyageSection = (targetTask, refDataAirlineCodes) => {
   return (
     <section className="task-list--voyage-section">
       <div>
         <div className="govuk-grid-row grid-background--greyed">
           {renderModeSection(targetTask)}
-          {renderVoyageSection(targetTask, airlineCodes)}
+          {renderVoyageSection(targetTask, refDataAirlineCodes)}
         </div>
       </div>
     </section>
@@ -108,16 +146,16 @@ const buildMovementInfoSection = (targetTask) => {
               Document
             </h3>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{DocumentUtil.docIdentification(document)} ({PersonUtil.nationality(person)})</li>
+              <li className="govuk-!-font-weight-bold">{DocumentUtil.docNumber(document)} ({PersonUtil.nationality(person)})</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{DocumentUtil.docValidity(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docValidity(document)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{DocumentUtil.docExpiry(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docExpiry(document)}</li>
             </ul>
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-              <li className="govuk-!-font-weight-regular">{DocumentUtil.docCountry(booking)}</li>
+              <li className="govuk-!-font-weight-regular">{DocumentUtil.docCountry(document)}</li>
             </ul>
           </div>
         </div>
@@ -157,7 +195,7 @@ const buildMovementInfoSection = (targetTask) => {
 };
 
 const buildTargetIndicatorsSection = (targetTask) => {
-  const targetingIndicators = IndicatorsUtil.getIndicators(IndicatorsUtil.getRisks(targetTask));
+  const targetingIndicators = RisksUtil.getIndicators(RisksUtil.getRisks(targetTask));
   return (
     <section className="task-list--target-indicator-section">
       <div className="govuk-grid-row">
@@ -174,7 +212,7 @@ const buildTargetIndicatorsSection = (targetTask) => {
           <div className="govuk-grid-column">
             <ul className="govuk-list task-labels govuk-!-margin-top-0">
               <li className="task-labels-item">
-                {IndicatorsUtil.format(targetingIndicators)}
+                {RisksUtil.format(targetingIndicators)}
               </li>
             </ul>
           </div>
@@ -183,7 +221,7 @@ const buildTargetIndicatorsSection = (targetTask) => {
           <div>
             <Link
               className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
-              to={`/tasks/${targetTask.id}`}
+              to={`/airpax/tasks/${targetTask.id}`}
             >
               View details
             </Link>

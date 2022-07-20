@@ -5,6 +5,9 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import config from '../../src/config';
 
+import DateTimeUtil, { toRelativeTime } from '../../src/utils/DatetimeUtil';
+import { BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../../src/constants';
+
 const duration = require('dayjs/plugin/duration');
 
 dayjs.extend(duration);
@@ -16,6 +19,7 @@ dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 let token;
 
 const cerberusServiceUrl = Cypress.env('cerberusServiceUrl');
+const targetingApiUrl = Cypress.env('targetingApiUrl');
 const realm = Cypress.env('auth_realm');
 const formioComponent = '.formio-component-';
 const formioErrorText = '.govuk-error-message > div';
@@ -224,6 +228,32 @@ Cypress.Commands.add('findTaskInAllThePages', (taskName, action, taskdetails) =>
   return findItem(taskName, action, taskdetails);
 });
 
+function getNumberOfTasksInPage() {
+  function getCount(count) {
+    cy.get('.pagination').invoke('attr', 'aria-label').as('pages');
+    cy.get('@pages').then((pages) => {
+      let page = pages.match(/\d/g).join('');
+      if (count >= page) {
+        return false;
+      }
+      if (count > 0) {
+        cy.contains('Next').click();
+        cy.wait(1000);
+      }
+      cy.get('.govuk-task-list-card').then((numberOfTasks) => {
+        expect(numberOfTasks.length).lte(100);
+      }).then(() => {
+        getCount(count += 1);
+      });
+    });
+  }
+  getCount(0);
+}
+
+Cypress.Commands.add('findNumberOfTasksInPage', () => {
+  return getNumberOfTasksInPage();
+});
+
 Cypress.Commands.add('verifyTaskManagementPage', (item, taskdetails) => {
   cy.wrap(item).parents('.govuk-tabs__panel').then((element) => {
     cy.wrap(element).invoke('attr', 'id').then((value) => {
@@ -368,8 +398,20 @@ Cypress.Commands.add('checkTaskDisplayed', (businessKey) => {
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
 });
 
+Cypress.Commands.add('checkAirPaxTaskDisplayed', (businessKey) => {
+  cy.visit(`/airpax/tasks/${businessKey}`);
+  cy.get('.govuk-caption-xl').should('have.text', businessKey);
+});
+
 Cypress.Commands.add('waitForNoErrors', () => {
   cy.get(formioErrorText).should('not.exist');
+});
+
+Cypress.Commands.add('clickChangeInTIS', (section) => {
+  cy.get('.govuk-summary-list__row').contains(section).siblings('.govuk-summary-list__actions').within(() => {
+    cy.get('.govuk-link').contains('Change').click({ force: true });
+  });
+  cy.wait(2000);
 });
 
 Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
@@ -441,6 +483,17 @@ Cypress.Commands.add('getBusinessKey', (partOfTheBusinessKey) => {
   }).then((response) => {
     expect(response.status).to.equal(200);
     return response.body.map((item) => item.businessKey);
+  });
+});
+
+Cypress.Commands.add('getMovementRecordByProcessInstanceId', (processInstanceId) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${cerberusServiceUrl}/camunda/engine-rest/history/variable-instance?processInstanceIdIn=${processInstanceId}&deserializeValues=false`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
   });
 });
 
@@ -784,11 +837,13 @@ function getTaskSummary(businessKey) {
     });
 
     if (businessKey.includes('Accompanied')) {
-      cy.wrap(element).contains('Driver details').then((count) => {
-        cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((enrichmentCount) => {
-          taskSummary.driverEnrichmentCount = enrichmentCount;
+      if ((!businessKey.includes('Unknown-Null-vehicle-regNumber'))) {
+        cy.wrap(element).contains('Driver details').then((count) => {
+          cy.wrap(count).find('span.govuk-\\!-margin-left-3').invoke('text').then((enrichmentCount) => {
+            taskSummary.driverEnrichmentCount = enrichmentCount;
+          });
         });
-      });
+      }
       cy.wrap(element).contains('Driver details').next().then((driverDetails) => {
         cy.wrap(driverDetails).find('li').each((details, index) => {
           cy.wrap(details).invoke('text').then((info) => {
@@ -910,6 +965,10 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
     .click({ force: true });
 
+  cy.contains('Clear all filters').click();
+
+  cy.wait(1000);
+
   cy.contains('Apply filters').click();
   cy.wait(2000);
   cy.get('body').then(($el) => {
@@ -920,6 +979,135 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
     } else {
       cy.findTaskInSinglePage(businessKey, null, null).then(() => {
         return getTaskSummary(businessKey);
+      });
+    }
+  });
+});
+
+function getAirPaxTaskSummary(businessKey, passengerType) {
+  let taskSummary = {};
+  cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within((element) => {
+    cy.wrap(element).find('.task-list--voyage-section').within((voyageSection) => {
+      cy.wrap(voyageSection).find('.govuk-body-s.content-line-one').invoke('text').then((passengerGroup) => {
+        taskSummary.passengerGroup = passengerGroup;
+      });
+      cy.wrap(voyageSection).find('span.govuk-font-weight-bold').invoke('text').then((typeOfPassenger) => {
+        taskSummary.passengerType = typeOfPassenger;
+      });
+      cy.wrap(voyageSection).find('.airpax-status').invoke('text').then((departureStatus) => {
+        taskSummary.departureStatus = departureStatus;
+      });
+
+      cy.wrap(voyageSection).find('.govuk-grid-column-three-quarters').within((flightInfo) => {
+        cy.wrap(flightInfo).find('.content-line-one').invoke('text').then((flightArrival) => {
+          let details = flightArrival.split(',');
+          console.log(details);
+          taskSummary.flightName = details[0].trim();
+          taskSummary.flightNumber = details[1].trim();
+          taskSummary.flightArrivalTime = details[2].trim();
+        });
+
+        cy.wrap(flightInfo).find('.content-line-two').then(($dateTime) => {
+          console.log($dateTime.text());
+          let value = $dateTime.text();
+          let departure = (value.split('→')[0].trim());
+          console.log(departure);
+          let arrival = (value.split('→')[1].trim());
+          if (departure.includes('unknown')) {
+            taskSummary.departureAirPort = departure.slice(-7).trim();
+            taskSummary.departureDateTime = departure.slice(0, departure.length - 7).trim();
+          } else {
+            taskSummary.departureAirPort = departure.slice(-3).trim();
+            taskSummary.departureDateTime = departure.slice(0, departure.length - 3).trim();
+          }
+
+          if (arrival.includes('unknown')) {
+            taskSummary.arrivalAirPort = arrival.slice(0, 7).trim();
+            taskSummary.arrivalDateTime = arrival.slice(7, arrival.length).trim();
+          } else {
+            taskSummary.arrivalAirPort = arrival.slice(0, 3).trim();
+            taskSummary.arrivalDateTime = arrival.slice(3, arrival.length).trim();
+          }
+        });
+      });
+
+      cy.wrap(element).find('.task-list--movement-info-section').within((movmentInfoSection) => {
+        let passenger = [];
+        let document = [];
+        let booking = [];
+
+        cy.wrap(movmentInfoSection).contains(passengerType).nextAll().then((passengerDetails) => {
+          cy.wrap(passengerDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              passenger.push(info);
+            });
+          }).then(() => {
+            const [firstName, lastName, gender, dateOfBirth, nationality, checkedBaggage, baggageWeight, checkInTime, SeatNumber] = passenger;
+            taskSummary.passengerDetails = { firstName, lastName, gender, dateOfBirth, nationality, checkedBaggage, baggageWeight, checkInTime, SeatNumber };
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Document').nextAll().then((documentDetails) => {
+          cy.wrap(documentDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              document.push(info);
+            });
+          }).then(() => {
+            const [passportNumber, validity, expiryDate, issuedBy] = document;
+            taskSummary.documentDetails = { passportNumber, validity, expiryDate, issuedBy };
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Booking').nextAll().then((bookingDetails) => {
+          cy.wrap(bookingDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              booking.push(info);
+            });
+          }).then(() => {
+            const [pnr, bookingDateTime, bookingDuration] = booking;
+            taskSummary.bookingDetails = { pnr, bookingDateTime, bookingDuration };
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Co-travellers').next().then((travellerDetails) => {
+          cy.wrap(travellerDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.coTraveller = info;
+            });
+          });
+        });
+
+        cy.wrap(movmentInfoSection).contains('Route').next().then((travellerDetails) => {
+          cy.wrap(travellerDetails).find('li').each((details) => {
+            cy.wrap(details).invoke('text').then((info) => {
+              taskSummary.route = info;
+            });
+          });
+        });
+      });
+
+      cy.wrap(element).find('.task-list--target-indicator-section').within((targetIndicatorSection) => {
+        cy.wrap(targetIndicatorSection).find('.task-labels-item strong').invoke('text').then((riskScore) => {
+          taskSummary.riskScore = riskScore;
+        });
+      });
+    });
+  })
+    .then(() => {
+      return taskSummary;
+    });
+}
+
+Cypress.Commands.add('verifyAirPaxTaskListInfo', (businessKey, passengerType) => {
+  const nextPage = 'a[data-test="next"]';
+  cy.get('body').then(($el) => {
+    if ($el.find(nextPage).length > 0) {
+      cy.findTaskInAllThePages(businessKey, null, null).then(() => {
+        return getAirPaxTaskSummary(businessKey, passengerType);
+      });
+    } else {
+      cy.findTaskInSinglePage(businessKey, null, null).then(() => {
+        return getAirPaxTaskSummary(businessKey, passengerType);
       });
     }
   });
@@ -1052,6 +1240,35 @@ Cypress.Commands.add('checkTaskSummaryDetails', () => {
   });
 });
 
+Cypress.Commands.add('checkAirPaxTaskSummaryDetails', () => {
+  let taskSummary = [];
+  cy.get('.task-list--voyage-section').then((element) => {
+    cy.wrap(element).find('p').each((summary, index) => {
+      cy.wrap(summary).invoke('text').then((value) => {
+        if (index === 2) {
+          // taskSummary.push(value.split('→')[0].split('.')[0].trim());
+          console.log(value.split('→')[0]);
+          taskSummary.push(value.split('→')[0].trim());
+          taskSummary.push(value.split('→')[1].trim());
+        } else {
+          taskSummary.push(value.replace('\n', '').trim());
+        }
+      });
+    });
+    cy.wrap(element).find('.govuk-font-weight-bold').invoke('text').then((value) => {
+      taskSummary.push(value);
+    });
+
+    cy.wrap(element).find('.airpax-status__green').invoke('text').then((value) => {
+      taskSummary.push(value);
+    });
+  }).then(() => {
+    console.log(taskSummary);
+    const [Group, FlightInfo, Departure, Arrival, PassengerType, FlightStatus] = taskSummary;
+    return { Group, FlightInfo, Departure, Arrival, PassengerType, FlightStatus };
+  });
+});
+
 Cypress.Commands.add('verifyMultiSelectDropdown', (elementName, values) => {
   cy.get(`${formioComponent}${elementName}`)
     .should('be.visible')
@@ -1107,11 +1324,24 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
     });
 });
 
+const formatVoyageText = (dateTime) => {
+  console.log(dateTime);
+  const time = toRelativeTime(dateTime);
+  const isPastDate = DateTimeUtil.isPast(dateTime);
+  if (isPastDate !== UNKNOWN_TEXT) {
+    if (isPastDate) {
+      return `arrived ${time}`.trim();
+    }
+    return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+  }
+  return UNKNOWN_TEXT;
+};
+
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
   let expectedTaskSummary = {};
   let dateNowFormatted = Cypress.dayjs().format('DD-MM-YYYY');
   const dateFormat = 'D MMM YYYY [at] HH:mm';
-  let taskCreationDateTime = dayjs().format(dateFormat);
+  let taskCreationDateTime = dayjs().utc().format(dateFormat);
   cy.fixture(payload).then((task) => {
     let registrationNumber = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle.registrationNumber;
     const rndInt = Math.floor(Math.random() * 20) + 1;
@@ -1121,14 +1351,16 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
       let voyage = task.variables.rbtPayload.value.data.movement.voyage.voyage;
       let vehicle = task.variables.rbtPayload.value.data.movement.vehicles[0].vehicle;
       let person = task.variables.rbtPayload.value.data.movement.persons[0].person;
-      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).format(dateFormat);
-      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).format(dateFormat);
+      let departureDateTime = Cypress.dayjs(voyage.actualDepartureTimestamp).utc().format(dateFormat);
+      let arrivalDateTime = Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format(dateFormat);
       let diff = Cypress.dayjs(voyage.actualArrivalTimestamp).from(Cypress.dayjs());
+      console.log(diff);
+      console.log('arrival', arrivalDateTime);
       expectedTaskSummary.vehicle = `Vehicle${vehicle.registrationNumber} driven by ${person.fullName}`;
       expectedTaskSummary.Ferry = `${voyage.carrier} voyage of ${voyage.craftId}`;
       expectedTaskSummary.Departure = `${departureDateTime}   ${voyage.departureLocation}`;
       expectedTaskSummary.Arrival = `${voyage.arrivalLocation}      ${arrivalDateTime}`;
-      expectedTaskSummary.Account = `Arrival ${diff}`;
+      expectedTaskSummary.Account = formatVoyageText(Cypress.dayjs(voyage.actualArrivalTimestamp).utc().format());
     }
     task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
     cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-${taskName}`).then((response) => {
@@ -1142,6 +1374,25 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
       cy.checkTaskSummary(registrationNumber, taskCreationDateTime);
     });
   });
+});
+
+Cypress.Commands.add('toVoyageText', (dateTime, isTaskDetails = false, prefix = '') => {
+  const time = DateTimeUtil.relativeTime(dateTime);
+  const isPastDate = DateTimeUtil.isPast(dateTime);
+  console.log(isPastDate);
+  if (isPastDate !== UNKNOWN_TEXT) {
+    if (!isTaskDetails) {
+      if (isPastDate) {
+        return `arrived ${time}`.trim();
+      }
+      return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+    }
+    if (isPastDate) {
+      return `arrived at ${prefix} ${time}`.trim();
+    }
+    return `arrival at ${prefix} in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+  }
+  return UNKNOWN_TEXT;
 });
 
 Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
@@ -1200,6 +1451,62 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
   });
 });
 
+Cypress.Commands.add('getAirPaxTaskCount', (modeName, selector, statusTab) => {
+  let payload;
+  if (modeName === null && selector !== 'ANY') {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': ['AIR_PASSENGER'],
+        'selectors': selector,
+      },
+    ];
+  } else if (selector === 'ANY') {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': ['AIR_PASSENGER'],
+        'selectors': selector,
+      },
+    ];
+  } else if (modeName instanceof Array) {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': modeName,
+        'selectors': selector,
+      },
+    ];
+  } else {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': [modeName],
+        'selectors': selector,
+      },
+    ];
+  }
+  const baseUrl = 'v2/targeting-tasks/status-counts';
+  cy.request({
+    method: 'POST',
+    url: baseUrl,
+    headers: { Authorization: `Bearer ${token}` },
+    body: payload,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body);
+    return response.body[0].statusCounts;
+  });
+});
+
 Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
@@ -1229,7 +1536,7 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
       .click({ force: true });
   }
 
-  cy.contains('Apply filters').click();
+  cy.contains('Apply').click();
   cy.wait(2000);
   cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
@@ -1335,7 +1642,7 @@ Cypress.Commands.add('getSelectorGroupDetails', (elements) => {
   let actualRuleMatches = {};
   cy.wrap(elements).each((element, index) => {
     if (index <= 9) {
-      cy.wrap(element).find('.govuk-heading-s').each((item) => {
+      cy.wrap(element).find('.govuk-heading-s:not(.font-warning)').each((item) => {
         cy.wrap(item).invoke('text').then((header) => {
           cy.wrap(item).next().invoke('text').then((value) => {
             actualRuleMatches[header] = value;
@@ -1589,4 +1896,415 @@ Cypress.Commands.add('SelectInformBothFreightAndTouristOption', (elementName) =>
   cy.get(`input[name="data[${elementName}]"]`).click();
 
   cy.get(`${formioComponent}${elementName}`).find('input').should('be.checked');
+});
+
+Cypress.Commands.add('verifyDateTime', (elementName, dateTimeFormatted) => {
+  let eta = Cypress.dayjs(dateTimeFormatted);
+  cy.get(`#${elementName}-day`).should('have.value', eta.format('DD'));
+  cy.get(`#${elementName}-month`).should('have.value', eta.format('MM'));
+  cy.get(`#${elementName}-year`).should(
+    'have.value',
+    eta.format('YYYY'),
+  );
+  cy.get(`#${elementName}-hour`).should('have.value', eta.format('HH'));
+  cy.get(`#${elementName}-minute`).should(
+    'have.value',
+    eta.format('mm'),
+  );
+});
+
+Cypress.Commands.add('createTargetingApiTask', (task) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/movement-records`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(201);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('issueTarget', (task) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(201);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('acknowledgeTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/acknowledgements`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('captureTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/captures`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('claimTarget', (userName, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('recordOutcome', (target, targetId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/${targetId}/outcomes`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: target,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('dismissAirPaxTask', (task, businessKey) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${businessKey}/dismissals`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('getInformationSheet', (taskId) => {
+  cy.request({
+    method: 'GET',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/information-sheets`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('sendPNRrequest', () => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/passenger-name-record-access-requests`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('setTimeOffset', (time) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/current-time/offset`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'offset': time,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('reSetTimeOffset', () => {
+  cy.request({
+    method: 'DELETE',
+    url: `https://${targetingApiUrl}/current-time/offset`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+  });
+});
+
+Cypress.Commands.add('archiveTasks', () => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/jobs/archive/targeting-tasks`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+  });
+});
+
+Cypress.Commands.add('getArchivedTasks', () => {
+  cy.request({
+    method: 'GET',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/archive`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    return response.body;
+  });
+});
+
+Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
+  const occupantArray = [];
+  cy.wrap(elements).find('div').each(($detail) => {
+    let obj = {};
+    cy.wrap($detail).find('p.font__light').invoke('text').then((key) => {
+      if ($detail.find('p.font__bold').length > 0) {
+        cy.wrap($detail).find('p.font__bold').invoke('text')
+          .then((value) => {
+            obj[key] = value;
+          });
+      } else {
+        obj[key] = '';
+      }
+    })
+      .then(() => {
+        occupantArray.push(obj);
+      });
+  }).then(() => {
+    return occupantArray;
+  });
+});
+
+Cypress.Commands.add(('getairPaxPaymentAndAgencyDetails'), (elements) => {
+  const PaymentsArray = [];
+  cy.wrap(elements).each(($detail) => {
+    let obj = {};
+    cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+      cy.wrap($detail).find('.font__light').invoke('text')
+        .then((key) => {
+          obj[key] = value;
+        });
+    })
+      .then(() => {
+        PaymentsArray.push(obj);
+      });
+  }).then(() => {
+    return PaymentsArray;
+  });
+});
+
+Cypress.Commands.add(('getairPaxItinerayDetails'), (elements) => {
+  const ItinerayDetails = [];
+  cy.wrap(elements).each(($detail) => {
+    let obj = {};
+    if ($detail.find('.font__light').length > 1) {
+      cy.wrap($detail).find('.font__light').eq(0).invoke('text')
+        .then((value) => {
+          obj.layover = value;
+        });
+      cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+        cy.wrap($detail).find('.font__light').eq(1).invoke('text')
+          .then((key) => {
+            obj[key] = value;
+          });
+      })
+        .then(() => {
+          ItinerayDetails.push(obj);
+        });
+    } else {
+      cy.wrap($detail).find('.font__bold').invoke('text').then((value) => {
+        cy.wrap($detail).find('.font__light').invoke('text')
+          .then((key) => {
+            obj[key] = value;
+          });
+      })
+        .then(() => {
+          ItinerayDetails.push(obj);
+        });
+    }
+  }).then(() => {
+    return ItinerayDetails;
+  });
+});
+
+Cypress.Commands.add(('getairPaxTISDetails'), (elements) => {
+  const occupantArray = [];
+  cy.wrap(elements).find('.govuk-summary-list__row').each(($detail) => {
+    let obj = {};
+    cy.wrap($detail).find('.govuk-summary-list__key').invoke('text').then((key) => {
+      if ($detail.find('.govuk-summary-list__value .hods-readonly').length > 0) {
+        cy.wrap($detail).find('.govuk-summary-list__value .hods-readonly').invoke('text')
+          .then((value) => {
+            obj[key] = value;
+          });
+      } else {
+        obj[key] = '';
+      }
+    })
+      .then(() => {
+        occupantArray.push(obj);
+      });
+  }).then(() => {
+    return occupantArray;
+  });
+});
+
+Cypress.Commands.add(('getOtherPassengersTISDetails'), (elements) => {
+  const occupantArray = [];
+  cy.wrap(elements).find('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title')
+    .next()
+    .each(($detail) => {
+      let obj = {};
+      cy.wrap($detail).find('.govuk-summary-list__key').invoke('text').then((key) => {
+        if ($detail.find('.govuk-summary-list__value .hods-readonly').length > 0) {
+          cy.wrap($detail).find('.govuk-summary-list__value .hods-readonly').invoke('text')
+            .then((value) => {
+              obj[key] = value;
+            });
+        } else {
+          obj[key] = '';
+        }
+      })
+        .then(() => {
+          occupantArray.push(obj);
+        });
+    })
+    .then(() => {
+      return occupantArray;
+    });
+});
+
+Cypress.Commands.add('verifyAirPaxCheckInDateTime', (expectedCheckInDateTime) => {
+  cy.contains('h3', 'Booking').next().within((elements) => {
+    cy.getairPaxTaskDetail(elements).then((details) => {
+      console.log(details[3]);
+      const checkInDateTime = Object.fromEntries(Object.entries(details[3]).filter(([key]) => key.includes('Check-in date')));
+      console.log(checkInDateTime);
+      expect(JSON.stringify(checkInDateTime)).to.include(expectedCheckInDateTime);
+    });
+  });
+});
+
+Cypress.Commands.add('acceptPNRTerms', () => {
+  cy.intercept('POST', '/v2/passenger-name-record-access-requests').as('pnrRequest');
+  cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
+  cy.get('input[name="viewPnrData"][value="yes"]').click();
+  cy.contains('Continue').click();
+  cy.get('h1.govuk-heading-l').should('have.text', 'Are you working from a site that has been approved to access PNR data from?');
+  cy.get('input[name="approvedSite"][value="yes"]').click();
+  cy.contains('Continue').click();
+  cy.get('.govuk-panel--confirmation').should('have.text', 'You can now view PNR data.');
+  cy.contains('Continue').click();
+  cy.wait('@pnrRequest').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('doNotAcceptPNRTerms', () => {
+  cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
+  cy.get('input[name="viewPnrData"][value="no"]').click();
+  cy.contains('Continue').click();
+  cy.get('h1.govuk-heading-l').should('have.text', 'Continue without viewing PNR data');
+  cy.contains('button', 'Continue').click();
+});
+
+Cypress.Commands.add('userNotInApprovedLocation', () => {
+  cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
+  cy.get('input[name="viewPnrData"][value="yes"]').click();
+  cy.contains('Continue').click();
+  cy.get('h1.govuk-heading-l').should('have.text', 'Are you working from a site that has been approved to access PNR data from?');
+  cy.get('input[name="approvedSite"][value="no"]').click();
+  cy.contains('Continue').click();
+  cy.get('h1.govuk-heading-l').should('have.text', 'You can only view PNR data if you are working from an approved site');
+  cy.contains('Continue without access to PNR data').click();
+});
+
+Cypress.Commands.add('claimAirPaxTask', () => {
+  cy.intercept('POST', '/v2/targeting-tasks/*/claim').as('claim');
+  cy.contains('Claim').click({ force: true });
+  cy.wait('@claim').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('filterPageByAssignee', (filter) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: filter,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('filterJourneysByAssignee', (filter) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/journeys/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: filter,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('unClaimAirPaxTask', () => {
+  cy.intercept('POST', '/v2/targeting-tasks/*/unclaim').as('unclaim');
+  cy.contains('Unclaim task').click();
+  cy.wait('@unclaim').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForAirPaxTaks', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+Cypress.Commands.add('waitForStatusCounts', () => {
+  cy.wait('@airpaxTask').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+  });
 });

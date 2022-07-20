@@ -63,11 +63,14 @@ Assuming you have nvm installed to manage your node versions of course!
   \
   REACT_APP_AUTH_CLIENT_ID=your-client-id \
   FORM_API_URL=https://form-api.example.com/ \
+  FILE_UPLOAD_API_URL=https://file-upload-api.example.com/ \
   REFDATA_API_URL=https://refdata-api.example.com/ \
   KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
   KEYCLOAK_CLIENT_ID=your-client-id \
   KEYCLOAK_REALM=realm \
   CERBERUS_API_URL=https://cerberus-api.example.com/ \
+  COP_TARGETING_API_ENABLED=true \
+  COP_TARGETING_API_URL=https://localhost:9443/v2 \
   npm run start
 ```
 
@@ -89,7 +92,18 @@ docker run --name cerberus-service -p 8080:8080 \
   --env FORM_API_URL=https://form-api-server.dev.cop.homeoffice.gov.uk \
   --env REFDATA_API_URL=https://api.dev.refdata.homeoffice.gov.uk \
   --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
+  --env COP_TARGETING_API_ENABLED=true \
+  --env COP_TARGETING_API_URL=https://localhost:9443/v2 \
   cerberus-service
+```
+**4. Run the resulting Docker container using docker compose**
+This command requires you have a docker image built locally for the
+[cop-targeting-api](https://gitlab.digital.homeoffice.gov.uk/cop/cop-targeting-api/-/blob/master/README.md)
+If you have an image built locally, this command will run the cerberus-service and cop-targeting-api local
+containers whilst pointing at the DEV environments for the ref data, form server and Cerberus APIs. You
+can change and repoint any of these APIs by updating the environment variables in the `docker-compose.yml` file.
+```sh
+docker-compose up -d
 ```
 
 ## Tests in native development

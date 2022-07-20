@@ -117,7 +117,7 @@
     {
       "Name": "Fred Flintstone",
       "Date of birth": "15/7/1991",
-      "Gender": "F",
+      "Gender": "Female",
       "Nationality": "DE",
       "Travel document type": "Passport",
       "Travel document number": "875786876",
@@ -126,7 +126,7 @@
     {
       "Name": "Barney Rubble",
       "Date of birth": "12/7/1991",
-      "Gender": "M",
+      "Gender": "Male",
       "Nationality": "GB",
       "Travel document type": "Passport",
       "Travel document number": "244746NL",

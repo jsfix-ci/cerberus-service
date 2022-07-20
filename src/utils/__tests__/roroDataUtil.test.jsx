@@ -1,3 +1,4 @@
+import { TASK_STATUS_KEY, TASK_STATUS_NEW } from '../../constants';
 import { modifyRoRoPassengersTaskList,
   hasCheckinDate,
   hasEta,
@@ -6,11 +7,19 @@ import { modifyRoRoPassengersTaskList,
   extractTaskVersionsBookingField,
   modifyCountryCodeIfPresent,
   isSinglePassenger,
-  filterKnownPassengers } from '../roroDataUtil';
+  filterKnownPassengers,
+  isNotNumber,
+  getTaskStatus,
+  getLocalStoredItemByKeyValue,
+  toRoRoSelectorsValue } from '../roroDataUtil';
 
 import { testRoroData } from '../__fixtures__/roroData.fixture';
 
 describe('RoRoData Util', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should return a modified roroData object with a list of 2 passengers', () => {
     const modifiedRoroData = modifyRoRoPassengersTaskList({ ...testRoroData });
     expect(modifiedRoroData.passengers.length).toEqual(2);
@@ -215,7 +224,7 @@ describe('RoRoData Util', () => {
       propName: 'booking',
     };
     const result = modifyCountryCodeIfPresent(bookingFieldMinified);
-    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('Unknown (UN)');
+    expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('UN');
   });
 
   it('Should return the booking object when a country code equal to the string equivalent of unknown', () => {
@@ -231,6 +240,38 @@ describe('RoRoData Util', () => {
           propName: 'country',
         },
       ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code is null', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [
+        {
+          fieldName: 'Country',
+          type: 'STRING',
+          content: null,
+          versionLastUpdated: null,
+          propName: 'country',
+        },
+      ],
+      type: 'null',
+      propName: 'booking',
+    };
+    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    expect(result).toEqual(bookingFieldMinified);
+  });
+
+  it('Should return the given booking object when a country code data node is missing', () => {
+    const bookingFieldMinified = {
+      fieldSetName: 'Booking and check-in',
+      hasChildSet: false,
+      contents: [],
       type: 'null',
       propName: 'booking',
     };
@@ -566,5 +607,119 @@ describe('RoRoData Util', () => {
 
     const outcome = isSinglePassenger(passengers);
     expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number', () => {
+    const given = 10;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number and is 0', () => {
+    const given = 0;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate false if given is a number, in a string representation', () => {
+    const given = '10';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeFalsy();
+  });
+
+  it('should validate true if given is null and not a number', () => {
+    const given = null;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is undefined and not a number', () => {
+    const given = undefined;
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is an empty string and not a number', () => {
+    const given = '';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should validate true if given is a string of mixed chracters and not a number', () => {
+    const given = 'XY1_C!';
+
+    const outcome = isNotNumber(given);
+    expect(outcome).toBeTruthy();
+  });
+
+  it('should return the set task id', () => {
+    const EXPECTED = 'test-task-id';
+    localStorage.setItem(TASK_STATUS_KEY, EXPECTED);
+
+    const output = getTaskStatus(TASK_STATUS_KEY);
+    expect(output).toEqual(EXPECTED);
+  });
+
+  it(`should return task status "${TASK_STATUS_NEW}" if none has been set in local storage`, () => {
+    const output = getTaskStatus(TASK_STATUS_KEY);
+    expect(output).toEqual(TASK_STATUS_NEW);
+  });
+
+  it('should return stored data', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedData = getLocalStoredItemByKeyValue(KEY);
+    expect(storedData).toMatchObject(DATA_TO_STORE);
+  });
+
+  it('should evaluate to false if stored data is not found', () => {
+    const KEY = 'key';
+    const storedData = getLocalStoredItemByKeyValue(KEY);
+    expect(storedData).toBeFalsy();
+  });
+
+  it('should return data item within stored data', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedDataItem = getLocalStoredItemByKeyValue(KEY, 'alpha');
+    expect(storedDataItem).toEqual(DATA_TO_STORE.alpha);
+  });
+
+  it('should evaluate returned data to false if data item within stored data is not found', () => {
+    const KEY = 'key';
+    const DATA_TO_STORE = { alpha: 'alpha', bravo: 'bravo' };
+    localStorage.setItem(KEY, JSON.stringify(DATA_TO_STORE));
+
+    const storedDataItem = getLocalStoredItemByKeyValue(KEY, 'charlie');
+    expect(storedDataItem).toBeFalsy();
+  });
+
+  it('should return true when given is a string representation of boolean true', () => {
+    const GIVEN = 'true';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeTruthy();
+  });
+
+  it('should return false when given is a string representation of boolean false', () => {
+    const GIVEN = 'false';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeFalsy();
+  });
+
+  it('should return null when input is an empty string', () => {
+    expect(toRoRoSelectorsValue('')).toBeNull();
+  });
+
+  it('should return null when input is the default roro hasSelectors filter value', () => {
+    const GIVEN = 'both';
+    expect(toRoRoSelectorsValue(GIVEN)).toBeNull();
   });
 });

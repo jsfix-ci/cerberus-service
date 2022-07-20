@@ -15,7 +15,78 @@ describe('PersonUtil', () => {
     gender: 'M',
     nationality: 'GBR',
     document: null,
+    ssrCodes: ['ABC'],
+    frequentFlyerNumber: 123456,
   };
+
+  const coTravellers = [
+    {
+      entitySearchUrl: null,
+      name: {
+        first: null,
+        last: 'MAUSSER',
+        full: 'MAUSSER',
+      },
+      role: 'CREW',
+      dateOfBirth: '1970-04-14T00:00:00Z',
+      gender: 'F',
+      nationality: 'GB',
+      document: {
+        type: 'Passport',
+        number: '1234567',
+        countryOfIssue: 'FR',
+        nationality: 'GB',
+        validFrom: '1970-04-14T00:00:00Z',
+        validTo: '1970-04-14T00:00:00Z',
+        name: 'Miss MAUSSER MAUSSER',
+        dateOfBirth: '1970-04-14T00:00:00Z',
+      },
+      movementStats: null,
+      frequentFlyerNumber: null,
+      ssrCodes: [
+        'DOCS',
+        'AUTH',
+      ],
+    },
+    {
+      entitySearchUrl: null,
+      name: {
+        first: 'SHARON',
+        last: 'MAUSSER',
+        full: 'SHARON MAUSSER',
+      },
+      role: 'CREW',
+      dateOfBirth: null,
+      gender: null,
+      nationality: 'FR',
+      document: null,
+      movementStats: null,
+      frequentFlyerNumber: '763381878A',
+      ssrCodes: [
+        'DOCS',
+        'AUTH',
+      ],
+    },
+    {
+      entitySearchUrl: null,
+      name: {
+        first: null,
+        last: null,
+        full: null,
+      },
+      role: 'CREW',
+      dateOfBirth: '1967-06-10T00:00:00Z',
+      gender: 'M',
+      nationality: 'GB',
+      document: null,
+      movementStats: null,
+      frequentFlyerNumber: null,
+      ssrCodes: [
+        'DOCS',
+        'AUTH',
+      ],
+    },
+  ];
 
   it('should get a person object if present', () => {
     const targetTaskMin = {
@@ -31,6 +102,8 @@ describe('PersonUtil', () => {
           gender: 'M',
           nationality: 'GBR',
           document: null,
+          ssrCodes: ['ABC'],
+          frequentFlyerNumber: 123456,
         },
       },
     };
@@ -54,6 +127,8 @@ describe('PersonUtil', () => {
             gender: 'M',
             nationality: 'GBR',
             document: null,
+            ssrCodes: ['ABC'],
+            frequentFlyerNumber: 123456,
           },
         ],
       },
@@ -77,6 +152,8 @@ describe('PersonUtil', () => {
           gender: 'M',
           nationality: 'GBR',
           document: null,
+          ssrCodes: 'ABC',
+          frequentFlyerNumber: 123456,
         },
         otherPersons: [],
       },
@@ -171,6 +248,78 @@ describe('PersonUtil', () => {
     expect(output).toEqual(person.name.last.toUpperCase());
   });
 
+  it('should return country name if nationality present', () => {
+    const output = PersonUtil.countryName(person);
+    expect(output).toEqual('United Kingdom');
+  });
+
+  it('should return frequent flyer number if present', () => {
+    const output = PersonUtil.frequentFlyerNumber(person);
+    expect(output).toEqual(person.frequentFlyerNumber);
+  });
+
+  it('should return SSR codes if present', () => {
+    const output = PersonUtil.ssrCodes(person);
+    expect(output).toEqual(person.ssrCodes.join(', '));
+  });
+
+  it('should calculate and return age if dob present', () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 10);
+    person.dateOfBirth = date.toISOString();
+
+    const output = PersonUtil.age(person);
+    expect(output).toEqual(10);
+  });
+
+  it('should calculate and return the age at time of travel', () => {
+    const PERSON_NODE = {
+      dateOfBirth: '1966-05-13T00:00:00Z',
+    };
+    const DEPARTURE_DATE = '2020-07-21T16:40:00Z';
+
+    const output = PersonUtil.travelAge(PERSON_NODE, DEPARTURE_DATE);
+    expect(output).toEqual(54);
+  });
+
+  it('should return unknown when date of birth is not provided', () => {
+    const PERSON_NODE = {
+      dateOfBirth: null,
+    };
+    const JOURNEY_NODE = {
+      departure: {
+        time: '2020-07-21T16:40:00Z',
+      },
+    };
+
+    const output = PersonUtil.travelAge(PERSON_NODE, JOURNEY_NODE);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure date is not provided', () => {
+    const PERSON_NODE = {
+      dateOfBirth: '1966-05-13T00:00:00Z',
+    };
+    const DEPARTURE_DATE = null;
+
+    const output = PersonUtil.travelAge(PERSON_NODE, DEPARTURE_DATE);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
+  it('should return unknown when departure date & date of birth are not provided', () => {
+    const PERSON_NODE = {
+      dateOfBirth: null,
+    };
+    const JOURNEY_NODE = {
+      departure: {
+        time: '',
+      },
+    };
+
+    const output = PersonUtil.travelAge(PERSON_NODE, JOURNEY_NODE);
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
   it('should return a formatted co-travellers block', () => {
     const otherPersons = [
       {
@@ -200,5 +349,40 @@ describe('PersonUtil', () => {
     ];
     const tree = renderer.create(PersonUtil.toOthers(otherPersons)).toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it('should return a list of all persons within the movement', () => {
+    const output = PersonUtil.allPersons(person, coTravellers);
+    expect(output.length).toEqual(4);
+  });
+
+  it('should return the count of all co-travellers within the movement', () => {
+    const targetTaskMin = {
+      movement: {
+        otherPersons: [...coTravellers],
+      },
+    };
+    expect(PersonUtil.othersCount(targetTaskMin)).toEqual(3);
+  });
+
+  it('should return 0 when co-travellers is either null, undefined or an empty array within the movement', () => {
+    const TARGET_TASKS = [
+      {
+        movement: {
+          otherPersons: null,
+        },
+      },
+      {
+        movement: {
+          otherPersons: undefined,
+        },
+      },
+      {
+        movement: {
+          otherPersons: [],
+        },
+      },
+    ];
+    TARGET_TASKS.forEach((targetTask) => expect(PersonUtil.othersCount(targetTask)).toEqual(0));
   });
 });

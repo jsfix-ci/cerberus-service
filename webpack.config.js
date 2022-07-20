@@ -53,8 +53,10 @@ module.exports = {
       KEYCLOAK_AUTH_URL: 'https://sso-dev.notprod.homeoffice.gov.uk/auth',
       KEYCLOAK_CLIENT_ID: 'cerberus',
       KEYCLOAK_REALM: 'cop-dev',
-      FORM_API_URL: undefined,
-      REFDATA_API_URL: undefined,
+      FORM_API_URL: '',
+      FILE_UPLOAD_API_URL: '',
+      REFDATA_API_URL: '',
+      COP_TARGETING_API_ENABLED: '',
     }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
   ],
@@ -68,6 +70,15 @@ module.exports = {
         pathRewrite: { '^/camunda': '' },
         secure: false,
         changeOrigin: true,
+      },
+      '/v2': {
+        target: process.env.COP_TARGETING_API_URL,
+        pathRewrite: { '^/v2': '' },
+        secure: false,
+        changeOrigin: true,
+        onProxyReq(request) {
+          request.setHeader('origin', process.env.COP_TARGETING_API_URL);
+        },
       },
     },
   },

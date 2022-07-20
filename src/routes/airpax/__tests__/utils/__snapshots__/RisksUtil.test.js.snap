@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RisksUtil should return a formatted targeting indicators if present 1`] = `
+<ul
+  className="govuk-list item-list--bulleted"
+>
+  <li
+    className="govuk-!-font-weight-bold govuk-!-font-size-16"
+  >
+    2 indicators
+  </li>
+  <li
+    className="threat-indicator-bullet govuk-!-font-size-16"
+  >
+    Quick turnaround freight (under 24 hours)
+  </li>
+  <li
+    className="threat-indicator-bullet govuk-!-font-size-16"
+  >
+    Quick turnaround tourist (under 24 hours)
+  </li>
+</ul>
+`;

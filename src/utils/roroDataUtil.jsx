@@ -1,4 +1,12 @@
 import lookup from 'country-code-lookup';
+import { DEFAULT_APPLIED_RORO_FILTER_STATE, TASK_STATUS_NEW } from '../constants';
+
+const isNotNumber = (number) => {
+  if (!number && number !== 0) {
+    return true;
+  }
+  return isNaN(number);
+};
 
 const hasCarrierCounts = (suppliedPassengerCounts) => {
   const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
@@ -141,14 +149,13 @@ const modifyRoRoPassengersTaskList = (roroData) => {
 */
 const modifyCountryCodeIfPresent = (bookingField) => {
   const countryCode = bookingField.contents?.find(({ propName }) => propName === 'country')?.content;
-  if (countryCode.length > 2) {
-    return bookingField;
+  if (countryCode) {
+    if (countryCode.length > 2 || lookup.byIso(countryCode) === null) {
+      return bookingField;
+    }
+    const countryName = lookup.byIso(countryCode) !== null ? lookup.byIso(countryCode).country : 'Unknown';
+    bookingField.contents.find(({ propName }) => propName === 'country').content = `${countryName} (${countryCode})`;
   }
-  if (!countryCode && !lookup.byIso(countryCode)?.country) {
-    return bookingField;
-  }
-  const countryName = (countryCode && lookup.byIso(countryCode) !== null) ? lookup.byIso(countryCode).country : 'Unknown';
-  bookingField.contents.find(({ propName }) => propName === 'country').content = `${countryName} (${countryCode})`;
   return bookingField;
 };
 
@@ -202,6 +209,42 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   return bookingField;
 };
 
+const getTaskStatus = (taskStatus) => {
+  return localStorage.getItem(taskStatus) !== null
+    ? localStorage.getItem(taskStatus) : TASK_STATUS_NEW;
+};
+
+const isLocalStoredPresent = (key) => {
+  return localStorage.getItem(key) !== null
+  && localStorage.getItem(key) !== 'null';
+};
+
+const toRoRoSelectorsValue = (value) => {
+  if (!value || value === DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors) {
+    return null;
+  }
+  return JSON.parse(value);
+};
+
+/**
+ * Gets a particular field out of the stored data.
+ * This can also equally return the whole stored data.
+ *
+ * @param {*} key The key the stored data is associated with.
+ * @param {*} value The value to be returned from the stored data.
+ *            Omitting this parameter will return just the whole stored data item.
+ * @returns A particular item from within the stored data or the whole stored data.
+ */
+const getLocalStoredItemByKeyValue = (key, value = undefined) => {
+  if (!isLocalStoredPresent(key)) {
+    return null;
+  }
+  if (!value && value !== 0) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+  return JSON.parse(localStorage.getItem(key))[value];
+};
+
 export { modifyRoRoPassengersTaskList,
   modifyRoRoPassengersTaskDetails,
   hasTaskVersionPassengers,
@@ -219,4 +262,8 @@ export { modifyRoRoPassengersTaskList,
   hasCarrierCounts,
   modifyCountryCodeIfPresent,
   isSinglePassenger,
-  filterKnownPassengers };
+  filterKnownPassengers,
+  isNotNumber,
+  getTaskStatus,
+  toRoRoSelectorsValue,
+  getLocalStoredItemByKeyValue };

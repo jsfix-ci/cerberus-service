@@ -6,6 +6,7 @@ jest.mock('../../src/utils/keycloak', () => ({
     realm: 'test',
     clientId: 'client',
     refreshToken: 'refreshToken',
+    sessionId: '123-456',
     tokenParsed: {
       given_name: 'test',
       family_name: 'test',

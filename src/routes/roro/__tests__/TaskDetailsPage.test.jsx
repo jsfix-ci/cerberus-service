@@ -2,14 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskDetailsPage from '../TaskDetails/TaskDetailsPage';
 import variableInstanceStatusNew from '../__fixtures__/variableInstanceStatusNew.fixture.json';
 import variableInstanceStatusComplete from '../__fixtures__/variableInstanceStatusComplete.fixture.json';
 import variableInstanceStatusIssued from '../__fixtures__/variableInstanceStatusIssued.fixture.json';
 import noteFormFixure from '../__fixtures__/noteFormResponse.fixture.json';
-import targetModeFreight from '../__fixtures__/targetMode_RoRoFreight.fixture.json';
+import targetModeFreightAccompanied from '../__fixtures__/targetMode_RoRoFreightAccompanied.fixture.json';
+import targetModeFreightUnaccompanied from '../__fixtures__/targetMode_RoRoFreightUnaccompanied.fixture.json';
 import targetModeTourist from '../__fixtures__/targetMode_RoRoTourist.fixture.json';
+import { FORM_NAMES } from '../../../constants';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -195,8 +198,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -219,8 +222,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -297,8 +300,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrun',
+      targetModeResponse: targetModeFreightUnaccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -329,8 +332,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -355,10 +358,14 @@ describe('TaskDetailsPage', () => {
       targetModeResponse: targetModeTourist,
     });
 
-    // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
-    mockAxios.onGet('/form/name/noteCerberus').reply(404);
-
     await waitFor(() => render(<TaskDetailsPage />));
+
+    // Overwrite response defined in mockTaskDetailsAxiosCalls for notes form to test form service error handling
+    mockAxios.onGet(`/form/name/${FORM_NAMES.TARGET_INFORMATION_SHEET}`).reply(404);
+
+    // Click the button
+    const issueTargetButton = screen.getByText(/Issue target/i);
+    await waitFor(() => userEvent.click(issueTargetButton));
 
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
   });
@@ -378,8 +385,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -402,8 +409,8 @@ describe('TaskDetailsPage', () => {
       operationsHistoryResponse: operationsHistoryFixture,
       taskHistoryResponse: taskHistoryFixture,
       noteFormResponse: noteFormFixure,
-      modecode: 'rorofrei',
-      targetModeResponse: targetModeFreight,
+      modecode: 'rorofrac',
+      targetModeResponse: targetModeFreightAccompanied,
     });
 
     await waitFor(() => render(<TaskDetailsPage />));
@@ -507,5 +514,86 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
+  });
+
+  it('should hide the notes form on clicking the assessment complete button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const assessmentCompleteButton = screen.getByRole('button', { name: 'Assessment complete' });
+    fireEvent.click(assessmentCompleteButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
+
+  it('should hide the notes form on clicking the dismiss button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const dismissButton = screen.getByRole('button', { name: 'Dismiss' });
+    fireEvent.click(dismissButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
+
+  it('should hide the notes form on clicking the issue target button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const issueTargetButton = screen.getByRole('button', { name: 'Issue target' });
+    fireEvent.click(issueTargetButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 });

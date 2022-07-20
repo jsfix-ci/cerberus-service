@@ -23,6 +23,29 @@ spec:
         name: {{.CERBERUS_UI_NAME}}
         service: {{.CERBERUS_UI_NAME}}
     spec:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - {{.COP_TARGETING_API_SERVICE_NAME}}
+              topologyKey: failure-domain.beta.kubernetes.io/zone
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - {{.CERBERUS_UI_NAME}}
+              topologyKey: failure-domain.beta.kubernetes.io/zone
       restartPolicy: Always
       containers:
       - name: {{.CERBERUS_UI_NAME}}-proxy
@@ -52,6 +75,27 @@ spec:
         volumeMounts:
           - name: certs
             mountPath: /certs
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
       - name: {{.CERBERUS_UI_NAME}}
         image: {{.CERBERUS_UI_IMAGE}}:{{.CERBERUS_UI_TAG}}
         imagePullPolicy: Always
@@ -65,16 +109,24 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /tasks
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401" 
+          httpGet:
+            path: /tasks
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
-        env:
+        env:            
           - name: KEYCLOAK_AUTH_URL
             value: "https://{{.KEYCLOAK_AUTH_URL}}"
           - name: KEYCLOAK_CLIENT_ID
@@ -85,10 +137,20 @@ spec:
             value: "{{.DEPLOY_ENV}}"
           - name: FORM_API_URL
             value: "https://{{.FORM_API_URL}}"
+          - name: FILE_UPLOAD_API_URL
+            value: "https://{{.FILE_UPLOAD_API_URL}}"
           - name: REFDATA_API_URL
             value: "https://{{.REFDATA_API_URL}}"
           - name: CERBERUS_API_URL
             value: "https://{{.CERBERUS_WORKFLOW_SERVICE_URL}}/camunda/"
+          - name: COP_TARGETING_API_NAMESPACE
+            value: "{{.COP_TARGETING_API_NAMESPACE}}"
+          - name: COP_TARGETING_API_SERVICE_NAME
+            value: "{{.COP_TARGETING_API_SERVICE_NAME}}"
+          - name: COP_TARGETING_API_URL
+            value: "https://$(COP_TARGETING_API_SERVICE_NAME).$(COP_TARGETING_API_NAMESPACE)"
+          - name: COP_TARGETING_API_ENABLED
+            value: "{{.COP_TARGETING_API_ENABLED}}"
       volumes:
       - name: certs
         secret:

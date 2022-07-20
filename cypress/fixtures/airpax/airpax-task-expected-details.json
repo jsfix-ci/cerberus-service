@@ -1,0 +1,154 @@
+{
+  "Document": [
+    {
+      "Type": "PASSPORT"
+    },
+    {
+      "Number": "119039375"
+    },
+    {
+      "Document nationality": "United Kingdom (GB)"
+    },
+    {
+      "Country of issue": "United Kingdom (GB)"
+    },
+    {
+      "Valid from4 years before travel": "27 Apr 2018"
+    },
+    {
+      "Valid To4 years after travel": "26 Apr 2023"
+    },
+    {
+      "Name": "BATZ STOUP, ZUES CARLO"
+    },
+    {
+      "Date of birth": "10 Dec 1976"
+    }
+  ],
+  "Baggage": [
+    {
+      "Checked bags": "3"
+    },
+    {
+      "Total weight": "46kg"
+    },
+    {
+      "Tag number": "739238, 739239, 739240"
+    }
+  ],
+  "Booking": [
+    {
+      "Reference": "LSV4UV"
+    },
+    {
+      "Number of travellers": "2"
+    },
+    {
+      "Booking datea month before departure": "9 Jun 2022 at 10:00"
+    },
+    {
+      "Check-in datea month before departure": "12 Jun 2022 at 13:00"
+    },
+    {
+      "Booking country": "United Kingdom (GB)"
+    },
+    {
+      "Booking type": "Online"
+    },
+    {
+      "Ticket number": "1234"
+    },
+    {
+      "Ticket type": "Return"
+    }
+  ],
+  "Payments": [
+    {
+      "Credit card ending X63X, expiry 10/20": "2190.48"
+    },
+    {
+      "Credit card ending X63X, expiry 10/20": "2190.48"
+    },
+    {
+      "Agent IATAAgent location": "890534932LHR, GB"
+    }
+  ],
+  "Passenger": [
+    {
+      "Name": "TESTING FAMILYNAME, Testing GivenName"
+    },
+    {
+      "": ""
+    },
+    {
+      "Date of birth": "30 Dec 1976"
+    },
+    {
+      "Age at travel": "45"
+    },
+    {
+      "Gender": "Female"
+    },
+    {
+      "Nationality": "Australia (AU)"
+    },
+    {
+      "Departure status": "Departure confirmed DC"
+    },
+    {
+      "": ""
+    },
+    {
+      "Frequent flyer number": "680419104BA"
+    },
+    {
+      "": ""
+    },
+    {
+      "SSR codes": "DOCS, AUTH"
+    }
+  ],
+  "Itinerary": [
+    {
+      "FR → CA  Arrival 3 Oct 2018 at 13:05": "AC0850  CDG → YYZ  Wed 3 Oct 2018 at 11:00"
+    },
+    {
+      "layover": "3 hours later",
+      "CA → CA  Arrival 3 Oct 2018 at 18:16": "BD0998  YYZ → YYC  Wed 3 Oct 2018 at 16:05"
+    },
+    {
+      "layover": "17 minutes later",
+      "CA → GB  Arrival 3 Oct 2018 at 21:19": "XZ0123  YYC → LHR  Wed 3 Oct 2018 at 18:32"
+    }
+  ],
+  "Co-travellers": [
+      {
+        "Traveller": "TravellerBATZ STOUP, ZUES CARLO DCMale, 10 Dec 1976, United Kingdom (GB)",
+        "Age": "Age45",
+        "Document": "DocumentPASSPORTIssued by GB"
+      }
+    ],
+    "Voyage": [
+      {
+        "Departure fromLondon, United Kingdom": "LHR"
+      },
+      {
+        "Departure time": "Sun 10 Jul 2022 at 12:30"
+      },
+      {
+        "Arrival atCalgary, Canada": "YYC"
+      },
+      {
+        "Arrival time": "Sun 10 Jul 2022 at 15:30"
+      },
+      {
+        "Scheduled flight time": "3h 0m"
+      },
+      {
+        "Flight code": "BA0103"
+      },
+      {
+        "Operator": "British Airways"
+      }
+    ]
+}

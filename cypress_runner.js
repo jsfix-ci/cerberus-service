@@ -4,7 +4,7 @@ const { merge } = require('mochawesome-merge');
 const marge = require('mochawesome-report-generator');
 const rm = require('rimraf');
 const ls = require('ls');
-const cypressConfig = require('./cypress');
+const cypressConfig = require('./cypress.json');
 
 const argv = yargs.options({
   browser: {

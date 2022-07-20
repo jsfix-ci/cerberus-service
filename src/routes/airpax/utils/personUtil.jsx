@@ -1,8 +1,8 @@
 import React from 'react';
-
+import lookup from 'country-code-lookup';
+import dayjs from 'dayjs';
 import formatGender from '../../../utils/genderFormatter';
 import { getFormattedDate } from './datetimeUtil';
-
 import { SHORT_DATE_FORMAT_ALT, UNKNOWN_TEXT } from '../../../constants';
 
 const getNationality = (person) => {
@@ -12,11 +12,39 @@ const getNationality = (person) => {
   return person.nationality;
 };
 
-const getDateOfBirth = (person) => {
+const getCountryName = (person) => {
+  if (!person?.nationality) {
+    return UNKNOWN_TEXT;
+  }
+  return lookup.byIso(person.nationality).country;
+};
+
+const getDateOfBirth = (person, format = SHORT_DATE_FORMAT_ALT) => {
   if (!person?.dateOfBirth) {
     return UNKNOWN_TEXT;
   }
-  return getFormattedDate(person.dateOfBirth, SHORT_DATE_FORMAT_ALT);
+  return getFormattedDate(person.dateOfBirth, format);
+};
+
+const getAge = (person) => {
+  if (!person?.dateOfBirth) {
+    return UNKNOWN_TEXT;
+  }
+  return dayjs.utc().diff(dayjs(person.dateOfBirth), 'year');
+};
+
+const getTravelAge = (person, departureDate) => {
+  const dateFormat = 'YYYY-MM-DD';
+  const dateOfBirth = getDateOfBirth(person, dateFormat);
+  if (!dateOfBirth || dateOfBirth === UNKNOWN_TEXT) {
+    return UNKNOWN_TEXT;
+  }
+  if (!departureDate) {
+    return UNKNOWN_TEXT;
+  }
+  const formattedDob = dayjs(dayjs(dateOfBirth));
+  const formattedDepartureDate = dayjs(dayjs(departureDate).format(dateFormat));
+  return formattedDepartureDate.diff(formattedDob, 'year');
 };
 
 const getGender = (person) => {
@@ -40,6 +68,24 @@ const getFirstName = (person) => {
   return person.name.first;
 };
 
+const getFrequentFlyerNumber = (person) => {
+  if (!person?.frequentFlyerNumber) {
+    return UNKNOWN_TEXT;
+  }
+  return person.frequentFlyerNumber;
+};
+
+const hasSSRCodes = (person) => {
+  return !!person?.ssrCodes?.length > 0;
+};
+
+const getSSRCodes = (person) => {
+  if (!hasSSRCodes(person)) {
+    return UNKNOWN_TEXT;
+  }
+  return person.ssrCodes.join(', ');
+};
+
 const toCoTravellers = (otherPersons) => {
   if (!otherPersons) {
     return <li className="govuk-!-font-weight-bold">None</li>;
@@ -59,11 +105,26 @@ const toCoTravellers = (otherPersons) => {
   });
 };
 
+const getAllPersons = (person, otherPersons) => {
+  let allPersons = [];
+  if (person) {
+    allPersons.push(person);
+  }
+  if (otherPersons) {
+    allPersons = allPersons.concat(otherPersons);
+  }
+  return allPersons;
+};
+
 const getTotalNumberOfPersons = (targetTask) => {
   if (!targetTask?.movement?.person) {
     return 0;
   }
   return targetTask.movement.otherPersons.length + 1;
+};
+
+const getTotalNumberOfOtherPersons = (targetTask) => {
+  return targetTask?.movement?.otherPersons?.length || 0;
 };
 
 const hasOtherPersons = (targetTask) => {
@@ -92,24 +153,37 @@ const PersonUtil = {
   get: getPerson,
   getOthers: getOtherPersons,
   totalPersons: getTotalNumberOfPersons,
+  othersCount: getTotalNumberOfOtherPersons,
   toOthers: toCoTravellers,
+  allPersons: getAllPersons,
   firstname: getFirstName,
   lastname: getLastName,
   gender: getGender,
   dob: getDateOfBirth,
+  age: getAge,
+  travelAge: getTravelAge,
   nationality: getNationality,
+  countryName: getCountryName,
+  frequentFlyerNumber: getFrequentFlyerNumber,
+  ssrCodes: getSSRCodes,
 };
 
 export default PersonUtil;
 
 export {
   getNationality,
+  getCountryName,
   getDateOfBirth,
+  getAge,
   getPerson,
   getGender,
   getFirstName,
   getLastName,
   toCoTravellers,
   getTotalNumberOfPersons,
+  getTotalNumberOfOtherPersons,
   getOtherPersons,
+  getFrequentFlyerNumber,
+  getSSRCodes,
+  getTravelAge,
 };

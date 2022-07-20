@@ -23,4 +23,19 @@ describe('Header', () => {
     expect(localStorage.getItem('test-key-local')).toBeFalsy();
     expect(sessionStorage.getItem('test-key-session')).toBeFalsy();
   });
+
+  describe('AirpaxTasks', () => {
+    const extendedRouterMock = jest.requireMock('react-router-dom');
+    it('should render the Tasks wording as a URL when on roro task list page, on the header', () => {
+      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: '/tasks' });
+      render(<Header />);
+      expect(screen.getByText('Tasks')).toBeInTheDocument();
+    });
+
+    it('should render the Tasks wording as a URL when on airpax task list page, on the header', () => {
+      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: '/airpax/tasks' });
+      render(<Header />);
+      expect(screen.getByText('Tasks')).toBeInTheDocument();
+    });
+  });
 });

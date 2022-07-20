@@ -1,0 +1,46 @@
+{
+  "riskIdicators": {
+    "risk-0": [
+        {
+          "Entity type": "Entity typeBooking",
+          "Attribute": "AttributearrivalLocations",
+          "Operator": "Operatorcontains_any_of",
+          "Value(s)": "Value(s)[lhr, man]"
+        },
+        {
+          "Entity type": "Entity typeMessage",
+          "Attribute": "Attributemode",
+          "Operator": "Operatorin",
+          "Value(s)": "Value(s)[Air Passenger]"
+        }
+    ],
+    "risk-1": [
+      {
+        "Entity type": "Entity typeBooking",
+        "Attribute": "AttributedurationOfWholeTrip",
+        "Operator": "Operatorbetween",
+        "Value(s)": "Value(s)[1, 70]"
+      },
+      {
+        "Entity type": "Entity typeMessage",
+        "Attribute": "Attributemode",
+        "Operator": "Operatorin",
+        "Value(s)": "Value(s)[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+      }
+    ],
+    "risk-2": [
+      {
+        "Entity type": "Entity typeBooking",
+        "Attribute": "AttributedurationOfStay",
+        "Operator": "Operatorbetween",
+        "Value(s)": "Value(s)[1, 70]"
+      },
+      {
+        "Entity type": "Entity typeMessage",
+        "Attribute": "Attributemode",
+        "Operator": "Operatorin",
+        "Value(s)": "Value(s)[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
+      }
+    ]
+  }
+}

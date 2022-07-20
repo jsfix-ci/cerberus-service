@@ -1,0 +1,38 @@
+{
+  "arrivalAirPort": "YYC",
+  "arrivalDateTime": "10 Jul 2022 at 15:30",
+  "bookingDetails": {
+    "bookingDateTime": "09 Jun 2022",
+    "bookingDuration": "a month before travel",
+    "pnr": "LSV4UV"
+  },
+  "coTraveller": "None",
+  "departureAirPort": "LHR",
+  "departureDateTime": "BA010310 Jul 2022 at 12:30",
+  "departureStatus": "DC",
+  "documentDetails": {
+    "expiryDate": "Expires 26 Apr 2023",
+    "issuedBy": "Issued by GB",
+    "passportNumber": "119039375 (GB)",
+    "validity": "Valid from 27 Apr 2018"
+  },
+  "flightArrivalTime": "arrival 3 hours before travel",
+  "flightName": "British Airways",
+  "flightNumber": "flight BA0103",
+  "passengerDetails": {
+    "baggageWeight": "46kg ",
+    "checkedBaggage": "3 checked bags, ",
+    "checkInTime": "Check-in 16:43, ",
+    "dateOfBirth": "10 Dec 1976, ",
+    "firstName": "BATZ STOUP, ",
+    "gender": "Male, ",
+    "lastName": "ZUES CARLO",
+    "nationality": "GB",
+    "SeatNumber": "seat 34A "
+  },
+  "passengerGroup": "Crew member",
+  "passengerType": "Crew DC",
+  "riskScore": "Risk Score: 0",
+  "route": "CDG → YYZ → YYC → LHR  "
+}
+

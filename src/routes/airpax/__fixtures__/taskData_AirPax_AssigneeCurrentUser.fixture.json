@@ -1,6 +1,6 @@
 {
   "id": "DEV-20220419-001",
-  "status": "NEW",
+  "status": "IN_PROGRESS",
   "assignee": "test",
   "relisted": false,
   "latestVersionNumber": 1,
@@ -80,7 +80,7 @@
     },
     "otherPersons": [],
     "flight": {
-      "departureStatus": "DC",
+      "departureStatus": "DEPARTURE_CONFIRMED",
       "number": "BA103",
       "operator": "BA",
       "seatNumber": null

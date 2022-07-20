@@ -1,11 +1,22 @@
-import React from 'react';
-import { buildVoyageSection, buildMovementInfoSection, buildTargetIndicatorsSection } from './TaskListSectionBuilder';
+import React, { useContext } from 'react';
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
-const TaskListCard = ({ targetTask, airlineCodes }) => {
+import { buildVoyageSection,
+  buildMovementInfoSection,
+  buildTargetIndicatorsSection,
+  buildTaskTitleSection } from './TaskListSectionBuilder';
+
+const TaskListCard = ({
+  targetTask,
+  taskStatus,
+  currentUser,
+}) => {
+  const { refDataAirlineCodes } = useContext(ApplicationContext);
   return (
     <div className="govuk-task-list-card">
       <div className="card-container">
-        {buildVoyageSection(targetTask, airlineCodes)}
+        {buildTaskTitleSection(targetTask, currentUser, taskStatus)}
+        {buildVoyageSection(targetTask, refDataAirlineCodes)}
         {buildMovementInfoSection(targetTask)}
         {buildTargetIndicatorsSection(targetTask)}
       </div>

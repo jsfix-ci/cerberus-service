@@ -1,22 +1,30 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import { ApplicationContext } from '../../../context/ApplicationContext';
+
 import TaskListCard from '../TaskLists/TaskListCard';
 import targetTask from '../__fixtures__/targetListData';
 
+import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
+
 describe('TaskListCard', () => {
-  const airlineCodesMin = [
-    {
-      name: 'British Airways',
-      twolettercode: 'BA',
-    },
-  ];
+  const MockApplicationContext = ({ children }) => (
+    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+      {children}
+    </ApplicationContext.Provider>
+  );
 
   it('should render the task list card for a target task', () => {
-    render(<TaskListCard targetTask={targetTask} airlineCodes={airlineCodesMin} />);
+    render(
+      <MockApplicationContext>
+        <TaskListCard targetTask={targetTask} />
+      </MockApplicationContext>,
+    );
+    expect(screen.getByText('DEV-20220419-001')).toBeInTheDocument();
     expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('DC')).toBeInTheDocument();
-    expect(screen.getByText('British Airways, flight BA103, arrival Unknown')).toBeInTheDocument();
+    expect(screen.getByText('British Airways, flight BA103, Unknown')).toBeInTheDocument();
     expect(screen.getByText('BA103')).toBeInTheDocument();
     expect(screen.getByText(/7 Aug 2020/)).toBeInTheDocument();
     expect(screen.getAllByText(/FRA/)).toHaveLength(2);
