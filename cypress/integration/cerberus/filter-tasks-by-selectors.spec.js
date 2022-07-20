@@ -254,6 +254,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   it('Should apply filter tasks by selectors present and check count on each of the tab', () => {
     // COP-9796 Apply selectors Present filter, compare the Count next to the Filter & count on the status Tab
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
@@ -278,6 +279,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   it('Should apply filter tasks by selectors Not Present and check count on each of the tab', () => {
     // COP-9796 Apply selectors Not Present filter, compare the Count next to the Filter & count on the status Tab
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
@@ -302,6 +304,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   it('Should apply filter tasks by selectors Any and check count on each of the tab', () => {
     // COP-9796 Apply selectors Not Present filter, compare the Count next to the Filter & count on the status Tab
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
