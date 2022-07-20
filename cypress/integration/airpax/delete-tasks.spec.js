@@ -10,29 +10,29 @@ describe('Delet tasks and verify it on UI', () => {
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       cy.createTargetingApiTask(task).then((taskResponse) => {
-          expect(taskResponse.movement.id).to.contain('AIRPAX');
-          let movementId = taskResponse.movement.id;
-          let businessKey = taskResponse.id;
-          cy.wait(4000);
-          cy.visit('/airpax/tasks');
-          cy.wait('@taskList').then(({ response }) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        let movementId = taskResponse.movement.id;
+        let businessKey = taskResponse.id;
+        cy.wait(4000);
+        cy.visit('/airpax/tasks');
+        cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
-          });
-          cy.get('.govuk-task-list-card').find('h4.task-heading')
-          .should('be.visible')
-          .invoke('text')
-          .then((text) => {
-            expect(text).to.include(businessKey);
-          });
-          cy.deleteTasks(movementId);
-          cy.reload();
-          cy.wait(3000);
-          cy.get('.govuk-task-list-card').find('h4.task-heading')
-          .should('be.visible')
-          .invoke('text')
-          .then((text) => {
-            expect(text).to.not.include(businessKey);
-          });
+        });
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          expect(text).to.include(businessKey);
+        });
+        cy.deleteTasks(movementId);
+        cy.reload();
+        cy.wait(3000);
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          expect(text).to.not.include(businessKey);
+        });
       });
     });
     });
@@ -79,29 +79,29 @@ describe('Delet tasks and verify it on UI', () => {
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}-${dateNowFormatted}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       cy.createTargetingApiTask(task).then((taskResponse) => {
-          expect(taskResponse.movement.id).to.contain('AUTOTEST');
-          let movementId = taskResponse.movement.id;
-          let businessKey = taskResponse.id;
-          cy.wait(4000);
-          cy.visit('/tasks');
-          cy.wait('@taskList').then(({ response }) => {
+        expect(taskResponse.movement.id).to.contain('AUTOTEST');
+        let movementId = taskResponse.movement.id;
+        let businessKey = taskResponse.id;
+        cy.wait(4000);
+        cy.visit('/tasks');
+        cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
-          });
-          cy.get('.govuk-task-list-card').find('h4.task-heading')
-          .should('be.visible')
-          .invoke('text')
-          .then((text) => {
-            expect(text).to.include(movementId);
-          });
-          cy.deleteTasks(movementId );
-          cy.reload();
-          cy.wait(3000);
-          cy.get('.govuk-task-list-card').find('h4.task-heading')
-          .should('be.visible')
-          .invoke('text')
-          .then((text) => {
-            expect(text).to.not.include(movementId);
-          });
+        });
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          expect(text).to.include(movementId);
+        });
+        cy.deleteTasks(movementId );
+        cy.reload();
+        cy.wait(3000);
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          expect(text).to.not.include(movementId);
+        });
       });
     });
   });
@@ -114,29 +114,29 @@ describe('Delet tasks and verify it on UI', () => {
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}-${dateNowFormatted}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       cy.createTargetingApiTask(task).then((taskResponse) => {
-          expect(taskResponse.movement.id).to.contain('AUTOTEST');
-          let movementId = taskResponse.movement.id;
-          let businessKey = taskResponse.id;
-          cy.wait(4000);
-          cy.visit('/tasks');
-          cy.wait('@taskList').then(({ response }) => {
+        expect(taskResponse.movement.id).to.contain('AUTOTEST');
+        let movementId = taskResponse.movement.id;
+        let businessKey = taskResponse.id;
+        cy.wait(4000);
+        cy.visit('/tasks');
+        cy.wait('@taskList').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
-          });
-          cy.get('.govuk-task-list-card').find('h4.task-heading')
-          .should('be.visible')
-          .invoke('text')
-          .then((text) => {
-            expect(text).to.include(movementId);
-          });
-          cy.deleteTasks(movementId );
-          cy.reload();
-          cy.wait(3000);
-          cy.get('.govuk-task-list-card').find('h4.task-heading')
-          .should('be.visible')
-          .invoke('text')
-          .then((text) => {
-            expect(text).to.not.include(`${taskName}-${dateNowFormatted}`);
-          });
+        });
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          expect(text).to.include(movementId);
+        });
+        cy.deleteTasks(movementId );
+        cy.reload();
+        cy.wait(3000);
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+        .should('be.visible')
+        .invoke('text')
+        .then((text) => {
+          expect(text).to.not.include(`${taskName}-${dateNowFormatted}`);
+        });
       });
     });
   });
