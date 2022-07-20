@@ -6,7 +6,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
   ];
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.acceptPNRTerms();
+    //cy.acceptPNRTerms();
     cy.navigation('Tasks');
   });
 

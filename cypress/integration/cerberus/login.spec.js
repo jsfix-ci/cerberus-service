@@ -1,7 +1,7 @@
 describe('Log-in to cerberus UI', () => {
   beforeEach(() => {
     cy.login('cypressuser-cerberus@lodev.xyz');
-    cy.acceptPNRTerms();
+    //cy.acceptPNRTerms();
   });
 
   it('Should Log-in Successfully into cerberus UI', () => {

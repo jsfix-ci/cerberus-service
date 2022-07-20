@@ -1,4 +1,4 @@
-describe('Airpax tasks archive functionality', () => {
+describe.skip('Airpax tasks archive functionality', () => {
   const userName = Cypress.env('userName');
   beforeEach(() => {
     cy.login(Cypress.env('userName'));

@@ -2,7 +2,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   let dateNowFormatted;
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.acceptPNRTerms();
+    //cy.acceptPNRTerms();
   });
 
   before(() => {

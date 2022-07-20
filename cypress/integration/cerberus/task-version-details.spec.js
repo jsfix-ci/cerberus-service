@@ -18,7 +18,7 @@ describe('Task Details of different tasks on task details Page', () => {
   let dateNowFormatted;
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    cy.acceptPNRTerms();
+    ////cy.acceptPNRTerms();
   });
 
   before(() => {
@@ -119,7 +119,7 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.contains('Sign out').click();
 
       cy.login(Cypress.env('userName'));
-      cy.acceptPNRTerms();
+      ////cy.acceptPNRTerms();
 
       cy.checkTaskDisplayed(targetURL);
 
@@ -490,7 +490,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.contains('Sign out').click();
 
     cy.login(Cypress.env('userName'));
-    cy.acceptPNRTerms();
+    //cy.acceptPNRTerms();
     cy.checkTaskDisplayed(businessKey);
 
     cy.wait(2000);

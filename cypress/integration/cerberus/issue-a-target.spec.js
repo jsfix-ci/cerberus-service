@@ -6,7 +6,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     date = new Date();
     dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
     cy.login(Cypress.env('userName'));
-    cy.acceptPNRTerms();
+    //cy.acceptPNRTerms();
   });
 
   it('Should a Issue a target from a RoRo-accompanied task and fields meant to autopopulate are visible in target information sheet', () => {
