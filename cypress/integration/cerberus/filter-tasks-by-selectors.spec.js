@@ -25,22 +25,22 @@ describe('Filter tasks by Selectors on task management Page', () => {
       'Both',
     ];
     let expectedFilterNames = [];
-      cy.get('a[href="#new"]').invoke('text').as('total-tasks').then((totalTargets) => {
-        cy.log('Total number of Targets', parseInt(totalTargets.match(/\d+/)[0], 10));
-      });
-      cy.wait(2000);
-      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
-      cy.get('.cop-filters-container').within(() => {
-        cy.get('h2.govuk-heading-s').should('have.text', 'Filters');
-        cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
-        cy.get('.govuk-radios__item [name="hasSelectors"]').next().each((element) => {
-          cy.wrap(element).invoke('text').then((value) => {
-            expectedFilterNames.push(value.substring(0, value.indexOf('(')).trim());
-          });
-        }).then(() => {
-          expect(expectedFilterNames).to.deep.equal(filterNames);
+    cy.get('a[href="#new"]').invoke('text').as('total-tasks').then((totalTargets) => {
+      cy.log('Total number of Targets', parseInt(totalTargets.match(/\d+/)[0], 10));
+    });
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
+    cy.get('.cop-filters-container').within(() => {
+      cy.get('h2.govuk-heading-s').should('have.text', 'Filters');
+      cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
+      cy.get('.govuk-radios__item [name="hasSelectors"]').next().each((element) => {
+        cy.wrap(element).invoke('text').then((value) => {
+          expectedFilterNames.push(value.substring(0, value.indexOf('(')).trim());
         });
+      }).then(() => {
+        expect(expectedFilterNames).to.deep.equal(filterNames);
       });
+    });
   });
 
   it('Should apply filter tasks by selectors on newly created tasks', () => {
@@ -48,7 +48,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
-    cy.wait(2000)
+    cy.wait(2000);
     cy.get('.govuk-radios__item [value=\'both\']').should('be.checked');
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
@@ -120,7 +120,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
-    cy.get('.govuk-radios__item [value=\'both\']').should('be.checked');;
+    cy.get('.govuk-radios__item [value=\'both\']').should('be.checked');
 
     // compare total number of expected and actual targets
     cy.get('a[href="#inProgress"]').invoke('text').then((totalTargets) => {
