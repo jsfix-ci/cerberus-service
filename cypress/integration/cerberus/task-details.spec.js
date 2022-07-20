@@ -357,7 +357,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should complete assessment of a task with a reason as take no further action', () => {
     const reasons = [
       'Credibility checks carried out no target required',
-      'False SBT',
+      'False BSM/selector match ',
       'Vessel arrived',
       'Other',
     ];
@@ -953,7 +953,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should send an update to an existing task with empty Co-traveller block', () => {
     const reasons = [
       'Credibility checks carried out no target required',
-      'False SBT',
+      'False BSM/selector match',
       'Vessel arrived',
       'Other',
     ];
@@ -1047,7 +1047,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.wait(4000);
         let businessKey = response.businessKey;
         cy.checkTaskDisplayed(businessKey);
-        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'Highest threat level is Tier 4');
         cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
       });
     });

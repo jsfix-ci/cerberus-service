@@ -54,4 +54,5 @@ cypress/fixtures/users
 mochawesome-report/
 axe.csv
 jsconfig.json
+cypress.json
 
