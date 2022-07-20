@@ -959,7 +959,7 @@ function getTaskSummary(businessKey) {
 }
 
 Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
-  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages')
+  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
   cy.wait('@pages').then(({ response }) => {
