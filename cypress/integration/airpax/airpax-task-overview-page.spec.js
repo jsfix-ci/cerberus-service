@@ -522,7 +522,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           issueTask.id = businessKey;
           issueTask.movement.id = movementId;
           issueTask.form.submittedBy = Cypress.env('userName');
-          cy.issueAirPaxTask(issueTask).then((issueTaskResponse) => {
+          cy.issueTarget(issueTask).then((issueTaskResponse) => {
             expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
             cy.wait(2000);

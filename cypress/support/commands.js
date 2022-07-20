@@ -407,6 +407,13 @@ Cypress.Commands.add('waitForNoErrors', () => {
   cy.get(formioErrorText).should('not.exist');
 });
 
+Cypress.Commands.add('clickChangeInTIS', (section) => {
+  cy.get('.govuk-summary-list__row').contains(section).siblings('.govuk-summary-list__actions').within(() => {
+    cy.get('.govuk-link').contains('Change').click({ force: true });
+  });
+  cy.wait(2000);
+});
+
 Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
   cy.get(`${formioComponent}textfield${formioComponent}${elementName} input`)
 
@@ -1918,7 +1925,7 @@ Cypress.Commands.add('createTargetingApiTask', (task) => {
   });
 });
 
-Cypress.Commands.add('issueAirPaxTask', (task) => {
+Cypress.Commands.add('issueTarget', (task) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/targets`,
@@ -2255,6 +2262,30 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('filterPageByAssignee', (filter) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: filter,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('filterJourneysByAssignee', (filter) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/journeys/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: filter,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
   });
 });
 
