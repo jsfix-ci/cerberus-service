@@ -1398,7 +1398,7 @@ Cypress.Commands.add('toVoyageText', (dateTime, isTaskDetails = false, prefix = 
 
 Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
   let payload;
-  if (modeName === null && selector !== 'any') {
+  if (modeName === null && selector !== 'both') {
     payload = [
       {
         'taskStatuses': [
@@ -1408,13 +1408,13 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
         'hasSelectors': selector,
       },
     ];
-  } else if (selector === 'any') {
+  } else if (selector === 'both') {
     payload = [
       {
         'taskStatuses': [
           statusTab,
         ],
-        'movementModes': [],
+        'movementModes': [modeName],
         'hasSelectors': null,
       },
     ];

@@ -1290,7 +1290,6 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-same-version_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.verifyTaskListInfo(`${businessKeys[0]}`, 'RORO_ACCOMPANIED_FREIGHT').then((taskListDetails) => {
-        console.log(taskListDetails);
         expect('Risk Score: 20').to.deep.equal(taskListDetails.riskScore);
       });
     });
