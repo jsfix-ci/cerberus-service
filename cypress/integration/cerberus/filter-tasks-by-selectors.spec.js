@@ -72,7 +72,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     // clear the filter
     cy.contains('Clear all filters').click();
 
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
@@ -116,7 +116,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     // clear the filter
     cy.contains('Clear all filters').click();
 
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
@@ -160,7 +160,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     // clear the filter
     cy.contains('Clear all filters').click();
 
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);
@@ -205,7 +205,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
     // clear the filter
     cy.contains('Clear all filters').click();
 
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
     cy.contains('Apply').click();
     cy.wait(2000);

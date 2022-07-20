@@ -1408,6 +1408,16 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
         'hasSelectors': selector,
       },
     ];
+  } else if (modeName === null && selector === 'both') {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': [],
+        'hasSelectors': null,
+      },
+    ];
   } else if (selector === 'both') {
     payload = [
       {
