@@ -2078,6 +2078,16 @@ Cypress.Commands.add('getArchivedTasks', () => {
   });
 });
 
+Cypress.Commands.add('deleteTasks', (movementId) => {
+  cy.request({
+    method: 'DELETE',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks?partial-movement-id=${movementId}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+  });
+});
+
 Cypress.Commands.add(('getairPaxTaskDetail'), (elements) => {
   const occupantArray = [];
   cy.wrap(elements).find('div').each(($detail) => {
