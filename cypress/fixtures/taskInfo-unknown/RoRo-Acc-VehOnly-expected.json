@@ -1,7 +1,7 @@
 {
   "taskListDetails": {
     "accountEnrichmentCount": "(4/1/0)",
-    "arrival": "arrival 2 years ago",
+    "arrival": "arrived 2 years ago",
     "arrivalDateTime": "4 Aug 2020 at 13:35",
     "arrivalPort": "unknown",
     "bookedDateTime": "Booked on 02/08/2020",
@@ -25,7 +25,7 @@
     "Ferry": "Brittany Ferries voyage of BARFLEUR",
     "Departure": "4 Aug 2020 at 13:05",
     "Arrival": "4 Aug 2020 at 13:35",
-    "Account": "Arrival 2 years ago"
+    "Account": "arrived 2 years ago"
   }
 }
 
