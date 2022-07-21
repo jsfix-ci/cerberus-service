@@ -644,7 +644,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it.skip('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
+  it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
     cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
@@ -1188,6 +1188,12 @@ describe('Task Details of different tasks on task details Page', () => {
             delete details.Indicator;
             expect(details).to.deep.equal(expectedDetails.TargetingIndicators.indicators);
           });
+        });
+      });
+
+      cy.contains('h3', 'Primary Traveller').nextAll().within((elements) => {
+        cy.getVehicleDetails(elements).then((details) => {
+          expect(details).to.deep.equal(expectedDetails['primary traveller']);
         });
       });
 

@@ -292,7 +292,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
   });
 
-  it.skip('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
+  it('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
     let actualTotalTargets = 0;
 
     cy.getTaskCount(null, 'both', 'NEW').then((numberOfTasks) => {

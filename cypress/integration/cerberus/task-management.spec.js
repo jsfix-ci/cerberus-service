@@ -491,10 +491,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it.skip('Should check empty task list fallback message on task management page', () => {
-    cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
-
+  it('Should check empty task list fallback message on task management page', () => {
+    cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
     cy.get('.govuk-radios__item [value="false"]')
       .click({ force: true });
 
