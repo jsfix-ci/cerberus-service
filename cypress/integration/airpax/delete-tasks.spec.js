@@ -128,7 +128,7 @@ describe('Delet tasks and verify it on UI', () => {
         .then((text) => {
           expect(text).to.include(movementId);
         });
-        cy.deleteTasks(movementId );
+        cy.deleteTasks(`${taskName}-${dateNowFormatted}`);
         cy.reload();
         cy.wait(3000);
         cy.get('.govuk-task-list-card').find('h4.task-heading')
