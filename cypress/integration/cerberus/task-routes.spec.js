@@ -15,7 +15,7 @@ describe('Targeter should be able to navigate to the different task routes', () 
     });
     cy.get('.govuk-tabs__panel').should('be.visible');
   });
-  it('Targeter should be able to navigate to /airpax/tasks and view task list', () => {
+  it.skip('Targeter should be able to navigate to /airpax/tasks and view task list', () => {
     cy.visit('/airpax/tasks');
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.equal('Task management (AirPax)');

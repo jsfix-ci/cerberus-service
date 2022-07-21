@@ -22,12 +22,11 @@
     "Check-in date and time": "4 Aug 2020 at 12:10, an hour before travel"
   },
   "TargetingIndicators": {
-    "Total Score": "80",
+    "Total Score": "50",
     "Total Indicators": "2",
     "indicators": {
-      "Paid by cash": "30",
-      "Empty trailer for round trip": "30",
-      "Empty vehicle": "20"
+      "UK port hop inbound": "20",
+      "First use of account (Driver)": "30"
     }
   }
 }
