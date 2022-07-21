@@ -12,7 +12,7 @@ describe('Targeter to see how long before a task is due to arrive So that Target
       cy.contains(`${businessKeys[0]}`);
     });
 
-    cy.verifyBookingDateTime('1 Mar 2021 at 15:50, a month before travel');
+    cy.verifyBookingDateTime('2 Aug 2020 at 09:15, a year before travel');
   });
 
   it('Should verify Difference between Departure and booking date is a year before travel', () => {
