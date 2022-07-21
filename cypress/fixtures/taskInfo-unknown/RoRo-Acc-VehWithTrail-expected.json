@@ -2,11 +2,12 @@
   "taskListDetails": {
     "rules": "Class A Drugs and 0 other rules",
     "voyage": "Brittany Ferries voyage of BARFLEUR",
-    "arrival": "arrival 2 years ago",
+    "arrival": "arrived 2 years ago",
     "departurePort": "unknown",
     "departureDateTime": "4 Aug 2020 at 13:05",
     "arrivalPort": "unknown",
     "arrivalDateTime": "4 Aug 2020 at 13:35",
+    "driverFirstName": "Unknown",
     "vehicleEnrichmentCount": "(-/-/-)",
     "vehicleRegistration": "0 trips",
     "passengerDetails": "None",
@@ -18,14 +19,13 @@
     "goods": "Unknown",
     "trailerRegistration": "NL-234-392",
     "trailerTrips": "0 trips",
-    "riskScore": "Risk Score: 0",
-    "driverFirstName": "Unknown"
-  },
+    "riskScore": "Risk Score: 0"
+},
   "taskSummary": {
     "vehicle": "TrailerNL-234-392",
     "Ferry": "Brittany Ferries voyage of BARFLEUR",
     "Departure": "4 Aug 2020 at 13:05",
     "Arrival": "4 Aug 2020 at 13:35",
-    "Account": "Arrival 2 years ago"
+    "Account": "arrived 2 years ago"
   }
 }

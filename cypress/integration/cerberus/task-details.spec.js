@@ -10,13 +10,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should navigate to task details page', () => {
-    cy.get('.govuk-radios__item [value=\'true\']')
-      .click({ force: true });
-
-    cy.contains('Apply filters').click();
-
-    cy.wait(2000);
-
     cy.get('h4.task-heading').eq(0).invoke('text').then((text) => {
       cy.get('.govuk-task-list-card a').eq(0).click();
       cy.get('.govuk-caption-xl').invoke('text').then((taskTitle) => {
@@ -59,11 +52,11 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.wait(2000);
 
-    cy.get('.formio-component-note textarea')
+    cy.get('.govuk-textarea')
       .should('be.visible')
       .type(`${taskNotes} {enter} text after enter button`, { force: true });
 
-    cy.get('.formio-component-submit button').click('top');
+    cy.get('.hods-button').contains('Save').click();
 
     cy.wait('@notes').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
@@ -99,7 +92,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
     cy.get('.govuk-heading-xl').should('have.text', 'Overview');
 
-    cy.get('.formio-component-note textarea').should('not.exist');
+    cy.get('.govuk-textarea').should('not.exist');
   });
 
   it('Should hide Claim/UnClaim button for the tasks assigned to others', () => {
@@ -364,7 +357,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should complete assessment of a task with a reason as take no further action', () => {
     const reasons = [
       'Credibility checks carried out no target required',
-      'False BSM/selector match',
+      'False SBT',
       'Vessel arrived',
       'Other',
     ];
@@ -640,6 +633,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
                 expect(taskListDetails).to.deep.equal(expTestData.taskListDetails);
               });
             });
+            cy.wait(2000);
             cy.checkTaskDisplayed(`${response.businessKey}`);
           });
       });
@@ -687,6 +681,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
+            cy.wait(2000);
             cy.checkTaskDisplayed(`${response.businessKey}`);
           });
       });
@@ -717,10 +712,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
               cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
-                console.log(taskListDetails);
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
+            cy.wait(2000);
             cy.checkTaskDisplayed(`${response.businessKey}`);
             cy.get('@expTestData').then((expectedData) => {
               cy.verifyTaskDetailAllSections(expectedData.versions[0], 1);
@@ -773,11 +768,10 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       cy.wait('@tasks').then(({ response }) => {
         expect(response.statusCode).to.equal(200);
       });
+      cy.wait(2000);
+      cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
 
-      cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
-        .click({ force: true });
-
-      cy.contains('Apply filters').click();
+      cy.contains('Apply').click();
 
       cy.get('@taskName').then((text) => {
         const nextPage = 'a[data-test="next"]';
@@ -959,7 +953,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   it('Should send an update to an existing task with empty Co-traveller block', () => {
     const reasons = [
       'Credibility checks carried out no target required',
-      'False BSM/selector match',
+      'False SBT',
       'Vessel arrived',
       'Other',
     ];
