@@ -48,7 +48,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     });
   });
 
-  it('Display Vehicle and Vessel Icons for Tourist task with Passengers task', () => {
+  it.skip('Display Vehicle and Vessel Icons for Tourist task with Passengers task', () => {
     cy.visit('/tasks');
     cy.wait(2000);
     cy.get('select').select('RORO_TOURIST');

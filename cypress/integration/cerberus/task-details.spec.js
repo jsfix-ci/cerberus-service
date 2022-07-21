@@ -654,7 +654,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
-              cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`, mode, null).then((taskListDetails) => {
                 expect(taskListDetails).to.deep.equal(expTestData.taskListDetails);
               });
             });
@@ -702,7 +702,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
-              cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`, mode, null).then((taskListDetails) => {
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });
@@ -736,7 +736,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
           .then((response) => {
             cy.wait(4000);
             cy.get('@expTestData').then((expTestData) => {
-              cy.verifyTaskListInfo(`${response.businessKey}`, mode).then((taskListDetails) => {
+              cy.verifyTaskListInfo(`${response.businessKey}`, mode, null).then((taskListDetails) => {
                 expect(expTestData.taskListDetails).to.deep.equal(taskListDetails);
               });
             });

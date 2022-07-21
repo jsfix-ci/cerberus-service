@@ -958,7 +958,7 @@ function getTaskSummary(businessKey) {
     });
 }
 
-Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
+Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode, selector) => {
   cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
@@ -966,10 +966,14 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
     expect(response.statusCode).to.equal(200);
     cy.wait(2000);
     cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
-
-    cy.wait(1000);
-
-    cy.contains('Apply').click();
+    if (selector !== null) {
+      cy.get(`.govuk-radios__item [value=${selector}]`).check();
+      cy.wait(1000);
+      cy.contains('Apply').click();
+    } else {
+      cy.wait(1000);
+      cy.contains('Apply').click();
+    }
   });
   cy.wait(2000);
   cy.get('body').then(($el) => {

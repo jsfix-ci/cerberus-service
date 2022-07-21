@@ -9,17 +9,17 @@
     "Travel document expiry": "29/10/2023"
   },
   "Booking-and-check-in": {
-    "Reference": "99990005",
-    "Ticket number": "TIC-998765421",
-    "Type": "Online",
-    "Name": "Jim Booker",
-    "Address": "9525 Springfield Road DERBY DE90 6MQ",
-    "Booking date and time": "2 Aug 2020 at 09:20, 2 days before travel",
+    "Reference": "AB555412781",
+    "Ticket number": "1234567",
+    "Type": "R",
+    "Name": "Unknown",
+    "Address": "Unknown",
+    "Booking date and time": "2 Aug 2020 at 15:50, 5 days before travel",
     "Country": "United Kingdom (GB)",
-    "Payment method": "Account",
-    "Ticket price": "£59.99",
+    "Payment method": "CQ",
+    "Ticket price": "Unknown",
     "Ticket type": "Return",
-    "Check-in date and time": "4 Aug 2020 at 12:10, an hour before travel"
+    "Check-in date and time": "Unknown"
   },
   "TargetingIndicators": {
     "Total Score": "50",
