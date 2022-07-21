@@ -1,0 +1,27 @@
+{
+  "env": {
+    "targetingApiUrl": "localhost:9443",
+    "userName": "cypressuser-cerberus@lodev.xyz"
+  },
+  "defaultCommandTimeout": 10000,
+  "requestTimeout": 60000,
+  "responseTimeout": 60000,
+  "execTimeout": 120000,
+  "pageLoadTimeout": 600000,
+  "chromeWebSecurity": false,
+  "testFiles": "**/*/*.spec.js",
+  "video": false,
+  "watchForFileChanges": false,
+  "reporter": "mochawesome",
+  "reporterOptions": {
+    "reportDir": "mochawesome-report",
+    "html": false,
+    "json": true,
+    "code": false,
+    "overwrite": false,
+    "reportTitle": "cerberus-tests",
+    "reportFilename": "[name]"
+  },
+  "screenshotsFolder": "mochawesome-report/assets",
+  "baseUrl": "https://www.dev.cerberus.cop.homeoffice.gov.uk"
+}

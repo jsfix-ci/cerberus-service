@@ -20,12 +20,20 @@ setVariables()
     REPORT_TIME=$(date +%H%M%S)
     S3_BUCKET_LOCATION="s3://${S3_BUCKET_NAME}/test-reports"
     S3_TEST_REPORT="${AUTH_REALM}/cerberus-tests/${REPORT_DATE}/${JOB_NAME}/${REPORT_TIME}"
+    S3_REPORT_JSON="${AUTH_REALM}/cerberus-tests/${REPORT_DATE}/reports-json"
+}
+
+uploadReportJson()
+{
+    s3cmd --region=eu-west-2 --access_key=${S3_ACCESS_KEY} --secret_key=${S3_SECRET_KEY} put --recursive mochawesome-report/*.json ${S3_BUCKET_LOCATION}/${S3_REPORT_JSON}/ --no-mime-magic --guess-mime-type
+    REPORT_UPLOAD_JSON_STATUS=$?
+
+    echo "######## REPORT UPLOAD JSON STATUS : $REPORT_UPLOAD_JSON_STATUS #######"
 }
 
 uploadReport()
 {
     s3cmd --region=eu-west-2 --access_key=${S3_ACCESS_KEY} --secret_key=${S3_SECRET_KEY} put --recursive mochawesome-report/ ${S3_BUCKET_LOCATION}/${S3_TEST_REPORT}/ --no-mime-magic --guess-mime-type
-
     REPORT_UPLOAD_STATUS=$?
 
     echo "######## REPORT UPLOAD STATUS : $REPORT_UPLOAD_STATUS #######"
@@ -83,11 +91,31 @@ checkFailTest(){
     fi
 }
 
+downloadReportsJson() {
+  rm -rf cypress/report-json
+  mkdir -p cypress/report-json
+  s3cmd --region=eu-west-2 --access_key=${S3_ACCESS_KEY} --secret_key=${S3_SECRET_KEY} get --recursive ${S3_BUCKET_LOCATION}/${S3_REPORT_JSON}/ cypress/report-json/ --no-mime-magic --guess-mime-type
+
+  DOWNLOAD_REPORT_JSON_STATUS=$?
+  echo "######## DOWNLOAD_REPORT_JSON_STATUS : $DOWNLOAD_REPORT_JSON_STATUS #######"
+}
+
+generateConsolidatedReport() {
+  node cypress_mochawesome_report.js
+
+  GENERATE_CONSOLIDATED_REPORT_STATUS=$?
+  echo "######## GENERATE CONSOLIDATED REPORT STATUS : $GENERATE_CONSOLIDATED_REPORT_STATUS #######"
+}
+
 getSecrets
 setVariables
 runTestsAndGenerateReport
+uploadReportJson
+downloadReportsJson
+generateConsolidatedReport
 uploadReport
 createReportUrl
 createSlackMessage
 sendSlackMessage
 checkFailTest
+
