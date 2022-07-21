@@ -491,7 +491,8 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it('Should check empty task list fallback message on task management page', () => {
+  it.skip('Should check empty task list fallback message on task management page', () => {
+    // There are no empty tabs in staging
     cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
     cy.get('.govuk-radios__item [value="false"]')
       .click({ force: true });

@@ -1,7 +1,11 @@
 describe('Render tasks from Camunda and manage them on task details Page', () => {
   let dateNowFormatted;
+  let date;
+  let etaDateTimeHintText = 'Please note, the date and time displayed here is in local time not UTC time';
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
+    date = new Date();
+    dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
     //cy.acceptPNRTerms();
   });
 
@@ -575,10 +579,28 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should Unclaim a task Successfully from In Progress tab and verify it moved to New tab', () => {
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
     cy.intercept('POST', '/camunda/engine-rest/task/*/unclaim').as('unclaim');
 
-    cy.getTasksAssignedToMe().then((tasks) => {
-      cy.navigateToTaskDetailsPage(tasks);
+    cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+        });
+      });
+    });
+
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
     });
 
     cy.get('.govuk-caption-xl').invoke('text').as('taskName');
@@ -592,7 +614,11 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     cy.wait(2000);
 
     cy.url().should('contain', '/tasks?tab=new');
-
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+    cy.get('.govuk-radios__item [value=\'true\']').check();
+    cy.contains('Apply').click({ force: true });
+    cy.wait(2000);
     cy.get('@taskName').then((text) => {
       const nextPage = 'a[data-test="next"]';
       if (Cypress.$(nextPage).length > 0) {

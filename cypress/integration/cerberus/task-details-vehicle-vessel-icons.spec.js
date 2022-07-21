@@ -4,12 +4,13 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     //cy.acceptPNRTerms();
   });
 
-  it.skip('Display Vehicle and Vessel Icons for Accompanied-Freight task', () => {
+  it('Display Vehicle and Vessel Icons for Accompanied-Freight task', () => {
     cy.createCerberusTask('tasks-hazardous-cargo.json', 'HAZARDOUS').then(() => {
       cy.get('span.govuk-caption-xl').invoke('text').then((businessKey) => {
         cy.visit('/tasks');
         cy.wait(3000);
         cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+        cy.get('.govuk-radios__item [value=\'true\']').check();
         cy.contains('Apply').click();
 
         cy.wait(2000);
@@ -23,7 +24,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     cy.visit('/tasks');
     cy.wait(3000);
     cy.get('select').select('RORO_TOURIST');
-
+    cy.get('.govuk-radios__item [value=\'false\']').check();
     cy.contains('Apply').click();
 
     cy.wait(2000);
@@ -37,7 +38,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     cy.visit('/tasks');
     cy.wait(3000);
     cy.get('select').select('RORO_TOURIST');
-
+    cy.get('.govuk-radios__item [value=\'true\']').check();
     cy.contains('Apply').click();
 
     cy.wait(2000);
@@ -49,7 +50,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
 
   it('Display Vehicle and Vessel Icons for Tourist task with Passengers task', () => {
     cy.visit('/tasks');
-    cy.wait(3000);
+    cy.wait(2000);
     cy.get('select').select('RORO_TOURIST');
 
     cy.contains('Apply').click();
@@ -65,7 +66,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     cy.visit('/tasks');
     cy.wait(3000);
     cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
-
+    cy.get('.govuk-radios__item [value=\'true\']').check();
     cy.contains('Apply').click();
 
     cy.wait(2000);
@@ -79,6 +80,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     cy.visit('/tasks');
     cy.wait(3000);
     cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
+    cy.get('.govuk-radios__item [value=\'true\']').check();
 
     cy.contains('Apply').click();
 

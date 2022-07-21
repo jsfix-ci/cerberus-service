@@ -88,6 +88,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.get('a[href="#inProgress"]').click();
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
+      cy.wait(2000);
       // COP-5715 Apply each pre-arrival filter, compare the expected number of targets
       filterOptions.forEach((mode) => {
         cy.applyModesFilter(mode, 'inProgress').then((actualTargets) => {
@@ -242,9 +243,9 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-9191 Apply each pre-arrival filter, compare the expected number of targets
     cy.wait(2000);
-    cy.applyModesFilter('RORO_UNACCOMPANIED_FREIGHT', 'new').then(() => {
+    cy.applyModesFilter('RORO_ACCOMPANIED_FREIGHT', 'new').then(() => {
       cy.applySelectorFilter('true', 'new').then((actualTargets) => {
-        cy.getTaskCount('RORO_UNACCOMPANIED_FREIGHT', 'true', 'NEW').then((FilterExpectedTargets) => {
+        cy.getTaskCount('RORO_ACCOMPANIED_FREIGHT', 'true', 'NEW').then((FilterExpectedTargets) => {
           expect(FilterExpectedTargets.new).be.equal(actualTargets);
         });
       });
@@ -272,9 +273,9 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
     // COP-9191 Apply each pre-arrival filter, compare the expected number of targets
     cy.wait(2000);
-    cy.applyModesFilter('RORO_UNACCOMPANIED_FREIGHT', 'inProgress').then(() => {
+    cy.applyModesFilter('RORO_ACCOMPANIED_FREIGHT', 'inProgress').then(() => {
       cy.applySelectorFilter('false', 'inProgress').then((actualTargets) => {
-        cy.getTaskCount('RORO_UNACCOMPANIED_FREIGHT', 'false', 'IN_PROGRESS').then((FilterExpectedTargets) => {
+        cy.getTaskCount('RORO_ACCOMPANIED_FREIGHT', 'false', 'IN_PROGRESS').then((FilterExpectedTargets) => {
           expect(FilterExpectedTargets.inProgress).be.equal(actualTargets);
         });
       });
@@ -294,21 +295,24 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
     let actualTotalTargets = 0;
-
-    cy.getTaskCount(null, 'both', 'NEW').then((numberOfTasks) => {
-      actualTotalTargets = numberOfTasks.new;
-    });
-
+    cy.wait(2000);
     // COP-9210 select pre-arrival filter modes, but don't click on apply
-    cy.get('.cop-filters-container').within(() => {
-      cy.get('.govuk-select option').each((element) => {
-        cy.wrap(element).click();
+    filterOptions.forEach((mode) => {
+      cy.getTaskCount(mode, 'both', 'NEW').then((numberOfTasks) => {
+        actualTotalTargets = numberOfTasks.new;
       });
-    });
-    // compare total number of expected and actual targets
-    cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
-      totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
-      expect(totalTargets).be.equal(actualTotalTargets);
+      cy.applyModesFilter(mode, 'new').then(() => {
+        cy.get('.cop-filters-container').within(() => {
+          cy.get('.govuk-radios__input').each((element) => {
+            cy.wrap(element).click();
+          });
+        });
+        // compare total number of expected and actual targets
+        cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
+          totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
+          expect(totalTargets).be.equal(actualTotalTargets);
+        });
+      });
     });
   });
 
