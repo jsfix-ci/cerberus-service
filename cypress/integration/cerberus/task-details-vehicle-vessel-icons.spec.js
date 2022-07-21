@@ -1,7 +1,7 @@
 describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
-    //cy.acceptPNRTerms();
+    // cy.acceptPNRTerms();
   });
 
   it('Display Vehicle and Vessel Icons for Accompanied-Freight task', () => {

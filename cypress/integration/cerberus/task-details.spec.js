@@ -1,12 +1,11 @@
 describe('Render tasks from Camunda and manage them on task details Page', () => {
   let dateNowFormatted;
   let date;
-  let etaDateTimeHintText = 'Please note, the date and time displayed here is in local time not UTC time';
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     date = new Date();
     dateNowFormatted = Cypress.dayjs(date).format('DD-MM-YYYY');
-    //cy.acceptPNRTerms();
+    // cy.acceptPNRTerms();
   });
 
   before(() => {
@@ -852,7 +851,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should verify the selector matches with same group reference', () => {
-    let date = new Date();
+    // let date = new Date();
     cy.fixture('/tasks-with-rules-selectors/RoRo-task-selectors-same-group-reference.json').then((task) => {
       date.setDate(date.getDate() + 8);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
@@ -889,7 +888,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
   });
 
   it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
-    let date = new Date();
     date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-selectors-group-reference-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
@@ -1065,7 +1063,6 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
 
   it('Should verify Matched Rules with rule name Selector Matched Rule not visible on task details page', () => {
     cy.fixture('task-roro-selectors-selector-matched-rule.json').then((task) => {
-      let date = new Date();
       let formattedDate = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
       let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
