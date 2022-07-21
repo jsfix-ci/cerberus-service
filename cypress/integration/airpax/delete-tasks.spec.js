@@ -35,7 +35,8 @@ describe('Delet tasks and verify it on UI', () => {
         });
       });
     });
-    });
+  });
+  
   it('Should delete an airpax task with partial movementId verify it is not present', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     let date = new Date();
