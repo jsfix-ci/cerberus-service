@@ -969,10 +969,10 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode, selector) => {
     if (selector !== null) {
       cy.get(`.govuk-radios__item [value=${selector}]`).check();
       cy.wait(1000);
-      cy.contains('Apply').click();
+      cy.contains('Apply').click({ force: true });
     } else {
       cy.wait(1000);
-      cy.contains('Apply').click();
+      cy.contains('Apply').click({ force: true });
     }
   });
   cy.wait(2000);

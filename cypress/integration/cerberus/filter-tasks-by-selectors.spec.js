@@ -311,9 +311,10 @@ describe('Filter tasks by Selectors on task management Page', () => {
     cy.applySelectorFilter('both', 'new').then(() => {
       Object.keys(statusTab).forEach((key) => {
         cy.get(`a[href="#${key}"]`).click();
+        cy.wait(2000);
         cy.getTaskCount('RORO_ACCOMPANIED_FREIGHT', 'both', statusTab[key]).then((numberOfTasks) => {
           // COP-9796 Number of tasks per selector filter on each of the status tab
-          cy.wait(1000);
+          cy.wait(2000);
           cy.get('.govuk-radios__item label').eq(2).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
             expect(targets).be.equal(numberOfTasks[key]);
