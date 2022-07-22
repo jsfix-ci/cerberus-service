@@ -110,6 +110,11 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           <div
             className="font__light"
           >
+            Unknown
+          </div>
+          <div
+            className="font__light"
+          >
             Issued by 
             Unknown
           </div>
@@ -181,6 +186,11 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           <div
             className="font__light"
           >
+            Unknown
+          </div>
+          <div
+            className="font__light"
+          >
             Issued by 
             Unknown
           </div>
@@ -246,6 +256,11 @@ exports[`CoTraveller should render the co-traveller component 1`] = `
           </span>
           <div
             className="font__bold"
+          >
+            Unknown
+          </div>
+          <div
+            className="font__light"
           >
             Unknown
           </div>
