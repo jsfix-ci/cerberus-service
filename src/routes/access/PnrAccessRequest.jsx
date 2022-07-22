@@ -41,6 +41,9 @@ const PnrAccessRequest = ({ children }) => {
   };
 
   const shouldRequestPnrAccess = () => {
+    if (!config.copTargetingApiEnabled) {
+      return false;
+    }
     if (!hasStoredUserSession()) {
       return true;
     }

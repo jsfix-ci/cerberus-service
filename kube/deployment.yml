@@ -75,6 +75,27 @@ spec:
         volumeMounts:
           - name: certs
             mountPath: /certs
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
       - name: {{.CERBERUS_UI_NAME}}
         image: {{.CERBERUS_UI_IMAGE}}:{{.CERBERUS_UI_TAG}}
         imagePullPolicy: Always
@@ -88,16 +109,24 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /tasks
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - wget -O - localhost:8080/camunda/engine-rest 2>&1| grep "HTTP/1.1 401"
+          httpGet:
+            path: /tasks
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
-        env:
+        env:            
           - name: KEYCLOAK_AUTH_URL
             value: "https://{{.KEYCLOAK_AUTH_URL}}"
           - name: KEYCLOAK_CLIENT_ID
@@ -118,8 +147,10 @@ spec:
             value: "{{.COP_TARGETING_API_NAMESPACE}}"
           - name: COP_TARGETING_API_SERVICE_NAME
             value: "{{.COP_TARGETING_API_SERVICE_NAME}}"
-          - name: TARGETING_API_URL
+          - name: COP_TARGETING_API_URL
             value: "https://$(COP_TARGETING_API_SERVICE_NAME).$(COP_TARGETING_API_NAMESPACE)"
+          - name: COP_TARGETING_API_ENABLED
+            value: "{{.COP_TARGETING_API_ENABLED}}"
       volumes:
       - name: certs
         secret:

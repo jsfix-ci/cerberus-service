@@ -407,6 +407,13 @@ Cypress.Commands.add('waitForNoErrors', () => {
   cy.get(formioErrorText).should('not.exist');
 });
 
+Cypress.Commands.add('clickChangeInTIS', (section) => {
+  cy.get('.govuk-summary-list__row').contains(section).siblings('.govuk-summary-list__actions').within(() => {
+    cy.get('.govuk-link').contains('Change').click({ force: true });
+  });
+  cy.wait(2000);
+});
+
 Cypress.Commands.add('typeValueInTextField', (elementName, value) => {
   cy.get(`${formioComponent}textfield${formioComponent}${elementName} input`)
 
@@ -952,17 +959,18 @@ function getTaskSummary(businessKey) {
 }
 
 Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
+  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
+  cy.wait('@pages').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+    cy.wait(2000);
+    cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
 
-  cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
-    .click({ force: true });
+    cy.wait(1000);
 
-  cy.contains('Clear all filters').click();
-
-  cy.wait(1000);
-
-  cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
+  });
   cy.wait(2000);
   cy.get('body').then(($el) => {
     if ($el.find(nextPage).length > 0) {
@@ -1390,7 +1398,7 @@ Cypress.Commands.add('toVoyageText', (dateTime, isTaskDetails = false, prefix = 
 
 Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
   let payload;
-  if (modeName === null && selector !== 'any') {
+  if (modeName === null && selector !== 'both') {
     payload = [
       {
         'taskStatuses': [
@@ -1400,13 +1408,23 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
         'hasSelectors': selector,
       },
     ];
-  } else if (selector === 'any') {
+  } else if (modeName === null && selector === 'both') {
     payload = [
       {
         'taskStatuses': [
           statusTab,
         ],
         'movementModes': [],
+        'hasSelectors': null,
+      },
+    ];
+  } else if (selector === 'both') {
+    payload = [
+      {
+        'taskStatuses': [
+          statusTab,
+        ],
+        'movementModes': [modeName],
         'hasSelectors': null,
       },
     ];
@@ -1501,20 +1519,22 @@ Cypress.Commands.add('getAirPaxTaskCount', (modeName, selector, statusTab) => {
 });
 
 Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
+  cy.intercept('POST', '/camunda/v1/targeting-tasks/status-counts').as('counts');
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
-      cy.get(`.govuk-checkboxes [value=${option}]`)
-        .click({ force: true });
+      cy.get('select').select(option).should('have.value', option);
     });
   } else {
-    cy.get(`.govuk-checkboxes [value=${filterOptions}]`)
-      .click({ force: true });
+    cy.get('select').select(filterOptions).should('have.value', filterOptions);
   }
 
-  cy.contains('Apply filters').click();
-  cy.wait(2000);
-  cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
-    return parseInt(targets.match(/\d+/)[0], 10);
+  cy.contains('Apply').click();
+  cy.wait('@counts').then(({ response }) => {
+    expect(response.statusCode).to.equal(200);
+    cy.wait(3000);
+    cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
+      return parseInt(targets.match(/\d+/)[0], 10);
+    });
   });
 });
 
@@ -1834,10 +1854,9 @@ Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskRespons
 
   cy.wait(2000);
 
-  cy.get(`.govuk-checkboxes [value="${filterValue}"]`)
-    .click({ force: true });
+  cy.get('select').select(filterValue).should('have.value', filterValue);
 
-  cy.contains('Apply filters').click({ force: true });
+  cy.contains('Apply').click({ force: true });
 
   cy.wait(2000);
 
@@ -1918,7 +1937,7 @@ Cypress.Commands.add('createTargetingApiTask', (task) => {
   });
 });
 
-Cypress.Commands.add('issueAirPaxTask', (task) => {
+Cypress.Commands.add('issueTarget', (task) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/targets`,
@@ -2001,6 +2020,7 @@ Cypress.Commands.add('getInformationSheet', (taskId) => {
     url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/information-sheets`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
+    expect(response.status).to.eq(200);
     return response.body;
   });
 });
@@ -2055,6 +2075,16 @@ Cypress.Commands.add('getArchivedTasks', () => {
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     return response.body;
+  });
+});
+
+Cypress.Commands.add('deleteTasks', (movementId) => {
+  cy.request({
+    method: 'DELETE',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks?partial-movement-id=${movementId}`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
   });
 });
 
@@ -2255,6 +2285,30 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('filterPageByAssignee', (filter) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: filter,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
+  });
+});
+
+Cypress.Commands.add('filterJourneysByAssignee', (filter) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targets/journeys/pages`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: filter,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    return response.body;
   });
 });
 
