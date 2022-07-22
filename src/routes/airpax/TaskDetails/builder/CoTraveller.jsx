@@ -32,6 +32,7 @@ const toDocumentColumnContent = (person) => {
   return (
     <>
       <div className="font__bold">{DocumentUtil.docType(document)}</div>
+      <div className="font__light">{DocumentUtil.docNumber(document)}</div>
       <div className="font__light">Issued by {DocumentUtil.docCountryCode(document)}</div>
     </>
   );
