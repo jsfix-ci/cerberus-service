@@ -16,7 +16,7 @@ const argv = yargs.options({
   spec: {
     alias: 's',
     describe: 'run test with specific spec file',
-    default: 'cypress/integration/cerberus/*.js',
+    default: 'cypress/integration/cerberus/*.spec.js',
   },
   cerberusServiceUrl: {
     alias: 'c',
