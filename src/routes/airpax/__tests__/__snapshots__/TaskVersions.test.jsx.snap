@@ -1160,6 +1160,11 @@ exports[`TaskVersions should render task versions 1`] = `
                       <div
                         className="font__light"
                       >
+                        Unknown
+                      </div>
+                      <div
+                        className="font__light"
+                      >
                         Issued by 
                         Unknown
                       </div>
@@ -1231,6 +1236,11 @@ exports[`TaskVersions should render task versions 1`] = `
                       <div
                         className="font__light"
                       >
+                        Unknown
+                      </div>
+                      <div
+                        className="font__light"
+                      >
                         Issued by 
                         Unknown
                       </div>
@@ -1296,6 +1306,11 @@ exports[`TaskVersions should render task versions 1`] = `
                       </span>
                       <div
                         className="font__bold"
+                      >
+                        Unknown
+                      </div>
+                      <div
+                        className="font__light"
                       >
                         Unknown
                       </div>
