@@ -7,6 +7,7 @@ import tisSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionDa
 
 describe('Target Information Sheet', () => {
   let PREFILL_DATA = {};
+  const TEST_KEY = 'test-key';
 
   beforeEach(() => {
     PREFILL_DATA = {
@@ -101,5 +102,27 @@ describe('Target Information Sheet', () => {
     const prefillFormData = TargetInformationUtil.convertToPrefill(targetPrefillData);
 
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
+  });
+
+  it('should store to local storage', () => {
+    const GIVEN = { alpha: 'alpha', bravo: 'bravo' };
+    TargetInformationUtil.cache.store(TEST_KEY, GIVEN);
+    expect(localStorage.getItem(TEST_KEY)).not.toBeNull();
+  });
+
+  it('should retrieve stored data', () => {
+    const GIVEN = { alpha: 'alpha', bravo: 'bravo' };
+    TargetInformationUtil.cache.store(TEST_KEY, GIVEN);
+    expect(TargetInformationUtil.cache.get(TEST_KEY)).toMatchObject(GIVEN);
+  });
+
+  it('should remove stored data', () => {
+    const GIVEN = { alpha: 'alpha', bravo: 'bravo' };
+    TargetInformationUtil.cache.store(TEST_KEY, GIVEN);
+
+    expect(TargetInformationUtil.cache.get(TEST_KEY)).toMatchObject(GIVEN);
+
+    TargetInformationUtil.cache.remove(TEST_KEY);
+    expect(localStorage.getItem(TEST_KEY)).toBeNull();
   });
 });
