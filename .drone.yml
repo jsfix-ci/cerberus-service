@@ -8,7 +8,7 @@ platform:
   arch: amd64
 
 steps:
-- name: synch_dev_secrets
+- name: sync_dev_secrets
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/cop-secrets
   environment:
@@ -27,7 +27,7 @@ steps:
     target:
     - dev_secrets
 
-- name: synch_sit_secrets
+- name: sync_sit_secrets
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/cop-secrets
   environment:
@@ -46,7 +46,7 @@ steps:
     target:
     - sit_secrets
 
-- name: synch_staging_secrets
+- name: sync_staging_secrets
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/cop-secrets
   environment:
@@ -65,7 +65,7 @@ steps:
     target:
     - staging_secrets
 
-- name: synch_production_secrets
+- name: sync_production_secrets
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/cop-secrets
   environment:
