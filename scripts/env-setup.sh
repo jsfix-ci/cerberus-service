@@ -30,7 +30,7 @@ do
       echo "export $varName=$varValue" >> .env
   fi
 
-done < <(kubectl --context=$context --namespace=$namespace get secret $secretName -o yaml | awk 'BEGIN {FS=": ";output=0} {  if ($0 ~ /^kind*/) { output=0 }; if (output) { varName=toupper($1); gsub(/\./, "_", varName); printf " %s:%s\n", varName, $2  }; if ($0 == "data:") { output=1} ;  }')
+done < <(kubectl --context=$context --namespace=$namespace get secret $secretName -o yaml | awk 'BEGIN {FS=": ";output=0} {  if ($0 ~ /^kind*/) { output=0 }; if (output) { varName=$1; gsub(/\./, "_", varName); printf " %s:%s\n", varName, $2  }; if ($0 == "data:") { output=1} ;  }')
 
 mkdir -p cypress/fixtures/users
 source .env
