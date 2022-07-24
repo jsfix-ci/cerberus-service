@@ -182,42 +182,42 @@ steps:
   - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
   - kd --insecure-skip-tls-verify -f kube/ingress.yml
   environment:
+    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_URL:
+      from_secret: DEV_CERBERUS_UI_SERVICE_URL
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: DEV_CERBERUS_SERVICE_URL
+    COP_TARGETING_API_ENABLED: 'true'
+    COP_TARGETING_API_NAMESPACE:
+      from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
+    COP_TARGETING_API_SERVICE_NAME:
+      from_secret: DEV_COP_TARGETING_API_SERVICE_NAME
     DEPLOY_ENV: dev
+    FILE_UPLOAD_API_URL:
+      from_secret: DEV_FILE_UPLOAD_API_URL
+    FORM_API_URL:
+      from_secret: DEV_API_FORM_URL
     KEYCLOAK_AUTH_URL:
       from_secret: DEV_KEYCLOAK_URL
     KEYCLOAK_CLIENT_ID:
       from_secret: DEV_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: DEV_KEYCLOAK_REALM
-    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_UI_PORT: 8080
-    CERBERUS_UI_URL:
-      from_secret: DEV_CERBERUS_UI_SERVICE_URL
     KUBE_NAMESPACE:
       from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
       from_secret: DEV_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: DEV_CERBERUS_KUBE_TOKEN
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
     NGINX_IMAGE:
       from_secret: NGINX_IMAGE
     NGINX_TAG:
       from_secret: NGINX_TAG
-    FORM_API_URL:
-      from_secret: DEV_API_FORM_URL
-    FILE_UPLOAD_API_URL:
-      from_secret: DEV_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: DEV_REFDATA_API_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: DEV_CERBERUS_SERVICE_URL
-    COP_TARGETING_API_NAMESPACE:
-      from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
-    COP_TARGETING_API_SERVICE_NAME:
-      from_secret: DEV_COP_TARGETING_API_SERVICE_NAME
-    COP_TARGETING_API_ENABLED: 'true'
-    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     branch:
     - release-candidate
@@ -235,22 +235,36 @@ steps:
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
-    AUTH_REALM:
-      from_secret: DEV_KEYCLOAK_REALM
-    AUTH_CLIENT_ID:
-      from_secret: DEV_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     AUTH_BASE_URL:
       from_secret: DEV_KEYCLOAK_URL
-    FORM_API_URL:
-      from_secret: DEV_API_FORM_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: DEV_CERBERUS_SERVICE_URL
-    CERBERUS_SERVICE_URL:
-      from_secret: DEV_CERBERUS_UI_SERVICE_URL
+    AUTH_CLIENT_ID:
+      from_secret: DEV_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
+    AUTH_REALM:
+      from_secret: DEV_KEYCLOAK_REALM
     AWS_ACCESS_KEY_ID:
       from_secret: DEV_FORMIO_INT_TEST_SECRET_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:
       from_secret: DEV_FORMIO_INT_TEST_SECRET_AWS_SECRET_ACCESS_KEY
+    CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
+    CERBERUS_SERVICE_URL:
+      from_secret: DEV_CERBERUS_UI_SERVICE_URL
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: DEV_CERBERUS_SERVICE_URL
+    CRON_SCHEDULE: "\"10 10 * * 1-5\""
+    CYPRESS_KEY:
+      from_secret: CYPRESS_KEY
+    CYPRESS_PROJECT_ID:
+      from_secret: CYPRESS_PROJECT_ID
+    FORM_API_URL:
+      from_secret: DEV_API_FORM_URL
+    JOB_NAME: "\"cerberus-functional-tests\""
+    KUBE_NAMESPACE:
+      from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
+    KUBE_SERVER:
+      from_secret: DEV_KUBE_SERVER
+    KUBE_TOKEN:
+      from_secret: DEV_CERBERUS_KUBE_TOKEN
     PROTOCOL_HTTPS:
       from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
@@ -263,23 +277,9 @@ steps:
       from_secret: TESTS_S3_SECRET_KEY
     SLACK_WEB_HOOK:
       from_secret: TESTS_SLACK_WEBHOOK
+    TEST_ENV: dev
     TEST_SECRET_NAME:
       from_secret: DEV_FORMIO_INT_TEST_SECRET_NAME
-    CYPRESS_KEY:
-      from_secret: CYPRESS_KEY
-    CYPRESS_PROJECT_ID:
-      from_secret: CYPRESS_PROJECT_ID
-    KUBE_NAMESPACE:
-      from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
-    KUBE_SERVER:
-      from_secret: DEV_KUBE_SERVER
-    KUBE_TOKEN:
-      from_secret: DEV_CERBERUS_KUBE_TOKEN
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
-    CRON_SCHEDULE: "\"10 10 * * 1-5\""
-    JOB_NAME: "\"cerberus-functional-tests\""
-    TEST_ENV: dev
   when:
     branch:
     - release-candidate
@@ -297,42 +297,42 @@ steps:
   - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
   - kd --insecure-skip-tls-verify -f kube/ingress.yml
   environment:
+    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_URL:
+      from_secret: SIT_CERBERUS_UI_SERVICE_URL
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: SIT_CERBERUS_SERVICE_URL
+    COP_TARGETING_API_ENABLED: 'false'
+    COP_TARGETING_API_NAMESPACE:
+      from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
+    COP_TARGETING_API_SERVICE_NAME:
+      from_secret: SIT_COP_TARGETING_API_SERVICE_NAME
     DEPLOY_ENV: sit
+    FILE_UPLOAD_API_URL:
+      from_secret: SIT_FILE_UPLOAD_API_URL
+    FORM_API_URL:
+      from_secret: SIT_API_FORM_URL
     KEYCLOAK_AUTH_URL:
       from_secret: SIT_KEYCLOAK_URL
     KEYCLOAK_CLIENT_ID:
       from_secret: SIT_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: SIT_KEYCLOAK_REALM
-    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_UI_PORT: 8080
-    CERBERUS_UI_URL:
-      from_secret: SIT_CERBERUS_UI_SERVICE_URL
     KUBE_NAMESPACE:
       from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
       from_secret: SIT_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: SIT_CERBERUS_KUBE_TOKEN
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
     NGINX_IMAGE:
       from_secret: NGINX_IMAGE
     NGINX_TAG:
       from_secret: NGINX_TAG
-    FORM_API_URL:
-      from_secret: SIT_API_FORM_URL
-    FILE_UPLOAD_API_URL:
-      from_secret: SIT_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: SIT_REFDATA_API_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: SIT_CERBERUS_SERVICE_URL
-    COP_TARGETING_API_NAMESPACE:
-      from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
-    COP_TARGETING_API_SERVICE_NAME:
-      from_secret: SIT_COP_TARGETING_API_SERVICE_NAME
-    COP_TARGETING_API_ENABLED: 'false'
-    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     branch:
     - release-candidate
@@ -352,22 +352,36 @@ steps:
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
-    AUTH_REALM:
-      from_secret: SIT_KEYCLOAK_REALM
-    AUTH_CLIENT_ID:
-      from_secret: SIT_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     AUTH_BASE_URL:
       from_secret: SIT_KEYCLOAK_URL
-    FORM_API_URL:
-      from_secret: SIT_API_FORM_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: SIT_CERBERUS_SERVICE_URL
-    CERBERUS_SERVICE_URL:
-      from_secret: SIT_CERBERUS_UI_SERVICE_URL
+    AUTH_CLIENT_ID:
+      from_secret: SIT_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
+    AUTH_REALM:
+      from_secret: SIT_KEYCLOAK_REALM
     AWS_ACCESS_KEY_ID:
       from_secret: SIT_FORMIO_INT_TEST_SECRET_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:
       from_secret: SIT_FORMIO_INT_TEST_SECRET_AWS_SECRET_ACCESS_KEY
+    CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
+    CERBERUS_SERVICE_URL:
+      from_secret: SIT_CERBERUS_UI_SERVICE_URL
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: SIT_CERBERUS_SERVICE_URL
+    CRON_SCHEDULE: "\"10 10 * * 1-5\""
+    CYPRESS_KEY:
+      from_secret: CYPRESS_KEY
+    CYPRESS_PROJECT_ID:
+      from_secret: CYPRESS_PROJECT_ID
+    FORM_API_URL:
+      from_secret: SIT_API_FORM_URL
+    JOB_NAME: "\"cerberus-functional-tests-sit\""
+    KUBE_NAMESPACE:
+      from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
+    KUBE_SERVER:
+      from_secret: SIT_KUBE_SERVER
+    KUBE_TOKEN:
+      from_secret: SIT_CERBERUS_KUBE_TOKEN
     PROTOCOL_HTTPS:
       from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
@@ -380,23 +394,9 @@ steps:
       from_secret: TESTS_S3_SECRET_KEY
     SLACK_WEB_HOOK:
       from_secret: TESTS_SLACK_WEBHOOK
+    TEST_ENV: sit
     TEST_SECRET_NAME:
       from_secret: SIT_FORMIO_INT_TEST_SECRET_NAME
-    CYPRESS_KEY:
-      from_secret: CYPRESS_KEY
-    CYPRESS_PROJECT_ID:
-      from_secret: CYPRESS_PROJECT_ID
-    KUBE_NAMESPACE:
-      from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
-    KUBE_SERVER:
-      from_secret: SIT_KUBE_SERVER
-    KUBE_TOKEN:
-      from_secret: SIT_CERBERUS_KUBE_TOKEN
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
-    CRON_SCHEDULE: "\"10 10 * * 1-5\""
-    JOB_NAME: "\"cerberus-functional-tests-sit\""
-    TEST_ENV: sit
   when:
     branch:
     - release-candidate
@@ -416,42 +416,42 @@ steps:
   - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
   - kd --insecure-skip-tls-verify -f kube/ingress.yml
   environment:
+    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_URL:
+      from_secret: STAGING_CERBERUS_UI_SERVICE_URL
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: STAGING_CERBERUS_SERVICE_URL
+    COP_TARGETING_API_ENABLED: 'false'
+    COP_TARGETING_API_NAMESPACE:
+      from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
+    COP_TARGETING_API_SERVICE_NAME:
+      from_secret: STAGING_COP_TARGETING_API_SERVICE_NAME
     DEPLOY_ENV: staging
+    FILE_UPLOAD_API_URL:
+      from_secret: STAGING_FILE_UPLOAD_API_URL
+    FORM_API_URL:
+      from_secret: STAGING_API_FORM_URL
     KEYCLOAK_AUTH_URL:
       from_secret: STAGING_KEYCLOAK_URL
     KEYCLOAK_CLIENT_ID:
       from_secret: STAGING_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: STAGING_KEYCLOAK_REALM
-    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_UI_PORT: 8080
-    CERBERUS_UI_URL:
-      from_secret: STAGING_CERBERUS_UI_SERVICE_URL
     KUBE_NAMESPACE:
       from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
       from_secret: STAGING_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: STAGING_CERBERUS_KUBE_TOKEN
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
     NGINX_IMAGE:
       from_secret: NGINX_IMAGE
     NGINX_TAG:
       from_secret: NGINX_TAG
-    FORM_API_URL:
-      from_secret: STAGING_API_FORM_URL
-    FILE_UPLOAD_API_URL:
-      from_secret: STAGING_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: STAGING_REFDATA_API_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: STAGING_CERBERUS_SERVICE_URL
-    COP_TARGETING_API_NAMESPACE:
-      from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
-    COP_TARGETING_API_SERVICE_NAME:
-      from_secret: STAGING_COP_TARGETING_API_SERVICE_NAME
-    COP_TARGETING_API_ENABLED: 'false'
-    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     event:
     - promote
@@ -471,22 +471,36 @@ steps:
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
-    AUTH_REALM:
-      from_secret: STAGING_KEYCLOAK_REALM
-    AUTH_CLIENT_ID:
-      from_secret: STAGING_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     AUTH_BASE_URL:
       from_secret: STAGING_KEYCLOAK_URL
-    FORM_API_URL:
-      from_secret: STAGING_API_FORM_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: STAGING_CERBERUS_SERVICE_URL
-    CERBERUS_SERVICE_URL:
-      from_secret: STAGING_CERBERUS_UI_SERVICE_URL
+    AUTH_CLIENT_ID:
+      from_secret: STAGING_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
+    AUTH_REALM:
+      from_secret: STAGING_KEYCLOAK_REALM
     AWS_ACCESS_KEY_ID:
       from_secret: STAGING_FORMIO_INT_TEST_SECRET_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:
       from_secret: STAGING_FORMIO_INT_TEST_SECRET_AWS_SECRET_ACCESS_KEY
+    CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
+    CERBERUS_SERVICE_URL:
+      from_secret: STAGING_CERBERUS_UI_SERVICE_URL
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: STAGING_CERBERUS_SERVICE_URL
+    CRON_SCHEDULE: "\"10 10 * * 1-5\""
+    CYPRESS_KEY:
+      from_secret: CYPRESS_KEY
+    CYPRESS_PROJECT_ID:
+      from_secret: CYPRESS_PROJECT_ID
+    FORM_API_URL:
+      from_secret: STAGING_API_FORM_URL
+    JOB_NAME: "\"cerberus-functional-tests-staging\""
+    KUBE_NAMESPACE:
+      from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
+    KUBE_SERVER:
+      from_secret: STAGING_KUBE_SERVER
+    KUBE_TOKEN:
+      from_secret: STAGING_CERBERUS_KUBE_TOKEN
     PROTOCOL_HTTPS:
       from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
@@ -499,23 +513,9 @@ steps:
       from_secret: TESTS_S3_SECRET_KEY
     SLACK_WEB_HOOK:
       from_secret: TESTS_SLACK_WEBHOOK
+    TEST_ENV: staging
     TEST_SECRET_NAME:
       from_secret: STAGING_FORMIO_INT_TEST_SECRET_NAME
-    CYPRESS_KEY:
-      from_secret: CYPRESS_KEY
-    CYPRESS_PROJECT_ID:
-      from_secret: CYPRESS_PROJECT_ID
-    KUBE_NAMESPACE:
-      from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
-    KUBE_SERVER:
-      from_secret: STAGING_KUBE_SERVER
-    KUBE_TOKEN:
-      from_secret: STAGING_CERBERUS_KUBE_TOKEN
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
-    CRON_SCHEDULE: "\"10 10 * * 1-5\""
-    JOB_NAME: "\"cerberus-functional-tests-staging\""
-    TEST_ENV: staging
   when:
     event:
     - promote
@@ -535,42 +535,42 @@ steps:
   - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
   - kd --insecure-skip-tls-verify -f kube/ingress.yml
   environment:
+    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
+    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_URL:
+      from_secret: PRODUCTION_CERBERUS_UI_SERVICE_URL
+    CERBERUS_WORKFLOW_SERVICE_URL:
+      from_secret: PRODUCTION_CERBERUS_SERVICE_URL
+    COP_TARGETING_API_ENABLED: 'false'
+    COP_TARGETING_API_NAMESPACE:
+      from_secret: PRODUCTION_KUBE_NAMESPACE_COP_CERBERUS
+    COP_TARGETING_API_SERVICE_NAME:
+      from_secret: PRODUCTION_COP_TARGETING_API_SERVICE_NAME
     DEPLOY_ENV: production
+    FILE_UPLOAD_API_URL:
+      from_secret: PRODUCTION_FILE_UPLOAD_API_URL
+    FORM_API_URL:
+      from_secret: PRODUCTION_API_FORM_URL
     KEYCLOAK_AUTH_URL:
       from_secret: PRODUCTION_KEYCLOAK_URL
     KEYCLOAK_CLIENT_ID:
       from_secret: PRODUCTION_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: PRODUCTION_KEYCLOAK_REALM
-    CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
-    CERBERUS_UI_PORT: 8080
-    CERBERUS_UI_URL:
-      from_secret: PRODUCTION_CERBERUS_UI_SERVICE_URL
     KUBE_NAMESPACE:
       from_secret: PRODUCTION_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
       from_secret: PRODUCTION_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: PRODUCTION_CERBERUS_KUBE_TOKEN
+    NGINX_CONFIG_FILE: /etc/nginx/nginx-prod.conf
     NGINX_IMAGE:
       from_secret: NGINX_IMAGE
     NGINX_TAG:
       from_secret: NGINX_TAG
-    FORM_API_URL:
-      from_secret: PRODUCTION_API_FORM_URL
-    FILE_UPLOAD_API_URL:
-      from_secret: PRODUCTION_FILE_UPLOAD_API_URL
     REFDATA_API_URL:
       from_secret: PRODUCTION_REFDATA_API_URL
-    CERBERUS_WORKFLOW_SERVICE_URL:
-      from_secret: PRODUCTION_CERBERUS_SERVICE_URL
-    COP_TARGETING_API_NAMESPACE:
-      from_secret: PRODUCTION_KUBE_NAMESPACE_COP_CERBERUS
-    COP_TARGETING_API_SERVICE_NAME:
-      from_secret: PRODUCTION_COP_TARGETING_API_SERVICE_NAME
-    COP_TARGETING_API_ENABLED: 'false'
-    NGINX_CONFIG_FILE: /etc/nginx/nginx-prod.conf
   when:
     event:
     - promote
