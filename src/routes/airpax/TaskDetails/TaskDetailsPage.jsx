@@ -15,8 +15,6 @@ from '../../../constants';
 
 import { ApplicationContext } from '../../../context/ApplicationContext';
 
-import { ApplicationContext } from '../../../context/ApplicationContext';
-
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
