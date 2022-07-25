@@ -139,6 +139,49 @@ describe('Delet tasks and verify it on UI', () => {
     });
   });
 
+  it('Should delete an airpax task with movementId and verify the RuleId is also deleted', () => {
+    let date = new Date();
+    let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
+    const rule = { id: 886655, name: 'Delete RuleId Test 886655' };
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}-${dateNowFormatted}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      task.data.matchedRules[0].ruleId = rule.id;
+      task.data.matchedRules[0].ruleName = rule.name;
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('AIRPAX');
+        let businessKey = taskResponse.id;
+        cy.wait(4000);
+        cy.visit('/airpax/tasks');
+        cy.wait('@taskList').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+          .should('be.visible')
+          .invoke('text')
+          .then((text) => {
+            expect(text).to.include(businessKey);
+          });
+        cy.getRules().then((response) => {
+          expect(response).to.deep.include(rule);
+        });
+        cy.deleteTasks(`${taskName}-${dateNowFormatted}`);
+        cy.reload();
+        cy.wait(3000);
+        cy.get('.govuk-task-list-card').find('h4.task-heading')
+          .should('be.visible')
+          .invoke('text')
+          .then((text) => {
+            expect(text).to.not.include(businessKey);
+          });
+        cy.getRules().then((response) => {
+          expect(response).to.deep.not.include(rule);
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
