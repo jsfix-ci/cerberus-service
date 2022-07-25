@@ -401,56 +401,38 @@ const renderTrailerSection = ({ contents }, movementMode) => {
 };
 
 const createOccupantsCarrierCountsFields = (manifestOccupantCategoryCounts) => {
-  return manifestOccupantCategoryCounts.map((categoryCount, index) => {
-    if (isValid(categoryCount)) {
-      if (!categoryCount.type.includes('HIDDEN')) {
+  return manifestOccupantCategoryCounts.map(({ content, fieldName, type }, index) => {
+    if (isValid(content)) {
+      if (!type.includes('HIDDEN')) {
         const className = index !== manifestOccupantCategoryCounts.length - 1
           ? 'govuk-task-details-grid-row bottom-border'
           : 'govuk-task-details-grid-row';
         return (
           <div className={className} key={uuidv4()}>
             <ul>
-              {categoryCount.type.includes('CHANGED') ? (
+              {type.includes('CHANGED') ? (
                 <li
-                  className={`govuk-grid-value font__bold ${
-                    hasZeroCount(categoryCount.content) && 'font__grey'
-                  } task-versions--highlight`}
+                  className={`govuk-grid-value font__bold ${hasZeroCount(content) && 'font__grey'} task-versions--highlight`}
                 >
-                  {categoryCount.fieldName}
+                  {fieldName}
                 </li>
               ) : (
                 <li
-                  className={`govuk-grid-value  ${
-                    hasZeroCount(categoryCount.content) && 'font__grey'
-                  } font__bold`}
+                  className={`govuk-grid-value  ${hasZeroCount(content) && 'font__grey'} font__bold`}
                 >
-                  {categoryCount.fieldName}
+                  {fieldName}
                 </li>
               )}
             </ul>
-            {categoryCount.type.includes('CHANGED') ? (
-              <span
-                className={`govuk-grid-value font__bold ${
-                  hasZeroCount(categoryCount.content) && 'font__grey'
-                } task-versions--highlight`}
+            <ul>
+              <li
+                className={
+                  `govuk-grid-value font__bold ${hasZeroCount(content) && 'font__grey'} ${type.includes('CHANGED') && 'task-versions--highlight'}`
+                }
               >
-                {parseInt(
-                  formatField(categoryCount.type, categoryCount.content),
-                  10,
-                )}
-              </span>
-            ) : (
-              <span
-                className={`govuk-grid-value font__bold ${
-                  hasZeroCount(categoryCount.content) && 'font__grey'
-                }`}
-              >
-                {parseInt(
-                  formatField(categoryCount.type, categoryCount.content),
-                  10,
-                )}
-              </span>
-            )}
+                {parseInt(content, 10)}
+              </li>
+            </ul>
           </div>
         );
       }
