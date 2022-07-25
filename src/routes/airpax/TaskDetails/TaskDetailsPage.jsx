@@ -11,6 +11,8 @@ import { TASK_STATUS_NEW,
   MOVEMENT_VARIANT,
   FORM_NAMES } from '../../../constants';
 
+import { ApplicationContext } from '../../../context/ApplicationContext';
+
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -36,7 +38,6 @@ import '../__assets__/TaskDetailsPage.scss';
 // JSON
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../../cop-forms/completeTaskCerberus';
-import { ApplicationContext } from '../../../context/ApplicationContext';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
