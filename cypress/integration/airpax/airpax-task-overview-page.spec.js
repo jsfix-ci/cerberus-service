@@ -761,6 +761,39 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
+  it('Should validate Add notes section is hidden in Issue target, Assessment complete and Dismiss task', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+    cy.get('#note').should('not.exist');
+    cy.claimAirPaxTask();
+    cy.get('.govuk-label').invoke('text').then(($text) => {
+      expect($text).to.equal('Add a new note');
+    });
+
+    cy.contains('Issue target').click();
+    cy.wait(2000);
+    cy.get('#note').should('not.exist');
+    cy.contains('Assessment complete').click();
+    cy.wait(2000);
+    cy.get('#note').should('not.exist');
+    cy.contains('Cancel').click();
+    cy.get('#note').should('exist');
+    cy.contains('Dismiss').click();
+    cy.wait(2000);
+    cy.get('#note').should('not.exist');
+    cy.contains('Cancel').click();
+    cy.wait(2000);
+    cy.get('#note').should('exist');
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
