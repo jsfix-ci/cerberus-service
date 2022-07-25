@@ -761,7 +761,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it('Should validate users cannot add notes in Issue target, Assessment complete and Dismiss task', () => {
+  it('Should validate Add notes section is hidden in Issue target, Assessment complete and Dismiss task', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
