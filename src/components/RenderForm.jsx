@@ -8,17 +8,25 @@ import { Form, Formio } from 'react-formio';
 
 // Local imports
 import config from '../config';
-import { FORM_ACTIONS } from '../constants';
+import { FORM_ACTIONS, FORM_TIS_CACHE_STORE } from '../constants';
 import ErrorSummary from '../govuk/ErrorSummary';
 import useAxiosInstance from '../utils/axiosInstance';
 import FormUtils, { Renderers } from '../utils/Form';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
 import { useKeycloak } from '../utils/keycloak';
 import LoadingSpinner from './LoadingSpinner';
+import { TargetInformationUtil } from '../routes/airpax/utils';
 
 Formio.use(gds);
 
-const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCancel, preFillData, children }) => {
+const RenderForm = ({ formName,
+  form: _form,
+  renderer: _renderer,
+  onSubmit,
+  onCancel,
+  preFillData,
+  cacheTisFormData,
+  children }) => {
   const [error, setError] = useState(null);
   const [form, setForm] = useState(_form);
   const [renderer, setRenderer] = useState(_renderer);
@@ -181,6 +189,10 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
                     return onCancel();
                   }
                   if (type === FORM_ACTIONS.NEXT) {
+                    if (cacheTisFormData) {
+                      TargetInformationUtil.cache.store(FORM_TIS_CACHE_STORE,
+                        TargetInformationUtil.convertToPrefill(payload));
+                    }
                     // Do nothing.
                     return onSuccess(payload);
                   }
