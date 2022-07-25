@@ -142,14 +142,13 @@ describe('Delet tasks and verify it on UI', () => {
   it('Should delete an airpax task with movementId and verify the RuleId is also deleted', () => {
     let date = new Date();
     let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
-    const ruleJson = '{"id": 886655,"name": "Delete RuleId Test 886655"}';
-    let rule = JSON.parse(ruleJson);
+    const rule = { id: 886655, name: 'Delete RuleId Test 886655' };
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}-${dateNowFormatted}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      task.data.matchedRules[0].ruleId = '886655';
-      task.data.matchedRules[0].ruleName = 'Delete RuleId Test 886655';
+      task.data.matchedRules[0].ruleId = rule.id;
+      task.data.matchedRules[0].ruleName = rule.name;
       cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         let businessKey = taskResponse.id;
