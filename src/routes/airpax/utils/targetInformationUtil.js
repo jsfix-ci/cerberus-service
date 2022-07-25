@@ -175,7 +175,13 @@ const toTargetingIndicatorsNode = (formData) => {
   const targetingIndicators = RisksUtil.getIndicators(risks);
   if (targetingIndicators?.length) {
     return {
-      targetingIndicators,
+      targetingIndicators: targetingIndicators.map((ti) => {
+        return {
+          ...ti,
+          value: ti.id,
+          label: ti.userfacingtext,
+        };
+      }),
     };
   }
 };
