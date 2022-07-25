@@ -144,7 +144,6 @@ describe('Delet tasks and verify it on UI', () => {
     let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
     const ruleJson = '{"id": 886655,"name": "Delete RuleId Test 886655"}';
     let rule = JSON.parse(ruleJson);
-    console.log(rule);
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
