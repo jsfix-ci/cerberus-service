@@ -152,7 +152,6 @@ describe('Delet tasks and verify it on UI', () => {
       task.data.matchedRules[0].ruleName = 'Delete RuleId Test 886655';
       cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
-        // let movementId = taskResponse.movement.id;
         let businessKey = taskResponse.id;
         cy.wait(4000);
         cy.visit('/airpax/tasks');
