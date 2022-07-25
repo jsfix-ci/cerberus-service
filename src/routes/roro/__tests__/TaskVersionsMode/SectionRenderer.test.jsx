@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 import { screen, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { RORO_ACCOMPANIED_FREIGHT } from '../../../../constants';
@@ -78,27 +76,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderBookingSection(input);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">field-set-name</h3>
-          <div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Field 1</span></li>
-                <li className="govuk-grid-value font__bold">value 1</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Field 2</span></li>
-                <li className="govuk-grid-value font__bold">value 2</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderBookingSection(input)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render hidden fields', () => {
@@ -115,14 +94,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderBookingSection(input);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">field-set-name</h3>
-          <div />
-        </div>,
-      ));
+      const tree = renderer.create(renderBookingSection(input)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render replaced field name for date and time and check-in', () => {
@@ -146,27 +119,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderBookingSection(input);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">field-set-name</h3>
-          <div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Booking date and time</span></li>
-                <li className="govuk-grid-value font__bold">value 1</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Check-in date and time</span></li>
-                <li className="govuk-grid-value font__bold">value 2</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderBookingSection(input)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should leave field name for date and time and check-in untouched if not a match', () => {
@@ -190,27 +144,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderBookingSection(input);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">field-set-name</h3>
-          <div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Date and timee</span></li>
-                <li className="govuk-grid-value font__bold">value 1</li>
-              </ul>
-            </div>
-            <div className="govuk-task-details-grid-item">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Check-inn</span></li>
-                <li className="govuk-grid-value font__bold">value 2</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderBookingSection(input)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 
@@ -298,63 +233,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderVehicleSection(input, 'RORO_TOURIST');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Vehicle</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Vehicle registration</span></li>
-                <li className="govuk-grid-value font__bold">GB09KLT</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Make</span></li>
-                <li className="govuk-grid-value font__bold">FORD</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Model</span></li>
-                <li className="govuk-grid-value font__bold">TRANSIT</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Type</span></li>
-                <li className="govuk-grid-value font__bold">VAN</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Country of registration</span></li>
-                <li className="govuk-grid-value font__bold">GB</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Colour</span></li>
-                <li className="govuk-grid-value font__bold">RED</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderVehicleSection(input, 'RORO_TOURIST')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render hidden fields', () => {
@@ -370,26 +250,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderVehicleSection(input, 'RORO_TOURIST');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Vehicle</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column" />
-        </div>,
-      ));
+      const tree = renderer.create(renderVehicleSection(input, 'RORO_TOURIST')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render entity search link if registration number and link field are present', () => {
@@ -412,33 +274,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderVehicleSection(input, 'RORO_TOURIST');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Vehicle</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Vehicle registration</span></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=1234567890&amp;type=VEHICLE&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">KP07YXG</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderVehicleSection(input, 'RORO_TOURIST')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 
@@ -457,7 +294,6 @@ describe('SectionRenderer', () => {
       };
 
       const section = renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT');
-
       expect(section).toBeUndefined();
     });
 
@@ -516,63 +352,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Trailer</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer registration number</span></li>
-                <li className="govuk-grid-value font__bold">LQ18ZAB</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer Type</span></li>
-                <li className="govuk-grid-value font__bold">TR</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer country of registration</span></li>
-                <li className="govuk-grid-value font__bold">GB</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer length</span></li>
-                <li className="govuk-grid-value font__bold">75m</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer height</span></li>
-                <li className="govuk-grid-value font__bold">5m</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Empty or loaded</span></li>
-                <li className="govuk-grid-value font__bold">Loaded</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render hidden fields', () => {
@@ -588,26 +369,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Trailer</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column" />
-        </div>,
-      ));
+      const tree = renderer.create(renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render entity search link if trailer registration number and link field are present', () => {
@@ -630,33 +393,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Trailer</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Trailer registration number</span></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=1212121212&amp;type=VEHICLE&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">LQ18ZYH</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderTrailerSection(input, 'RORO_ACCOMPANIED_FREIGHT')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 
@@ -680,7 +418,6 @@ describe('SectionRenderer', () => {
       };
 
       const section = renderOccupantsSection(input, 'any-icon');
-
       expect(section).toBeUndefined();
     });
 
@@ -1053,7 +790,6 @@ describe('SectionRenderer', () => {
       expect(tree).toMatchSnapshot();
     });
 
-    // TODO
     it('should render occupants when passport country of issue code is invalid', () => {
       const input = {
         fieldSetName: 'Passengers',
@@ -1139,7 +875,6 @@ describe('SectionRenderer', () => {
       };
 
       const section = renderPrimaryTraveller(input, 'any-icon');
-
       expect(section).toBeUndefined();
     });
 
@@ -1209,69 +944,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderPrimaryTraveller(input, 'c-icon-person');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Primary Traveller</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                <li className="govuk-grid-value font__bold">MR PRIMARY TRAVELLER</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Date of birth</span></li>
-                <li className="govuk-grid-value font__bold">03/06/1981</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Gender</span></li>
-                <li className="govuk-grid-value font__bold">M</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Nationality</span></li>
-                <li className="govuk-grid-value font__bold">GB</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Travel document type</span></li>
-                <li className="govuk-grid-value font__bold">PASSPORT</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Travel document number</span></li>
-                <li className="govuk-grid-value font__bold">ST0111111</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Travel document expiry</span></li>
-                <li className="govuk-grid-value font__bold">01/01/2021</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderPrimaryTraveller(input, 'c-icon-person')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should only render traveller fields and not document fields if icon is not single tourist icon', () => {
@@ -1319,51 +993,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderPrimaryTraveller(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Primary Traveller</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                <li className="govuk-grid-value font__bold">MR PRIMARY TRAVELLER</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Date of birth</span></li>
-                <li className="govuk-grid-value font__bold">03/06/1981</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Gender</span></li>
-                <li className="govuk-grid-value font__bold">M</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Nationality</span></li>
-                <li className="govuk-grid-value font__bold">GB</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderPrimaryTraveller(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render primary traveller entity search link if fields are present', () => {
@@ -1390,33 +1021,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderPrimaryTraveller(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Primary Traveller</h3>
-          <div className="govuk-grid-row enrichment-counts">
-            <div className="labels">
-              <div className="govuk-grid-column-one-third"><span className="font__light">Previous RoRo movements</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Examinations</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__light">Seizures</span></div>
-            </div>
-            <div className="values">
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-              <div className="govuk-grid-column-one-third"><span className="font__bold">-</span></div>
-            </div>
-          </div>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Name</span></li>
-                <li className="govuk-grid-value font__bold"><a href="http://localhost:4020/search?term=2828282828&amp;type=PERSON&amp;fields=[&quot;id&quot;]" target="_blank" rel="noreferrer noopener">MR PRIMARY TRAVELLER</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderPrimaryTraveller(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 
@@ -1431,7 +1037,6 @@ describe('SectionRenderer', () => {
       };
 
       const section = renderPrimaryTravellerDocument(input, 'any-icon');
-
       expect(section).toBeUndefined();
     });
 
@@ -1473,33 +1078,8 @@ describe('SectionRenderer', () => {
         ],
       };
 
-      const section = renderPrimaryTravellerDocument(input, 'any-icon');
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="task-details-container bottom-border-thick">
-          <h3 className="title-heading">Document</h3>
-          <div className="govuk-task-details-grid-column">
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Travel document type</span></li>
-                <li className="govuk-grid-value font__bold">PASSPORT</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Travel document number</span></li>
-                <li className="govuk-grid-value font__bold">ST0111111</li>
-              </ul>
-            </div>
-            <div className="">
-              <ul>
-                <li className="govuk-grid-key font__light"><span className="govuk-grid-key font__light">Travel document expiry</span></li>
-                <li className="govuk-grid-value font__bold">01/01/2021</li>
-              </ul>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderPrimaryTravellerDocument(input, 'any-icon')).toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 
@@ -1509,42 +1089,9 @@ describe('SectionRenderer', () => {
       const passengersField = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="govuk-task-details-counts-container">
-          <div className="govuk-task-details-grid-row bottom-border">
-            <span className="govuk-grid-key font__light">Category</span><span className="govuk-grid-value font__light">Number</span>
-          </div>
-          <div className="task-details-container">
-            <div className="govuk-task-details-grid-row bottom-border">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">Infants</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-            <div className="govuk-task-details-grid-row bottom-border">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">Children</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-            <div className="govuk-task-details-grid-row bottom-border">
-              <ul>
-                <li className="govuk-grid-value  false font__bold">Adults</li>
-              </ul>
-              <span className="govuk-grid-value font__bold false">1</span>
-            </div>
-            <div className="govuk-task-details-grid-row">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">OAPs</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render category counts when there is no driver, no passengers but category counts are available', () => {
@@ -1552,43 +1099,9 @@ describe('SectionRenderer', () => {
       const passengersField = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="govuk-task-details-counts-container">
-          <div className="govuk-task-details-grid-row bottom-border">
-            <span className="govuk-grid-key font__light">Category</span>
-            <span className="govuk-grid-value font__light">Number</span>
-          </div>
-          <div className="task-details-container">
-            <div className="govuk-task-details-grid-row bottom-border">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">Infants</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-            <div className="govuk-task-details-grid-row bottom-border">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">Children</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-            <div className="govuk-task-details-grid-row bottom-border">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">Adults</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-            <div className="govuk-task-details-grid-row">
-              <ul>
-                <li className="govuk-grid-value  font__grey font__bold">OAPs</li>
-              </ul>
-              <span className="govuk-grid-value font__bold font__grey">0</span>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should render unknown category count when there is no driver, 0 passengers but no valid category counts are available', () => {
@@ -1596,25 +1109,9 @@ describe('SectionRenderer', () => {
       const passengersField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(
-        <div className="govuk-task-details-counts-container">
-          <div className="govuk-task-details-grid-row bottom-border">
-            <span className="govuk-grid-key font__light">Category</span>
-            <span className="govuk-grid-value font__light">Number</span>
-          </div>
-          <div className="task-details-container">
-            <div className="govuk-task-details-grid-row">
-              <ul>
-                <li className="govuk-grid-value  false font__bold">Unknown</li>
-              </ul>
-              <span className="govuk-grid-value font__bold false">1</span>
-            </div>
-          </div>
-        </div>,
-      ));
+      const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render category count when there is a driver, 1+ passenger(s) and does/ does not have category counts', () => {
@@ -1622,10 +1119,9 @@ describe('SectionRenderer', () => {
       const passengersField = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
+      const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render category count when there is no driver, but have one or more passengers and has category counts', () => {
@@ -1633,11 +1129,10 @@ describe('SectionRenderer', () => {
       const passengersField = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'passengers');
       const passengersMetadata = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-      const section = renderOccupantCarrierCountsSection(
+      const tree = renderer.create(renderOccupantCarrierCountsSection(
         driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT,
-      );
-
-      expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
+      )).toJSON();
+      expect(tree).toMatchSnapshot();
     });
 
     it('should not render category count section there is no driver, no passengers and unknown counts is null', () => {
