@@ -9,7 +9,11 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT,
-  FORM_NAMES } from '../../../constants';
+  FORM_NAMES,
+  FORM_TIS_CACHE_STORE }
+from '../../../constants';
+
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
 import { ApplicationContext } from '../../../context/ApplicationContext';
 
@@ -49,9 +53,7 @@ const TaskDetailsPage = () => {
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
-  const [preFillData, setPrefillData] = useState({});
   const [isLoading, setLoading] = useState(true);
-
   const [isSubmitted, setSubmitted] = useState();
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
@@ -61,10 +63,15 @@ const TaskDetailsPage = () => {
   const getPrefillData = async () => {
     let response;
     try {
-      response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-      setPrefillData(TargetInformationUtil.prefillPayload(response.data));
+      const storedCache = TargetInformationUtil.cache.get(FORM_TIS_CACHE_STORE);
+      if (storedCache?.id !== businessKey) {
+        TargetInformationUtil.cache.remove(FORM_TIS_CACHE_STORE);
+        response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
+        TargetInformationUtil.cache.store(FORM_TIS_CACHE_STORE,
+          TargetInformationUtil.prefillPayload(response.data));
+      }
     } catch (e) {
-      setTaskData({});
+      TargetInformationUtil.cache.remove(FORM_TIS_CACHE_STORE);
     }
   };
 
@@ -167,19 +174,20 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-two-thirds">
           {isIssueTargetFormOpen && !isSubmitted && (
           <RenderForm
+            cacheTisFormData
             formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
-            preFillData={preFillData}
+            preFillData={TargetInformationUtil.cache.get(FORM_TIS_CACHE_STORE)}
             onSubmit={
               async ({ data }) => {
                 try {
-                  await apiClient.post('/targets', TargetInformationUtil
-                    .submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  await apiClient.post('/targets',
+                    TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  TargetInformationUtil.cache.remove(FORM_TIS_CACHE_STORE);
                   setSubmitted(true);
                   if (error) {
                     setError(null);
                   }
                 } catch (e) {
-                  setPrefillData(TargetInformationUtil.convertToPrefill(data));
                   setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
                 }
               }

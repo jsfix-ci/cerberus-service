@@ -6,6 +6,18 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
+const toLocalCache = (key, payload) => {
+  localStorage.setItem(key, JSON.stringify(payload));
+};
+
+const getLocalCache = (key) => {
+  return JSON.parse(localStorage.getItem(key));
+};
+
+const removeLocalCache = (key) => {
+  localStorage.removeItem(key);
+};
+
 const toPersonSubmissionNode = (person, index) => {
   if (person) {
     return {
@@ -368,6 +380,11 @@ const TargetInformationUtil = {
   prefillPayload: toTisPrefillPayload,
   submissionPayload: toTisSubmissionPayload,
   convertToPrefill: submissionToPrefillPayload,
+  cache: {
+    get: getLocalCache,
+    remove: removeLocalCache,
+    store: toLocalCache,
+  },
 };
 
 export default TargetInformationUtil;
