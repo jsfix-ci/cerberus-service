@@ -34,6 +34,17 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
+  it('should varify that targeting indicators auto population data contains value & label', () => {
+    const EXPECTED_NODE_KEYS = [
+      'value',
+      'label',
+    ];
+
+    const prefillFormData = TargetInformationUtil.prefillPayload(PREFILL_DATA);
+
+    checkObjects(Object.keys(prefillFormData.targetingIndicators[0]), EXPECTED_NODE_KEYS);
+  });
+
   it('should generate prefill data when movement node is null', () => {
     PREFILL_DATA.movement = null;
     const EXPECTED_NODE_KEYS = [
