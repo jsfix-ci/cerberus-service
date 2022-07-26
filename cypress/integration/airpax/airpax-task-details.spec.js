@@ -723,6 +723,42 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Document in document column for Co-traveller if present', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AUTOTEST';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        let movementId = response.movement.id;
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.get('.co-travellers-container').within(() => {
+            cy.get('table').getTable().then((tableData) => {
+              console.log(tableData);
+              expectedDetails['Co-travellers'].forEach((traveller) => expect(tableData).to.deep.include(traveller));
+            });
+          });
+        });
+        cy.fixture('airpax/task-airpax-coTraveller-document-unknown.json').then((updateTask) => {
+          updateTask.data.movementId = movementId;
+          cy.createTargetingApiTask(updateTask).then((updateResponse) => {
+            cy.wait(4000);
+            cy.checkAirPaxTaskDisplayed(`${updateResponse.id}`);
+            cy.wait(3000);
+            cy.fixture('airpax/airpax-task-expected-details.json').then((expectedUpdatedDetails) => {
+              cy.get('.co-travellers-container').within(() => {
+                cy.get('table').first().getTable().then((newTableData) => {
+                  expectedUpdatedDetails['Co-travellers-Document-Unknown'].forEach((traveller) => expect(newTableData).to.deep.include(traveller));
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
