@@ -96,7 +96,7 @@ describe('Verify AirPax task details of different sections', () => {
       expect($text).to.equal('Add a new note');
     });
     cy.get('#note').should('be.visible').type(textNote);
-    cy.get('.hods-button').click();
+    cy.contains('Save').click();
     cy.wait(3000);
     cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
     cy.get('@taskActivity').then(($activityText) => {
@@ -236,7 +236,7 @@ describe('Verify AirPax task details of different sections', () => {
       cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
-        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No changes in this versionHighest threat level is Tier 3');
         cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
       });
     });
@@ -399,12 +399,12 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.fixture('airpax/task-airpax-rules-v2.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createTargetingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(4000);
-        businessKey = response.id;
+        businessKey = taskResponse.id;
         cy.visit('/airpax/tasks');
-        cy.wait('@airpaxTask').then(({ taskResponse }) => {
-          expect(taskResponse.statusCode).to.be.equal(200);
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
         });
         cy.checkAirPaxTaskDisplayed(businessKey);
 
@@ -416,8 +416,8 @@ describe('Verify AirPax task details of different sections', () => {
 
         cy.reload();
 
-        cy.wait('@airpaxTask').then(({ taskResponse }) => {
-          expect(taskResponse.statusCode).to.equal(200);
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
         });
 
         cy.get('body').then(($el) => {

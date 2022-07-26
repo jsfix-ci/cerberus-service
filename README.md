@@ -195,5 +195,5 @@ export CERBERUS_WORKFLOW_SERVICE_URL=xxxxx
 export FORM_API_URL=xxxx
 export TEST_ENV= dev / sit / staging
 ```sh
-./scripts/run_tests.sh
+./scripts/run-tests.sh
 ```
