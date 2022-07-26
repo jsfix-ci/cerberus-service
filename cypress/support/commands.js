@@ -1549,8 +1549,8 @@ Cypress.Commands.add('applySelectorFilter', (filterOptions, taskType) => {
       .click({ force: true });
   }
 
-  cy.contains('Apply').click();
-  cy.wait(2000);
+  cy.contains('Apply').click({ force: true });
+  cy.wait(3000);
   cy.get(`a[href='#${taskType}']`).invoke('text').then((targets) => {
     return parseInt(targets.match(/\d+/)[0], 10);
   });
@@ -2279,7 +2279,7 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
     url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
+      'userId': 'mitchel.egboko@digital.homeoffice.gov.uk',
     },
   }).then((response) => {
     expect(response.status).to.eq(200);

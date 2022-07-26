@@ -16,24 +16,24 @@
       "Valid from4 years before travel": "27 Apr 2018"
     },
     {
-      "Valid To4 years after travel": "26 Apr 2023"
+      "Valid To10 months after travel": "26 Apr 2023"
     },
     {
-      "Name": "BATZ STOUP, ZUES CARLO"
+      "Name": "TESTING FAMILYNAME, Testing GivenName"
     },
     {
-      "Date of birth": "10 Dec 1976"
+      "Date of birth": "30 Dec 1976"
     }
   ],
   "Baggage": [
     {
-      "Checked bags": "3"
+      "Checked bags": "1"
     },
     {
-      "Total weight": "46kg"
+      "Total weight": "23kg"
     },
     {
-      "Tag number": "739238, 739239, 739240"
+      "Tag number": "739238"
     }
   ],
   "Booking": [

@@ -125,10 +125,13 @@
             "Have any warnings been identified?": "Yes"
         },
         {
-            "Warning type(s)": ""
+            "Warning type(s)": "Contagion"
         },
         {
             "Details of the warnings": "Warning details would be shown here"
+        },
+        {
+           "Targeter actions / Remarks (optional)": ""
         }
     ]
 }
