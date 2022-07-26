@@ -125,7 +125,7 @@
       {
         "Traveller": "TravellerBATZ STOUP, ZUES CARLO DCMale, 10 Dec 1976, United Kingdom (GB)",
         "Age": "Age45",
-        "Document": "DocumentPASSPORTIssued by GB"
+        "Document": "DocumentPASSPORT119039375Issued by GB"
       }
     ],
     "Voyage": [
@@ -149,6 +149,13 @@
       },
       {
         "Operator": "British Airways"
+      }
+    ],
+    "Co-travellers-Document-Unknown": [
+      {
+        "Traveller": "TravellerBATZ STOUP, ZUES CARLO DCMale, 10 Dec 1976, United Kingdom (GB)",
+        "Age": "Age45",
+        "Document": "DocumentUnknownUnknownIssued by Unknown"
       }
     ]
 }
