@@ -635,7 +635,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it.only('Should check notes are shown after correcting validation error', () => {
+  it('Should check notes are shown after correcting validation error', () => {
     const textNote = 'This is a test note';
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
