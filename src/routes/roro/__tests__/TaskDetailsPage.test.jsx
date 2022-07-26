@@ -367,7 +367,10 @@ describe('TaskDetailsPage', () => {
     const issueTargetButton = screen.getByText(/Issue target/i);
     await waitFor(() => userEvent.click(issueTargetButton));
 
+    screen.debug(undefined, 200000);
+
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+    expect(screen.queryByText('Request failed with status code 404')).toBeInTheDocument();
   });
 
   it('should render indicators in task versions', async () => {
