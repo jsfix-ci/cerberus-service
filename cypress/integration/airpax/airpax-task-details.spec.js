@@ -723,7 +723,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Document in document column for Co-traveller if present', () => {
+  it('Should verify Document number in document column for Co-traveller if present', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -735,7 +735,6 @@ describe('Verify AirPax task details of different sections', () => {
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
           cy.get('.co-travellers-container').within(() => {
             cy.get('table').getTable().then((tableData) => {
-              console.log(tableData);
               expectedDetails['Co-travellers'].forEach((traveller) => expect(tableData).to.deep.include(traveller));
             });
           });
