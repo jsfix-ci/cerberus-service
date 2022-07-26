@@ -11,7 +11,7 @@ describe('Airpax task list page', () => {
       'Issued',
       'Complete'];
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-      expect(Heading).to.equal('Task management');
+      expect(Heading).to.equal('Task management (AirPax)');
     });
     cy.get('.govuk-tabs__list li a').each((navigationItem, index) => {
       cy.wrap(navigationItem).click()
@@ -25,9 +25,9 @@ describe('Airpax task list page', () => {
     cy.visit('/airpax/tasks');
     cy.wait('@airpaxTaskList').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
-      cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-        expect(Heading).to.contain('AirPax');
-      });
+    });
+    cy.get('.govuk-heading-xl').invoke('text').then((airPaxHeading) => {
+      expect(airPaxHeading).to.contain('AirPax');
       cy.get('#mode').should('be.visible')
         .select([0])
         .invoke('val')
@@ -36,10 +36,10 @@ describe('Airpax task list page', () => {
         .should('have.attr', 'href').and('include', 'task').then((href) => {
           cy.intercept('POST', 'camunda/v1/targeting-tasks/pages').as('roroTaskList');
           cy.visit(href);
-          cy.wait('@roroTaskList').then(({ roroResponse }) => {
-            expect(roroResponse.statusCode).to.equal(200);
-            cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
-              expect(Heading).to.contain('RoRo');
+          cy.wait('@roroTaskList').then(({ response }) => {
+            expect(response.statusCode).to.equal(200);
+            cy.get('.govuk-heading-xl').invoke('text').then((roroHeading) => {
+              expect(roroHeading).to.contain('RoRo');
             });
           });
         });
@@ -251,7 +251,7 @@ describe('Airpax task list page', () => {
     });
   });
 
-  afterEach(() => {
+  after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

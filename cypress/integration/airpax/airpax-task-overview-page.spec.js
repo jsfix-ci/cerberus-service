@@ -455,7 +455,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           if ($el.find(nextPage).length > 0) {
             cy.findTaskInAllThePages(`${businessKey}`, null, {
               selector: 'Paid by cash1',
-              risk: 'Class A Drugs and 2 other rules',
+              risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
@@ -463,7 +463,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           } else {
             cy.findTaskInSinglePage(`${businessKey}`, null, {
               selector: 'Paid by cash1',
-              risk: 'Class A Drugs and 2 other rules',
+              risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
@@ -652,12 +652,12 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     cy.get('.govuk-label').invoke('text').then(($text) => {
       expect($text).to.equal('Add a new note');
     });
-    cy.get('.hods-button').click();
+    cy.contains('Save').click();
     cy.wait(2000);
     cy.get('#error-summary').should('be.visible');
     cy.get('.govuk-list li a').should('have.text', 'Add a new note is required');
     cy.get('#note').should('be.visible').type(textNote);
-    cy.get('.hods-button').click();
+    cy.contains('Save').click();
     cy.wait(2000);
     cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
     cy.get('@taskActivity').then(($activityText) => {
