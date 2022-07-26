@@ -33,7 +33,7 @@ describe('Filter airpax tasks by TaskId or Passenger name', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         const split = businessKey.split('-');
-        let partialBusinessKey = (split[1]);
+        let partialBusinessKey = (`${split[0]}-${split[1]}`);
         cy.visit('/airpax/tasks');
         cy.wait(2000);
         cy.get('.govuk-input').should('be.visible').type(partialBusinessKey);
