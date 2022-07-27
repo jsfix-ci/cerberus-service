@@ -168,6 +168,43 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
+  it('Should verify target indicator details are displayed correctly when auto-populated', () => {
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(3000);
+        cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
+          let targetIndicator = expectedDetails.SelectionDetails[1]['Targeting indicators'];
+          cy.contains('h2', 'Selection details').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.SelectionDetails);
+            });
+          });
+          cy.clickChangeInTIS('Targeting indicators');
+          cy.get('.govuk-form-group').within(() => {
+            cy.get('.hods-multi-select-autocomplete__value-container .hods-multi-select-autocomplete__multi-value__label')
+              .should('have.text', targetIndicator);
+            cy.get('.hods-multi-select-autocomplete__input').type('Paid by cash');
+            cy.get('.hods-multi-select-autocomplete__menu').contains('Paid by cash').click();
+            cy.get('.hods-multi-select-autocomplete__value-container .hods-multi-select-autocomplete__multi-value__label')
+              .should('include.text', 'Paid by cash');
+          });
+        });
+        cy.contains('Continue').click();
+        cy.wait(2000);
+        cy.get('.govuk-summary-list__row')
+          .contains('Targeting indicators')
+          .siblings('.govuk-summary-list__value')
+          .should('include.text', 'Paid by cash');
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

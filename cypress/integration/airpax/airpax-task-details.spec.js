@@ -635,7 +635,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify details from target information sheet on task details page', () => {
+  it('Should verify target details from target information sheet page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -667,9 +667,9 @@ describe('Verify AirPax task details of different sections', () => {
               expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger2Details);
             });
           });
-          cy.contains('h2', 'Other passenger details').next().within((elements) => {
-            cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
-              expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger2Details);
+          cy.contains('h2', 'Selection details').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.SelectionDetails);
             });
           });
         });
