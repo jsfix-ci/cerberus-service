@@ -725,7 +725,7 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
 Cypress.Commands.add('deleteAutomationTestData', () => {
   let dateNowFormatted;
   if (Cypress.dayjs().day() === 1) {
-    dateNowFormatted = Cypress.dayjs().subtract(3, 'day').format('DD-MM-YYYY');
+    dateNowFormatted = Cypress.dayjs().subtract(1, 'day').format('DD-MM-YYYY');
   } else {
     dateNowFormatted = Cypress.dayjs().subtract(1, 'day').format('DD-MM-YYYY');
   }
