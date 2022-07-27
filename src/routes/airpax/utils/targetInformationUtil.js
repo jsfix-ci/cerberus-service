@@ -42,6 +42,14 @@ const toPersonSubmissionNode = (person, index) => {
   }
 };
 
+const toNorminalChecksSubmissionNode = (formData) => {
+  return {
+    nominalChecks: formData?.nominalChecks?.map((nominalCheck) => {
+      return nominalCheck;
+    }) || [],
+  };
+};
+
 const toRisksSubmissionNode = (formData) => {
   if (formData) {
     return {
@@ -133,7 +141,6 @@ const toNorminalChecksNode = (formData) => {
       nominalChecks: formData?.nominalChecks,
     };
   }
-  return { nominalChecks: [{}] };
 };
 
 const toWarningsNode = (formData) => {
@@ -345,7 +352,7 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
       ...toOperationNode(formData),
       ...toSubmittingUserNode(formData, keycloak),
       ...toRisksSubmissionNode(formData),
-      ...toNorminalChecksNode(formData),
+      ...toNorminalChecksSubmissionNode(formData),
       form: {
         ...formData?.form,
       },
@@ -357,21 +364,21 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
 const submissionToPrefillPayload = (formData) => {
   if (formData) {
     return {
-      id: formData?.id,
-      businessKey: formData?.businessKey,
-      movement: formData?.movement,
-      issuingHub: formData?.issuingHub,
-      person: formData?.person,
-      otherPersons: formData?.otherPersons,
-      category: formData?.category,
-      warnings: formData?.warnings,
-      nominalChecks: formData?.nominalChecks,
-      eventPort: formData?.eventPort,
-      formStatus: formData?.formStatus,
-      meta: formData?.meta,
-      targetingIndicators: formData?.targetingIndicators,
-      teamToReceiveTheTarget: formData?.teamToReceiveTheTarget,
-      form: formData?.form,
+      ...(formData?.id && { id: formData?.id }),
+      ...(formData?.businessKey && { businessKey: formData?.businessKey }),
+      ...(formData?.movement && { movement: formData?.movement }),
+      ...(formData?.issuingHub && { issuingHub: formData?.issuingHub }),
+      ...(formData?.person && { person: formData?.person }),
+      ...(formData?.otherPersons?.length && { otherPersons: formData?.otherPersons }),
+      ...(formData?.category && { category: formData?.category }),
+      ...(formData?.warnings && { warnings: formData?.warnings }),
+      ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
+      ...(formData?.eventPort && { eventPort: formData?.eventPort }),
+      ...(formData?.formStatus && { formStatus: formData?.formStatus }),
+      ...(formData?.meta && { meta: formData?.meta }),
+      ...(formData?.targetingIndicators?.length && { targetingIndicators: formData?.targetingIndicators }),
+      ...(formData?.teamToReceiveTheTarget && { teamToReceiveTheTarget: formData?.teamToReceiveTheTarget }),
+      ...(formData?.form && { form: formData?.form }),
     };
   }
 };
