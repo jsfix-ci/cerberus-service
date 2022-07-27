@@ -151,6 +151,8 @@ spec:
             value: "https://$(COP_TARGETING_API_SERVICE_NAME).$(COP_TARGETING_API_NAMESPACE)"
           - name: COP_TARGETING_API_ENABLED
             value: "{{.COP_TARGETING_API_ENABLED}}"
+          - name: NGINX_CONFIG_FILE
+            value: "{{.NGINX_CONFIG_FILE}}"
       volumes:
       - name: certs
         secret:
