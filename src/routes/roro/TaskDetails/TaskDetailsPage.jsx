@@ -30,7 +30,15 @@ const escapeJSON = (input) => {
     .replace(/"/g, '\\"');
 };
 
-const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarget, refreshNotes, setTargetStatus, setAssignee, ...props }) => {
+const TaskManagementForm = ({ onCancel,
+  taskId,
+  processInstanceData,
+  actionTarget,
+  refreshNotes,
+  setTargetStatus,
+  setAssignee,
+  setError,
+  ...props }) => {
   const submitForm = useFormSubmit();
   return (
     <RenderForm
@@ -51,6 +59,7 @@ const TaskManagementForm = ({ onCancel, taskId, processInstanceData, actionTarge
         setTargetStatus();
         setAssignee();
       }}
+      setError={setError}
       {...props}
     />
   );
@@ -287,7 +296,14 @@ const TaskDetailsPage = () => {
 
   return (
     <>
-      {error && <ErrorSummary title={error} />}
+      {error && (
+      <ErrorSummary
+        title="There is a problem"
+        errorList={[
+          { children: error },
+        ]}
+      />
+      )}
       {warning && (
         <div className="govuk-warning-text">
           <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -367,6 +383,7 @@ const TaskDetailsPage = () => {
                   refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
                   setTargetStatus={() => setTargetStatus('Complete')}
                   setAssignee={() => setAssignee(null)}
+                  setError={setError}
                 >
                   <TaskCompletedSuccessMessage message="Task has been completed" />
                 </TaskManagementForm>
@@ -380,6 +397,7 @@ const TaskDetailsPage = () => {
                   refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
                   setTargetStatus={() => setTargetStatus('Dismissed')}
                   setAssignee={() => setAssignee(null)}
+                  setError={setError}
                 >
                   <TaskCompletedSuccessMessage message="Task has been dismissed" />
                 </TaskManagementForm>
@@ -402,6 +420,7 @@ const TaskDetailsPage = () => {
                     refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
                     setTargetStatus={() => setTargetStatus('Issued')}
                     setAssignee={() => setAssignee(null)}
+                    setError={setError}
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
                   </TaskManagementForm>
@@ -425,6 +444,7 @@ const TaskDetailsPage = () => {
                 businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}
                 processInstanceId={processInstanceId}
                 refreshNotes={refreshNotesForm}
+                setError={setError}
               />
             </div>
           </div>

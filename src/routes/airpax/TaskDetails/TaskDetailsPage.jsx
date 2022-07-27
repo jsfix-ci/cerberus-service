@@ -109,7 +109,15 @@ const TaskDetailsPage = () => {
 
   return (
     <>
-      {error && <ErrorSummary title={error} />}
+      {/* {error && <ErrorSummary title={error} />} */}
+      {error && (
+      <ErrorSummary
+        title="There is a problem"
+        errorList={[
+          { children: error },
+        ]}
+      />
+      )}
       <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
@@ -191,6 +199,7 @@ const TaskDetailsPage = () => {
               }
             }
             renderer={Renderers.REACT}
+            setError={setError}
           />
           )}
           {isIssueTargetFormOpen && isSubmitted && (
@@ -217,6 +226,7 @@ const TaskDetailsPage = () => {
             onCancel={() => setCompleteFormOpen()}
             form={completeTask}
             renderer={Renderers.REACT}
+            setError={setError}
           />
           )}
           {isCompleteFormOpen && isSubmitted && (
@@ -243,6 +253,7 @@ const TaskDetailsPage = () => {
               onCancel={() => setDismissTaskFormOpen()}
               form={dismissTask}
               renderer={Renderers.REACT}
+              setError={setError}
             />
           )}
           {isDismissTaskFormOpen && isSubmitted && (
@@ -269,6 +280,7 @@ const TaskDetailsPage = () => {
                 && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen}
               businessKey={businessKey}
               setRefreshNotesForm={() => setRefreshNotesForm(!refreshNotesForm)}
+              setError={setError}
             />
             )}
           <ActivityLog

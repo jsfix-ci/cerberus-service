@@ -211,6 +211,7 @@ describe('TaskNotes', () => {
       displayForm
       businessKey="ghi"
       setRefreshNotesForm={jest.fn()}
+      setError={jest.fn()}
     />));
 
     // Type into the textarea...
@@ -237,6 +238,7 @@ describe('TaskNotes', () => {
       displayForm
       businessKey="ghi"
       setRefreshNotesForm={jest.fn()}
+      setError={jest.fn()}
     />));
 
     // Type into the textarea...

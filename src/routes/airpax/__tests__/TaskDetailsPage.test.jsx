@@ -255,4 +255,19 @@ describe('Task details page', () => {
 
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
+
+  it('should render an error summary on failure to fetch the airpax target information sheet form', async () => {
+    mockAxiosCalls(dataClaimedTask, {});
+    mockAxios
+      .onGet('/copform/name/cerberus-airpax-target-information-sheet')
+      .reply(404);
+
+    await waitFor(() => renderPage());
+
+    const issueTargetButton = screen.getByRole('button', { name: 'Issue target' });
+    await waitFor(() => fireEvent.click(issueTargetButton));
+
+    expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+    expect(screen.queryByText('Request failed with status code 404')).toBeInTheDocument();
+  });
 });
