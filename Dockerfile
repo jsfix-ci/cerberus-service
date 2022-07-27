@@ -32,7 +32,7 @@ RUN apk upgrade --no-cache && \
     chown -R nginx:nginx /etc/nginx /var/log/nginx
 
 COPY --from=builder /src/dist/ /usr/share/nginx/html
-COPY /nginx/*.conf /etc/nginx
+COPY /nginx/*.conf /etc/nginx/
 COPY --chown=100 /nginx/run.sh /run.sh
 
 RUN chmod 700 /run.sh
