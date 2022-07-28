@@ -200,7 +200,7 @@ export const DEFAULT_AIRPAX_SELECTORS = [
 export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
   movementModes: [],
   hasSelectors: 'both',
-  mode: '',
+  mode: [],
 };
 
 export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {

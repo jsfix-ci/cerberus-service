@@ -59,12 +59,12 @@ const TaskListPage = () => {
     if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_RORO_MODES.map((mode) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: mode.movementModes,
+        movementModes: mode.movementModes?.length ? mode.movementModes : [],
         hasSelectors: toRoRoSelectorsValue(storedData.hasSelectors) || toRoRoSelectorsValue(mode.hasSelectors),
       }));
       const selectors = DEFAULT_RORO_HAS_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: [storedData.mode].filter((mode) => !!mode) || [],
+        movementModes: storedData.mode?.length ? storedData.mode : [],
         hasSelectors: selector.hasSelectors,
       }));
       return movementModes.concat(selectors);
@@ -125,7 +125,7 @@ const TaskListPage = () => {
     // Modify the post post param to be different from what is stored in stage.
     const toApply = {
       ...payload,
-      movementModes: payload?.mode ? [payload.mode] : [],
+      movementModes: payload?.mode?.length ? payload.mode : [],
       hasSelectors: payload?.hasSelectors !== DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors
         ? payload?.hasSelectors : null,
     };

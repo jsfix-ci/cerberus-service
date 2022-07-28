@@ -173,27 +173,12 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
 
   if (mode === MOVEMENT_VARIANT.RORO) {
     return (
-      <RoRoFilter
-        taskStatus={_taskStatus}
-        onApply={onApply}
-        appliedFilters={appliedFilters}
-        filtersAndSelectorsCount={filtersAndSelectorsCount}
-        movementModeCounts={movementModeCounts}
-        selectorCounts={modeSelectorCounts}
-      />
+      <RoRoFilter />
     );
   }
 
   return (
-    <AirpaxFilter
-      taskStatus={_taskStatus}
-      onApply={onApply}
-      appliedFilters={appliedFilters}
-      filtersAndSelectorsCount={filtersAndSelectorsCount}
-      movementModeCounts={movementModeCounts}
-      selectorCounts={modeSelectorCounts}
-      rulesOptions={rulesOptions}
-    />
+    <AirpaxFilter />
   );
 };
 

@@ -1,10 +1,5 @@
 const MODE_OPTIONS = [
   {
-    value: '',
-    label: '',
-    showFor: ['RORO'],
-  },
-  {
     value: 'AIR_PASSENGER',
     label: 'Air passenger',
     showFor: ['AIRPAX'],
@@ -114,8 +109,7 @@ export const roro = {
         id: 'mode',
         fieldId: 'mode',
         label: 'Mode',
-        type: 'select',
-        required: true,
+        type: 'checkboxes',
         dynamicOptions: true,
         data: {
           options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('RORO')),
@@ -143,11 +137,6 @@ export const roro = {
               label: 'Both',
             },
           ],
-        },
-        show_when: {
-          field: 'mode',
-          op: 'in',
-          values: MODE_OPTIONS.map((opt) => opt.value).filter((val) => !!val),
         },
       },
     ],
