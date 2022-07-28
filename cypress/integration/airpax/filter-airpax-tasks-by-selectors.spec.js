@@ -1,6 +1,3 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
 describe('Filter airpax tasks by Selectors on task management Page', () => {
   const filterOptions = [
     'NOT_PRESENT',
