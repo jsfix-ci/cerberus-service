@@ -208,6 +208,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

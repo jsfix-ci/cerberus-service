@@ -807,6 +807,45 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
   });
 
+  it('Should verify event ports are available in target information sheet', () => {
+    const eventPorts = ['Aberdeen Port', 'Eardiston', 'Wadswick', 'Yalding'];
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+
+    cy.fixture('target-information.json').as('inputData');
+
+    cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+        });
+      });
+    });
+
+    cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
+
+    cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
+
+    cy.wait('@claim').then(({ response }) => {
+      expect(response.statusCode).to.equal(204);
+    });
+
+    cy.contains('Issue target').click();
+
+    cy.wait(2000);
+    cy.get('.govuk-caption-xl').invoke('text').as('taskName');
+    eventPorts.forEach((port) => {
+      cy.get('.formio-component-eventPort.formio-component-select div.form-control').type(port);
+      cy.wait(2000);
+      cy.get('.formio-component-eventPort div[role="listbox"]').contains(port).click({ force: true });
+      cy.get('.formio-component-eventPort .form-control .choices__item .choices__button').click();
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
