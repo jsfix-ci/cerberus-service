@@ -1,6 +1,7 @@
 import { Button, Tag } from '@ukhomeoffice/cop-react-components';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import _ from 'lodash';
 
 // Config
 import config from '../../../config';
@@ -58,6 +59,28 @@ const TaskDetailsPage = () => {
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
+  const clearAccordionStorage = () => {
+    _.forIn(window.sessionStorage, (value, key) => {
+      if (_.startsWith(key, 'accordion-') === true) {
+        window.sessionStorage.removeItem(key);
+      }
+    });
+  };
+
+  /*
+   * This is a clean up fucntion which removes additional accordion controls
+   * added as a result of re-rendering of the accordion component within People.jsx component
+   * (Not exactly the react way of doing it).
+   */
+  const removeDuplicateControls = () => {
+    const accordionControls = document.getElementsByClassName('govuk-accordion__controls');
+    if (accordionControls?.length) {
+      for (let i = accordionControls.length - 1; i > 0; i -= 1) {
+        accordionControls[i].parentNode.removeChild(accordionControls[i]);
+      }
+    }
+  };
+
   const getPrefillData = async () => {
     let response;
     try {
@@ -95,11 +118,13 @@ const TaskDetailsPage = () => {
   }, [taskData, setAssignee, setLoading]);
 
   useEffect(() => {
+    clearAccordionStorage();
     getTaskData();
     getPrefillData();
   }, [businessKey]);
 
   useEffect(() => {
+    clearAccordionStorage();
     getTaskData();
   }, [refreshNotesForm]);
 
@@ -107,9 +132,10 @@ const TaskDetailsPage = () => {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
 
+  removeDuplicateControls();
+
   return (
     <>
-      {/* {error && <ErrorSummary title={error} />} */}
       {error && (
       <ErrorSummary
         title="There is a problem"
