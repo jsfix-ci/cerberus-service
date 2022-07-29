@@ -354,14 +354,13 @@ const addThumbUrl = (person) => {
   if (!person?.photograph?.photograph?.url || !person?.photograph?.photograph?.url?.startsWith('blob:')) {
     const file = person?.photograph?.photograph?.file;
     if (file) {
-      const thumbUrl = URL.createObjectURL(file);
       return {
         ...person,
         photograph: {
           ...person.photograph,
           photograph: {
             ...person.photograph.photograph,
-            url: thumbUrl,
+            url: URL.createObjectURL(file),
           },
         },
       };
