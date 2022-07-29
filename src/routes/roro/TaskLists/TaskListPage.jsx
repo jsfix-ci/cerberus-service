@@ -5,10 +5,9 @@ import { useIsMounted } from '../../../utils/hooks';
 
 // Config
 import {
-  RORO_FILTERS_KEY,
-  DEFAULT_APPLIED_RORO_FILTER_STATE,
   DEFAULT_MOVEMENT_RORO_MODES,
   DEFAULT_RORO_HAS_SELECTORS,
+  RORO_FILTERS,
   TAB_STATUS_MAPPING,
   TARGETER_GROUP,
   TASK_STATUS_COMPLETED,
@@ -16,23 +15,20 @@ import {
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   TASK_STATUS_KEY,
-  MOVEMENT_VARIANT,
 } from '../../../constants';
 import config from '../../../config';
 
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
-import { getTaskStatus,
-  getLocalStoredItemByKeyValue,
-  toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
+import { toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
 // Components/Pages
 import TasksTab from './TasksTab';
 import ErrorSummary from '../../../govuk/ErrorSummary';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Tabs from '../../../components/Tabs';
-import Filter from '../../../components/Filter';
+import Filter from './Filter';
 
 // Context
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
@@ -50,25 +46,40 @@ const TaskListPage = () => {
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
   const [isLoading, setLoading] = useState(true);
-  const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_RORO_FILTER_STATE);
+  const [filtersToApply, setFiltersToApply] = useState('');
+  const [storedFilters, setStoredFilters] = useState(null);
+  const [hasSelectors, setHasSelectors] = useState(null);
+  const [movementModesSelected, setMovementModesSelected] = useState([]);
   const { selectTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
 
+  let filterPosition = 0;
+
   const getAppliedFilters = () => {
-    const taskStatus = getTaskStatus(TASK_STATUS_KEY);
-    const storedData = getLocalStoredItemByKeyValue(RORO_FILTERS_KEY);
-    if (storedData) {
+    const taskStatus = localStorage.getItem('taskId') !== 'null'
+      ? localStorage.getItem('taskId')
+      : 'new';
+    if (
+      localStorage.getItem('filterMovementMode')
+      || localStorage.getItem('hasSelector')
+    ) {
       const movementModes = DEFAULT_MOVEMENT_RORO_MODES.map((mode) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: mode.movementModes?.length ? mode.movementModes : [],
-        hasSelectors: toRoRoSelectorsValue(storedData.hasSelectors) || toRoRoSelectorsValue(mode.hasSelectors),
+        movementModes: mode.movementModes,
+        hasSelectors: localStorage.getItem('hasSelector')
+          ? localStorage.getItem('hasSelector')
+          : mode.hasSelectors,
       }));
+      const selectedFilters = localStorage.getItem('filterMovementMode')
+        ? localStorage.getItem('filterMovementMode').split(',')
+        : [];
       const selectors = DEFAULT_RORO_HAS_SELECTORS.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: storedData.mode?.length ? storedData.mode : [],
+        movementModes: selectedFilters,
         hasSelectors: selector.hasSelectors,
       }));
       return movementModes.concat(selectors);
     }
+
     return [
       ...DEFAULT_MOVEMENT_RORO_MODES.map((mode) => ({
         ...mode,
@@ -101,8 +112,9 @@ const TaskListPage = () => {
     }
   };
 
-  const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS_NEW) => {
-    localStorage.setItem(TASK_STATUS_KEY, taskStatus);
+  const getFiltersAndSelectorsCount = async (taskId = 'new') => {
+    localStorage.setItem('taskId', taskId);
+    setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
         const countsResponse = await camundaClientV1.post(
@@ -119,35 +131,139 @@ const TaskListPage = () => {
     }
   };
 
-  const applyFilters = (payload) => {
+  const handleFilterChange = (e, option, filterSet) => {
+    if (filterSet.filterName === 'hasSelectors') {
+      if (option.optionName !== 'any') {
+        setHasSelectors(option.optionName);
+      } else {
+        setHasSelectors(null);
+      }
+    }
+    if (filterSet.filterName === 'movementModes') {
+      if (e.target.checked) {
+        setMovementModesSelected([...movementModesSelected, option.optionName]);
+      } else {
+        const adjustedMovementModeSelected = [...movementModesSelected];
+        adjustedMovementModeSelected.splice(
+          movementModesSelected.indexOf(option.optionName),
+          1,
+        );
+        setMovementModesSelected(adjustedMovementModeSelected);
+      }
+    }
+  };
+
+  const handleFilterApply = (e, resetToDefault) => {
     setLoading(true);
-    localStorage.setItem(RORO_FILTERS_KEY, JSON.stringify(payload));
-    // Modify the post post param to be different from what is stored in stage.
-    const toApply = {
-      ...payload,
-      movementModes: payload?.mode?.length ? payload.mode : [],
-      hasSelectors: payload?.hasSelectors !== DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors
-        ? payload?.hasSelectors : null,
-    };
-    getTaskCount(toApply);
-    setAppliedFilters(payload);
-    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
+    if (e) {
+      e.preventDefault();
+    }
+    let apiParams = [];
+    if (!resetToDefault) {
+      localStorage.setItem('filterMovementMode', movementModesSelected);
+      localStorage.setItem('hasSelector', hasSelectors);
+      apiParams = {
+        movementModes: movementModesSelected || [],
+        hasSelectors,
+      };
+    } else {
+      apiParams = {
+        movementModes: [],
+        hasSelectors: null,
+      };
+    }
+    getTaskCount(apiParams);
+    setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
     setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
-    localStorage.removeItem(RORO_FILTERS_KEY);
-    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
-    getTaskCount(DEFAULT_APPLIED_RORO_FILTER_STATE);
-    setAppliedFilters(DEFAULT_APPLIED_RORO_FILTER_STATE);
+    // Clear localStorage
+    localStorage.removeItem('filterMovementMode');
+    localStorage.removeItem('hasSelector');
+    /* Clear checked options :
+     * when hasSelectors was not selected, it stores 'null' as a string in the
+     * localStorage so needs to be excluded in the if condition
+     */
+    if (hasSelectors && hasSelectors !== 'null') {
+      document.getElementById(hasSelectors).checked = false;
+      setHasSelectors(null);
+    }
+    if (movementModesSelected) {
+      movementModesSelected.map((mode) => {
+        document.getElementById(mode).checked = false;
+      });
+      setMovementModesSelected([]);
+    }
+    setStoredFilters([]);
+    handleFilterApply(e, 'resetToDefault'); // run with default params
   };
 
   const applySavedFiltersOnLoad = () => {
-    applyFilters(getLocalStoredItemByKeyValue(RORO_FILTERS_KEY) || DEFAULT_APPLIED_RORO_FILTER_STATE);
-    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
+    const selectors = localStorage.getItem('hasSelector');
+    const movementModes = localStorage.getItem('filterMovementMode')
+      ? localStorage.getItem('filterMovementMode').split(',')
+      : [];
+    setHasSelectors(selectors);
+    setMovementModesSelected(movementModes);
+
+    const selectedArray = [];
+    if (selectors) {
+      selectedArray.push(selectors);
+    }
+    if (movementModes?.length > 0) {
+      selectedArray.push(...movementModes);
+    }
+    setStoredFilters(selectedArray);
+
+    const apiParams = {
+      movementModes,
+      hasSelectors: selectors,
+    };
+
+    getTaskCount(apiParams);
+    setFiltersToApply(apiParams);
+    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
     setLoading(false);
   };
+
+  const getDefaultFiltersAndSelectorsCount = (parentIndex, index) => {
+    return filtersAndSelectorsCount[parentIndex === 0 ? index : index + 3]
+      ?.statusCounts.total;
+  };
+
+  const renderSelectedFiltersCount = () => {
+    const totalCount = filtersAndSelectorsCount[filterPosition]?.statusCounts?.total;
+    filterPosition += 1;
+    return totalCount;
+  };
+
+  const showFilterAndSelectorCount = (parentIndex, index) => {
+    let count = 0;
+    if (filtersAndSelectorsCount) {
+      if (!localStorage.getItem('filterMovementMode')) {
+        count = getDefaultFiltersAndSelectorsCount(parentIndex, index);
+      } else {
+        count = renderSelectedFiltersCount();
+      }
+    }
+    return count || 0;
+  };
+
+  useEffect(() => {
+    const selectedArray = [];
+    if (hasSelectors) {
+      selectedArray.push(hasSelectors);
+    } else {
+      selectedArray.push('null');
+    }
+    if (movementModesSelected?.length > 0) {
+      selectedArray.push(...movementModesSelected);
+    }
+    setStoredFilters(selectedArray);
+  }, [hasSelectors, movementModesSelected]);
 
   useEffect(() => {
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
@@ -210,14 +326,29 @@ const TaskListPage = () => {
                   Clear all filters
                 </button>
               </div>
-              <Filter
-                mode={MOVEMENT_VARIANT.RORO}
-                taskStatus={getTaskStatus(TASK_STATUS_KEY)}
-                onApply={applyFilters}
-                appliedFilters={appliedFilters}
-                filtersAndSelectorsCount={filtersAndSelectorsCount}
-              />
+              {RORO_FILTERS.map((filterSet, parentIndex) => {
+                return (
+                  <Filter
+                    key={parentIndex}
+                    filterSet={filterSet}
+                    storedFilters={storedFilters}
+                    handleFilterChange={handleFilterChange}
+                    showFilterAndSelectorCount={showFilterAndSelectorCount}
+                    parentIndex={parentIndex}
+                  />
+                );
+              })}
             </div>
+            <button
+              className="govuk-button"
+              data-module="govuk-button"
+              type="button"
+              onClick={(e) => {
+                handleFilterApply(e);
+              }}
+            >
+              Apply
+            </button>
           </section>
 
           <section className="govuk-grid-column-three-quarters">
@@ -237,7 +368,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">New tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_NEW}
-                        filtersToApply={appliedFilters}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.new}
                         setError={setError}
                       />
@@ -254,7 +385,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">In progress tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_IN_PROGRESS}
-                        filtersToApply={appliedFilters}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.inProgress}
                         setError={setError}
                       />
@@ -269,7 +400,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_TARGET_ISSUED}
-                        filtersToApply={appliedFilters}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.issued}
                         setError={setError}
                       />
@@ -284,7 +415,7 @@ const TaskListPage = () => {
                       <h2 className="govuk-heading-l">Completed tasks</h2>
                       <TasksTab
                         taskStatus={TASK_STATUS_COMPLETED}
-                        filtersToApply={appliedFilters}
+                        filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.complete}
                         setError={setError}
                       />

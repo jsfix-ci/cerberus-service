@@ -1,7 +1,7 @@
 import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import React, { useState, useCallback, useEffect } from 'react';
-import { DEFAULT_APPLIED_RORO_FILTER_STATE, MOVEMENT_VARIANT } from '../constants';
+import { COMPONENT_TYPES, DEFAULT_APPLIED_RORO_FILTER_STATE, MOVEMENT_VARIANT } from '../constants';
 
 import { airpax, roro } from '../cop-forms/filter';
 
@@ -83,7 +83,7 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
 
   const onGetComponent = (component, wrap) => {
     const attrs = Utils.Component.clean(component, ['fieldId', 'dynamicOptions', 'multi']);
-    if (component.type === 'select') {
+    if (component.type === COMPONENT_TYPES.TYPE_SELECT) {
       const select = (
         <select
           className="govuk-select"
@@ -110,7 +110,7 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
       }
       return select;
     }
-    if (component.type === 'multiautocomplete') {
+    if (component.type === COMPONENT_TYPES.TYPE_MULTIAUTOCOMPLETE) {
       const multiSelect = (
         <MultiSelectAutocomplete
           className="hods-multi-select-autocomplete"
