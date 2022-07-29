@@ -29,7 +29,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.37.0",
     "@nitro-land/airport-codes": "^1.0.4",
-    "@ukhomeoffice/cop-react-components": "^1.8.1",
+    "@ukhomeoffice/cop-react-components": "^1.10.0",
     "@ukhomeoffice/cop-react-form-renderer": "^3.12.0",
     "@ukhomeoffice/formio-gds-template": "^1.0.12",
     "axios": "^0.23.0",

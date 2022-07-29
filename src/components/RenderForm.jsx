@@ -3,12 +3,14 @@ import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import gds from '@ukhomeoffice/formio-gds-template/lib';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Formio } from 'react-formio';
+
+import { ApplicationContext } from '../context/ApplicationContext';
 
 // Local imports
 import config from '../config';
-import { FORM_ACTIONS, FORM_TIS_CACHE_STORE } from '../constants';
+import { FORM_ACTIONS } from '../constants';
 import useAxiosInstance from '../utils/axiosInstance';
 import FormUtils, { Renderers } from '../utils/Form';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
@@ -33,6 +35,7 @@ const RenderForm = ({ formName,
   const [formattedPreFillData, setFormattedPreFillData] = useState();
   const [submitted, setSubmitted] = useState(false);
   const keycloak = useKeycloak();
+  const { setAirPaxTisCache } = useContext(ApplicationContext);
   const formApiClient = useAxiosInstance(keycloak, config.formApiUrl);
   const uploadApiClient = useAxiosInstance(keycloak, config.fileUploadApiUrl);
 
@@ -183,8 +186,7 @@ const RenderForm = ({ formName,
             }
             if (type === FORM_ACTIONS.NEXT) {
               if (cacheTisFormData) {
-                TargetInformationUtil.cache.store(FORM_TIS_CACHE_STORE,
-                  TargetInformationUtil.convertToPrefill(payload));
+                setAirPaxTisCache(TargetInformationUtil.convertToPrefill(payload));
               }
               // Do nothing.
               return onSuccess(payload);
