@@ -1052,6 +1052,32 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
       });
     });
   });
+
+  it('Should verify aggregated count table is hidden in task list and task overview page', () => {
+    cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        let businessKey = taskResponse.businessKey;
+        cy.visit('/tasks');
+        cy.get('.govuk-task-list-card').then(($taskListCard) => {
+          cy.wait(2000);
+          if ($taskListCard.text().includes(businessKey)) {
+            cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+              cy.get('.govuk-visually-hidden .govuk-\\!-margin-left-3 ').should('not.be.visible');
+            });
+          }
+          cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+            cy.navigateToTaskDetailsPage(tasks);
+            cy.wait(2000);
+            cy.get('.govuk-visually-hidden').children('.govuk-grid-row').should('have.class', 'enrichment-counts');
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
