@@ -86,7 +86,6 @@ export const RULES_FIELD_DESCRIPTION = {
 };
 
 export const BUSINESS_KEY_PATH = '/businessKey/generate';
-export const FORM_TIS_CACHE_STORE = 'form-tis-cache-store';
 export const FORM_NAMES = {
   NOTE_CERBERUS: 'noteCerberus',
   TARGET_INFORMATION_SHEET: 'targetInformationSheet',

@@ -6,22 +6,10 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
-const toLocalCache = (key, payload) => {
-  localStorage.setItem(key, JSON.stringify(payload));
-};
-
-const getLocalCache = (key) => {
-  return JSON.parse(localStorage.getItem(key));
-};
-
-const removeLocalCache = (key) => {
-  localStorage.removeItem(key);
-};
-
-const toPersonSubmissionNode = (person, index) => {
+const toPersonSubmissionNode = (person, meta, index) => {
   if (person) {
     return {
-      ...index && { id: index + 1 },
+      id: person?.id,
       name: person?.name,
       dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
       gender: person?.sex,
@@ -33,7 +21,8 @@ const toPersonSubmissionNode = (person, index) => {
       nationality: person?.nationality,
       ...(person?.photograph && {
         photograph: {
-          url: person?.photograph?.photograph?.url,
+          uri: (index || index === 0) ? replaceInvalidValues(meta?.documents[index + 1]?.url)
+            : replaceInvalidValues(meta?.documents[0]?.url),
           approxPhotoTaken: person?.photograph?.date
             && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
         },
@@ -115,8 +104,8 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
         flight: {
           seatNumber: formData?.person?.seatNumber,
         },
-        person: toPersonSubmissionNode(formData?.person),
-        otherPersons: formData?.otherPersons?.map((person, index) => toPersonSubmissionNode(person, index)) || [],
+        person: toPersonSubmissionNode(formData?.person, formData?.meta),
+        otherPersons: formData?.otherPersons?.map((person, index) => toPersonSubmissionNode(person, formData?.meta, index)) || [],
         baggage: {
           numberOfCheckedBags: formData?.person?.baggage?.bagCount,
           weight: formData?.person?.baggage?.weight,
@@ -361,6 +350,25 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
   return submissionPayload;
 };
 
+const addThumbUrl = (person) => {
+  if (!person?.photograph?.photograph?.url || !person?.photograph?.photograph?.url?.startsWith('blob:')) {
+    const file = person?.photograph?.photograph?.file;
+    if (file) {
+      return {
+        ...person,
+        photograph: {
+          ...person.photograph,
+          photograph: {
+            ...person.photograph.photograph,
+            url: URL.createObjectURL(file),
+          },
+        },
+      };
+    }
+  }
+  return person;
+};
+
 const submissionToPrefillPayload = (formData) => {
   if (formData) {
     return {
@@ -368,8 +376,9 @@ const submissionToPrefillPayload = (formData) => {
       ...(formData?.businessKey && { businessKey: formData?.businessKey }),
       ...(formData?.movement && { movement: formData?.movement }),
       ...(formData?.issuingHub && { issuingHub: formData?.issuingHub }),
-      ...(formData?.person && { person: formData?.person }),
-      ...(formData?.otherPersons?.length && { otherPersons: formData?.otherPersons }),
+      ...(formData?.person && { person: addThumbUrl(formData?.person) }),
+      ...(formData?.otherPersons?.length
+        && { otherPersons: formData?.otherPersons.map((person) => { return addThumbUrl(person); }) }),
       ...(formData?.category && { category: formData?.category }),
       ...(formData?.warnings && { warnings: formData?.warnings }),
       ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
@@ -387,11 +396,6 @@ const TargetInformationUtil = {
   prefillPayload: toTisPrefillPayload,
   submissionPayload: toTisSubmissionPayload,
   convertToPrefill: submissionToPrefillPayload,
-  cache: {
-    get: getLocalCache,
-    remove: removeLocalCache,
-    store: toLocalCache,
-  },
 };
 
 export default TargetInformationUtil;

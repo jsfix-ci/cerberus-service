@@ -10,8 +10,7 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT,
-  FORM_NAMES,
-  FORM_TIS_CACHE_STORE }
+  FORM_NAMES }
 from '../../../constants';
 
 import { ApplicationContext } from '../../../context/ApplicationContext';
@@ -46,7 +45,7 @@ const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const { airPaxRefDataMode } = useContext(ApplicationContext);
+  const { airPaxRefDataMode, airPaxTisCache, setAirPaxTisCache } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
   const [error, setError] = useState(null);
   const [assignee, setAssignee] = useState();
@@ -84,15 +83,12 @@ const TaskDetailsPage = () => {
   const getPrefillData = async () => {
     let response;
     try {
-      const storedCache = TargetInformationUtil.cache.get(FORM_TIS_CACHE_STORE);
-      if (storedCache?.id !== businessKey) {
-        TargetInformationUtil.cache.remove(FORM_TIS_CACHE_STORE);
+      if (airPaxTisCache?.id !== businessKey) {
         response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-        TargetInformationUtil.cache.store(FORM_TIS_CACHE_STORE,
-          TargetInformationUtil.prefillPayload(response.data));
+        setAirPaxTisCache(TargetInformationUtil.prefillPayload(response.data));
       }
     } catch (e) {
-      TargetInformationUtil.cache.remove(FORM_TIS_CACHE_STORE);
+      setAirPaxTisCache({});
     }
   };
 
@@ -208,18 +204,20 @@ const TaskDetailsPage = () => {
           <RenderForm
             cacheTisFormData
             formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
-            preFillData={TargetInformationUtil.cache.get(FORM_TIS_CACHE_STORE)}
+            preFillData={airPaxTisCache}
             onSubmit={
               async ({ data }) => {
                 try {
                   await apiClient.post('/targets',
                     TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
-                  TargetInformationUtil.cache.remove(FORM_TIS_CACHE_STORE);
+                  data?.meta?.documents.forEach((document) => delete document.file);
+                  setAirPaxTisCache({});
                   setSubmitted(true);
                   if (error) {
                     setError(null);
                   }
                 } catch (e) {
+                  setAirPaxTisCache(TargetInformationUtil.convertToPrefill(data));
                   setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
                 }
               }
