@@ -6,7 +6,7 @@ import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 
-const toOtherPersonsSubmissionNode = (person, meta, index) => {
+const toPersonSubmissionNode = (person, meta, index) => {
   if (person) {
     return {
       id: person?.id,
@@ -21,31 +21,8 @@ const toOtherPersonsSubmissionNode = (person, meta, index) => {
       nationality: person?.nationality,
       ...(person?.photograph && {
         photograph: {
-          uri: meta.documents[index + 1].url,
-          approxPhotoTaken: person?.photograph?.date
-            && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
-        },
-      }),
-    };
-  }
-};
-
-const toPersonSubmissionNode = (person, meta) => {
-  if (person) {
-    return {
-      id: person?.id,
-      name: person?.name,
-      dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
-      gender: person?.sex,
-      document: {
-        ...person?.document,
-        number: person?.document?.documentNumber,
-        expiry: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
-      },
-      nationality: person?.nationality,
-      ...(person?.photograph && {
-        photograph: {
-          uri: meta?.documents[0]?.url,
+          uri: (index || index === 0) ? replaceInvalidValues(meta?.documents[index + 1]?.url)
+            : replaceInvalidValues(meta?.documents[0]?.url),
           approxPhotoTaken: person?.photograph?.date
             && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
         },
@@ -120,7 +97,6 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
         journey: {
           id: journey?.id,
           direction: journey?.direction,
-          // direction: 'OUTBOUND', // TODO: REMOVE
           route: formData?.movement?.routeToUK,
           arrival: journey?.arrival,
           departure: journey?.departure,
@@ -129,7 +105,7 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
           seatNumber: formData?.person?.seatNumber,
         },
         person: toPersonSubmissionNode(formData?.person, formData?.meta),
-        otherPersons: formData?.otherPersons?.map((person, index) => toOtherPersonsSubmissionNode(person, formData?.meta, index)) || [],
+        otherPersons: formData?.otherPersons?.map((person, index) => toPersonSubmissionNode(person, formData?.meta, index)) || [],
         baggage: {
           numberOfCheckedBags: formData?.person?.baggage?.bagCount,
           weight: formData?.person?.baggage?.weight,
@@ -402,7 +378,8 @@ const submissionToPrefillPayload = (formData) => {
       ...(formData?.movement && { movement: formData?.movement }),
       ...(formData?.issuingHub && { issuingHub: formData?.issuingHub }),
       ...(formData?.person && { person: addThumbUrl(formData?.person) }),
-      ...(formData?.otherPersons?.length && { otherPersons: formData?.otherPersons.map((person) => { return addThumbUrl(person); }) }),
+      ...(formData?.otherPersons?.length
+        && { otherPersons: formData?.otherPersons.map((person) => { return addThumbUrl(person); }) }),
       ...(formData?.category && { category: formData?.category }),
       ...(formData?.warnings && { warnings: formData?.warnings }),
       ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),

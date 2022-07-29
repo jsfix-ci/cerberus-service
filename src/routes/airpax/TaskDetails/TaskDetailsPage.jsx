@@ -208,8 +208,8 @@ const TaskDetailsPage = () => {
             onSubmit={
               async ({ data }) => {
                 try {
-                  const submissionPayload = TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode);
-                  await apiClient.post('/targets', submissionPayload);
+                  await apiClient.post('/targets',
+                    TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
                   data?.meta?.documents.forEach((document) => delete document.file);
                   setAirPaxTisCache({});
                   setSubmitted(true);
