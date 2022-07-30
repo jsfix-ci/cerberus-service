@@ -1,11 +1,11 @@
 import { UTC_DATE_FORMAT } from '../../../constants';
 
-import { replaceInvalidValues } from '../../../utils/stringConversion';
 import BaggageUtil from './baggageUtil';
 import DateTimeUtil from './datetimeUtil';
 import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
+import { replaceInvalidValues } from '../../../utils/stringConversion';
 
 const addThumbUrl = (person) => {
   if (!person?.photograph?.photograph?.url || !person?.photograph?.photograph?.url?.startsWith('blob:')) {
@@ -109,6 +109,12 @@ const toRemarksSubmissionNode = (formData) => {
 const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
   if (taskData && formData) {
     const journey = MovementUtil.movementJourney(taskData);
+    const arrivalDateTime = DateTimeUtil.convertToUTC(
+      `${formData?.movement?.arrival?.date} ${formData?.movement?.arrival?.time}`, 'DD-MM-YYYY HH:mm', UTC_DATE_FORMAT,
+    );
+    const departureDateTime = DateTimeUtil.convertToUTC(
+      `${formData?.movement?.departure?.date} ${formData?.movement?.departure?.time}`, 'DD-MM-YYYY HH:mm', UTC_DATE_FORMAT,
+    );
     return {
       movement: {
         id: taskData?.movement?.id,
@@ -118,10 +124,16 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
           id: journey?.id,
           direction: formData?.movement?.direction,
           route: formData?.movement?.routeToUK,
-          // arrival: formData?.movement?.arrival ? formData?.movement?.arrival,
-          arrival: formData?.movement?.arrival,
-          // departure: formData?.movement?.departure ? formData?.movement?.departure : journey?.departure,
-          departure: formData?.movement?.departure,
+          arrival: {
+            ...formData?.movement?.arrival,
+            date: arrivalDateTime,
+            time: arrivalDateTime,
+          },
+          departure: {
+            ...formData?.movement?.departure,
+            date: departureDateTime,
+            time: departureDateTime,
+          },
         },
         flight: {
           seatNumber: formData?.person?.seatNumber,
@@ -200,6 +212,14 @@ const toTargetingIndicatorsNode = (formData) => {
           label: ti.userfacingtext,
         };
       }),
+    };
+  }
+};
+
+const toReasoningNode = (formData) => {
+  if (formData?.selectionReasoning) {
+    return {
+      selectionReasoning: replaceInvalidValues(formData?.selectionReasoning),
     };
   }
 };
@@ -341,6 +361,7 @@ const toTisPrefillPayload = (informationSheet) => {
       ...toIssuingHubNode(informationSheet),
       ...toMainPersonNode(informationSheet),
       ...toOtherPersonsNode(informationSheet),
+      ...toReasoningNode(informationSheet),
       ...toOperationNode(informationSheet),
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
@@ -392,7 +413,10 @@ const submissionToPrefillPayload = (formData) => {
       ...(formData?.eventPort && { eventPort: formData?.eventPort }),
       ...(formData?.formStatus && { formStatus: formData?.formStatus }),
       ...(formData?.meta && { meta: formData?.meta }),
+      ...(formData?.operation && { operation: formData?.operation }),
       ...(formData?.targetingIndicators?.length && { targetingIndicators: formData?.targetingIndicators }),
+      ...(formData?.additionalInfo && { additionalInfo: formData?.additionalInfo }),
+      ...(formData?.whySelected && { whySelected: formData?.whySelected }),
       ...(formData?.teamToReceiveTheTarget && { teamToReceiveTheTarget: formData?.teamToReceiveTheTarget }),
       ...(formData?.form && { form: formData?.form }),
     };

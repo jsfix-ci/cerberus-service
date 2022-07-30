@@ -186,7 +186,6 @@ const RenderForm = ({ formName,
             }
             if (type === FORM_ACTIONS.NEXT) {
               if (cacheTisFormData) {
-                console.log('FORM PAYLOAD', payload);
                 setAirPaxTisCache(TargetInformationUtil.convertToPrefill(payload));
               }
               // Do nothing.
