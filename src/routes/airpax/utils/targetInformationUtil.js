@@ -1,10 +1,30 @@
 import { UTC_DATE_FORMAT } from '../../../constants';
+
 import { replaceInvalidValues } from '../../../utils/stringConversion';
 import BaggageUtil from './baggageUtil';
 import DateTimeUtil from './datetimeUtil';
 import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
+
+const addThumbUrl = (person) => {
+  if (!person?.photograph?.photograph?.url || !person?.photograph?.photograph?.url?.startsWith('blob:')) {
+    const file = person?.photograph?.photograph?.file;
+    if (file) {
+      return {
+        ...person,
+        photograph: {
+          ...person.photograph,
+          photograph: {
+            ...person.photograph.photograph,
+            url: URL.createObjectURL(file),
+          },
+        },
+      };
+    }
+  }
+  return person;
+};
 
 const toPersonSubmissionNode = (person, meta, index) => {
   if (person) {
@@ -96,10 +116,12 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
         refDataMode: airPaxRefDataMode,
         journey: {
           id: journey?.id,
-          direction: journey?.direction,
+          direction: formData?.movement?.direction,
           route: formData?.movement?.routeToUK,
-          arrival: journey?.arrival,
-          departure: journey?.departure,
+          // arrival: formData?.movement?.arrival ? formData?.movement?.arrival,
+          arrival: formData?.movement?.arrival,
+          // departure: formData?.movement?.departure ? formData?.movement?.departure : journey?.departure,
+          departure: formData?.movement?.departure,
         },
         flight: {
           seatNumber: formData?.person?.seatNumber,
@@ -190,10 +212,10 @@ const toOperationNode = (formData) => {
   }
 };
 
-const toPersonNode = (person, index) => {
+const toPersonNode = (person) => {
   if (person) {
     return {
-      id: index + 1,
+      id: person?.id,
       name: { ...person?.name },
       dateOfBirth: replaceInvalidValues(DateTimeUtil.format(person?.dateOfBirth, 'DD-MM-YYYY')),
       nationality: {
@@ -221,7 +243,7 @@ const toOtherPersonsNode = (data) => {
   const othersPersons = PersonUtil.getOthers(data);
   if (othersPersons?.length) {
     return {
-      otherPersons: othersPersons.map((person, index) => toPersonNode(person, index)),
+      otherPersons: othersPersons.map((person) => toPersonNode(person)),
     };
   }
 };
@@ -271,9 +293,14 @@ const toMovementNode = (formData) => {
       flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
         || replaceInvalidValues(formData?.movement?.journey?.id),
       routeToUK: replaceInvalidValues(MovementUtil.movementRoute(journey)),
+      direction: replaceInvalidValues(MovementUtil.direction(journey)),
       arrival: {
         date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'DD-MM-YYYY')),
         time: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'HH:mm')),
+      },
+      departure: {
+        date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.departureTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(MovementUtil.departureTime(journey), 'HH:mm')),
       },
     },
   };
@@ -308,7 +335,6 @@ const toTisPrefillPayload = (informationSheet) => {
   let tisPrefillData = {};
   if (informationSheet) {
     tisPrefillData = {
-      ...tisPrefillData,
       ...toIdNode(informationSheet),
       ...toPortNode(informationSheet),
       ...toMovementNode(informationSheet),
@@ -330,7 +356,6 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
   let submissionPayload = {};
   if (formData) {
     submissionPayload = {
-      ...submissionPayload,
       ...toIdNode(formData),
       ...toPortNode(formData),
       ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
@@ -350,28 +375,10 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
   return submissionPayload;
 };
 
-const addThumbUrl = (person) => {
-  if (!person?.photograph?.photograph?.url || !person?.photograph?.photograph?.url?.startsWith('blob:')) {
-    const file = person?.photograph?.photograph?.file;
-    if (file) {
-      return {
-        ...person,
-        photograph: {
-          ...person.photograph,
-          photograph: {
-            ...person.photograph.photograph,
-            url: URL.createObjectURL(file),
-          },
-        },
-      };
-    }
-  }
-  return person;
-};
-
 const submissionToPrefillPayload = (formData) => {
+  let tisPrefillData = {};
   if (formData) {
-    return {
+    tisPrefillData = {
       ...(formData?.id && { id: formData?.id }),
       ...(formData?.businessKey && { businessKey: formData?.businessKey }),
       ...(formData?.movement && { movement: formData?.movement }),
@@ -390,6 +397,7 @@ const submissionToPrefillPayload = (formData) => {
       ...(formData?.form && { form: formData?.form }),
     };
   }
+  return tisPrefillData;
 };
 
 const TargetInformationUtil = {
@@ -400,4 +408,4 @@ const TargetInformationUtil = {
 
 export default TargetInformationUtil;
 
-export { toTisPrefillPayload, toTisSubmissionPayload };
+export { toTisPrefillPayload, toTisSubmissionPayload, submissionToPrefillPayload };

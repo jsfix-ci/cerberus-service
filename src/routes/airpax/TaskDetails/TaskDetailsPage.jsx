@@ -207,12 +207,15 @@ const TaskDetailsPage = () => {
             preFillData={airPaxTisCache}
             onSubmit={
               async ({ data }) => {
+                console.log('FORMDATA PAYLOAD', data);
                 try {
-                  await apiClient.post('/targets',
-                    TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
-                  data?.meta?.documents.forEach((document) => delete document.file);
-                  setAirPaxTisCache({});
-                  setSubmitted(true);
+                  const submissionPayload = TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode);
+                  console.log('SUBMISSION PAYLOAD', submissionPayload);
+                  // await apiClient.post('/targets',
+                  //   TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  // data?.meta?.documents.forEach((document) => delete document.file);
+                  // setAirPaxTisCache({});
+                  // setSubmitted(true);
                   if (error) {
                     setError(null);
                   }
