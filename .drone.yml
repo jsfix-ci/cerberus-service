@@ -228,7 +228,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export CYPRESS_CACHE_FOLDER="~/.cache/Cypress"
     - export AUTH_URL="$${PROTOCOL_HTTPS}$${DEV_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
@@ -251,6 +250,7 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: DEV_CERBERUS_SERVICE_URL
     CRON_SCHEDULE: "\"10 10 * * 1-5\""
+    CYPRESS_CACHE_FOLDER: "~/.cache/Cypress"
     CYPRESS_KEY:
       from_secret: CYPRESS_KEY
     CYPRESS_PROJECT_ID:
@@ -344,7 +344,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export CYPRESS_CACHE_FOLDER="~/.cache/Cypress"
     - export AUTH_URL="$${PROTOCOL_HTTPS}$${SIT_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests-sit"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
@@ -367,6 +366,7 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: SIT_CERBERUS_SERVICE_URL
     CRON_SCHEDULE: "\"10 10 * * 1-5\""
+    CYPRESS_CACHE_FOLDER: "~/.cache/Cypress"
     CYPRESS_KEY:
       from_secret: CYPRESS_KEY
     CYPRESS_PROJECT_ID:
@@ -462,7 +462,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export CYPRESS_CACHE_FOLDER="~/.cache/Cypress"
     - export AUTH_URL="$${PROTOCOL_HTTPS}$${SIT_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests-staging"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
@@ -485,6 +484,7 @@ steps:
     CERBERUS_WORKFLOW_SERVICE_URL:
       from_secret: STAGING_CERBERUS_SERVICE_URL
     CRON_SCHEDULE: "\"10 10 * * 1-5\""
+    CYPRESS_CACHE_FOLDER: "~/.cache/Cypress"
     CYPRESS_KEY:
       from_secret: CYPRESS_KEY
     CYPRESS_PROJECT_ID:
