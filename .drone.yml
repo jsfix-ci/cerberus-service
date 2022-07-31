@@ -228,7 +228,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export AUTH_URL="$${PROTOCOL_HTTPS}$${DEV_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
@@ -264,8 +263,6 @@ steps:
       from_secret: DEV_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: DEV_CERBERUS_KUBE_TOKEN
-    PROTOCOL_HTTPS:
-      from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
       from_secret: TESTS_REPORT_BASE_URL
     S3_ACCESS_KEY:
@@ -344,7 +341,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export AUTH_URL="$${PROTOCOL_HTTPS}$${SIT_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests-sit"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
@@ -380,8 +376,6 @@ steps:
       from_secret: SIT_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: SIT_CERBERUS_KUBE_TOKEN
-    PROTOCOL_HTTPS:
-      from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
       from_secret: TESTS_REPORT_BASE_URL
     S3_ACCESS_KEY:
@@ -462,7 +456,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export AUTH_URL="$${PROTOCOL_HTTPS}$${SIT_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests-staging"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
@@ -498,8 +491,6 @@ steps:
       from_secret: STAGING_KUBE_SERVER
     KUBE_TOKEN:
       from_secret: STAGING_CERBERUS_KUBE_TOKEN
-    PROTOCOL_HTTPS:
-      from_secret: PROTOCOL_HTTPS
     REPORT_BASE_URL:
       from_secret: TESTS_REPORT_BASE_URL
     S3_ACCESS_KEY:
