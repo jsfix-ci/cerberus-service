@@ -228,7 +228,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export NAME="cerberus-functional-tests"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
@@ -256,7 +255,7 @@ steps:
       from_secret: CYPRESS_PROJECT_ID
     FORM_API_URL:
       from_secret: DEV_API_FORM_URL
-    JOB_NAME: "\"cerberus-functional-tests\""
+    JOB_NAME: "cerberus-functional-tests"
     KUBE_NAMESPACE:
       from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -341,7 +340,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export NAME="cerberus-functional-tests-sit"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
@@ -369,7 +367,7 @@ steps:
       from_secret: CYPRESS_PROJECT_ID
     FORM_API_URL:
       from_secret: SIT_API_FORM_URL
-    JOB_NAME: "\"cerberus-functional-tests-sit\""
+    JOB_NAME: "cerberus-functional-tests-sit"
     KUBE_NAMESPACE:
       from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -456,7 +454,6 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - export NAME="cerberus-functional-tests-staging"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
@@ -484,7 +481,7 @@ steps:
       from_secret: CYPRESS_PROJECT_ID
     FORM_API_URL:
       from_secret: STAGING_API_FORM_URL
-    JOB_NAME: "\"cerberus-functional-tests-staging\""
+    JOB_NAME: "cerberus-functional-tests-staging"
     KUBE_NAMESPACE:
       from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
