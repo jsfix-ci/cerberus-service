@@ -126,7 +126,7 @@ spec:
         ports:
           - name: frontend
             containerPort: {{.CERBERUS_UI_PORT}}
-        env:            
+        env:
           - name: KEYCLOAK_AUTH_URL
             value: "https://{{.KEYCLOAK_AUTH_URL}}"
           - name: KEYCLOAK_CLIENT_ID

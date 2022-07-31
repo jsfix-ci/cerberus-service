@@ -1,20 +1,20 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ .JOB_NAME }}
-  namespace: {{ .KUBE_NAMESPACE }}
+  name: {{.JOB_NAME}}
+  namespace: {{.KUBE_NAMESPACE}}
 spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
   concurrencyPolicy: Forbid
-  schedule: {{ .CRON_SCHEDULE }}
+  schedule: {{.CRON_SCHEDULE}}
   jobTemplate:
     spec:
       backoffLimit: 0
       template:
         spec:
           containers:
-            - name: {{ .JOB_NAME }}
+            - name: {{.JOB_NAME}}
               image: quay.io/ukhomeofficedigital/cerberus-ui-service:{{.CERBERUS_SERVICE_TEST_TAG}}
               envFrom:
                 - secretRef:
