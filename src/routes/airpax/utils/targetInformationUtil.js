@@ -8,47 +8,19 @@ import RisksUtil from './risksUtil';
 import { replaceInvalidValues } from '../../../utils/stringConversion';
 
 const addThumbUrl = (person) => {
-  if (!person?.photograph?.photograph?.url || !person?.photograph?.photograph?.url?.startsWith('blob:')) {
-    const file = person?.photograph?.photograph?.file;
+  if (!person?.photograph?.url || !person?.photograph?.url?.startsWith('blob:')) {
+    const file = person?.photograph?.file;
     if (file) {
       return {
         ...person,
         photograph: {
           ...person.photograph,
-          photograph: {
-            ...person.photograph.photograph,
-            url: URL.createObjectURL(file),
-          },
+          url: URL.createObjectURL(file),
         },
       };
     }
   }
   return person;
-};
-
-const toPersonSubmissionNode = (person, meta, index) => {
-  if (person) {
-    return {
-      id: person?.id,
-      name: person?.name,
-      dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
-      gender: person?.sex,
-      document: {
-        ...person?.document,
-        number: person?.document?.documentNumber,
-        expiry: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
-      },
-      nationality: person?.nationality,
-      ...(person?.photograph && {
-        photograph: {
-          uri: (index || index === 0) ? replaceInvalidValues(meta?.documents[index + 1]?.url)
-            : replaceInvalidValues(meta?.documents[0]?.url),
-          approxPhotoTaken: person?.photograph?.date
-            && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photograph?.date, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
-        },
-      }),
-    };
-  }
 };
 
 const toNorminalChecksSubmissionNode = (formData) => {
@@ -106,6 +78,31 @@ const toRemarksSubmissionNode = (formData) => {
   }
 };
 
+const toPersonSubmissionNode = (person, meta, index) => {
+  if (person) {
+    return {
+      id: person?.id,
+      name: person?.name,
+      dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
+      gender: person?.sex,
+      document: {
+        ...person?.document,
+        number: person?.document?.documentNumber,
+        expiry: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
+      },
+      nationality: person?.nationality,
+      ...(person?.photograph && {
+        photograph: {
+          uri: (index || index === 0) ? replaceInvalidValues(meta?.documents[index + 1]?.url)
+            : replaceInvalidValues(meta?.documents[0]?.url),
+          approxPhotoTaken: person?.photographDate
+            && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photographDate, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
+        },
+      }),
+    };
+  }
+};
+
 const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
   if (taskData && formData) {
     const journey = MovementUtil.movementJourney(taskData);
@@ -126,11 +123,15 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
           route: formData?.movement?.routeToUK,
           arrival: {
             ...formData?.movement?.arrival,
+            country: journey?.arrival?.country,
+            location: journey?.arrival?.location,
             date: arrivalDateTime,
             time: arrivalDateTime,
           },
           departure: {
             ...formData?.movement?.departure,
+            country: journey?.departure?.country,
+            location: journey?.departure?.location,
             date: departureDateTime,
             time: departureDateTime,
           },
@@ -275,6 +276,7 @@ const toMainPersonNode = (data) => {
   if (person) {
     return {
       person: {
+        id: person?.id,
         name: { ...person?.name },
         dateOfBirth: replaceInvalidValues(DateTimeUtil.format(person?.dateOfBirth, 'DD-MM-YYYY')),
         seatNumber: replaceInvalidValues(flight?.seatNumber),
@@ -396,7 +398,7 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
   return submissionPayload;
 };
 
-const submissionToPrefillPayload = (formData) => {
+const formDataToPrefillPayload = (formData) => {
   let tisPrefillData = {};
   if (formData) {
     tisPrefillData = {
@@ -427,9 +429,9 @@ const submissionToPrefillPayload = (formData) => {
 const TargetInformationUtil = {
   prefillPayload: toTisPrefillPayload,
   submissionPayload: toTisSubmissionPayload,
-  convertToPrefill: submissionToPrefillPayload,
+  convertToPrefill: formDataToPrefillPayload,
 };
 
 export default TargetInformationUtil;
 
-export { toTisPrefillPayload, toTisSubmissionPayload, submissionToPrefillPayload };
+export { toTisPrefillPayload, toTisSubmissionPayload, formDataToPrefillPayload };
