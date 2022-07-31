@@ -231,7 +231,6 @@ steps:
     - export CYPRESS_CACHE_FOLDER="~/.cache/Cypress"
     - export AUTH_URL="$${PROTOCOL_HTTPS}$${DEV_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests"
-    - export TEST_ENV="dev"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
@@ -348,7 +347,6 @@ steps:
     - export CYPRESS_CACHE_FOLDER="~/.cache/Cypress"
     - export AUTH_URL="$${PROTOCOL_HTTPS}$${SIT_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests-sit"
-    - export TEST_ENV="sit"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
@@ -467,7 +465,6 @@ steps:
     - export CYPRESS_CACHE_FOLDER="~/.cache/Cypress"
     - export AUTH_URL="$${PROTOCOL_HTTPS}$${SIT_KEYCLOAK_URL}"
     - export NAME="cerberus-functional-tests-staging"
-    - export TEST_ENV="staging"
     - kd --insecure-skip-tls-verify -f kube/secret.yml
     - kd --insecure-skip-tls-verify -f kube/job.yml
   environment:
