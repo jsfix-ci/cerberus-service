@@ -16,9 +16,6 @@ spec:
           containers:
             - name: {{ .JOB_NAME }}
               image: quay.io/ukhomeofficedigital/cerberus-ui-service:{{.CERBERUS_SERVICE_TEST_TAG}}
-              env:
-                - name: JOB_NAME
-                  value: {{.JOB_NAME}}
               envFrom:
                 - secretRef:
                     name: {{.JOB_NAME}}
