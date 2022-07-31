@@ -176,11 +176,13 @@ steps:
   image: quay.io/ukhomeofficedigital/kd
   commands:
   - export CERBERUS_UI_TAG=$${DRONE_COMMIT_SHA}
-  - kd --insecure-skip-tls-verify -f kube/cert.yml
-  - kd --insecure-skip-tls-verify -f kube/network-policy.yml
-  - kd --insecure-skip-tls-verify -f kube/service.yml
-  - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
-  - kd --insecure-skip-tls-verify -f kube/ingress.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/cert.yml
+  - kd --file kube/network-policy.yml
+  - kd --file kube/service.yml
+  - kd --file kube/deployment.yml --timeout=5m
+  - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
     CERBERUS_UI_NAME: cerberus-ui-service
@@ -205,6 +207,8 @@ steps:
       from_secret: DEV_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: DEV_KEYCLOAK_REALM
+    KUBE_CA_CERT:
+      from_secret: DEV_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -228,8 +232,10 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - kd --insecure-skip-tls-verify -f kube/secret.yml
-    - kd --insecure-skip-tls-verify -f kube/job.yml
+    - echo -e $${KUBE_CA_CERT} > k8s.crt
+    - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+    - kd --file kube/secret.yml
+    - kd --file kube/job.yml
   environment:
     AUTH_BASE_URL:
       from_secret: DEV_KEYCLOAK_URL
@@ -256,6 +262,8 @@ steps:
     FORM_API_URL:
       from_secret: DEV_API_FORM_URL
     JOB_NAME: "cerberus-functional-tests"
+    KUBE_CA_CERT:
+      from_secret: DEV_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: DEV_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -286,11 +294,13 @@ steps:
   image: quay.io/ukhomeofficedigital/kd
   commands:
   - export CERBERUS_UI_TAG=$${DRONE_COMMIT_SHA}
-  - kd --insecure-skip-tls-verify -f kube/cert.yml
-  - kd --insecure-skip-tls-verify -f kube/network-policy.yml
-  - kd --insecure-skip-tls-verify -f kube/service.yml
-  - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
-  - kd --insecure-skip-tls-verify -f kube/ingress.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/cert.yml
+  - kd --file kube/network-policy.yml
+  - kd --file kube/service.yml
+  - kd --file kube/deployment.yml --timeout=5m
+  - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
     CERBERUS_UI_NAME: cerberus-ui-service
@@ -315,6 +325,8 @@ steps:
       from_secret: SIT_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: SIT_KEYCLOAK_REALM
+    KUBE_CA_CERT:
+      from_secret: SIT_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -340,8 +352,10 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - kd --insecure-skip-tls-verify -f kube/secret.yml
-    - kd --insecure-skip-tls-verify -f kube/job.yml
+    - echo -e $${KUBE_CA_CERT} > k8s.crt
+    - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+    - kd --file kube/secret.yml
+    - kd --file kube/job.yml
   environment:
     AUTH_BASE_URL:
       from_secret: SIT_KEYCLOAK_URL
@@ -368,6 +382,8 @@ steps:
     FORM_API_URL:
       from_secret: SIT_API_FORM_URL
     JOB_NAME: "cerberus-functional-tests-sit"
+    KUBE_CA_CERT:
+      from_secret: SIT_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: SIT_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -400,11 +416,13 @@ steps:
   image: quay.io/ukhomeofficedigital/kd
   commands:
   - export CERBERUS_UI_TAG=$${DRONE_COMMIT_SHA}
-  - kd --insecure-skip-tls-verify -f kube/cert.yml
-  - kd --insecure-skip-tls-verify -f kube/network-policy.yml
-  - kd --insecure-skip-tls-verify -f kube/service.yml
-  - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
-  - kd --insecure-skip-tls-verify -f kube/ingress.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/cert.yml
+  - kd --file kube/network-policy.yml
+  - kd --file kube/service.yml
+  - kd --file kube/deployment.yml --timeout=5m
+  - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
     CERBERUS_UI_NAME: cerberus-ui-service
@@ -429,6 +447,8 @@ steps:
       from_secret: STAGING_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: STAGING_KEYCLOAK_REALM
+    KUBE_CA_CERT:
+      from_secret: STAGING_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -454,8 +474,10 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - kd --insecure-skip-tls-verify -f kube/secret.yml
-    - kd --insecure-skip-tls-verify -f kube/job.yml
+    - echo -e $${KUBE_CA_CERT} > k8s.crt
+    - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+    - kd --file kube/secret.yml
+    - kd --file kube/job.yml
   environment:
     AUTH_BASE_URL:
       from_secret: STAGING_KEYCLOAK_URL
@@ -482,6 +504,8 @@ steps:
     FORM_API_URL:
       from_secret: STAGING_API_FORM_URL
     JOB_NAME: "cerberus-functional-tests-staging"
+    KUBE_CA_CERT:
+      from_secret: STAGING_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: STAGING_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
@@ -514,11 +538,13 @@ steps:
   image: quay.io/ukhomeofficedigital/kd
   commands:
   - export CERBERUS_UI_TAG=$${DRONE_COMMIT_SHA}
-  - kd --insecure-skip-tls-verify -f kube/cert.yml
-  - kd --insecure-skip-tls-verify -f kube/network-policy.yml
-  - kd --insecure-skip-tls-verify -f kube/service.yml
-  - kd --insecure-skip-tls-verify -f kube/deployment.yml --timeout=5m
-  - kd --insecure-skip-tls-verify -f kube/ingress.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/cert.yml
+  - kd --file kube/network-policy.yml
+  - kd --file kube/service.yml
+  - kd --file kube/deployment.yml --timeout=5m
+  - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
     CERBERUS_UI_NAME: cerberus-ui-service
@@ -543,6 +569,8 @@ steps:
       from_secret: PRODUCTION_CERBERUS_UI_SERVICE_KEYCLOAK_CLIENT_ID
     KEYCLOAK_REALM:
       from_secret: PRODUCTION_KEYCLOAK_REALM
+    KUBE_CA_CERT:
+      from_secret: PRODUCTION_KUBE_CA_CERT
     KUBE_NAMESPACE:
       from_secret: PRODUCTION_KUBE_NAMESPACE_COP_CERBERUS
     KUBE_SERVER:
