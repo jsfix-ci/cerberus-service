@@ -232,10 +232,10 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - echo -e $${KUBE_CA_CERT} > k8s.crt
-    - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
-    - kd --file kube/secret.yml
-    - kd --file kube/job.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/secret.yml
+  - kd --file kube/job.yml
   environment:
     AUTH_BASE_URL:
       from_secret: DEV_KEYCLOAK_URL
@@ -352,10 +352,10 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - echo -e $${KUBE_CA_CERT} > k8s.crt
-    - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
-    - kd --file kube/secret.yml
-    - kd --file kube/job.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/secret.yml
+  - kd --file kube/job.yml
   environment:
     AUTH_BASE_URL:
       from_secret: SIT_KEYCLOAK_URL
@@ -474,10 +474,10 @@ steps:
   pull: always
   image: quay.io/ukhomeofficedigital/kd
   commands:
-    - echo -e $${KUBE_CA_CERT} > k8s.crt
-    - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
-    - kd --file kube/secret.yml
-    - kd --file kube/job.yml
+  - echo -e $${KUBE_CA_CERT} > k8s.crt
+  - export KUBE_CERTIFICATE_AUTHORITY="$${PWD}/k8s.crt"
+  - kd --file kube/secret.yml
+  - kd --file kube/job.yml
   environment:
     AUTH_BASE_URL:
       from_secret: STAGING_KEYCLOAK_URL
