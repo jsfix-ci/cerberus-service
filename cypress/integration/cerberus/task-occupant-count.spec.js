@@ -32,7 +32,7 @@ describe('Occupant counts Details of different tasks on task details Page', () =
     cy.fixture('task-occupant-count-expected.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
         cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['occupant-count-with-unknown']);
+          expect(details).to.deep.equal(expectedDetails['occupant-count-with-unknown2']);
         });
       });
     });
@@ -61,7 +61,7 @@ describe('Occupant counts Details of different tasks on task details Page', () =
     cy.fixture('task-occupant-count-expected.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
         cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['occupant-count-without-unknown']);
+          expect(details).to.deep.equal(expectedDetails['occupant-count-without-unknown2']);
         });
       });
     });
@@ -90,7 +90,7 @@ describe('Occupant counts Details of different tasks on task details Page', () =
     cy.fixture('task-occupant-count-expected.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
         cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['unknown-count']);
+          expect(details).to.deep.equal(expectedDetails['unknown-count2']);
         });
       });
     });
