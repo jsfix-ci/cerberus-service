@@ -68,7 +68,7 @@ Assuming you have nvm installed to manage your node versions of course!
   KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
   KEYCLOAK_CLIENT_ID=your-client-id \
   KEYCLOAK_REALM=realm \
-  CERBERUS_API_URL=https://cerberus-api.example.com/ \
+  CERBERUS_WORKFLOW_SERVICE_URL=https://cerberus-api.example.com/ \
   COP_TARGETING_API_ENABLED=true \
   COP_TARGETING_API_URL=https://localhost:9443/v2 \
   npm run start
@@ -91,7 +91,7 @@ docker run --name cerberus-service -p 8080:8080 \
   --env KEYCLOAK_REALM=cop-local \
   --env FORM_API_URL=https://form-api-server.dev.cop.homeoffice.gov.uk \
   --env REFDATA_API_URL=https://api.dev.refdata.homeoffice.gov.uk \
-  --env CERBERUS_API_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
+  --env CERBERUS_WORKFLOW_SERVICE_URL=https://workflow-service.dev.cerberus.cop.homeoffice.gov.uk/camunda/ \
   --env COP_TARGETING_API_ENABLED=true \
   --env COP_TARGETING_API_URL=https://localhost:9443/v2 \
   cerberus-service
@@ -177,7 +177,7 @@ npm run cypress:test:local -- --browser chrome --spec cypress/integration/cerber
 ```
 
 Running All tests and generating mochawesome html report with screenshots
-run the command for specific environment to get the required baseUrl & keycloak authentication 
+run the command for specific environment to get the required baseUrl & keycloak authentication
 ```sh
 ./scripts/env-setup.sh {dev, sit , staging}
 ```
