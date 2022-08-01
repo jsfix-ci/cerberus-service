@@ -1423,6 +1423,58 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
+  it('Should verify tasks from New tab are moved to complete with new-and-in-progress-completions endpoint', () => {
+    cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        let businessKey = taskResponse.businessKey;
+        cy.visit('/tasks');
+        cy.get('.task-heading').then(($taskHeading) => {
+          cy.wait(2000);
+          expect($taskHeading.text()).to.include(businessKey);
+        });
+        cy.moveAllTasksToCompleteTab();
+        cy.reload();
+        cy.wait(2000);
+        cy.get('.task-heading').should('not.exist');
+        cy.get('a[href="#complete"]').click();
+        cy.verifyFindTaskId(businessKey);
+      });
+    });
+  });
+
+  it('Should verify tasks from In progress tab are moved to complete with new-and-in-progress-completions endpoint', () => {
+    cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        let businessKey = taskResponse.businessKey;
+        cy.visit(`/tasks/${businessKey}`);
+        cy.wait(3000);
+        cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+        cy.contains('Claim').click();
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+        cy.visit('/tasks');
+        cy.get('a[href="#inProgress"]').click();
+        cy.get('.task-heading').then(($taskHeading) => {
+          cy.wait(2000);
+          expect($taskHeading.text()).to.include(businessKey);
+        });
+        cy.moveAllTasksToCompleteTab();
+        cy.reload();
+        cy.wait(2000);
+        cy.get('.task-heading').should('not.exist');
+        cy.get('a[href="#complete"]').click();
+        cy.verifyFindTaskId(businessKey);
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
