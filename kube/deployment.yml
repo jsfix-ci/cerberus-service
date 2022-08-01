@@ -141,8 +141,12 @@ spec:
             value: "https://{{.FILE_UPLOAD_API_URL}}"
           - name: REFDATA_API_URL
             value: "https://{{.REFDATA_API_URL}}"
+          - name: CERBERUS_WORKFLOW_SERVICE_NAME
+            value: "{{.CERBERUS_WORKFLOW_SERVICE_NAME}}"
+          - name: CERBERUS_WORKFLOW_SERVICE_NAMESPACE
+            value: "{{.CERBERUS_WORKFLOW_SERVICE_NAMESPACE}}"
           - name: CERBERUS_WORKFLOW_SERVICE_URL
-            value: "https://{{.CERBERUS_WORKFLOW_SERVICE_URL}}/camunda/"
+            value: "https://$(CERBERUS_WORKFLOW_SERVICE_NAME).$(CERBERUS_WORKFLOW_SERVICE_NAMESPACE)/camunda/"
           - name: COP_TARGETING_API_NAMESPACE
             value: "{{.COP_TARGETING_API_NAMESPACE}}"
           - name: COP_TARGETING_API_SERVICE_NAME
