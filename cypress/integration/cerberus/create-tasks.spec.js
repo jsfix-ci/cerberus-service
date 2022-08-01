@@ -32,7 +32,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains vehicle value as null', () => {
+  it.only('Should create a task with a payload contains vehicle value as null', () => {
     cy.fixture('task-vehicle-null.json').then((task) => {
       let date = new Date();
       let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
@@ -46,7 +46,7 @@ describe('Create task with different payload from Cerberus', () => {
 
         cy.contains('Back to task list').click();
         cy.wait(2000);
-        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').check();
 
         cy.contains('Apply').click({ force: true });
 
@@ -86,7 +86,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
+  it.only('Should create a task with a payload contains RoRo Tourist from RBT & SBT', () => {
     cy.fixture('RoRo-Tourist-RBT-SBT.json').then((task) => {
       const dateFormat = 'D MMM YYYY [at] HH:mm';
       let dateNowFormatted = Cypress.dayjs().utc().format('DD-MM-YYYY');
@@ -238,7 +238,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a RoRo task with payload contains Single passenger', () => {
+  it.only('Should create a RoRo task with payload contains Single passenger', () => {
     let expectedDetails = {
       'icon': 'icon-position--left c-icon-person',
       'primaryTravellerName': 'Isiaih Ford',
@@ -258,7 +258,7 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.visit('/tasks');
         cy.wait(2000);
-        cy.get('select').select('RORO_TOURIST');
+        cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').check();
 
         cy.contains('Apply').click();
         cy.wait(2000);
@@ -269,7 +269,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should verify the RoRo Tourist task with Vehicle Details', () => {
+  it.only('Should verify the RoRo Tourist task with Vehicle Details', () => {
     let expectedDetails = {
       'icon': 'icon-position--left c-icon-car',
       'driverName': 'Daisy Flower',
@@ -288,7 +288,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.visit('/tasks');
 
       cy.wait(2000);
-      cy.get('select').select('RORO_TOURIST');
+      cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').check();
 
       cy.contains('Apply').click();
       cy.wait(2000);
