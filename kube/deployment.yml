@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{.CERBERUS_UI_NAME}}
+  name: {{.CERBERUS_UI_SERVICE_NAME}}
   labels:
-    service: {{.CERBERUS_UI_NAME}}
+    service: {{.CERBERUS_UI_SERVICE_NAME}}
 spec:
   selector:
     matchLabels:
-      name: {{.CERBERUS_UI_NAME}}
+      name: {{.CERBERUS_UI_SERVICE_NAME}}
   replicas: 3
   revisionHistoryLimit: 3
   minReadySeconds: 5
@@ -20,8 +20,8 @@ spec:
   template:
     metadata:
       labels:
-        name: {{.CERBERUS_UI_NAME}}
-        service: {{.CERBERUS_UI_NAME}}
+        name: {{.CERBERUS_UI_SERVICE_NAME}}
+        service: {{.CERBERUS_UI_SERVICE_NAME}}
     spec:
       affinity:
         podAffinity:
@@ -44,11 +44,11 @@ spec:
                 - key: name
                   operator: In
                   values:
-                  - {{.CERBERUS_UI_NAME}}
+                  - {{.CERBERUS_UI_SERVICE_NAME}}
               topologyKey: failure-domain.beta.kubernetes.io/zone
       restartPolicy: Always
       containers:
-      - name: {{.CERBERUS_UI_NAME}}-proxy
+      - name: {{.CERBERUS_UI_SERVICE_NAME}}-proxy
         image: "{{.NGINX_IMAGE}}:{{.NGINX_TAG}}"
         securityContext:
           runAsNonRoot: true
@@ -96,7 +96,7 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
-      - name: {{.CERBERUS_UI_NAME}}
+      - name: {{.CERBERUS_UI_SERVICE_NAME}}
         image: {{.CERBERUS_UI_IMAGE}}:{{.CERBERUS_UI_TAG}}
         imagePullPolicy: Always
         securityContext:
@@ -160,4 +160,4 @@ spec:
       volumes:
       - name: certs
         secret:
-          secretName: "{{.CERBERUS_UI_NAME}}-pod-cmio"
+          secretName: "{{.CERBERUS_UI_SERVICE_NAME}}-pod-cmio"

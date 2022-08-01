@@ -185,8 +185,8 @@ steps:
   - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_UI_URL:
       from_secret: DEV_CERBERUS_UI_SERVICE_URL
     CERBERUS_WORKFLOW_SERVICE_NAME:
@@ -253,7 +253,7 @@ steps:
     CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
     CERBERUS_SERVICE_URL:
       from_secret: DEV_CERBERUS_UI_SERVICE_URL
-    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_WORKFLOW_SERVICE_NAME:
       from_secret: WORKFLOW_SERVICE_NAME
     CERBERUS_WORKFLOW_SERVICE_NAMESPACE:
@@ -308,8 +308,8 @@ steps:
   - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_UI_URL:
       from_secret: SIT_CERBERUS_UI_SERVICE_URL
     CERBERUS_WORKFLOW_SERVICE_NAME:
@@ -378,7 +378,7 @@ steps:
     CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
     CERBERUS_SERVICE_URL:
       from_secret: SIT_CERBERUS_UI_SERVICE_URL
-    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_WORKFLOW_SERVICE_NAME:
       from_secret: WORKFLOW_SERVICE_NAME
     CERBERUS_WORKFLOW_SERVICE_NAMESPACE:
@@ -435,8 +435,8 @@ steps:
   - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_UI_URL:
       from_secret: STAGING_CERBERUS_UI_SERVICE_URL
     CERBERUS_WORKFLOW_SERVICE_NAME:
@@ -505,7 +505,7 @@ steps:
     CERBERUS_SERVICE_TEST_TAG: cron-${DRONE_COMMIT_SHA}
     CERBERUS_SERVICE_URL:
       from_secret: STAGING_CERBERUS_UI_SERVICE_URL
-    CERBERUS_UI_NAME: cerberus-ui-service
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_WORKFLOW_SERVICE_NAME:
       from_secret: WORKFLOW_SERVICE_NAME
     CERBERUS_WORKFLOW_SERVICE_NAMESPACE:
@@ -562,8 +562,8 @@ steps:
   - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
-    CERBERUS_UI_NAME: cerberus-ui-service
     CERBERUS_UI_PORT: 8080
+    CERBERUS_UI_SERVICE_NAME: cerberus-ui-service
     CERBERUS_UI_URL:
       from_secret: PRODUCTION_CERBERUS_UI_SERVICE_URL
     CERBERUS_WORKFLOW_SERVICE_NAME:
