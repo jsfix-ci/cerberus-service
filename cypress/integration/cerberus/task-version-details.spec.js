@@ -1423,7 +1423,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it('Should verify driver count is added to Adult count in ROROTSV', () => {
+  it.only('Should verify driver count is added to Adult count in ROROTSV', () => {
     let date = new Date();
     cy.fixture('RoRo-Accompanied-Freight_ROROTSV.json').then((task) => {
       date.setDate(date.getDate() + 8);
@@ -1443,8 +1443,8 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.get('.task-details-container').eq(1).within(() => {
         cy.getOccupantCounts().then((details) => {
-          console.log(details);
           expect(details).to.deep.equal(expectedDetails['occupant-count2']);
         });
       });
