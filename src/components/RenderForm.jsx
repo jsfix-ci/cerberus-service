@@ -181,9 +181,6 @@ const RenderForm = ({ formName,
           onGetComponent,
           onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
           onSubmit: async (type, payload, onSuccess) => {
-            if (type === FORM_ACTIONS.CANCEL) {
-              return onCancel();
-            }
             if (type === FORM_ACTIONS.NEXT) {
               if (cacheTisFormData) {
                 setAirPaxTisCache(TargetInformationUtil.convertToPrefill(payload));
@@ -209,6 +206,7 @@ const RenderForm = ({ formName,
               setLoaderVisibility(false);
             }
           },
+          onCancel,
         }}
       />
       )}

@@ -26,7 +26,11 @@ const addThumbUrl = (person) => {
 const toNorminalChecksSubmissionNode = (formData) => {
   return {
     nominalChecks: formData?.nominalChecks?.map((nominalCheck) => {
-      return nominalCheck;
+      return {
+        type: nominalCheck.nominalType.value,
+        checks: nominalCheck.systemsCheck,
+        comments: nominalCheck.comments,
+      };
     }) || [],
   };
 };
