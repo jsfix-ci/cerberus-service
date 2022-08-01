@@ -68,15 +68,15 @@ examples of values you could use, the actual values will depend on which local p
 to forward to the services running in kubernetes.
 
 The commands below assume that you already have your tokens set up for Kubernetes in your local
-environment. Rather than duplicating those instructions you can find them (here)[https://gitlab.digital.homeoffice.gov.uk/cop/cop-targeting-api#accessing-the-api-deployed-in-dev].
+environment. Rather than duplicating those instructions you can find them [here](https://gitlab.digital.homeoffice.gov.uk/cop/cop-targeting-api#accessing-the-api-deployed-in-dev).
 
 Once your kubernetes tokens are set up, you can set up the port forwarding for the cerberus-workflow-service
 or cop-targeting-api using the following commands, the ports used below match the examples that
 follow, but you can use any local ports you like.
 
 ```sh
-kubectl --context=acp-notprod_COP --namespace=cop-cerberus-dev port-forward service/cop-targeting-api 9443:443
 kubectl --context=acp-notprod_COP --namespace=cop-cerberus-dev port-forward service/workflow-service 9433:443
+kubectl --context=acp-notprod_COP --namespace=cop-cerberus-dev port-forward service/cop-targeting-api 9443:443
 ```
 
 Once that port forwarding is set up you will then be able to run the service by executing the following command:
