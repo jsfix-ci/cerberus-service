@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { useInterval } from 'react-use';
 import { renderHook } from '@testing-library/react-hooks';
 import '../../../__mocks__/keycloakMock';
@@ -667,8 +666,6 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
 
-    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
-
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('RoRo unaccompanied freight (0)')).toBeInTheDocument();
     expect(screen.getByText('RoRo accompanied freight (6)')).toBeInTheDocument();
@@ -686,8 +683,6 @@ describe('TaskListPage', () => {
       .reply(200, []);
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'NEW')));
-
-    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
 
     expect(screen.getByLabelText('Has selector (29)')).not.toBeChecked();
     expect(screen.getByLabelText('Has no selector (8)')).not.toBeChecked();
@@ -751,11 +746,10 @@ describe('TaskListPage', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
-    expect(mockAxios.history.post).toHaveLength(4);
-    expect(JSON.parse(mockAxios.history.post[3].data)).toEqual({
+    expect(mockAxios.history.post).toHaveLength(3);
+    expect(JSON.parse(mockAxios.history.post[2].data)).toEqual({
       filterParams: {
         movementModes: [],
-        mode: '',
         hasSelectors: null,
       },
       pageParams: {

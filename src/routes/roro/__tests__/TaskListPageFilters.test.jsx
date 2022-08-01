@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { RORO_FILTERS_KEY, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW } from '../../../constants';
+import { TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW } from '../../../constants';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
@@ -125,8 +125,6 @@ describe('TaskListFilters', () => {
     expect(screen.getByText('Clear all filters')).toBeInTheDocument();
     expect(screen.getByText('Mode')).toBeInTheDocument();
 
-    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
-
     // Radio buttons
     expect(screen.getAllByRole('radio').length).toBe(3);
     expect(screen.getByLabelText('Has no selector (0)')).not.toBeChecked();
@@ -136,8 +134,6 @@ describe('TaskListFilters', () => {
 
   it('should allow user to select a single radio button in each group', async () => {
     await waitFor(() => render(setTabAndTaskValues(tabData)));
-
-    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
 
     expect(screen.getByLabelText('Both (0)')).toBeChecked();
 
@@ -149,41 +145,42 @@ describe('TaskListFilters', () => {
   });
 
   it('should store selection to localstorage when apply filters button is clicked', async () => {
-    const expected = {
-      mode: 'RORO_UNACCOMPANIED_FREIGHT',
-      formStatus: {
-        page: 'filter',
-      },
-    };
-
     await waitFor(() => render(setTabAndTaskValues(tabData)));
-
-    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_UNACCOMPANIED_FREIGHT');
 
     userEvent.click(screen.getByLabelText('Both (0)'));
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(localStorage.getItem(RORO_FILTERS_KEY)).not.toBeNull();
-    expect(JSON.parse(localStorage.getItem(RORO_FILTERS_KEY))).toMatchObject(expected);
+    expect(localStorage.getItem('filterMovementMode')).not.toBeNull();
+    expect(localStorage.getItem('hasSelector')).not.toBeNull();
   });
 
   it('should clear filters when clearAll is clicked', async () => {
-    const STORED_FILTERS = {
-      mode: 'RORO_UNACCOMPANIED_FREIGHT',
-      formStatus: {
-        page: 'filter',
-      },
-    };
+    const FILTER_MOVEMENT_MODE = 'RORO_UNACCOMPANIED_FREIGHT,RORO_ACCOMPANIED_FREIGHT';
+
+    localStorage.setItem('filterMovementMode', FILTER_MOVEMENT_MODE);
+    localStorage.setItem('hasSelector', null);
 
     await waitFor(() => render(setTabAndTaskValues(tabData)));
 
-    localStorage.setItem(RORO_FILTERS_KEY, STORED_FILTERS);
-
-    expect(localStorage.getItem(RORO_FILTERS_KEY)).not.toBeNull();
+    expect(screen.getByLabelText('RoRo unaccompanied freight (0)')).toBeChecked();
+    expect(screen.getByLabelText('RoRo accompanied freight (0)')).toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Has selector (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Has no selector (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Both (0)')).toBeChecked();
+    expect(localStorage.getItem('filterMovementMode')).not.toBeNull();
+    expect(localStorage.getItem('hasSelector')).not.toBeNull();
 
     userEvent.click(screen.getByRole('button', { name: 'Clear all filters' }));
 
-    expect(localStorage.getItem(RORO_FILTERS_KEY)).toBeNull();
+    expect(screen.getByLabelText('RoRo unaccompanied freight (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo accompanied freight (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('RoRo Tourist (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Has selector (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Has no selector (0)')).not.toBeChecked();
+    expect(screen.getByLabelText('Both (0)')).toBeChecked();
+    expect(localStorage.getItem('filterMovementMode')).toBeNull();
+    expect(localStorage.getItem('hasSelector')).toBeNull();
   });
 
   it('should render counts for filters and selectors for IN_PROGRESS', async () => {
@@ -195,14 +192,12 @@ describe('TaskListFilters', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
 
-    userEvent.selectOptions(screen.getByRole('combobox', { target: { name: 'Mode' } }), 'RORO_ACCOMPANIED_FREIGHT');
-
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
-    expect(screen.getByText('RoRo unaccompanied freight (2)')).toBeInTheDocument();
-    expect(screen.getByText('RoRo accompanied freight (3)')).toBeInTheDocument();
-    expect(screen.getByText('RoRo Tourist (5)')).toBeInTheDocument();
-    expect(screen.getByText('Has selector (7)')).toBeInTheDocument();
-    expect(screen.getByText('Has no selector (21)')).toBeInTheDocument();
-    expect(screen.getByText('Both (4)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo unaccompanied freight (5)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo accompanied freight (9)')).toBeInTheDocument();
+    expect(screen.getByText('RoRo Tourist (3)')).toBeInTheDocument();
+    expect(screen.getByText('Has selector (15)')).toBeInTheDocument();
+    expect(screen.getByText('Has no selector (2)')).toBeInTheDocument();
+    expect(screen.getByText('Both (17)')).toBeInTheDocument();
   });
 });
