@@ -222,6 +222,7 @@ const TaskDetailsPage = () => {
                 }
               }
             }
+            onCancel={() => setIssueTargetFormOpen()}
             renderer={Renderers.REACT}
             setError={setError}
           />
