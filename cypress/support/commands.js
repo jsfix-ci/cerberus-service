@@ -1536,10 +1536,12 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   cy.intercept('POST', '/camunda/v1/targeting-tasks/status-counts').as('counts');
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
-      cy.get('select').select(option).should('have.value', option);
+      cy.get(`.govuk-checkboxes [value=${option}]`)
+        .click({ force: true });
     });
   } else {
-    cy.get('select').select(filterOptions).should('have.value', filterOptions);
+    cy.get(`.govuk-checkboxes [value=${filterOptions}]`)
+      .click({ force: true });
   }
 
   cy.contains('Apply').click();
