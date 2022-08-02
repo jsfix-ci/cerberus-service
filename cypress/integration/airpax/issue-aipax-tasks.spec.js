@@ -220,7 +220,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it.only('Should verify capability to Add or Remove items from collections', () => {
+  it('Should verify capability to Add or Remove items from collections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -271,7 +271,7 @@ describe('Create AirPax task and issue target', () => {
           cy.get('input[name="dateOfBirth-month"]').type(coPassengerDOB[1]).should('have.value', coPassengerDOB[1]);
           cy.get('input[name="dateOfBirth-year"]').type(coPassengerDOB[0]).should('have.value', coPassengerDOB[0]);
           cy.contains('Continue').click();
-
+          // Verify Co passenger is Added to Target Information sheet
           cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
             cy.contains('h2', 'Other passenger details').next().within((elements) => {
               cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
