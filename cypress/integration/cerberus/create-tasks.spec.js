@@ -46,7 +46,7 @@ describe('Create task with different payload from Cerberus', () => {
 
         cy.contains('Back to task list').click();
         cy.wait(2000);
-        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').check();
 
         cy.contains('Apply').click({ force: true });
 
@@ -258,7 +258,7 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.visit('/tasks');
         cy.wait(2000);
-        cy.get('select').select('RORO_TOURIST');
+        cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').check();
 
         cy.contains('Apply').click();
         cy.wait(2000);
@@ -288,7 +288,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.visit('/tasks');
 
       cy.wait(2000);
-      cy.get('select').select('RORO_TOURIST');
+      cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').check();
 
       cy.contains('Apply').click();
       cy.wait(2000);

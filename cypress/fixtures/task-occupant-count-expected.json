@@ -5,13 +5,35 @@
     "Adults": "3",
     "OAPs": "4"
   },
+  "occupant-count-with-unknown2":{
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "Infants": "Infants",
+    "Children": "Children",
+    "Adults": "Adults",
+    "OAPs": "OAPs"
+  },
   "occupant-count-without-unknown": {
     "Infants": "0",
     "Children": "0",
     "Adults": "0",
     "OAPs": "3"
   },
+  "occupant-count-without-unknown2":{
+    "0": "0",
+    "3": "3",
+    "Infants": "Infants",
+    "Children": "Children",
+    "Adults": "Adults",
+    "OAPs": "OAPs"
+  },
   "unknown-count": {
     "Unknown": "7"
+  },
+  "unknown-count2":{
+    "7": "7",
+    "Unknown": "Unknown"
   }
 }
