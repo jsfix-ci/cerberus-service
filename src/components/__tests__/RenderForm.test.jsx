@@ -1,4 +1,4 @@
-import { screen, render, waitFor } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -9,9 +9,9 @@ import RenderForm from '../RenderForm';
 
 import dismissTask from '../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../cop-forms/completeTaskCerberus';
+import airpaxTis from '../../cop-forms/airpaxTisCerberus';
 
 import { Renderers } from '../../utils/Form';
-import { FORM_NAMES } from '../../constants';
 
 describe('RenderForm', () => {
   const mockAxios = new MockAdapter(axios);
@@ -68,20 +68,20 @@ describe('RenderForm', () => {
     expect(screen.getByLabelText('Other')).toBeInTheDocument();
   });
 
-  it('should issue a request to fetch the airpax tis form', async () => {
-    const EXPECTED_URL = '/copform/name/cerberus-airpax-target-information-sheet';
-
-    mockAxios
-      .onGet(EXPECTED_URL)
-      .reply(200, {});
-
-    await waitFor(() => render(<RenderForm
-      formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
+  it('should render the issue target form', () => {
+    render(<RenderForm
+      form={airpaxTis}
       onSubmit={jest.fn()}
       onCancel={jest.fn()}
       renderer={Renderers.REACT}
-    />));
+    />);
 
-    expect(mockAxios.history.get[0].url).toEqual(EXPECTED_URL);
+    expect(screen.getByText('Target Information Sheet (AirPax)')).toBeInTheDocument();
+    expect(screen.getByText('Target information')).toBeInTheDocument();
+    expect(screen.getByText('Movement details')).toBeInTheDocument();
+    expect(screen.getByText('Passenger 1 details')).toBeInTheDocument();
+    expect(screen.getByText('Selection details')).toBeInTheDocument();
+    expect(screen.getByText('Warnings')).toBeInTheDocument();
+    expect(screen.getByText('Recipient Details')).toBeInTheDocument();
   });
 });

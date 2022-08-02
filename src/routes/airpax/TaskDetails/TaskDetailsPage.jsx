@@ -9,7 +9,6 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT,
-  FORM_NAMES,
   FORM_TIS_CACHE_STORE }
 from '../../../constants';
 
@@ -38,6 +37,7 @@ import TaskOutcomeMessage from './TaskOutcomeMessage';
 import '../__assets__/TaskDetailsPage.scss';
 
 // JSON
+import airpaxTis from '../../../cop-forms/airpaxTisCerberus';
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../../cop-forms/completeTaskCerberus';
 
@@ -181,7 +181,7 @@ const TaskDetailsPage = () => {
           {isIssueTargetFormOpen && !isSubmitted && (
           <RenderForm
             cacheTisFormData
-            formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
+            form={airpaxTis}
             preFillData={TargetInformationUtil.cache.get(FORM_TIS_CACHE_STORE)}
             onSubmit={
               async ({ data }) => {
