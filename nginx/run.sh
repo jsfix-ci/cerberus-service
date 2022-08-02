@@ -15,7 +15,7 @@ do
   sed -i 's,REPLACE_KEYCLOAK_CLIENT_ID,'${KEYCLOAK_CLIENT_ID}',g' $file
   sed -i 's,REPLACE_KEYCLOAK_REALM,'${KEYCLOAK_REALM}',g' $file
   sed -i 's,REPLACE_FORM_API_URL,'${FORM_API_URL}',g' $file
-  sed -i 's,REPLACE_FILE_UPLOAD_API_URL,'${FILE_UPLOAD_API_URL}',g' $file
+  sed -i 's,REPLACE_FILE_UPLOAD_SERVICE_URL,'${FILE_UPLOAD_SERVICE_URL}',g' $file
   sed -i 's,REPLACE_REFDATA_API_URL,'${REFDATA_API_URL}',g' $file
   sed -i 's,copTargetingApiEnabled:!1,copTargetingApiEnabled:'${COP_TARGETING_API_ENABLED}',g' $file
 done

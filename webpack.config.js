@@ -54,7 +54,7 @@ module.exports = {
       KEYCLOAK_CLIENT_ID: 'cerberus',
       KEYCLOAK_REALM: 'cop-dev',
       FORM_API_URL: '',
-      FILE_UPLOAD_API_URL: '',
+      FILE_UPLOAD_SERVICE_URL: '',
       REFDATA_API_URL: '',
       COP_TARGETING_API_ENABLED: '',
     }),
