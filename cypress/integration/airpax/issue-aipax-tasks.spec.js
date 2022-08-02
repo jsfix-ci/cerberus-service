@@ -90,6 +90,12 @@ describe('Create AirPax task and issue target', () => {
           cy.get('#eventPort').type(targetData.eventPort.name);
           cy.get('#eventPort__option--0').contains((targetData.eventPort.name)).click();
           cy.contains('Continue').click();
+
+          // Update Movement Details
+          cy.clickChangeInTIS('Inbound or outbound');
+          cy.get('input[value="OUTBOUND"]').check();
+          cy.contains('Continue').click();
+
           // Update Co-traveller details
           cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name')
             .siblings('.govuk-summary-list__actions')
@@ -105,13 +111,22 @@ describe('Create AirPax task and issue target', () => {
 
           // Add Selection Details
           cy.clickChangeInTIS('Targeting indicators');
-          cy.get('.hods-multi-select-autocomplete__placeholder').type('Paid by cash');
+          cy.get('input[class="hods-multi-select-autocomplete__input"]').type('Paid by cash');
           cy.get('.hods-multi-select-autocomplete__menu').contains('Paid by cash').click();
           cy.get('#category').type(targetData.risks.selector.category);
           cy.contains('Continue').click();
 
           // Add Nominal Details
-          cy.clickChangeInTIS('Nominal type');
+          cy.contains('h2', 'Checks completed on nominals').next().within(() => {
+            cy.get('dt.govuk-summary-list__key').invoke('text').then((text) => {
+              expect(text).to.equal('Nothing entered (optional)');
+            });
+            cy.get('dd.govuk-summary-list__actions').within(() => {
+              cy.get('.govuk-link').contains('Change').click();
+              cy.wait(2000);
+            });
+          });
+          cy.contains('Add another nominal').should('be.visible').click();
           cy.get('.hods-autocomplete__input').type(targetData.nominalChecks[0].type);
           cy.get('.hods-autocomplete__option').contains('Account').click();
           cy.get('.hods-multi-select-autocomplete__placeholder').type(targetData.nominalChecks[0].checks[0].name);
@@ -201,6 +216,63 @@ describe('Create AirPax task and issue target', () => {
           .contains('Targeting indicators')
           .siblings('.govuk-summary-list__value')
           .should('include.text', 'Paid by cash');
+      });
+    });
+  });
+
+  it('Should verify capability to Add or Remove items from collections', () => {
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.fixture('airpax/issue-task-airpax.json').then((targetData) => {
+          cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name')
+            .siblings('.govuk-summary-list__actions')
+            .within(() => {
+              cy.get('.govuk-link').contains('Change').click();
+              cy.wait(2000);
+            });
+          cy.contains('Remove').should('be.visible');
+          cy.contains('Add another passenger').should('be.visible');
+          cy.contains('Remove').click({ force: true });
+          cy.contains('Continue').click();
+
+          cy.contains('h2', 'Other passenger details').next().within(() => {
+            cy.get('dt.govuk-summary-list__key').invoke('text').then((text) => {
+              expect(text).to.equal('Nothing entered (optional)');
+            });
+            cy.get('dd.govuk-summary-list__actions').within(() => {
+              cy.get('.govuk-link').contains('Change').click();
+              cy.wait(2000);
+            });
+          });
+          cy.contains('Add another passenger').click();
+          cy.get('input[name="first"]').type(targetData.movement.otherPersons[0].name.first);
+          cy.get('input[name="last"]').type(targetData.movement.otherPersons[0].name.last);
+          cy.get('input[aria-owns="otherPersons[0].nationality__listbox"]').type(targetData.movement.otherPersons[0].nationality.nationality);
+          cy.get('.hods-autocomplete__option').contains(targetData.movement.otherPersons[0].nationality.nationality).click();
+          cy.get('input[aria-owns="otherPersons[0].sex__listbox"]').type(targetData.movement.otherPersons[0].gender.name);
+          cy.get('.hods-autocomplete__option').contains(targetData.movement.otherPersons[0].gender.name).click();
+          cy.get('#type').type(targetData.movement.otherPersons[0].document.type.shortdescription);
+          cy.get('.hods-autocomplete__option').contains(targetData.movement.otherPersons[0].document.type.shortdescription).click();
+          cy.get('input[name="seatNumber"]').type('34B');
+          cy.get('#bagCount').type('1');
+          cy.get('#weight').type(targetData.movement.baggage.weight);
+          cy.get('#tags').type(targetData.movement.baggage.tags);
+          let sliceDob = targetData.movement.otherPersons[0].dateOfBirth.slice(0, 10);
+          let coPassengerDOB = sliceDob.replace(/(^|-)0+/g, '$1').split('-');
+          console.log(coPassengerDOB[0], coPassengerDOB[1], coPassengerDOB[2]);
+          cy.get('input[name="dateOfBirth-day"]').type(coPassengerDOB[2]).should('have.value', coPassengerDOB[2]);
+          cy.get('input[name="dateOfBirth-month"]').type(coPassengerDOB[1]).should('have.value', coPassengerDOB[1]);
+          cy.get('input[name="dateOfBirth-year"]').type(coPassengerDOB[0]).should('have.value', coPassengerDOB[0]);
+          cy.contains('Continue').click();
+          cy.wait(2000);
+        });
       });
     });
   });
