@@ -266,7 +266,6 @@ describe('Create AirPax task and issue target', () => {
           cy.get('#tags').type(targetData.movement.baggage.tags);
           let sliceDob = targetData.movement.otherPersons[0].dateOfBirth.slice(0, 10);
           let coPassengerDOB = sliceDob.replace(/(^|-)0+/g, '$1').split('-');
-          console.log(coPassengerDOB[0], coPassengerDOB[1], coPassengerDOB[2]);
           cy.get('input[name="dateOfBirth-day"]').type(coPassengerDOB[2]).should('have.value', coPassengerDOB[2]);
           cy.get('input[name="dateOfBirth-month"]').type(coPassengerDOB[1]).should('have.value', coPassengerDOB[1]);
           cy.get('input[name="dateOfBirth-year"]').type(coPassengerDOB[0]).should('have.value', coPassengerDOB[0]);
