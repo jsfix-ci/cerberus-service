@@ -220,7 +220,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should verify capability to Add or Remove items from collections', () => {
+  it.only('Should verify capability to Add or Remove items from collections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -237,9 +237,8 @@ describe('Create AirPax task and issue target', () => {
               cy.get('.govuk-link').contains('Change').click();
               cy.wait(2000);
             });
-          cy.contains('Remove').should('be.visible');
           cy.contains('Add another passenger').should('be.visible');
-          cy.contains('Remove').click({ force: true });
+          cy.contains('Remove').should('be.visible').click({ force: true });
           cy.contains('Continue').click();
 
           cy.contains('h2', 'Other passenger details').next().within(() => {
@@ -251,6 +250,7 @@ describe('Create AirPax task and issue target', () => {
               cy.wait(2000);
             });
           });
+          // Add Co-Passenger Details
           cy.contains('Add another passenger').click();
           cy.get('input[name="first"]').type(targetData.movement.otherPersons[0].name.first);
           cy.get('input[name="last"]').type(targetData.movement.otherPersons[0].name.last);
@@ -271,6 +271,15 @@ describe('Create AirPax task and issue target', () => {
           cy.get('input[name="dateOfBirth-month"]').type(coPassengerDOB[1]).should('have.value', coPassengerDOB[1]);
           cy.get('input[name="dateOfBirth-year"]').type(coPassengerDOB[0]).should('have.value', coPassengerDOB[0]);
           cy.contains('Continue').click();
+
+          cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
+            cy.contains('h2', 'Other passenger details').next().within((elements) => {
+              cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
+                expect(actualMovementDetails).to.deep.equal(expectedDetails.RefilledPassenger2Details);
+              });
+            });
+          });
+
           cy.wait(2000);
         });
       });
