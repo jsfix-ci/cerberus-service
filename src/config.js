@@ -12,7 +12,7 @@ const config = {
     },
   },
   refdataApiUrl: process.env.REFDATA_API_URL,
-  fileUploadApiUrl: process.env.FILE_UPLOAD_API_URL,
+  fileUploadApiUrl: process.env.FILE_UPLOAD_SERVICE_URL,
   formApiUrl: process.env.FORM_API_URL,
   copTargetingApiEnabled: process.env.COP_TARGETING_API_ENABLED === 'true',
   camundaApiUrl: '/camunda/engine-rest',

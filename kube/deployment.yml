@@ -143,8 +143,8 @@ spec:
             value: "https://$(COP_TARGETING_API_SERVICE_NAME).$(COP_TARGETING_API_NAMESPACE)"
           - name: ENVIRONMENT
             value: "{{.DEPLOY_ENV}}"
-          - name: FILE_UPLOAD_API_URL
-            value: "https://{{.FILE_UPLOAD_API_URL}}"
+          - name: FILE_UPLOAD_SERVICE_URL
+            value: "https://{{.FILE_UPLOAD_SERVICE_URL}}"
           - name: FORM_API_URL
             value: "https://{{.FORM_API_URL}}"
           - name: KEYCLOAK_AUTH_URL

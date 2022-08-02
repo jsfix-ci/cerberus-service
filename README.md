@@ -85,7 +85,7 @@ Once that port forwarding is set up you will then be able to run the service by 
   \
   REACT_APP_AUTH_CLIENT_ID=your-client-id \
   FORM_API_URL=https://form-api.example.com/ \
-  FILE_UPLOAD_API_URL=https://file-upload-api.example.com/ \
+  FILE_UPLOAD_SERVICE_URL=https://file-upload-api.example.com/ \
   REFDATA_API_URL=https://refdata-api.example.com/ \
   KEYCLOAK_AUTH_URL=https://your.sso.com/auth \
   KEYCLOAK_CLIENT_ID=your-client-id \
