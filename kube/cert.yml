@@ -1,17 +1,17 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{.CERBERUS_UI_NAME}}-pod-cmio
+  name: {{.CERBERUS_UI_SERVICE_NAME}}-pod-cmio
 spec:
-  secretName: {{.CERBERUS_UI_NAME}}-pod-cmio
+  secretName: {{.CERBERUS_UI_SERVICE_NAME}}-pod-cmio
   issuerRef:
     name: platform-ca
     kind: ClusterIssuer
   dnsNames:
-  - {{.CERBERUS_UI_NAME}}
-  - {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}
-  - {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}.svc
-  - {{.CERBERUS_UI_NAME}}.{{.KUBE_NAMESPACE}}.svc.cluster.local
+  - {{.CERBERUS_UI_SERVICE_NAME}}
+  - {{.CERBERUS_UI_SERVICE_NAME}}.{{.KUBE_NAMESPACE}}
+  - {{.CERBERUS_UI_SERVICE_NAME}}.{{.KUBE_NAMESPACE}}.svc
+  - {{.CERBERUS_UI_SERVICE_NAME}}.{{.KUBE_NAMESPACE}}.svc.cluster.local
   - localhost
   ipAddresses:
   - 127.0.0.1

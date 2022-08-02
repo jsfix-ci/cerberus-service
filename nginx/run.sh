@@ -26,8 +26,8 @@ echo "== Finished ENV sub =="
 if [[ -f ${NGINX_CONFIG_FILE} ]]; then
   echo "== Starting nginx using a config file ${NGINX_CONFIG_FILE} =="
 
-  export CERBERUS_API_SERVER=`echo ${CERBERUS_API_URL} | awk -F/ '{print $3}'`
-  sed -i 's,REPLACE_CERBERUS_API_URL,'${CERBERUS_API_URL}',g' ${NGINX_CONFIG_FILE}
+  export CERBERUS_API_SERVER=`echo ${CERBERUS_WORKFLOW_SERVICE_URL} | awk -F/ '{print $3}'`
+  sed -i 's,REPLACE_CERBERUS_WORKFLOW_SERVICE_URL,'${CERBERUS_WORKFLOW_SERVICE_URL}',g' ${NGINX_CONFIG_FILE}
   sed -i 's,REPLACE_CERBERUS_API_SERVER,'${CERBERUS_API_SERVER}',g' ${NGINX_CONFIG_FILE}
 
   export COP_TARGETING_API_SERVER=`echo ${COP_TARGETING_API_URL} | awk -F/ '{print $3}'`
