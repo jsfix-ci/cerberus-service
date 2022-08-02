@@ -1423,7 +1423,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it.only('Should verify driver count is added to Adult count in ROROTSV', () => {
+  it('Should verify driver count is added to Adult count in ROROTSV', () => {
     let date = new Date();
     cy.fixture('RoRo-Accompanied-Freight_ROROTSV.json').then((task) => {
       date.setDate(date.getDate() + 8);
@@ -1444,24 +1444,25 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
         cy.get('.task-details-container').eq(1).within(() => {
-        cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['occupant-count2']);
-        });
-      });
-
-      const obj = {};
-      cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.get('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
-          cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
-            cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
-              cy.wrap(detail).find('.font__light').nextAll().invoke('text')
-                .then((value) => {
-                  obj[key] = value;
-                });
-            });
+          cy.getOccupantCounts().then((details) => {
+            expect(details).to.deep.equal(expectedDetails['occupant-count2']);
           });
-        }).then(() => {
-          expect(obj).to.deep.equal(expectedDetails.driver);
+        });
+
+        const obj = {};
+        cy.contains('h3', 'Occupants').nextAll().within(() => {
+          cy.get('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
+            cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+              cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+                cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                  .then((value) => {
+                    obj[key] = value;
+                  });
+              });
+            });
+          }).then(() => {
+            expect(obj).to.deep.equal(expectedDetails.driver);
+          });
         });
       });
     });
