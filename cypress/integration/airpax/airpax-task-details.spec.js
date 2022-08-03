@@ -712,7 +712,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should cancel issue target successfully but still retail auto populated values in target information sheet', () => {
+  it('Should cancel issue target successfully but still retain auto populated values in target information sheet', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
