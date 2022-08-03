@@ -100,6 +100,7 @@ const TasksTab = ({
           },
         });
         if (!isMounted.current) return null;
+        setError(null);
         setTargetTasks(tasks.data);
       } catch (e) {
         if (!isMounted.current) return null;

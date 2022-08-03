@@ -10,6 +10,8 @@ const config = {
       onLoad: 'login-required',
       checkLoginIframe: false,
     },
+    minExpiryValidity: 30,
+    pollingInterval: 6000,
   },
   refdataApiUrl: process.env.REFDATA_API_URL,
   fileUploadApiUrl: process.env.FILE_UPLOAD_SERVICE_URL,

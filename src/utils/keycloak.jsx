@@ -10,28 +10,34 @@ const KeycloakContext = createContext();
 
 const KeycloakProvider = ({ children }) => {
   const [keycloak, setKeycloak] = useState(null);
-  const [timeToExpire, setTimeToExpire] = useState(null);
-
+  const [refreshToken, setRefreshToken] = useState(false);
   const keycloakInstance = Keycloak(config.keycloak.clientConfig);
 
   useInterval(() => {
-    keycloak
-      .updateToken()
-      .catch(() => {
-        keycloak.logout();
-      });
-  }, keycloak ? timeToExpire : null);
+    /**
+    * isTokenExpired(minValidity)
+    * Returns true if the token has less than minValidity seconds left before
+    * it expires (minValidity is optional, if not specified 0 is used)
+    */
+    if (keycloak.isTokenExpired(config.keycloak.minExpiryValidity)) {
+      setRefreshToken(!refreshToken);
+    }
+  }, config.keycloak.pollingInterval);
+
+  useEffect(() => {
+    if (keycloak) {
+      keycloak
+        .updateToken()
+        .catch(() => {
+          keycloak.logout();
+        });
+    }
+  }, [refreshToken]);
 
   useEffect(() => {
     keycloakInstance.init(config.keycloak.initOptions).then((authenticated) => {
       if (authenticated) {
         setKeycloak(keycloakInstance);
-        /*
-         * Multiplies the unix timestamp (keycloackInstance.tokenParsed.exp) in the token by 1000 milliseconds
-         * e.g: new Date(795601416 * 1000) and subtract it from the current date
-         * timeToExpire then equals the difference between the 2 dates in milliseconds
-        */
-        setTimeToExpire(new Date(keycloakInstance.tokenParsed.exp * 1000) - new Date());
       } else {
         keycloakInstance.login();
       }
