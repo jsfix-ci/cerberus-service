@@ -285,6 +285,60 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
+  it('Should verify Inbound or Outbound Details in Target Information sheet', () => {
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.fixture('airpax/issue-task-airpax.json').then((targetData) => {
+          // Update Movement Details
+          cy.clickChangeInTIS('Inbound or outbound');
+          cy.get('input[value="INBOUND"]').check();
+          cy.get('input[name="flightNumber"]').should('have.value', targetData.movement.journey.id);
+          cy.get('input[name="routeToUK"]').should('have.value', targetData.movement.journey.route);
+          let sliceArrival = targetData.movement.journey.arrival.time.slice(0, 10);
+          let arrivalDate = sliceArrival.replace(/(^|-)0+/g, '$1').split('-');
+          cy.get('.govuk-date-input__input[name="date-day"]').should('have.value', arrivalDate[2]);
+          cy.get('.govuk-date-input__input[name="date-month"]').should('include.value', arrivalDate[1]);
+          cy.get('.govuk-date-input__input[name="date-year"]').should('have.value', arrivalDate[0]);
+          cy.contains('Continue').click();
+
+          cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
+            cy.contains('h2', 'Movement details').next().within((elements) => {
+              cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+                expect(actualMovementDetails).to.deep.equal(expectedDetails.MovementDetailsInbound);
+              });
+            });
+          });
+
+          cy.clickChangeInTIS('Inbound or outbound');
+          cy.get('input[value="OUTBOUND"]').check();
+          cy.get('input[name="flightNumber"]').should('have.value', targetData.movement.journey.id);
+          cy.get('input[name="routeToUK"]').should('have.value', targetData.movement.journey.route);
+          let sliceDeparture = targetData.movement.journey.departure.time.slice(0, 10);
+          let departureDate = sliceDeparture.replace(/(^|-)0+/g, '$1').split('-');
+          cy.get('.govuk-date-input__input[name="date-day"]').should('have.value', departureDate[2]);
+          cy.get('.govuk-date-input__input[name="date-month"]').should('include.value', departureDate[1]);
+          cy.get('.govuk-date-input__input[name="date-year"]').should('have.value', departureDate[0]);
+          cy.contains('Continue').click();
+
+          cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
+            cy.contains('h2', 'Movement details').next().within((elements) => {
+              cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+                expect(actualMovementDetails).to.deep.equal(expectedDetails.MovementDetailsOutbound);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

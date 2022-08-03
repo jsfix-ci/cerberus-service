@@ -747,8 +747,7 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      //   'businessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
-      'businessKeyLike': '%AUTOTEST-19-07-2022_RORO-UnAccompanied-Freight_ASSESSMENT%',
+      'businessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);
@@ -978,8 +977,8 @@ Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
   cy.visit('/tasks');
   cy.wait('@pages').then(({ response }) => {
     expect(response.statusCode).to.equal(200);
-    cy.wait(2000);
-    cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
+    cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
+      .click({ force: true });
 
     cy.wait(1000);
 
@@ -1869,8 +1868,7 @@ Cypress.Commands.add('checkTaskUpdateAndRelistStatus', (filterValue, taskRespons
   cy.contains('Clear all filters').click({ force: true });
 
   cy.wait(2000);
-
-  cy.get('select').select(filterValue).should('have.value', filterValue);
+  cy.get(`.govuk-checkboxes [value='${filterValue}']`).click({ force: true });
 
   cy.contains('Apply').click({ force: true });
 

@@ -509,8 +509,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
-      cy.wait(2000);
-      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
+      cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
 
       cy.contains('Apply').click();
       cy.wait(2000);
@@ -713,8 +712,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.visit('/tasks');
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
-      cy.wait(2000);
-      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
+      cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
 
       cy.contains('Apply').click();
       cy.wait(2000);
@@ -847,8 +845,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
-      cy.wait(2000);
-      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
+      cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
 
       cy.contains('Apply').click();
       cy.wait(2000);
@@ -935,8 +932,7 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
-    cy.wait(2000);
-    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -1038,8 +1034,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.visit('/tasks');
 
-    cy.wait(2000);
-    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -1411,8 +1406,7 @@ describe('Task Details of different tasks on task details Page', () => {
         cy.wait(2000);
         cy.wait('@pages').then(({ response }) => {
           expect(response.statusCode).to.equal(200);
-          cy.wait(2000);
-          cy.get('select').select('RORO_TOURIST').should('have.value', 'RORO_TOURIST');
+          cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').click({ force: true });
 
           cy.contains('Apply').click();
           cy.wait(2000);
@@ -1443,26 +1437,24 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
-        cy.get('.task-details-container').eq(1).within(() => {
-          cy.getOccupantCounts().then((details) => {
-            expect(details).to.deep.equal(expectedDetails['occupant-count2']);
-          });
+        cy.getOccupantCounts().then((details) => {
+          expect(details).to.deep.equal(expectedDetails['occupant-count2']);
         });
+      });
 
-        const obj = {};
-        cy.contains('h3', 'Occupants').nextAll().within(() => {
-          cy.get('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
-            cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
-              cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
-                cy.wrap(detail).find('.font__light').nextAll().invoke('text')
-                  .then((value) => {
-                    obj[key] = value;
-                  });
-              });
+      const obj = {};
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.get('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
+          cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+            cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+              cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                .then((value) => {
+                  obj[key] = value;
+                });
             });
-          }).then(() => {
-            expect(obj).to.deep.equal(expectedDetails.driver);
           });
+        }).then(() => {
+          expect(obj).to.deep.equal(expectedDetails.driver);
         });
       });
     });
