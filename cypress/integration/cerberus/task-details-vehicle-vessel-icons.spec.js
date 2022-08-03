@@ -8,8 +8,8 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
     cy.createCerberusTask('tasks-hazardous-cargo.json', 'HAZARDOUS').then(() => {
       cy.get('span.govuk-caption-xl').invoke('text').then((businessKey) => {
         cy.visit('/tasks');
-        cy.wait(3000);
-        cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+        cy.wait(2000);
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
         cy.contains('Apply').click();
 
         cy.wait(2000);
@@ -22,7 +22,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it.skip('Display Vehicle and Vessel Icons for multiple passengers task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
+    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -36,7 +36,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Tourist task with No vehicle task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('select').select('RORO_TOURIST');
+    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -50,7 +50,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Tourist task with Passengers task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('select').select('RORO_TOURIST');
+    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -64,7 +64,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Unaccompanied task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
+    cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -78,7 +78,7 @@ describe('Vehicle and Vessel Icons in Task List and Task Summary', () => {
   it('Display Vehicle and Vessel Icons for Unaccompanied with trailer task', () => {
     cy.visit('/tasks');
     cy.wait(3000);
-    cy.get('select').select('RORO_UNACCOMPANIED_FREIGHT');
+    cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]').click({ force: true });
 
     cy.contains('Apply').click();
 

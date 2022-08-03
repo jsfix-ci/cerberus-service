@@ -10,7 +10,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.navigation('Tasks');
   });
 
-  it.skip('Should verify filter by mode and Link to AirPax is displayed', () => {
+  it('Should verify filter by mode and Link to AirPax is displayed', () => {
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.contain('RoRo');
     });
@@ -30,7 +30,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should view filter tasks by pre-arrival modes', () => {
     cy.wait(2000);
-    let filterNames = ['',
+    let filterNames = [
       'RoRo unaccompanied freight',
       'RoRo accompanied freight',
       'RoRo Tourist',
@@ -236,7 +236,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should apply filter tasks by roro-unaccompanied mode & has selectors on New tasks', () => {
     let expectedTargets;
-    cy.getTaskCount(null, 'both', 'NEW').then((numberOfTasks) => {
+    cy.getTaskCount(null, 'any', 'NEW').then((numberOfTasks) => {
       expectedTargets = numberOfTasks.new;
     });
 
@@ -266,7 +266,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     let expectedTargets;
     cy.get('a[href="#inProgress"]').click();
 
-    cy.getTaskCount(null, 'both', 'IN_PROGRESS').then((numberOfTasks) => {
+    cy.getTaskCount(null, 'any', 'IN_PROGRESS').then((numberOfTasks) => {
       expectedTargets = numberOfTasks.inProgress;
     });
 
@@ -292,19 +292,22 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
   });
 
-  it.skip('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
+  it('Should select pre-arrival filter modes but not apply on newly created tasks', () => {
     let actualTotalTargets = 0;
 
-    cy.getTaskCount(null, 'both', 'NEW').then((numberOfTasks) => {
+    cy.getTaskCount(null, 'any', 'NEW').then((numberOfTasks) => {
       actualTotalTargets = numberOfTasks.new;
     });
 
     // COP-9210 select pre-arrival filter modes, but don't click on apply
     cy.get('.cop-filters-container').within(() => {
-      cy.get('.govuk-select option').each((element) => {
+      cy.get('.govuk-checkboxes li').each((element) => {
         cy.wrap(element).click();
       });
     });
+
+    cy.contains('Apply').click({ force: true });
+    cy.wait(2000);
     // compare total number of expected and actual targets
     cy.get('a[href="#new"]').invoke('text').then((totalTargets) => {
       totalTargets = parseInt(totalTargets.match(/\d+/)[0], 10);
