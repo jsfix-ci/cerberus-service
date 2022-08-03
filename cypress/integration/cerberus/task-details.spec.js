@@ -354,7 +354,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     });
   });
 
-  it.only('Should complete assessment of a task with a reason as take no further action', () => {
+  it('Should complete assessment of a task with a reason as take no further action', () => {
     const reasons = [
       'Credibility checks carried out no target required',
       'False SBT',
