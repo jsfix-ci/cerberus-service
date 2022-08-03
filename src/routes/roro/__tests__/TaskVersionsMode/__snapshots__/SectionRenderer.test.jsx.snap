@@ -204,7 +204,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row bottom-border"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         Infants
       </span>
@@ -218,7 +218,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row bottom-border"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         Children
       </span>
@@ -232,7 +232,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row bottom-border"
     >
       <span
-        className="govuk-grid-value font__bold"
+        className="govuk-grid-key font__bold"
       >
         Adults
       </span>
@@ -246,7 +246,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         OAPs
       </span>
@@ -285,7 +285,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row bottom-border"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         Infants
       </span>
@@ -299,7 +299,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row bottom-border"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         Children
       </span>
@@ -313,7 +313,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row bottom-border"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         Adults
       </span>
@@ -327,7 +327,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
       className="govuk-task-details-grid-row"
     >
       <span
-        className="govuk-grid-value font__bold font__grey"
+        className="govuk-grid-key font__bold font__grey"
       >
         OAPs
       </span>
@@ -366,7 +366,7 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render unknow
       className="govuk-task-details-grid-row"
     >
       <span
-        className="govuk-grid-value font__bold"
+        className="govuk-grid-key font__bold"
       >
         Unknown
       </span>

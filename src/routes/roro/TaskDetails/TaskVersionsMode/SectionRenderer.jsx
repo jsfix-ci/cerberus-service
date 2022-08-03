@@ -411,7 +411,7 @@ const createOccupantsCarrierCountsFields = (manifestOccupantCategoryCounts) => {
         const classnames = classNames('font__bold', hasZeroCount(content) && 'font__grey', type.includes('CHANGED') && 'task-versions--highlight');
         return (
           <div className={className} key={uuidv4()}>
-            <span className={`govuk-grid-value ${classnames}`}>
+            <span className={`govuk-grid-key ${classnames}`}>
               {fieldName}
             </span>
             <span className={`govuk-grid-value ${classnames}`}>
