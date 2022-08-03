@@ -5,7 +5,7 @@ runTestsAndGenerateReport()
     echo "== Starting cypress tests =="
     npm run cypress:test:report -- -b electron -c ${CERBERUS_WORKFLOW_SERVICE_URL} -f ${FORM_API_URL}
     TEST_RUN_STATUS=$?
-     echo "######## TEST RUN STATUS : TEST_RUN_STATUS #######"
+    echo "######## TEST RUN STATUS : TEST_RUN_STATUS #######"
 }
 
 getSecrets()
@@ -22,6 +22,7 @@ setVariables()
     S3_TEST_REPORT="${AUTH_REALM}/cerberus-tests/${REPORT_DATE}/${JOB_NAME}/${REPORT_TIME}"
     S3_REPORT_JSON="${AUTH_REALM}/cerberus-tests/${REPORT_DATE}/reports-json"
 }
+
 uploadReportJson()
 {
     s3cmd --region=eu-west-2 --access_key=${S3_ACCESS_KEY} --secret_key=${S3_SECRET_KEY} put --recursive mochawesome-report/*.json ${S3_BUCKET_LOCATION}/${S3_REPORT_JSON}/ --no-mime-magic --guess-mime-type
@@ -116,5 +117,5 @@ generateConsolidatedReport
 uploadReport
 createReportUrl
 createSlackMessage
-sendSlackMessag
+sendSlackMessage
 checkFailTest
