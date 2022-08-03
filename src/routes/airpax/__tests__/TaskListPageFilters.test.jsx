@@ -146,7 +146,7 @@ describe('TaskListFilters', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(JSON.parse(mockAxios.history.post[6].data)).toMatchObject(EXPECTED_POST_PARAMS);
+    expect(JSON.parse(mockAxios.history.post[3].data)).toMatchObject(EXPECTED_POST_PARAMS);
   });
 
   it('should verify post param ruleIds array when options array id is 0', async () => {
@@ -168,6 +168,7 @@ describe('TaskListFilters', () => {
         taskStatuses: [
           'NEW',
         ],
+        searchText: null,
       },
       sortParams: [
         {
@@ -191,6 +192,6 @@ describe('TaskListFilters', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(JSON.parse(mockAxios.history.post[6].data)).toMatchObject(EXPECTED_POST_PARAMS);
+    expect(JSON.parse(mockAxios.history.post[3].data)).toMatchObject(EXPECTED_POST_PARAMS);
   });
 });
