@@ -339,26 +339,6 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should cancel issue target and return to task overview page', () => {
-    const taskName = 'AIRPAX';
-    cy.fixture('airpax/task-airpax.json').then((task) => {
-      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
-        let businessKey = response.id;
-        cy.wait(3000);
-        cy.checkAirPaxTaskDisplayed(businessKey);
-        cy.get('.govuk-heading-l').should('not.exist');
-        cy.claimAirPaxTask();
-        cy.contains('Issue target').click();
-        cy.wait(2000);
-        cy.get('.govuk-heading-l').should('have.text', 'Target Information Sheet (AirPax)');
-        cy.contains('Cancel').click();
-        cy.wait(2000);
-        cy.get('.govuk-heading-l').should('not.exist');
-      });
-    });
-  });
-
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

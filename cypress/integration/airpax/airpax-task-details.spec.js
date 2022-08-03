@@ -712,6 +712,51 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should cancel issue target and return to task overview page', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        let businessKey = response.id;
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.get('.govuk-heading-l').should('not.exist');
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.get('.govuk-heading-l').should('have.text', 'Target Information Sheet (AirPax)');
+        cy.contains('Cancel').click();
+        cy.wait(2000);
+        cy.get('.govuk-heading-l').should('not.exist');
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
+          cy.contains('h2', 'Movement details').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.MovementDetails);
+            });
+          });
+          cy.contains('h2', 'Passenger 1 details').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger1Details);
+            });
+          });
+          cy.contains('h2', 'Warnings').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.Warnings);
+            });
+          });
+          cy.contains('h2', 'Selection details').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.SelectionDetails);
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
