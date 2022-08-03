@@ -15,6 +15,9 @@
             "Route to UK": "CDG - YYZ - YYC - LHR"
         },
         {
+            "Inbound or Outbound": "Outbound"
+        },
+        {
             "Estimated date of arrival": "10 July 2022"
         },
         {
@@ -170,6 +173,40 @@
         },
         {
             "Approximate photograph date (optional)": ""
+        }
+    ],
+    "MovementDetailsInbound": [
+        {
+            "Flight number": "BA0103"
+        },
+        {
+            "Route to UK": "CDG - YYZ - YYC - LHR"
+        },
+        {
+            "Inbound or outbound": "Inbound"
+        },
+        {
+            "Estimated date of arrival": "10 July 2022"
+        },
+        {
+            "Estimated time of arrival": "15:30"
+        }
+    ],
+    "MovementDetailsOutbound": [
+        {
+            "Flight number": "BA0103"
+        },
+        {
+            "Route to UK": "CDG - YYZ - YYC - LHR"
+        },
+        {
+            "Inbound or outbound": "Outbound"
+        },
+        {
+            "Estimated date of departure": "10 July 2022"
+        },
+        {
+            "Estimated time of departure": "12:30"
         }
     ]
 }

@@ -470,8 +470,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     cy.wait('@tasks').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
     });
-    cy.wait(2000);
-    cy.get('select').select('RORO_TOURIST');
+    cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').click({ force: true });
 
     cy.contains('Apply').click();
 
@@ -491,7 +490,7 @@ describe('Render tasks from Camunda and manage them on task management Page', ()
     });
   });
 
-  it.skip('Should check empty task list fallback message on task management page', () => {
+  it('Should check empty task list fallback message on task management page', () => {
     cy.get('.govuk-checkboxes [value="RORO_UNACCOMPANIED_FREIGHT"]')
       .click({ force: true });
 

@@ -769,7 +769,8 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         expect(response.statusCode).to.equal(200);
       });
       cy.wait(2000);
-      cy.get('select').select(mode.toString().replace(/-/g, '_').toUpperCase());
+      cy.get(`.govuk-checkboxes [value="${mode.toString().replace(/-/g, '_').toUpperCase()}"]`)
+        .click({ force: true });
 
       cy.contains('Apply').click();
 
