@@ -8,6 +8,7 @@ const useAxiosInstance = (keycloak, baseURL = '/') => {
     },
   });
 
+  // This interceptor would get the new keycloak token after it expires
   axiosInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${keycloak?.token}`;
     return config;
