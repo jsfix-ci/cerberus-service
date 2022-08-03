@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 import lookup from 'country-code-lookup';
 
+import classNames from 'classnames';
 import {
   formatKey,
   formatField,
@@ -407,32 +408,15 @@ const createOccupantsCarrierCountsFields = (manifestOccupantCategoryCounts) => {
         const className = index !== manifestOccupantCategoryCounts.length - 1
           ? 'govuk-task-details-grid-row bottom-border'
           : 'govuk-task-details-grid-row';
+        const classnames = classNames('font__bold', hasZeroCount(content) && 'font__grey', type.includes('CHANGED') && 'task-versions--highlight');
         return (
           <div className={className} key={uuidv4()}>
-            <ul>
-              {type.includes('CHANGED') ? (
-                <li
-                  className={`govuk-grid-value font__bold ${hasZeroCount(content) && 'font__grey'} task-versions--highlight`}
-                >
-                  {fieldName}
-                </li>
-              ) : (
-                <li
-                  className={`govuk-grid-value  ${hasZeroCount(content) && 'font__grey'} font__bold`}
-                >
-                  {fieldName}
-                </li>
-              )}
-            </ul>
-            <ul>
-              <li
-                className={
-                  `govuk-grid-value font__bold ${hasZeroCount(content) && 'font__grey'} ${type.includes('CHANGED') && 'task-versions--highlight'}`
-                }
-              >
-                {parseInt(content, 10)}
-              </li>
-            </ul>
+            <span className={`govuk-grid-value ${classnames}`}>
+              {fieldName}
+            </span>
+            <span className={`govuk-grid-value ${classnames}`}>
+              {parseInt(content, 10)}
+            </span>
           </div>
         );
       }
