@@ -15,13 +15,7 @@
             "Route to UK": "CDG - YYZ - YYC - LHR"
         },
         {
-            "Inbound or Outbound": "Outbound"
-        },
-        {
-            "Estimated date of arrival": "10 July 2022"
-        },
-        {
-            "Estimated time of arrival": "15:30"
+            "Inbound or outbound": ""
         }
     ],
     "Passenger1Details": [
