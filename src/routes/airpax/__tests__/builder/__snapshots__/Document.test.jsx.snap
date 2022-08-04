@@ -2,7 +2,7 @@
 
 exports[`Document should render the document component 1`] = `
 <div
-  className="task-details-container"
+  className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
 >
   <h3
     className="govuk-heading-m govuk-!-margin-top-0"

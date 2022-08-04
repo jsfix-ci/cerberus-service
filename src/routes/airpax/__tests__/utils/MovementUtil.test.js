@@ -512,26 +512,26 @@ describe('MovementUtil', () => {
 
   it('should return the itinerary departure country code', () => {
     targetTaskMin.movement.journey.itinerary[0].departure.country = 'GB';
-    const expected = 'GB';
+    const expected = 'GBR';
     const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
     expect(output).toEqual(expected);
   });
 
   it('should return the country code using departure location when the departure country code is null', () => {
     const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('DE');
+    expect(output).toEqual('DEU');
   });
 
   it('should return the country code using departure location when the departure country code is undefined', () => {
     targetTaskMin.movement.journey.itinerary[0].departure.country = undefined;
     const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('DE');
+    expect(output).toEqual('DEU');
   });
 
   it('should return the country code using departure location when the departure country code is an empty string', () => {
     targetTaskMin.movement.journey.itinerary[0].departure.country = '';
     const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('DE');
+    expect(output).toEqual('DEU');
   });
 
   it('should return unknown when the country code can not be determined using the departure location', () => {
@@ -543,26 +543,26 @@ describe('MovementUtil', () => {
 
   it('should return the itinerary arrival country code', () => {
     targetTaskMin.movement.journey.itinerary[0].arrival.country = 'FR';
-    const expected = 'FR';
+    const expected = 'FRA';
     const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
     expect(output).toEqual(expected);
   });
 
   it('should return the country code using the arrival location when arrival country code is null', () => {
     const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('GB');
+    expect(output).toEqual('GBR');
   });
 
   it('should return the country code using the arrival location when arrival country code is undefined', () => {
     targetTaskMin.movement.journey.itinerary[0].arrival.country = undefined;
     const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('GB');
+    expect(output).toEqual('GBR');
   });
 
   it('should return the country code using the arrival location when arrival country code is an empty string', () => {
     targetTaskMin.movement.journey.itinerary[0].arrival.country = '';
     const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('GB');
+    expect(output).toEqual('GBR');
   });
 
   it('should return unknown when the country code can not be determined using the arrival location', () => {
