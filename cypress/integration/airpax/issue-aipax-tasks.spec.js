@@ -341,7 +341,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should verify a photograph is added', () => {
+  it('Should verify a photograph is added to TIS successfully', () => {
     const taskName = 'AIRPAX';
     const filePath = '/airpax/photos/Screenshot1.png';
     cy.fixture('airpax/task-airpax.json').then((task) => {
