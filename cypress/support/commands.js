@@ -2300,7 +2300,6 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
   });
 });
 
-
 Cypress.Commands.add('filterPageByAssignee', (filter) => {
   cy.request({
     method: 'POST',

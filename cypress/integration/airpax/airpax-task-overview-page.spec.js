@@ -1,4 +1,3 @@
-import { useRaf } from 'react-use';
 import { formatVoyageText } from '../../../src/utils/stringConversion';
 
 describe('AirPax Tasks overview Page - Should check All user journeys', () => {
