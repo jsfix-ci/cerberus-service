@@ -1,3 +1,4 @@
+import { useRaf } from 'react-use';
 import { formatVoyageText } from '../../../src/utils/stringConversion';
 
 describe('AirPax Tasks overview Page - Should check All user journeys', () => {
@@ -454,7 +455,6 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.get('body').then(($el) => {
           if ($el.find(nextPage).length > 0) {
             cy.findTaskInAllThePages(`${businessKey}`, null, {
-              selector: 'Paid by cash1',
               risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
@@ -462,7 +462,6 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
             });
           } else {
             cy.findTaskInSinglePage(`${businessKey}`, null, {
-              selector: 'Paid by cash1',
               risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {

@@ -1,4 +1,4 @@
-describe('Delet tasks and verify it on UI', () => {
+describe('Delete tasks and verify it on UI', () => {
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();
@@ -71,7 +71,7 @@ describe('Delet tasks and verify it on UI', () => {
     });
   });
 
-  it('Should delete a RoRo task with movementId verify it is not present', () => {
+  it.skip('Should delete a RoRo task with movementId verify it is not present', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     let date = new Date();
     let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
@@ -81,16 +81,15 @@ describe('Delet tasks and verify it on UI', () => {
       cy.createTargetingApiTask(task).then((taskResponse) => {
         expect(taskResponse.movement.id).to.contain('AUTOTEST');
         let movementId = taskResponse.movement.id;
+        let businessKey = taskResponse.id;
         cy.wait(4000);
         cy.visit('/tasks');
-        cy.wait('@taskList').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        cy.wait(2000);
         cy.get('.govuk-task-list-card').find('h4.task-heading')
           .should('be.visible')
           .invoke('text')
           .then((text) => {
-            expect(text).to.include(movementId);
+            expect(text).to.include(businessKey);
           });
         cy.deleteTasks(movementId);
         cy.reload();
@@ -99,7 +98,7 @@ describe('Delet tasks and verify it on UI', () => {
           .should('be.visible')
           .invoke('text')
           .then((text) => {
-            expect(text).to.not.include(movementId);
+            expect(text).to.not.include(businessKey);
           });
       });
     });

@@ -23,7 +23,7 @@
         },
         "journey": {
             "id": "19aafdcd743bd63ca19bfe917f75a2db",
-            "direction": null,
+            "direction": "INBOUND",
             "route": "DOV - CAL",
             "arrival": {
                 "country": "FR",
