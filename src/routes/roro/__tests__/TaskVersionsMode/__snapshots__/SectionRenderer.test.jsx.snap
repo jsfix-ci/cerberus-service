@@ -203,74 +203,58 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
     <div
       className="govuk-task-details-grid-row bottom-border"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          Infants
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        Infants
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
     <div
       className="govuk-task-details-grid-row bottom-border"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          Children
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        Children
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
     <div
       className="govuk-task-details-grid-row bottom-border"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  false font__bold"
-        >
-          Adults
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold false false"
-        >
-          1
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold"
+      >
+        Adults
+      </span>
+      <span
+        className="govuk-grid-value font__bold"
+      >
+        1
+      </span>
     </div>
     <div
       className="govuk-task-details-grid-row"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          OAPs
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        OAPs
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
   </div>
 </div>
@@ -300,74 +284,58 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render catego
     <div
       className="govuk-task-details-grid-row bottom-border"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          Infants
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        Infants
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
     <div
       className="govuk-task-details-grid-row bottom-border"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          Children
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        Children
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
     <div
       className="govuk-task-details-grid-row bottom-border"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          Adults
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        Adults
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
     <div
       className="govuk-task-details-grid-row"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  font__grey font__bold"
-        >
-          OAPs
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold font__grey false"
-        >
-          0
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold font__grey"
+      >
+        OAPs
+      </span>
+      <span
+        className="govuk-grid-value font__bold font__grey"
+      >
+        0
+      </span>
     </div>
   </div>
 </div>
@@ -397,20 +365,16 @@ exports[`SectionRenderer renderOccupantCarrierCountsSection should render unknow
     <div
       className="govuk-task-details-grid-row"
     >
-      <ul>
-        <li
-          className="govuk-grid-value  false font__bold"
-        >
-          Unknown
-        </li>
-      </ul>
-      <ul>
-        <li
-          className="govuk-grid-value font__bold false false"
-        >
-          1
-        </li>
-      </ul>
+      <span
+        className="govuk-grid-key font__bold"
+      >
+        Unknown
+      </span>
+      <span
+        className="govuk-grid-value font__bold"
+      >
+        1
+      </span>
     </div>
   </div>
 </div>
