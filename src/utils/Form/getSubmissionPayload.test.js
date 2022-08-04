@@ -11,6 +11,7 @@ describe('components.utils.Form', () => {
     environmentContext: {},
     keycloakContext: {},
   };
+
   const axiosInstance = {
     posts: [],
     post: async (url, payload) => {
@@ -26,54 +27,16 @@ describe('components.utils.Form', () => {
   });
 
   describe('getSubmissionPayload', () => {
-    it('should get an appropriate payload that already contains a business key', async () => {
-      const PAYLOAD = {
-        ...PAYLOAD_CONTEXTS,
-        processContext: {
-          instance: { businessKey: BUSINESS_KEY, id: 'instanceId' },
-        },
-        ...FORM_DATA,
-      };
-      const before = Date.now();
-      const result = await getSubmissionPayload(FORM_INFO, PAYLOAD, SUBMITTED_BY, axiosInstance);
-      const after = Date.now();
-      expect(result).toMatchObject({
-        id: PAYLOAD.processContext.instance.id,
-        businessKey: BUSINESS_KEY,
-        ...FORM_DATA,
-        form: {
-          formId: FORM_INFO.id,
-          formVersionId: FORM_INFO.version,
-          name: FORM_INFO.name,
-          title: FORM_INFO.title,
-          submittedBy: SUBMITTED_BY,
-          draftForm: true,
-        },
-      });
-      // Check the submissionDate.
-      const submissionDate = new Date(result.form.submissionDate).getTime();
-      expect(submissionDate).toBeGreaterThanOrEqual(before);
-      expect(submissionDate).toBeLessThanOrEqual(after);
-      // And make sure the contexts that were in the payload are no longer there.
-      Object.keys(PAYLOAD_CONTEXTS).forEach((key) => {
-        expect(result[key]).not.toBeDefined();
-      });
-      expect(axiosInstance.posts.length).toEqual(0);
-    });
-
     it('should generate a new businessKey when one does not already exist', async () => {
       const PAYLOAD = {
         ...PAYLOAD_CONTEXTS,
-        processContext: {
-          instance: { id: 'instanceId' },
-        },
         ...FORM_DATA,
       };
       const before = Date.now();
       const result = await getSubmissionPayload(FORM_INFO, PAYLOAD, SUBMITTED_BY, axiosInstance);
       const after = Date.now();
       expect(result).toMatchObject({
-        id: PAYLOAD.processContext.instance.id,
+        id: undefined,
         businessKey: NEW_BUSINESS_KEY,
         ...FORM_DATA,
         form: {
@@ -98,6 +61,38 @@ describe('components.utils.Form', () => {
         url: BUSINESS_KEY_PATH,
         payload: {},
       });
+    });
+
+    it('should not generate a new businessKey when one already exist', async () => {
+      const PAYLOAD = {
+        ...FORM_DATA,
+        id: BUSINESS_KEY,
+      };
+      const before = Date.now();
+      const result = await getSubmissionPayload(FORM_INFO, PAYLOAD, SUBMITTED_BY, axiosInstance);
+      const after = Date.now();
+      expect(result).toMatchObject({
+        id: BUSINESS_KEY,
+        businessKey: BUSINESS_KEY,
+        ...FORM_DATA,
+        form: {
+          formId: FORM_INFO.id,
+          formVersionId: FORM_INFO.version,
+          name: FORM_INFO.name,
+          title: FORM_INFO.title,
+          submittedBy: SUBMITTED_BY,
+          draftForm: true,
+        },
+      });
+      // Check the submissionDate.
+      const submissionDate = new Date(result.form.submissionDate).getTime();
+      expect(submissionDate).toBeGreaterThanOrEqual(before);
+      expect(submissionDate).toBeLessThanOrEqual(after);
+      // And make sure the contexts that were in the payload are no longer there.
+      Object.keys(PAYLOAD_CONTEXTS).forEach((key) => {
+        expect(result[key]).not.toBeDefined();
+      });
+      expect(axiosInstance.posts.length).toEqual(0);
     });
   });
 });
