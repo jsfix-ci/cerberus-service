@@ -655,13 +655,9 @@ Cypress.Commands.add(('getOccupantCounts'), () => {
   const obj = {};
   cy.get('.task-details-container').eq(1).within(() => {
     cy.get('.govuk-task-details-grid-row').each((item) => {
-      cy.wrap(item).find('ul').each((detail) => {
-        // cy.wrap(detail).find('li.govuk-grid-value').invoke('text').then((key) => {
-        cy.wrap(detail).invoke('text').then((key) => {
-          //  cy.wrap(detail).next().invoke('text').then((value) => {
-          cy.wrap(detail).invoke('text').then((value) => {
-            obj[key] = value;
-          });
+      cy.wrap(item).find('span.govuk-grid-key').invoke('text').then((key) => {
+        cy.wrap(item).find('span.govuk-grid-value').invoke('text').then((value) => {
+          obj[key] = value;
         });
       });
     });
@@ -2294,19 +2290,6 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
     headers: { Authorization: `Bearer ${token}` },
     body: {
       'userId': 'mitchel.egboko@digital.homeoffice.gov.uk',
-    },
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-  });
-});
-
-Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
-  cy.request({
-    method: 'POST',
-    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
-    headers: { Authorization: `Bearer ${token}` },
-    body: {
-      'userId': userName,
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
