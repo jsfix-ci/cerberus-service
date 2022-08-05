@@ -12,6 +12,7 @@ import {
   SHORT_DATE_FORMAT_ALT,
 } from '../../../constants';
 import { formatField } from '../../../utils/formatField';
+import Common from './common';
 import { getFormattedDate } from './datetimeUtil';
 
 const calculateExpiry = (passportExpiry, arrivalTime) => {
@@ -94,12 +95,12 @@ const getDocumentCountryOfIssue = (document, taskDetails = false) => {
   }
   if (taskDetails) {
     return lookup.byIso(document.countryOfIssue) !== null
-      ? `${lookup.byIso(document.countryOfIssue).country} (${document.countryOfIssue})`
+      ? `${lookup.byIso(document.countryOfIssue).country} (${Common.iso3Code(document.countryOfIssue)})`
       : `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
   }
 
   return lookup.byIso(document.countryOfIssue) !== null
-    ? `${countryOfIssuePrefix} ${document.countryOfIssue}`
+    ? `${countryOfIssuePrefix} ${Common.iso3Code(document.countryOfIssue)}`
     : `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
 };
 
@@ -107,7 +108,7 @@ const getDocumentCountryOfIssueCode = (document) => {
   if (!document?.countryOfIssue) {
     return UNKNOWN_TEXT;
   }
-  return document.countryOfIssue;
+  return Common.iso3Code(document.countryOfIssue);
 };
 
 const getDocumentNationality = (document, taskDetails = false) => {

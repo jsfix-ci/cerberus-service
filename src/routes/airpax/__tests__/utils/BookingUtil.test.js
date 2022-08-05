@@ -171,7 +171,7 @@ describe('BookingUtil', () => {
 
   it('should get the expected country code', () => {
     const output = BookingUtil.countryCode(booking);
-    expect(output).toEqual('GB');
+    expect(output).toEqual('GBR');
   });
 
   it('should return unknown country code is null', () => {
@@ -367,8 +367,9 @@ describe('BookingUtil', () => {
   });
 
   it('should get the agent location if present', () => {
+    const expected = 'Galiway, IRL';
     const agentLocation = BookingUtil.agentLocation(booking.agent);
-    expect(agentLocation).toEqual(booking.agent.location);
+    expect(agentLocation).toEqual(expected);
   });
 
   it('should return unknown when the agent location is not present', () => {
