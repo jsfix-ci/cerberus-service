@@ -205,7 +205,7 @@ const TaskListPage = () => {
         />
       )}
       <div className="govuk-grid-row">
-        <section className="govuk-grid-column-one-quarter">
+        <section className="govuk-grid-column-one-quarter sticky">
           <div className="cop-filters-container">
             <div className="cop-filters-header">
               <h2 className="govuk-heading-s">Filters</h2>

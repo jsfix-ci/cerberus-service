@@ -12,6 +12,9 @@ import generateBusinessKey from './generateBusinessKey';
  */
 const getSubmissionPayload = async (formInfo, payload, submittedBy, axiosInstance) => {
   const cleanPayload = cleanSubmission(formInfo, payload, submittedBy);
+  if (cleanPayload?.id) {
+    cleanPayload.businessKey = cleanPayload.id;
+  }
   if (!cleanPayload.businessKey) {
     cleanPayload.businessKey = await generateBusinessKey(axiosInstance);
   }

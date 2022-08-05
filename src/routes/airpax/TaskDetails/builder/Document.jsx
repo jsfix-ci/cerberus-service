@@ -18,7 +18,7 @@ const Document = ({ version }) => {
   const validToExpiry = document ? DocumentUtil.calculateExpiry(document.expiry, getArrivalTime(journey)) : 'Unknown';
 
   return (
-    <div className="task-details-container">
+    <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
       <h3 className="govuk-heading-m govuk-!-margin-top-0">Document</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Type', [DocumentUtil.docType(document)])}

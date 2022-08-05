@@ -3,7 +3,6 @@ import setupSubmission from './setupSubmission';
 
 describe('components.utils.Form', () => {
   describe('setupSubmission', () => {
-    const PROCESS_ID = 'alpha';
     const BUSINESS_KEY = 'TEST-12345678-90';
     const TASKS = [
       { id: '1', processInstanceId: 'alpha' },
@@ -13,10 +12,12 @@ describe('components.utils.Form', () => {
     const FORM_INFO = { id: 'formId', version: '1.0.0', name: 'form1', title: 'Form 1' };
     const FORM_DATA = { alpha: 'bravo', charlie: 'delata' };
     const SUBMITTED_BY = 'alpha.bravo@homeoffice.gov.uk';
+
     const PAYLOAD_CONTEXTS = {
       environmentContext: {},
       keycloakContext: {},
     };
+
     const axiosInstance = {
       gets: [],
       ret: TASKS,
@@ -43,12 +44,10 @@ describe('components.utils.Form', () => {
       axiosInstance.posts.length = 0;
     });
 
-    it('should set up a submission for an existing business key and process ID', async () => {
+    it('should set up a submission for an existing ID', async () => {
       const PAYLOAD = {
         ...PAYLOAD_CONTEXTS,
-        processContext: {
-          instance: { businessKey: BUSINESS_KEY, id: PROCESS_ID },
-        },
+        id: BUSINESS_KEY,
         ...FORM_DATA,
       };
       const result = await setupSubmission(FORM_INFO, PAYLOAD, SUBMITTED_BY, axiosInstance);
@@ -61,30 +60,6 @@ describe('components.utils.Form', () => {
 
       // Check the posts and gets.
       expect(axiosInstance.posts.length).toEqual(0); // Didn't try to get a new business key.
-    });
-
-    it('should set up a submission when there is no existing business key but with a process ID', async () => {
-      const PAYLOAD = {
-        ...PAYLOAD_CONTEXTS,
-        processContext: {
-          instance: { id: PROCESS_ID },
-        },
-        ...FORM_DATA,
-      };
-      const result = await setupSubmission(FORM_INFO, PAYLOAD, SUBMITTED_BY, axiosInstance);
-      expect(result).toBeDefined();
-      expect(result.businessKey).toEqual(NEW_BUSINESS_KEY);
-      expect(result.submissionPayload).toMatchObject({
-        ...FORM_DATA,
-        businessKey: NEW_BUSINESS_KEY,
-      });
-
-      // Check the posts and gets.
-      expect(axiosInstance.posts.length).toEqual(1);
-      expect(axiosInstance.posts[0]).toMatchObject({
-        url: BUSINESS_KEY_PATH,
-        payload: {},
-      });
     });
 
     it('should set up a submission when there is no existing business key or process ID', async () => {
@@ -101,6 +76,7 @@ describe('components.utils.Form', () => {
       expect(result.submissionPayload).toMatchObject({
         ...FORM_DATA,
         businessKey: NEW_BUSINESS_KEY,
+        id: undefined,
       });
 
       // Check the posts and gets.

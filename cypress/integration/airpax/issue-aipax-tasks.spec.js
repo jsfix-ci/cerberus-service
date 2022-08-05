@@ -1,3 +1,5 @@
+import 'cypress-file-upload';
+
 describe('Create AirPax task and issue target', () => {
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
@@ -334,6 +336,31 @@ describe('Create AirPax task and issue target', () => {
               });
             });
           });
+        });
+      });
+    });
+  });
+
+  it('Should verify a photograph is added to TIS successfully', () => {
+    const taskName = 'AIRPAX';
+    const filePath = '/airpax/photos/Screenshot1.png';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.clickChangeInTIS('Given name');
+        cy.get('.hods-file-upload__select').attachFile(filePath);
+        cy.wait(2000);
+        cy.get('.hods-file-upload__thumb').should('be.visible');
+        cy.contains('Continue').click();
+
+        cy.get('.govuk-summary-list__row').contains('Photograph (optional)').siblings('.govuk-summary-list__value').within(() => {
+          cy.get('div[id="person.photograph"]').should('include.text', '.png');
+          cy.get('.hods-file-upload__thumb').should('be.visible');
         });
       });
     });
