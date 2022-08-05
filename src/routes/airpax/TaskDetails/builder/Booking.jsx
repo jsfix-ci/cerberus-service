@@ -48,9 +48,7 @@ const Booking = ({ version }) => {
         {renderBlock('Check-in date', [DateTimeUtil.format(BookingUtil.checkInAt(booking), LONG_DATE_FORMAT),
           toBookingTimeDiference(BookingUtil.checkInAt(booking), version)])}
         {renderBlock('Booking country', [
-          `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(
-            booking,
-          )})`,
+          `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(booking)})`,
         ])}
         {renderBlock('Booking type', [BookingUtil.bookingType(booking)])}
         {renderBlock('Ticket number', [BookingUtil.ticketNumber(ticket)])}

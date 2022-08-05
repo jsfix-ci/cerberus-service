@@ -21,6 +21,7 @@ import { getTotalNumberOfPersons } from './personUtil';
 
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
+import Common from './common';
 
 const getMovementDirection = (journey) => {
   return journey?.direction || undefined;
@@ -234,11 +235,11 @@ const getItineraryArrivalCountryCode = (itinerary) => {
       return UNKNOWN_TEXT;
     }
     if (lookup.byCountry(arrivalCountry) !== null) {
-      return lookup.byCountry(arrivalCountry).iso2;
+      return lookup.byCountry(arrivalCountry).iso3;
     }
     return UNKNOWN_TEXT;
   }
-  return itinerary.arrival.country;
+  return Common.iso3Code(itinerary.arrival.country);
 };
 
 /**
@@ -256,11 +257,11 @@ const getItineraryDepartureCountryCode = (itinerary) => {
       return UNKNOWN_TEXT;
     }
     if (lookup.byCountry(departureCountry) !== null) {
-      return lookup.byCountry(departureCountry).iso2;
+      return lookup.byCountry(departureCountry).iso3;
     }
     return UNKNOWN_TEXT;
   }
-  return itinerary.departure.country;
+  return Common.iso3Code(itinerary.departure.country);
 };
 
 const getFlightNumber = (flight) => {

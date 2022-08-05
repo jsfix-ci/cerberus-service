@@ -168,12 +168,12 @@ describe('DocumentUtil', () => {
 
   it('should show document country of issue if it is present', () => {
     const output = DocumentUtil.docCountry(document);
-    expect(output).toEqual('Issued by FR');
+    expect(output).toEqual('Issued by FRA');
   });
 
   it('should show document nationality if it is present', () => {
     const output = DocumentUtil.docNationality(document);
-    expect(output).toEqual('Issued by FR');
+    expect(output).toEqual('Issued by FRA');
   });
 
   it('should show document date of birth if it is present', () => {
@@ -183,7 +183,7 @@ describe('DocumentUtil', () => {
 
   it('should return the document country of issue code when present', () => {
     const output = DocumentUtil.docCountryCode(document);
-    expect(output).toEqual('FR');
+    expect(output).toEqual('FRA');
   });
 
   it('should return unknown when the document country of issue is null', () => {
