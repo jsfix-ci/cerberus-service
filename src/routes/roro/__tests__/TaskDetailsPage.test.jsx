@@ -41,6 +41,7 @@ describe('TaskDetailsPage', () => {
     timestamp: '2021-04-06T15:30:42.420+0000',
     userId: 'testuser@email.com',
   }];
+
   const taskHistoryFixture = [{
     assignee: 'testuser@email.com',
     startTime: '2021-04-20T10:50:25.869+0000',
@@ -78,6 +79,8 @@ describe('TaskDetailsPage', () => {
       .onGet('/v2/entities/targetmode', { params: { mode: 'dataOnly', filter: `modecode=eq.${modecode}` } })
       .reply(200, targetModeResponse);
   };
+
+  const ACTION_BUTTONS = ['Issue target', 'Assessment complete', 'Dismiss'];
 
   it('should render TaskDetailsPage component with a loading state', () => {
     render(<TaskDetailsPage />);
@@ -519,84 +522,65 @@ describe('TaskDetailsPage', () => {
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
   });
 
-  it('should hide the notes form on clicking the assessment complete button', async () => {
-    mockTaskDetailsAxiosCalls({
-      processInstanceResponse: [{ id: '123' }],
-      taskResponse: [{
-        processInstanceId: '123',
-        assignee: 'test',
-        id: 'task123',
-        taskDefinitionKey: 'developTarget',
-      }],
-      variableInstanceResponse: variableInstanceStatusNew,
-      operationsHistoryResponse: operationsHistoryFixture,
-      taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: noteFormFixure,
-      modecode: 'rorotour',
-      targetModeResponse: targetModeTourist,
+  ACTION_BUTTONS.forEach((button) => {
+    it('should hide the notes form on clicking an action button', async () => {
+      mockTaskDetailsAxiosCalls({
+        processInstanceResponse: [{ id: '123' }],
+        taskResponse: [{
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'developTarget',
+        }],
+        variableInstanceResponse: variableInstanceStatusNew,
+        operationsHistoryResponse: operationsHistoryFixture,
+        taskHistoryResponse: taskHistoryFixture,
+        noteFormResponse: noteFormFixure,
+        modecode: 'rorotour',
+        targetModeResponse: targetModeTourist,
+      });
+
+      await waitFor(() => render(<TaskDetailsPage />));
+
+      expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+      const actionButton = screen.getByRole('button', { name: button });
+      fireEvent.click(actionButton);
+
+      expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
     });
-
-    await waitFor(() => render(<TaskDetailsPage />));
-
-    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
-
-    const assessmentCompleteButton = screen.getByRole('button', { name: 'Assessment complete' });
-    fireEvent.click(assessmentCompleteButton);
-
-    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
-  it('should hide the notes form on clicking the dismiss button', async () => {
-    mockTaskDetailsAxiosCalls({
-      processInstanceResponse: [{ id: '123' }],
-      taskResponse: [{
-        processInstanceId: '123',
-        assignee: 'test',
-        id: 'task123',
-        taskDefinitionKey: 'developTarget',
-      }],
-      variableInstanceResponse: variableInstanceStatusNew,
-      operationsHistoryResponse: operationsHistoryFixture,
-      taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: noteFormFixure,
-      modecode: 'rorotour',
-      targetModeResponse: targetModeTourist,
+  ACTION_BUTTONS.forEach((button) => {
+    it('should hide the action buttons', async () => {
+      mockTaskDetailsAxiosCalls({
+        processInstanceResponse: [{ id: '123' }],
+        taskResponse: [{
+          processInstanceId: '123',
+          assignee: 'test',
+          id: 'task123',
+          taskDefinitionKey: 'developTarget',
+        }],
+        variableInstanceResponse: variableInstanceStatusNew,
+        operationsHistoryResponse: operationsHistoryFixture,
+        taskHistoryResponse: taskHistoryFixture,
+        noteFormResponse: noteFormFixure,
+        modecode: 'rorotour',
+        targetModeResponse: targetModeTourist,
+      });
+
+      await waitFor(() => render(<TaskDetailsPage />));
+
+      expect(screen.queryByText('Issue target')).toBeInTheDocument();
+      expect(screen.queryByText('Assessment complete')).toBeInTheDocument();
+      expect(screen.queryByText('Dismiss')).toBeInTheDocument();
+
+      const actionButton = screen.getByRole('button', { name: button });
+      fireEvent.click(actionButton);
+
+      expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
+      expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
+      expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
     });
-
-    await waitFor(() => render(<TaskDetailsPage />));
-
-    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
-
-    const dismissButton = screen.getByRole('button', { name: 'Dismiss' });
-    fireEvent.click(dismissButton);
-
-    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
-  });
-
-  it('should hide the notes form on clicking the issue target button', async () => {
-    mockTaskDetailsAxiosCalls({
-      processInstanceResponse: [{ id: '123' }],
-      taskResponse: [{
-        processInstanceId: '123',
-        assignee: 'test',
-        id: 'task123',
-        taskDefinitionKey: 'developTarget',
-      }],
-      variableInstanceResponse: variableInstanceStatusNew,
-      operationsHistoryResponse: operationsHistoryFixture,
-      taskHistoryResponse: taskHistoryFixture,
-      noteFormResponse: noteFormFixure,
-      modecode: 'rorotour',
-      targetModeResponse: targetModeTourist,
-    });
-
-    await waitFor(() => render(<TaskDetailsPage />));
-
-    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
-
-    const issueTargetButton = screen.getByRole('button', { name: 'Issue target' });
-    fireEvent.click(issueTargetButton);
-
-    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 });
