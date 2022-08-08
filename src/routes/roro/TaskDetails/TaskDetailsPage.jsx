@@ -87,7 +87,7 @@ const TaskDetailsPage = () => {
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [isLoading, setLoading] = useState(true);
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
-  const [showButtons, setShowButtons] = useState(true);
+  const [showActionButtons, setShowActionButtons] = useState(true);
 
   const toModeCode = (mode) => {
     if (/RORO Accompanied Freight/i.test(mode)) {
@@ -341,7 +341,7 @@ const TaskDetailsPage = () => {
               {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
               && processInstanceData.taskDefinitionKey === 'developTarget' && (
                 <>
-                  {showButtons && (
+                  {showActionButtons && (
                   <>
                     <Button
                       className="govuk-!-margin-right-1"
@@ -349,7 +349,7 @@ const TaskDetailsPage = () => {
                         setIssueTargetFormOpen(true);
                         setCompleteFormOpen(false);
                         setDismissFormOpen(false);
-                        setShowButtons(false);
+                        setShowActionButtons(false);
                       }}
                     >
                       Issue target
@@ -360,7 +360,7 @@ const TaskDetailsPage = () => {
                         setIssueTargetFormOpen(false);
                         setCompleteFormOpen(true);
                         setDismissFormOpen(false);
-                        setShowButtons(false);
+                        setShowActionButtons(false);
                       }}
                     >
                       Assessment complete
@@ -371,7 +371,7 @@ const TaskDetailsPage = () => {
                         setIssueTargetFormOpen(false);
                         setCompleteFormOpen(false);
                         setDismissFormOpen(true);
-                        setShowButtons(false);
+                        setShowActionButtons(false);
                       }}
                     >
                       Dismiss
@@ -388,7 +388,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="assessmentComplete"
                   onCancel={() => {
-                    setShowButtons(true);
+                    setShowActionButtons(true);
                     setCompleteFormOpen(false);
                   }}
                   taskId={processInstanceData.id}
@@ -405,7 +405,7 @@ const TaskDetailsPage = () => {
                 <TaskManagementForm
                   formName="dismissTarget"
                   onCancel={() => {
-                    setShowButtons(true);
+                    setShowActionButtons(true);
                     setDismissFormOpen(false);
                   }}
                   taskId={processInstanceData.id}
@@ -430,7 +430,7 @@ const TaskDetailsPage = () => {
                   <TaskManagementForm
                     formName="targetInformationSheet"
                     onCancel={() => {
-                      setShowButtons(true);
+                      setShowActionButtons(true);
                       setIssueTargetFormOpen(false);
                     }}
                     taskId={processInstanceData.id}

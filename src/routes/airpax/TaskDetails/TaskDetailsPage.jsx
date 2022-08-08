@@ -58,7 +58,7 @@ const TaskDetailsPage = () => {
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
-  const [showButtons, setShowButtons] = useState(true);
+  const [showActionButtons, setShowActionButtons] = useState(true);
 
   const clearAccordionStorage = () => {
     _.forIn(window.sessionStorage, (value, key) => {
@@ -174,7 +174,7 @@ const TaskDetailsPage = () => {
           {!isSubmitted && assignee === currentUser
           && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
           <>
-            {showButtons && (
+            {showActionButtons && (
             <>
               <Button
                 className="govuk-!-margin-right-1"
@@ -182,7 +182,7 @@ const TaskDetailsPage = () => {
                   setIssueTargetFormOpen(true);
                   setDismissTaskFormOpen(false);
                   setCompleteFormOpen(false);
-                  setShowButtons(false);
+                  setShowActionButtons(false);
                 }}
               >
                 Issue target
@@ -193,7 +193,7 @@ const TaskDetailsPage = () => {
                   setCompleteFormOpen(true);
                   setDismissTaskFormOpen(false);
                   setIssueTargetFormOpen(false);
-                  setShowButtons(false);
+                  setShowActionButtons(false);
                 }}
               >
                 Assessment complete
@@ -204,7 +204,7 @@ const TaskDetailsPage = () => {
                   setDismissTaskFormOpen(true);
                   setCompleteFormOpen(false);
                   setIssueTargetFormOpen(false);
-                  setShowButtons(false);
+                  setShowActionButtons(false);
                 }}
               >
                 Dismiss
@@ -240,7 +240,7 @@ const TaskDetailsPage = () => {
               }
             }
             onCancel={() => onCancelConfirmation(() => {
-              setShowButtons(true);
+              setShowActionButtons(true);
               setIssueTargetFormOpen();
             })}
             renderer={Renderers.REACT}
@@ -269,7 +269,7 @@ const TaskDetailsPage = () => {
               }
             }
             onCancel={() => onCancelConfirmation(() => {
-              setShowButtons(true);
+              setShowActionButtons(true);
               setCompleteFormOpen();
             })}
             form={completeTask}
@@ -299,7 +299,7 @@ const TaskDetailsPage = () => {
                 }
               }
               onCancel={() => onCancelConfirmation(() => {
-                setShowButtons(true);
+                setShowActionButtons(true);
                 setDismissTaskFormOpen();
               })}
               form={dismissTask}
