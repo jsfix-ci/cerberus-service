@@ -1,4 +1,4 @@
-describe('Delete tasks and verify it on UI', () => {
+describe.skip('Delete tasks and verify it on UI', () => {
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();

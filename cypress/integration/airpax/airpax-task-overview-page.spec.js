@@ -337,7 +337,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it('Should verify task summary displays Crew', () => {
+  it.only('Should verify task summary displays Crew', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/taskSummaryExpected-Crew.json').as('expectedData');

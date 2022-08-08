@@ -15,7 +15,7 @@ describe('Create AirPax task and issue target', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
-        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`, userId);
+        cy.claimAirPaxTaskWithUsername(`${taskResponse.id}`, userId);
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
@@ -49,7 +49,7 @@ describe('Create AirPax task and issue target', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
-        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`, userId);
+        cy.claimAirPaxTaskWithUsername(`${taskResponse.id}`, userId);
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
@@ -95,7 +95,7 @@ describe('Create AirPax task and issue target', () => {
 
           // Update Movement Details
           cy.clickChangeInTIS('Inbound or outbound');
-          cy.get('input[value="OUTBOUND"]').check();
+          cy.get('input[value="INBOUND"]').check();
           cy.contains('Continue').click();
 
           // Update Co-traveller details
@@ -119,16 +119,7 @@ describe('Create AirPax task and issue target', () => {
           cy.contains('Continue').click();
 
           // Add Nominal Details
-          cy.contains('h2', 'Checks completed on nominals').next().within(() => {
-            cy.get('dt.govuk-summary-list__key').invoke('text').then((text) => {
-              expect(text).to.equal('Nothing entered (optional)');
-            });
-            cy.get('dd.govuk-summary-list__actions').within(() => {
-              cy.get('.govuk-link').contains('Change').click();
-              cy.wait(2000);
-            });
-          });
-          cy.contains('Add another nominal').should('be.visible').click();
+          cy.clickChangeInTIS('Nominal type');
           cy.get('.hods-autocomplete__input').type(targetData.nominalChecks[0].type);
           cy.get('.hods-autocomplete__option').contains('Account').click();
           cy.get('.hods-multi-select-autocomplete__placeholder').type(targetData.nominalChecks[0].checks[0].name);
@@ -151,11 +142,11 @@ describe('Create AirPax task and issue target', () => {
     let errorNames = [
       'Issuing hub is required',
       'Port is required',
+      'Inbound or outbound is required',
       'Seat number is required',
       'Number of bags is required',
       'Baggage weight (kg) is required',
       'Tag details is required',
-      'Targeting indicators is required',
       'Nominal type is required',
       'System checks completed is required',
       'Select the team that should receive the target is required'];
@@ -222,7 +213,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should verify capability to Add or Remove items from collections', () => {
+  it.skip('Should verify capability to Add or Remove items from collections', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -287,7 +278,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should verify Inbound or Outbound Details in Target Information sheet', () => {
+  it.skip('Should verify Inbound or Outbound Details in Target Information sheet', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -341,7 +332,7 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
-  it('Should verify a photograph is added to TIS successfully', () => {
+  it.skip('Should verify a photograph is added to TIS successfully', () => {
     const taskName = 'AIRPAX';
     const filePath = '/airpax/photos/Screenshot1.png';
     cy.fixture('airpax/task-airpax.json').then((task) => {

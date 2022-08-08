@@ -242,7 +242,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
+  it.only('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
     cy.acceptPNRTerms();
     const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
     cy.fixture('airpax/task-airpax-same-group-reference-selectors.json').then((task) => {
@@ -304,7 +304,7 @@ describe('Verify AirPax task details of different sections', () => {
       });
     });
 
-    cy.expandTaskDetails(1);
+    cy.expandTaskDetails(2);
 
     cy.get('[id$=-content-2]').within(() => {
       cy.contains('h4', 'SR-215').nextAll().within((elements) => {
@@ -383,7 +383,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should check  rule matches details for more than one version on task management page', () => {
+  it('Should check rule matches details for more than one version on task management page', () => {
     cy.acceptPNRTerms();
     const movementID = `AUTO-TEST:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
     const nextPage = 'a[data-test="next"]';
@@ -581,7 +581,7 @@ describe('Verify AirPax task details of different sections', () => {
         cy.get('@expTestData').then((expTestData) => {
           cy.checkAirPaxTaskSummaryDetails().then((taskSummary) => {
             cy.toVoyageText(Cypress.dayjs(task.data.movement.voyage.voyage.scheduledArrivalTimestamp), true, 'Calgary').then((arrivalTime) => {
-              expTestData.taskSummary.FlightInfo = `British Airways flight,               ${arrivalTime}`;
+              expTestData.taskSummary.FlightInfo = `Unknown flight,               ${arrivalTime}`;
               expTestData.taskSummary.Arrival = `YYC${Cypress.dayjs(arrivalTimeInFeature).utc().format('D MMM YYYY [at] HH:mm')}`;
               expTestData.taskSummary.Departure = `BA0103${Cypress.dayjs(departureTime).utc().format('D MMM YYYY [at] HH:mm')}LHR`;
               expect(taskSummary).to.deep.equal(expTestData.taskSummary);
@@ -712,7 +712,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should cancel issue target successfully but still retain auto populated values in target information sheet', () => {
+  it.skip('Should cancel issue target successfully but still retain auto populated values in target information sheet', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -726,7 +726,7 @@ describe('Verify AirPax task details of different sections', () => {
         cy.contains('Issue target').click();
         cy.wait(2000);
         cy.get('.govuk-heading-l').should('have.text', 'Target Information Sheet (AirPax)');
-        cy.contains('Cancel').click();
+        cy.contains('Cancel').click({ force: true });
         cy.wait(2000);
         cy.get('.govuk-heading-l').should('not.exist');
         cy.contains('Issue target').click();

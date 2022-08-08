@@ -669,7 +669,7 @@ Cypress.Commands.add(('getOccupantCounts'), () => {
 Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
   cy.get('.govuk-accordion__section-button').eq(versionNumber).invoke('attr', 'aria-expanded').then((value) => {
     if (value === 'false') {
-      cy.get('.govuk-accordion__section-button').eq(versionNumber).click();
+      cy.get('.govuk-accordion__section-button').eq(versionNumber).click({force: true });
     }
   });
 });
@@ -2290,6 +2290,19 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
     headers: { Authorization: `Bearer ${token}` },
     body: {
       'userId': 'mitchel.egboko@digital.homeoffice.gov.uk',
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
+Cypress.Commands.add('claimAirPaxTaskWithUsername', (taskId, userName) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userName,
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
