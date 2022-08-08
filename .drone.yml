@@ -149,6 +149,7 @@ steps:
   when:
     branch:
     - release-candidate
+    - release-2.0.1
     event:
     - push
 
@@ -168,7 +169,6 @@ steps:
   when:
     branch:
     - release-candidate
-    - release-2.0.1
     event:
     - push
 
