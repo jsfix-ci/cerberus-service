@@ -14,7 +14,7 @@ import {
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
-  TASK_STATUS_KEY,
+  RORO_TASK_STATUS_KEY,
 } from '../../../constants';
 import config from '../../../config';
 
@@ -55,8 +55,8 @@ const TaskListPage = () => {
   let filterPosition = 0;
 
   const getAppliedFilters = () => {
-    const taskStatus = localStorage.getItem('taskId') !== 'null'
-      ? localStorage.getItem('taskId')
+    const taskStatus = localStorage.getItem(RORO_TASK_STATUS_KEY) !== 'null'
+      ? localStorage.getItem(RORO_TASK_STATUS_KEY)
       : 'new';
     if (
       localStorage.getItem('filterMovementMode')
@@ -113,7 +113,7 @@ const TaskListPage = () => {
   };
 
   const getFiltersAndSelectorsCount = async (taskId = 'new') => {
-    localStorage.setItem('taskId', taskId);
+    localStorage.setItem(RORO_TASK_STATUS_KEY, taskId);
     setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
@@ -174,7 +174,7 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
+    getFiltersAndSelectorsCount(localStorage.getItem(RORO_TASK_STATUS_KEY));
     setLoading(false);
   };
 
@@ -225,7 +225,7 @@ const TaskListPage = () => {
 
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount(localStorage.getItem('taskId'));
+    getFiltersAndSelectorsCount(localStorage.getItem(RORO_TASK_STATUS_KEY));
     setLoading(false);
   };
 
@@ -266,6 +266,7 @@ const TaskListPage = () => {
   }, [hasSelectors, movementModesSelected]);
 
   useEffect(() => {
+    localStorage.removeItem(RORO_TASK_STATUS_KEY);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -274,10 +275,6 @@ const TaskListPage = () => {
       setAuthorisedGroup(true);
       applySavedFiltersOnLoad();
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.removeItem(TASK_STATUS_KEY);
   }, []);
 
   return (
