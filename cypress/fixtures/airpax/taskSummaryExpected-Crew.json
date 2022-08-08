@@ -16,13 +16,13 @@
     "passportNumber": "119039375 (GB)",
     "validity": "Valid from 27 Apr 2018"
   },
-  "flightArrivalTime": "arrival 3 hours before travel",
+  "flightArrivalTime": "arrived a month ago",
   "flightName": "British Airways",
   "flightNumber": "flight BA0103",
   "passengerDetails": {
     "baggageWeight": "46kg ",
     "checkedBaggage": "3 checked bags, ",
-    "checkInTime": "Check-in 16:43, ",
+    "checkInTime": "Check-in 13:00, ",
     "dateOfBirth": "10 Dec 1976, ",
     "firstName": "BATZ STOUP, ",
     "gender": "Male, ",
