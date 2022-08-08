@@ -333,6 +333,7 @@ steps:
     COP_TARGETING_API_SERVICE_NAME:
       from_secret: SIT_COP_TARGETING_API_SERVICE_NAME
     COP_TARGETING_API_ENABLED: 'true'
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     branch:
     - release-candidate
@@ -452,6 +453,7 @@ steps:
     COP_TARGETING_API_SERVICE_NAME:
       from_secret: STAGING_COP_TARGETING_API_SERVICE_NAME
     COP_TARGETING_API_ENABLED: 'true'
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     event:
     - promote
@@ -570,6 +572,7 @@ steps:
     COP_TARGETING_API_SERVICE_NAME:
       from_secret: PRODUCTION_COP_TARGETING_API_SERVICE_NAME
     COP_TARGETING_API_ENABLED: 'true'
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     event:
     - promote
