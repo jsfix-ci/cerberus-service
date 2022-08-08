@@ -218,6 +218,7 @@ steps:
     COP_TARGETING_API_SERVICE_NAME:
       from_secret: DEV_COP_TARGETING_API_SERVICE_NAME
     COP_TARGETING_API_ENABLED: 'true'
+    NGINX_CONFIG_FILE: /etc/nginx/nginx.conf
   when:
     branch:
     - release-candidate
