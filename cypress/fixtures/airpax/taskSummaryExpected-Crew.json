@@ -12,8 +12,8 @@
   "departureStatus": "DC",
   "documentDetails": {
     "expiryDate": "Expires 26 Apr 2023",
-    "issuedBy": "Issued by GB",
-    "passportNumber": "119039375 (GB)",
+    "issuedBy": "Issued by GBR",
+    "passportNumber": "119039375 (GBR)",
     "validity": "Valid from 27 Apr 2018"
   },
   "flightArrivalTime": "arrived 16 days ago",
@@ -27,7 +27,7 @@
     "firstName": "BATZ STOUP, ",
     "gender": "Male, ",
     "lastName": "ZUES CARLO",
-    "nationality": "GB",
+    "nationality": "GBR",
     "SeatNumber": "seat 34A "
   },
   "passengerGroup": "Crew member",

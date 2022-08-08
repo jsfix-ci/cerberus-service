@@ -7,10 +7,10 @@
       "Number": "119039375"
     },
     {
-      "Document nationality": "United Kingdom (GB)"
+      "Document nationality": "United Kingdom (GBR)"
     },
     {
-      "Country of issue": "United Kingdom (GB)"
+      "Country of issue": "United Kingdom (GBR)"
     },
     {
       "Valid from4 years before travel": "27 Apr 2018"
@@ -41,7 +41,7 @@
       "Reference": "LSV4UV"
     },
     {
-      "Number of travellers": "2"
+      "Number of travellers": "1"
     },
     {
       "Booking datea month before departure": "9 Jun 2022 at 10:00"
@@ -50,7 +50,7 @@
       "Check-in datea month before departure": "12 Jun 2022 at 13:00"
     },
     {
-      "Booking country": "United Kingdom (GB)"
+      "Booking country": "United Kingdom (GBR)"
     },
     {
       "Booking type": "Online"
@@ -70,7 +70,7 @@
       "Credit card ending X63X, expiry 10/20": "2190.48"
     },
     {
-      "Agent IATAAgent location": "890534932LHR, GB"
+      "Agent IATAAgent location": "890534932LHR, GBR"
     }
   ],
   "Passenger": [
@@ -90,7 +90,7 @@
       "Gender": "Female"
     },
     {
-      "Nationality": "Australia (AU)"
+      "Nationality": "Australia (AUS)"
     },
     {
       "Departure status": "Departure confirmed DC"
@@ -110,15 +110,15 @@
   ],
   "Itinerary": [
     {
-      "FR → CA  Arrival 3 Oct 2018 at 13:05": "AC0850  CDG → YYZ  Wed 3 Oct 2018 at 11:00"
+      "FRA → CAN  Arrival 3 Oct 2018 at 13:05": "AC0850  CDG → YYZ  Wed 3 Oct 2018 at 11:00"
     },
     {
       "layover": "3 hours later",
-      "CA → CA  Arrival 3 Oct 2018 at 18:16": "BD0998  YYZ → YYC  Wed 3 Oct 2018 at 16:05"
+      "CAN → CAN  Arrival 3 Oct 2018 at 18:16": "BD0998  YYZ → YYC  Wed 3 Oct 2018 at 16:05"
     },
     {
       "layover": "17 minutes later",
-      "CA → GB  Arrival 3 Oct 2018 at 21:19": "XZ0123  YYC → LHR  Wed 3 Oct 2018 at 18:32"
+      "CAN → GBR  Arrival 3 Oct 2018 at 21:19": "XZ0123  YYC → LHR  Wed 3 Oct 2018 at 18:32"
     }
   ],
   "Co-travellers": [

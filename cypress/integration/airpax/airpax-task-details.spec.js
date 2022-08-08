@@ -170,7 +170,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Baggage details of an AirPax task with Multiple Passenger on task details page', () => {
+  it.skip('Should verify Baggage details of an AirPax task with Multiple Passenger on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-multiple-passengers.json').then((task) => {
@@ -510,7 +510,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Co-traveller details of an AirPax task on task details page', () => {
+  it.skip('Should verify Co-traveller details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -542,7 +542,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Voyage details of an AirPax task on task details page', () => {
+  it.only('Should verify Voyage details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -662,11 +662,6 @@ describe('Verify AirPax task details of different sections', () => {
               expect(actualMovementDetails).to.deep.equal(expectedDetails.Warnings);
             });
           });
-          cy.contains('h2', 'Other passenger details').next().within((elements) => {
-            cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
-              expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger2Details);
-            });
-          });
           cy.contains('h2', 'Selection details').next().within((elements) => {
             cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
               expect(actualMovementDetails).to.deep.equal(expectedDetails.SelectionDetails);
@@ -677,7 +672,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Document number in document column for Co-traveller if present', () => {
+  it.skip('Should verify Document number in document column for Co-traveller if present', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {

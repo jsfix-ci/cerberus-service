@@ -366,6 +366,60 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
+  it('Should verify TIS image submission includes business key', () => {
+    cy.intercept('POST', '/v2/targets').as('target');
+    const taskName = 'AIRPAX';
+    const filePath = '/airpax/photos/Screenshot1.png';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        cy.wait(3000);
+        cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.claimAirPaxTask();
+        cy.contains('Issue target').click();
+        cy.wait(2000);
+        cy.fixture('airpax/issue-task-airpax.json').then((targetData) => {
+          // Update Issuing Hub details
+          cy.clickChangeInTIS('Issuing hub');
+          cy.get('#issuingHub').type(targetData.issuingHub.name);
+          cy.get('#issuingHub__option--0').contains(targetData.issuingHub.name).click();
+          cy.get('#eventPort').type(targetData.eventPort.name);
+          cy.get('#eventPort__option--0').contains((targetData.eventPort.name)).click();
+          cy.contains('Continue').click();
+
+          // Update Movement Details
+          cy.clickChangeInTIS('Inbound or outbound');
+          cy.get('input[value="OUTBOUND"]').check();
+          cy.contains('Continue').click();
+
+          // Add Photograph
+          cy.clickChangeInTIS('Given name');
+          cy.get('.hods-file-upload__select').attachFile(filePath);
+          cy.wait(2000);
+          cy.get('.hods-file-upload__thumb').should('be.visible');
+          cy.contains('Continue').click();
+
+          cy.get('.govuk-summary-list__row').contains('Photograph (optional)').siblings('.govuk-summary-list__value').within(() => {
+            cy.get('div[id="person.photograph"]').should('include.text', '.png');
+            cy.get('.hods-file-upload__thumb').should('be.visible');
+          });
+
+          // Select team to receive target
+          cy.clickChangeInTIS('Select the team that should receive the target');
+          cy.get('.hods-autocomplete__input').type(targetData.teamToReceiveTheTarget.displayname);
+          cy.get('.hods-autocomplete__option').contains(targetData.teamToReceiveTheTarget.displayname).click();
+          cy.contains('Continue').click();
+          cy.contains('Accept and send').click();
+          cy.wait('@target').then(({ response }) => {
+            expect(response.statusCode).to.equal(201);
+            expect(response.body.informationSheet.movement.person.photograph.uri).to.include(taskResponse.id);
+          });
+          cy.contains('Finish').click();
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
