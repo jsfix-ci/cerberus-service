@@ -13,7 +13,7 @@ import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
-  TASK_STATUS_KEY,
+  AIRPAX_TASK_STATUS_KEY,
   MOVEMENT_VARIANT } from '../../../constants';
 
 // Utils
@@ -66,7 +66,7 @@ const TaskListPage = () => {
   };
 
   const getAppliedFilters = () => {
-    const taskStatus = getTaskStatus(TASK_STATUS_KEY);
+    const taskStatus = getTaskStatus(AIRPAX_TASK_STATUS_KEY);
     const storedData = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
     if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
@@ -115,7 +115,7 @@ const TaskListPage = () => {
   };
 
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS_NEW) => {
-    localStorage.setItem(TASK_STATUS_KEY, taskStatus);
+    localStorage.setItem(AIRPAX_TASK_STATUS_KEY, taskStatus);
     try {
       const countsResponse = await apiClient.post(
         '/targeting-tasks/status-counts',
@@ -141,25 +141,26 @@ const TaskListPage = () => {
     localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     getTaskCount(payload);
     setAppliedFilters(payload);
-    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
     setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
     localStorage.removeItem(AIRPAX_FILTERS_KEY);
-    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
     setAppliedFilters(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
     getTaskCount(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   };
 
   const applySavedFiltersOnLoad = () => {
     applyFilters(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY) || DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
-    getFiltersAndSelectorsCount(getTaskStatus(TASK_STATUS_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
     setLoading(false);
   };
 
   useEffect(() => {
+    localStorage.removeItem(AIRPAX_TASK_STATUS_KEY);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -221,7 +222,7 @@ const TaskListPage = () => {
             <div>
               <Filter
                 mode={MOVEMENT_VARIANT.AIRPAX}
-                taskStatus={getTaskStatus(TASK_STATUS_KEY)}
+                taskStatus={getTaskStatus(AIRPAX_TASK_STATUS_KEY)}
                 onApply={applyFilters}
                 appliedFilters={appliedFilters}
                 filtersAndSelectorsCount={filtersAndSelectorsCount}
