@@ -542,7 +542,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it.only('Should verify Voyage details of an AirPax task on task details page', () => {
+  it('Should verify Voyage details of an AirPax task on task details page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
