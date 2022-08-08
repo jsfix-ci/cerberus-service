@@ -203,4 +203,28 @@ describe('DocumentUtil', () => {
     const output = DocumentUtil.docCountryCode(document);
     expect(output).toEqual(UNKNOWN_TEXT);
   });
+
+  it('should return the document expiry date', () => {
+    expect(DocumentUtil.docExpiryDate(document)).toEqual(document.expiry);
+  });
+
+  it('should return undefined for invalid document expiry dates', () => {
+    const INVALID_DATES = [undefined, null, ''];
+    INVALID_DATES.forEach((date) => {
+      document.expiry = date;
+      expect(DocumentUtil.docExpiryDate(document)).toBeUndefined();
+    });
+  });
+
+  it('should return the document valid from date', () => {
+    expect(DocumentUtil.docValidityDate(document)).toEqual(document.validFrom);
+  });
+
+  it('should return undefined for invalid document valid from dates', () => {
+    const INVALID_DATES = [undefined, null, ''];
+    INVALID_DATES.forEach((date) => {
+      document.validFrom = date;
+      expect(DocumentUtil.docValidityDate(document)).toBeUndefined();
+    });
+  });
 });

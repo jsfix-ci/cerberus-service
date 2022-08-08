@@ -69,4 +69,4 @@ const DateTimeUtil = {
 
 export default DateTimeUtil;
 
-export { formatToUTCDate, getDate, getFormattedDate, isInPast, toDateTimeList, toRelativeTime };
+export { formatToUTCDate, getDate, getFormattedDate, isInPast, toDateTimeList, toRelativeTime, validateDate };

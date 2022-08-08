@@ -87,6 +87,7 @@ const TaskDetailsPage = () => {
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [isLoading, setLoading] = useState(true);
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
+  const [showActionButtons, setShowActionButtons] = useState(true);
 
   const toModeCode = (mode) => {
     if (/RORO Accompanied Freight/i.test(mode)) {
@@ -321,7 +322,8 @@ const TaskDetailsPage = () => {
               <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
               {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
                 <>
-                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && <p className="govuk-tag govuk-tag--newTarget">New</p>}
+                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+                  && <p className="govuk-tag govuk-tag--newTarget">New</p>}
                   <p className="govuk-body">
                     {getAssignee()}
                     <ClaimButton
@@ -336,38 +338,46 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && processInstanceData.taskDefinitionKey === 'developTarget' && (
+              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+              && processInstanceData.taskDefinitionKey === 'developTarget' && (
                 <>
-                  <Button
-                    className="govuk-!-margin-right-1"
-                    onClick={() => {
-                      setIssueTargetFormOpen(true);
-                      setCompleteFormOpen(false);
-                      setDismissFormOpen(false);
-                    }}
-                  >
-                    Issue target
-                  </Button>
-                  <Button
-                    className="govuk-button--secondary govuk-!-margin-right-1"
-                    onClick={() => {
-                      setIssueTargetFormOpen(false);
-                      setCompleteFormOpen(true);
-                      setDismissFormOpen(false);
-                    }}
-                  >
-                    Assessment complete
-                  </Button>
-                  <Button
-                    className="govuk-button--warning"
-                    onClick={() => {
-                      setIssueTargetFormOpen(false);
-                      setCompleteFormOpen(false);
-                      setDismissFormOpen(true);
-                    }}
-                  >
-                    Dismiss
-                  </Button>
+                  {showActionButtons && (
+                  <>
+                    <Button
+                      className="govuk-!-margin-right-1"
+                      onClick={() => {
+                        setIssueTargetFormOpen(true);
+                        setCompleteFormOpen(false);
+                        setDismissFormOpen(false);
+                        setShowActionButtons(false);
+                      }}
+                    >
+                      Issue target
+                    </Button>
+                    <Button
+                      className="govuk-button--secondary govuk-!-margin-right-1"
+                      onClick={() => {
+                        setIssueTargetFormOpen(false);
+                        setCompleteFormOpen(true);
+                        setDismissFormOpen(false);
+                        setShowActionButtons(false);
+                      }}
+                    >
+                      Assessment complete
+                    </Button>
+                    <Button
+                      className="govuk-button--warning"
+                      onClick={() => {
+                        setIssueTargetFormOpen(false);
+                        setCompleteFormOpen(false);
+                        setDismissFormOpen(true);
+                        setShowActionButtons(false);
+                      }}
+                    >
+                      Dismiss
+                    </Button>
+                  </>
+                  )}
                 </>
               )}
             </div>
@@ -377,7 +387,10 @@ const TaskDetailsPage = () => {
               {isCompleteFormOpen && (
                 <TaskManagementForm
                   formName="assessmentComplete"
-                  onCancel={() => setCompleteFormOpen(false)}
+                  onCancel={() => {
+                    setShowActionButtons(true);
+                    setCompleteFormOpen(false);
+                  }}
                   taskId={processInstanceData.id}
                   actionTarget={false}
                   refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
@@ -391,7 +404,10 @@ const TaskDetailsPage = () => {
               {isDismissFormOpen && (
                 <TaskManagementForm
                   formName="dismissTarget"
-                  onCancel={() => setDismissFormOpen(false)}
+                  onCancel={() => {
+                    setShowActionButtons(true);
+                    setDismissFormOpen(false);
+                  }}
                   taskId={processInstanceData.id}
                   actionTarget={false}
                   refreshNotes={() => setRefreshNotesForm(!refreshNotesForm)}
@@ -413,7 +429,10 @@ const TaskDetailsPage = () => {
                   </div>
                   <TaskManagementForm
                     formName="targetInformationSheet"
-                    onCancel={() => setIssueTargetFormOpen(false)}
+                    onCancel={() => {
+                      setShowActionButtons(true);
+                      setIssueTargetFormOpen(false);
+                    }}
                     taskId={processInstanceData.id}
                     processInstanceData={targetData.targetInformationSheet}
                     actionTarget

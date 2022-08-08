@@ -50,6 +50,8 @@ describe('Task details page', () => {
     </MockApplicationContext>,
   );
 
+  const ACTION_BUTTONS = ['Issue target', 'Assessment complete', 'Dismiss'];
+
   it('should render TaskDetailsPage component with a loading state', () => {
     mockAxiosCalls([], {});
 
@@ -217,42 +219,58 @@ describe('Task details page', () => {
     expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
   });
 
-  it('should hide the notes form on clicking the assessment complete button', async () => {
-    mockAxiosCalls(dataClaimedTask, {});
+  ACTION_BUTTONS.forEach((button) => {
+    it('should hide the notes form on clicking an action button', async () => {
+      mockAxiosCalls(dataClaimedTask, {});
 
-    await waitFor(() => renderPage());
+      await waitFor(() => renderPage());
 
-    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+      expect(screen.queryByText('Add a new note')).toBeInTheDocument();
 
-    const assessmentCompleteButton = screen.getByRole('button', { name: 'Assessment complete' });
-    fireEvent.click(assessmentCompleteButton);
+      const actionButton = screen.getByRole('button', { name: button });
+      fireEvent.click(actionButton);
 
-    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+      expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+    });
   });
 
-  it('should hide the notes form on clicking the dismiss button', async () => {
-    mockAxiosCalls(dataClaimedTask, {});
+  ACTION_BUTTONS.forEach((button) => {
+    it('should hide the action buttons', async () => {
+      mockAxiosCalls(dataClaimedTask, {});
 
-    await waitFor(() => renderPage());
+      await waitFor(() => renderPage());
 
-    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+      expect(screen.queryByText('Issue target')).toBeInTheDocument();
+      expect(screen.queryByText('Assessment complete')).toBeInTheDocument();
+      expect(screen.queryByText('Dismiss')).toBeInTheDocument();
 
-    const dismissButton = screen.getByRole('button', { name: 'Dismiss' });
-    fireEvent.click(dismissButton);
+      const actionButton = screen.getByRole('button', { name: button });
+      fireEvent.click(actionButton);
 
-    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+      expect(screen.queryByText('Dismiss')).not.toBeInTheDocument();
+      expect(screen.queryByText('Issue target')).not.toBeInTheDocument();
+      expect(screen.queryByText('Assessment complete')).not.toBeInTheDocument();
+    });
   });
 
-  it('should hide the notes form on clicking the issue target button', async () => {
-    mockAxiosCalls(dataClaimedTask, {});
+  ACTION_BUTTONS.forEach((button) => {
+    it('should call the confirm dialog on cancelling a form', async () => {
+      const confirmMock = jest.spyOn(window, 'confirm').mockImplementation();
+      mockAxiosCalls(dataClaimedTask, {});
 
-    await waitFor(() => renderPage());
+      await waitFor(() => renderPage());
 
-    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
 
-    const issueTargetButton = screen.getByRole('button', { name: 'Issue target' });
-    fireEvent.click(issueTargetButton);
+      const actionButton = screen.getByRole('button', { name: button });
+      fireEvent.click(actionButton);
 
-    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+      expect(screen.queryByText('Cancel')).toBeInTheDocument();
+
+      const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+      fireEvent.click(cancelButton);
+
+      expect(confirmMock).toHaveBeenCalledTimes(1);
+    });
   });
 });

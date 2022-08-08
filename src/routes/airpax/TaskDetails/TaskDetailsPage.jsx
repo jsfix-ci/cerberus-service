@@ -9,7 +9,8 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
-  MOVEMENT_VARIANT }
+  MOVEMENT_VARIANT,
+  FORM_MESSAGES }
 from '../../../constants';
 
 import { ApplicationContext } from '../../../context/ApplicationContext';
@@ -57,6 +58,7 @@ const TaskDetailsPage = () => {
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
+  const [showActionButtons, setShowActionButtons] = useState(true);
 
   const clearAccordionStorage = () => {
     _.forIn(window.sessionStorage, (value, key) => {
@@ -124,6 +126,13 @@ const TaskDetailsPage = () => {
     getTaskData();
   }, [refreshNotesForm]);
 
+  const onCancelConfirmation = (onCancel) => {
+    // eslint-disable-next-line no-alert
+    if (confirm(FORM_MESSAGES.ON_CANCELLATION)) {
+      onCancel();
+    }
+  };
+
   if (isLoading) {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
@@ -162,38 +171,46 @@ const TaskDetailsPage = () => {
             )}
         </div>
         <div className="govuk-grid-column-one-half task-actions--buttons">
-          {!isSubmitted && assignee === currentUser && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
+          {!isSubmitted && assignee === currentUser
+          && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
           <>
-            <Button
-              className="govuk-!-margin-right-1"
-              onClick={() => {
-                setIssueTargetFormOpen(true);
-                setDismissTaskFormOpen(false);
-                setCompleteFormOpen(false);
-              }}
-            >
-              Issue target
-            </Button>
-            <Button
-              className="govuk-button--secondary govuk-!-margin-right-1"
-              onClick={() => {
-                setCompleteFormOpen(true);
-                setDismissTaskFormOpen(false);
-                setIssueTargetFormOpen(false);
-              }}
-            >
-              Assessment complete
-            </Button>
-            <Button
-              className="govuk-button--warning"
-              onClick={() => {
-                setDismissTaskFormOpen(true);
-                setCompleteFormOpen(false);
-                setIssueTargetFormOpen(false);
-              }}
-            >
-              Dismiss
-            </Button>
+            {showActionButtons && (
+            <>
+              <Button
+                className="govuk-!-margin-right-1"
+                onClick={() => {
+                  setIssueTargetFormOpen(true);
+                  setDismissTaskFormOpen(false);
+                  setCompleteFormOpen(false);
+                  setShowActionButtons(false);
+                }}
+              >
+                Issue target
+              </Button>
+              <Button
+                className="govuk-button--secondary govuk-!-margin-right-1"
+                onClick={() => {
+                  setCompleteFormOpen(true);
+                  setDismissTaskFormOpen(false);
+                  setIssueTargetFormOpen(false);
+                  setShowActionButtons(false);
+                }}
+              >
+                Assessment complete
+              </Button>
+              <Button
+                className="govuk-button--warning"
+                onClick={() => {
+                  setDismissTaskFormOpen(true);
+                  setCompleteFormOpen(false);
+                  setIssueTargetFormOpen(false);
+                  setShowActionButtons(false);
+                }}
+              >
+                Dismiss
+              </Button>
+            </>
+            )}
           </>
           )}
         </div>
@@ -222,7 +239,10 @@ const TaskDetailsPage = () => {
                 }
               }
             }
-            onCancel={() => setIssueTargetFormOpen()}
+            onCancel={() => onCancelConfirmation(() => {
+              setShowActionButtons(true);
+              setIssueTargetFormOpen();
+            })}
             renderer={Renderers.REACT}
             setError={setError}
           />
@@ -248,7 +268,10 @@ const TaskDetailsPage = () => {
                 setSubmitted(true);
               }
             }
-            onCancel={() => setCompleteFormOpen()}
+            onCancel={() => onCancelConfirmation(() => {
+              setShowActionButtons(true);
+              setCompleteFormOpen();
+            })}
             form={completeTask}
             renderer={Renderers.REACT}
             setError={setError}
@@ -275,7 +298,10 @@ const TaskDetailsPage = () => {
                   setSubmitted(true);
                 }
               }
-              onCancel={() => setDismissTaskFormOpen()}
+              onCancel={() => onCancelConfirmation(() => {
+                setShowActionButtons(true);
+                setDismissTaskFormOpen();
+              })}
               form={dismissTask}
               renderer={Renderers.REACT}
               setError={setError}

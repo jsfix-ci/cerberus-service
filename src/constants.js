@@ -91,6 +91,9 @@ export const FORM_NAMES = {
   TARGET_INFORMATION_SHEET: 'targetInformationSheet',
   AIRPAX_TARGET_INFORMATION_SHEET: 'cerberus-airpax-target-information-sheet',
 };
+export const FORM_MESSAGES = {
+  ON_CANCELLATION: 'Are you sure you want to cancel?',
+};
 
 export const COMPONENT_TYPES = {
   TYPE_SELECT: 'select',

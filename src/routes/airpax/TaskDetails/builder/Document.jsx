@@ -12,10 +12,8 @@ import renderBlock from './helper/common';
 
 const Document = ({ version }) => {
   const person = PersonUtil.get(version);
-  const document = DocumentUtil.get(version.movement.person);
+  const document = DocumentUtil.get(person);
   const journey = getJourney(version);
-  const validFromExpiry = document ? DocumentUtil.calculateExpiry(document.validFrom, getDate()) : 'Unknown';
-  const validToExpiry = document ? DocumentUtil.calculateExpiry(document.expiry, getArrivalTime(journey)) : 'Unknown';
 
   return (
     <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
@@ -25,8 +23,10 @@ const Document = ({ version }) => {
         {renderBlock('Number', [DocumentUtil.docNumber(document)])}
         {renderBlock('Document nationality', [DocumentUtil.docNationality(document, true)])}
         {renderBlock('Country of issue', [DocumentUtil.docCountry(document, true)])}
-        {renderBlock('Valid from', [DocumentUtil.docValidity(document, true), validFromExpiry])}
-        {renderBlock('Valid To', [DocumentUtil.docExpiry(document, true), validToExpiry])}
+        {renderBlock('Valid from', [DocumentUtil.docValidity(document, true),
+          DocumentUtil.calculateExpiry(DocumentUtil.docValidityDate(document), getDate())])}
+        {renderBlock('Valid To', [DocumentUtil.docExpiry(document, true),
+          DocumentUtil.calculateExpiry(DocumentUtil.docExpiryDate(document), getArrivalTime(journey))])}
         {renderBlock('Name', [DocumentUtil.docName(person)])}
         {renderBlock('Date of birth', [PersonUtil.dob(person)])}
       </div>
