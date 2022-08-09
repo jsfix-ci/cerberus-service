@@ -420,6 +420,32 @@ describe('Create AirPax task and issue target', () => {
     });
   });
 
+  it('Should verify Action buttons are not shown when we have selected an action', () => {
+    const actions = [
+      'Issue target',
+      'Assessment complete',
+      'Dismiss',
+    ];
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        cy.wait(3000);
+        let businessKey = taskResponse.id;
+        cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.claimAirPaxTask();
+        actions.forEach((action) => {
+          cy.contains(action).click().then(() => {
+            cy.wait(2000);
+            cy.get('button[type="submit"]').should('not.exist');
+            cy.visit(`/airpax/tasks/${businessKey}`);
+            cy.wait(2000);
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
