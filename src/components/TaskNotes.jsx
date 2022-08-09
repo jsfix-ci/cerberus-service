@@ -22,7 +22,7 @@ import noteCerberus from '../cop-forms/noteCerberus';
 const OPERATION_TYPE_CLAIM = 'Claim';
 const OPERATION_TYPE_ASSIGN = 'Assign';
 
-const RoRoTaskNotes = ({ keycloak, displayForm, businessKey, processInstanceId, refreshNotes }) => {
+const RoRoTaskNotes = ({ keycloak, displayForm, businessKey, processInstanceId, refreshNotes, setError }) => {
   const camundaClient = useAxiosInstance(keycloak, config.camundaApiUrl);
   const [activityLog, setActivityLog] = useState([]);
   const submitForm = useFormSubmit();
@@ -116,6 +116,7 @@ const RoRoTaskNotes = ({ keycloak, displayForm, businessKey, processInstanceId, 
           }
           form={noteCerberus}
           renderer={Renderers.REACT}
+          setError={setError}
         />
       )}
 
@@ -144,7 +145,7 @@ const RoRoTaskNotes = ({ keycloak, displayForm, businessKey, processInstanceId, 
   );
 };
 
-const AirpaxTaskNotes = ({ keycloak, displayForm, businessKey, setRefreshNotesForm }) => {
+const AirpaxTaskNotes = ({ keycloak, displayForm, businessKey, setRefreshNotesForm, setError }) => {
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   return (
     <>
@@ -163,6 +164,7 @@ const AirpaxTaskNotes = ({ keycloak, displayForm, businessKey, setRefreshNotesFo
           }
           form={noteCerberus}
           renderer={Renderers.REACT}
+          setError={setError}
         />
       )}
     </>
@@ -174,12 +176,14 @@ const TaskNotes = ({ noteVariant,
   businessKey,
   processInstanceId,
   refreshNotes,
-  setRefreshNotesForm }) => {
+  setRefreshNotesForm,
+  setError }) => {
   const keycloak = useKeycloak();
 
   if (noteVariant === MOVEMENT_VARIANT.RORO) {
     return (
       <RoRoTaskNotes
+        setError={setError}
         keycloak={keycloak}
         displayForm={displayForm}
         businessKey={businessKey}
@@ -191,6 +195,7 @@ const TaskNotes = ({ noteVariant,
 
   return (
     <AirpaxTaskNotes
+      setError={setError}
       keycloak={keycloak}
       displayForm={displayForm}
       businessKey={businessKey}

@@ -367,7 +367,10 @@ describe('TaskDetailsPage', () => {
     const issueTargetButton = screen.getByText(/Issue target/i);
     await waitFor(() => userEvent.click(issueTargetButton));
 
+    screen.debug(undefined, 200000);
+
     expect(screen.queryByText('There is a problem')).toBeInTheDocument();
+    expect(screen.queryByText('Request failed with status code 404')).toBeInTheDocument();
   });
 
   it('should render indicators in task versions', async () => {
@@ -514,5 +517,86 @@ describe('TaskDetailsPage', () => {
 
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
     expect(screen.queryByText('Assigned to you')).toBeInTheDocument();
+  });
+
+  it('should hide the notes form on clicking the assessment complete button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const assessmentCompleteButton = screen.getByRole('button', { name: 'Assessment complete' });
+    fireEvent.click(assessmentCompleteButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
+
+  it('should hide the notes form on clicking the dismiss button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const dismissButton = screen.getByRole('button', { name: 'Dismiss' });
+    fireEvent.click(dismissButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
+  });
+
+  it('should hide the notes form on clicking the issue target button', async () => {
+    mockTaskDetailsAxiosCalls({
+      processInstanceResponse: [{ id: '123' }],
+      taskResponse: [{
+        processInstanceId: '123',
+        assignee: 'test',
+        id: 'task123',
+        taskDefinitionKey: 'developTarget',
+      }],
+      variableInstanceResponse: variableInstanceStatusNew,
+      operationsHistoryResponse: operationsHistoryFixture,
+      taskHistoryResponse: taskHistoryFixture,
+      noteFormResponse: noteFormFixure,
+      modecode: 'rorotour',
+      targetModeResponse: targetModeTourist,
+    });
+
+    await waitFor(() => render(<TaskDetailsPage />));
+
+    expect(screen.queryByText('Add a new note')).toBeInTheDocument();
+
+    const issueTargetButton = screen.getByRole('button', { name: 'Issue target' });
+    fireEvent.click(issueTargetButton);
+
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 });

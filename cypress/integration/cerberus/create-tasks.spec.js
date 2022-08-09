@@ -45,11 +45,10 @@ describe('Create task with different payload from Cerberus', () => {
         cy.checkTaskSummary(null, Cypress.dayjs().utc().format('D MMM YYYY [at] HH:mm'));
 
         cy.contains('Back to task list').click();
+        cy.wait(2000);
+        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]').check();
 
-        cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-          .click({ force: true });
-
-        cy.contains('Apply filters').click({ force: true });
+        cy.contains('Apply').click({ force: true });
 
         cy.wait(2000);
 
@@ -195,7 +194,7 @@ describe('Create task with different payload from Cerberus', () => {
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-RISKS-NULL`).then((response) => {
         cy.wait(4000);
         cy.navigation('Tasks');
-        cy.get('.govuk-heading-xl').should('have.text', 'Task management');
+        cy.get('.govuk-heading-xl').should('have.text', 'Task management (RoRo)');
         cy.checkTaskDisplayed(`${response.businessKey}`);
 
         // COP-9672 Display No Rule matches in task details if there are no Rule / Selector
@@ -258,11 +257,10 @@ describe('Create task with different payload from Cerberus', () => {
         cy.wait(4000);
         cy.checkTaskDisplayed(`${response.businessKey}`);
         cy.visit('/tasks');
+        cy.wait(2000);
+        cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').check();
 
-        cy.get('.govuk-checkboxes [value=RORO_TOURIST]')
-          .click({ force: true });
-
-        cy.contains('Apply filters').click();
+        cy.contains('Apply').click();
         cy.wait(2000);
         cy.verifyTouristTaskSummary(`${response.businessKey}`).then((taskDetails) => {
           expect(taskDetails).to.deep.equal(expectedDetails);
@@ -289,10 +287,10 @@ describe('Create task with different payload from Cerberus', () => {
       cy.checkTaskDisplayed(`${businessKeys[0]}`);
       cy.visit('/tasks');
 
-      cy.get('.govuk-checkboxes [value=RORO_TOURIST]')
-        .click({ force: true });
+      cy.wait(2000);
+      cy.get('.govuk-checkboxes [value="RORO_TOURIST"]').check();
 
-      cy.contains('Apply filters').click();
+      cy.contains('Apply').click();
       cy.wait(2000);
       cy.verifyTouristTaskSummary(`${businessKeys[0]}`).then((taskDetails) => {
         expect(taskDetails).to.deep.equal(expectedDetails);
@@ -401,19 +399,19 @@ describe('Create task with different payload from Cerberus', () => {
     const taskName = 'RORO-Accompanied';
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
-        expect(response.movement.id).to.contain('RORO-Accompanied');
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('RORO-Accompanied');
         cy.wait(4000);
-        cy.checkTaskDisplayed(`${response.id}`);
+        cy.checkTaskDisplayed(taskResponse.id);
         cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
-        cy.wait('@claim').then(({ claimResponse }) => {
-          expect(claimResponse.statusCode).to.equal(204);
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
         });
-        cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
-          expect(responseSheet.id).to.equal(response.id);
+        cy.getInformationSheet(`${taskResponse.id}`).then((responseSheet) => {
+          expect(responseSheet.id).to.equal(taskResponse.id);
           expect(responseSheet.movement.mode).to.equal('RORO_ACCOMPANIED_FREIGHT');
           expect(responseSheet.movement.refDataMode.mode).to.equal('RoRo Freight Accompanied');
           expect(responseSheet.movement.refDataMode.modecode).to.equal('rorofrac');
@@ -427,19 +425,19 @@ describe('Create task with different payload from Cerberus', () => {
     const taskName = 'RORO-Unaccompanied';
     cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
-        expect(response.movement.id).to.contain('RORO-Unaccompanied');
+      cy.createTargetingApiTask(task).then((taskResponse) => {
+        expect(taskResponse.movement.id).to.contain('RORO-Unaccompanied');
         cy.wait(4000);
-        cy.checkTaskDisplayed(`${response.id}`);
+        cy.checkTaskDisplayed(`${taskResponse.id}`);
         cy.get('p.govuk-body').eq(0).should('contain.text', 'Task not assigned');
 
         cy.get('button.link-button').should('be.visible').and('have.text', 'Claim').click();
 
-        cy.wait('@claim').then(({ claimResponse }) => {
-          expect(claimResponse.statusCode).to.equal(204);
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
         });
-        cy.getInformationSheet(`${response.id}`).then((responseSheet) => {
-          expect(responseSheet.id).to.equal(response.id);
+        cy.getInformationSheet(`${taskResponse.id}`).then((responseSheet) => {
+          expect(responseSheet.id).to.equal(taskResponse.id);
           expect(responseSheet.movement.mode).to.equal('RORO_UNACCOMPANIED_FREIGHT');
           expect(responseSheet.movement.refDataMode.mode).to.equal('RoRo Freight Unaccompanied');
           expect(responseSheet.movement.refDataMode.modecode).to.equal('rorofrun');

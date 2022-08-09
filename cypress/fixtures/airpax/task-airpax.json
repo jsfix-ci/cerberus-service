@@ -582,6 +582,15 @@
               "startTimestamp": null,
               "endTimestamp": null
             },
+            "PASSENGER-INFREQUENT-PORT-USE": {
+              "id": null,
+              "type": null,
+              "valueType": "String",
+              "value": "Infrequent trips made through port (person)",
+              "valueList": null,
+              "startTimestamp": null,
+              "endTimestamp": null
+            },
             "STANDARDISED:movementId": {
               "id": null,
               "type": null,

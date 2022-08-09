@@ -3,29 +3,39 @@ import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import gds from '@ukhomeoffice/formio-gds-template/lib';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Formio } from 'react-formio';
+
+import { ApplicationContext } from '../context/ApplicationContext';
 
 // Local imports
 import config from '../config';
 import { FORM_ACTIONS } from '../constants';
-import ErrorSummary from '../govuk/ErrorSummary';
 import useAxiosInstance from '../utils/axiosInstance';
 import FormUtils, { Renderers } from '../utils/Form';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
 import { useKeycloak } from '../utils/keycloak';
 import LoadingSpinner from './LoadingSpinner';
+import { TargetInformationUtil } from '../routes/airpax/utils';
 
 Formio.use(gds);
 
-const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCancel, preFillData, children }) => {
-  const [error, setError] = useState(null);
+const RenderForm = ({ formName,
+  form: _form,
+  renderer: _renderer,
+  onSubmit,
+  onCancel,
+  preFillData,
+  cacheTisFormData,
+  setError,
+  children }) => {
   const [form, setForm] = useState(_form);
   const [renderer, setRenderer] = useState(_renderer);
   const [isLoaderVisible, setLoaderVisibility] = useState(true);
   const [formattedPreFillData, setFormattedPreFillData] = useState();
   const [submitted, setSubmitted] = useState(false);
   const keycloak = useKeycloak();
+  const { setAirPaxTisCache } = useContext(ApplicationContext);
   const formApiClient = useAxiosInstance(keycloak, config.formApiUrl);
   const uploadApiClient = useAxiosInstance(keycloak, config.fileUploadApiUrl);
 
@@ -121,93 +131,86 @@ const RenderForm = ({ formName, form: _form, renderer: _renderer, onSubmit, onCa
     return children;
   }
 
+  if (isLoaderVisible) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <LoadingSpinner loading={isLoaderVisible}>
-      {error && (
-        <ErrorSummary
-          title="There is a problem"
-          errorList={[
-            { children: error },
-          ]}
-        />
+    <>
+      {renderer === Renderers.FORM_IO && (
+      <Form
+        form={form}
+        submission={formattedPreFillData}
+        onSubmit={async (data) => {
+          setLoaderVisibility(true);
+          try {
+            await onSubmit(data, form);
+            setSubmitted(true);
+          } catch (e) {
+            setError(e.message);
+          } finally {
+            setLoaderVisibility(false);
+          }
+        }}
+        onNextPage={() => {
+          window.scrollTo(0, 0);
+        }}
+        onPrevPage={() => {
+          window.scrollTo(0, 0);
+          setError(null);
+        }}
+        options={{
+          noAlerts: true,
+          hooks: {
+            beforeCancel: async () => {
+              if (onCancel) {
+                await onCancel();
+              } else {
+                history.go(0);
+              }
+            },
+          },
+        }}
+      />
       )}
-      {form && (
-        <>
-          {renderer === Renderers.FORM_IO && (
-            <Form
-              form={form}
-              submission={formattedPreFillData}
-              onSubmit={async (data) => {
-                setLoaderVisibility(true);
-                try {
-                  await onSubmit(data, form);
-                  setSubmitted(true);
-                } catch (e) {
-                  setError(e.message);
-                } finally {
-                  setLoaderVisibility(false);
-                }
-              }}
-              onNextPage={() => {
-                window.scrollTo(0, 0);
-              }}
-              onPrevPage={() => {
-                window.scrollTo(0, 0);
-                setError(null);
-              }}
-              options={{
-                noAlerts: true,
-                hooks: {
-                  beforeCancel: async () => {
-                    if (onCancel) {
-                      await onCancel();
-                    } else {
-                      history.go(0);
-                    }
-                  },
-                },
-              }}
-            />
-          )}
-          {renderer === Renderers.REACT && (
-            <FormRenderer
-              {...form}
-              data={formattedPreFillData?.data}
-              hooks={{
-                onGetComponent,
-                onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
-                onSubmit: async (type, payload, onSuccess) => {
-                  if (type === FORM_ACTIONS.CANCEL) {
-                    return onCancel();
-                  }
-                  if (type === FORM_ACTIONS.NEXT) {
-                    // Do nothing.
-                    return onSuccess(payload);
-                  }
-                  setLoaderVisibility(true);
-                  try {
-                    const { businessKey, submissionPayload } = await FormUtils.setupSubmission(
-                      form,
-                      payload,
-                      keycloak.tokenParsed.email,
-                      formApiClient,
-                    );
-                    await FormUtils.uploadDocuments(uploadApiClient, submissionPayload);
-                    await onSubmit({ data: { ...submissionPayload, businessKey } }, form);
-                    onSuccess({ ...submissionPayload, businessKey });
-                    setSubmitted(true);
-                  } catch (e) {
-                    setError(e.message);
-                  } finally {
-                    setLoaderVisibility(false);
-                  }
-                },
-              }}
-            />
-          )}
-        </>
+      {renderer === Renderers.REACT && (
+      <FormRenderer
+        {...form}
+        data={formattedPreFillData?.data}
+        hooks={{
+          onGetComponent,
+          onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
+          onSubmit: async (type, payload, onSuccess) => {
+            if (type === FORM_ACTIONS.NEXT) {
+              if (cacheTisFormData) {
+                setAirPaxTisCache(TargetInformationUtil.convertToPrefill(payload));
+              }
+              // Do nothing.
+              return onSuccess(payload);
+            }
+            setLoaderVisibility(true);
+            try {
+              const { businessKey, submissionPayload } = await FormUtils.setupSubmission(
+                form,
+                payload,
+                keycloak.tokenParsed.email,
+                formApiClient,
+              );
+              await FormUtils.uploadDocuments(uploadApiClient, submissionPayload);
+              await onSubmit({ data: { ...submissionPayload, businessKey } }, form);
+              onSuccess({ ...submissionPayload, businessKey });
+              setSubmitted(true);
+            } catch (e) {
+              setError(e.message);
+            } finally {
+              setLoaderVisibility(false);
+            }
+          },
+          onCancel,
+        }}
+      />
       )}
-    </LoadingSpinner>
+    </>
   );
 };
 

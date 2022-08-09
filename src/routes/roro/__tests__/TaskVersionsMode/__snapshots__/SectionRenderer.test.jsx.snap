@@ -1,5 +1,421 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SectionRenderer renderBookingSection should leave field name for date and time and check-in untouched if not a match 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    field-set-name
+  </h3>
+  <div>
+    <div
+      className="govuk-task-details-grid-item"
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Date and timee
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          value 1
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-item"
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Check-inn
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          value 2
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderBookingSection should not render hidden fields 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    field-set-name
+  </h3>
+  <div />
+</div>
+`;
+
+exports[`SectionRenderer renderBookingSection should render replaced field name for date and time and check-in 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    field-set-name
+  </h3>
+  <div>
+    <div
+      className="govuk-task-details-grid-item"
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Booking date and time
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          value 1
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-item"
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Check-in date and time
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          value 2
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderBookingSection should return fields if not hidden 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    field-set-name
+  </h3>
+  <div>
+    <div
+      className="govuk-task-details-grid-item"
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Field 1
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          value 1
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-item"
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Field 2
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          value 2
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantCarrierCountsSection should not render category count when there is a driver, 1+ passenger(s) and does/ does not have category counts 1`] = `null`;
+
+exports[`SectionRenderer renderOccupantCarrierCountsSection should not render category count when there is no driver, but have one or more passengers and has category counts 1`] = `null`;
+
+exports[`SectionRenderer renderOccupantCarrierCountsSection should render category counts when there is a driver, no passengers and counts are available 1`] = `
+<div
+  className="govuk-task-details-counts-container"
+>
+  <div
+    className="govuk-task-details-grid-row bottom-border"
+  >
+    <span
+      className="govuk-grid-key font__light"
+    >
+      Category
+    </span>
+    <span
+      className="govuk-grid-value font__light"
+    >
+      Number
+    </span>
+  </div>
+  <div
+    className="task-details-container"
+  >
+    <div
+      className="govuk-task-details-grid-row bottom-border"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          Infants
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-row bottom-border"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          Children
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-row bottom-border"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  false font__bold"
+        >
+          Adults
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold false false"
+        >
+          1
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-row"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          OAPs
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantCarrierCountsSection should render category counts when there is no driver, no passengers but category counts are available 1`] = `
+<div
+  className="govuk-task-details-counts-container"
+>
+  <div
+    className="govuk-task-details-grid-row bottom-border"
+  >
+    <span
+      className="govuk-grid-key font__light"
+    >
+      Category
+    </span>
+    <span
+      className="govuk-grid-value font__light"
+    >
+      Number
+    </span>
+  </div>
+  <div
+    className="task-details-container"
+  >
+    <div
+      className="govuk-task-details-grid-row bottom-border"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          Infants
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-row bottom-border"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          Children
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-row bottom-border"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          Adults
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+    <div
+      className="govuk-task-details-grid-row"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  font__grey font__bold"
+        >
+          OAPs
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold font__grey false"
+        >
+          0
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderOccupantCarrierCountsSection should render unknown category count when there is no driver, 0 passengers but no valid category counts are available 1`] = `
+<div
+  className="govuk-task-details-counts-container"
+>
+  <div
+    className="govuk-task-details-grid-row bottom-border"
+  >
+    <span
+      className="govuk-grid-key font__light"
+    >
+      Category
+    </span>
+    <span
+      className="govuk-grid-value font__light"
+    >
+      Number
+    </span>
+  </div>
+  <div
+    className="task-details-container"
+  >
+    <div
+      className="govuk-task-details-grid-row"
+    >
+      <ul>
+        <li
+          className="govuk-grid-value  false font__bold"
+        >
+          Unknown
+        </li>
+      </ul>
+      <ul>
+        <li
+          className="govuk-grid-value font__bold false false"
+        >
+          1
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`SectionRenderer renderOccupantsSection should not render hidden fields 1`] = `
 <div
   className="task-details-container"
@@ -8,72 +424,76 @@ exports[`SectionRenderer renderOccupantsSection should not render hidden fields 
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -198,72 +618,76 @@ exports[`SectionRenderer renderOccupantsSection should not render hidden fields 
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -372,72 +796,76 @@ exports[`SectionRenderer renderOccupantsSection should not render hidden fields 
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -555,72 +983,76 @@ exports[`SectionRenderer renderOccupantsSection should not show passenger headin
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -736,72 +1168,76 @@ exports[`SectionRenderer renderOccupantsSection should render occupants when boo
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -926,72 +1362,76 @@ exports[`SectionRenderer renderOccupantsSection should render occupants when boo
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -1115,72 +1555,76 @@ exports[`SectionRenderer renderOccupantsSection should return mulitple other pas
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -1305,72 +1749,76 @@ exports[`SectionRenderer renderOccupantsSection should return mulitple other pas
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -1479,72 +1927,76 @@ exports[`SectionRenderer renderOccupantsSection should return mulitple other pas
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -1662,72 +2114,76 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger en
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -1852,72 +2308,76 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger en
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -2041,72 +2501,76 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger fi
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -2231,72 +2695,76 @@ exports[`SectionRenderer renderOccupantsSection should return other passenger fi
         <div
           className="govuk-!-margin-bottom-4 bottom-border"
         >
-          <div
-            className="govuk-grid-row enrichment-counts"
+          <span
+            className="govuk-visually-hidden"
           >
             <div
-              className="labels"
+              className="govuk-grid-row enrichment-counts"
             >
               <div
-                className="govuk-grid-column-one-third"
+                className="labels"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Previous RoRo movements
-                </span>
+                  <span
+                    className="font__light"
+                  >
+                    Previous RoRo movements
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Examinations
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__light"
+                  >
+                    Seizures
+                  </span>
+                </div>
               </div>
               <div
-                className="govuk-grid-column-one-third"
+                className="values"
               >
-                <span
-                  className="font__light"
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Examinations
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__light"
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
                 >
-                  Seizures
-                </span>
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
+                <div
+                  className="govuk-grid-column-one-third"
+                >
+                  <span
+                    className="font__bold"
+                  >
+                    -
+                  </span>
+                </div>
               </div>
             </div>
-            <div
-              className="values"
-            >
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-              <div
-                className="govuk-grid-column-one-third"
-              >
-                <span
-                  className="font__bold"
-                >
-                  -
-                </span>
-              </div>
-            </div>
-          </div>
+          </span>
           <div
             className="govuk-grid-row govuk-!-margin-bottom-2"
           >
@@ -2414,72 +2882,76 @@ exports[`SectionRenderer renderOccupantsSection should return second passenger e
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -2601,72 +3073,76 @@ exports[`SectionRenderer renderOccupantsSection should return second passenger f
     <div
       className="govuk-!-margin-bottom-4 bottom-border"
     >
-      <div
-        className="govuk-grid-row enrichment-counts"
+      <span
+        className="govuk-visually-hidden"
       >
         <div
-          className="labels"
+          className="govuk-grid-row enrichment-counts"
         >
           <div
-            className="govuk-grid-column-one-third"
+            className="labels"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Previous RoRo movements
-            </span>
+              <span
+                className="font__light"
+              >
+                Previous RoRo movements
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Examinations
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__light"
+              >
+                Seizures
+              </span>
+            </div>
           </div>
           <div
-            className="govuk-grid-column-one-third"
+            className="values"
           >
-            <span
-              className="font__light"
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Examinations
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__light"
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
             >
-              Seizures
-            </span>
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
+            <div
+              className="govuk-grid-column-one-third"
+            >
+              <span
+                className="font__bold"
+              >
+                -
+              </span>
+            </div>
           </div>
         </div>
-        <div
-          className="values"
-        >
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-          <div
-            className="govuk-grid-column-one-third"
-          >
-            <span
-              className="font__bold"
-            >
-              -
-            </span>
-          </div>
-        </div>
-      </div>
+      </span>
       <div
         className="govuk-grid-row govuk-!-margin-bottom-2"
       >
@@ -2769,6 +3245,1392 @@ exports[`SectionRenderer renderOccupantsSection should return second passenger f
           </p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderPrimaryTraveller should only render traveller fields and not document fields if icon is not single tourist icon 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Primary Traveller
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Name
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          MR PRIMARY TRAVELLER
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Date of birth
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          03/06/1981
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Gender
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          M
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Nationality
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          GB
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderPrimaryTraveller should render primary traveller entity search link if fields are present 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Primary Traveller
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Name
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          <a
+            href="http://localhost:4020/search?term=2828282828&type=PERSON&fields=[\\"id\\"]"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            MR PRIMARY TRAVELLER
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderPrimaryTraveller should render traveller and document fields if icon is single tourist icon 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Primary Traveller
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Name
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          MR PRIMARY TRAVELLER
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Date of birth
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          03/06/1981
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Gender
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          M
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Nationality
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          GB
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Travel document type
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          PASSPORT
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Travel document number
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          ST0111111
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Travel document expiry
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          01/01/2021
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderPrimaryTravellerDocument should render only render document fields 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Document
+  </h3>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Travel document type
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          PASSPORT
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Travel document number
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          ST0111111
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Travel document expiry
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          01/01/2021
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderTrailerSection should not render hidden fields 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Trailer
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  />
+</div>
+`;
+
+exports[`SectionRenderer renderTrailerSection should render entity search link if trailer registration number and link field are present 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Trailer
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Trailer registration number
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          <a
+            href="http://localhost:4020/search?term=1212121212&type=VEHICLE&fields=[\\"id\\"]"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            LQ18ZYH
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderTrailerSection should return fields if not hidden and should only show trailer specific fields 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Trailer
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Trailer registration number
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          LQ18ZAB
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Trailer Type
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          TR
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Trailer country of registration
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          GB
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Trailer length
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          75m
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Trailer height
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          5m
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Empty or loaded
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          Loaded
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderVehicleSection should not render hidden fields 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Vehicle
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  />
+</div>
+`;
+
+exports[`SectionRenderer renderVehicleSection should render entity search link if registration number and link field are present 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Vehicle
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Vehicle registration
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          <a
+            href="http://localhost:4020/search?term=1234567890&type=VEHICLE&fields=[\\"id\\"]"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            KP07YXG
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SectionRenderer renderVehicleSection should return fields if not hidden and should only show vehicle specific fields 1`] = `
+<div
+  className="task-details-container bottom-border-thick"
+>
+  <h3
+    className="title-heading"
+  >
+    Vehicle
+  </h3>
+  <span
+    className="govuk-visually-hidden"
+  >
+    <div
+      className="govuk-grid-row enrichment-counts"
+    >
+      <div
+        className="labels"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Previous RoRo movements
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Examinations
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__light"
+          >
+            Seizures
+          </span>
+        </div>
+      </div>
+      <div
+        className="values"
+      >
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <span
+            className="font__bold"
+          >
+            -
+          </span>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div
+    className="govuk-task-details-grid-column"
+  >
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Vehicle registration
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          GB09KLT
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Make
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          FORD
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Model
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          TRANSIT
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Type
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          VAN
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Country of registration
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          GB
+        </li>
+      </ul>
+    </div>
+    <div
+      className=""
+    >
+      <ul>
+        <li
+          className="govuk-grid-key font__light"
+        >
+          <span
+            className="govuk-grid-key font__light"
+          >
+            Colour
+          </span>
+        </li>
+        <li
+          className="govuk-grid-value font__bold"
+        >
+          RED
+        </li>
+      </ul>
     </div>
   </div>
 </div>

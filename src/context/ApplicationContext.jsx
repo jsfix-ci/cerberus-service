@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { createContext, useState } from 'react';
 
 const ApplicationContext = createContext({});
 
@@ -9,9 +9,16 @@ const ApplicationContext = createContext({});
 const ApplicationContextProvider = ({ children }) => {
   const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
   const [airPaxRefDataMode, setAirpaxRefDataMode] = useState({});
+  const [airPaxTisCache, setAirPaxTisCache] = useState({});
 
   return (
-    <ApplicationContext.Provider value={{ refDataAirlineCodes, setRefDataAirlineCodes, airPaxRefDataMode, setAirpaxRefDataMode }}>
+    <ApplicationContext.Provider value={{ refDataAirlineCodes,
+      setRefDataAirlineCodes,
+      airPaxRefDataMode,
+      setAirpaxRefDataMode,
+      airPaxTisCache,
+      setAirPaxTisCache }}
+    >
       {children}
     </ApplicationContext.Provider>
   );

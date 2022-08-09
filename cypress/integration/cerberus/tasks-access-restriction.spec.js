@@ -1,6 +1,3 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
 describe('Cerberus User not in the Targeters Group should not have access to tasks', () => {
   beforeEach(() => {
     cy.login('cypressuser@lodev.xyz');

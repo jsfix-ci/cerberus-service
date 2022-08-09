@@ -18,8 +18,8 @@ describe('RenderForm', () => {
 
   const ON_CANCEL_CALLS = [];
 
-  const ON_CANCEL = (action) => {
-    ON_CANCEL_CALLS.push(action);
+  const ON_CANCEL = () => {
+    ON_CANCEL_CALLS.push(undefined);
   };
 
   beforeEach(() => {
@@ -70,6 +70,10 @@ describe('RenderForm', () => {
 
   it('should issue a request to fetch the airpax tis form', async () => {
     const EXPECTED_URL = '/copform/name/cerberus-airpax-target-information-sheet';
+
+    mockAxios
+      .onGet(EXPECTED_URL)
+      .reply(200, {});
 
     await waitFor(() => render(<RenderForm
       formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}

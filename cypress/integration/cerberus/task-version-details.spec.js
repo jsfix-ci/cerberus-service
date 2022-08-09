@@ -119,6 +119,7 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.contains('Sign out').click();
 
       cy.login(Cypress.env('userName'));
+      cy.acceptPNRTerms();
 
       cy.checkTaskDisplayed(targetURL);
 
@@ -424,6 +425,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions when payloads sent with delay', () => {
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-different-versions-task_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     const expectedAutoExpandStatus = [
       'false',
@@ -488,7 +490,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.contains('Sign out').click();
 
     cy.login(Cypress.env('userName'));
-
+    cy.acceptPNRTerms();
     cy.checkTaskDisplayed(businessKey);
 
     cy.wait(2000);
@@ -505,14 +507,16 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.visit('/tasks');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.wait('@pages').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+      cy.wait(2000);
+      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+      cy.contains('Apply').click();
+      cy.wait(2000);
 
-    cy.wait(2000);
-
-    cy.verifyTaskHasUpdated(businessKey, 'Updated');
+      cy.verifyTaskHasUpdated(businessKey, 'Updated');
+    });
   });
 
   it('Should verify task details on each version retained', () => {
@@ -640,7 +644,8 @@ describe('Task Details of different tasks on task details Page', () => {
     });
   });
 
-  it('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
+  it.skip('Should verify single task created for the same target with different versions when payloads sent without delay', () => {
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-No-Delay_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
     let tasks = [];
@@ -696,6 +701,7 @@ describe('Task Details of different tasks on task details Page', () => {
             cy.wrap(table).getTable().then((tableData) => {
               console.log('risk indicator matches', tableData);
               cy.get('@expectedRiskIndicatorMatches').then((expectedData) => {
+                console.log('This is tableData', tableData);
                 expectedData[`riskIndicatorsV-${index}`][indexOfRisk].forEach((taskItem) => expect(tableData).to.deep.include(taskItem));
               });
             });
@@ -705,15 +711,16 @@ describe('Task Details of different tasks on task details Page', () => {
     }
 
     cy.visit('/tasks');
+    cy.wait('@pages').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+      cy.wait(2000);
+      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+      cy.contains('Apply').click();
+      cy.wait(2000);
 
-    cy.contains('Apply filters').click();
-
-    cy.wait(2000);
-
-    cy.verifyTaskHasUpdated(businessKey, 'Updated');
+      cy.verifyTaskHasUpdated(businessKey, 'Updated');
+    });
   });
 
   it('Should verify single task created for the same target with different versions when Failed Cerberus payloads sent without delay', () => {
@@ -768,6 +775,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify single task created for the same target with different versions with different passengers information', () => {
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-passenger-info_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
     let departureDateTime;
     const dateFormat = 'D MMM YYYY [at] HH:mm';
@@ -824,7 +832,7 @@ describe('Task Details of different tasks on task details Page', () => {
           'Departure': `${departureDateTime}   DOV`,
           'Arrival': `CAL      ${arrivalDataTime}`,
           'vehicle': 'Vehicle with TrailerGB09KLT-10685 with NL-234-392 driven by Bobby Brownshoes',
-          'Account': 'Arrival 3 years ago',
+          'Account': 'arrived 3 years ago',
         };
 
         cy.checkTaskSummaryDetails().then((taskSummary) => {
@@ -837,14 +845,16 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.visit('/tasks');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.wait('@pages').then(({ response }) => {
+      expect(response.statusCode).to.equal(200);
+      cy.wait(2000);
+      cy.get('select').select('RORO_ACCOMPANIED_FREIGHT').should('have.value', 'RORO_ACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+      cy.contains('Apply').click();
+      cy.wait(2000);
 
-    cy.wait(2000);
-
-    cy.verifyTaskHasUpdated(businessKey, 'Updated');
+      cy.verifyTaskHasUpdated(businessKey, 'Updated');
+    });
   });
 
   // COP-8934 two versions have passenger details and one version doesn't have passenger details
@@ -925,11 +935,10 @@ describe('Task Details of different tasks on task details Page', () => {
     });
 
     cy.visit('/tasks');
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
-
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -1029,10 +1038,10 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.visit('/tasks');
 
-    cy.get('.govuk-checkboxes [value="RORO_ACCOMPANIED_FREIGHT"]')
-      .click({ force: true });
+    cy.wait(2000);
+    cy.get('select').select('RORO_ACCOMPANIED_FREIGHT');
 
-    cy.contains('Apply filters').click();
+    cy.contains('Apply').click();
 
     cy.wait(2000);
 
@@ -1182,12 +1191,6 @@ describe('Task Details of different tasks on task details Page', () => {
         });
       });
 
-      cy.contains('h3', 'Primary Traveller').nextAll().within((elements) => {
-        cy.getVehicleDetails(elements).then((details) => {
-          expect(details).to.deep.equal(expectedDetails['primary traveller']);
-        });
-      });
-
       cy.contains('h3', 'Booking and check-in').next().within(() => {
         cy.getTaskDetails().then((details) => {
           expect(details).to.deep.equal(expectedDetails['Booking-and-check-in']);
@@ -1287,7 +1290,6 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.getBusinessKey('-RORO-Accompanied-Freight-target-indicators-same-version_').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.verifyTaskListInfo(`${businessKeys[0]}`, 'RORO_ACCOMPANIED_FREIGHT').then((taskListDetails) => {
-        console.log(taskListDetails);
         expect('Risk Score: 20').to.deep.equal(taskListDetails.riskScore);
       });
     });
@@ -1360,6 +1362,7 @@ describe('Task Details of different tasks on task details Page', () => {
   });
 
   it('Should verify datetime of the update is displayed in the version header when new version is created', () => {
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
     let date = new Date();
     let businessKey;
 
@@ -1406,15 +1409,113 @@ describe('Task Details of different tasks on task details Page', () => {
         cy.contains('Clear all filters').click();
 
         cy.wait(2000);
+        cy.wait('@pages').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+          cy.wait(2000);
+          cy.get('select').select('RORO_TOURIST').should('have.value', 'RORO_TOURIST');
 
-        cy.get('.govuk-checkboxes [value="RORO_TOURIST"]')
-          .click({ force: true });
+          cy.contains('Apply').click();
+          cy.wait(2000);
 
-        cy.contains('Apply filters').click({ force: true });
+          cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+        });
+      });
+    });
+  });
 
+  it('Should verify driver count is added to Adult count in ROROTSV', () => {
+    let date = new Date();
+    cy.fixture('RoRo-Accompanied-Freight_ROROTSV.json').then((task) => {
+      date.setDate(date.getDate() + 8);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}-DETAILS`).then((response) => {
+        cy.wait(4000);
+        cy.checkTaskDisplayed(`${response.businessKey}`);
+      });
+    });
+
+    cy.wait(2000);
+
+    cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'true');
+    cy.expandTaskDetails(0);
+
+    cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
+      cy.contains('h3', 'Occupants').nextAll().within(() => {
+        cy.get('.task-details-container').eq(1).within(() => {
+          cy.getOccupantCounts().then((details) => {
+            expect(details).to.deep.equal(expectedDetails['occupant-count2']);
+          });
+        });
+
+        const obj = {};
+        cy.contains('h3', 'Occupants').nextAll().within(() => {
+          cy.get('.govuk-grid-row:not(.enrichment-counts)').each((item) => {
+            cy.wrap(item).find('.govuk-grid-column-full').each((detail) => {
+              cy.wrap(detail).find('.font__light').invoke('text').then((key) => {
+                cy.wrap(detail).find('.font__light').nextAll().invoke('text')
+                  .then((value) => {
+                    obj[key] = value;
+                  });
+              });
+            });
+          }).then(() => {
+            expect(obj).to.deep.equal(expectedDetails.driver);
+          });
+        });
+      });
+    });
+  });
+
+  it('Should verify tasks from New tab are moved to complete with new-and-in-progress-completions endpoint', () => {
+    cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        let businessKey = taskResponse.businessKey;
+        cy.visit('/tasks');
+        cy.get('.task-heading').then(($taskHeading) => {
+          cy.wait(2000);
+          expect($taskHeading.text()).to.include(businessKey);
+        });
+        cy.moveAllTasksToCompleteTab();
+        cy.reload();
         cy.wait(2000);
+        cy.get('.task-heading').should('not.exist');
+        cy.get('a[href="#complete"]').click();
+        cy.verifyFindTaskId(businessKey);
+      });
+    });
+  });
 
-        cy.verifyTaskHasUpdated(taskResponse.businessKey, 'Updated');
+  it('Should verify tasks from In progress tab are moved to complete with new-and-in-progress-completions endpoint', () => {
+    cy.fixture('RoRo-Accompanied-Freight.json').then((task) => {
+      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        let businessKey = taskResponse.businessKey;
+        cy.visit(`/tasks/${businessKey}`);
+        cy.wait(3000);
+        cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+        cy.contains('Claim').click();
+        cy.wait('@claim').then(({ response }) => {
+          expect(response.statusCode).to.equal(204);
+        });
+        cy.visit('/tasks');
+        cy.get('a[href="#inProgress"]').click();
+        cy.get('.task-heading').then(($taskHeading) => {
+          cy.wait(2000);
+          expect($taskHeading.text()).to.include(businessKey);
+        });
+        cy.moveAllTasksToCompleteTab();
+        cy.reload();
+        cy.wait(2000);
+        cy.get('.task-heading').should('not.exist');
+        cy.get('a[href="#complete"]').click();
+        cy.verifyFindTaskId(businessKey);
       });
     });
   });

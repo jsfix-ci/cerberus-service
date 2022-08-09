@@ -22,6 +22,10 @@ import { getTotalNumberOfPersons } from './personUtil';
 import { isNotNumber } from '../../../utils/roroDataUtil';
 import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
 
+const getMovementDirection = (journey) => {
+  return journey?.direction || undefined;
+};
+
 const toVoyageText = (dateTime, isTaskDetails = false, prefix = '') => {
   const time = DateTimeUtil.relativeTime(dateTime);
   const isPastDate = DateTimeUtil.isPast(dateTime);
@@ -350,6 +354,7 @@ const MovementUtil = {
   movementFlight: getFlight,
   movementJourney: getJourney,
   departureTime: getDepartureTime,
+  direction: getMovementDirection,
   arrivalTime: getArrivalTime,
   formatDepartureTime: toFormattedDepartureDateTime,
   formatArrivalTime: toFormattedArrivalDateTime,
@@ -407,5 +412,6 @@ export {
   getRelistedStatus,
   getUpdatedStatus,
   getCityByIataCode,
-  toVoyageText as getVoyageText,
+  toVoyageText,
+  getMovementDirection,
 };

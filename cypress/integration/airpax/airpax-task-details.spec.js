@@ -96,7 +96,7 @@ describe('Verify AirPax task details of different sections', () => {
       expect($text).to.equal('Add a new note');
     });
     cy.get('#note').should('be.visible').type(textNote);
-    cy.get('.hods-button').click();
+    cy.contains('Save').click();
     cy.wait(3000);
     cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
     cy.get('@taskActivity').then(($activityText) => {
@@ -236,7 +236,7 @@ describe('Verify AirPax task details of different sections', () => {
       cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
-        cy.get('.task-versions .task-versions--right').should('contain.text', 'No rule matches');
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No changes in this versionHighest threat level is Tier 3');
         cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
       });
     });
@@ -399,12 +399,12 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.fixture('airpax/task-airpax-rules-v2.json').then((task) => {
       task.data.movementId = movementID;
-      cy.createTargetingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(4000);
-        businessKey = response.id;
+        businessKey = taskResponse.id;
         cy.visit('/airpax/tasks');
-        cy.wait('@airpaxTask').then(({ taskResponse }) => {
-          expect(taskResponse.statusCode).to.be.equal(200);
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
         });
         cy.checkAirPaxTaskDisplayed(businessKey);
 
@@ -416,8 +416,8 @@ describe('Verify AirPax task details of different sections', () => {
 
         cy.reload();
 
-        cy.wait('@airpaxTask').then(({ taskResponse }) => {
-          expect(taskResponse.statusCode).to.equal(200);
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
         });
 
         cy.get('body').then(($el) => {
@@ -635,7 +635,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Movement details from target information sheet on task details page', () => {
+  it('Should verify target details from target information sheet page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -652,48 +652,24 @@ describe('Verify AirPax task details of different sections', () => {
               expect(actualMovementDetails).to.deep.equal(expectedDetails.MovementDetails);
             });
           });
-        });
-      });
-    });
-  });
-
-  it('Should verify Passenger 1 details from target information sheet on task details page', () => {
-    cy.acceptPNRTerms();
-    const taskName = 'AIRPAX';
-    cy.fixture('airpax/task-airpax.json').then((task) => {
-      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
-        cy.wait(3000);
-        cy.checkAirPaxTaskDisplayed(`${response.id}`);
-        cy.claimAirPaxTask();
-        cy.contains('Issue target').click();
-        cy.wait(4000);
-        cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
           cy.contains('h2', 'Passenger 1 details').next().within((elements) => {
             cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
               expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger1Details);
             });
           });
-        });
-      });
-    });
-  });
-
-  it('Should verify Warning details from target information sheet on task details page', () => {
-    cy.acceptPNRTerms();
-    const taskName = 'AIRPAX';
-    cy.fixture('airpax/task-airpax.json').then((task) => {
-      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
-        cy.wait(3000);
-        cy.checkAirPaxTaskDisplayed(`${response.id}`);
-        cy.claimAirPaxTask();
-        cy.contains('Issue target').click();
-        cy.wait(4000);
-        cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
           cy.contains('h2', 'Warnings').next().within((elements) => {
             cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
               expect(actualMovementDetails).to.deep.equal(expectedDetails.Warnings);
+            });
+          });
+          cy.contains('h2', 'Other passenger details').next().within((elements) => {
+            cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger2Details);
+            });
+          });
+          cy.contains('h2', 'Selection details').next().within((elements) => {
+            cy.getairPaxTISDetails(elements).then((actualMovementDetails) => {
+              expect(actualMovementDetails).to.deep.equal(expectedDetails.SelectionDetails);
             });
           });
         });
@@ -701,21 +677,34 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Co-Passenger details from target information sheet on task details page', () => {
+  it('Should verify Document number in document column for Co-traveller if present', () => {
     cy.acceptPNRTerms();
-    const taskName = 'AIRPAX';
+    const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
       cy.createTargetingApiTask(task).then((response) => {
-        cy.wait(3000);
-        cy.checkAirPaxTaskDisplayed(`${response.id}`);
-        cy.claimAirPaxTask();
-        cy.contains('Issue target').click();
+        let movementId = response.movement.id;
         cy.wait(4000);
-        cy.fixture('airpax/airpax-TIS-details.json').then((expectedDetails) => {
-          cy.contains('h2', 'Other passenger details').next().within((elements) => {
-            cy.getOtherPassengersTISDetails(elements).then((actualMovementDetails) => {
-              expect(actualMovementDetails).to.deep.equal(expectedDetails.Passenger2Details);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
+          cy.get('.co-travellers-container').within(() => {
+            cy.get('table').getTable().then((tableData) => {
+              expectedDetails['Co-travellers'].forEach((traveller) => expect(tableData).to.deep.include(traveller));
+            });
+          });
+        });
+        cy.fixture('airpax/task-airpax-coTraveller-document-unknown.json').then((updateTask) => {
+          updateTask.data.movementId = movementId;
+          cy.createTargetingApiTask(updateTask).then((updateResponse) => {
+            cy.wait(4000);
+            cy.checkAirPaxTaskDisplayed(`${updateResponse.id}`);
+            cy.wait(3000);
+            cy.fixture('airpax/airpax-task-expected-details.json').then((expectedUpdatedDetails) => {
+              cy.get('.co-travellers-container').within(() => {
+                cy.get('table').first().getTable().then((newTableData) => {
+                  expectedUpdatedDetails['Co-travellers-Document-Unknown'].forEach((traveller) => expect(newTableData).to.deep.include(traveller));
+                });
+              });
             });
           });
         });

@@ -8,7 +8,7 @@ import * as constants from '../../../constants';
 import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
 import formatGender from '../../../utils/genderFormatter';
 import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/roroDataUtil';
-import EnrichmentCount from './TaskListEnrichmentCount';
+import EnrichmentCount from './EnrichmentCount';
 import { formatVoyageText } from '../../../utils/stringConversion';
 
 const getMovementModeTypeText = (movementModeIcon) => {

@@ -455,7 +455,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           if ($el.find(nextPage).length > 0) {
             cy.findTaskInAllThePages(`${businessKey}`, null, {
               selector: 'Paid by cash1',
-              risk: 'Class A Drugs and 2 other rules',
+              risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
@@ -463,7 +463,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           } else {
             cy.findTaskInSinglePage(`${businessKey}`, null, {
               selector: 'Paid by cash1',
-              risk: 'Class A Drugs and 2 other rules',
+              risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
               expect(taskFound).to.equal(true);
@@ -522,7 +522,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
           issueTask.id = businessKey;
           issueTask.movement.id = movementId;
           issueTask.form.submittedBy = Cypress.env('userName');
-          cy.issueAirPaxTask(issueTask).then((issueTaskResponse) => {
+          cy.issueTarget(issueTask).then((issueTaskResponse) => {
             expect(issueTaskResponse.informationSheet.id).to.equals(businessKey);
             expect(issueTaskResponse.informationSheet.movement.id).to.equals(movementId);
             cy.wait(2000);
@@ -652,12 +652,12 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     cy.get('.govuk-label').invoke('text').then(($text) => {
       expect($text).to.equal('Add a new note');
     });
-    cy.get('.hods-button').click();
+    cy.contains('Save').click();
     cy.wait(2000);
     cy.get('#error-summary').should('be.visible');
     cy.get('.govuk-list li a').should('have.text', 'Add a new note is required');
     cy.get('#note').should('be.visible').type(textNote);
-    cy.get('.hods-button').click();
+    cy.contains('Save').click();
     cy.wait(2000);
     cy.get('p[class="govuk-body"]').invoke('text').as('taskActivity');
     cy.get('@taskActivity').then(($activityText) => {
@@ -759,6 +759,39 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         expect(activities).not.to.contain('Property delete changed from false to true');
       });
     });
+  });
+
+  it('Should validate Add notes section is hidden in Issue target, Assessment complete and Dismiss task', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+    cy.get('#note').should('not.exist');
+    cy.claimAirPaxTask();
+    cy.get('.govuk-label').invoke('text').then(($text) => {
+      expect($text).to.equal('Add a new note');
+    });
+
+    cy.contains('Issue target').click();
+    cy.wait(2000);
+    cy.get('#note').should('not.exist');
+    cy.contains('Assessment complete').click();
+    cy.wait(2000);
+    cy.get('#note').should('not.exist');
+    cy.contains('Cancel').click();
+    cy.get('#note').should('exist');
+    cy.contains('Dismiss').click();
+    cy.wait(2000);
+    cy.get('#note').should('not.exist');
+    cy.contains('Cancel').click();
+    cy.wait(2000);
+    cy.get('#note').should('exist');
   });
 
   after(() => {

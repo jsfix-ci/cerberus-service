@@ -1,6 +1,3 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
 describe('Filter airpax tasks by Selectors on task management Page', () => {
   const filterOptions = [
     'NOT_PRESENT',
@@ -79,7 +76,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#inProgress"]').click();
-
+    cy.wait(2000);
     cy.get('.govuk-radios__item [value=\'ANY\']').should('be.checked');
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'inProgress').then((actualTargets) => {
@@ -115,7 +112,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#issued"]').click();
-
+    cy.wait(2000);
     cy.get('.govuk-radios__item [value=\'ANY\']').should('be.checked');
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'issued').then((actualTargets) => {
@@ -151,7 +148,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#complete"]').click();
-
+    cy.wait(2000);
     cy.get('.govuk-radios__item [value=\'ANY\']').should('be.checked');
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'complete').then((actualTargets) => {
@@ -211,6 +208,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

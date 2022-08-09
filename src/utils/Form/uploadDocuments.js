@@ -6,8 +6,7 @@ const uploadDocument = async (client, submissionData, document) => {
   const { data } = await client.post(submissionData.businessKey, formData);
   if (data) {
     document.url = data.url;
-    delete document.file;
-    Utils.Data.setDataItem(submissionData, document.field, { ...document, field: undefined });
+    Utils.Data.setDataItem(submissionData, document.field, { ...document });
   }
   return document;
 };

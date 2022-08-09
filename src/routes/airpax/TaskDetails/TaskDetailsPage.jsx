@@ -1,6 +1,7 @@
 import { Button, Tag } from '@ukhomeoffice/cop-react-components';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import _ from 'lodash';
 
 // Config
 import config from '../../../config';
@@ -9,7 +10,10 @@ import { TASK_STATUS_NEW,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT,
-  FORM_NAMES } from '../../../constants';
+  FORM_NAMES }
+from '../../../constants';
+
+import { ApplicationContext } from '../../../context/ApplicationContext';
 
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
@@ -36,34 +40,55 @@ import '../__assets__/TaskDetailsPage.scss';
 // JSON
 import dismissTask from '../../../cop-forms/dismissTaskCerberus';
 import completeTask from '../../../cop-forms/completeTaskCerberus';
-import { ApplicationContext } from '../../../context/ApplicationContext';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const { airPaxRefDataMode } = useContext(ApplicationContext);
+  const { airPaxRefDataMode, airPaxTisCache, setAirPaxTisCache } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
   const [error, setError] = useState(null);
   const [assignee, setAssignee] = useState();
   const [formattedTaskStatus, setFormattedTaskStatus] = useState();
   const [taskData, setTaskData] = useState();
-  const [preFillData, setPrefillData] = useState({});
   const [isLoading, setLoading] = useState(true);
-
   const [isSubmitted, setSubmitted] = useState();
   const [isCompleteFormOpen, setCompleteFormOpen] = useState();
   const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
   const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
 
+  const clearAccordionStorage = () => {
+    _.forIn(window.sessionStorage, (value, key) => {
+      if (_.startsWith(key, 'accordion-') === true) {
+        window.sessionStorage.removeItem(key);
+      }
+    });
+  };
+
+  /*
+   * This is a clean up fucntion which removes additional accordion controls
+   * added as a result of re-rendering of the accordion component within People.jsx component
+   * (Not exactly the react way of doing it).
+   */
+  const removeDuplicateControls = () => {
+    const accordionControls = document.getElementsByClassName('govuk-accordion__controls');
+    if (accordionControls?.length) {
+      for (let i = accordionControls.length - 1; i > 0; i -= 1) {
+        accordionControls[i].parentNode.removeChild(accordionControls[i]);
+      }
+    }
+  };
+
   const getPrefillData = async () => {
     let response;
     try {
-      response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-      setPrefillData(TargetInformationUtil.prefillPayload(response.data));
+      if (airPaxTisCache?.id !== businessKey) {
+        response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
+        setAirPaxTisCache(TargetInformationUtil.prefillPayload(response.data));
+      }
     } catch (e) {
-      setTaskData({});
+      setAirPaxTisCache({});
     }
   };
 
@@ -89,11 +114,13 @@ const TaskDetailsPage = () => {
   }, [taskData, setAssignee, setLoading]);
 
   useEffect(() => {
+    clearAccordionStorage();
     getTaskData();
     getPrefillData();
   }, [businessKey]);
 
   useEffect(() => {
+    clearAccordionStorage();
     getTaskData();
   }, [refreshNotesForm]);
 
@@ -101,9 +128,18 @@ const TaskDetailsPage = () => {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
 
+  removeDuplicateControls();
+
   return (
     <>
-      {error && <ErrorSummary title={error} />}
+      {error && (
+      <ErrorSummary
+        title="There is a problem"
+        errorList={[
+          { children: error },
+        ]}
+      />
+      )}
       <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
@@ -166,24 +202,29 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-two-thirds">
           {isIssueTargetFormOpen && !isSubmitted && (
           <RenderForm
+            cacheTisFormData
             formName={FORM_NAMES.AIRPAX_TARGET_INFORMATION_SHEET}
-            preFillData={preFillData}
+            preFillData={airPaxTisCache}
             onSubmit={
               async ({ data }) => {
                 try {
-                  await apiClient.post('/targets', TargetInformationUtil
-                    .submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  await apiClient.post('/targets',
+                    TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                  data?.meta?.documents.forEach((document) => delete document.file);
+                  setAirPaxTisCache({});
                   setSubmitted(true);
                   if (error) {
                     setError(null);
                   }
                 } catch (e) {
-                  setPrefillData(TargetInformationUtil.convertToPrefill(data));
+                  setAirPaxTisCache(TargetInformationUtil.convertToPrefill(data));
                   setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
                 }
               }
             }
+            onCancel={() => setIssueTargetFormOpen()}
             renderer={Renderers.REACT}
+            setError={setError}
           />
           )}
           {isIssueTargetFormOpen && isSubmitted && (
@@ -210,6 +251,7 @@ const TaskDetailsPage = () => {
             onCancel={() => setCompleteFormOpen()}
             form={completeTask}
             renderer={Renderers.REACT}
+            setError={setError}
           />
           )}
           {isCompleteFormOpen && isSubmitted && (
@@ -236,6 +278,7 @@ const TaskDetailsPage = () => {
               onCancel={() => setDismissTaskFormOpen()}
               form={dismissTask}
               renderer={Renderers.REACT}
+              setError={setError}
             />
           )}
           {isDismissTaskFormOpen && isSubmitted && (
@@ -258,9 +301,11 @@ const TaskDetailsPage = () => {
             && (
             <TaskNotes
               noteVariant={MOVEMENT_VARIANT.AIRPAX}
-              displayForm={assignee === currentUser}
+              displayForm={assignee === currentUser
+                && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen}
               businessKey={businessKey}
               setRefreshNotesForm={() => setRefreshNotesForm(!refreshNotesForm)}
+              setError={setError}
             />
             )}
           <ActivityLog
