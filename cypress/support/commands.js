@@ -669,7 +669,7 @@ Cypress.Commands.add(('getOccupantCounts'), () => {
 Cypress.Commands.add('expandTaskDetails', (versionNumber) => {
   cy.get('.govuk-accordion__section-button').eq(versionNumber).invoke('attr', 'aria-expanded').then((value) => {
     if (value === 'false') {
-      cy.get('.govuk-accordion__section-button').eq(versionNumber).click({force: true });
+      cy.get('.govuk-accordion__section-button').eq(versionNumber).click({ force: true });
     }
   });
 });
