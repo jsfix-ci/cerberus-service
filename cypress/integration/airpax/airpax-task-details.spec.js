@@ -677,7 +677,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it('Should verify Document number in document column for Co-traveller if present', () => {
+  it.only('Should verify Document number in document column for Co-traveller if present', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTOTEST';
     cy.fixture('airpax/task-airpax.json').then((task) => {

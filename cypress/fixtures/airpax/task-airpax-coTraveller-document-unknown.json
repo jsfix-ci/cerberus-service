@@ -4,248 +4,13 @@
     "riskSubmissionId": 213295,
     "riskCreatedDate": "2022-05-26T11:00:31.779414Z",
     "riskType": "Pre-Arrival",
-    "matchedRules": [
-      {
-        "ruleId": 8867,
-        "ruleName": "Duration of Stay -days",
-        "ruleType": "Both",
-        "ruleVersion": 1,
-        "ruleDescription": "Test",
-        "securityLabels": [
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 1",
-        "indicatorMatches": [
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-          },
-          {
-            "entity": "Booking",
-            "descriptor": "durationOfStay",
-            "operator": "between",
-            "value": "[1, 70]"
-          }
-        ],
-        "abuseTypes": [
-          "Alcohol"
-        ]
-      },
-      {
-        "ruleId": 8865,
-        "ruleName": "Duration of Whole trip",
-        "ruleType": "Both",
-        "ruleVersion": 1,
-        "ruleDescription": "Duration of Whole trip",
-        "securityLabels": [
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 1",
-        "indicatorMatches": [
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-          },
-          {
-            "entity": "Booking",
-            "descriptor": "durationOfWholeTrip",
-            "operator": "between",
-            "value": "[1, 70]"
-          }
-        ],
-        "abuseTypes": [
-          "Alcohol"
-        ]
-      },
-      {
-        "ruleId": 7808,
-        "ruleName": "PNR-Arrival Airport",
-        "ruleType": "Both",
-        "ruleVersion": 1,
-        "ruleDescription": "Test",
-        "securityLabels": [
-          "null",
-          "null",
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 1",
-        "indicatorMatches": [
-          {
-            "entity": "Booking",
-            "descriptor": "arrivalLocations",
-            "operator": "contains_any_of",
-            "value": "[lhr, man]"
-          },
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Passenger]"
-          }
-        ],
-        "abuseTypes": [
-          "Alcohol"
-        ]
-      },
-      {
-        "ruleId": 7849,
-        "ruleName": "PNR-Risk-Rule",
-        "ruleType": "Both",
-        "ruleVersion": 1,
-        "ruleDescription": "test pne",
-        "securityLabels": [
-          "null",
-          "null",
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 1",
-        "indicatorMatches": [
-          {
-            "entity": "Voyage",
-            "descriptor": "arrivalLocation",
-            "operator": "contains",
-            "value": "LHR"
-          },
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Passenger]"
-          }
-        ],
-        "abuseTypes": [
-          "Class B&C Drugs inc. Cannabis"
-        ]
-      },
-      {
-        "ruleId": 7963,
-        "ruleName": "Predict_Movement_Name_qwerty",
-        "ruleType": "Both",
-        "ruleVersion": 1,
-        "ruleDescription": "Test",
-        "securityLabels": [
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 1",
-        "indicatorMatches": [
-          {
-            "entity": "Movement",
-            "descriptor": "name",
-            "operator": "not_equal",
-            "value": "qwerty"
-          },
-          {
-            "entity": "Movement",
-            "descriptor": "name",
-            "operator": "not_equal",
-            "value": "qwerty"
-          },
-          {
-            "entity": "Movement",
-            "descriptor": "name",
-            "operator": "not_equal",
-            "value": "qwerty"
-          },
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-          }
-        ],
-        "abuseTypes": [
-          "Alcohol"
-        ]
-      },
-      {
-        "ruleId": 7844,
-        "ruleName": "Return Leg- Return",
-        "ruleType": "Both",
-        "ruleVersion": 1,
-        "ruleDescription": "Test",
-        "securityLabels": [
-          "null",
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 1",
-        "indicatorMatches": [
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Passenger]"
-          },
-          {
-            "entity": "Booking",
-            "descriptor": "bookingType",
-            "operator": "equal",
-            "value": "RETURN"
-          }
-        ],
-        "abuseTypes": [
-          "Alcohol"
-        ]
-      },
-      {
-        "ruleId": 7919,
-        "ruleName": "Generic rule - For trailer",
-        "ruleType": "Pre-load",
-        "ruleVersion": 1,
-        "ruleDescription": "Eu velit commodo ill",
-        "securityLabels": [
-          "null",
-          "null",
-          "null"
-        ],
-        "ruleMatchedOnDate": "2022-03-28T10:42:15Z",
-        "rulePriority": "Tier 3",
-        "indicatorMatches": [
-          {
-            "entity": "Message",
-            "descriptor": "mode",
-            "operator": "in",
-            "value": "[Air Freight, Air Passenger, Fast Parcels, RORO Accompanied Freight, RORO Tourist, RORO Unaccompanied Freight]"
-          },
-          {
-            "entity": "Trailer",
-            "descriptor": "registrationNumber",
-            "operator": "not_equal",
-            "value": "AA005022"
-          }
-        ],
-        "abuseTypes": [
-          "International Trade inc. Missing Trader Intra-Community Fraud (MTIC)"
-        ]
-      }
-    ],
+    "matchedRules": [],
     "matchedSelectors": [
       {
         "selectorId": 279,
         "selectorReference": "2021-279",
-        "groupReference":"SR-215",
-        "groupVersionNumber":1,
+        "groupReference": "SR-215",
+        "groupVersionNumber": 1,
         "startDate": "2021-12-08T08:23:40.257Z",
         "endDate": "2022-01-19T23:59:59Z",
         "category": "A",
@@ -265,7 +30,7 @@
         ],
         "localReference": "SR-220",
         "warnings": "bdfbdfbf",
-        "selectorWarnings":"CTGN,SEH",
+        "selectorWarnings": "CTGN,SEH",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer": "Tester",
@@ -289,8 +54,8 @@
       {
         "selectorId": 278,
         "selectorReference": "2021-278",
-        "groupReference":"SR-216",
-        "groupVersionNumber":1,
+        "groupReference": "SR-216",
+        "groupVersionNumber": 1,
         "startDate": "2021-12-02T16:48:51.203Z",
         "endDate": "2022-01-13T23:59:59Z",
         "category": "A",
@@ -310,7 +75,7 @@
         ],
         "localReference": "SR-219",
         "warnings": "Warnings from testing",
-        "selectorWarnings":"SEH",
+        "selectorWarnings": "SEH",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer": "Tester",
@@ -332,49 +97,49 @@
         "selectorMatchedOnDate": "2021-12-08T09:19:33.097Z"
       },
       {
-        "selectorId":225,
-        "selectorReference":"2022-100",
-        "groupReference":"SR-217",
-        "groupVersionNumber":1,
-        "startDate":"2022-01-27T10:23:12.732Z",
-        "endDate":"2022-07-27T10:23:12.732Z",
-        "category":"A",
-        "agencyCode":"BF",
-        "intelligenceSource":"intel source",
-        "pointOfContact":"Point Of Contact Testing",
-        "pocMessage":"selector for auto testing",
-        "priority":"Selector",
-        "inboundActionCode":"No action required",
-        "outboundActionCode":"No action required",
-        "threatType":"National Security at the Border",
+        "selectorId": 225,
+        "selectorReference": "2022-100",
+        "groupReference": "SR-217",
+        "groupVersionNumber": 1,
+        "startDate": "2022-01-27T10:23:12.732Z",
+        "endDate": "2022-07-27T10:23:12.732Z",
+        "category": "A",
+        "agencyCode": "BF",
+        "intelligenceSource": "intel source",
+        "pointOfContact": "Point Of Contact Testing",
+        "pocMessage": "selector for auto testing",
+        "priority": "Selector",
+        "inboundActionCode": "No action required",
+        "outboundActionCode": "No action required",
+        "threatType": "National Security at the Border",
         "notes": "notes testing",
         "creator": "test user",
-        "approver":"null",
-        "securityLabels":[
+        "approver": "null",
+        "securityLabels": [
           "DATA_RISK_PREARRIVAL"
         ],
-        "localReference":"null",
-        "warnings":"Warnings from testing for group reference",
-        "selectorWarnings":"O",
+        "localReference": "null",
+        "warnings": "Warnings from testing for group reference",
+        "selectorWarnings": "O",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
-        "requestingOfficer":"Tester",
-        "requestingTeam":"null",
-        "indicatorMatches":[
+        "requestingOfficer": "Tester",
+        "requestingTeam": "null",
+        "indicatorMatches": [
           {
-            "entity":"vehicle",
-            "descriptor":"registrationNumber",
-            "operator":"equal",
-            "value":"DK-45678"
+            "entity": "vehicle",
+            "descriptor": "registrationNumber",
+            "operator": "equal",
+            "value": "DK-45678"
           }
         ],
-        "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
+        "selectorMatchedOnDate": "2022-02-08T16:18:43.998Z"
       },
       {
         "selectorId": 51,
         "selectorReference": "2021-10",
-        "groupReference":"SR-218",
-        "groupVersionNumber":1,
+        "groupReference": "SR-218",
+        "groupVersionNumber": 1,
         "startDate": "2021-07-09T13:42:48.381Z",
         "endDate": "2021-08-20T22:59:59Z",
         "category": "A",
@@ -394,7 +159,7 @@
         ],
         "localReference": "Local Reference",
         "warnings": "Supplemental warnings",
-        "selectorWarnings":"CTGN",
+        "selectorWarnings": "CTGN",
         "warningStatus": "Yes",
         "warningDetails": "Warning details would be shown here",
         "requestingOfficer": "Tester",
@@ -416,43 +181,43 @@
         "selectorMatchedOnDate": "2021-09-05T09:30:02.896Z"
       },
       {
-        "selectorId":245,
-        "selectorReference":"2022-245",
-        "groupReference":"SR-227",
-        "groupVersionNumber":1,
-        "startDate":"2022-02-01T09:40:27.767Z",
-        "endDate":"2023-02-01T23:59:59Z",
-        "category":"C",
-        "agencyCode":"Borders and Aviation Security Unit Homeland Security Group (HSG)",
-        "intelligenceSource":"Qui adipisci consectetur ullam consequatur a aspernatur in",
-        "pointOfContact":"Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
-        "pocMessage":"Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
-        "priority":"Selector",
-        "inboundActionCode":"Worthy of attention",
-        "outboundActionCode":"Monitor only",
-        "threatType":"Alcohol",
-        "notes":"notes",
-        "creator":"user",
-        "approver":"Ut adipisci culpa reiciendis dicta ullam vel duis laboriosam eiusmod",
-        "securityLabels":[
+        "selectorId": 245,
+        "selectorReference": "2022-245",
+        "groupReference": "SR-227",
+        "groupVersionNumber": 1,
+        "startDate": "2022-02-01T09:40:27.767Z",
+        "endDate": "2023-02-01T23:59:59Z",
+        "category": "C",
+        "agencyCode": "Borders and Aviation Security Unit Homeland Security Group (HSG)",
+        "intelligenceSource": "Qui adipisci consectetur ullam consequatur a aspernatur in",
+        "pointOfContact": "Dolores est qui laboriosam velit tenetur aut sit laborum Temporibus distinctio Aut hic non autem",
+        "pocMessage": "Blanditiis consectetur impedit omnis veniam veniam quibusdam ad eiusmod et consequatur fuga Fugiat nesciunt tenetur expedita aliquam",
+        "priority": "Selector",
+        "inboundActionCode": "Worthy of attention",
+        "outboundActionCode": "Monitor only",
+        "threatType": "Alcohol",
+        "notes": "notes",
+        "creator": "user",
+        "approver": "Ut adipisci culpa reiciendis dicta ullam vel duis laboriosam eiusmod",
+        "securityLabels": [
           "DATA_RISK_PREARRIVAL"
         ],
-        "localReference":"Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
-        "warnings":"This is a different group reference",
-        "selectorWarnings":"No Warnings",
+        "localReference": "Quos ex reprehenderit dolor dolor at quia placeat fugiat qui voluptas non reiciendis voluptatum molestiae",
+        "warnings": "This is a different group reference",
+        "selectorWarnings": "No Warnings",
         "warningStatus": "No",
         "warningDetails": "Warning details would be shown here",
-        "requestingOfficer":"Velit in sunt aliquip voluptate tempore consectetur",
-        "requestingTeam":"RoRo tourist",
-        "indicatorMatches":[
+        "requestingOfficer": "Velit in sunt aliquip voluptate tempore consectetur",
+        "requestingTeam": "RoRo tourist",
+        "indicatorMatches": [
           {
-            "entity":"Person",
-            "descriptor":"familyName",
-            "operator":"equal",
-            "value":"TURNER"
+            "entity": "Person",
+            "descriptor": "familyName",
+            "operator": "equal",
+            "value": "TURNER"
           }
         ],
-        "selectorMatchedOnDate":"2022-02-08T16:18:43.998Z"
+        "selectorMatchedOnDate": "2022-02-08T16:18:43.998Z"
       }
     ],
     "movement": {
@@ -544,6 +309,7 @@
             "commonAPIPlus.SourceData.0.subject": "BA103;LHR;2019-07-21;PONQVFT",
             "commonAPIPlus.SourceData.0.source": "PNRGOV",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.pnrPassengerRef": "3",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.checkinDateTime": "2019-07-20 16:43:35",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.membershipLevel": "BRNZ",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.seatNumber": "34A",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.0.pnrPassengerRef": "2",
@@ -559,16 +325,14 @@
             "commonAPIPlus.manifestDetails.dataType": "PNR",
             "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.uniquePassengerId": "20058AB300012AD6",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.ticketNumber": "AL12345",
-            "bookingType": "Online",
-            "paymentMethod": "CC",
-            "bookingCountry": "GB",
-            "ticketNumber": "1234",
-            "ticketType": "Return",
-            "ticketPrice": "£25.00",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.0.tagNumber": "739238",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.1.tagNumber": "739239",
-            "checkedInCount": "1",
-            "checkedInWeight": "23kg"
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.2.tagNumber": "739240",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.3.tagNumber": "739241",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.4.tagNumber": "739242",
+            "commonAPIPlus.dcsDetails.dcsData.dcsRecord.baggageDetails.5.tagNumber": "739243",
+            "checkedInCount": "6",
+            "checkedInWeight": "100kg"
           }
         },
         "features": {
@@ -578,15 +342,6 @@
               "type": null,
               "valueType": "BOOL",
               "value": false,
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "PASSENGER-INFREQUENT-PORT-USE": {
-              "id": null,
-              "type": null,
-              "valueType": "String",
-              "value": "Infrequent trips made through port (person)",
               "valueList": null,
               "startTimestamp": null,
               "endTimestamp": null
@@ -623,24 +378,6 @@
               "type": null,
               "valueType": "STRING",
               "value": "DC",
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "STANDARDISED:bookingDateTime": {
-              "id": null,
-              "type": null,
-              "valueType": "STRING",
-              "value": "2022-06-09T10:00:00Z",
-              "valueList": null,
-              "startTimestamp": null,
-              "endTimestamp": null
-            },
-            "STANDARDISED:checkinDateTime": {
-              "id": null,
-              "type": null,
-              "valueType": "STRING",
-              "value": "2022-06-12T13:00:00Z",
               "valueList": null,
               "startTimestamp": null,
               "endTimestamp": null
@@ -700,7 +437,7 @@
             "ethnicity": null,
             "maritalStatus": null,
             "religion": null,
-            "passportNumber": "119039375"
+            "passportNumber": null
           },
           "attributes": {
             "attrs": {
@@ -718,7 +455,7 @@
             "identityRecord": {
               "poleId": {
                 "v2": {
-                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
+                  "id": "PNR:P=bec77b0b7613e0d05ff1a7421f6abcf4"
                 },
                 "v1": null
               },
@@ -728,10 +465,10 @@
               "name": "PNR",
               "shortName": "PNR",
               "location": "MT2-PNR1.xml",
-              "id": "502992e4-f319-4422-ac26-09dbdcda5f58",
+              "id": "502992e4-f319-2244-ac26-09dbdcda4d67",
               "audit": {
-                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv1jDrQ==",
-                "createdTimestamp": 1563637415000,
+                "createdBy": "w5Z2Vjtkw5PCv8Ohc0PCk8KjwpzCv3TrD==",
+                "createdTimestamp": 1563637315000,
                 "updatedBy": null,
                 "updatedTimestamp": null,
                 "deletedBy": null,
@@ -748,22 +485,22 @@
           "person": {
             "type": "PERPAS",
             "title": null,
-            "familyName": "Testing FamilyName",
-            "givenName": "Testing GivenName",
-            "fullName": "FamilyName GivenName",
-            "dateOfBirth": 2555,
+            "familyName": "Auto Test",
+            "givenName": "Micky Mouse",
+            "fullName": "Auto Test Micky Mouse",
+            "dateOfBirth": 2545,
             "dateOfDeath": null,
-            "gender": "F",
+            "gender": "M",
             "nationality": "AUS",
-            "yearOfBirth": 1982,
-            "monthOfBirth": 11,
-            "dayOfBirth": 9,
+            "yearOfBirth": 1955,
+            "monthOfBirth": 12,
+            "dayOfBirth": 25,
             "countryOfBirth": null,
             "placeOfBirth": null,
             "ethnicity": null,
             "maritalStatus": null,
             "religion": null,
-            "passportNumber": "119039399"
+            "passportNumber": "119039999"
           },
           "attributes": {
             "attrs": {
@@ -821,7 +558,7 @@
           "attributes": {
             "attrs": {
               "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentCountryCode": "GB",
-              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "8767844",
+              "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.freqFlyerNumber": "8767876",
               "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentCityCode": "LHR",
               "commonAPIPlus.pnrDetails.pnrData.pnrDetail.travelAgentType": "A"
             }
@@ -839,7 +576,7 @@
             "identityRecord": {
               "poleId": {
                 "v2": {
-                  "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750,O=bec77b0b7613e0d05ff1a7421f6abcf4"
+                  "id": "PNR:P=bec77b0b7613e0d05ff1a7421f6abcf4"
                 },
                 "v1": null
               },
@@ -869,7 +606,7 @@
           "party": {
             "poleId": {
               "v2": {
-                "id": "PNR:P=dab092daf6d33e8fd2bfe5e2bcff8750"
+                "id": "PNR:P=bec77b0b7613e0d05ff1a7421f6abcf4"
               },
               "v1": null
             },
@@ -951,11 +688,11 @@
           "voyageType": null,
           "departureLocation": "LHR",
           "departureCountry": null,
-          "scheduledDepartureTimestamp": 1657456201000,
+          "scheduledDepartureTimestamp": 1563727200000,
           "actualDepartureTimestamp": null,
           "arrivalLocation": "YYC",
           "arrivalCountry": null,
-          "scheduledArrivalTimestamp": 1657467001000,
+          "scheduledArrivalTimestamp": 1563734100000,
           "actualArrivalTimestamp": null,
           "intermediateLocations": null,
           "passengerCount": 178,

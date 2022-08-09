@@ -2262,14 +2262,14 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
     url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'userId': 'boothi.palanisamy@digital.homeoffice.gov.uk',
+      'userId': 'mitchel.egboko@digital.homeoffice.gov.uk',
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
   });
 });
 
-Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId, userName) => {
+Cypress.Commands.add('claimAirPaxTaskWithUsername', (taskId, userName) => {
   cy.request({
     method: 'POST',
     url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
