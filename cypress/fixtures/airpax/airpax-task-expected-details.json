@@ -150,5 +150,12 @@
       {
         "Operator": "Unknown"
       }
+    ],
+    "Co-travellers-Document-Unknown": [
+      {
+        "Traveller": "TravellerBATZ STOUP, ZUES CARLO DCMale, 10 Dec 1976, United Kingdom (GB)",
+        "Age": "Age45",
+        "Document": "DocumentUnknownUnknownIssued by Unknown"
+      }
     ]
 }
