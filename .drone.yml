@@ -355,6 +355,7 @@ steps:
   when:
     branch:
     - release-candidate
+    - bugfix-504-error
     event:
     - promote
     target:
