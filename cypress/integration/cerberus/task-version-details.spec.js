@@ -113,13 +113,13 @@ describe('Task Details of different tasks on task details Page', () => {
       cy.collapseTaskDetails(0);
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
       cy.reload();
-      cy.wait(2000);
+      cy.wait(3000);
       cy.get('.govuk-accordion__section-button').invoke('attr', 'aria-expanded').should('equal', 'false');
 
       cy.contains('Sign out').click();
 
       cy.login(Cypress.env('userName'));
-      // cy.acceptPNRTerms();
+      cy.acceptPNRTerms();
 
       cy.checkTaskDisplayed(targetURL);
 
@@ -481,7 +481,7 @@ describe('Task Details of different tasks on task details Page', () => {
 
     cy.get('.govuk-accordion__section-button').first().invoke('attr', 'aria-expanded').should('equal', 'false');
     cy.reload();
-    cy.wait(2000);
+    cy.wait(3000);
 
     cy.get('.govuk-accordion__section-button').each((version, index) => {
       cy.wrap(version).invoke('attr', 'aria-expanded').should('equal', expectedAutoExpandStatus[index]);
@@ -490,7 +490,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.contains('Sign out').click();
 
     cy.login(Cypress.env('userName'));
-    // cy.acceptPNRTerms();
+    cy.acceptPNRTerms();
     cy.checkTaskDisplayed(businessKey);
 
     cy.wait(2000);
