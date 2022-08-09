@@ -432,12 +432,13 @@ describe('Create AirPax task and issue target', () => {
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
-        cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.checkAirPaxTaskDisplayed(businessKey);
         cy.claimAirPaxTask();
         actions.forEach((action) => {
           cy.contains(action).click().then(() => {
             cy.wait(2000);
-            cy.get('button[type="submit"]').should('not.exist');
+            cy.contains(action).should('not.exist');
+            cy.get('.task-actions--buttons').should('not.be.visible');
             cy.visit(`/airpax/tasks/${businessKey}`);
             cy.wait(2000);
           });

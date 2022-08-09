@@ -864,7 +864,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
         cy.wait(4000);
         let businessKey = taskResponse.businessKey;
-        cy.getTasksByBusinessKey(taskResponse.businessKey).then((tasks) => {
+        cy.getTasksByBusinessKey(businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
           cy.wait(2000);
           cy.contains('Claim').click();
@@ -875,6 +875,7 @@ describe('Issue target from cerberus UI using target sheet information form', ()
         actions.forEach((action) => {
           cy.contains(action).click().then(() => {
             cy.wait(2000);
+            cy.contains(action).should('not.exist');
             cy.get('button[type="submit"]').should('not.exist');
             cy.visit(`/tasks/${businessKey}`);
             cy.wait(2000);
