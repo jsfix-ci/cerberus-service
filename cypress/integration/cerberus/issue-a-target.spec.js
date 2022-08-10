@@ -846,6 +846,46 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     });
   });
 
+  it('Should verify Action buttons are not shown when we have selected an action', () => {
+    const actions = [
+      'Issue target',
+      'Assessment complete',
+      'Dismiss',
+    ];
+    cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
+
+    cy.fixture('target-information.json').as('inputData');
+
+    cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
+      date.setDate(date.getDate() + 6);
+      task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
+      const mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
+      cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
+        cy.wait(4000);
+        const businessKey = taskResponse.businessKey;
+        cy.getTasksByBusinessKey(businessKey).then((tasks) => {
+          cy.navigateToTaskDetailsPage(tasks);
+          cy.wait(2000);
+          cy.contains('Claim').click();
+          cy.wait('@claim').then(({ response }) => {
+            expect(response.statusCode).to.equal(204);
+          });
+        });
+        actions.forEach((action) => {
+          cy.contains(action).click().then(() => {
+            cy.wait(2000);
+            cy.contains('Issue target').should('not.exist');
+            cy.contains('Assessment complete').should('not.exist');
+            cy.contains('Dismiss').should('not.exist');
+            cy.visit(`/tasks/${businessKey}`);
+            cy.wait(2000);
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
