@@ -859,11 +859,11 @@ describe('Issue target from cerberus UI using target sheet information form', ()
     cy.fixture('RoRo-Freight-Accompanied.json').then((task) => {
       date.setDate(date.getDate() + 6);
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();
-      let mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
+      const mode = task.variables.rbtPayload.value.data.movement.serviceMovement.movement.mode.replace(/ /g, '-');
       task.variables.rbtPayload.value = JSON.stringify(task.variables.rbtPayload.value);
       cy.postTasks(task, `AUTOTEST-${dateNowFormatted}-${mode}`).then((taskResponse) => {
         cy.wait(4000);
-        let businessKey = taskResponse.businessKey;
+        const businessKey = taskResponse.businessKey;
         cy.getTasksByBusinessKey(businessKey).then((tasks) => {
           cy.navigateToTaskDetailsPage(tasks);
           cy.wait(2000);
@@ -875,8 +875,9 @@ describe('Issue target from cerberus UI using target sheet information form', ()
         actions.forEach((action) => {
           cy.contains(action).click().then(() => {
             cy.wait(2000);
-            cy.contains(action).should('not.exist');
-            cy.get('button[type="submit"]').should('not.exist');
+            cy.contains('Issue target').should('not.exist');
+            cy.contains('Assessment complete').should('not.exist');
+            cy.contains('Dismiss').should('not.exist');
             cy.visit(`/tasks/${businessKey}`);
             cy.wait(2000);
           });
