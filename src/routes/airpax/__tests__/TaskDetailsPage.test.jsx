@@ -39,7 +39,10 @@ describe('Task details page', () => {
   };
 
   const MockApplicationContext = ({ children }) => (
-    <ApplicationContext.Provider value={{ refDataAirlineCodes, airPaxTisCache: {}, setAirPaxTisCache: jest.fn() }}>
+    <ApplicationContext.Provider value={{ refDataAirlineCodes: jest.fn().mockReturnValue(refDataAirlineCodes),
+      airPaxTisCache: jest.fn().mockReturnValue({}),
+      setAirpaxTisCache: jest.fn() }}
+    >
       {children}
     </ApplicationContext.Provider>
   );

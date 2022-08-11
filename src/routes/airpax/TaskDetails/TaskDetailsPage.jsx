@@ -1,7 +1,7 @@
 import { Button, Tag } from '@ukhomeoffice/cop-react-components';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import _ from 'lodash';
+import axios from 'axios';
 
 // Config
 import config from '../../../config';
@@ -45,8 +45,9 @@ import completeTask from '../../../cop-forms/completeTaskCerberus';
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
+  const source = axios.CancelToken.source();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const { airPaxRefDataMode, airPaxTisCache, setAirPaxTisCache } = useContext(ApplicationContext);
+  const { airPaxRefDataMode, airPaxTisCache, setAirpaxTisCache } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
   const [error, setError] = useState(null);
   const [assignee, setAssignee] = useState();
@@ -60,55 +61,35 @@ const TaskDetailsPage = () => {
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
   const [showActionButtons, setShowActionButtons] = useState(true);
 
-  const clearAccordionStorage = () => {
-    _.forIn(window.sessionStorage, (value, key) => {
-      if (_.startsWith(key, 'accordion-') === true) {
-        window.sessionStorage.removeItem(key);
-      }
-    });
-  };
-
-  /*
-   * This is a clean up fucntion which removes additional accordion controls
-   * added as a result of re-rendering of the accordion component within People.jsx component
-   * (Not exactly the react way of doing it).
-   */
-  const removeDuplicateControls = () => {
-    const accordionControls = document.getElementsByClassName('govuk-accordion__controls');
-    if (accordionControls?.length) {
-      for (let i = accordionControls.length - 1; i > 0; i -= 1) {
-        accordionControls[i].parentNode.removeChild(accordionControls[i]);
-      }
-    }
+  const cancelAxiosRequests = () => {
+    source.cancel('Cancelling request');
   };
 
   const getPrefillData = async () => {
-    let response;
     try {
-      if (airPaxTisCache?.id !== businessKey) {
-        response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-        setAirPaxTisCache(TargetInformationUtil.prefillPayload(response.data));
-      }
+      const response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
+      setAirpaxTisCache(TargetInformationUtil.prefillPayload(response.data));
     } catch (e) {
-      setAirPaxTisCache({});
+      setError(e.message);
+      setAirpaxTisCache({});
     }
   };
 
   const getTaskData = async () => {
-    let response;
     try {
-      response = await apiClient.get(`/targeting-tasks/${businessKey}`);
+      const response = await apiClient.get(`/targeting-tasks/${businessKey}`);
       const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(response.data.versions);
       setTaskData({
         ...response.data, taskVersionDifferencesCounts: differencesCounts,
       });
     } catch (e) {
+      setError(e.message);
       setTaskData({});
     }
   };
 
   useEffect(() => {
-    if (taskData) {
+    if (taskData && (!assignee || !formattedTaskStatus)) {
       setAssignee(taskData.assignee);
       setFormattedTaskStatus(formatTaskStatusToCamelCase(taskData.status));
       setLoading(false);
@@ -116,15 +97,14 @@ const TaskDetailsPage = () => {
   }, [taskData, setAssignee, setLoading]);
 
   useEffect(() => {
-    clearAccordionStorage();
     getTaskData();
-    getPrefillData();
-  }, [businessKey]);
-
-  useEffect(() => {
-    clearAccordionStorage();
-    getTaskData();
-  }, [refreshNotesForm]);
+    if (airPaxTisCache()?.id !== businessKey) {
+      getPrefillData();
+    }
+    return () => {
+      cancelAxiosRequests();
+    };
+  }, [businessKey, refreshNotesForm]);
 
   const onCancelConfirmation = (onCancel) => {
     // eslint-disable-next-line no-alert
@@ -136,8 +116,6 @@ const TaskDetailsPage = () => {
   if (isLoading) {
     return <LoadingSpinner><br /><br /><br /></LoadingSpinner>;
   }
-
-  removeDuplicateControls();
 
   return (
     <>
@@ -221,20 +199,20 @@ const TaskDetailsPage = () => {
           <RenderForm
             cacheTisFormData
             form={airpaxTis}
-            preFillData={airPaxTisCache}
+            preFillData={airPaxTisCache()}
             onSubmit={
               async ({ data }) => {
                 try {
                   await apiClient.post('/targets',
-                    TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode));
+                    TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode()));
                   data?.meta?.documents.forEach((document) => delete document.file);
-                  setAirPaxTisCache({});
+                  setAirpaxTisCache({});
                   setSubmitted(true);
                   if (error) {
                     setError(null);
                   }
                 } catch (e) {
-                  setAirPaxTisCache(TargetInformationUtil.convertToPrefill(data));
+                  setAirpaxTisCache(TargetInformationUtil.convertToPrefill(data));
                   setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
                 }
               }

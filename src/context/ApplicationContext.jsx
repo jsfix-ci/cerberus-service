@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useRef } from 'react';
 
 const ApplicationContext = createContext({});
 
@@ -7,9 +7,33 @@ const ApplicationContext = createContext({});
  * frequently and can be accessible throughout the app.
  */
 const ApplicationContextProvider = ({ children }) => {
-  const [refDataAirlineCodes, setRefDataAirlineCodes] = useState([]);
-  const [airPaxRefDataMode, setAirpaxRefDataMode] = useState({});
-  const [airPaxTisCache, setAirPaxTisCache] = useState({});
+  const _refDataAirlineCodes = useRef([]);
+  const _airPaxRefDataMode = useRef({});
+  const _airPaxTisCache = useRef({});
+
+  const refDataAirlineCodes = () => {
+    return _refDataAirlineCodes.current;
+  };
+
+  const setRefDataAirlineCodes = (value) => {
+    _refDataAirlineCodes.current = value;
+  };
+
+  const airPaxRefDataMode = () => {
+    return _airPaxRefDataMode.current;
+  };
+
+  const setAirpaxRefDataMode = (value) => {
+    _airPaxRefDataMode.current = value;
+  };
+
+  const airPaxTisCache = () => {
+    return _airPaxTisCache.current;
+  };
+
+  const setAirpaxTisCache = (value) => {
+    _airPaxTisCache.current = value;
+  };
 
   return (
     <ApplicationContext.Provider value={{ refDataAirlineCodes,
@@ -17,7 +41,7 @@ const ApplicationContextProvider = ({ children }) => {
       airPaxRefDataMode,
       setAirpaxRefDataMode,
       airPaxTisCache,
-      setAirPaxTisCache }}
+      setAirpaxTisCache }}
     >
       {children}
     </ApplicationContext.Provider>

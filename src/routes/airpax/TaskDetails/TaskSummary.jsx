@@ -26,7 +26,7 @@ const TaskSummary = ({ version }) => {
         <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
           <i className="c-icon-aircraft" />
           <p className="content-line-one govuk-!-padding-right-2">
-            {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes)} flight, 
+            {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes())} flight, 
               ${MovementUtil.voyageText(arrivalTime, true, MovementUtil.iataToCity(MovementUtil.arrivalLoc(journey)))}
               `}
           </p>
