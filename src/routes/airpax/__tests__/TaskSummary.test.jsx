@@ -19,7 +19,7 @@ describe('TaskSummary', () => {
   dayjs.extend(utc);
 
   const MockApplicationContext = ({ children }) => (
-    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+    <ApplicationContext.Provider value={{ refDataAirlineCodes: jest.fn().mockReturnValue(refDataAirlineCodes) }}>
       {children}
     </ApplicationContext.Provider>
   );

@@ -19,7 +19,7 @@ const Voyage = ({ version }) => {
         {renderBlock('Arrival time', [MovementUtil.formatArrivalTime(journey, LONG_DAY_DATE_FORMAT)])}
         {renderBlock('Scheduled flight time', [MovementUtil.formatFlightTime(journey)])}
         {renderBlock('Flight code', [MovementUtil.flightNumber(flight)])}
-        {renderBlock('Operator', [MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes)])}
+        {renderBlock('Operator', [MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes())])}
       </div>
     </div>
   );

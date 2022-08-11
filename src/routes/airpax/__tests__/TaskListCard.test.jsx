@@ -10,7 +10,7 @@ import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.js
 
 describe('TaskListCard', () => {
   const MockApplicationContext = ({ children }) => (
-    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+    <ApplicationContext.Provider value={{ refDataAirlineCodes: jest.fn().mockReturnValue(refDataAirlineCodes) }}>
       {children}
     </ApplicationContext.Provider>
   );

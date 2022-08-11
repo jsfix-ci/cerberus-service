@@ -19,7 +19,7 @@ describe('TaskVersions', () => {
   let tabData = {};
 
   const MockApplicationContext = ({ children }) => (
-    <ApplicationContext.Provider value={{ refDataAirlineCodes }}>
+    <ApplicationContext.Provider value={{ refDataAirlineCodes: jest.fn().mockReturnValue(refDataAirlineCodes) }}>
       {children}
     </ApplicationContext.Provider>
   );

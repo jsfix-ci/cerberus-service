@@ -30,7 +30,11 @@ describe('axios hooks', () => {
 
     const { Provider } = ApplicationContext;
 
-    const wrapper = ({ children }) => <Provider value={{ refDataAirlineCodes }}>{children}</Provider>;
+    const wrapper = ({ children }) => (
+      <Provider value={{ refDataAirlineCodes: jest.fn().mockReturnValue(refDataAirlineCodes) }}>
+        {children}
+      </Provider>
+    );
 
     renderHook(() => useGetRefDataAirlineCodes(), { wrapper });
   });
@@ -40,7 +44,11 @@ describe('axios hooks', () => {
 
     const { Provider } = ApplicationContext;
 
-    const wrapper = ({ children }) => <Provider value={{ airPaxRefDataMode }}>{children}</Provider>;
+    const wrapper = ({ children }) => (
+      <Provider value={{ airPaxRefDataMode: jest.fn().mockReturnValue(airPaxRefDataMode) }}>
+        {children}
+      </Provider>
+    );
 
     renderHook(() => useGetAirpaxRefDataMode(), { wrapper });
   });
