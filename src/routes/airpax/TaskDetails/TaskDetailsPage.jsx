@@ -22,7 +22,7 @@ import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAn
 import { formatTaskStatusToCamelCase } from '../../../utils/formatTaskStatus';
 import { Renderers } from '../../../utils/Form';
 import { escapeJSON } from '../../../utils/stringConversion';
-import { TargetInformationUtil } from '../utils';
+import { TargetInformationUtil } from '../../../utils';
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog';

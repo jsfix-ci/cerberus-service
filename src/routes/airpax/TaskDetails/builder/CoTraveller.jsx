@@ -4,7 +4,7 @@ import Table from '../../../../components/Table';
 
 import { CO_TRAVELLERS_TABLE_HEADERS } from '../../../../constants';
 
-import { PersonUtil, MovementUtil, DocumentUtil } from '../../utils';
+import { PersonUtil, MovementUtil, DocumentUtil } from '../../../../utils';
 import '../../../../components/__assets__/Table.scss';
 
 const toTravellerColumnContent = (person, version) => {

@@ -11,8 +11,8 @@ import {
   SHORT_DATE_FORMAT_ALT,
   UNKNOWN_TEXT,
   UTC_DATE_FORMAT,
-} from '../../../constants';
-import { formatField } from '../../../utils/formatField';
+} from '../constants';
+import { formatField } from './formatField';
 import Common from './common';
 import { getFormattedDate, validateDate } from './datetimeUtil';
 

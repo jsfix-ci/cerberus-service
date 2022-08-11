@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
 
 // Utils
-import { BaggageUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../utils';
+import { BaggageUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../../../utils';
 
 // Component
 import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';

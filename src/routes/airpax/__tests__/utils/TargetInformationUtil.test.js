@@ -1,5 +1,5 @@
 /* eslint-disable jest/expect-expect */
-import { TargetInformationUtil } from '../../utils';
+import { TargetInformationUtil } from '../../../../utils';
 
 import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import targetPrefillData from '../../__fixtures__/targetData_AirPax_PrefillData.json';

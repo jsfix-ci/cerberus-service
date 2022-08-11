@@ -1,19 +1,35 @@
-// Third party imports
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
-
+import { AFTER_TRAVEL_TEXT, AGO_TEXT, BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT, UTC_DATE_REGEXS } from '../constants';
 import config from '../config';
-import { AFTER_TRAVEL_TEXT, AGO_TEXT, BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../constants';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
+dayjs.extend(customParseFormat);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
+const validateDate = (date) => {
+  return !!(date !== UNKNOWN_TEXT && date && UTC_DATE_REGEXS.some((regex) => regex.test(date)));
+};
+
+/**
+ * This will return either a formatted UTC datetime or a dayjs datetime object.
+ * @param {*} asDayjsObj Flag to determine whether to return a formatted UTC datetime or a dayjs datetime object.
+ * @returns A UTC formatted time or a dayjs datetime object.
+ */
+const getDate = (asDayjsObj = false) => {
+  if (asDayjsObj) {
+    return dayjs.utc();
+  }
+  return dayjs.utc().format();
+};
+
 const toRelativeTime = (date) => {
-  if (!date) {
+  if (!validateDate(date)) {
     return UNKNOWN_TEXT;
   }
   const dateTimeStart = dayjs.utc(date);
@@ -21,10 +37,28 @@ const toRelativeTime = (date) => {
 };
 
 const isInPast = (date) => {
-  if (date && date !== UNKNOWN_TEXT) {
-    return toRelativeTime(date)?.endsWith(AGO_TEXT);
+  if (!validateDate(date)) {
+    return UNKNOWN_TEXT;
   }
-  return UNKNOWN_TEXT;
+  return toRelativeTime(date)?.endsWith(AGO_TEXT);
+};
+
+const getFormattedDate = (date, dateFormat) => {
+  if (!validateDate(date)) {
+    return UNKNOWN_TEXT;
+  }
+  return dayjs.utc(date).format(dateFormat);
+};
+
+const formatToUTCDate = (date, inputFormat, outputFormat) => {
+  if (!date) {
+    return UNKNOWN_TEXT;
+  }
+  return dayjs.utc(date, inputFormat).format(outputFormat);
+};
+
+const toDateTimeList = (dateOne, dateTwo) => {
+  return [dateOne, dateTwo];
 };
 
 const calculateDifference = (startDate, endDate, prefix = '', suffix = '') => {
@@ -59,10 +93,22 @@ const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
 
 const DateTimeUtil = {
   calculateTimeDifference,
+  convertToUTC: formatToUTCDate,
+  date: getDate,
+  format: getFormattedDate,
   isPast: isInPast,
+  toList: toDateTimeList,
   relativeTime: toRelativeTime,
+  validate: validateDate,
 };
 
 export default DateTimeUtil;
 
-export { calculateTimeDifference, isInPast, toRelativeTime };
+export { calculateTimeDifference,
+  formatToUTCDate,
+  getDate,
+  getFormattedDate,
+  isInPast,
+  toDateTimeList,
+  toRelativeTime,
+  validateDate };

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MovementUtil } from '../utils';
+import { MovementUtil } from '../../../utils';
 
 import { INDIVIDUAL_ICON } from '../../../constants';
 import { ApplicationContext } from '../../../context/ApplicationContext';

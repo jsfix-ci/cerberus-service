@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { calculateTimeDifference, isInPast, toRelativeTime } from '../DatetimeUtil';
+import { calculateTimeDifference, isInPast, toRelativeTime } from '../datetimeUtil';
 import { DEFAULT_DATE_TIME_STRING_PREFIX, OPERATION } from '../../constants';
 
 describe('should calculate and return relative time diff between booking time and departure time', () => {

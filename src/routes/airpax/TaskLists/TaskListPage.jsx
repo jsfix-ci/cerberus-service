@@ -53,6 +53,7 @@ const TaskListPage = () => {
   const [rulesOptions, setRulesOptions] = useState([]);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
 
+  // TODO: In api folder
   const getRulesOptions = async () => {
     try {
       const response = await apiClient.get('/filters/rules');
@@ -99,6 +100,7 @@ const TaskListPage = () => {
     ];
   };
 
+  // TODO: In api folder
   const getTaskCount = async (activeFilters) => {
     try {
       const count = await apiClient.post(
@@ -114,6 +116,7 @@ const TaskListPage = () => {
     }
   };
 
+  // TODO: In api folder
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS_NEW) => {
     localStorage.setItem(AIRPAX_TASK_STATUS_KEY, taskStatus);
     try {

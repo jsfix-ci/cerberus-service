@@ -1,4 +1,4 @@
-import { DocumentUtil } from '../../utils';
+import { DocumentUtil } from '../../../../utils';
 import { UNKNOWN_TEXT } from '../../../../constants';
 
 describe('DocumentUtil', () => {

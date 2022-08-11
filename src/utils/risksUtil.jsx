@@ -1,7 +1,7 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import { NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../../../constants';
-import { capitalizeFirstLetter } from '../../../utils/stringConversion';
+import { NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../constants';
+import { capitalizeFirstLetter } from './stringConversion';
 
 const formatTargetIndicators = (targetingIndicators) => {
   if (targetingIndicators?.indicators?.length > 0) {

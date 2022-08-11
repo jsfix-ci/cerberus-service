@@ -16,7 +16,7 @@ import FormUtils, { Renderers } from '../utils/Form';
 import { augmentRequest, interpolate } from '../utils/formioSupport';
 import { useKeycloak } from '../utils/keycloak';
 import LoadingSpinner from './LoadingSpinner';
-import { TargetInformationUtil } from '../routes/airpax/utils';
+import { TargetInformationUtil } from '../utils';
 
 Formio.use(gds);
 

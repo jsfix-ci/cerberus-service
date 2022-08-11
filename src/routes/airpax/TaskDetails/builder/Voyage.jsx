@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { LONG_DAY_DATE_FORMAT } from '../../../../constants';
 import { ApplicationContext } from '../../../../context/ApplicationContext';
 
-import { MovementUtil } from '../../utils';
+import { MovementUtil } from '../../../../utils';
 import renderBlock from './helper/common';
 
 const Voyage = ({ version }) => {

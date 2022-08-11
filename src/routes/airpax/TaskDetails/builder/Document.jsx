@@ -1,12 +1,12 @@
 import React from 'react';
 // Utils
-import { getDate } from '../../utils/datetimeUtil';
-import { getJourney, getArrivalTime } from '../../utils/movementUtil';
+import { getDate } from '../../../../utils/datetimeUtil';
+import { getJourney, getArrivalTime } from '../../../../utils/movementUtil';
 
 import {
   DocumentUtil,
   PersonUtil,
-} from '../../utils';
+} from '../../../../utils';
 
 import renderBlock from './helper/common';
 

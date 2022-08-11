@@ -1,4 +1,4 @@
-import { BaggageUtil } from '../../utils';
+import { BaggageUtil } from '../../../../utils';
 import { UNKNOWN_TEXT } from '../../../../constants';
 
 describe('BaggageUtil', () => {

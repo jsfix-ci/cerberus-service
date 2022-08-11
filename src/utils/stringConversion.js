@@ -1,7 +1,7 @@
 import { BEFORE_TRAVEL_TEXT, RORO_TOURIST, UNKNOWN_TEXT } from '../constants';
 
 import { hasVehicle, hasTrailer } from './roroDataUtil';
-import DateTimeUtil from './DatetimeUtil';
+import DatetimeUtil from './datetimeUtil';
 
 const INVALID_VALUES = [
   UNKNOWN_TEXT,
@@ -15,8 +15,8 @@ const capitalizeFirstLetter = (string) => {
 };
 
 const formatVoyageText = (dateTime) => {
-  const time = DateTimeUtil.relativeTime(dateTime);
-  const isPastDate = DateTimeUtil.isPast(dateTime);
+  const time = DatetimeUtil.relativeTime(dateTime);
+  const isPastDate = DatetimeUtil.isPast(dateTime);
   if (isPastDate !== UNKNOWN_TEXT) {
     if (isPastDate) {
       return `arrived ${time}`.trim();

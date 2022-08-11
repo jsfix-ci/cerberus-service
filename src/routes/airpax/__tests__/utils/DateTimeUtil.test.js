@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { DateTimeUtil } from '../../utils';
+import { DateTimeUtil } from '../../../../utils';
 
 import { LONG_DATE_FORMAT, UNKNOWN_TEXT, UTC_DATE_FORMAT } from '../../../../constants';
 

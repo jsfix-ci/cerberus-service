@@ -1,5 +1,5 @@
 import { UNKNOWN_TEXT } from '../../../../constants';
-import Common from '../../utils/common';
+import Common from '../../../../utils/common';
 
 describe('utils.Common', () => {
   it('should convert iso2 country codes to iso3 code', () => {

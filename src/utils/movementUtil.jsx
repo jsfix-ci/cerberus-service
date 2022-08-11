@@ -14,13 +14,12 @@ import { UNKNOWN_TEXT,
   DEPARTURE_STATUS,
   TASK_STATUS_RELISTED,
   TASK_STATUS_UPDATED,
-  BEFORE_TRAVEL_TEXT } from '../../../constants';
+  BEFORE_TRAVEL_TEXT } from '../constants';
 
 import DateTimeUtil from './datetimeUtil';
 import { getTotalNumberOfPersons } from './personUtil';
 
-import { isNotNumber } from '../../../utils/roroDataUtil';
-import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
+import { isNotNumber } from './roroDataUtil';
 import Common from './common';
 
 const getMovementDirection = (journey) => {
@@ -341,7 +340,7 @@ const toItineraryRelativeTime = (index, itinerary, itineraries) => {
   const nextLegDepartureTime = getDepartureTime(itinerary);
   return (
     <div className="font__light">
-      {calculateTimeDifference(
+      {DateTimeUtil.calculateTimeDifference(
         DateTimeUtil.toList(previousLegArrivalTime, nextLegDepartureTime), undefined, LATER_TEXT,
       )}
     </div>

@@ -1,5 +1,5 @@
 import lookup from 'country-code-lookup';
-import { UNKNOWN_TEXT } from '../../../constants';
+import { UNKNOWN_TEXT } from '../constants';
 
 const convertToIso3Code = (iso2Code) => {
   if (!iso2Code) {

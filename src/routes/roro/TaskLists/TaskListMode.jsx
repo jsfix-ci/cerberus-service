@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as pluralise from 'pluralise';
 import * as constants from '../../../constants';
 // Utils
-import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
+import { calculateTimeDifference } from '../../../utils/datetimeUtil';
 import formatGender from '../../../utils/genderFormatter';
 import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/roroDataUtil';
 import EnrichmentCount from './EnrichmentCount';

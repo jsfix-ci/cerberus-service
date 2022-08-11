@@ -3,7 +3,7 @@ import React from 'react';
 import {
   BaggageUtil,
   PersonUtil,
-} from '../../utils';
+} from '../../../../utils';
 import renderBlock, { renderRow } from './helper/common';
 
 const Baggage = ({ version }) => {

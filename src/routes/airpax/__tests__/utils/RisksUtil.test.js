@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import { RisksUtil } from '../../utils';
+import { RisksUtil } from '../../../../utils';
 
 describe('RisksUtil', () => {
   it('should get risk if present', () => {

@@ -5,7 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import config from '../../src/config';
 
-import DateTimeUtil, { toRelativeTime } from '../../src/utils/DatetimeUtil';
+import DatetimeUtil, { toRelativeTime } from '../../src/utils/datetimeUtil';
 import { BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../../src/constants';
 
 const duration = require('dayjs/plugin/duration');
@@ -1337,7 +1337,7 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 const formatVoyageText = (dateTime) => {
   console.log(dateTime);
   const time = toRelativeTime(dateTime);
-  const isPastDate = DateTimeUtil.isPast(dateTime);
+  const isPastDate = DatetimeUtil.isPast(dateTime);
   if (isPastDate !== UNKNOWN_TEXT) {
     if (isPastDate) {
       return `arrived ${time}`.trim();
@@ -1387,8 +1387,8 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
 });
 
 Cypress.Commands.add('toVoyageText', (dateTime, isTaskDetails = false, prefix = '') => {
-  const time = DateTimeUtil.relativeTime(dateTime);
-  const isPastDate = DateTimeUtil.isPast(dateTime);
+  const time = DatetimeUtil.relativeTime(dateTime);
+  const isPastDate = DatetimeUtil.isPast(dateTime);
   console.log(isPastDate);
   if (isPastDate !== UNKNOWN_TEXT) {
     if (!isTaskDetails) {

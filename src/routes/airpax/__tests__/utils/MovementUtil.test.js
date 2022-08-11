@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { MovementUtil } from '../../utils';
+import { MovementUtil } from '../../../../utils';
 import { UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../../../../constants';
 
 describe('MovementUtil', () => {

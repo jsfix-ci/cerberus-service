@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
 import '../../../../__assets__/ReactTabs.scss';
 import { capitalizeFirstLetter } from '../../../../utils/stringConversion';
-import { RisksUtil } from '../../utils';
+import { RisksUtil } from '../../../../utils';
 
 const renderIndicatorMatches = (indicatorMatches) => {
   return indicatorMatches.map((indicators) => {

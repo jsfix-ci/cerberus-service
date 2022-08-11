@@ -1,11 +1,11 @@
-import { UTC_DATE_FORMAT } from '../../../constants';
+import { UTC_DATE_FORMAT } from '../constants';
 
 import BaggageUtil from './baggageUtil';
 import DateTimeUtil from './datetimeUtil';
 import MovementUtil from './movementUtil';
 import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
-import { replaceInvalidValues } from '../../../utils/stringConversion';
+import { replaceInvalidValues } from './stringConversion';
 
 const addThumbUrl = (person) => {
   if (!person?.photograph?.url || !person?.photograph?.url?.startsWith('blob:')) {

@@ -1,15 +1,14 @@
 import React from 'react';
 import lookup from 'country-code-lookup';
 import Common from './common';
-import { getFormattedDate, toDateTimeList } from './datetimeUtil';
-import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
+import { calculateTimeDifference, getFormattedDate, toDateTimeList } from './datetimeUtil';
 
 import {
   UNKNOWN_TEXT,
   SHORT_DATE_FORMAT_ALT,
   STANDARD_HOUR_MINUTE_FORMAT,
   STANDARD_CARD_EXPIRY_FORMAT,
-} from '../../../constants';
+} from '../constants';
 
 const getAgentLocation = (agent) => {
   if (!agent?.location) {

@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import { BookingUtil } from '../../utils';
+import { BookingUtil } from '../../../../utils';
 import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../../../../constants';
 
 import config from '../../../../config';

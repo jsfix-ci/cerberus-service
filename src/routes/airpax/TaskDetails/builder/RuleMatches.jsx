@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '../../../../components/Table';
-import { RisksUtil } from '../../utils';
+import { RisksUtil } from '../../../../utils';
 import { RULES_FIELD_NAMES, RULES_FIELD_DESCRIPTION } from '../../../../constants';
 
 const renderRulesData = (rules) => {

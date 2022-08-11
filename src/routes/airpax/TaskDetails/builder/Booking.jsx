@@ -10,10 +10,10 @@ import {
   PersonUtil,
   DateTimeUtil,
   MovementUtil,
-} from '../../utils';
+} from '../../../../utils';
 
 import renderBlock from './helper/common';
-import { calculateTimeDifference } from '../../../../utils/DatetimeUtil';
+import { calculateTimeDifference } from '../../../../utils/datetimeUtil';
 
 const toBookingTimeDiference = (date, version) => {
   if (!DateTimeUtil.validate(date)) {

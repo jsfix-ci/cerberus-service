@@ -58,6 +58,7 @@ const TasksTab = ({
     window.location.reload(false);
   };
 
+  // TODO: In api folder
   const getTaskList = async () => {
     setLoading(true);
     let response;

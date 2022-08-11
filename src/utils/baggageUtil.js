@@ -1,6 +1,6 @@
 import * as pluralise from 'pluralise';
-import { UNKNOWN_TEXT } from '../../../constants';
-import { formatField } from '../../../utils/formatField';
+import { UNKNOWN_TEXT } from '../constants';
+import { formatField } from './formatField';
 
 const getBaggageWeight = (baggage) => {
   if (!baggage?.weight) {
