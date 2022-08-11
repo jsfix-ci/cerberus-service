@@ -242,7 +242,7 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
-  it.only('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
+  it('Should verify the selector matches with same & different group reference on 2 different version of a task', () => {
     cy.acceptPNRTerms();
     const movementID = `APIPNR:CMID=15148b83b4fbba770dad11348d1c9b13_${Math.floor((Math.random() * 1000000) + 1)}`;
     cy.fixture('airpax/task-airpax-same-group-reference-selectors.json').then((task) => {

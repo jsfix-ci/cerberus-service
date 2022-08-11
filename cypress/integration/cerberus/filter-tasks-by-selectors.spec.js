@@ -44,9 +44,9 @@ describe('Filter tasks by Selectors on task management Page', () => {
 
   it('Should apply filter tasks by selectors on newly created tasks', () => {
     let actualTotalTargets = 0;
-    cy.wait(2000);
-    cy.contains('Apply').click();
-    cy.wait(2000);
+    //    cy.wait(2000);
+    //    cy.contains('Apply').click();
+    //    cy.wait(2000);
     cy.get('.govuk-radios__item [value=\'any\']').should('be.checked');
 
     // COP-9191 Apply each selectors filter, compare the expected number of targets
@@ -205,7 +205,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
         });
         cy.get('a[href="#complete"]').click();
         cy.get('a[href="#new"]').click();
-        cy.getTaskCount('RORO_ACCOMPANIED_FREIGHT', selector, 'NEW').then((numberOfTasks) => {
+        cy.getTaskCount(null, selector, 'NEW').then((numberOfTasks) => {
           expect(numberOfTasks.new).be.equal(actualTargets);
         });
       });

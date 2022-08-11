@@ -334,7 +334,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a Roro-Accompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
+  it.skip('Should create a Roro-Accompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
     const taskName = 'RORO-Accompanied';
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -354,7 +354,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a Roro-Unaccompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
+  it.skip('Should create a Roro-Unaccompanied task from Cop-targeting API and forward to Cerberus workflow service', () => {
     const taskName = 'RORO-Unaccompanied';
     cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -374,7 +374,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should create a Roro-Tourist task from Cop-targeting API and forward to Cerberus workflow service', () => {
+  it.skip('Should create a Roro-Tourist task from Cop-targeting API and forward to Cerberus workflow service', () => {
     const taskName = 'RORO-Tourist';
     cy.fixture('RoRo-tourist-v2.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
@@ -394,7 +394,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should verify mode and modeCode for RORO-Accompanied frieght from target information sheet', () => {
+  it.skip('Should verify mode and modeCode for RORO-Accompanied frieght from target information sheet', () => {
     cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
     const taskName = 'RORO-Accompanied';
     cy.fixture('RoRo-accompanied-v2.json').then((task) => {
@@ -420,7 +420,7 @@ describe('Create task with different payload from Cerberus', () => {
     });
   });
 
-  it('Should verify mode and modeCode for RORO-Unaccompanied frieght from target information sheet', () => {
+  it.skip('Should verify mode and modeCode for RORO-Unaccompanied frieght from target information sheet', () => {
     cy.intercept('POST', '/camunda/engine-rest/task/*/claim').as('claim');
     const taskName = 'RORO-Unaccompanied';
     cy.fixture('RoRo-unaccompanied-v2.json').then((task) => {

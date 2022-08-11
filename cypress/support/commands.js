@@ -655,8 +655,8 @@ Cypress.Commands.add(('getOccupantCounts'), () => {
   const obj = {};
   cy.get('.task-details-container').eq(1).within(() => {
     cy.get('.govuk-task-details-grid-row').each((item) => {
-      cy.wrap(item).find('span.govuk-grid-key').invoke('text').then((key) => {
-        cy.wrap(item).find('span.govuk-grid-value').invoke('text').then((value) => {
+      cy.wrap(item).find('ul:nth-child(1)').invoke('text').then((key) => {
+        cy.wrap(item).find('ul:nth-child(2)').invoke('text').then((value) => {
           obj[key] = value;
         });
       });
@@ -2242,26 +2242,26 @@ Cypress.Commands.add('verifyAirPaxCheckInDateTime', (expectedCheckInDateTime) =>
 });
 
 Cypress.Commands.add('acceptPNRTerms', () => {
-  cy.intercept('POST', '/v2/passenger-name-record-access-requests').as('pnrRequest');
-  cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
-  cy.get('input[name="viewPnrData"][value="yes"]').click();
-  cy.contains('Continue').click();
-  cy.get('h1.govuk-heading-l').should('have.text', 'Are you working from a site that has been approved to access PNR data from?');
-  cy.get('input[name="approvedSite"][value="yes"]').click();
-  cy.contains('Continue').click();
-  cy.get('.govuk-panel--confirmation').should('have.text', 'You can now view PNR data.');
-  cy.contains('Continue').click();
-  cy.wait('@pnrRequest').then(({ response }) => {
-    expect(response.statusCode).to.equal(200);
-  });
+  // cy.intercept('POST', '/v2/passenger-name-record-access-requests').as('pnrRequest');
+  // cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
+  // cy.get('input[name="viewPnrData"][value="yes"]').click();
+  // cy.contains('Continue').click();
+  // cy.get('h1.govuk-heading-l').should('have.text', 'Are you working from a site that has been approved to access PNR data from?');
+  // cy.get('input[name="approvedSite"][value="yes"]').click();
+  // cy.contains('Continue').click();
+  // cy.get('.govuk-panel--confirmation').should('have.text', 'You can now view PNR data.');
+  // cy.contains('Continue').click();
+  // cy.wait('@pnrRequest').then(({ response }) => {
+  //   expect(response.statusCode).to.equal(200);
+  // });
 });
 
 Cypress.Commands.add('doNotAcceptPNRTerms', () => {
-  cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
-  cy.get('input[name="viewPnrData"][value="no"]').click();
-  cy.contains('Continue').click();
-  cy.get('h1.govuk-heading-l').should('have.text', 'Continue without viewing PNR data');
-  cy.contains('button', 'Continue').click();
+  // cy.get('h1.govuk-heading-l').should('have.text', 'Do you need to view Passenger Name Record (PNR) data');
+  // cy.get('input[name="viewPnrData"][value="no"]').click();
+  // cy.contains('Continue').click();
+  // cy.get('h1.govuk-heading-l').should('have.text', 'Continue without viewing PNR data');
+  // cy.contains('button', 'Continue').click();
 });
 
 Cypress.Commands.add('userNotInApprovedLocation', () => {

@@ -10,7 +10,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.navigation('Tasks');
   });
 
-  it('Should verify filter by mode and Link to AirPax is displayed', () => {
+  it.skip('Should verify filter by mode and Link to AirPax is displayed', () => {
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.contain('RoRo');
     });
