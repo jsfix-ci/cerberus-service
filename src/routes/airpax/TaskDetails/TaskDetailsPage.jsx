@@ -70,6 +70,7 @@ const TaskDetailsPage = () => {
       const response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
       setAirpaxTisCache(TargetInformationUtil.prefillPayload(response.data));
     } catch (e) {
+      setError(e.message);
       setAirpaxTisCache({});
     }
   };
@@ -82,6 +83,7 @@ const TaskDetailsPage = () => {
         ...response.data, taskVersionDifferencesCounts: differencesCounts,
       });
     } catch (e) {
+      setError(e.message);
       setTaskData({});
     }
   };
