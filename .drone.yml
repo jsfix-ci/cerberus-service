@@ -166,8 +166,8 @@ steps:
     DOCKER_USERNAME:
       from_secret: QUAY_USERNAME
   when:
-    branch:
-    - release-candidate
+#    branch:
+#    - release-candidate
     event:
     - push
 
@@ -418,8 +418,8 @@ steps:
     TEST_SECRET_NAME:
       from_secret: SIT_FORMIO_INT_TEST_SECRET_NAME
   when:
-    branch:
-    - release-candidate
+#    branch:
+#    - release-candidate
     event:
     - promote
     target:
