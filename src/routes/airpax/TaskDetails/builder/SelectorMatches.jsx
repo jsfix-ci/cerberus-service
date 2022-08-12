@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
 import '../../../../__assets__/ReactTabs.scss';
-import { capitalizeFirstLetter } from '../../../../utils/stringConversion';
+import { capitalizeFirstLetter } from '../../../../utils/String/stringUtil';
 import { RisksUtil } from '../../../../utils';
 
 const renderIndicatorMatches = (indicatorMatches) => {

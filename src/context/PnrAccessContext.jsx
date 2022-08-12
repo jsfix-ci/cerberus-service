@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react';
 
-import { PNR_USER_SESSION_ID } from '../constants';
+import { PNR_USER_SESSION_ID } from '../utils/constants';
 
 const PnrAccessContext = createContext({});
 

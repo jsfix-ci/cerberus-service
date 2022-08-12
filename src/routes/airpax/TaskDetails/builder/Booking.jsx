@@ -4,7 +4,7 @@ import {
   DAYJS_FUTURE,
   DAYJS_FUTURE_AIXPAX_REPLACE,
   UNKNOWN_TEXT,
-} from '../../../../constants';
+} from '../../../../utils/constants';
 import {
   BookingUtil,
   PersonUtil,
@@ -13,7 +13,7 @@ import {
 } from '../../../../utils';
 
 import renderBlock from './helper/common';
-import { calculateTimeDifference } from '../../../../utils/datetimeUtil';
+import { calculateTimeDifference } from '../../../../utils/Datetime/datetimeUtil';
 
 const toBookingTimeDiference = (date, version) => {
   if (!DateTimeUtil.validate(date)) {

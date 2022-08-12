@@ -1,5 +1,5 @@
 import React from 'react';
-import { FONT_CLASSES } from '../../../../../constants';
+import { FONT_CLASSES } from '../../../../../utils/constants';
 
 const renderBlock = (header, items) => {
   return (

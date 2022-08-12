@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { LONG_DAY_DATE_FORMAT } from '../../../../constants';
+import { LONG_DAY_DATE_FORMAT } from '../../../../utils/constants';
 import { ApplicationContext } from '../../../../context/ApplicationContext';
 
 import { MovementUtil } from '../../../../utils';

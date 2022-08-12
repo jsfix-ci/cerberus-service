@@ -2,10 +2,10 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { LONG_DATE_FORMAT, RORO_TOURIST, INDIVIDUAL_ICON, GROUP_ICON } from '../../../constants';
-import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
-import { modifyRoRoPassengersTaskList, hasVehicle, hasTrailer, hasDriver, filterKnownPassengers } from '../../../utils/roroDataUtil';
-import { formatMovementModeIconText, formatVoyageText } from '../../../utils/stringConversion';
+import { LONG_DATE_FORMAT, RORO_TOURIST, INDIVIDUAL_ICON, GROUP_ICON } from '../../../utils/constants';
+import { getMovementModeIcon } from '../../../utils/Movement/movementUtil';
+import { modifyRoRoPassengersTaskList, hasVehicle, hasTrailer, hasDriver, filterKnownPassengers } from '../../../utils/RoRoData/roroDataUtil';
+import { formatMovementModeIconText, formatVoyageText } from '../../../utils/String/stringUtil';
 
 import '../__assets__/TaskDetailsPage.scss';
 

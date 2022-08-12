@@ -34,7 +34,7 @@ describe('Airpax task list page', () => {
         .should('deep.equal', airpaxModes);
       cy.get('.roro-task-link')
         .should('have.attr', 'href').and('include', 'task').then((href) => {
-          cy.intercept('POST', 'camunda/v1/targeting-tasks/pages').as('roroTaskList');
+          cy.intercept('POST', 'camunda/roro/targeting-tasks/pages').as('roroTaskList');
           cy.visit(href);
           cy.wait('@roroTaskList').then(({ response }) => {
             expect(response.statusCode).to.equal(200);

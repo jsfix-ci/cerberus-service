@@ -9,20 +9,22 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
-import useAxiosInstance from '../../../utils/axiosInstance';
-import { useKeycloak } from '../../../utils/keycloak';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { useKeycloak } from '../../../context/keycloak';
 
 // Config
-import config from '../../../config';
-import { formatTaskStatusToCamelCase, formatTaskStatusToSnakeCase } from '../../../utils/formatTaskStatus';
+import config from '../../../utils/config';
+import { StringUtil } from '../../../utils';
 
 // Components/Pages
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import Pagination from '../../../components/Pagination';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
+import Pagination from '../../../components/Pagination/Pagination';
 import TaskListCard from './TaskListCard';
-import { STATUS_CODES, PNR_USER_SESSION_ID, TASK_STATUS_MAPPING } from '../../../constants';
+import { STATUS_CODES, PNR_USER_SESSION_ID, TASK_STATUS_MAPPING } from '../../../utils/constants';
 
 import { PnrAccessContext } from '../../../context/PnrAccessContext';
+
+import AxiosRequests from '../../../api/axiosRequests';
 
 const TasksTab = ({
   taskStatus,
@@ -62,7 +64,7 @@ const TasksTab = ({
   const getTaskList = async () => {
     setLoading(true);
     let response;
-    const tab = formatTaskStatusToSnakeCase(taskStatus);
+    const tab = StringUtil.format.snakeCase(taskStatus);
     const sortParams = [
       {
         field: 'WINDOW_OF_OPPORTUNITY',
@@ -164,7 +166,7 @@ const TasksTab = ({
           <TaskListCard
             key={targetTask.id}
             targetTask={targetTask}
-            taskStatus={formatTaskStatusToCamelCase(targetTask.status)}
+            taskStatus={StringUtil.format.camelCase(targetTask.status)}
             currentUser={currentUser}
           />
         );

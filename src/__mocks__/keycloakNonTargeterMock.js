@@ -1,4 +1,4 @@
-jest.mock('../../src/utils/keycloak', () => ({
+jest.mock('../../src/context/keycloak', () => ({
   KeycloakProvider: ({ children }) => children,
   useKeycloak: () => ({
     token: 'token',

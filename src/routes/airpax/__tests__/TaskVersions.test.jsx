@@ -7,11 +7,11 @@ import TaskVersions from '../TaskDetails/TaskVersions';
 import { ApplicationContext } from '../../../context/ApplicationContext';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 
-import { LONDON_TIMEZONE } from '../../../constants';
+import { LONDON_TIMEZONE } from '../../../utils/constants';
 import taskDetailsData from '../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
 import refDataAirlineCodes from '../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
-import config from '../../../config';
+import config from '../../../utils/config';
 
 describe('TaskVersions', () => {
   const mockAxios = new MockAdapter(axios);

@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import config from '../../src/config';
+import config from '../../src/utils/config';
 
-import DatetimeUtil, { toRelativeTime } from '../../src/utils/datetimeUtil';
-import { BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../../src/constants';
+import DatetimeUtil, { toRelativeTime } from '../../src/utils/Datetime/datetimeUtil';
+import { BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../../src/utils/constants';
 
 const duration = require('dayjs/plugin/duration');
 
@@ -40,7 +40,7 @@ Cypress.Commands.add('navigation', (option) => {
 });
 
 Cypress.Commands.add('waitForTaskManagementPageToLoad', () => {
-  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
+  cy.intercept('POST', '/camunda/roro/targeting-tasks/pages').as('tasks');
 
   cy.wait('@tasks').then(({ response }) => {
     expect(response.statusCode).to.equal(200);
@@ -968,7 +968,7 @@ function getTaskSummary(businessKey) {
 }
 
 Cypress.Commands.add('verifyTaskListInfo', (businessKey, mode) => {
-  cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
+  cy.intercept('POST', '/camunda/roro/targeting-tasks/pages').as('pages');
   const nextPage = 'a[data-test="next"]';
   cy.visit('/tasks');
   cy.wait('@pages').then(({ response }) => {
@@ -1458,7 +1458,7 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
       },
     ];
   }
-  const baseUrl = '/camunda/v1/targeting-tasks/status-counts';
+  const baseUrl = '/camunda/roro/targeting-tasks/status-counts';
   cy.request({
     method: 'POST',
     url: baseUrl,
@@ -1528,7 +1528,7 @@ Cypress.Commands.add('getAirPaxTaskCount', (modeName, selector, statusTab) => {
 });
 
 Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
-  cy.intercept('POST', '/camunda/v1/targeting-tasks/status-counts').as('counts');
+  cy.intercept('POST', '/camunda/roro/targeting-tasks/status-counts').as('counts');
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
       cy.get(`.govuk-checkboxes [value=${option}]`)

@@ -6,9 +6,9 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { AIRPAX_FILTERS_KEY, TASK_STATUS_NEW } from '../../../constants';
+import { AIRPAX_FILTERS_KEY, TASK_STATUS_NEW } from '../../../utils/constants';
 
-import { getLocalStoredItemByKeyValue } from '../../../utils/roroDataUtil';
+import { getLocalStoredItemByKeyValue } from '../../../utils/RoRoData/roroDataUtil';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);

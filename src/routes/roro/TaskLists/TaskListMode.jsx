@@ -3,13 +3,13 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
 import * as pluralise from 'pluralise';
-import * as constants from '../../../constants';
+import * as constants from '../../../utils/constants';
 // Utils
-import { calculateTimeDifference } from '../../../utils/datetimeUtil';
-import formatGender from '../../../utils/genderFormatter';
-import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/roroDataUtil';
+import { calculateTimeDifference } from '../../../utils/Datetime/datetimeUtil';
+import { formatGender } from '../../../utils/Person/personUtil';
+import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/RoRoData/roroDataUtil';
 import EnrichmentCount from './EnrichmentCount';
-import { formatVoyageText } from '../../../utils/stringConversion';
+import { formatVoyageText } from '../../../utils/String/stringUtil';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {

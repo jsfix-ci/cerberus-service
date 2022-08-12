@@ -14,7 +14,7 @@ import { TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
-  PNR_USER_SESSION_ID } from '../../../constants';
+  PNR_USER_SESSION_ID } from '../../../utils/constants';
 
 // Fixture
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';

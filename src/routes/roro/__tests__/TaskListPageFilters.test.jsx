@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW } from '../../../constants';
+import { TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW } from '../../../utils/constants';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);

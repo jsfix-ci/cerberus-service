@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import { RORO_ACCOMPANIED_FREIGHT } from '../../../../constants';
+import { RORO_ACCOMPANIED_FREIGHT } from '../../../../utils/constants';
 import {
   renderBookingSection,
   renderVehicleSection,

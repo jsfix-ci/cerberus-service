@@ -1,6 +1,6 @@
 import React from 'react';
 import { VisuallyHidden } from '@ukhomeoffice/cop-react-components';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils/Number/numberUtil';
 
 const EnrichmentCount = ({ enrichmentCount }) => {
   return (

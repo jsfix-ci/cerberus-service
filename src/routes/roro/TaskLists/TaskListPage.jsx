@@ -1,7 +1,7 @@
 // Third party imports
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useIsMounted } from '../../../utils/hooks';
+import { useIsMounted } from '../../../utils/Hooks/hooks';
 
 // Config
 import {
@@ -15,19 +15,19 @@ import {
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   RORO_TASK_STATUS_KEY,
-} from '../../../constants';
-import config from '../../../config';
+} from '../../../utils/constants';
+import config from '../../../utils/config';
 
 // Utils
-import useAxiosInstance from '../../../utils/axiosInstance';
-import { useKeycloak } from '../../../utils/keycloak';
-import { toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { useKeycloak } from '../../../context/keycloak';
+import { toRoRoSelectorsValue } from '../../../utils/RoRoData/roroDataUtil';
 
 // Components/Pages
 import TasksTab from './TasksTab';
-import ErrorSummary from '../../../govuk/ErrorSummary';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import Tabs from '../../../components/Tabs';
+import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
+import Tabs from '../../../components/Tabs/Tabs';
 import Filter from './Filter';
 
 // Context

@@ -1,4 +1,4 @@
-apiVersion: cert-manager.io/v1
+apiVersion: cert-manager.io/roro
 kind: Certificate
 metadata:
   name: {{.CERBERUS_UI_SERVICE_NAME}}-pod-cmio

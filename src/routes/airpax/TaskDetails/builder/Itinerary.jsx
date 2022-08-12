@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LONG_DAY_DATE_FORMAT, LONG_DATE_FORMAT, ARRIVAL_TEXT } from '../../../../constants';
+import { LONG_DAY_DATE_FORMAT, LONG_DATE_FORMAT, ARRIVAL_TEXT } from '../../../../utils/constants';
 import { MovementUtil } from '../../../../utils';
 
 const Itinerary = ({ version }) => {

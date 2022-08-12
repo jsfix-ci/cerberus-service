@@ -4,43 +4,42 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // Config
-import config from '../../../config';
+import config from '../../../utils/config';
 import { TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   MOVEMENT_VARIANT,
   FORM_MESSAGES }
-from '../../../constants';
+from '../../../utils/constants';
 
 import { ApplicationContext } from '../../../context/ApplicationContext';
 
 // Utils
-import useAxiosInstance from '../../../utils/axiosInstance';
-import { useKeycloak } from '../../../utils/keycloak';
-import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/findAndUpdateTaskVersionDifferences';
-import { formatTaskStatusToCamelCase } from '../../../utils/formatTaskStatus';
-import { Renderers } from '../../../utils/Form';
-import { escapeJSON } from '../../../utils/stringConversion';
-import { TargetInformationUtil } from '../../../utils';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { useKeycloak } from '../../../context/keycloak';
+import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/TaskVersion/taskVersionUtil';
+import { Renderers } from '../../../utils/Form/ReactForm';
+import { escapeString } from '../../../utils/String/stringUtil';
+import { StringUtil, TargetInformationUtil } from '../../../utils';
 
 // Components/Pages
-import ActivityLog from '../../../components/ActivityLog';
-import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
-import ErrorSummary from '../../../govuk/ErrorSummary';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import ActivityLog from '../../../components/ActivityLog/ActivityLog';
+import ClaimUnclaimTask from '../../../components/Buttons/ClaimUnclaimTask';
+import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 import TaskVersions from './TaskVersions';
-import TaskNotes from '../../../components/TaskNotes';
-import RenderForm from '../../../components/RenderForm';
+import TaskNotes from '../../../components/TaskNotes/TaskNotes';
+import RenderForm from '../../../components/RenderForm/RenderForm';
 import TaskOutcomeMessage from './TaskOutcomeMessage';
 
 // Styling
 import '../__assets__/TaskDetailsPage.scss';
 
 // JSON
-import airpaxTis from '../../../cop-forms/airpaxTisCerberus';
-import dismissTask from '../../../cop-forms/dismissTaskCerberus';
-import completeTask from '../../../cop-forms/completeTaskCerberus';
+import airpaxTis from '../../../forms/airpaxTisCerberus';
+import dismissTask from '../../../forms/dismissTaskCerberus';
+import completeTask from '../../../forms/completeTaskCerberus';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -91,7 +90,7 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     if (taskData && (!assignee || !formattedTaskStatus)) {
       setAssignee(taskData.assignee);
-      setFormattedTaskStatus(formatTaskStatusToCamelCase(taskData.status));
+      setFormattedTaskStatus(StringUtil.format.camelCase(taskData.status));
       setLoading(false);
     }
   }, [taskData, setAssignee, setLoading]);
@@ -240,7 +239,7 @@ const TaskDetailsPage = () => {
                 await apiClient.post(`/targeting-tasks/${businessKey}/completions`, {
                   reason: data.reasonForCompletion,
                   otherReasonDetail: data.otherReasonForCompletion,
-                  note: escapeJSON(data.addANote),
+                  note: escapeString(data.addANote),
                   userId: data.form.submittedBy,
                 });
                 setSubmitted(true);
@@ -270,7 +269,7 @@ const TaskDetailsPage = () => {
                   await apiClient.post(`/targeting-tasks/${businessKey}/dismissals`, {
                     reason: data.reasonForDismissing,
                     otherReasonDetail: data.otherReasonToDismiss,
-                    note: escapeJSON(data.addANote),
+                    note: escapeString(data.addANote),
                     userId: data.form.submittedBy,
                   });
                   setSubmitted(true);

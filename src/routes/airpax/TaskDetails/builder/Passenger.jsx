@@ -1,7 +1,7 @@
 import React from 'react';
 import renderBlock from './helper/common';
-import MovementUtil from '../../../../utils/movementUtil';
-import PersonUtil from '../../../../utils/personUtil';
+import MovementUtil from '../../../../utils/Movement/movementUtil';
+import PersonUtil from '../../../../utils/Person/personUtil';
 
 const Passenger = ({ version }) => {
   const person = PersonUtil.get(version);

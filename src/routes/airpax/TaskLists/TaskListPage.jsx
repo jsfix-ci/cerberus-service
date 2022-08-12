@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { useIsMounted } from '../../../utils/hooks';
+import { useIsMounted } from '../../../utils/Hooks/hooks';
 
 import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
   DEFAULT_MOVEMENT_AIRPAX_MODE,
@@ -14,22 +14,22 @@ import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
   TASK_STATUS_NEW,
   TASK_STATUS_TARGET_ISSUED,
   AIRPAX_TASK_STATUS_KEY,
-  MOVEMENT_VARIANT } from '../../../constants';
+  MOVEMENT_VARIANT } from '../../../utils/constants';
 
 // Utils
 import { getTaskStatus,
-  getLocalStoredItemByKeyValue } from '../../../utils/roroDataUtil';
-import { useKeycloak } from '../../../utils/keycloak';
-import useAxiosInstance from '../../../utils/axiosInstance';
+  getLocalStoredItemByKeyValue } from '../../../utils/RoRoData/roroDataUtil';
+import { useKeycloak } from '../../../context/keycloak';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
 
 // Config
-import config from '../../../config';
+import config from '../../../utils/config';
 
 // Components/Pages
-import ErrorSummary from '../../../govuk/ErrorSummary';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import Filter from '../../../components/Filter';
-import Tabs from '../../../components/Tabs';
+import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
+import Filter from '../../../components/Filter/Filter';
+import Tabs from '../../../components/Tabs/Tabs';
 import TasksTab from './TasksTab';
 
 // Context

@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 // Constants
-import { LONG_DATE_FORMAT } from '../../../constants';
+import { LONG_DATE_FORMAT } from '../../../utils/constants';
 // Components/govuk
-import Accordion from '../../../govuk/Accordion';
+import Accordion from '../../../components/Accordion/Accordion';
 // Components
 import Document from './builder/Document';
 import Baggage from './builder/Baggage';
@@ -16,12 +16,12 @@ import Itinerary from './builder/Itinerary';
 import CoTraveller from './builder/CoTraveller';
 import SelectorMatches from './builder/SelectorMatches';
 import RuleMatches from './builder/RuleMatches';
-import Tabs from '../../../components/Tabs';
+import Tabs from '../../../components/Tabs/Tabs';
 import TaskSummary from './TaskSummary';
 // Config
-import config from '../../../config';
-import { useKeycloak } from '../../../utils/keycloak';
-import useAxiosInstance from '../../../utils/axiosInstance';
+import config from '../../../utils/config';
+import { useKeycloak } from '../../../context/keycloak';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
 
 const renderVersionDetails = (version, businessKey) => {
   const keycloak = useKeycloak();

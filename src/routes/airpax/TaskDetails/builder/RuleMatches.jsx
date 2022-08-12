@@ -1,7 +1,7 @@
 import React from 'react';
-import Table from '../../../../components/Table';
+import Table from '../../../../components/Table/Table';
 import { RisksUtil } from '../../../../utils';
-import { RULES_FIELD_NAMES, RULES_FIELD_DESCRIPTION } from '../../../../constants';
+import { RULES_FIELD_NAMES, RULES_FIELD_DESCRIPTION } from '../../../../utils/constants';
 
 const renderRulesData = (rules) => {
   return Object.entries(rules).map(([key, rule], index) => {

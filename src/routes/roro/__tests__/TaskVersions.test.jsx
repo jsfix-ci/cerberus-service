@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
 import ReactDOMServer from 'react-dom/server';
-import { RORO_UNACCOMPANIED_FREIGHT } from '../../../constants';
+import { RORO_UNACCOMPANIED_FREIGHT } from '../../../utils/constants';
 
 import { TaskVersions, sortRulesByThreat } from '../TaskDetails/TaskVersions';
 import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,

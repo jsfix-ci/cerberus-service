@@ -1,7 +1,7 @@
 import React from 'react';
 // Utils
-import { getDate } from '../../../../utils/datetimeUtil';
-import { getJourney, getArrivalTime } from '../../../../utils/movementUtil';
+import { getDate } from '../../../../utils/Datetime/datetimeUtil';
+import { getJourney, getArrivalTime } from '../../../../utils/Movement/movementUtil';
 
 import {
   DocumentUtil,

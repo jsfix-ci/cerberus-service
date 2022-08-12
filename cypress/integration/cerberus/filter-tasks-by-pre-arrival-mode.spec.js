@@ -84,7 +84,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should apply filter tasks by pre-arrival modes on In Progress tasks', () => {
     let actualTotalTargets = 0;
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
+    cy.intercept('POST', '/camunda/roro/targeting-tasks/pages').as('pages');
     cy.get('a[href="#inProgress"]').click();
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);
@@ -116,7 +116,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should apply filter tasks by pre-arrival modes on Issued tasks', () => {
     let actualTotalTargets = 0;
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
+    cy.intercept('POST', '/camunda/roro/targeting-tasks/pages').as('pages');
 
     cy.get('a[href="#issued"]').click();
     cy.wait('@pages').then(({ response }) => {
@@ -150,7 +150,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
 
   it('Should apply filter tasks by pre-arrival modes on Completed tasks', () => {
     let actualTotalTargets = 0;
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('pages');
+    cy.intercept('POST', '/camunda/roro/targeting-tasks/pages').as('pages');
     cy.get('a[href="#complete"]').click();
     cy.wait('@pages').then(({ response }) => {
       expect(response.statusCode).to.equal(200);

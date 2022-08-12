@@ -2,15 +2,15 @@ import React from 'react';
 import { BrowserRouter, Link, Redirect, Route } from 'react-router-dom';
 import { initAll } from 'govuk-frontend';
 
-import { useKeycloak } from '../utils/keycloak';
-import Layout from '../components/Layout';
-import PnrAccessRequest from './access/PnrAccessRequest';
+import { useKeycloak } from '../context/keycloak';
+import Layout from '../components/Layout/Layout';
+import PnrAccessRequest from '../access/PnrAccessRequest';
 import AirPaxTaskListPage from './airpax/TaskLists/TaskListPage';
 import AirPaxTaskDetailsPage from './airpax/TaskDetails/TaskDetailsPage';
 import RoRoTaskListPage from './roro/TaskLists/TaskListPage';
 import RoRoTaskDetailsPage from './roro/TaskDetails/TaskDetailsPage';
 import RoRoIssueTargetPage from './roro/IssueTargetPage';
-import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/hooks';
+import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/Hooks/hooks';
 
 const AppRouter = () => {
   const keycloak = useKeycloak();

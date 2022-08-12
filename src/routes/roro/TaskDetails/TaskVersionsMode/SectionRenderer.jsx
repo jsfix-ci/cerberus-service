@@ -8,8 +8,8 @@ import {
   formatKey,
   formatField,
   formatLinkField,
-} from '../../../../utils/formatField';
-import formatGender from '../../../../utils/genderFormatter';
+} from '../../../../utils/FieldFormat/fieldFormatterUtil';
+import { formatGender } from '../../../../utils/Person/personUtil';
 import {
   RORO_UNACCOMPANIED_FREIGHT,
   RORO_ACCOMPANIED_FREIGHT,
@@ -17,14 +17,14 @@ import {
   INDIVIDUAL_ICON,
   RORO_TOURIST,
   SHORT_DATE_ALT,
-} from '../../../../constants';
+} from '../../../../utils/constants';
 import {
   isValid,
   hasZeroCount,
   hasDriver,
   hasTaskVersionPassengers,
   hasCarrierCounts,
-} from '../../../../utils/roroDataUtil';
+} from '../../../../utils/RoRoData/roroDataUtil';
 
 import EnrichmentCount from './EnrichmentCount';
 

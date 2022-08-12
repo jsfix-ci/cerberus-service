@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../constants';
+import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../utils/constants';
 
 // Utils
 import { BaggageUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../../../utils';
 
 // Component
-import ClaimUnclaimTask from '../../../components/ClaimUnclaimTask';
+import ClaimUnclaimTask from '../../../components/Buttons/ClaimUnclaimTask';
 
 const renderModeSection = (targetTask) => {
   return (

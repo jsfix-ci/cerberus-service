@@ -20,22 +20,22 @@ import {
   TASK_STATUS_COMPLETED,
   TASK_STATUS_IN_PROGRESS,
   TASK_STATUS_NEW,
-} from '../../../constants';
-import config from '../../../config';
+} from '../../../utils/constants';
+import config from '../../../utils/config';
 
 // Utils
-import useAxiosInstance from '../../../utils/axiosInstance';
-import { useKeycloak } from '../../../utils/keycloak';
-import { useIsMounted } from '../../../utils/hooks';
-import { calculateTaskListTotalRiskScore } from '../../../utils/rickScoreCalculator';
-import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
-import { modifyRoRoPassengersTaskList, toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { useKeycloak } from '../../../context/keycloak';
+import { useIsMounted } from '../../../utils/Hooks/hooks';
+import { calculateTaskListTotalRiskScore } from '../../../utils/Risks/risksUtil';
+import { getMovementModeIcon } from '../../../utils/Movement/movementUtil';
+import { modifyRoRoPassengersTaskList, toRoRoSelectorsValue } from '../../../utils/RoRoData/roroDataUtil';
 
 // Components/Pages
-import ClaimButton from '../../../components/ClaimTaskButton';
-import Pagination from '../../../components/Pagination';
+import ClaimButton from '../../../components/Buttons/ClaimTaskButton';
+import Pagination from '../../../components/Pagination/Pagination';
 import TaskListMode from './TaskListMode';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 
 const TasksTab = ({
   taskStatus,

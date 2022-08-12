@@ -4,7 +4,7 @@ import { screen, render } from '@testing-library/react';
 import TaskSummary from '../TaskDetails/TaskSummary';
 // import { testInputDataFieldsEmpty } from '../../utils/__fixtures__/taskSummaryData.fixture';
 import taskSummaryData from '../__fixtures__/taskSummaryData.fixture.json';
-import { RORO_ACCOMPANIED_FREIGHT } from '../../../constants';
+import { RORO_ACCOMPANIED_FREIGHT } from '../../../utils/constants';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({

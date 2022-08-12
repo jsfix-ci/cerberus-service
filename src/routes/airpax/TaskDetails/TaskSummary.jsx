@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MovementUtil } from '../../../utils';
 
-import { INDIVIDUAL_ICON } from '../../../constants';
+import { INDIVIDUAL_ICON } from '../../../utils/constants';
 import { ApplicationContext } from '../../../context/ApplicationContext';
 
 const TaskSummary = ({ version }) => {
