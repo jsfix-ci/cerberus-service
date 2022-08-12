@@ -1,6 +1,5 @@
 const { merge } = require('mochawesome-merge');
 const marge = require('mochawesome-report-generator');
-const rm = require('rimraf');
 const ls = require('ls');
 
 const reportDir = 'cypress/report-json';
