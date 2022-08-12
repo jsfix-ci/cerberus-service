@@ -7,7 +7,8 @@ import * as constants from '../../../utils/constants';
 // Utils
 import { calculateTimeDifference } from '../../../utils/Datetime/datetimeUtil';
 import { formatGender } from '../../../utils/Person/personUtil';
-import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/RoRoData/roroDataUtil';
+import { filterKnownPassengers } from '../../../utils/RoRoData/roroDataUtil';
+import { hasVehicle, hasVehicleMake, hasVehicleModel, hasTrailer } from '../../../utils/Movement/movementUtil';
 import EnrichmentCount from './EnrichmentCount';
 import { formatVoyageText } from '../../../utils/String/stringUtil';
 
@@ -82,7 +83,7 @@ const renderRoroModeSection = (roroData, movementModeIcon) => {
         <i className={`icon-position--left ${movementModeIcon}`} />
         <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{'\xa0'}</p>
         <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
-          {hasTrailer(roroData.vehicle?.trailer?.regNumber) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
+          {hasTrailer(roroData?.vehicle) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
         </p>
       </div>
     );

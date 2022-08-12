@@ -1,26 +1,6 @@
 import lookup from 'country-code-lookup';
-import { DEFAULT_APPLIED_RORO_FILTER_STATE, TASK_STATUS_NEW } from '../constants';
-
-const isNotNumber = (number) => {
-  if (!number && number !== 0) {
-    return true;
-  }
-  return isNaN(number);
-};
-
-const hasCarrierCounts = (suppliedPassengerCounts) => {
-  const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
-  let hayStack = [];
-  suppliedPassengerCounts.forEach((countObj) => {
-    if ((countObj.propName === 'oapCount' && countObj.content !== null)
-    || (countObj.propName === 'adultCount' && countObj.content !== null)
-    || (countObj.propName === 'childCount' && countObj.content !== null)
-    || (countObj.propName === 'infantCount' && countObj.content !== null)) {
-      hayStack.push(countObj.propName);
-    }
-  });
-  return expected.every((needle) => hayStack.includes(needle));
-};
+import { DEFAULT_APPLIED_RORO_FILTER_STATE } from '../constants';
+import { getNamedPassenger, isTaskDetailsPassenger, hasCheckinDate, hasDepartureTime } from '../Movement/movementUtil';
 
 const getTaskDetailsTotalOccupants = (passengersMetadata) => {
   if (passengersMetadata) {
@@ -30,58 +10,6 @@ const getTaskDetailsTotalOccupants = (passengersMetadata) => {
   return 0;
 };
 
-const hasZeroCount = (content) => {
-  return content === '0';
-};
-
-const isValid = (obj) => {
-  return obj !== null && obj !== undefined && obj !== '';
-};
-
-const hasVehicle = (vehicleRegistration) => {
-  return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
-};
-
-const hasVehicleMake = (vehicleMake) => {
-  return vehicleMake !== null && vehicleMake !== undefined && vehicleMake !== '';
-};
-
-const hasVehicleModel = (vehicleModel) => {
-  return vehicleModel !== null && vehicleModel !== undefined && vehicleModel !== '';
-};
-
-const hasTrailer = (trailerRegistration) => {
-  return trailerRegistration !== null && trailerRegistration !== undefined && trailerRegistration !== '';
-};
-
-const hasDriver = (driverName) => {
-  return driverName !== null && driverName !== undefined && driverName !== '';
-};
-
-const hasCheckinDate = (checkinDate) => {
-  return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
-};
-
-const hasEta = (eta) => {
-  return eta !== null && eta !== undefined && eta !== '';
-};
-
-const hasDepartureTime = (departureTime) => {
-  return departureTime !== null && departureTime !== undefined && departureTime !== '';
-};
-
-const getNamedPassenger = (passenger) => {
-  if (passenger?.contents) {
-    let hasName = false;
-    passenger.contents.map(({ propName, content }) => {
-      if (propName === 'name') {
-        hasName = !!content;
-      }
-    });
-    return hasName && passenger;
-  }
-};
-
 const filterKnownPassengers = (passengers) => {
   return passengers.filter((passenger) => {
     if (passenger?.name) {
@@ -89,38 +17,6 @@ const filterKnownPassengers = (passengers) => {
     }
     return getNamedPassenger(passenger);
   });
-};
-
-const isSinglePassenger = (passengers) => {
-  const filteredPassengers = passengers.filter((passenger) => {
-    if (passenger?.name) {
-      return passenger;
-    }
-    return getNamedPassenger(passenger);
-  });
-  return filteredPassengers && filteredPassengers?.length === 1;
-};
-
-// Checks for presence of at least a valid passenger
-const hasTaskVersionPassengers = (passengers) => {
-  for (const passengerChildSets of passengers.childSets) {
-    const passengerName = passengerChildSets.contents.find(({ propName }) => propName === 'name').content;
-    if (passengerName) {
-      return true;
-    }
-  }
-  return false;
-};
-
-const isTaskDetailsPassenger = (passenger) => {
-  let validPassenger = false;
-  for (const passengerDataFieldObj of passenger.contents) {
-    if (passengerDataFieldObj.content !== null) {
-      validPassenger = true;
-      break;
-    }
-  }
-  return validPassenger;
 };
 
 // Driver if available, will now be included in the passengers list
@@ -160,9 +56,9 @@ const modifyCountryCodeIfPresent = (bookingField) => {
 };
 
 /*
-* This method would add an additional object for the Driver
-* into the passengers list as BE always nominating a driver
-*  even in scenarios when there is no vehicles
+* This method will add an object for the Driver
+* into the passengers list (BE always nominating a driver
+* even in scenarios when there is no vehicles).
 */
 const modifyRoRoPassengersTaskDetails = (version) => {
   const newPassengersJsonNode = [];
@@ -209,16 +105,6 @@ const extractTaskVersionsBookingField = (version, taskSummaryData) => {
   return bookingField;
 };
 
-const getTaskStatus = (taskStatus) => {
-  return localStorage.getItem(taskStatus) !== null
-    ? localStorage.getItem(taskStatus) : TASK_STATUS_NEW;
-};
-
-const isLocalStoredPresent = (key) => {
-  return localStorage.getItem(key) !== null
-  && localStorage.getItem(key) !== 'null';
-};
-
 const toRoRoSelectorsValue = (value) => {
   if (!value || value === DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors) {
     return null;
@@ -226,55 +112,24 @@ const toRoRoSelectorsValue = (value) => {
   return JSON.parse(value);
 };
 
-/**
- * Gets a particular field out of the stored data.
- * This can also equally return the whole stored data.
- *
- * @param {*} key The key the stored data is associated with.
- * @param {*} value The value to be returned from the stored data.
- *            Omitting this parameter will return just the whole stored data item.
- * @returns A particular item from within the stored data or the whole stored data.
- */
-const getLocalStoredItemByKeyValue = (key, value = undefined) => {
-  if (!isLocalStoredPresent(key)) {
-    return null;
-  }
-  if (!value && value !== 0) {
-    return JSON.parse(localStorage.getItem(key));
-  }
-  return JSON.parse(localStorage.getItem(key))[value];
-};
-
 const RoRoDataUtil = {
-  taskList: {
-
-  },
-  taskDetails: {
-
-  },
+  extractTaskVersionsBookingField,
+  filterKnownPassengers,
+  getTaskDetailsTotalOccupants,
+  modifyRoRoPassengersTaskList,
+  modifyRoRoPassengersTaskDetails,
+  modifyCountryCodeIfPresent,
+  toRoRoSelectorsValue,
 };
 
 export default RoRoDataUtil;
 
-export { modifyRoRoPassengersTaskList,
-  modifyRoRoPassengersTaskDetails,
-  hasTaskVersionPassengers,
-  hasZeroCount,
-  isValid,
-  hasVehicle,
-  hasVehicleMake,
-  hasVehicleModel,
-  hasTrailer,
-  hasDriver,
-  hasEta,
-  hasCheckinDate,
+export {
   extractTaskVersionsBookingField,
-  getTaskDetailsTotalOccupants,
-  hasCarrierCounts,
-  modifyCountryCodeIfPresent,
-  isSinglePassenger,
   filterKnownPassengers,
-  isNotNumber,
-  getTaskStatus,
+  getTaskDetailsTotalOccupants,
+  modifyRoRoPassengersTaskList,
+  modifyRoRoPassengersTaskDetails,
+  modifyCountryCodeIfPresent,
   toRoRoSelectorsValue,
-  getLocalStoredItemByKeyValue };
+};

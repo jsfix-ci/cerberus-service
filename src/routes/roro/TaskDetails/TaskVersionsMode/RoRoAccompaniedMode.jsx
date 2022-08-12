@@ -15,11 +15,11 @@ import {
 } from './SectionRenderer';
 
 import {
-  hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
 } from '../../../../utils/RoRoData/roroDataUtil';
+import { hasTaskVersionPassengers } from '../../../../utils/Movement/movementUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');

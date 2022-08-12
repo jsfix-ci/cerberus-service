@@ -18,7 +18,7 @@ import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
 
 // Utils
 import { getTaskStatus,
-  getLocalStoredItemByKeyValue } from '../../../utils/RoRoData/roroDataUtil';
+  getLocalStoredItemByKeyValue } from '../../../utils/Storage/storageUtil';
 import { useKeycloak } from '../../../context/keycloak';
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
 

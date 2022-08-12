@@ -15,11 +15,11 @@ import {
 } from './SectionRenderer';
 
 import {
-  hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
 } from '../../../../utils/RoRoData/roroDataUtil';
+import { hasTaskVersionPassengers } from '../../../../utils/Movement/movementUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {

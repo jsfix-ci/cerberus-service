@@ -11,48 +11,48 @@ describe('MovementUtil', () => {
 
   let targetTaskMin;
 
-  const intineries = [
+  const itineraries = [
     {
-      'id': 'AC0850',
-      'arrival': {
-        'country': null,
-        'location': 'YYZ',
-        'time': '2018-10-03T13:05:00Z',
+      id: 'AC0850',
+      arrival: {
+        country: null,
+        location: 'YYZ',
+        time: '2018-10-03T13:05:00Z',
       },
-      'departure': {
-        'country': null,
-        'location': 'CDG',
-        'time': '2018-10-03T11:00:00Z',
+      departure: {
+        country: null,
+        location: 'CDG',
+        time: '2018-10-03T11:00:00Z',
       },
-      'duration': 7500000,
+      duration: 7500000,
     },
     {
-      'id': 'BD0998',
-      'arrival': {
-        'country': null,
-        'location': 'YYC',
-        'time': '2018-10-03T18:16:00Z',
+      id: 'BD0998',
+      arrival: {
+        country: null,
+        location: 'YYC',
+        time: '2018-10-03T18:16:00Z',
       },
-      'departure': {
-        'country': null,
-        'location': 'YYZ',
-        'time': '2018-10-03T16:05:00Z',
+      departure: {
+        country: null,
+        location: 'YYZ',
+        time: '2018-10-03T16:05:00Z',
       },
-      'duration': 7860000,
+      duration: 7860000,
     },
     {
-      'id': 'XZ0123',
-      'arrival': {
-        'country': null,
-        'location': 'LHR',
-        'time': '2018-10-03T21:19:20Z',
+      id: 'XZ0123',
+      arrival: {
+        country: null,
+        location: 'LHR',
+        time: '2018-10-03T21:19:20Z',
       },
-      'departure': {
-        'country': null,
-        'location': 'YYC',
-        'time': '2018-10-03T18:32:40Z',
+      departure: {
+        country: null,
+        location: 'YYC',
+        time: '2018-10-03T18:32:40Z',
       },
-      'duration': 10000000,
+      duration: 10000000,
     },
   ];
 
@@ -115,16 +115,16 @@ describe('MovementUtil', () => {
 
   const airlineCodesMin = [
     {
-      'name': 'British Airways',
-      'twolettercode': 'BA',
+      name: 'British Airways',
+      twolettercode: 'BA',
     },
     {
-      'name': 'Air France',
-      'twolettercode': 'AF',
+      name: 'Air France',
+      twolettercode: 'AF',
     },
     {
-      'name': 'Qantas',
-      'twolettercode': 'QF',
+      name: 'Qantas',
+      twolettercode: 'QF',
     },
   ];
 
@@ -574,10 +574,10 @@ describe('MovementUtil', () => {
 
   describe('toItineraryBlock', () => {
     const expected = ['Unknown', '3 hours later', '17 minutes later'];
-    for (let i = 0; i < intineries.length; i += 1) {
+    for (let i = 0; i < itineraries.length; i += 1) {
       it('should calculate time difference between flight legs', () => {
         // As the first leg has nothing prior to it, unknown will be returned however not rendered.
-        render(MovementUtil.itinRelativeTime(i, intineries[i], intineries));
+        render(MovementUtil.itinRelativeTime(i, itineraries[i], itineraries));
         expect(screen.getByText(expected[i])).toBeInTheDocument();
       });
     }

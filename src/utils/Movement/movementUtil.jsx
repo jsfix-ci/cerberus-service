@@ -26,19 +26,113 @@ import {
   UNKNOWN_TIME_DATA,
 } from '../constants';
 
-import { calculateTimeDifference, getFormattedDate, isInPast, toDateTimeList, toRelativeTime } from '../Datetime/datetimeUtil';
+import { calculateTimeDifference,
+  getFormattedDate,
+  isInPast,
+  toDateTimeList,
+  toRelativeTime } from '../Datetime/datetimeUtil';
 import { getTotalNumberOfPersons } from '../Person/personUtil';
-import { isNotNumber, isSinglePassenger } from '../RoRoData/roroDataUtil';
+import { isNotNumber } from '../Number/numberUtil';
 import Common from '../Common/common';
 
-const isVehiclePresent = (vehicle) => {
-  return vehicle?.registrationNumber && vehicle?.registrationNumber !== ''
-    && vehicle?.registrationNumber !== null && vehicle?.registrationNumber !== undefined;
+const hasCarrierCounts = (suppliedPassengerCounts) => {
+  const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
+  let hayStack = [];
+  suppliedPassengerCounts.forEach((countObj) => {
+    if ((countObj.propName === 'oapCount' && countObj.content !== null)
+      || (countObj.propName === 'adultCount' && countObj.content !== null)
+      || (countObj.propName === 'childCount' && countObj.content !== null)
+      || (countObj.propName === 'infantCount' && countObj.content !== null)) {
+      hayStack.push(countObj.propName);
+    }
+  });
+  return expected.every((needle) => hayStack.includes(needle));
+};
+
+const isValid = (obj) => {
+  return obj !== null && obj !== undefined && obj !== '';
+};
+
+const hasVehicle = (vehicleRegistration) => {
+  return vehicleRegistration !== null && vehicleRegistration !== undefined && vehicleRegistration !== '';
+};
+
+const hasVehicleMake = (vehicleMake) => {
+  return vehicleMake !== null && vehicleMake !== undefined && vehicleMake !== '';
+};
+
+const hasVehicleModel = (vehicleModel) => {
+  return vehicleModel !== null && vehicleModel !== undefined && vehicleModel !== '';
 };
 
 const hasTrailer = (vehicle) => {
   return vehicle?.trailer?.regNumber && vehicle?.trailer?.regNumber !== ''
     && vehicle?.trailer?.regNumber !== null && vehicle?.trailer?.regNumber !== undefined;
+};
+
+const hasDriver = (driverName) => {
+  return driverName !== null && driverName !== undefined && driverName !== '';
+};
+
+const hasCheckinDate = (checkinDate) => {
+  return checkinDate !== null && checkinDate !== undefined && checkinDate !== '';
+};
+
+const hasEta = (eta) => {
+  return eta !== null && eta !== undefined && eta !== '';
+};
+
+const hasDepartureTime = (departureTime) => {
+  return departureTime !== null && departureTime !== undefined && departureTime !== '';
+};
+
+const getNamedPassenger = (passenger) => {
+  if (passenger?.contents) {
+    let hasName = false;
+    passenger.contents.map(({ propName, content }) => {
+      if (propName === 'name') {
+        hasName = !!content;
+      }
+    });
+    return hasName && passenger;
+  }
+};
+
+const isSinglePassenger = (passengers) => {
+  const filteredPassengers = passengers.filter((passenger) => {
+    if (passenger?.name) {
+      return passenger;
+    }
+    return getNamedPassenger(passenger);
+  });
+  return filteredPassengers && filteredPassengers?.length === 1;
+};
+
+// Checks for presence of at least a valid passenger
+const hasTaskVersionPassengers = (passengers) => {
+  for (const passengerChildSets of passengers.childSets) {
+    const passengerName = passengerChildSets.contents.find(({ propName }) => propName === 'name').content;
+    if (passengerName) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const isTaskDetailsPassenger = (passenger) => {
+  let validPassenger = false;
+  for (const passengerDataFieldObj of passenger.contents) {
+    if (passengerDataFieldObj.content !== null) {
+      validPassenger = true;
+      break;
+    }
+  }
+  return validPassenger;
+};
+
+const isVehiclePresent = (vehicle) => {
+  return vehicle?.registrationNumber && vehicle?.registrationNumber !== ''
+    && vehicle?.registrationNumber !== null && vehicle?.registrationNumber !== undefined;
 };
 
 const getTouristIcon = (vehicle, passengers) => {
@@ -431,6 +525,20 @@ const MovementUtil = {
   updatedStatus: getUpdatedStatus,
   iataToCity: getCityByIataCode,
   voyageText: toVoyageText,
+  getNamedPassenger,
+  hasCarrierCounts,
+  hasCheckinDate,
+  hasDepartureTime,
+  hasDriver,
+  hasEta,
+  hasTaskVersionPassengers,
+  hasTrailer,
+  hasVehicle,
+  hasVehicleMake,
+  hasVehicleModel,
+  isSinglePassenger,
+  isTaskDetailsPassenger,
+  isValid,
 };
 
 export default MovementUtil;
@@ -443,6 +551,20 @@ export {
   getJourney,
   getDepartureTime,
   getArrivalTime,
+  getNamedPassenger,
+  hasCarrierCounts,
+  hasCheckinDate,
+  hasDepartureTime,
+  hasDriver,
+  hasEta,
+  hasTaskVersionPassengers,
+  hasTrailer,
+  hasVehicle,
+  hasVehicleMake,
+  hasVehicleModel,
+  isSinglePassenger,
+  isTaskDetailsPassenger,
+  isValid,
   toFormattedDepartureDateTime,
   toFormattedArrivalDateTime,
   getDepartureLocation,

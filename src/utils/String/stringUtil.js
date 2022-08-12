@@ -1,6 +1,6 @@
 import { BEFORE_TRAVEL_TEXT, RORO_TOURIST, UNKNOWN_TEXT } from '../constants';
 
-import { hasVehicle, hasTrailer } from '../RoRoData/roroDataUtil';
+import { hasVehicle, hasTrailer } from '../Movement/movementUtil';
 import DatetimeUtil from '../Datetime/datetimeUtil';
 
 const INVALID_VALUES = [
@@ -43,12 +43,12 @@ const formatVoyageText = (dateTime) => {
 const formatMovementModeIconText = (roroData, movementMode) => {
   let output = '';
   if (movementMode === RORO_TOURIST) {
-    output += hasVehicle(roroData.vehicle?.registrationNumber) ? 'Vehicle' : '';
+    output += hasVehicle(roroData?.vehicle?.registrationNumber) ? 'Vehicle' : '';
   } else {
-    output += hasVehicle(roroData.vehicle?.registrationNumber) ? 'Vehicle' : '';
-    output += (hasVehicle(roroData.vehicle?.registrationNumber) && hasTrailer(roroData.vehicle?.trailer?.regNumber))
+    output += hasVehicle(roroData?.vehicle?.registrationNumber) ? 'Vehicle' : '';
+    output += (hasVehicle(roroData?.vehicle?.registrationNumber) && hasTrailer(roroData?.vehicle))
       ? ' with ' : '';
-    output += hasTrailer(roroData?.vehicle?.trailer?.regNumber) ? 'Trailer' : '';
+    output += hasTrailer(roroData?.vehicle) ? 'Trailer' : '';
   }
   return output;
 };

@@ -20,11 +20,11 @@ import {
 } from '../../../../utils/constants';
 import {
   isValid,
-  hasZeroCount,
   hasDriver,
   hasTaskVersionPassengers,
   hasCarrierCounts,
-} from '../../../../utils/RoRoData/roroDataUtil';
+} from '../../../../utils/Movement/movementUtil';
+import { hasZeroCount } from '../../../../utils/Number/numberUtil';
 
 import EnrichmentCount from './EnrichmentCount';
 

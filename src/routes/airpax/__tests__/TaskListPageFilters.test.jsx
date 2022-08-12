@@ -8,7 +8,7 @@ import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
 import { AIRPAX_FILTERS_KEY, TASK_STATUS_NEW } from '../../../utils/constants';
 
-import { getLocalStoredItemByKeyValue } from '../../../utils/RoRoData/roroDataUtil';
+import { getLocalStoredItemByKeyValue } from '../../../utils/Storage/storageUtil';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
