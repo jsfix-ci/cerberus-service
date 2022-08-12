@@ -115,18 +115,18 @@ steps:
     event:
     - push
 
-- name: vulnerability-scan
-  pull: always
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-  environment:
-    DOCKERFILE: Dockerfile
-    IMAGE_NAME: cerberus-ui-service:${DRONE_COMMIT_SHA}
-    LOCAL_IMAGE: true
-    TOLERATE: low
-    WHITELIST_FILE: whitelist
-  when:
-    event:
-    - push
+#- name: vulnerability-scan
+#  pull: always
+#  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
+#  environment:
+#    DOCKERFILE: Dockerfile
+#    IMAGE_NAME: cerberus-ui-service:${DRONE_COMMIT_SHA}
+#    LOCAL_IMAGE: true
+#    TOLERATE: low
+#    WHITELIST_FILE: whitelist
+#  when:
+#    event:
+#    - push
 
 - name: sonarqube_scan
   pull: if-not-exists
