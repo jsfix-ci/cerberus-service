@@ -751,7 +751,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         });
       });
 
-      cy.intercept('POST', '/camunda/roro/targeting-tasks/pages').as('tasks');
+      cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
 
       cy.getTasksAssignedToSpecificUser('boothi.palanisamy@digital.homeoffice.gov.uk').then((tasks) => {
         cy.navigateToTaskDetailsPage(tasks);
@@ -868,7 +868,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
     date.setDate(date.getDate() + 8);
     const businessKey = `AUTOTEST-${dateNowFormatted}-RORO-Accompanied-Freight-selectors-group-reference-version_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
 
-    cy.fixture('/tasks-with-rules-selectors/RoRo-task-selectors-roro-same-group-reference.json').then((task) => {
+    cy.fixture('/tasks-with-rules-selectors/RoRo-task-selectors-v1-same-group-reference.json').then((task) => {
       task.businessKey = businessKey;
       task.variables.rbtPayload.value.data.movementId = businessKey;
       task.variables.rbtPayload.value.data.movement.voyage.voyage.actualArrivalTimestamp = date.getTime();

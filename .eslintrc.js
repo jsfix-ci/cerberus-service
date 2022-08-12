@@ -30,7 +30,7 @@ module.exports = {
     'jest',
     'jsx-a11y',
     'react',
-    'react-Hooks',
+    'react-hooks',
   ],
   rules: {
     'array-callback-return': 'off',

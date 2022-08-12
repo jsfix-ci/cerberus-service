@@ -1,5 +1,5 @@
 ---
-apiVersion: apps/roro
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{.CERBERUS_UI_SERVICE_NAME}}
