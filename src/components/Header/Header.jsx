@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { useKeycloak } from '../../context/keycloak';
+import { useKeycloak } from '../../context/Keycloak';
 import NavigationItem from '../NavigationItem/NavigationItem';
 
 const Header = () => {

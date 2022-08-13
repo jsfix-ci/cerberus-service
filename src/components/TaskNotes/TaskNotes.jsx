@@ -9,7 +9,7 @@ import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import { useFormSubmit } from '../../utils/Form/FormIO/formIOUtil';
 import { hyperlinkify } from '../../utils/Hyperlink/hyperlinkifyUtil';
 import { Renderers } from '../../utils/Form/ReactForm';
-import { useKeycloak } from '../../context/keycloak';
+import { useKeycloak } from '../../context/Keycloak';
 import { escapeString } from '../../utils/String/stringUtil';
 
 // Components / Pages

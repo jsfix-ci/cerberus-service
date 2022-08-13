@@ -10,7 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../../context/keycloak';
+import { useKeycloak } from '../../../context/Keycloak';
 
 // Config
 import config from '../../../utils/config';

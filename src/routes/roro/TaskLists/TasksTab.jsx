@@ -15,7 +15,7 @@ import config from '../../../utils/config';
 
 // Utils
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../../context/keycloak';
+import { useKeycloak } from '../../../context/Keycloak';
 import { useIsMounted } from '../../../utils/Hooks/hooks';
 import { calculateTaskListTotalRiskScore } from '../../../utils/Risks/risksUtil';
 import { getMovementModeIcon } from '../../../utils/Movement/movementUtil';

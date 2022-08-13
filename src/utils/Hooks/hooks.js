@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useKeycloak } from '../../context/keycloak';
+import { useKeycloak } from '../../context/Keycloak';
 
 import { useAxiosInstance } from '../Axios/axiosInstance';
 

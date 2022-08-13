@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../context/keycloak';
+import { useKeycloak } from '../../context/Keycloak';
 import { TASK_STATUS } from '../../utils/constants';
 
 // Config

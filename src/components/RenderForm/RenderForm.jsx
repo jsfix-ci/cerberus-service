@@ -14,7 +14,7 @@ import { FORM_ACTIONS } from '../../utils/constants';
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import FormUtils, { Renderers } from '../../utils/Form/ReactForm';
 import { augmentRequest, interpolate } from '../../utils/Form/FormIO/formIOUtil';
-import { useKeycloak } from '../../context/keycloak';
+import { useKeycloak } from '../../context/Keycloak';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { TargetInformationUtil } from '../../utils';
 

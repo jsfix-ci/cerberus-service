@@ -20,7 +20,7 @@ import Tabs from '../../../components/Tabs/Tabs';
 import TaskSummary from './TaskSummary';
 // Config
 import config from '../../../utils/config';
-import { useKeycloak } from '../../../context/keycloak';
+import { useKeycloak } from '../../../context/Keycloak';
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
 
 const renderVersionDetails = (version, businessKey) => {

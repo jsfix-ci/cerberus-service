@@ -4,7 +4,7 @@ import LinkButton from './LinkButton';
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import config from '../../utils/config';
 import { TASK_STATUS } from '../../utils/constants';
-import { useKeycloak } from '../../context/keycloak';
+import { useKeycloak } from '../../context/Keycloak';
 
 const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, TaskAssignedWarning = () => {}, ...props }) => {
   const history = useHistory();

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Link, Redirect, Route } from 'react-router-dom';
 import { initAll } from 'govuk-frontend';
 
-import { useKeycloak } from '../context/keycloak';
+import { useKeycloak } from '../context/Keycloak';
 import { ViewProvider } from '../context/ViewContext';
 import Layout from '../components/Layout/Layout';
 import PnrAccessRequest from '../access/PnrAccessRequest';

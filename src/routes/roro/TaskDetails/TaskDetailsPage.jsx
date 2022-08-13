@@ -9,7 +9,7 @@ import { FORM_NAMES, TASK_STATUS, MOVEMENT_VARIANT } from '../../../utils/consta
 import config from '../../../utils/config';
 // Utils
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../../context/keycloak';
+import { useKeycloak } from '../../../context/Keycloak';
 import { useFormSubmit } from '../../../utils/Form/FormIO/formIOUtil';
 import { findAndUpdateTaskVersionDifferences } from '../../../utils/TaskVersion/taskVersionUtil';
 // Components/Pages
