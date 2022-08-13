@@ -1,13 +1,9 @@
-import React, { createContext, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PATHS, VIEW } from '../utils/constants';
 
 const ViewContext = createContext({});
 
-/**
- * This context file contains is for holding state data that does not change
- * frequently and can be accessible throughout the app.
- */
 const ViewProvider = ({ children }) => {
   const _view = useRef('');
   const location = useLocation();
@@ -43,6 +39,6 @@ const ViewProvider = ({ children }) => {
   );
 };
 
-export default ViewProvider;
+const useView = () => useContext(ViewContext);
 
-export { ViewContext };
+export { useView, ViewContext, ViewProvider };
