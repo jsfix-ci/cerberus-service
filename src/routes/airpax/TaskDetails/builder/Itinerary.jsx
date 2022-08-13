@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LONG_DAY_DATE_FORMAT, LONG_DATE_FORMAT, ARRIVAL_TEXT } from '../../../../utils/constants';
+import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
 import { MovementUtil } from '../../../../utils';
 
 const Itinerary = ({ version }) => {
@@ -20,12 +20,12 @@ const Itinerary = ({ version }) => {
               {MovementUtil.itinFlightNumber(it)} <span className="dot__light" />&nbsp;
               {MovementUtil.departureLoc(it)} <span className="right-arrow">&#8594;</span>&nbsp;
               {MovementUtil.arrivalLoc(it)} <span className="dot__light" />&nbsp;
-              {MovementUtil.formatDepartureTime(it, LONG_DAY_DATE_FORMAT)}
+              {MovementUtil.formatDepartureTime(it, DATE_FORMATS.LONG_DAY_DATE)}
             </div>
             <div className="font__light">
               {MovementUtil.itinDepartureCountryCode(it)} <span className="right-arrow">&#8594;</span>&nbsp;
               {MovementUtil.itinArrivalCountryCode(it)} <span className="dot__light" />&nbsp;
-              {ARRIVAL_TEXT} {MovementUtil.formatArrivalTime(it, LONG_DATE_FORMAT)}
+              {STRINGS.ARRIVAL_TEXT} {MovementUtil.formatArrivalTime(it, DATE_FORMATS.LONG)}
             </div>
           </div>
         );

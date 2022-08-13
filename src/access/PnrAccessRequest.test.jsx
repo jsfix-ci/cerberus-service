@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '../__mocks__/keycloakMock';
 import PnrAccessRequest from './PnrAccessRequest';
-import { PNR_USER_SESSION_ID } from '../utils/constants';
+import { LOCAL_STORAGE_KEYS } from '../utils/constants';
 import config from '../utils/config';
 
 describe('PnrAccessRequest', () => {
@@ -35,7 +35,7 @@ describe('PnrAccessRequest', () => {
   });
 
   it('should not render the form when localStorage has a stored matching user session', async () => {
-    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: true }));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: true }));
     await waitFor(() => render(
       <PnrAccessRequest>
         <div>This is a test message</div>

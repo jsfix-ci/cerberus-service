@@ -4,7 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 
 // App imports
-import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT } from '../constants';
+import { DATE_FORMATS } from '../constants';
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -17,20 +17,20 @@ const formatTaskData = (taskData) => {
   const arrival = {
     label: 'Arrival due',
     location: taskData?.voyage?.arriveAt || '',
-    date: taskData?.arrivalTime ? dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskData?.voyage?.arriveAt ? `${taskData?.voyage?.arriveAt}` : 'unknown') + (taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
+    date: taskData?.arrivalTime ? dayjs.utc(taskData?.arrivalTime).format(DATE_FORMATS.LONG) : 'unknown',
+    description: (taskData?.voyage?.arriveAt ? `${taskData?.voyage?.arriveAt}` : 'unknown') + (taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).format(DATE_FORMATS.LONG)}` : ', unknown'),
     fromNow: `${taskData?.arrivalTime ? `, ${dayjs.utc(taskData?.arrivalTime).fromNow()}` : 'unknown'}`,
   };
   const departure = {
     label: 'Departure',
     location: taskData?.voyage?.departFrom || '',
-    date: taskData?.departureTime ? dayjs.utc(taskData?.departureTime).format(LONG_DATE_FORMAT) : 'unknown',
-    description: (taskData?.voyage?.departFrom ? `${taskData?.voyage?.departFrom}` : 'unknown') + (taskData?.departureTime ? `, ${dayjs.utc(taskData?.departureTime).format(LONG_DATE_FORMAT)}` : ', unknown'),
+    date: taskData?.departureTime ? dayjs.utc(taskData?.departureTime).format(DATE_FORMATS.LONG) : 'unknown',
+    description: (taskData?.voyage?.departFrom ? `${taskData?.voyage?.departFrom}` : 'unknown') + (taskData?.departureTime ? `, ${dayjs.utc(taskData?.departureTime).format(DATE_FORMATS.LONG)}` : ', unknown'),
   };
   const driver = {
     dataExists: !!taskData?.people?.find(({ role }) => role === 'DRIVER'),
     name: taskData?.people?.find(({ role }) => role === 'DRIVER')?.fullName || '',
-    dateOfBirth: taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth && dayjs(taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth).format(SHORT_DATE_FORMAT),
+    dateOfBirth: taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth && dayjs(taskData?.people?.find(({ role }) => role === 'DRIVER')?.dateOfBirth).format(DATE_FORMATS.SHORT),
   };
   const ferry = {
     label: 'Ferry',

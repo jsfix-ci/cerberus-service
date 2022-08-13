@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 // Constants
-import { LONG_DATE_FORMAT } from '../../../utils/constants';
+import { DATE_FORMATS } from '../../../utils/constants';
 // Components/govuk
 import Accordion from '../../../components/Accordion/Accordion';
 // Components
@@ -114,7 +114,7 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(version.createdAt).format(LONG_DATE_FORMAT)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(version.createdAt).format(DATE_FORMATS.LONG)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">

@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { LONG_DATE_FORMAT, RORO_TOURIST, INDIVIDUAL_ICON, GROUP_ICON } from '../../../utils/constants';
+import { DATE_FORMATS, MOVEMENT_MODES, ICON } from '../../../utils/constants';
 import { getMovementModeIcon, hasVehicle, hasTrailer, hasDriver } from '../../../utils/Movement/movementUtil';
 import { modifyRoRoPassengersTaskList, filterKnownPassengers } from '../../../utils/RoRoData/roroDataUtil';
 import { formatMovementModeIconText, formatVoyageText } from '../../../utils/String/stringUtil';
@@ -10,10 +10,10 @@ import { formatMovementModeIconText, formatVoyageText } from '../../../utils/Str
 import '../__assets__/TaskDetailsPage.scss';
 
 const getCaptionText = (movementModeIcon) => {
-  if (movementModeIcon === INDIVIDUAL_ICON) {
+  if (movementModeIcon === ICON.INDIVIDUAL) {
     return 'Single passenger';
   }
-  if (movementModeIcon === GROUP_ICON) {
+  if (movementModeIcon === ICON.GROUP) {
     return 'Group';
   }
 };
@@ -21,8 +21,8 @@ const getCaptionText = (movementModeIcon) => {
 const getSummaryFirstHalf = (movementMode, roroData) => {
   const actualPassengers = filterKnownPassengers(roroData.passengers);
   const movementModeIcon = getMovementModeIcon(movementMode, roroData.vehicle, actualPassengers);
-  if (movementMode === RORO_TOURIST) {
-    if (movementModeIcon === INDIVIDUAL_ICON || movementModeIcon === GROUP_ICON) {
+  if (movementMode === MOVEMENT_MODES.TOURIST) {
+    if (movementModeIcon === ICON.INDIVIDUAL || movementModeIcon === ICON.GROUP) {
       const captionText = getCaptionText(movementModeIcon);
       return (
         <li>
@@ -77,10 +77,10 @@ const TaskSummary = ({ movementMode, taskSummaryData }) => {
                 <ul>
                   <li><span>{roroData.vessel?.company && `${roroData.vessel?.company} voyage of `}{roroData.vessel.name}</span></li>
                   <li>
-                    <span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(LONG_DATE_FORMAT)}{' '}
+                    <span>{!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(DATE_FORMATS.LONG)}{' '}
                       <span className="dot" />  <span className="font__bold">{roroData.departureLocation && `${roroData.departureLocation} `}</span><span className="right-arrow font__bold">&#8594;</span>
                     </span> <span className="font__bold">{roroData.arrivalLocation && `${roroData.arrivalLocation} `} </span>{'  '}
-                    <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(LONG_DATE_FORMAT)}
+                    <span className="dot" />  {!roroData.eta ? 'unknown' : dayjs.utc(roroData.eta).format(DATE_FORMATS.LONG)}
                   </li>
                   <li><span>{!roroData.eta ? 'unknown' : formatVoyageText(roroData.eta)}</span></li>
                 </ul>

@@ -1,4 +1,4 @@
-import { RORO_TASK_STATUS_KEY, TASK_STATUS_NEW } from '../constants';
+import { LOCAL_STORAGE_KEYS, TASK_STATUS } from '../constants';
 
 import { getTaskStatus, getLocalStoredItemByKeyValue } from './storageUtil';
 
@@ -9,15 +9,15 @@ describe('StorageUtil', () => {
 
   it('should return the set task id', () => {
     const EXPECTED = 'test-task-id';
-    localStorage.setItem(RORO_TASK_STATUS_KEY, EXPECTED);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS, EXPECTED);
 
-    const output = getTaskStatus(RORO_TASK_STATUS_KEY);
+    const output = getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS);
     expect(output).toEqual(EXPECTED);
   });
 
-  it(`should return task status "${TASK_STATUS_NEW}" if none has been set in local storage`, () => {
-    const output = getTaskStatus(RORO_TASK_STATUS_KEY);
-    expect(output).toEqual(TASK_STATUS_NEW);
+  it(`should return task status "${TASK_STATUS.NEW}" if none has been set in local storage`, () => {
+    const output = getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS);
+    expect(output).toEqual(TASK_STATUS.NEW);
   });
 
   it('should return stored data', () => {

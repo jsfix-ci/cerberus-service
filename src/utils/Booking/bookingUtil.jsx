@@ -4,33 +4,31 @@ import Common from '../Common/common';
 import { calculateTimeDifference, getFormattedDate, toDateTimeList } from '../Datetime/datetimeUtil';
 
 import {
-  UNKNOWN_TEXT,
-  SHORT_DATE_FORMAT_ALT,
-  STANDARD_HOUR_MINUTE_FORMAT,
-  STANDARD_CARD_EXPIRY_FORMAT,
+  DATE_FORMATS,
+  STRINGS,
 } from '../constants';
 
 const getAgentLocation = (agent) => {
   if (!agent?.location) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   const splitLoc = agent?.location?.split(',').map((val) => val.trim());
   if (!splitLoc.every((val) => val)) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return [splitLoc[0], Common.iso3Code(splitLoc[1])].join(', ');
 };
 
 const getAgentIata = (agent) => {
   if (!agent?.iata) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return agent.iata;
 };
 
 const getAgentName = (agent) => {
   if (!agent?.name) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return agent.name;
 };
@@ -60,9 +58,9 @@ const getPaymentCard = (payment) => {
 const getCardExpiry = (payment) => {
   const paymentCard = getPaymentCard(payment);
   if (paymentCard?.expiry) {
-    return getFormattedDate(paymentCard.expiry, STANDARD_CARD_EXPIRY_FORMAT);
+    return getFormattedDate(paymentCard.expiry, DATE_FORMATS.CUSTOM_CARD_EXPIRY);
   }
-  return UNKNOWN_TEXT;
+  return STRINGS.UNKNOWN_TEXT;
 };
 
 const getCardLastFourDigits = (payment) => {
@@ -70,12 +68,12 @@ const getCardLastFourDigits = (payment) => {
   if (paymentCard?.number) {
     return paymentCard.number.substr(paymentCard.number.length - 4);
   }
-  return UNKNOWN_TEXT;
+  return STRINGS.UNKNOWN_TEXT;
 };
 
 const getPaymentAmount = (payment) => {
   if (!payment?.amount) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return payment.amount;
 };
@@ -93,14 +91,14 @@ const getPayments = (booking) => {
 
 const getTicketType = (ticket) => {
   if (!ticket?.type) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return ticket.type;
 };
 
 const getTicketNumber = (ticket) => {
   if (!ticket?.number) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return ticket.number;
 };
@@ -118,46 +116,46 @@ const getTicket = (booking) => {
 
 const getBookingType = (booking) => {
   if (!booking?.type) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return booking.type;
 };
 
 const getBookingCountryCode = (booking) => {
   if (!booking?.country) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return Common.iso3Code(booking.country);
 };
 
 const getBookingCountryName = (booking) => {
   const countryCode = getBookingCountryCode(booking);
-  if (countryCode === UNKNOWN_TEXT) {
-    return UNKNOWN_TEXT;
+  if (countryCode === STRINGS.UNKNOWN_TEXT) {
+    return STRINGS.UNKNOWN_TEXT;
   }
   if (lookup.byIso(countryCode) === null) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return lookup.byIso(countryCode).country;
 };
 
 const toBookingDateText = (booking) => {
   if (!booking?.bookedAt) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
-  return getFormattedDate(booking.bookedAt, SHORT_DATE_FORMAT_ALT);
+  return getFormattedDate(booking.bookedAt, DATE_FORMATS.SHORT_ALT);
 };
 
 const getBookingReference = (booking) => {
   if (!booking?.reference) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return booking.reference;
 };
 
 const getCheckInAt = (booking) => {
   if (!booking?.checkInAt) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return booking.checkInAt;
 };
@@ -165,9 +163,9 @@ const getCheckInAt = (booking) => {
 const toCheckInTimeText = (booking) => {
   const checkinPrefix = 'Check-in';
   if (!booking?.checkInAt) {
-    return `${checkinPrefix} ${UNKNOWN_TEXT}`;
+    return `${checkinPrefix} ${STRINGS.UNKNOWN_TEXT}`;
   }
-  return `${checkinPrefix} ${getFormattedDate(booking.checkInAt, STANDARD_HOUR_MINUTE_FORMAT)}`;
+  return `${checkinPrefix} ${getFormattedDate(booking.checkInAt, DATE_FORMATS.CUSTOM_HOUR_MINUTE)}`;
 };
 
 const getBookedAt = (booking) => {

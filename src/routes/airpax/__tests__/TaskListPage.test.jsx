@@ -10,11 +10,7 @@ import { PnrAccessContext } from '../../../context/PnrAccessContext';
 
 import TaskListPage from '../TaskLists/TaskListPage';
 
-import { TASK_STATUS_COMPLETED,
-  TASK_STATUS_IN_PROGRESS,
-  TASK_STATUS_NEW,
-  TASK_STATUS_TARGET_ISSUED,
-  PNR_USER_SESSION_ID } from '../../../utils/constants';
+import { LOCAL_STORAGE_KEYS, TASK_STATUS } from '../../../utils/constants';
 
 // Fixture
 import dataCurrentUser from '../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
@@ -179,7 +175,7 @@ describe('TaskListPage', () => {
   };
 
   it('should render a message related to the tab clicked, on click', async () => {
-    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: true }));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: true }));
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, [])
@@ -250,7 +246,7 @@ describe('TaskListPage', () => {
   });
 
   it('should fetch tasks using default params', async () => {
-    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.NEW.toUpperCase()];
 
     mockAxios
       .onPost('/targeting-tasks/pages', defaultPostPagesParams)
@@ -315,12 +311,12 @@ describe('TaskListPage', () => {
   });
 
   it('should contain the expect post params for new tab', async () => {
-    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.NEW.toUpperCase()];
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS.NEW)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -334,47 +330,47 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_IN_PROGRESS)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS.IN_PROGRESS)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should contain the expect post params for issued tab', async () => {
     tabData.selectedTabIndex = 2;
-    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_TARGET_ISSUED.toUpperCase()];
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.ISSUED.toUpperCase()];
 
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_TARGET_ISSUED)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS.ISSUED)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should contain the expect post params for completed tab', async () => {
     tabData.selectedTabIndex = 3;
-    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_COMPLETED.toUpperCase()];
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.COMPLETE.toUpperCase()];
 
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_COMPLETED)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS.COMPLETE)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
 
   it('should render button to request PNR access when has no access to PNR data across tabs', async () => {
     pnrData.canViewPnrData = false;
-    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
-    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_NEW.toUpperCase()];
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.NEW.toUpperCase()];
 
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(403, dataNoAssignee);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS.NEW)));
 
     expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
     expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();
@@ -400,14 +396,14 @@ describe('TaskListPage', () => {
 
   it('should render button to request PNR access when user has no access to PNR data and api returns an empty tasks array', async () => {
     pnrData.canViewPnrData = false;
-    localStorage.setItem(PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
-    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS_IN_PROGRESS.toUpperCase()];
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: false }));
+    defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.IN_PROGRESS.toUpperCase()];
 
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(403, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS.NEW)));
 
     expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
     expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();

@@ -6,14 +6,10 @@ import { useIsMounted } from '../../../utils/Hooks/hooks';
 import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE,
   DEFAULT_MOVEMENT_AIRPAX_MODE,
   DEFAULT_AIRPAX_SELECTORS,
-  AIRPAX_FILTERS_KEY,
+  LOCAL_STORAGE_KEYS,
   TARGETER_GROUP,
   TAB_STATUS_MAPPING,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_IN_PROGRESS,
-  TASK_STATUS_NEW,
-  TASK_STATUS_TARGET_ISSUED,
-  AIRPAX_TASK_STATUS_KEY,
+  TASK_STATUS,
   MOVEMENT_VARIANT } from '../../../utils/constants';
 
 // Utils
@@ -67,8 +63,8 @@ const TaskListPage = () => {
   };
 
   const getAppliedFilters = () => {
-    const taskStatus = getTaskStatus(AIRPAX_TASK_STATUS_KEY);
-    const storedData = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
+    const taskStatus = getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS);
+    const storedData = getLocalStoredItemByKeyValue(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS);
     if (storedData) {
       const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -117,8 +113,8 @@ const TaskListPage = () => {
   };
 
   // TODO: In api folder
-  const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS_NEW) => {
-    localStorage.setItem(AIRPAX_TASK_STATUS_KEY, taskStatus);
+  const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS, taskStatus);
     try {
       const countsResponse = await apiClient.post(
         '/targeting-tasks/status-counts',
@@ -141,29 +137,29 @@ const TaskListPage = () => {
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
     };
-    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS, JSON.stringify(payload));
     getTaskCount(payload);
     setAppliedFilters(payload);
-    getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
+    getFiltersAndSelectorsCount(getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS));
     setLoading(false);
   };
 
   const handleFilterReset = (e) => {
     e.preventDefault();
-    localStorage.removeItem(AIRPAX_FILTERS_KEY);
-    getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS);
+    getFiltersAndSelectorsCount(getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS));
     setAppliedFilters(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
     getTaskCount(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   };
 
   const applySavedFiltersOnLoad = () => {
-    applyFilters(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY) || DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
-    getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
+    applyFilters(getLocalStoredItemByKeyValue(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS) || DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
+    getFiltersAndSelectorsCount(getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS));
     setLoading(false);
   };
 
   useEffect(() => {
-    localStorage.removeItem(AIRPAX_TASK_STATUS_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -225,7 +221,7 @@ const TaskListPage = () => {
             <div>
               <Filter
                 mode={MOVEMENT_VARIANT.AIRPAX}
-                taskStatus={getTaskStatus(AIRPAX_TASK_STATUS_KEY)}
+                taskStatus={getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS)}
                 onApply={applyFilters}
                 appliedFilters={appliedFilters}
                 filtersAndSelectorsCount={filtersAndSelectorsCount}
@@ -245,13 +241,13 @@ const TaskListPage = () => {
             }}
             items={[
               {
-                id: TASK_STATUS_NEW,
+                id: TASK_STATUS.NEW,
                 label: `New (${taskCountsByStatus?.new || 0})`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">New tasks</h2>
                     <TasksTab
-                      taskStatus={TASK_STATUS_NEW}
+                      taskStatus={TASK_STATUS.NEW}
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.new}
@@ -260,13 +256,13 @@ const TaskListPage = () => {
                 ),
               },
               {
-                id: TASK_STATUS_IN_PROGRESS,
+                id: TASK_STATUS.IN_PROGRESS,
                 label: `In progress (${taskCountsByStatus?.inProgress || 0})`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">In progress tasks</h2>
                     <TasksTab
-                      taskStatus={TASK_STATUS_IN_PROGRESS}
+                      taskStatus={TASK_STATUS.IN_PROGRESS}
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.inProgress}
@@ -275,13 +271,13 @@ const TaskListPage = () => {
                 ),
               },
               {
-                id: TASK_STATUS_TARGET_ISSUED,
+                id: TASK_STATUS.ISSUED,
                 label: `Issued (${taskCountsByStatus?.issued || 0})`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">Target issued tasks</h2>
                     <TasksTab
-                      taskStatus={TASK_STATUS_TARGET_ISSUED}
+                      taskStatus={TASK_STATUS.ISSUED}
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.issued}
@@ -290,13 +286,13 @@ const TaskListPage = () => {
                 ),
               },
               {
-                id: TASK_STATUS_COMPLETED,
+                id: TASK_STATUS.COMPLETE,
                 label: `Complete (${taskCountsByStatus?.complete || 0})`,
                 panel: (
                   <>
                     <h2 className="govuk-heading-l">Completed tasks</h2>
                     <TasksTab
-                      taskStatus={TASK_STATUS_COMPLETED}
+                      taskStatus={TASK_STATUS.COMPLETE}
                       filtersToApply={appliedFilters}
                       setError={setError}
                       targetTaskCount={taskCountsByStatus?.complete}

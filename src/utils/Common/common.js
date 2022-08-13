@@ -1,12 +1,12 @@
 import lookup from 'country-code-lookup';
-import { UNKNOWN_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 
 const convertToIso3Code = (iso2Code) => {
   if (!iso2Code) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   if (!lookup.byIso(iso2Code)) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return lookup.byIso(iso2Code).iso3;
 };

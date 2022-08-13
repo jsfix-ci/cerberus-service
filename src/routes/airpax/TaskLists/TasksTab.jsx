@@ -20,7 +20,7 @@ import { StringUtil } from '../../../utils';
 import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 import Pagination from '../../../components/Pagination/Pagination';
 import TaskListCard from './TaskListCard';
-import { STATUS_CODES, PNR_USER_SESSION_ID, TASK_STATUS_MAPPING } from '../../../utils/constants';
+import { STATUS_CODES, LOCAL_STORAGE_KEYS, TASK_STATUS_MAPPING } from '../../../utils/constants';
 
 import { PnrAccessContext } from '../../../context/PnrAccessContext';
 
@@ -56,7 +56,7 @@ const TasksTab = ({
   const totalPages = Math.ceil(targetTaskCount / itemsPerPage);
 
   const startPnrAccessRequest = () => {
-    localStorage.removeItem(PNR_USER_SESSION_ID);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID);
     window.location.reload(false);
   };
 

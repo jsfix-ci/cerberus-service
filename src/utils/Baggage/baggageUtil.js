@@ -1,10 +1,10 @@
 import * as pluralise from 'pluralise';
-import { UNKNOWN_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 import { formatField } from '../FieldFormat/fieldFormatterUtil';
 
 const getBaggageWeight = (baggage) => {
   if (!baggage?.weight) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   if (baggage.weight.endsWith('kg')) {
     return baggage.weight;
@@ -31,12 +31,12 @@ const getTags = (targetTask) => {
   if (hasTags(targetTask)) {
     return targetTask.tags.join(', ');
   }
-  return UNKNOWN_TEXT;
+  return STRINGS.UNKNOWN_TEXT;
 };
 
 const getCheckedBags = (baggage, taskDetails = false) => {
   if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return pluralise.withCount(
     baggage.numberOfCheckedBags,
@@ -48,14 +48,14 @@ const getCheckedBags = (baggage, taskDetails = false) => {
 
 const getNumberOfCheckedBags = (baggage) => {
   if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return baggage.numberOfCheckedBags;
 };
 
 const toFormattedCheckedBagsCount = (baggage) => {
   if ((!baggage || !baggage?.numberOfCheckedBags) && baggage?.numberOfCheckedBags !== 0) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return pluralise.withCount(
     baggage.numberOfCheckedBags,

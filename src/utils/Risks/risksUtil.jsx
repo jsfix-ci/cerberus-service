@@ -1,6 +1,6 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import { NO_TEXT, YES_TEXT, CURRENTLY_UNAVAILABLE_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 import { capitalizeFirstLetter } from '../String/stringUtil';
 
 const calculateTaskVersionTotalRiskScore = (fieldChildsets) => {
@@ -54,9 +54,11 @@ const getSelectorWarning = (selector) => {
   let warning;
   let warningDetails;
   const warningStatus = selector.warning.status;
-  if (warningStatus?.toLowerCase() === NO_TEXT.toLowerCase()) warning = 'No warnings';
-  if (warningStatus?.toLowerCase() === CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) warning = 'Warnings currently unavailable';
-  if (warningStatus?.toLowerCase() === YES_TEXT.toLowerCase()) {
+  if (warningStatus?.toLowerCase() === STRINGS.NO_TEXT.toLowerCase()) warning = 'No warnings';
+  if (warningStatus?.toLowerCase() === STRINGS.CURRENTLY_UNAVAILABLE_TEXT.toLowerCase()) {
+    warning = 'Warnings currently unavailable';
+  }
+  if (warningStatus?.toLowerCase() === STRINGS.YES_TEXT.toLowerCase()) {
     const warningTypes = selector.warning.types;
     if (warningTypes.length > 0) {
       warning = warningTypes.map((w) => (w === 'O' ? warningDetails?.substring(0, 500) : capitalizeFirstLetter(w.toLowerCase().replace(/_/g, ' ')))).join(', ');

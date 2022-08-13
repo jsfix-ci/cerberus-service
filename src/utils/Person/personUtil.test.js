@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import { UNKNOWN_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 import { PersonUtil } from '../index';
 
 describe('PersonUtil', () => {
@@ -223,19 +223,19 @@ describe('PersonUtil', () => {
   it('should show unknown when person is of no specified gender', () => {
     person.gender = '';
     const output = PersonUtil.gender(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should show unknown when gender is null', () => {
     person.gender = null;
     const output = PersonUtil.gender(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should show unknown when gender is undefined', () => {
     person.gender = undefined;
     const output = PersonUtil.gender(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return Male for M given', () => {
@@ -317,7 +317,7 @@ describe('PersonUtil', () => {
     };
 
     const output = PersonUtil.travelAge(PERSON_NODE, JOURNEY_NODE);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when departure date is not provided', () => {
@@ -327,7 +327,7 @@ describe('PersonUtil', () => {
     const DEPARTURE_DATE = null;
 
     const output = PersonUtil.travelAge(PERSON_NODE, DEPARTURE_DATE);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when departure date & date of birth are not provided', () => {
@@ -341,7 +341,7 @@ describe('PersonUtil', () => {
     };
 
     const output = PersonUtil.travelAge(PERSON_NODE, JOURNEY_NODE);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return a formatted co-travellers block', () => {

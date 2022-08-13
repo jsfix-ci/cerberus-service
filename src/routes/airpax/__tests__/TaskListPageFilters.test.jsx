@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { AIRPAX_FILTERS_KEY, TASK_STATUS_NEW } from '../../../utils/constants';
+import { LOCAL_STORAGE_KEYS, TASK_STATUS } from '../../../utils/constants';
 
 import { getLocalStoredItemByKeyValue } from '../../../utils/Storage/storageUtil';
 
@@ -24,7 +24,7 @@ describe('TaskListFilters', () => {
     mockAxios.reset();
   });
 
-  const setTabAndTaskValues = (value, taskStatus = TASK_STATUS_NEW) => {
+  const setTabAndTaskValues = (value, taskStatus = TASK_STATUS.NEW) => {
     return (
       <TaskSelectedTabContext.Provider value={value}>
         <TaskListPage taskStatus={taskStatus} setError={() => {}} />
@@ -78,8 +78,8 @@ describe('TaskListFilters', () => {
     userEvent.click(screen.getByLabelText('Both (0)'));
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(localStorage.getItem(AIRPAX_FILTERS_KEY)).not.toBeNull();
-    expect(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY)).toMatchObject(EXPECTED_PAYLOAD);
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)).not.toBeNull();
+    expect(getLocalStoredItemByKeyValue(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)).toMatchObject(EXPECTED_PAYLOAD);
   });
 
   it('should clear filters when clear all filters is clicked', async () => {
@@ -96,13 +96,13 @@ describe('TaskListFilters', () => {
 
     await waitFor(() => render(setTabAndTaskValues(tabData)));
 
-    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(STORED_FILTERS));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS, JSON.stringify(STORED_FILTERS));
 
-    expect(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY)).not.toBeNull();
+    expect(getLocalStoredItemByKeyValue(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)).not.toBeNull();
 
     userEvent.click(screen.getByRole('button', { name: 'Clear all filters' }));
 
-    expect(getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY)).toBeNull();
+    expect(getLocalStoredItemByKeyValue(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)).toBeNull();
   });
 
   it('should verify post param on applying filter with rules', async () => {
@@ -140,7 +140,7 @@ describe('TaskListFilters', () => {
       },
     };
 
-    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(STORED_PAYLOAD));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS, JSON.stringify(STORED_PAYLOAD));
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 
@@ -186,7 +186,7 @@ describe('TaskListFilters', () => {
       },
     };
 
-    localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(STORED_PAYLOAD));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS, JSON.stringify(STORED_PAYLOAD));
 
     await waitFor(() => render(setTabAndTaskValues(tabData, 'new')));
 

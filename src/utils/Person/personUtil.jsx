@@ -3,42 +3,45 @@ import lookup from 'country-code-lookup';
 import dayjs from 'dayjs';
 import Common from '../Common/common';
 import { getFormattedDate } from '../Datetime/datetimeUtil';
-import { SHORT_DATE_FORMAT_ALT, UNKNOWN_TEXT } from '../constants';
+import { DATE_FORMATS, GENDERS, STRINGS } from '../constants';
 
 const formatGender = (gender) => {
-  if (gender === 'M') {
-    return 'Male';
+  if (!gender) {
+    return STRINGS.UNKNOWN_TEXT;
   }
-  if (gender === 'F') {
-    return 'Female';
+  if (gender.toString().toUpperCase() === GENDERS.MALE.unit.toUpperCase()) {
+    return GENDERS.MALE.value;
   }
-  return 'Unknown';
+  if (gender.toString().toUpperCase() === GENDERS.FEMALE.unit.toUpperCase()) {
+    return GENDERS.FEMALE.value;
+  }
+  return STRINGS.UNKNOWN_TEXT;
 };
 
 const getNationality = (person) => {
   if (!person?.nationality) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return Common.iso3Code(person.nationality);
 };
 
 const getCountryName = (person) => {
   if (!person?.nationality) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return lookup.byIso(person.nationality).country;
 };
 
-const getDateOfBirth = (person, format = SHORT_DATE_FORMAT_ALT) => {
+const getDateOfBirth = (person, format = DATE_FORMATS.SHORT_ALT) => {
   if (!person?.dateOfBirth) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return getFormattedDate(person.dateOfBirth, format);
 };
 
 const getAge = (person) => {
   if (!person?.dateOfBirth) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return dayjs.utc().diff(dayjs(person.dateOfBirth), 'year');
 };
@@ -46,11 +49,11 @@ const getAge = (person) => {
 const getTravelAge = (person, departureDate) => {
   const dateFormat = 'YYYY-MM-DD';
   const dateOfBirth = getDateOfBirth(person, dateFormat);
-  if (!dateOfBirth || dateOfBirth === UNKNOWN_TEXT) {
-    return UNKNOWN_TEXT;
+  if (!dateOfBirth || dateOfBirth === STRINGS.UNKNOWN_TEXT) {
+    return STRINGS.UNKNOWN_TEXT;
   }
   if (!departureDate) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   const formattedDob = dayjs(dayjs(dateOfBirth));
   const formattedDepartureDate = dayjs(dayjs(departureDate).format(dateFormat));
@@ -59,28 +62,28 @@ const getTravelAge = (person, departureDate) => {
 
 const getGender = (person) => {
   if (!person) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return formatGender(person.gender);
 };
 
 const getLastName = (person, capitalize = true) => {
   if (!person?.name?.last) {
-    return capitalize ? UNKNOWN_TEXT.toUpperCase() : UNKNOWN_TEXT;
+    return capitalize ? STRINGS.UNKNOWN_TEXT.toUpperCase() : STRINGS.UNKNOWN_TEXT;
   }
   return capitalize ? person.name.last.toUpperCase() : person.name.last;
 };
 
 const getFirstName = (person) => {
   if (!person?.name?.first) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return person.name.first;
 };
 
 const getFrequentFlyerNumber = (person) => {
   if (!person?.frequentFlyerNumber) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return person.frequentFlyerNumber;
 };
@@ -91,7 +94,7 @@ const hasSSRCodes = (person) => {
 
 const getSSRCodes = (person) => {
   if (!hasSSRCodes(person)) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   return person.ssrCodes.join(', ');
 };

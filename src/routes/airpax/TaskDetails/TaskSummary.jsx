@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MovementUtil } from '../../../utils';
 
-import { INDIVIDUAL_ICON } from '../../../utils/constants';
+import { ICON } from '../../../utils/constants';
 import { ApplicationContext } from '../../../context/ApplicationContext';
 
 const TaskSummary = ({ version }) => {
@@ -13,7 +13,7 @@ const TaskSummary = ({ version }) => {
     <section className="task-list--voyage-section overflow-hidden">
       <div className="govuk-grid-row grid-background--greyed">
         <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
-          <i className={`icon-position--left ${INDIVIDUAL_ICON}`} />
+          <i className={`icon-position--left ${ICON.INDIVIDUAL}`} />
           <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
             {MovementUtil.description(version)}
           </p>

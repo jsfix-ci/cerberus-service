@@ -1,9 +1,7 @@
 import React from 'react';
 import {
-  LONG_DATE_FORMAT,
-  DAYJS_FUTURE,
-  DAYJS_FUTURE_AIXPAX_REPLACE,
-  UNKNOWN_TEXT,
+  DATE_FORMATS,
+  STRINGS,
 } from '../../../../utils/constants';
 import {
   BookingUtil,
@@ -17,14 +15,14 @@ import { calculateTimeDifference } from '../../../../utils/Datetime/datetimeUtil
 
 const toBookingTimeDiference = (date, version) => {
   if (!DateTimeUtil.validate(date)) {
-    return UNKNOWN_TEXT;
+    return STRINGS.UNKNOWN_TEXT;
   }
   const journey = MovementUtil.movementJourney(version);
   const departureTime = MovementUtil.departureTime(journey);
   const dateTimeList = DateTimeUtil.toList(date, departureTime);
   return calculateTimeDifference(dateTimeList).replace(
-    DAYJS_FUTURE,
-    DAYJS_FUTURE_AIXPAX_REPLACE,
+    STRINGS.DAYJS_FUTURE,
+    STRINGS.DAYJS_FUTURE_AIRPAX_REPLACE,
   );
 };
 
@@ -42,10 +40,10 @@ const Booking = ({ version }) => {
           PersonUtil.totalPersons(version),
         ])}
         {renderBlock('Booking date', [
-          DateTimeUtil.format(BookingUtil.bookedAt(booking), LONG_DATE_FORMAT),
+          DateTimeUtil.format(BookingUtil.bookedAt(booking), DATE_FORMATS.LONG),
           toBookingTimeDiference(BookingUtil.bookedAt(booking), version),
         ])}
-        {renderBlock('Check-in date', [DateTimeUtil.format(BookingUtil.checkInAt(booking), LONG_DATE_FORMAT),
+        {renderBlock('Check-in date', [DateTimeUtil.format(BookingUtil.checkInAt(booking), DATE_FORMATS.LONG),
           toBookingTimeDiference(BookingUtil.checkInAt(booking), version)])}
         {renderBlock('Booking country', [
           `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(booking)})`,

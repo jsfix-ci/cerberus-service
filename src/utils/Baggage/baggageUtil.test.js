@@ -1,12 +1,12 @@
 import { BaggageUtil } from '../index';
-import { UNKNOWN_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 
 describe('BaggageUtil', () => {
   let targetTaskMin;
   let invalidValues = [
-    [undefined, UNKNOWN_TEXT],
-    [null, UNKNOWN_TEXT],
-    ['', UNKNOWN_TEXT],
+    [undefined, STRINGS.UNKNOWN_TEXT],
+    [null, STRINGS.UNKNOWN_TEXT],
+    ['', STRINGS.UNKNOWN_TEXT],
   ];
 
   let checkedBagsCounts = [

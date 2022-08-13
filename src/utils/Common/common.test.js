@@ -1,4 +1,4 @@
-import { UNKNOWN_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 import Common from './common';
 
 describe('utils.Common', () => {
@@ -8,10 +8,10 @@ describe('utils.Common', () => {
     expect(Common.iso3Code(INPUT)).toEqual(EXPECTED);
   });
 
-  it('should eturn unknown for invalid iso2 codes', () => {
+  it('should return unknown for invalid iso2 codes', () => {
     const INVALID_ISO2_CODES = ['AB', undefined, null, ''];
     INVALID_ISO2_CODES.forEach((code) => {
-      expect(Common.iso3Code(code)).toEqual(UNKNOWN_TEXT);
+      expect(Common.iso3Code(code)).toEqual(STRINGS.UNKNOWN_TEXT);
     });
   });
 });

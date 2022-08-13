@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { INDIVIDUAL_ICON, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED } from '../../../utils/constants';
+import { ICON, TASK_STATUS } from '../../../utils/constants';
 
 // Utils
 import { BaggageUtil, RisksUtil, BookingUtil, DocumentUtil, PersonUtil, MovementUtil } from '../../../utils';
@@ -12,7 +12,7 @@ import ClaimUnclaimTask from '../../../components/Buttons/ClaimUnclaimTask';
 const renderModeSection = (targetTask) => {
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
-      <i className={`icon-position--left ${INDIVIDUAL_ICON}`} />
+      <i className={`icon-position--left ${ICON.INDIVIDUAL}`} />
       <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
         {MovementUtil.description(targetTask)}
       </p>
@@ -72,7 +72,7 @@ const buildTaskTitleSection = (targetTask, currentUser, taskStatus) => {
           </div>
           <div className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3">
             <div className="claim-button-container">
-              {(taskStatus !== TASK_STATUS_TARGET_ISSUED && taskStatus !== TASK_STATUS_COMPLETED)
+              {(taskStatus !== TASK_STATUS.ISSUED && taskStatus !== TASK_STATUS.COMPLETE)
             && (
             <ClaimUnclaimTask
               currentUser={currentUser}

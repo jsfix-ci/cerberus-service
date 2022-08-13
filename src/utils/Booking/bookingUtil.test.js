@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import { BookingUtil } from '../index';
-import { LONDON_TIMEZONE, UNKNOWN_TEXT } from '../constants';
+import { LONDON_TIMEZONE, STRINGS } from '../constants';
 
 import config from '../config';
 
@@ -84,7 +84,7 @@ describe('BookingUtil', () => {
   it('should return the default error text when bookedAt is not present', () => {
     booking.bookedAt = null;
     const output = BookingUtil.toBookingText(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return a formatted date if bookedAt is present', () => {
@@ -114,19 +114,19 @@ describe('BookingUtil', () => {
   it('should return unknown if check-in date is null', () => {
     booking.checkInAt = null;
     const output = BookingUtil.checkInAt(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown if check-in date is undefined', () => {
     booking.checkInAt = undefined;
     const output = BookingUtil.checkInAt(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown if check-in date is an empty string', () => {
     booking.checkInAt = '';
     const output = BookingUtil.checkInAt(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return formatted check-in text if check-in time is present within the booking', () => {
@@ -138,7 +138,7 @@ describe('BookingUtil', () => {
   it('should return default formatted error text if check-in time is not present within the booking', () => {
     booking.checkInAt = null;
     const output = BookingUtil.toCheckInText(booking);
-    expect(output).toEqual(`Check-in ${UNKNOWN_TEXT}`);
+    expect(output).toEqual(`Check-in ${STRINGS.UNKNOWN_TEXT}`);
   });
 
   it('should return a booking reference if present', () => {
@@ -150,7 +150,7 @@ describe('BookingUtil', () => {
   it('should return the default error text if booking reference is not present', () => {
     booking.reference = null;
     const output = BookingUtil.bookingRef(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should calculate the booked prior value for given', () => {
@@ -166,7 +166,7 @@ describe('BookingUtil', () => {
     const departureTime = '2020-08-10T18:15:00Z';
 
     const output = BookingUtil.bookedPrior(bookedAt, departureTime);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should get the expected country code', () => {
@@ -177,13 +177,13 @@ describe('BookingUtil', () => {
   it('should return unknown country code is null', () => {
     booking.country = null;
     const output = BookingUtil.countryCode(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when country code is invalid', () => {
     booking.country = 'UN';
     const output = BookingUtil.countryName(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the expected country name', () => {
@@ -198,7 +198,7 @@ describe('BookingUtil', () => {
   it('should return unknown when the country name is null', () => {
     booking.country = null;
     let output = BookingUtil.countryName(booking);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return booking type when the booking type is present', () => {
@@ -209,7 +209,7 @@ describe('BookingUtil', () => {
 
   it('should return unknown when booking type is not present', () => {
     const type = BookingUtil.bookingType(booking);
-    expect(type).toEqual(UNKNOWN_TEXT);
+    expect(type).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return a booking ticket object if present', () => {
@@ -238,7 +238,7 @@ describe('BookingUtil', () => {
 
   it('should return unknown when ticket number is not present', () => {
     const ticketNumber = BookingUtil.ticketNumber(booking.ticket);
-    expect(ticketNumber).toEqual(UNKNOWN_TEXT);
+    expect(ticketNumber).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the ticket type if present', () => {
@@ -249,7 +249,7 @@ describe('BookingUtil', () => {
 
   it('should return unknown when ticket type is not present', () => {
     const ticketType = BookingUtil.ticketType(booking.ticket);
-    expect(ticketType).toEqual(UNKNOWN_TEXT);
+    expect(ticketType).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the payment object if present', () => {
@@ -289,7 +289,7 @@ describe('BookingUtil', () => {
   it('should return unknown when payment amount is not present', () => {
     booking.payments[0].amount = null;
     const paymentAmount = BookingUtil.paymentAmount(booking.payments[0]);
-    expect(paymentAmount).toEqual(UNKNOWN_TEXT);
+    expect(paymentAmount).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the payment card object', () => {
@@ -330,7 +330,7 @@ describe('BookingUtil', () => {
   it('should return unknown when the payment card\'s last 4 digits is not found', () => {
     booking.payments[0].card.number = null;
     const cardLastFourDigits = BookingUtil.cardLastFourDigits(booking.payments[0]);
-    expect(cardLastFourDigits).toEqual(UNKNOWN_TEXT);
+    expect(cardLastFourDigits).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the payment card expiry date if present', () => {
@@ -341,7 +341,7 @@ describe('BookingUtil', () => {
   it('should return unknown when the payment card expiry date is not present', () => {
     booking.payments[0].card.expiry = null;
     const cardExpiry = BookingUtil.cardExpiry(booking.payments[0]);
-    expect(cardExpiry).toEqual(UNKNOWN_TEXT);
+    expect(cardExpiry).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should get the agent object if present', () => {
@@ -363,7 +363,7 @@ describe('BookingUtil', () => {
   it('should return unknown when the agent iata is not present', () => {
     booking.agent.iata = null;
     const agentIata = BookingUtil.agentIata(booking.agent);
-    expect(agentIata).toEqual(UNKNOWN_TEXT);
+    expect(agentIata).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should get the agent location if present', () => {
@@ -375,7 +375,7 @@ describe('BookingUtil', () => {
   it('should return unknown when the agent location is not present', () => {
     booking.agent.location = null;
     const agentLocation = BookingUtil.agentLocation(booking.agent);
-    expect(agentLocation).toEqual(UNKNOWN_TEXT);
+    expect(agentLocation).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should render the payments block', () => {

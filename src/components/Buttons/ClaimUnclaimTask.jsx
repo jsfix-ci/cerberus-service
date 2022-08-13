@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import { useKeycloak } from '../../context/keycloak';
-import { TASK_STATUS_NEW } from '../../utils/constants';
+import { TASK_STATUS } from '../../utils/constants';
 
 // Config
 import config from '../../utils/config';
@@ -57,7 +57,7 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       setIsAssignmentInProgress(false);
       history.push(
         { pathname: '/airpax/tasks',
-          search: `?tab=${TASK_STATUS_NEW}` },
+          search: `?tab=${TASK_STATUS.NEW}` },
       );
       window.scrollTo(0, 0);
     } catch {

@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAMES, TASK_STATUS_NEW, MOVEMENT_VARIANT } from '../../../utils/constants';
+import { FORM_NAMES, TASK_STATUS, MOVEMENT_VARIANT } from '../../../utils/constants';
 import config from '../../../utils/config';
 // Utils
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
@@ -320,9 +320,9 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{businessKey}</span>
               <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
-              {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
+              {targetStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase() && (
                 <>
-                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+                  {targetStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
                   && <p className="govuk-tag govuk-tag--newTarget">New</p>}
                   <p className="govuk-body">
                     {getAssignee()}
@@ -338,7 +338,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
               && processInstanceData.taskDefinitionKey === 'developTarget' && (
                 <>
                   {showActionButtons && (

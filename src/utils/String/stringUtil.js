@@ -1,10 +1,10 @@
-import { BEFORE_TRAVEL_TEXT, RORO_TOURIST, UNKNOWN_TEXT } from '../constants';
+import { STRINGS, MOVEMENT_MODES } from '../constants';
 
 import { hasVehicle, hasTrailer } from '../Movement/movementUtil';
 import DatetimeUtil from '../Datetime/datetimeUtil';
 
 const INVALID_VALUES = [
-  UNKNOWN_TEXT,
+  STRINGS.UNKNOWN_TEXT,
   null,
   undefined,
   'Invalid Date',
@@ -31,18 +31,18 @@ const capitalizeFirstLetter = (string) => {
 const formatVoyageText = (dateTime) => {
   const time = DatetimeUtil.relativeTime(dateTime);
   const isPastDate = DatetimeUtil.isPast(dateTime);
-  if (isPastDate !== UNKNOWN_TEXT) {
+  if (isPastDate !== STRINGS.UNKNOWN_TEXT) {
     if (isPastDate) {
       return `arrived ${time}`.trim();
     }
-    return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+    return `arriving in ${time.replace(STRINGS.BEFORE_TRAVEL_TEXT, '')}`.trim();
   }
-  return UNKNOWN_TEXT;
+  return STRINGS.UNKNOWN_TEXT;
 };
 
 const formatMovementModeIconText = (roroData, movementMode) => {
   let output = '';
-  if (movementMode === RORO_TOURIST) {
+  if (movementMode === MOVEMENT_MODES.TOURIST) {
     output += hasVehicle(roroData?.vehicle?.registrationNumber) ? 'Vehicle' : '';
   } else {
     output += hasVehicle(roroData?.vehicle?.registrationNumber) ? 'Vehicle' : '';

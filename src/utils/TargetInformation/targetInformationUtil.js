@@ -1,4 +1,4 @@
-import { UTC_DATE_FORMAT } from '../constants';
+import { DATE_FORMATS } from '../constants';
 
 import BaggageUtil from '../Baggage/baggageUtil';
 import DateTimeUtil from '../Datetime/datetimeUtil';
@@ -87,12 +87,12 @@ const toPersonSubmissionNode = (person, meta, index) => {
     return {
       id: person?.id,
       name: person?.name,
-      dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
+      dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', DATE_FORMATS.UTC)),
       gender: person?.sex,
       document: {
         ...person?.document,
         number: person?.document?.documentNumber,
-        expiry: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
+        expiry: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.document?.documentExpiry, 'DD-MM-YYYY', DATE_FORMATS.UTC)),
       },
       nationality: person?.nationality,
       ...(person?.photograph && {
@@ -100,7 +100,7 @@ const toPersonSubmissionNode = (person, meta, index) => {
           uri: (index || index === 0) ? replaceInvalidValues(meta?.documents[index + 1]?.url)
             : replaceInvalidValues(meta?.documents[0]?.url),
           approxPhotoTaken: person?.photographDate
-            && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photographDate, 'DD-MM-YYYY', UTC_DATE_FORMAT)),
+            && replaceInvalidValues(DateTimeUtil.convertToUTC(person?.photographDate, 'DD-MM-YYYY', DATE_FORMATS.UTC)),
         },
       }),
     };
@@ -111,10 +111,10 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
   if (taskData && formData) {
     const journey = MovementUtil.movementJourney(taskData);
     const arrivalDateTime = DateTimeUtil.convertToUTC(
-      `${formData?.movement?.arrival?.date} ${formData?.movement?.arrival?.time}`, 'DD-MM-YYYY HH:mm', UTC_DATE_FORMAT,
+      `${formData?.movement?.arrival?.date} ${formData?.movement?.arrival?.time}`, 'DD-MM-YYYY HH:mm', DATE_FORMATS.UTC,
     );
     const departureDateTime = DateTimeUtil.convertToUTC(
-      `${formData?.movement?.departure?.date} ${formData?.movement?.departure?.time}`, 'DD-MM-YYYY HH:mm', UTC_DATE_FORMAT,
+      `${formData?.movement?.departure?.date} ${formData?.movement?.departure?.time}`, 'DD-MM-YYYY HH:mm', DATE_FORMATS.UTC,
     );
     return {
       movement: {

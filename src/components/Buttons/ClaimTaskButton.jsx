@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import LinkButton from './LinkButton';
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import config from '../../utils/config';
-import { TASK_STATUS_NEW } from '../../utils/constants';
+import { TASK_STATUS } from '../../utils/constants';
 import { useKeycloak } from '../../context/keycloak';
 
 const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, TaskAssignedWarning = () => {}, ...props }) => {
@@ -46,7 +46,7 @@ const ClaimTaskButton = ({ assignee, taskId, setError = () => {}, businessKey, T
       });
       history.push(
         { pathname: '/tasks',
-          search: `?tab=${TASK_STATUS_NEW}` },
+          search: `?tab=${TASK_STATUS.NEW}` },
       );
       window.scrollTo(0, 0);
     } catch (e) {

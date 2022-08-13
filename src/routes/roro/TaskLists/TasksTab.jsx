@@ -10,17 +10,7 @@ import * as pluralise from 'pluralise';
 import qs from 'qs';
 
 // Config
-import {
-  TASK_OUTCOME_INSUFFICIENT_RESOURCES,
-  TASK_OUTCOME_MISSED,
-  TASK_OUTCOME_NEGATIVE,
-  TASK_OUTCOME_NO_SHOW,
-  TASK_OUTCOME_POSITIVE,
-  TASK_OUTCOME_TARGET_WITHDRAWN,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_IN_PROGRESS,
-  TASK_STATUS_NEW,
-} from '../../../utils/constants';
+import { TASK_OUTCOME, TASK_STATUS } from '../../../utils/constants';
 import config from '../../../utils/config';
 
 // Utils
@@ -200,23 +190,23 @@ const TasksTab = ({
     let outcomeText;
     let outcomeClass = 'genericOutcome';
     switch (outcome) {
-      case TASK_OUTCOME_POSITIVE:
+      case TASK_OUTCOME.POSITIVE:
         outcomeText = 'Positive Exam';
         outcomeClass = 'positiveOutcome';
         break;
-      case TASK_OUTCOME_NEGATIVE:
+      case TASK_OUTCOME.NEGATIVE:
         outcomeText = 'Negative Exam';
         break;
-      case TASK_OUTCOME_NO_SHOW:
+      case TASK_OUTCOME.NO_SHOW:
         outcomeText = 'No Show';
         break;
-      case TASK_OUTCOME_MISSED:
+      case TASK_OUTCOME.MISSED:
         outcomeText = 'Missed Target';
         break;
-      case TASK_OUTCOME_INSUFFICIENT_RESOURCES:
+      case TASK_OUTCOME.INSUFFICIENT_RESOURCES:
         outcomeText = 'Insufficient Resources';
         break;
-      case TASK_OUTCOME_TARGET_WITHDRAWN:
+      case TASK_OUTCOME.TARGET_WITHDRAWN:
         outcomeText = 'Target Withdrawn';
         break;
       default:
@@ -232,7 +222,7 @@ const TasksTab = ({
   };
 
   const hasOutcome = (target) => {
-    if (target.status.toUpperCase() === TASK_STATUS_COMPLETED.toUpperCase()) {
+    if (target.status.toUpperCase() === TASK_STATUS.COMPLETE.toUpperCase()) {
       return getOutcome(target.outcome);
     }
   };
@@ -390,8 +380,8 @@ const TasksTab = ({
                       <div className="govuk-!-font-size-19">
                         <div className="claim-button-container">
                           <div>
-                            {(activeTab === TASK_STATUS_NEW
-                              || activeTab === TASK_STATUS_IN_PROGRESS
+                            {(activeTab === TASK_STATUS.NEW
+                              || activeTab === TASK_STATUS.IN_PROGRESS
                               || currentUser === target.assignee) && (
                               <ClaimButton
                                 className="govuk-!-font-weight-bold govuk-button"

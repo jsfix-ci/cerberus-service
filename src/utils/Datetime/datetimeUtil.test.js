@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { DEFAULT_DATE_TIME_STRING_PREFIX, LONG_DATE_FORMAT, OPERATION, UNKNOWN_TEXT, UTC_DATE_FORMAT } from '../constants';
+import { STRINGS, DATE_FORMATS, OPERATION } from '../constants';
 
 import { DateTimeUtil } from '../index';
 
@@ -29,7 +29,8 @@ describe('DatetimeUtil', () => {
   ])(
     'should calculate the relative time difference', (dateTimeCommaString, expected) => {
       const dateTimeArray = dateTimeCommaString.split(',').filter((x) => x.length > 0);
-      const formattedDateString = DateTimeUtil.calculateTimeDifference(dateTimeArray, DEFAULT_DATE_TIME_STRING_PREFIX);
+      const formattedDateString = DateTimeUtil
+        .calculateTimeDifference(dateTimeArray, STRINGS.DATE_TIME_STRING_PREFIX);
       expect(formattedDateString).toEqual(expected);
     },
   );
@@ -87,14 +88,14 @@ describe('DatetimeUtil', () => {
     const date = '1966-05-13T00:00:00Z'; // UTC
     const expected = '13 May 1966 at 00:00';
 
-    const output = DateTimeUtil.format(date, LONG_DATE_FORMAT);
+    const output = DateTimeUtil.format(date, DATE_FORMATS.LONG);
 
     expect(output).toEqual(expected);
   });
 
   it('should return unknown when date is not present', () => {
-    const output = DateTimeUtil.format('', LONG_DATE_FORMAT);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    const output = DateTimeUtil.format('', DATE_FORMATS.LONG);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return an array containing two entries', () => {
@@ -136,7 +137,7 @@ describe('DatetimeUtil', () => {
     const INPUT_DATE = '24-06-2000';
     const INPUT_FORMAT = 'DD-MM-YYYY';
 
-    const output = DateTimeUtil.convertToUTC(INPUT_DATE, INPUT_FORMAT, UTC_DATE_FORMAT);
+    const output = DateTimeUtil.convertToUTC(INPUT_DATE, INPUT_FORMAT, DATE_FORMATS.UTC);
     expect(output).toEqual('2000-06-24T00:00:00Z');
   });
 });

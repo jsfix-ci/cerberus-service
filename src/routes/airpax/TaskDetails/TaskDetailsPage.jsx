@@ -5,10 +5,7 @@ import axios from 'axios';
 
 // Config
 import config from '../../../utils/config';
-import { TASK_STATUS_NEW,
-  TASK_STATUS_TARGET_ISSUED,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_IN_PROGRESS,
+import { TASK_STATUS,
   MOVEMENT_VARIANT,
   FORM_MESSAGES }
 from '../../../utils/constants';
@@ -130,11 +127,11 @@ const TaskDetailsPage = () => {
         <div className="govuk-grid-column-one-half">
           <span className="govuk-caption-xl">{businessKey}</span>
           <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
-          {!isSubmitted && (formattedTaskStatus !== TASK_STATUS_TARGET_ISSUED && formattedTaskStatus !== TASK_STATUS_COMPLETED)
+          {!isSubmitted && (formattedTaskStatus !== TASK_STATUS.ISSUED && formattedTaskStatus !== TASK_STATUS.COMPLETE)
             && (
               <>
-                {formattedTaskStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
-                && <Tag className="govuk-tag govuk-tag--newTarget" text={TASK_STATUS_NEW} />}
+                {formattedTaskStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
+                && <Tag className="govuk-tag govuk-tag--newTarget" text={TASK_STATUS.NEW} />}
                 <p className="govuk-body">
                   <ClaimUnclaimTask
                     assignee={taskData.assignee}
@@ -149,7 +146,7 @@ const TaskDetailsPage = () => {
         </div>
         <div className="govuk-grid-column-one-half task-actions--buttons">
           {!isSubmitted && assignee === currentUser
-          && formattedTaskStatus.toUpperCase() === TASK_STATUS_IN_PROGRESS.toUpperCase() && (
+          && formattedTaskStatus.toUpperCase() === TASK_STATUS.IN_PROGRESS.toUpperCase() && (
           <>
             {showActionButtons && (
             <>

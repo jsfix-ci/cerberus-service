@@ -6,7 +6,7 @@ import { useAxiosInstance } from '../utils/Axios/axiosInstance';
 
 import { PnrAccessContext } from '../context/PnrAccessContext';
 
-import { PNR_USER_SESSION_ID } from '../utils/constants';
+import { LOCAL_STORAGE_KEYS } from '../utils/constants';
 
 // Components / Pages
 import RenderForm from '../components/RenderForm/RenderForm';
@@ -37,7 +37,7 @@ const PnrAccessRequest = ({ children }) => {
   };
 
   const hasStoredUserSession = () => {
-    return !!localStorage.getItem(PNR_USER_SESSION_ID);
+    return !!localStorage.getItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID);
   };
 
   const shouldRequestPnrAccess = () => {
@@ -47,7 +47,7 @@ const PnrAccessRequest = ({ children }) => {
     if (!hasStoredUserSession()) {
       return true;
     }
-    const storedUserSession = JSON.parse(localStorage.getItem(PNR_USER_SESSION_ID));
+    const storedUserSession = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID));
     return keycloak.sessionId !== storedUserSession.sessionId;
   };
 
@@ -81,7 +81,9 @@ const PnrAccessRequest = ({ children }) => {
                             },
                           },
                         );
-                        storeSession(PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested);
+                        storeSession(
+                          LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID, response.data.user.sessionId, response.data.requested,
+                        );
                         setViewPnrData(response.data.requested);
                       } catch (e) {
                         setSubmitted(false);

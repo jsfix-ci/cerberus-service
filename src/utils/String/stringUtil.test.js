@@ -2,11 +2,10 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import {
+  STRINGS,
+  MOVEMENT_MODES,
   OPERATION,
-  RORO_ACCOMPANIED_FREIGHT,
-  RORO_TOURIST,
-  RORO_UNACCOMPANIED_FREIGHT, TASK_STATUS_COMPLETED, TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED,
-  UNKNOWN_TEXT,
+  TASK_STATUS,
 } from '../constants';
 
 import { capitalizeFirstLetter,
@@ -49,26 +48,26 @@ describe('StringUtil', () => {
   });
 
   it('should return expected text when movement is tourist (car)', () => {
-    const output = formatMovementModeIconText(testRoroDataTouristWithVehicle, RORO_TOURIST);
+    const output = formatMovementModeIconText(testRoroDataTouristWithVehicle, MOVEMENT_MODES.TOURIST);
     expect(output).toEqual('Vehicle');
   });
   it('should return expected text when is accompanied', () => {
-    const output = formatMovementModeIconText(testRoroDataAccompaniedFreight, RORO_ACCOMPANIED_FREIGHT);
+    const output = formatMovementModeIconText(testRoroDataAccompaniedFreight, MOVEMENT_MODES.ACCOMPANIED_FREIGHT);
     expect(output).toEqual('Vehicle with Trailer');
   });
 
   it('should return expected text when movement is accompanied without trailer', () => {
-    const output = formatMovementModeIconText(testRoroDataAccompaniedFreightNoTrailer, RORO_ACCOMPANIED_FREIGHT);
+    const output = formatMovementModeIconText(testRoroDataAccompaniedFreightNoTrailer, MOVEMENT_MODES.ACCOMPANIED_FREIGHT);
     expect(output).toEqual('Vehicle');
   });
 
   it('should return expected text when movement is unaccompanied freight', () => {
-    const output = formatMovementModeIconText(testRoroDataUnaccompaniedFreight, RORO_UNACCOMPANIED_FREIGHT);
+    const output = formatMovementModeIconText(testRoroDataUnaccompaniedFreight, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT);
     expect(output).toEqual('Trailer');
   });
 
   it('should return expected text when movement is accompanied freight with no vehicle & trailer', () => {
-    const output = formatMovementModeIconText(testRoroDataAccompaniedFreightNoVehicleNoTrailer, RORO_ACCOMPANIED_FREIGHT);
+    const output = formatMovementModeIconText(testRoroDataAccompaniedFreightNoVehicleNoTrailer, MOVEMENT_MODES.ACCOMPANIED_FREIGHT);
     expect(output).toEqual('');
   });
 
@@ -103,23 +102,23 @@ describe('StringUtil', () => {
 
   it('should return unknown for an invalid datetime range', () => {
     const INVALID_DATESTIMES = [undefined, null, ''];
-    INVALID_DATESTIMES.forEach((datetime) => expect(formatVoyageText(datetime)).toEqual(UNKNOWN_TEXT));
+    INVALID_DATESTIMES.forEach((datetime) => expect(formatVoyageText(datetime)).toEqual(STRINGS.UNKNOWN_TEXT));
   });
 
-  it(`should evaluate to false when input is ${UNKNOWN_TEXT}`, () => {
-    expect(replaceInvalidValues(UNKNOWN_TEXT)).toBeFalsy();
+  it(`should evaluate to false when input is ${STRINGS.UNKNOWN_TEXT}`, () => {
+    expect(replaceInvalidValues(STRINGS.UNKNOWN_TEXT)).toBeFalsy();
   });
 
-  it(`should return given when input is not equal to ${UNKNOWN_TEXT}`, () => {
+  it(`should return given when input is not equal to ${STRINGS.UNKNOWN_TEXT}`, () => {
     const GIVEN = 'alpha';
     expect(replaceInvalidValues(GIVEN)).toEqual(GIVEN);
   });
 
   it.each([
-    ['IN_PROGRESS', TASK_STATUS_IN_PROGRESS],
-    [TASK_STATUS_NEW, TASK_STATUS_NEW],
-    [TASK_STATUS_TARGET_ISSUED, TASK_STATUS_TARGET_ISSUED],
-    [TASK_STATUS_COMPLETED, TASK_STATUS_COMPLETED],
+    ['IN_PROGRESS', TASK_STATUS.IN_PROGRESS],
+    [TASK_STATUS.NEW, TASK_STATUS.NEW],
+    [TASK_STATUS.ISSUED, TASK_STATUS.ISSUED],
+    [TASK_STATUS.COMPLETE, TASK_STATUS.COMPLETE],
     ['', ''],
     [null, null],
     [undefined, undefined],
@@ -128,10 +127,10 @@ describe('StringUtil', () => {
   });
 
   it.each([
-    [TASK_STATUS_IN_PROGRESS, 'IN_PROGRESS'],
-    [TASK_STATUS_NEW, TASK_STATUS_NEW.toUpperCase()],
-    [TASK_STATUS_TARGET_ISSUED, TASK_STATUS_TARGET_ISSUED.toUpperCase()],
-    [TASK_STATUS_COMPLETED, TASK_STATUS_COMPLETED.toUpperCase()],
+    [TASK_STATUS.IN_PROGRESS, 'IN_PROGRESS'],
+    [TASK_STATUS.NEW, TASK_STATUS.NEW.toUpperCase()],
+    [TASK_STATUS.ISSUED, TASK_STATUS.ISSUED.toUpperCase()],
+    [TASK_STATUS.COMPLETE, TASK_STATUS.COMPLETE.toUpperCase()],
     ['', ''],
     [null, null],
     [undefined, undefined],

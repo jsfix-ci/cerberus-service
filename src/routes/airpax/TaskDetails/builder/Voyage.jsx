@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { LONG_DAY_DATE_FORMAT } from '../../../../utils/constants';
+import { DATE_FORMATS } from '../../../../utils/constants';
 import { ApplicationContext } from '../../../../context/ApplicationContext';
 
 import { MovementUtil } from '../../../../utils';
@@ -14,9 +14,9 @@ const Voyage = ({ version }) => {
       <h3 className="govuk-heading-m govuk-!-margin-top-0">Voyage</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Departure from', [MovementUtil.departureLoc(journey), MovementUtil.formatLoc(MovementUtil.departureLoc(journey))])}
-        {renderBlock('Departure time', [MovementUtil.formatDepartureTime(journey, LONG_DAY_DATE_FORMAT)])}
+        {renderBlock('Departure time', [MovementUtil.formatDepartureTime(journey, DATE_FORMATS.LONG_DAY_DATE)])}
         {renderBlock('Arrival at', [MovementUtil.arrivalLoc(journey), MovementUtil.formatLoc(MovementUtil.arrivalLoc(journey))])}
-        {renderBlock('Arrival time', [MovementUtil.formatArrivalTime(journey, LONG_DAY_DATE_FORMAT)])}
+        {renderBlock('Arrival time', [MovementUtil.formatArrivalTime(journey, DATE_FORMATS.LONG_DAY_DATE)])}
         {renderBlock('Scheduled flight time', [MovementUtil.formatFlightTime(journey)])}
         {renderBlock('Flight code', [MovementUtil.flightNumber(flight)])}
         {renderBlock('Operator', [MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes())])}

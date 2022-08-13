@@ -5,7 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
 import config from '../config';
-import { LONG_DATE_FORMAT, SHORT_DATE_FORMAT, SHORT_DATE_ALT, SHORT_DATE_FORMAT_ALT } from '../constants';
+import { DATE_FORMATS, UNITS, STRINGS } from '../constants';
 
 const formatField = (fieldType, content) => {
   dayjs.extend(utc);
@@ -13,46 +13,46 @@ const formatField = (fieldType, content) => {
   dayjs.extend(updateLocale);
   dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
   if (!content) {
-    return 'Unknown';
+    return STRINGS.UNKNOWN_TEXT;
   }
   let result;
 
   switch (true) {
-    case fieldType.includes('DISTANCE'):
-      result = `${content}m`;
+    case fieldType.includes(UNITS.DISTANCE.value):
+      result = `${content}${UNITS.DISTANCE.unit}`;
       break;
-    case fieldType.includes('WEIGHT'):
-      result = `${content}kg`;
+    case fieldType.includes(UNITS.WEIGHT.value):
+      result = `${content}${UNITS.WEIGHT.unit}`;
       break;
-    case fieldType.includes('CURRENCY'):
-      result = `£${content}`;
+    case fieldType.includes(UNITS.CURRENCY.value):
+      result = `${UNITS.CURRENCY.unit}${content}`;
       break;
-    case fieldType.includes(SHORT_DATE_ALT):
-      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT_ALT);
+    case fieldType.includes(UNITS.SHORT_DATE_ALT.value):
+      result = dayjs(0).add(content, UNITS.SHORT_DATE_ALT.unit).format(DATE_FORMATS.SHORT_ALT);
       break;
-    case fieldType.includes('SHORT_DATE'):
-      result = dayjs(0).add(content, 'days').format(SHORT_DATE_FORMAT);
+    case fieldType.includes(UNITS.SHORT_DATE.value):
+      result = dayjs(0).add(content, UNITS.SHORT_DATE.unit).format(DATE_FORMATS.SHORT);
       break;
-    case fieldType.includes('BOOKING_DATETIME'): {
+    case fieldType.includes(UNITS.BOOKING_DATETIME.value): {
       const splitBookingDateTime = content.split(',');
       const bookingDateTime = dayjs.utc(splitBookingDateTime[0]); // This can also act as the check-in time
       if (splitBookingDateTime.length < 2) {
-        result = bookingDateTime.format(LONG_DATE_FORMAT);
+        result = bookingDateTime.format(DATE_FORMATS.LONG);
       } else {
         const scheduledDepartureTime = dayjs.utc(splitBookingDateTime[1]); // This can also act as the eta
         const difference = scheduledDepartureTime.from(bookingDateTime);
-        result = `${bookingDateTime.format(LONG_DATE_FORMAT)}, ${difference}`;
+        result = `${bookingDateTime.format(DATE_FORMATS.LONG)}, ${difference}`;
       }
       break;
     }
-    case fieldType.includes('DATETIME'):
-      result = dayjs.utc(content).format(LONG_DATE_FORMAT);
+    case fieldType.includes(UNITS.DATETIME.value):
+      result = dayjs.utc(content).format(DATE_FORMATS.LONG);
       break;
     default:
       result = content;
   }
 
-  if (fieldType.includes('CHANGED')) {
+  if (fieldType.includes(UNITS.CHANGED.value)) {
     result = <span className="task-versions--highlight">{result}</span>;
   }
   return result;
@@ -61,7 +61,9 @@ const formatField = (fieldType, content) => {
 const formatKey = (fieldType, content) => {
   return (
     <>
-      {fieldType.includes('CHANGED') ? <span className="govuk-grid-key font__light task-versions--highlight">{content}</span> : <span className="govuk-grid-key font__light">{content}</span>}
+      {fieldType.includes(UNITS.CHANGED.value)
+        ? <span className="govuk-grid-key font__light task-versions--highlight">{content}</span>
+        : <span className="govuk-grid-key font__light">{content}</span>}
     </>
   );
 };

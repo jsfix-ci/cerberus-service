@@ -1,4 +1,4 @@
-import { TASK_STATUS_NEW } from '../constants';
+import { TASK_STATUS } from '../constants';
 
 const isLocalStoredPresent = (key) => {
   return localStorage.getItem(key) !== null
@@ -26,7 +26,7 @@ const getLocalStoredItemByKeyValue = (key, value = undefined) => {
 
 const getTaskStatus = (taskStatus) => {
   return localStorage.getItem(taskStatus) !== null
-    ? localStorage.getItem(taskStatus) : TASK_STATUS_NEW;
+    ? localStorage.getItem(taskStatus) : TASK_STATUS.NEW;
 };
 
 const StorageUtil = {

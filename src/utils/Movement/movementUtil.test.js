@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import { MovementUtil } from '../index';
-import { UNKNOWN_TEXT, UNKNOWN_TIME_DATA } from '../constants';
+import { STRINGS, UNKNOWN_TIME_DATA } from '../constants';
 
 describe('MovementUtil', () => {
   dayjs.extend(utc);
@@ -137,7 +137,7 @@ describe('MovementUtil', () => {
 
   it('should return null if formatted seat number is not present', () => {
     const output = MovementUtil.seatNumber(targetTaskMin.movement.flight);
-    expect(output).toEqual(`seat ${UNKNOWN_TEXT}`);
+    expect(output).toEqual(`seat ${STRINGS.UNKNOWN_TEXT}`);
   });
 
   it('should return null if formatted seat number is present', () => {
@@ -178,7 +178,7 @@ describe('MovementUtil', () => {
 
   it('should return a formatted arrival date and time if present', () => {
     const output = MovementUtil.formatArrivalTime(targetTaskMin.movement.journey);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return a departure location if present', () => {
@@ -316,10 +316,10 @@ describe('MovementUtil', () => {
     const GIVEN_UNDEFINED = MovementUtil.airlineName('undefined', airlineCodesMin);
     const GIVEN_INVALID = MovementUtil.airlineName('invalid', airlineCodesMin);
 
-    expect(GIVEN_EMPTY).toEqual(UNKNOWN_TEXT);
-    expect(GIVEN_NULL).toEqual(UNKNOWN_TEXT);
-    expect(GIVEN_UNDEFINED).toEqual(UNKNOWN_TEXT);
-    expect(GIVEN_INVALID).toEqual(UNKNOWN_TEXT);
+    expect(GIVEN_EMPTY).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(GIVEN_NULL).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(GIVEN_UNDEFINED).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(GIVEN_INVALID).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return a formatted string from the departure location code when location is present', () => {
@@ -330,25 +330,25 @@ describe('MovementUtil', () => {
   it('should return unknown when departure location code is null', () => {
     targetTaskMin.movement.journey.departure.location = null;
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when departure location code is undefined', () => {
     targetTaskMin.movement.journey.departure.location = undefined;
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when departure location code is empty', () => {
     targetTaskMin.movement.journey.departure.location = '';
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when departure location code is invalid string', () => {
     targetTaskMin.movement.journey.departure.location = 'unknown';
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.departure.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return a formatted string from the arrival location code when location is present', () => {
@@ -359,25 +359,25 @@ describe('MovementUtil', () => {
   it('should return unknown when arrival location code is null', () => {
     targetTaskMin.movement.journey.arrival.location = null;
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when arrival location code is undefined', () => {
     targetTaskMin.movement.journey.arrival.location = undefined;
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when arrival location code is empty', () => {
     targetTaskMin.movement.journey.arrival.location = '';
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when arrival location code is invalid string', () => {
     targetTaskMin.movement.journey.arrival.location = 'unknown';
     const outcome = MovementUtil.formatLoc(targetTaskMin.movement.journey.arrival.location);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the flight duration when present', () => {
@@ -388,19 +388,19 @@ describe('MovementUtil', () => {
   it('should return unknown when flight duration when duration is null', () => {
     targetTaskMin.movement.journey.duration = null;
     const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when flight duration when duration is undefined', () => {
     targetTaskMin.movement.journey.duration = undefined;
     const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when flight duration when duration is empty', () => {
     targetTaskMin.movement.journey.duration = '';
     const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the flight time flight duration is present', () => {
@@ -411,25 +411,25 @@ describe('MovementUtil', () => {
   it('should return unknown when flight duration is null', () => {
     targetTaskMin.movement.journey.duration = null;
     const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when flight duration is undefined', () => {
     targetTaskMin.movement.journey.duration = undefined;
     const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when flight duration is empty', () => {
     targetTaskMin.movement.journey.duration = '';
     const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when flight duration is invalid', () => {
     targetTaskMin.movement.journey.duration = 'A';
     const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(UNKNOWN_TEXT);
+    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should convert the given time in milliseconds to a time object', () => {
@@ -485,7 +485,7 @@ describe('MovementUtil', () => {
   it('should return unknown when the itenerary flight number is null', () => {
     targetTaskMin.movement.journey.itinerary[0].id = null;
     const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return city when given a valid iata code', () => {
@@ -501,13 +501,13 @@ describe('MovementUtil', () => {
   it('should return unknown when the itenerary flight number is undefined', () => {
     targetTaskMin.movement.journey.itinerary[0].id = undefined;
     const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when the itenerary flight number is an empty string', () => {
     targetTaskMin.movement.journey.itinerary[0].id = '';
     const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the itinerary departure country code', () => {
@@ -538,7 +538,7 @@ describe('MovementUtil', () => {
     targetTaskMin.movement.journey.itinerary[0].departure.location = null;
     targetTaskMin.movement.journey.itinerary[0].departure.country = '';
     const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the itinerary arrival country code', () => {
@@ -569,7 +569,7 @@ describe('MovementUtil', () => {
     targetTaskMin.movement.journey.itinerary[0].arrival.location = null;
     targetTaskMin.movement.journey.itinerary[0].arrival.country = '';
     const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   describe('toItineraryBlock', () => {
@@ -630,7 +630,7 @@ describe('MovementUtil', () => {
 
   it('should return unknown text when given date is within an invalid range', () => {
     const PAST_DATES = [undefined, null, ''];
-    PAST_DATES.forEach((date) => expect(MovementUtil.voyageText(date)).toEqual(UNKNOWN_TEXT));
+    PAST_DATES.forEach((date) => expect(MovementUtil.voyageText(date)).toEqual(STRINGS.UNKNOWN_TEXT));
   });
 
   it('should return the movement direction', () => {

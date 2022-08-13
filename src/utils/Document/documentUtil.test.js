@@ -1,5 +1,5 @@
 import { DocumentUtil } from '../index';
-import { UNKNOWN_TEXT } from '../constants';
+import { STRINGS } from '../constants';
 
 describe('DocumentUtil', () => {
   const document = {
@@ -54,7 +54,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docExpiry(person);
-    expect(output).toEqual(`Expires ${UNKNOWN_TEXT}`);
+    expect(output).toEqual(`Expires ${STRINGS.UNKNOWN_TEXT}`);
   });
 
   it('should show unknown validity when document validity date is not present', () => {
@@ -63,7 +63,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docValidity(person);
-    expect(output).toEqual(`Valid from ${UNKNOWN_TEXT}`);
+    expect(output).toEqual(`Valid from ${STRINGS.UNKNOWN_TEXT}`);
   });
 
   it('should show unknown type when document type is not present', () => {
@@ -72,7 +72,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docType(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should show unknown when document number is not present', () => {
@@ -81,7 +81,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docNumber(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should show unknown when document name is not present', () => {
@@ -90,7 +90,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docName(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should shown unknown when document identification is not present', () => {
@@ -99,7 +99,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docIdentification(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should show unknown when document country of issue is not present', () => {
@@ -108,7 +108,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docCountry(person);
-    expect(output).toEqual(`Issued by ${UNKNOWN_TEXT}`);
+    expect(output).toEqual(`Issued by ${STRINGS.UNKNOWN_TEXT}`);
   });
 
   it('should show unknown when document nationality is not present', () => {
@@ -117,7 +117,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docNationality(person);
-    expect(output).toEqual(`Issued by ${UNKNOWN_TEXT}`);
+    expect(output).toEqual(`Issued by ${STRINGS.UNKNOWN_TEXT}`);
   });
 
   it('should show unknown when document date of birth is not present', () => {
@@ -126,7 +126,7 @@ describe('DocumentUtil', () => {
     };
 
     const output = DocumentUtil.docDOB(person);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should shown expiry when document expiry date is present', () => {
@@ -163,7 +163,7 @@ describe('DocumentUtil', () => {
 
   it('should return unknown if document identification is not present', () => {
     const output = DocumentUtil.docIdentification(document);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should show document country of issue if it is present', () => {
@@ -189,19 +189,19 @@ describe('DocumentUtil', () => {
   it('should return unknown when the document country of issue is null', () => {
     document.countryOfIssue = null;
     const output = DocumentUtil.docCountryCode(document);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when the document country of issue is undefined', () => {
     document.countryOfIssue = undefined;
     const output = DocumentUtil.docCountryCode(document);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return unknown when the document country of issue is an empty string', () => {
     document.countryOfIssue = '';
     const output = DocumentUtil.docCountryCode(document);
-    expect(output).toEqual(UNKNOWN_TEXT);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the document expiry date', () => {
