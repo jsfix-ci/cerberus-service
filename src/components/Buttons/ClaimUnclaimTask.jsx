@@ -3,12 +3,12 @@ import { useHistory } from 'react-router-dom';
 
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import { useKeycloak } from '../../context/Keycloak';
-import { TASK_STATUS } from '../../utils/constants';
+import { TASK_LIST_PATHS, TASK_STATUS, VIEW } from '../../utils/constants';
 
 // Config
 import config from '../../utils/config';
 
-const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonType }) => {
+const ClaimUnclaimTask = ({ view, assignee, currentUser, businessKey, source, buttonType }) => {
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
 
@@ -16,6 +16,17 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
   const isAssignedTo = assignee === currentUser ? 'you' : assignee;
   const [isAssignmentInProgress, setIsAssignmentInProgress] = useState(false);
   const [isAlreadyAssignedWarning] = useState(false);
+
+  const getUnclaimRedirectURL = () => {
+    if (view === VIEW.AIRPAX) {
+      console.log('Unclaim Redirect URL: ', TASK_LIST_PATHS.AIRPAX[0]);
+      return TASK_LIST_PATHS.AIRPAX[0];
+    }
+    if (view === VIEW.RORO_V2) {
+      console.log('Unclaim Redirect URL: ', TASK_LIST_PATHS.RORO_V2[0]);
+      return TASK_LIST_PATHS.RORO_V2[0];
+    }
+  };
 
   const CommonText = () => {
     return buttonType === 'textLink' ? 'Task not assigned' : null;
@@ -56,8 +67,10 @@ const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonTy
       });
       setIsAssignmentInProgress(false);
       history.push(
-        { pathname: '/airpax/tasks',
-          search: `?tab=${TASK_STATUS.NEW}` },
+        {
+          pathname: getUnclaimRedirectURL(),
+          search: `?tab=${TASK_STATUS.NEW}`,
+        },
       );
       window.scrollTo(0, 0);
     } catch {

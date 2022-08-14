@@ -18,7 +18,7 @@ import { useKeycloak } from '../../../context/Keycloak';
 import { findAndUpdateTaskVersionDifferencesAirPax } from '../../../utils/TaskVersion/taskVersionUtil';
 import { Renderers } from '../../../utils/Form/ReactForm';
 import { escapeString } from '../../../utils/String/stringUtil';
-import { StringUtil, TargetInformationUtil } from '../../../utils';
+import { Common, StringUtil, TargetInformationUtil } from '../../../utils';
 
 // Components/Pages
 import ActivityLog from '../../../components/ActivityLog/ActivityLog';
@@ -42,6 +42,7 @@ const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();
   const source = axios.CancelToken.source();
+  const view = Common.setViewAndGet(location.pathname);
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const { airPaxRefDataMode, airPaxTisCache, setAirpaxTisCache } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
@@ -134,6 +135,7 @@ const TaskDetailsPage = () => {
                 && <Tag className="govuk-tag govuk-tag--newTarget" text={TASK_STATUS.NEW} />}
                 <p className="govuk-body">
                   <ClaimUnclaimTask
+                    view={view}
                     assignee={taskData.assignee}
                     currentUser={currentUser}
                     businessKey={businessKey}

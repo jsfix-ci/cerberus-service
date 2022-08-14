@@ -10,6 +10,13 @@ const INVALID_VALUES = [
   'Invalid Date',
   'NaN'];
 
+const capitalizeString = (value) => {
+  if (!value) {
+    return value;
+  }
+  return value.toUpperCase();
+};
+
 const formatTaskStatusToCamelCase = (statusName) => {
   if (!statusName) {
     return statusName;
@@ -71,6 +78,7 @@ const replaceInvalidValues = (value) => {
 };
 
 const StringUtil = {
+  capitalize: capitalizeString,
   capitalizeFirst: capitalizeFirstLetter,
   escape: escapeString,
   format: {

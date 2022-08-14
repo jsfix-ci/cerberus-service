@@ -106,6 +106,14 @@ export const roro = {
     name: 'filter',
     components: [
       {
+        id: 'search',
+        fieldId: 'searchText',
+        label: 'Search',
+        type: 'text',
+        required: false,
+        placeholder: 'Passenger Name or Task Id',
+      },
+      {
         id: 'mode',
         fieldId: 'mode',
         label: 'Mode',
@@ -116,8 +124,8 @@ export const roro = {
         },
       },
       {
-        id: 'hasSelectors',
-        fieldId: 'hasSelectors',
+        id: 'selectors',
+        fieldId: 'selectors',
         label: 'Selectors',
         type: 'radios',
         required: true,
@@ -125,19 +133,27 @@ export const roro = {
         data: {
           options: [
             {
-              value: 'false',
+              value: 'NOT_PRESENT',
               label: 'Has no selector',
             },
             {
-              value: 'true',
+              value: 'PRESENT',
               label: 'Has selector',
             },
             {
-              value: 'both',
+              value: 'ANY',
               label: 'Both',
             },
           ],
         },
+      },
+      {
+        id: 'rules',
+        fieldId: 'rules',
+        label: 'Rule matches',
+        type: 'multiautocomplete',
+        multi: true,
+        required: false,
       },
     ],
     actions: [

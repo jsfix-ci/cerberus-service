@@ -24,9 +24,9 @@ const getLocalStoredItemByKeyValue = (key, value = undefined) => {
   return JSON.parse(localStorage.getItem(key))[value];
 };
 
-const getTaskStatus = (taskStatus) => {
-  return localStorage.getItem(taskStatus) !== null
-    ? localStorage.getItem(taskStatus) : TASK_STATUS.NEW;
+const getTaskStatus = (key) => {
+  return localStorage.getItem(key) !== null
+    ? localStorage.getItem(key) : TASK_STATUS.NEW;
 };
 
 const StorageUtil = {

@@ -110,4 +110,18 @@ describe('AxiosRequests', () => {
       .rejects
       .toEqual(EXPECTED_ERROR);
   });
+
+  it('should call the request cancellation handler', () => {
+    const CANCELS = [];
+    const ON_CANCEL = (value) => {
+      CANCELS.push(value);
+    };
+    const source = {
+      cancel: (msg) => ON_CANCEL(msg),
+    };
+
+    AxiosRequests.cancel(source);
+    expect(CANCELS).toHaveLength(1);
+    expect(CANCELS[0]).toEqual('Cancelling request');
+  });
 });

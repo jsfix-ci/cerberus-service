@@ -1,12 +1,12 @@
 import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import React, { useState, useCallback, useEffect } from 'react';
-import { COMPONENT_TYPES, DEFAULT_APPLIED_RORO_FILTER_STATE, MOVEMENT_VARIANT } from '../../utils/constants';
+import { COMPONENT_TYPES, VIEW } from '../../utils/constants';
 
 import { airpax, roro } from '../../forms/filter';
 
-const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
-  if (mode === MOVEMENT_VARIANT.RORO) {
+const getMovementSelectorCounts = (view, filtersAndSelectorsCount) => {
+  if (view === VIEW.RORO_V2) {
     return {
       movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
       modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
@@ -18,20 +18,12 @@ const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
   };
 };
 
-const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filtersAndSelectorsCount, rulesOptions }) => {
+const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filtersAndSelectorsCount, rulesOptions }) => {
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
-  const { movementModeCounts, modeSelectorCounts } = getMovementSelectorCounts(mode, filtersAndSelectorsCount);
+  const { movementModeCounts, modeSelectorCounts } = getMovementSelectorCounts(view, filtersAndSelectorsCount);
 
   const getCountForOption = (fieldId, value, taskStatus, modeCounts, selectorCounts) => {
-    if (fieldId === 'hasSelectors') {
-      if (value === DEFAULT_APPLIED_RORO_FILTER_STATE.hasSelectors) {
-        value = null;
-      }
-      return selectorCounts?.find((f) => {
-        return f.filterParams[fieldId] === JSON.parse(value);
-      })?.statusCounts[taskStatus];
-    }
     if (fieldId === 'selectors') {
       return selectorCounts?.find((f) => {
         return f.filterParams[fieldId] === value;
@@ -171,7 +163,7 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
     forceUpdate();
   }, [filtersAndSelectorsCount]);
 
-  if (mode === MOVEMENT_VARIANT.RORO) {
+  if (view === VIEW.RORO_V2) {
     return (
       <RoRoFilter />
     );

@@ -4,6 +4,7 @@ import { NumberUtil } from '../index';
 describe('NumberUtil', () => {
   it('should do something', () => {
     // TODO What does the number util do?
+    expect(true).toBeTruthy();
   });
 
   it('should validate false if given is a number', () => {

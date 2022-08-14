@@ -2,12 +2,12 @@
  * Get tasks list data.
  *
  * @param axiosClient An axios client for a network request.
- * @param postParams The request parameters.
+ * @param payload The request parameters.
  * @returns {Promise<*>} A fulfilled promise.
  */
-const getTaskList = async (axiosClient, postParams) => {
+const getTaskList = async (axiosClient, payload) => {
   try {
-    return await axiosClient.post('/targeting-tasks/pages', postParams)
+    return await axiosClient.post('/targeting-tasks/pages', payload)
       .then((response) => response.data);
   } catch (e) {
     throw new Error(e);
@@ -49,12 +49,12 @@ const getRulesOptions = async (axiosClient) => {
  * Get task counts.
  *
  * @param axiosClient An axios client for a network request.
- * @param postParams The request parameters.
+ * @param payload The request parameters.
  * @returns {Promise<*>} A fulfilled promise.
  */
-const getTaskCount = async (axiosClient, postParams) => {
+const getTaskCount = async (axiosClient, payload) => {
   try {
-    return await axiosClient.post('/targeting-tasks/status-counts', [postParams || {}])
+    return await axiosClient.post('/targeting-tasks/status-counts', [payload || {}])
       .then((response) => response.data[0].statusCounts);
   } catch (e) {
     throw new Error(e);
@@ -65,12 +65,12 @@ const getTaskCount = async (axiosClient, postParams) => {
  * Get filters & selector counts.
  *
  * @param axiosClient An axios client for a network request.
- * @param postParams The request parameters.
+ * @param payload The request parameters.
  * @returns {Promise<*>} A fulfilled promise.
  */
-const getFiltersAndSelectorsCount = async (axiosClient, postParams) => {
+const getFiltersAndSelectorsCount = async (axiosClient, payload) => {
   try {
-    return await axiosClient.post('/targeting-tasks/status-counts', postParams)
+    return await axiosClient.post('/targeting-tasks/status-counts', payload)
       .then((response) => response.data);
   } catch (e) {
     throw new Error(e);
@@ -93,6 +93,10 @@ const getInformationSheet = async (axiosClient, businessKey) => {
   }
 };
 
+const cancelAxiosRequests = (source) => {
+  source.cancel('Cancelling request');
+};
+
 const AxiosRequests = {
   filtersCount: getFiltersAndSelectorsCount,
   getTasks: getTaskList,
@@ -100,6 +104,7 @@ const AxiosRequests = {
   informationSheet: getInformationSheet,
   taskCount: getTaskCount,
   taskData: getTaskData,
+  cancel: cancelAxiosRequests,
 };
 
 export default AxiosRequests;

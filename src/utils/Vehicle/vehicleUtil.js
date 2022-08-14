@@ -1,0 +1,42 @@
+import { STRINGS } from '../constants';
+
+const getVehicleRegistration = (vehicle) => {
+  if (!vehicle) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return vehicle?.registration || STRINGS.UNKNOWN_TEXT;
+};
+
+const getVehicleModel = (vehicle) => {
+  if (!vehicle) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return vehicle?.model || STRINGS.UNKNOWN_TEXT;
+};
+
+const getVehicleMake = (vehicle) => {
+  if (!vehicle) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return vehicle?.make || STRINGS.UNKNOWN_TEXT;
+};
+
+const getVehicle = (targetTask) => {
+  return targetTask?.movement?.vehicle || undefined;
+};
+
+const VehicleUtil = {
+  get: getVehicle,
+  vehicleMake: getVehicleMake,
+  vehicleModel: getVehicleModel,
+  vehicleReg: getVehicleRegistration,
+};
+
+export default VehicleUtil;
+
+export {
+  getVehicle,
+  getVehicleMake,
+  getVehicleModel,
+  getVehicleRegistration,
+};

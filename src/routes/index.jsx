@@ -3,14 +3,21 @@ import { BrowserRouter, Link, Redirect, Route } from 'react-router-dom';
 import { initAll } from 'govuk-frontend';
 
 import { useKeycloak } from '../context/Keycloak';
-import { ViewProvider } from '../context/ViewContext';
 import Layout from '../components/Layout/Layout';
 import PnrAccessRequest from '../access/PnrAccessRequest';
-import AirPaxTaskListPage from './airpax/TaskLists/TaskListPage';
+
+import AirPaxTaskListPage from './TaskList/TaskListPage'; // TODO: Remove
+
+// import AirPaxTaskListPage from './airpax/TaskList/TaskListPage';
 import AirPaxTaskDetailsPage from './airpax/TaskDetails/TaskDetailsPage';
-import RoRoTaskListPage from './roro/TaskLists/TaskListPage';
-import RoRoTaskDetailsPage from './roro/TaskDetails/TaskDetailsPage';
-import RoRoIssueTargetPage from './roro/IssueTargetPage';
+
+import RoRoTaskListPageV1 from './roro/TaskLists/TaskListPage';
+import RoRoTaskDetailsPageV1 from './roro/TaskDetails/TaskDetailsPage';
+import RoRoIssueTargetPageV1 from './roro/IssueTargetPage';
+
+import RoRoTaskListPageV2 from './TaskList/TaskListPage'; // TODO: Remove
+
+// Hooks
 import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/Hooks/hooks';
 
 const AppRouter = () => {
@@ -45,33 +52,24 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter>
-      <ViewProvider>
-        <PnrAccessRequest>
-          <Route path="/" exact><Redirect to="/tasks" /></Route>
-          <Route path="/tasks" exact><Layout><RoRoTaskListPage /></Layout></Route>
-          <Route path="/tasks/:businessKey" exact>
-            <Layout beforeMain={<Link className="govuk-back-link" to="/tasks">Back to task list</Link>}>
-              <RoRoTaskDetailsPage />
-            </Layout>
-          </Route>
-          <Route path="/issue-target" exact><Layout><RoRoIssueTargetPage /></Layout></Route>
+      <PnrAccessRequest>
+        <Route path="/" exact><Redirect to="/tasks" /></Route>
+        <Route path="/tasks" exact><Layout><RoRoTaskListPageV1 /></Layout></Route>
+        <Route path="/tasks/:businessKey" exact>
+          <Layout beforeMain={<Link className="govuk-back-link" to="/tasks">Back to task list</Link>}>
+            <RoRoTaskDetailsPageV1 />
+          </Layout>
+        </Route>
+        <Route path="/issue-target" exact><Layout><RoRoIssueTargetPageV1 /></Layout></Route>
 
-          <Route path="/roro/tasks" exact><Layout><RoRoTaskListPage /></Layout></Route>
-          <Route path="/roro/tasks/:businessKey" exact>
-            <Layout beforeMain={<Link className="govuk-back-link" to="/tasks">Back to task list</Link>}>
-              <RoRoTaskDetailsPage />
-            </Layout>
-          </Route>
-          <Route path="/roro/issue-target" exact><Layout><RoRoIssueTargetPage /></Layout></Route>
-
-          <Route path="/airpax/tasks" exact><Layout><AirPaxTaskListPage /></Layout></Route>
-          <Route path="/airpax/tasks/:businessKey" exact>
-            <Layout beforeMain={<Link className="govuk-back-link" to="/airpax/tasks">Back to task list</Link>}>
-              <AirPaxTaskDetailsPage />
-            </Layout>
-          </Route>
-        </PnrAccessRequest>
-      </ViewProvider>
+        <Route path="/roro/v2/tasks" exact><Layout><RoRoTaskListPageV2 /></Layout></Route>
+        <Route path="/airpax/tasks" exact><Layout><AirPaxTaskListPage /></Layout></Route>
+        <Route path="/airpax/tasks/:businessKey" exact>
+          <Layout beforeMain={<Link className="govuk-back-link" to="/airpax/tasks">Back to task list</Link>}>
+            <AirPaxTaskDetailsPage />
+          </Layout>
+        </Route>
+      </PnrAccessRequest>
     </BrowserRouter>
   );
 };

@@ -105,9 +105,34 @@ export const ICON = {
   NONE: '',
 };
 
+export const ICON_MAPPING = {
+  RORO_ACCOMPANIED_FREIGHT: {
+    'vehicle-with-trailer': ICON.HGV,
+    'vehicle-only': ICON.VAN,
+    'trailer-only': ICON.TRAILER,
+    'without-vehicle-and-trailer': ICON.NONE,
+  },
+  RORO_UNACCOMPANIED_FREIGHT: {
+    'trailer-only': ICON.TRAILER,
+    'without-trailer': ICON.NONE,
+  },
+  RORO_TOURIST: {
+    vehicle: ICON.CAR,
+    individual: ICON.INDIVIDUAL,
+    group: ICON.GROUP,
+  },
+};
+
+export const DESCRIPTION_MAPPING = {
+  vehicle: 'Vehicle',
+  individual: 'Single passenger',
+  group: 'Group',
+};
+
 export const VIEW = {
   AIRPAX: 'AIRPAX',
   RORO: 'RORO',
+  RORO_V2: 'RORO_V2',
   NONE: undefined,
 };
 
@@ -129,6 +154,9 @@ export const STRINGS = {
   NO_TEXT: 'No',
   LATER_TEXT: 'later',
   YES_TEXT: 'Yes',
+  RORO_HEADER: 'RoRo',
+  RORO_HEADER_V2: 'RoRo V2',
+  AIRPAX_HEADER: 'AirPax',
 };
 
 export const FONT_CLASSES = {
@@ -215,6 +243,7 @@ export const LOCAL_STORAGE_KEYS = {
   AIRPAX_TASK_STATUS: 'airpax-task-status',
   RORO_FILTERS: 'roro-filters',
   AIRPAX_FILTERS: 'airpax-filters',
+  VIEW: 'VIEW',
 };
 
 export const RORO_FILTERS = [
@@ -266,6 +295,7 @@ export const RORO_FILTERS = [
   },
 ];
 
+// TODO: RoRo V1
 export const DEFAULT_MOVEMENT_RORO_MODES = [
   {
     taskStatuses: [],
@@ -284,6 +314,7 @@ export const DEFAULT_MOVEMENT_RORO_MODES = [
   },
 ];
 
+// TODO: RoRo V1
 export const DEFAULT_RORO_HAS_SELECTORS = [
   {
     taskStatuses: [],
@@ -301,6 +332,13 @@ export const DEFAULT_RORO_HAS_SELECTORS = [
     hasSelectors: null,
   },
 ];
+
+// TODO: RoRo V1
+export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
+  movementModes: [],
+  hasSelectors: 'both',
+  mode: [],
+};
 
 export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
   {
@@ -336,15 +374,62 @@ export const DEFAULT_AIRPAX_SELECTORS = [
   },
 ];
 
-export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
-  movementModes: [],
-  hasSelectors: 'both',
-  mode: [],
-};
-
 export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
   movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
   mode: MOVEMENT_MODES.AIR_PASSENGER,
+  selectors: 'ANY',
+  rules: [],
+  searchText: '',
+};
+
+// RoRo V2
+export const DEFAULT_MOVEMENT_RORO_MODES_V2 = [
+  {
+    taskStatuses: [],
+    movementModes: [MOVEMENT_MODES.UNACCOMPANIED_FREIGHT],
+    selectors: 'ANY',
+  },
+  {
+    taskStatuses: [],
+    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT],
+    selectors: 'ANY',
+  },
+  {
+    taskStatuses: [],
+    movementModes: [MOVEMENT_MODES.TOURIST],
+    selectors: 'ANY',
+  },
+];
+
+// RoRo V2
+export const DEFAULT_RORO_SELECTORS_V2 = [
+  {
+    taskStatuses: [],
+    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+    selectors: 'PRESENT',
+    ruleIds: [],
+    searchText: '',
+  },
+  {
+    taskStatuses: [],
+    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+    selectors: 'NOT_PRESENT',
+    ruleIds: [],
+    searchText: '',
+  },
+  {
+    taskStatuses: [],
+    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+    selectors: 'ANY',
+    ruleIds: [],
+    searchText: '',
+  },
+];
+
+// RoRo V2
+export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
+  movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+  mode: [],
   selectors: 'ANY',
   rules: [],
   searchText: '',
@@ -369,10 +454,11 @@ export const FORM_ACTIONS = {
   NEXT: 'next',
 };
 
-export const PATHS = {
-  RORO_PATHS: ['/tasks'],
-  AIRPAX_PATHS: ['/airpax/tasks'],
-  TASK_LIST: ['/tasks', '/airpax/tasks'],
+export const TASK_LIST_PATHS = {
+  AIRPAX: ['/airpax/tasks'],
+  RORO: ['/tasks'],
+  RORO_V2: ['/roro/v2/tasks'],
+  ALL_TASK_LIST: ['/tasks', '/roro/v2/tasks', '/airpax/tasks'],
 };
 
 export const STATUS_CODES = {
@@ -383,3 +469,8 @@ export const UTC_DATE_REGEXS = [
   /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
   /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
 ];
+
+export const SORT_ORDER = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};

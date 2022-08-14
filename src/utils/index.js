@@ -13,9 +13,12 @@ import PersonUtil from './Person/personUtil';
 import RisksUtil from './Risks/risksUtil';
 import RoRoDataUtil from './RoRoData/roroDataUtil';
 import StringUtil from './String/stringUtil';
+import StorageUtil from './Storage/storageUtil';
 import TargetInformationUtil from './TargetInformation/targetInformationUtil';
 import TaskSummaryDataUtil from './TaskSummary/taskSummaryDataUtil';
 import TaskVersionUtil from './TaskVersion/taskVersionUtil';
+import VehicleUtil from './Vehicle/vehicleUtil';
+import VesselUtil from './Vessel/vesselUtil';
 
 export { AxiosInstance,
   BaggageUtil,
@@ -31,7 +34,10 @@ export { AxiosInstance,
   PersonUtil,
   RisksUtil,
   RoRoDataUtil,
+  StorageUtil,
   StringUtil,
+  TargetInformationUtil,
   TaskSummaryDataUtil,
   TaskVersionUtil,
-  TargetInformationUtil };
+  VehicleUtil,
+  VesselUtil };

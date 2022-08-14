@@ -24,6 +24,14 @@ import { getTotalNumberOfPersons } from '../Person/personUtil';
 import { isNotNumber } from '../Number/numberUtil';
 import Common from '../Common/common';
 
+const getMovementMode = (targetTask) => {
+  return targetTask?.movement?.mode || undefined;
+};
+
+const getIconDescription = (targetTask) => {
+  return targetTask?.movement?.description || undefined;
+};
+
 const hasCarrierCounts = (suppliedPassengerCounts) => {
   const expected = ['oapCount', 'adultCount', 'childCount', 'infantCount'];
   let hayStack = [];
@@ -504,6 +512,8 @@ const MovementUtil = {
   flightDuration: getJourneyDuration,
   flightTimeObject: getFlightTimeObject,
   formatFlightTime: toFormattedFlightTime,
+  movementMode: getMovementMode,
+  iconDescription: getIconDescription,
   modeIcon: getMovementModeIcon,
   movementItinerary: getMovementItinerary,
   itinFlightNumber: getItineraryFlightNumber,
