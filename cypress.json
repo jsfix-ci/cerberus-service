@@ -20,7 +20,7 @@
         "code": false,
         "overwrite": false,
         "reportTitle": "cerberus-tests",
-        "reportFileName": "[name]"
+        "reportFilename": "[name]"
     },
     "screenshotsFolder": "mochawesome-report/assets",
     "baseUrl": "https://www.dev.cerberus.cop.homeoffice.gov.uk"
