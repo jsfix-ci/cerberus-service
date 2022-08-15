@@ -3,11 +3,15 @@ import { useHistory } from 'react-router-dom';
 
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import { useKeycloak } from '../../context/Keycloak';
-import { TASK_LIST_PATHS, TASK_STATUS, VIEW } from '../../utils/constants';
+import { TASK_STATUS } from '../../utils/constants';
 
 // Config
 import config from '../../utils/config';
 
+// Utils
+import { CommonUtil } from '../../utils';
+
+// TODO: Update tests
 const ClaimUnclaimTask = ({ view, assignee, currentUser, businessKey, source, buttonType }) => {
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
@@ -16,17 +20,6 @@ const ClaimUnclaimTask = ({ view, assignee, currentUser, businessKey, source, bu
   const isAssignedTo = assignee === currentUser ? 'you' : assignee;
   const [isAssignmentInProgress, setIsAssignmentInProgress] = useState(false);
   const [isAlreadyAssignedWarning] = useState(false);
-
-  const getUnclaimRedirectURL = () => {
-    if (view === VIEW.AIRPAX) {
-      console.log('Unclaim Redirect URL: ', TASK_LIST_PATHS.AIRPAX[0]);
-      return TASK_LIST_PATHS.AIRPAX[0];
-    }
-    if (view === VIEW.RORO_V2) {
-      console.log('Unclaim Redirect URL: ', TASK_LIST_PATHS.RORO_V2[0]);
-      return TASK_LIST_PATHS.RORO_V2[0];
-    }
-  };
 
   const CommonText = () => {
     return buttonType === 'textLink' ? 'Task not assigned' : null;
@@ -48,14 +41,11 @@ const ClaimUnclaimTask = ({ view, assignee, currentUser, businessKey, source, bu
         userId: currentUser,
       });
       setIsAssignmentInProgress(false);
-      if (history.location.pathname !== `/airpax/tasks/${businessKey}`) {
-        history.push(source);
-      } else {
-        history.go(0);
-      }
+      history.push(source);
+      history.go(0);
     } catch {
       setIsAssignmentInProgress(false);
-      history.push(`/tasks/${businessKey}/?alreadyAssigned=t`);
+      history.push(`${CommonUtil.taskListURL(view, businessKey)}/?alreadyAssigned=t`);
     }
   };
 
@@ -68,10 +58,11 @@ const ClaimUnclaimTask = ({ view, assignee, currentUser, businessKey, source, bu
       setIsAssignmentInProgress(false);
       history.push(
         {
-          pathname: getUnclaimRedirectURL(),
+          pathname: CommonUtil.unclaimRedirect(view),
           search: `?tab=${TASK_STATUS.NEW}`,
         },
       );
+      history.go(0);
       window.scrollTo(0, 0);
     } catch {
       setIsAssignmentInProgress(false);

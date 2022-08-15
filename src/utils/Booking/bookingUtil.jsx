@@ -1,6 +1,6 @@
 import React from 'react';
 import lookup from 'country-code-lookup';
-import Common from '../Common/common';
+import CommonUtil from '../Common/commonUtil';
 import { calculateTimeDifference, getFormattedDate, toDateTimeList } from '../Datetime/datetimeUtil';
 
 import {
@@ -16,7 +16,7 @@ const getAgentLocation = (agent) => {
   if (!splitLoc.every((val) => val)) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return [splitLoc[0], Common.iso3Code(splitLoc[1])].join(', ');
+  return [splitLoc[0], CommonUtil.iso3Code(splitLoc[1])].join(', ');
 };
 
 const getAgentIata = (agent) => {
@@ -125,7 +125,7 @@ const getBookingCountryCode = (booking) => {
   if (!booking?.country) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return Common.iso3Code(booking.country);
+  return CommonUtil.iso3Code(booking.country);
 };
 
 const getBookingCountryName = (booking) => {

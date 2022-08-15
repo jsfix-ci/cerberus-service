@@ -6,16 +6,16 @@ import { useKeycloak } from '../context/Keycloak';
 import Layout from '../components/Layout/Layout';
 import PnrAccessRequest from '../access/PnrAccessRequest';
 
-import AirPaxTaskListPage from './TaskList/TaskListPage'; // TODO: Remove
+import AirPaxTaskListPage from './TaskList/TaskListPage';
+import AirPaxTaskDetailsPage from './TaskDetails/TaskDetailsPage';
 
-// import AirPaxTaskListPage from './airpax/TaskList/TaskListPage';
-import AirPaxTaskDetailsPage from './airpax/TaskDetails/TaskDetailsPage';
+import RoRoTaskListPage from './TaskList/TaskListPage';
+import RoRoTaskDetailsPage from './TaskDetails/TaskDetailsPage';
 
+// TODO: TO be decommissioned at a later point
 import RoRoTaskListPageV1 from './roro/TaskLists/TaskListPage';
 import RoRoTaskDetailsPageV1 from './roro/TaskDetails/TaskDetailsPage';
 import RoRoIssueTargetPageV1 from './roro/IssueTargetPage';
-
-import RoRoTaskListPageV2 from './TaskList/TaskListPage'; // TODO: Remove
 
 // Hooks
 import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/Hooks/hooks';
@@ -62,11 +62,17 @@ const AppRouter = () => {
         </Route>
         <Route path="/issue-target" exact><Layout><RoRoIssueTargetPageV1 /></Layout></Route>
 
-        <Route path="/roro/v2/tasks" exact><Layout><RoRoTaskListPageV2 /></Layout></Route>
         <Route path="/airpax/tasks" exact><Layout><AirPaxTaskListPage /></Layout></Route>
         <Route path="/airpax/tasks/:businessKey" exact>
           <Layout beforeMain={<Link className="govuk-back-link" to="/airpax/tasks">Back to task list</Link>}>
             <AirPaxTaskDetailsPage />
+          </Layout>
+        </Route>
+
+        <Route path="/roro/v2/tasks" exact><Layout><RoRoTaskListPage /></Layout></Route>
+        <Route path="/roro/v2/tasks/:businessKey" exact>
+          <Layout beforeMain={<Link className="govuk-back-link" to="/roro/v2/tasks">Back to task list</Link>}>
+            <RoRoTaskDetailsPage />
           </Layout>
         </Route>
       </PnrAccessRequest>

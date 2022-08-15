@@ -5,7 +5,7 @@ import {
   STRINGS,
 } from '../constants';
 import { formatField } from '../FieldFormat/fieldFormatterUtil';
-import Common from '../Common/common';
+import CommonUtil from '../Common/commonUtil';
 import { getFormattedDate, validateDate } from '../Datetime/datetimeUtil';
 
 const calculateExpiry = (passportExpiry, arrivalTime) => {
@@ -94,12 +94,12 @@ const getDocumentCountryOfIssue = (document, taskDetails = false) => {
   }
   if (taskDetails) {
     return lookup.byIso(document.countryOfIssue) !== null
-      ? `${lookup.byIso(document.countryOfIssue).country} (${Common.iso3Code(document.countryOfIssue)})`
+      ? `${lookup.byIso(document.countryOfIssue).country} (${CommonUtil.iso3Code(document.countryOfIssue)})`
       : `${countryOfIssuePrefix} ${STRINGS.UNKNOWN_TEXT}`;
   }
 
   return lookup.byIso(document.countryOfIssue) !== null
-    ? `${countryOfIssuePrefix} ${Common.iso3Code(document.countryOfIssue)}`
+    ? `${countryOfIssuePrefix} ${CommonUtil.iso3Code(document.countryOfIssue)}`
     : `${countryOfIssuePrefix} ${STRINGS.UNKNOWN_TEXT}`;
 };
 
@@ -107,7 +107,7 @@ const getDocumentCountryOfIssueCode = (document) => {
   if (!document?.countryOfIssue) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return Common.iso3Code(document.countryOfIssue);
+  return CommonUtil.iso3Code(document.countryOfIssue);
 };
 
 const getDocumentNationality = (document, taskDetails = false) => {

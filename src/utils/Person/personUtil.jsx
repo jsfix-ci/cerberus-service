@@ -1,7 +1,7 @@
 import React from 'react';
 import lookup from 'country-code-lookup';
 import dayjs from 'dayjs';
-import Common from '../Common/common';
+import CommonUtil from '../Common/commonUtil';
 import { getFormattedDate } from '../Datetime/datetimeUtil';
 import { DATE_FORMATS, GENDERS, STRINGS } from '../constants';
 
@@ -22,7 +22,7 @@ const getNationality = (person) => {
   if (!person?.nationality) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return Common.iso3Code(person.nationality);
+  return CommonUtil.iso3Code(person.nationality);
 };
 
 const getCountryName = (person) => {
@@ -72,6 +72,13 @@ const getLastName = (person, capitalize = true) => {
     return capitalize ? STRINGS.UNKNOWN_TEXT.toUpperCase() : STRINGS.UNKNOWN_TEXT;
   }
   return capitalize ? person.name.last.toUpperCase() : person.name.last;
+};
+
+const getFullName = (person) => {
+  if (!person?.name?.full) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return person.name.full;
 };
 
 const getFirstName = (person) => {
@@ -162,6 +169,7 @@ const getPerson = (targetTask) => {
   return null;
 };
 
+// TODO: Update tests
 const PersonUtil = {
   formatGender,
   get: getPerson,
@@ -171,6 +179,7 @@ const PersonUtil = {
   toOthers: toCoTravellers,
   allPersons: getAllPersons,
   firstname: getFirstName,
+  fullname: getFullName,
   lastname: getLastName,
   gender: getGender,
   dob: getDateOfBirth,
@@ -193,6 +202,7 @@ export {
   getPerson,
   getGender,
   getFirstName,
+  getFullName,
   getLastName,
   toCoTravellers,
   getTotalNumberOfPersons,

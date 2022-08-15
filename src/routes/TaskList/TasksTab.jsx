@@ -14,7 +14,7 @@ import { useKeycloak } from '../../context/Keycloak';
 
 // Config
 import config from '../../utils/config';
-import { Common, StringUtil } from '../../utils';
+import { CommonUtil, StringUtil } from '../../utils';
 
 // Components/Pages
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
@@ -29,9 +29,6 @@ import { LOCAL_STORAGE_KEYS,
 
 // Context
 import { PnrAccessContext } from '../../context/PnrAccessContext';
-
-// Utils
-import { StorageUtil } from '../../utils';
 
 // Services
 import AxiosRequests from '../../api/axiosRequests';
@@ -50,7 +47,7 @@ const TasksTab = ({
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const source = axios.CancelToken.source();
   const { canViewPnrData } = useContext(PnrAccessContext);
-  const view = Common.setViewAndGet(location.pathname);
+  const view = CommonUtil.setViewAndGet(location.pathname);
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
   const [isLoading, setLoading] = useState(true);

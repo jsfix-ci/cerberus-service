@@ -86,8 +86,9 @@ export const MOVEMENT_MODES = {
 };
 
 export const MOVEMENT_ROLE = {
-  PASSENGER: 'PASSENGER',
   AIR_CREW: 'CREW',
+  DRIVER: 'DRIVER',
+  PASSENGER: 'PASSENGER',
 };
 
 export const MOVEMENT_VARIANT = {
@@ -137,7 +138,7 @@ export const VIEW = {
 };
 
 export const STRINGS = {
-  DATE_TIME_STRING_PREFIX: 'Booked',
+  DEFAULT_BOOKING_STRING_PREFIX: 'Booked',
   UNKNOWN_TEXT: 'Unknown',
   A_TITLE_CASE_TEXT: 'A ',
   A_SMALL_TEXT: 'a ',
@@ -152,6 +153,7 @@ export const STRINGS = {
   DAYJS_FUTURE_AIRPAX_REPLACE: 'before departure',
   DAYJS_PAST: 'ago',
   NO_TEXT: 'No',
+  NONE_TEXT: 'None',
   LATER_TEXT: 'later',
   YES_TEXT: 'Yes',
   RORO_HEADER: 'RoRo',

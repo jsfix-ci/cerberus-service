@@ -13,7 +13,7 @@ import { DATE_FORMATS, ICON, MOVEMENT_MODES } from '../../../utils/constants';
 // utils
 import { getMovementModeIcon } from '../../../utils/Movement/movementUtil';
 import { modifyRoRoPassengersTaskDetails } from '../../../utils/RoRoData/roroDataUtil';
-import Table from '../../../components/govuk/Table';
+import Table from '../../../components/Table/Table';
 import { capitalizeFirstLetter } from '../../../utils/String/stringUtil';
 
 import { SelectorMatchesTaskVersion } from './TaskVersionsMode/SelectorMatchesTaskVersion';

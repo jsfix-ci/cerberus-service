@@ -12,7 +12,7 @@ import {
   MOVEMENT_MODES,
   MOVEMENT_ROLE,
   TASK_STATUS,
-  UNKNOWN_TIME_DATA,
+  UNKNOWN_TIME_DATA, TASK_OUTCOME,
 } from '../constants';
 
 import { calculateTimeDifference,
@@ -22,7 +22,67 @@ import { calculateTimeDifference,
   toRelativeTime } from '../Datetime/datetimeUtil';
 import { getTotalNumberOfPersons } from '../Person/personUtil';
 import { isNotNumber } from '../Number/numberUtil';
-import Common from '../Common/common';
+import CommonUtil from '../Common/commonUtil';
+
+const getOutcomeTagBlock = (outcome) => {
+  let outcomeText;
+  let outcomeClass = 'genericOutcome';
+  switch (outcome) {
+    case TASK_OUTCOME.POSITIVE:
+      outcomeText = 'Positive Exam';
+      outcomeClass = 'positiveOutcome';
+      break;
+    case TASK_OUTCOME.NEGATIVE:
+      outcomeText = 'Negative Exam';
+      break;
+    case TASK_OUTCOME.NO_SHOW:
+      outcomeText = 'No Show';
+      break;
+    case TASK_OUTCOME.MISSED:
+      outcomeText = 'Missed Target';
+      break;
+    case TASK_OUTCOME.INSUFFICIENT_RESOURCES:
+      outcomeText = 'Insufficient Resources';
+      break;
+    case TASK_OUTCOME.TARGET_WITHDRAWN:
+      outcomeText = 'Target Withdrawn';
+      break;
+    default:
+      break;
+  }
+  return (
+    outcomeText && (
+      <p className={`govuk-body govuk-tag govuk-tag--${outcomeClass}`}>
+        {outcomeText}
+      </p>
+    )
+  );
+};
+
+const getOutcomeFrontlineArrests = (outcome) => {
+  if (!outcome) {
+    return false;
+  }
+  return outcome?.arrests;
+};
+
+const getOutcomeFrontlineOfficer = (outcome) => {
+  if (!outcome) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return outcome?.frontlineOfficer || STRINGS.UNKNOWN_TEXT;
+};
+
+const getOutcomeStatusTag = (outcome) => {
+  if (!outcome) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return getOutcomeTagBlock(TASK_OUTCOME[outcome?.status]) || STRINGS.UNKNOWN_TEXT;
+};
+
+const getOutcome = (targetTask) => {
+  return targetTask?.outcome || undefined;
+};
 
 const getMovementMode = (targetTask) => {
   return targetTask?.movement?.mode || undefined;
@@ -380,7 +440,7 @@ const getItineraryArrivalCountryCode = (itinerary) => {
     }
     return STRINGS.UNKNOWN_TEXT;
   }
-  return Common.iso3Code(itinerary.arrival.country);
+  return CommonUtil.iso3Code(itinerary.arrival.country);
 };
 
 /**
@@ -402,7 +462,7 @@ const getItineraryDepartureCountryCode = (itinerary) => {
     }
     return STRINGS.UNKNOWN_TEXT;
   }
-  return Common.iso3Code(itinerary.departure.country);
+  return CommonUtil.iso3Code(itinerary.departure.country);
 };
 
 const getFlightNumber = (flight) => {
@@ -489,7 +549,12 @@ const toItineraryRelativeTime = (index, itinerary, itineraries) => {
   );
 };
 
+// TODO: Update tests
 const MovementUtil = {
+  outcome: getOutcome,
+  outcomeStatusTag: getOutcomeStatusTag,
+  outcomeFLO: getOutcomeFrontlineOfficer,
+  outcomeFLOArrests: getOutcomeFrontlineArrests,
   movementRoute: getRoute,
   convertMovementRoute: toRoute,
   seatNumber: getSeatNumber,

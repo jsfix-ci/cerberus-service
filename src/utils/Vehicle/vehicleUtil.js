@@ -1,5 +1,12 @@
 import { STRINGS } from '../constants';
 
+const getVehicleColour = (vehicle) => {
+  if (!vehicle) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return vehicle?.colour || STRINGS.UNKNOWN_TEXT;
+};
+
 const getVehicleRegistration = (vehicle) => {
   if (!vehicle) {
     return STRINGS.UNKNOWN_TEXT;
@@ -25,8 +32,10 @@ const getVehicle = (targetTask) => {
   return targetTask?.movement?.vehicle || undefined;
 };
 
+// TODO: Write tests
 const VehicleUtil = {
   get: getVehicle,
+  vehicleColour: getVehicleColour,
   vehicleMake: getVehicleMake,
   vehicleModel: getVehicleModel,
   vehicleReg: getVehicleRegistration,
@@ -36,6 +45,7 @@ export default VehicleUtil;
 
 export {
   getVehicle,
+  getVehicleColour,
   getVehicleMake,
   getVehicleModel,
   getVehicleRegistration,

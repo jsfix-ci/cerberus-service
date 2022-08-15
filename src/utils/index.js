@@ -1,11 +1,15 @@
+import AccountUtil from './Account/accountUtil';
 import AxiosInstance from './Axios/axiosInstance';
 import BaggageUtil from './Baggage/baggageUtil';
 import BookingUtil from './Booking/bookingUtil';
-import Common from './Common/common';
+import CommonUtil from './Common/commonUtil';
 import DateTimeUtil from './Datetime/datetimeUtil';
 import DocumentUtil from './Document/documentUtil';
+import EnrichmentUtil from './Enrichment/EntichmentUtil';
 import FieldFormatterUtil from './FieldFormat/fieldFormatterUtil';
 import FormIOUtil from './Form/FormIO/formIOUtil';
+import GoodsUtil from './Goods/goodsUtil';
+import HaulierUtil from './Haulier/haulierUtil';
 import HyperlinkifyUtil from './Hyperlink/hyperlinkifyUtil';
 import MovementUtil from './Movement/movementUtil';
 import NumberUtil from './Number/numberUtil';
@@ -20,14 +24,18 @@ import TaskVersionUtil from './TaskVersion/taskVersionUtil';
 import VehicleUtil from './Vehicle/vehicleUtil';
 import VesselUtil from './Vessel/vesselUtil';
 
-export { AxiosInstance,
+export { AccountUtil,
+  AxiosInstance,
   BaggageUtil,
   BookingUtil,
-  Common,
+  CommonUtil,
   DateTimeUtil,
   DocumentUtil,
+  EnrichmentUtil,
   FieldFormatterUtil,
   FormIOUtil,
+  GoodsUtil,
+  HaulierUtil,
   HyperlinkifyUtil,
   MovementUtil,
   NumberUtil,

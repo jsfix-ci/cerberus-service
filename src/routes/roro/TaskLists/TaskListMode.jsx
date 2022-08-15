@@ -164,7 +164,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
               {roroData.bookingDateTime && <br />}
               {roroData.bookingDateTime && (
               <li>
-                {calculateTimeDifference(dateTimeArray, STRINGS.DATE_TIME_STRING_PREFIX)}
+                {calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}
               </li>
               )}
             </>
@@ -254,7 +254,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                     {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(DATE_FORMATS.SHORT)}</li>}
                     {roroData.bookingDateTime && <br />}
                     {roroData.bookingDateTime
-                      && <li>{calculateTimeDifference(dateTimeArray, STRINGS.DATE_TIME_STRING_PREFIX)}</li>}
+                      && <li>{calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>}
                   </>
                 ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
               </ul>
@@ -362,7 +362,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                       {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(DATE_FORMATS.SHORT)}</li>}
                       {roroData.bookingDateTime && <br />}
                       {roroData.bookingDateTime
-                        && <li>{calculateTimeDifference(dateTimeArray, STRINGS.DATE_TIME_STRING_PREFIX)}</li>}
+                        && <li>{calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
@@ -468,7 +468,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                       {roroData.bookingDateTime && <br />}
                       {roroData.bookingDateTime && (
                       <li>
-                        {calculateTimeDifference(dateTimeArray, STRINGS.DATE_TIME_STRING_PREFIX)}
+                        {calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}
                       </li>
                       )}
                     </>

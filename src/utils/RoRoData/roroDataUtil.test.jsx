@@ -4,7 +4,7 @@ import { modifyRoRoPassengersTaskList,
   filterKnownPassengers,
   toRoRoSelectorsValue } from './roroDataUtil';
 
-import { testRoroData } from '../__fixtures__/roroData.fixture';
+import { testRoroData } from '../../__fixtures__/roroData.fixture';
 
 describe('RoRoData Util', () => {
   beforeEach(() => {

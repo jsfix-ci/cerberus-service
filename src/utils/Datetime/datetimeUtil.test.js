@@ -30,7 +30,7 @@ describe('DatetimeUtil', () => {
     'should calculate the relative time difference', (dateTimeCommaString, expected) => {
       const dateTimeArray = dateTimeCommaString.split(',').filter((x) => x.length > 0);
       const formattedDateString = DateTimeUtil
-        .calculateTimeDifference(dateTimeArray, STRINGS.DATE_TIME_STRING_PREFIX);
+        .calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX);
       expect(formattedDateString).toEqual(expected);
     },
   );

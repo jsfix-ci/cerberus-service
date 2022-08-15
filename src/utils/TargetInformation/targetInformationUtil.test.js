@@ -1,9 +1,9 @@
 /* eslint-disable jest/expect-expect */
 import { TargetInformationUtil } from '../index';
 
-import targetData from '../../routes/airpax/__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import targetPrefillData from '../../routes/airpax/__fixtures__/targetData_AirPax_PrefillData.json';
-import tisSubmissionData from '../../routes/airpax/__fixtures__/targetData_AirPax_SubmissionData.json';
+import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import targetPrefillData from '../../__fixtures__/targetData_AirPax_PrefillData.json';
+import tisSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionData.json';
 
 describe('Target Information Sheet', () => {
   let PREFILL_DATA = {};

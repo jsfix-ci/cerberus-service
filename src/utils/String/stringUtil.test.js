@@ -20,7 +20,7 @@ import { testRoroDataTouristWithVehicle,
   testRoroDataAccompaniedFreight,
   testRoroDataUnaccompaniedFreight,
   testRoroDataAccompaniedFreightNoTrailer,
-  testRoroDataAccompaniedFreightNoVehicleNoTrailer } from '../__fixtures__/roroData.fixture';
+  testRoroDataAccompaniedFreightNoVehicleNoTrailer } from '../../__fixtures__/roroData.fixture';
 
 describe('StringUtil', () => {
   dayjs.extend(utc);

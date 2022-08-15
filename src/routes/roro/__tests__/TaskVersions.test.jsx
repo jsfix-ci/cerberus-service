@@ -265,7 +265,7 @@ describe('TaskVersions', () => {
       movementMode="RORO Accompanied Freight"
     />);
 
-    const rulesMatchedElement = container.querySelectorAll('.govuk-table__header');
+    const rulesMatchedElement = container.getElementsByTagName('th');
     for (let i = 0; i < expected.length - 1; i += 1) {
       expect(rulesMatchedElement[i].textContent).toEqual(expected[i]);
     }
