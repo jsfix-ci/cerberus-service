@@ -20,11 +20,14 @@ import dataTargetIssued from '../../__fixtures__/taskData_AirPax_TargetIssued.fi
 import dataTaskComplete from '../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
 import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
-// Extend the react-router-dom mock from jest.setup.jsx.
-const extendedRouterMock = jest.requireMock('react-router-dom');
-extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.AIRPAX[0] }));
+const mockAirpaxLocation = () => {
+  // Extend the react-router-dom mock from jest.setup.jsx.
+  const extendedRouterMock = jest.requireMock('react-router-dom');
+  extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.AIRPAX[0] }));
+};
 
 describe('TaskListPage', () => {
+  mockAirpaxLocation();
   const mockAxios = new MockAdapter(axios);
 
   let defaultPostPagesParams;
