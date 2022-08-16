@@ -17,9 +17,9 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     });
     cy.get('.govuk-grid-column-one-quarter').should('have.class', 'sticky');
     cy.contains('© Crown copyright').scrollIntoView();
-    cy.get('.govuk-grid-column-one-quarter').should('be.visible');
+    cy.get('.cop-filters-container').should('be.visible');
     cy.contains('Task management').scrollIntoView();
-    cy.get('.govuk-grid-column-one-quarter').should('be.visible');
+    cy.get('.cop-filters-container').should('be.visible');
   });
 
   it('Should verify filter by mode and Link to AirPax is displayed', () => {
