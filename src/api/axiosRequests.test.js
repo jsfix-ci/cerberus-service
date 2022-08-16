@@ -14,7 +14,7 @@ describe('AxiosRequests', () => {
 
   it('should throw an error on filters count api request failure', async () => {
     const axiosInstance = {
-      post: jest.fn(() => Promise.reject(ERROR_MESSAGE)),
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
     };
     await expect(AxiosRequests.filtersCount(axiosInstance, {}))
       .rejects
@@ -32,7 +32,7 @@ describe('AxiosRequests', () => {
 
   it('should throw an error on get tasks api request failure', async () => {
     const axiosInstance = {
-      post: jest.fn(() => Promise.reject(ERROR_MESSAGE)),
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
     };
     await expect(AxiosRequests.getTasks(axiosInstance, {}))
       .rejects
@@ -50,7 +50,7 @@ describe('AxiosRequests', () => {
 
   it('should throw an error on get task data api request failure', async () => {
     const axiosInstance = {
-      get: jest.fn(() => Promise.reject(ERROR_MESSAGE)),
+      get: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
     };
     await expect(AxiosRequests.taskData(axiosInstance, 'BK-123'))
       .rejects
@@ -68,7 +68,7 @@ describe('AxiosRequests', () => {
 
   it('should throw an error on rules api request failure', async () => {
     const axiosInstance = {
-      get: jest.fn(() => Promise.reject(ERROR_MESSAGE)),
+      get: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
     };
     await expect(AxiosRequests.getRules(axiosInstance))
       .rejects
@@ -86,7 +86,7 @@ describe('AxiosRequests', () => {
 
   it('should throw an error on information sheet api request failure', async () => {
     const axiosInstance = {
-      get: jest.fn(() => Promise.reject(ERROR_MESSAGE)),
+      get: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
     };
     await expect(AxiosRequests.informationSheet(axiosInstance, {}))
       .rejects
@@ -104,7 +104,7 @@ describe('AxiosRequests', () => {
 
   it('should throw an error on the task count api request failure', async () => {
     const axiosInstance = {
-      post: jest.fn(() => Promise.reject(ERROR_MESSAGE)),
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
     };
     await expect(AxiosRequests.taskCount(axiosInstance, {}))
       .rejects

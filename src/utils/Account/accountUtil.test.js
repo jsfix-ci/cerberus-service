@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { AccountUtil } from '../index';
 
 // Mock Data
-import mockTargetTask from '../../__fixtures__/taskData_RoRo_AssigneeCurrentUser.fixture.json';
+import mockTargetTask from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
 import { STRINGS } from '../constants';
 
 describe('AccountUtil', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatKey, formatField, formatLinkField } from './fieldFormatterUtil';
+import { FieldFormatterUtil } from '../index';
 
 describe('FieldFormatterUtil', () => {
   const toKeyOutput = (output) => {
@@ -12,7 +12,7 @@ describe('FieldFormatterUtil', () => {
       ['Key2'],
     ])(
       'should format any type keys correctly', (content) => {
-        expect(formatKey('ANY', content)).toEqual(toKeyOutput(content));
+        expect(FieldFormatterUtil.format.key('ANY', content)).toEqual(toKeyOutput(content));
       },
     );
   });
@@ -27,7 +27,7 @@ describe('FieldFormatterUtil', () => {
       ['Key4'],
     ])(
       'should format any changed type keys correctly', (content) => {
-        expect(formatKey('ANY-CHANGED', content)).toEqual(toChangedKeyOutput(content));
+        expect(FieldFormatterUtil.format.key('ANY-CHANGED', content)).toEqual(toChangedKeyOutput(content));
       },
     );
   });
@@ -51,7 +51,7 @@ describe('formatField', () => {
       ['2020-09-24T01:15:00', '24 Sep 2020 at 01:15'],
     ])(
       'should format booking datetime type fields correctly', (content, expectedOutput) => {
-        expect(formatField('BOOKING_DATETIME', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('BOOKING_DATETIME', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -62,7 +62,7 @@ describe('formatField', () => {
       ['2020-09-24T01:15:00', '24 Sep 2020 at 01:15'],
     ])(
       'should format changed booking datetime type fields correctly', (content, expectedOutput) => {
-        expect(formatField('BOOKING_DATETIME-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('BOOKING_DATETIME-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
@@ -73,7 +73,7 @@ describe('formatField', () => {
       ['200', '200m'],
     ])(
       'should format distance type fields correctly', (content, expectedOutput) => {
-        expect(formatField('DISTANCE', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('DISTANCE', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -84,7 +84,7 @@ describe('formatField', () => {
       ['400', '400m'],
     ])(
       'should format changed distance type fields correctly', (content, expectedOutput) => {
-        expect(formatField('DISTANCE-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('DISTANCE-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
@@ -95,7 +95,7 @@ describe('formatField', () => {
       ['200', '200kg'],
     ])(
       'should format weight type fields correctly', (content, expectedOutput) => {
-        expect(formatField('WEIGHT', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('WEIGHT', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -106,7 +106,7 @@ describe('formatField', () => {
       ['400', '400kg'],
     ])(
       'should format changed weight type fields correctly', (content, expectedOutput) => {
-        expect(formatField('WEIGHT-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('WEIGHT-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
@@ -117,7 +117,7 @@ describe('formatField', () => {
       ['200.50', '£200.50'],
     ])(
       'should format currency type fields correctly', (content, expectedOutput) => {
-        expect(formatField('CURRENCY', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('CURRENCY', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -128,7 +128,7 @@ describe('formatField', () => {
       ['400.99', '£400.99'],
     ])(
       'should format changed currency type fields correctly', (content, expectedOutput) => {
-        expect(formatField('CURRENCY-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('CURRENCY-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
@@ -139,7 +139,7 @@ describe('formatField', () => {
       ['5644', '15/06/1985'],
     ])(
       'should format short date type fields correctly', (content, expectedOutput) => {
-        expect(formatField('SHORT_DATETIME', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('SHORT_DATETIME', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -150,7 +150,7 @@ describe('formatField', () => {
       ['0', '01/01/1970'],
     ])(
       'should format changed short date type fields correctly', (content, expectedOutput) => {
-        expect(formatField('SHORT_DATETIME-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('SHORT_DATETIME-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
@@ -161,7 +161,7 @@ describe('formatField', () => {
       ['1985-06-15T09:09:09', '15 Jun 1985 at 09:09'],
     ])(
       'should format date type fields correctly', (content, expectedOutput) => {
-        expect(formatField('DATETIME', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('DATETIME', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -172,7 +172,7 @@ describe('formatField', () => {
       ['1970-01-01T10:10:10', '1 Jan 1970 at 10:10'],
     ])(
       'should format changed date type fields correctly', (content, expectedOutput) => {
-        expect(formatField('DATETIME-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('DATETIME-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
@@ -182,7 +182,7 @@ describe('formatField', () => {
       ['DON REVIE', 'DON REVIE'],
     ])(
       'should format string type fields correctly', (content, expectedOutput) => {
-        expect(formatField('STRING', content)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.format.field('STRING', content)).toEqual(expectedOutput);
       },
     );
   });
@@ -192,14 +192,14 @@ describe('formatField', () => {
       ['MARCELO BIELSA', 'MARCELO BIELSA'],
     ])(
       'should format changed string type fields correctly', (content, expectedOutput) => {
-        expect(formatField('STRING-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
+        expect(FieldFormatterUtil.format.field('STRING-CHANGED', content)).toEqual(toChangedFieldOutput(expectedOutput));
       },
     );
   });
 
   describe('Content not provided or null', () => {
     it('Should return Unknown if content is not provided for a fieldType', () => {
-      const restult = formatField('STRING', null);
+      const restult = FieldFormatterUtil.format.field('STRING', null);
       expect(restult).toBe('Unknown');
     });
   });
@@ -218,7 +218,7 @@ describe('formatLinkField', () => {
       ['PABLO HERNANDEZ', toNewTabHref('PABLO HERNANDEZ')],
     ])(
       'should format string type fields correctly', (content, expectedOutput) => {
-        expect(formatLinkField('STRING', content, link)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.link.add('STRING', content, link)).toEqual(expectedOutput);
       },
     );
   });
@@ -229,7 +229,7 @@ describe('formatLinkField', () => {
       ['BILLY BREMNER', toNewTabHref(toChangedFieldOutput('BILLY BREMNER'))],
     ])(
       'should format changed string type fields correctly', (content, expectedOutput) => {
-        expect(formatLinkField('STRING-CHANGED', content, link)).toEqual(expectedOutput);
+        expect(FieldFormatterUtil.link.add('STRING-CHANGED', content, link)).toEqual(expectedOutput);
       },
     );
   });

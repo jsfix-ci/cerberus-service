@@ -18,7 +18,6 @@ const getTrailer = (targetTask) => {
   return targetTask?.movement?.trailer || undefined;
 };
 
-// TODO: Write tests
 const TrailerUtil = {
   get: getTrailer,
   trailerReg: getTrailerRegistration,

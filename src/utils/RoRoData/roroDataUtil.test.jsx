@@ -1,8 +1,4 @@
-import { modifyRoRoPassengersTaskList,
-  extractTaskVersionsBookingField,
-  modifyCountryCodeIfPresent,
-  filterKnownPassengers,
-  toRoRoSelectorsValue } from './roroDataUtil';
+import { RoRoDataUtil } from '../index';
 
 import { testRoroData } from '../../__fixtures__/roroData.fixture';
 
@@ -12,7 +8,7 @@ describe('RoRoData Util', () => {
   });
 
   it('should return a modified roroData object with a list of 2 passengers', () => {
-    const modifiedRoroData = modifyRoRoPassengersTaskList({ ...testRoroData });
+    const modifiedRoroData = RoRoDataUtil.modifyRoRoPassengersTaskList({ ...testRoroData });
     expect(modifiedRoroData.passengers.length).toEqual(2);
   });
 
@@ -45,7 +41,7 @@ describe('RoRoData Util', () => {
       },
     };
 
-    const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
+    const result = RoRoDataUtil.extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
 
     expect(modifiedCheckInTime).toEqual(expectedCheckInDataTime);
@@ -80,7 +76,7 @@ describe('RoRoData Util', () => {
       },
     };
 
-    const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
+    const result = RoRoDataUtil.extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
 
     expect(modifiedCheckInTime).toEqual(expectedCheckInDataTime);
@@ -113,7 +109,7 @@ describe('RoRoData Util', () => {
       },
     };
 
-    const result = extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
+    const result = RoRoDataUtil.extractTaskVersionsBookingField(taskVersionMinified, testRoroDataMinified);
     const modifiedCheckInTime = result.contents.find(({ propName }) => propName === 'checkIn').content;
 
     expect(modifiedCheckInTime).toBeFalsy();
@@ -135,7 +131,7 @@ describe('RoRoData Util', () => {
       type: 'null',
       propName: 'booking',
     };
-    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    const result = RoRoDataUtil.modifyCountryCodeIfPresent(bookingFieldMinified);
     expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('United Kingdom (GB)');
   });
 
@@ -155,7 +151,7 @@ describe('RoRoData Util', () => {
       type: 'null',
       propName: 'booking',
     };
-    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    const result = RoRoDataUtil.modifyCountryCodeIfPresent(bookingFieldMinified);
     expect(result.contents?.find(({ propName }) => propName === 'country').content).toBe('UN');
   });
 
@@ -175,7 +171,7 @@ describe('RoRoData Util', () => {
       type: 'null',
       propName: 'booking',
     };
-    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    const result = RoRoDataUtil.modifyCountryCodeIfPresent(bookingFieldMinified);
     expect(result).toEqual(bookingFieldMinified);
   });
 
@@ -195,7 +191,7 @@ describe('RoRoData Util', () => {
       type: 'null',
       propName: 'booking',
     };
-    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    const result = RoRoDataUtil.modifyCountryCodeIfPresent(bookingFieldMinified);
     expect(result).toEqual(bookingFieldMinified);
   });
 
@@ -207,7 +203,7 @@ describe('RoRoData Util', () => {
       type: 'null',
       propName: 'booking',
     };
-    const result = modifyCountryCodeIfPresent(bookingFieldMinified);
+    const result = RoRoDataUtil.modifyCountryCodeIfPresent(bookingFieldMinified);
     expect(result).toEqual(bookingFieldMinified);
   });
 
@@ -230,7 +226,7 @@ describe('RoRoData Util', () => {
       },
     ];
 
-    const outcome = filterKnownPassengers(passengers);
+    const outcome = RoRoDataUtil.filterKnownPassengers(passengers);
     expect(outcome).toEqual(expected);
   });
 
@@ -257,26 +253,26 @@ describe('RoRoData Util', () => {
       },
     ];
 
-    const outcome = filterKnownPassengers(passengers);
+    const outcome = RoRoDataUtil.filterKnownPassengers(passengers);
     expect(outcome).toEqual(expected);
   });
 
   it('should return true when given is a string representation of boolean true', () => {
     const GIVEN = 'true';
-    expect(toRoRoSelectorsValue(GIVEN)).toBeTruthy();
+    expect(RoRoDataUtil.toRoRoSelectorsValue(GIVEN)).toBeTruthy();
   });
 
   it('should return false when given is a string representation of boolean false', () => {
     const GIVEN = 'false';
-    expect(toRoRoSelectorsValue(GIVEN)).toBeFalsy();
+    expect(RoRoDataUtil.toRoRoSelectorsValue(GIVEN)).toBeFalsy();
   });
 
   it('should return null when input is an empty string', () => {
-    expect(toRoRoSelectorsValue('')).toBeNull();
+    expect(RoRoDataUtil.toRoRoSelectorsValue('')).toBeNull();
   });
 
   it('should return null when input is the default roro hasSelectors filter value', () => {
     const GIVEN = 'both';
-    expect(toRoRoSelectorsValue(GIVEN)).toBeNull();
+    expect(RoRoDataUtil.toRoRoSelectorsValue(GIVEN)).toBeNull();
   });
 });

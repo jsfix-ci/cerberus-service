@@ -161,7 +161,7 @@ const VoyageSection = ({ view, targetTask, refDataAirlineCodes }) => {
       />
     );
   }
-  if (view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     voyageJsx = (
       <RoRoVoyage
         targetTask={targetTask}

@@ -81,7 +81,7 @@ const TasksTab = ({
           order: SORT_ORDER.ASC,
         },
       ] }),
-      ...((view === VIEW.RORO || view === VIEW.RORO_V2) && { sortParams: [
+      ...(view === VIEW.RORO && { sortParams: [
         {
           field: 'ARRIVAL_TIME',
           order: SORT_ORDER.ASC,

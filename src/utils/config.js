@@ -17,6 +17,7 @@ const config = {
   fileUploadApiUrl: process.env.FILE_UPLOAD_SERVICE_URL,
   formApiUrl: process.env.FORM_API_URL,
   copTargetingApiEnabled: process.env.COP_TARGETING_API_ENABLED === 'true',
+  roroV2ViewEnabled: process.env.RORO_V2_VIEW_ENABLED === 'true',
   camundaApiUrl: '/camunda/engine-rest',
   camundaApiUrlV1: '/camunda/v1',
   taskApiUrl: '/v2',

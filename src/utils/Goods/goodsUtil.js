@@ -1,24 +1,20 @@
 import { STRINGS } from '../constants';
 
 const getHazardous = (goods) => {
-  if (!goods) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return goods?.hazardous;
+  return !!goods?.hazardous;
 };
 
 const getDescription = (goods) => {
   if (!goods) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return goods?.description;
+  return goods?.description || STRINGS.UNKNOWN_TEXT;
 };
 
 const getGoods = (targetTask) => {
-  return targetTask?.movement?.goods;
+  return targetTask?.movement?.goods || undefined;
 };
 
-// TODO: Write test
 const GoodsUtil = {
   get: getGoods,
   description: getDescription,

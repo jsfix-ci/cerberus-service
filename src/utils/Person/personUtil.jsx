@@ -169,7 +169,6 @@ const getPerson = (targetTask) => {
   return null;
 };
 
-// TODO: Update tests
 const PersonUtil = {
   formatGender,
   get: getPerson,

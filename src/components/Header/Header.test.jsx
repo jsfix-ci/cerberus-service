@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '../../__mocks__/keycloakMock';
 import Header from './Header';
+import { TASK_LIST_PATHS } from '../../utils/constants';
 
 describe('Header', () => {
   test('renders the header with nav links', () => {
@@ -27,13 +28,19 @@ describe('Header', () => {
   describe('AirpaxTasks', () => {
     const extendedRouterMock = jest.requireMock('react-router-dom');
     it('should render the Tasks wording as a URL when on roro task list page, on the header', () => {
-      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: '/tasks' });
+      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: TASK_LIST_PATHS.RORO[0] });
       render(<Header />);
       expect(screen.getByText('Tasks')).toBeInTheDocument();
     });
 
     it('should render the Tasks wording as a URL when on airpax task list page, on the header', () => {
-      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: '/airpax/tasks' });
+      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: TASK_LIST_PATHS.AIRPAX[0] });
+      render(<Header />);
+      expect(screen.getByText('Tasks')).toBeInTheDocument();
+    });
+
+    it('should render the Tasks wording as a URL when on RoRo V2 task list page, on the header', () => {
+      extendedRouterMock.useLocation = jest.fn().mockReturnValue({ pathname: TASK_LIST_PATHS.RORO_V2[0] });
       render(<Header />);
       expect(screen.getByText('Tasks')).toBeInTheDocument();
     });

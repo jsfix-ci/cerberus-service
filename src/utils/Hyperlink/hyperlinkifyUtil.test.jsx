@@ -1,9 +1,9 @@
-import { hyperlinkify } from './hyperlinkifyUtil';
+import { HyperlinkifyUtil } from '../index';
 
 describe('hyperlinkify', () => {
   it('should format notes containing a hyperlink successfully', () => {
     const input = 'Hello, here is a [link](EXAMPLE_URL) to test';
-    const hyperlinkifiedInput = hyperlinkify(input);
+    const hyperlinkifiedInput = HyperlinkifyUtil.hyperlinkify(input);
 
     expect(hyperlinkifiedInput.length).toBe(3);
 
@@ -17,7 +17,7 @@ describe('hyperlinkify', () => {
 
   it('should format notes containing multiple hyperlinks successfully', () => {
     const input = 'Hello, here is a [link](EXAMPLE_URL) to test and another one called [FOO](BAR)';
-    const hyperlinkifiedInput = hyperlinkify(input);
+    const hyperlinkifiedInput = HyperlinkifyUtil.hyperlinkify(input);
 
     expect(hyperlinkifiedInput.length).toBe(5);
 
@@ -34,7 +34,7 @@ describe('hyperlinkify', () => {
 
   it('should format notes containing no hyperlinks successfully', () => {
     const input = 'Hello, there is no note in this string';
-    const hyperlinkifiedInput = hyperlinkify(input);
+    const hyperlinkifiedInput = HyperlinkifyUtil.hyperlinkify(input);
 
     expect(hyperlinkifiedInput.length).toBe(1);
 

@@ -1,11 +1,5 @@
+import { resetToZero } from '../Number/numberUtil';
 import { getMovementStats } from '../Common/commonUtil';
-
-const resetToZero = (count) => {
-  if (!count || count < 0) {
-    return 0;
-  }
-  return count;
-};
 
 const examinationCount = (movementStats) => {
   return resetToZero(movementStats?.examinationCount) || '-';
@@ -37,7 +31,6 @@ const EnrichmentUtil = {
   movementCount,
   seizureCount,
   personsWithPreviousSeizures: hasPersonsWithPreviousSeizures,
-  resetZero: resetToZero,
   format: {
     taskList: formatToTaskList,
   },
@@ -45,4 +38,4 @@ const EnrichmentUtil = {
 
 export default EnrichmentUtil;
 
-export { examinationCount, hasPersonsWithPreviousSeizures, movementCount, resetToZero, seizureCount, formatToTaskList };
+export { examinationCount, hasPersonsWithPreviousSeizures, movementCount, seizureCount, formatToTaskList };

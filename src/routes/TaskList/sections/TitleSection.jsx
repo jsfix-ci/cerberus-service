@@ -10,7 +10,7 @@ const getClaimRedirectEndpoint = (view, targetTask) => {
   if (view === VIEW.AIRPAX) {
     return `${TASK_LIST_PATHS.AIRPAX[0]}/${targetTask.id}`;
   }
-  if (view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     return `${TASK_LIST_PATHS.RORO_V2[0]}/${targetTask.id}`;
   }
 };

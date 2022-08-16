@@ -99,7 +99,7 @@ const TaskListPage = () => {
         }),
       ];
     }
-    if (view === VIEW.RORO || view === VIEW.RORO_V2) {
+    if (view === VIEW.RORO) {
       if (storedData) {
         const movementModes = DEFAULT_MOVEMENT_RORO_MODES_V2.map((mode) => ({
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -177,13 +177,13 @@ const TaskListPage = () => {
       ...(view === VIEW.AIRPAX && {
         movementModes: payload?.mode ? [payload.mode] : [],
       }),
-      ...((view === VIEW.RORO || view === VIEW.RORO_V2) && {
+      ...((view === VIEW.RORO) && {
         movementModes: payload?.mode.length ? payload.mode : payload.movementModes,
       }),
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
     };
-    if (view === VIEW.RORO || view === VIEW.RORO_V2) {
+    if (view === VIEW.RORO) {
       localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_FILTERS, JSON.stringify(payload));
     }
     if (view === VIEW.AIRPAX) {
@@ -198,7 +198,7 @@ const TaskListPage = () => {
   const handleFilterReset = async (e) => {
     e.preventDefault();
     const taskStatusKey = CommonUtil.taskStatusKeyByView(view);
-    const defaultFilters = (view !== VIEW.RORO && view !== VIEW.RORO_V2)
+    const defaultFilters = (view !== VIEW.RORO)
       ? DEFAULT_APPLIED_AIRPAX_FILTER_STATE : DEFAULT_APPLIED_RORO_FILTER_STATE_V2;
     CommonUtil.removeFiltersByView(view);
     await getFiltersAndSelectorsCount(StorageUtil.localStorageTaskStatus(taskStatusKey));
@@ -209,7 +209,7 @@ const TaskListPage = () => {
   const applySavedFiltersOnLoad = async () => {
     const taskStatusKey = CommonUtil.taskStatusKeyByView(view);
     let storedFilters;
-    if (view === VIEW.RORO || view === VIEW.RORO_V2) {
+    if (view === VIEW.RORO) {
       storedFilters = StorageUtil.localStorageItem(LOCAL_STORAGE_KEYS.RORO_FILTERS) || DEFAULT_APPLIED_RORO_FILTER_STATE_V2;
     }
     if (view === VIEW.AIRPAX) {

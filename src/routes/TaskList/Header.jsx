@@ -1,17 +1,15 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { TASK_LIST_PATHS, STRINGS, VIEW } from '../../utils/constants';
+import config from '../../utils/config';
 
 const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
   const getHeadingByView = () => {
     if (view === VIEW.RORO) {
-      return STRINGS.RORO_HEADER;
-    }
-    if (view === VIEW.RORO_V2) {
-      return STRINGS.RORO_HEADER_V2;
+      return STRINGS.TASK_MANAGEMENT_INLINE_HEADERS.RORO_V2;
     }
     if (view === VIEW.AIRPAX) {
-      return STRINGS.AIRPAX_HEADER;
+      return STRINGS.TASK_MANAGEMENT_INLINE_HEADERS.AIRPAX;
     }
   };
 
@@ -25,46 +23,22 @@ const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
               selectTabIndex(0);
               selectTaskManagementTabIndex(0);
             }}
-            to={TASK_LIST_PATHS.RORO_V2[0]}
-          >
-            RoRo V2 tasks
-          </Link>
-          <Link
-            className="airpax-task-link"
-            onClick={() => {
-              selectTabIndex(0);
-              selectTaskManagementTabIndex(0);
-            }}
-            to={TASK_LIST_PATHS.AIRPAX[0]}
-          >
-            Airpax tasks
-          </Link>
-        </>
-      );
-    }
-    if (view === VIEW.RORO_V2) {
-      return (
-        <>
-          <Link
-            className="roro-task-link"
-            onClick={() => {
-              selectTabIndex(0);
-              selectTaskManagementTabIndex(0);
-            }}
             to={TASK_LIST_PATHS.RORO[0]}
           >
-            RoRo tasks
+            {STRINGS.TASK_LINK_HEADERS.RORO_V1}
           </Link>
-          <Link
-            className="airpax-task-link"
-            onClick={() => {
-              selectTabIndex(0);
-              selectTaskManagementTabIndex(0);
-            }}
-            to={TASK_LIST_PATHS.AIRPAX[0]}
-          >
-            Airpax tasks
-          </Link>
+          {config.copTargetingApiEnabled && (
+            <Link
+              className="airpax-task-link"
+              onClick={() => {
+                selectTabIndex(0);
+                selectTaskManagementTabIndex(0);
+              }}
+              to={TASK_LIST_PATHS.AIRPAX[0]}
+            >
+              {STRINGS.TASK_LINK_HEADERS.AIRPAX}
+            </Link>
+          )}
         </>
       );
     }
@@ -79,18 +53,20 @@ const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
             }}
             to={TASK_LIST_PATHS.RORO[0]}
           >
-            RoRo tasks
+            {STRINGS.TASK_LINK_HEADERS.RORO_V1}
           </Link>
-          <Link
-            className="roro-task-link"
-            onClick={() => {
-              selectTabIndex(0);
-              selectTaskManagementTabIndex(0);
-            }}
-            to={TASK_LIST_PATHS.RORO_V2[0]}
-          >
-            RoRo V2 tasks
-          </Link>
+          {config.roroV2ViewEnabled && (
+            <Link
+              className="roro-task-link"
+              onClick={() => {
+                selectTabIndex(0);
+                selectTaskManagementTabIndex(0);
+              }}
+              to={TASK_LIST_PATHS.RORO_V2[0]}
+            >
+              {STRINGS.TASK_LINK_HEADERS.RORO_V2}
+            </Link>
+          )}
         </>
       );
     }

@@ -378,7 +378,7 @@ const MovementSection = ({ view, targetTask }) => {
   if (view === VIEW.AIRPAX) {
     return <AirpaxSection targetTask={targetTask} />;
   }
-  if (view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     return <RoRoSection targetTask={targetTask} />;
   }
 };

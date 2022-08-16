@@ -1,6 +1,7 @@
 import renderer from 'react-test-renderer';
 
 import { STRINGS } from '../constants';
+
 import { PersonUtil } from '../index';
 
 describe('PersonUtil', () => {

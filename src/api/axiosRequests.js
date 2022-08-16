@@ -10,7 +10,7 @@ const getTaskList = async (axiosClient, payload) => {
     return await axiosClient.post('/targeting-tasks/pages', payload)
       .then((response) => response.data);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -26,7 +26,7 @@ const getTaskData = async (axiosClient, businessKey) => {
     return await axiosClient.get(`/targeting-tasks/${businessKey}`)
       .then((response) => response.data);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -41,7 +41,7 @@ const getRulesOptions = async (axiosClient) => {
     return await axiosClient.get('/filters/rules')
       .then((response) => response.data);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -57,7 +57,7 @@ const getTaskCount = async (axiosClient, payload) => {
     return await axiosClient.post('/targeting-tasks/status-counts', [payload || {}])
       .then((response) => response.data[0].statusCounts);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -73,7 +73,7 @@ const getFiltersAndSelectorsCount = async (axiosClient, payload) => {
     return await axiosClient.post('/targeting-tasks/status-counts', payload)
       .then((response) => response.data);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -89,7 +89,7 @@ const getInformationSheet = async (axiosClient, businessKey) => {
     return await axiosClient.get(`/targeting-tasks/${businessKey}/information-sheets`)
       .then((response) => response.data);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 

@@ -32,7 +32,6 @@ const getVehicle = (targetTask) => {
   return targetTask?.movement?.vehicle || undefined;
 };
 
-// TODO: Write tests
 const VehicleUtil = {
   get: getVehicle,
   vehicleColour: getVehicleColour,

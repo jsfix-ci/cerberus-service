@@ -133,7 +133,6 @@ export const DESCRIPTION_MAPPING = {
 export const VIEW = {
   AIRPAX: 'AIRPAX',
   RORO: 'RORO',
-  RORO_V2: 'RORO_V2',
   NONE: undefined,
 };
 
@@ -156,9 +155,16 @@ export const STRINGS = {
   NONE_TEXT: 'None',
   LATER_TEXT: 'later',
   YES_TEXT: 'Yes',
-  RORO_HEADER: 'RoRo',
-  RORO_HEADER_V2: 'RoRo V2',
-  AIRPAX_HEADER: 'AirPax',
+  TASK_MANAGEMENT_INLINE_HEADERS: {
+    AIRPAX: 'AirPax',
+    RORO_V1: 'RoRo',
+    RORO_V2: 'RoRo V2',
+  },
+  TASK_LINK_HEADERS: {
+    AIRPAX: 'Airpax tasks',
+    RORO_V1: 'RoRo tasks',
+    RORO_V2: 'RoRo V2 tasks',
+  },
 };
 
 export const FONT_CLASSES = {

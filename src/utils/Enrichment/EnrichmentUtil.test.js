@@ -72,11 +72,6 @@ describe('EnrichmentUtil', () => {
     expect(EnrichmentUtil.format.taskList(MOVEMENT_STATS)).toEqual('-/-/-');
   });
 
-  it('should reset a negative number to 0', () => {
-    const output = EnrichmentUtil.resetZero(-1);
-    expect(output).toEqual(0);
-  });
-
   it.each([
     [{
       ...MOVEMENT_STATS,

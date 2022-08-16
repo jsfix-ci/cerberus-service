@@ -8,7 +8,7 @@ const getMovementStats = (entity) => {
 };
 
 const setTaskStatusByView = (view, taskStatus) => {
-  if (view === VIEW.RORO || view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS, taskStatus);
   }
   if (view === VIEW.AIRPAX) {
@@ -17,7 +17,7 @@ const setTaskStatusByView = (view, taskStatus) => {
 };
 
 const removeFiltersByView = (view) => {
-  if (view === VIEW.RORO || view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.RORO_FILTERS);
   }
   if (view === VIEW.AIRPAX) {
@@ -26,7 +26,7 @@ const removeFiltersByView = (view) => {
 };
 
 const removeTaskStatusByView = (view) => {
-  if (view === VIEW.RORO || view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS);
   }
   if (view === VIEW.AIRPAX) {
@@ -35,77 +35,108 @@ const removeTaskStatusByView = (view) => {
 };
 
 const getTaskStatusKeyByView = (view) => {
-  return (view !== VIEW.RORO && view !== VIEW.RORO_V2)
-    ? LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS : LOCAL_STORAGE_KEYS.RORO_TASK_STATUS;
+  switch (view) {
+    case VIEW.RORO: {
+      return LOCAL_STORAGE_KEYS.RORO_TASK_STATUS;
+    }
+    case VIEW.AIRPAX: {
+      return LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS;
+    }
+    default: {
+      return undefined;
+    }
+  }
 };
 
 const getFilterKeyByView = (view) => {
-  return (view !== VIEW.RORO && view !== VIEW.RORO_V2)
-    ? LOCAL_STORAGE_KEYS.AIRPAX_FILTERS : LOCAL_STORAGE_KEYS.RORO_FILTERS;
+  switch (view) {
+    case VIEW.AIRPAX: {
+      return LOCAL_STORAGE_KEYS.AIRPAX_FILTERS;
+    }
+    case VIEW.RORO: {
+      return LOCAL_STORAGE_KEYS.RORO_FILTERS;
+    }
+    default: {
+      return undefined;
+    }
+  }
 };
 
 const getViewDetailsURL = (view, targetTask) => {
-  if (view === VIEW.AIRPAX) {
-    return `${TASK_LIST_PATHS.AIRPAX[0]}/${targetTask.id}`;
-  }
-  if (view === VIEW.RORO_V2) {
-    return `${TASK_LIST_PATHS.RORO_V2[0]}/${targetTask.id}`;
+  switch (view) {
+    case VIEW.AIRPAX: {
+      return `${TASK_LIST_PATHS.AIRPAX[0]}/${targetTask.id}`;
+    }
+    case VIEW.RORO: {
+      return `${TASK_LIST_PATHS.RORO_V2[0]}/${targetTask.id}`;
+    }
+    default: {
+      return undefined;
+    }
   }
 };
 
 const getSourceRedirectURL = (view, businessKey) => {
-  if (view === VIEW.AIRPAX) {
-    return `${TASK_LIST_PATHS.AIRPAX[0]}/${businessKey}`;
-  }
-  if (view === VIEW.RORO_V2 || view === VIEW.RORO) {
-    return `${TASK_LIST_PATHS.RORO_V2[0]}/${businessKey}`;
+  switch (view) {
+    case VIEW.AIRPAX: {
+      return `${TASK_LIST_PATHS.AIRPAX[0]}/${businessKey}`;
+    }
+    case VIEW.RORO: {
+      return `${TASK_LIST_PATHS.RORO_V2[0]}/${businessKey}`;
+    }
+    default: {
+      return undefined;
+    }
   }
 };
 
 const getTaskListURL = (view, businessKey) => {
-  if (view === VIEW.AIRPAX) {
-    return `${TASK_LIST_PATHS.AIRPAX[0]}/${businessKey}`;
-  }
-  if (view === VIEW.RORO_V2 || view === VIEW.RORO) {
-    return `${TASK_LIST_PATHS.RORO_V2[0]}/${businessKey}`;
+  switch (view) {
+    case VIEW.AIRPAX: {
+      return `${TASK_LIST_PATHS.AIRPAX[0]}/${businessKey}`;
+    }
+    case VIEW.RORO: {
+      return `${TASK_LIST_PATHS.RORO_V2[0]}/${businessKey}`;
+    }
+    default: {
+      return undefined;
+    }
   }
 };
 
 const getUnclaimRedirectURL = (view) => {
-  if (view === VIEW.AIRPAX) {
-    console.log('Unclaim Redirect URL: ', TASK_LIST_PATHS.AIRPAX[0]);
-    return TASK_LIST_PATHS.AIRPAX[0];
-  }
-  if (view === VIEW.RORO_V2 || view === VIEW.RORO) {
-    console.log('Unclaim Redirect URL: ', TASK_LIST_PATHS.RORO_V2[0]);
-    return TASK_LIST_PATHS.RORO_V2[0];
+  switch (view) {
+    case VIEW.AIRPAX: {
+      return TASK_LIST_PATHS.AIRPAX[0];
+    }
+    case VIEW.RORO: {
+      return TASK_LIST_PATHS.RORO_V2[0];
+    }
+    default: {
+      return undefined;
+    }
   }
 };
 
-// TODO: Revisit this and re-write
 const determineViewByPath = (location) => {
-  if (location.includes(TASK_LIST_PATHS.AIRPAX[0])
-    && location.includes(TASK_LIST_PATHS.RORO[0])
-    && !location.includes(TASK_LIST_PATHS.RORO_V2[0])) {
+  if (!location) {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.NONE);
+    return VIEW.NONE;
+  }
+  if (!location.startsWith(TASK_LIST_PATHS.AIRPAX[0])
+    && !location.startsWith(TASK_LIST_PATHS.RORO[0])
+    && !location.startsWith(TASK_LIST_PATHS.RORO_V2[0])) {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.NONE);
+    return VIEW.NONE;
+  }
+  if (location.startsWith(TASK_LIST_PATHS.AIRPAX[0])) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.AIRPAX);
     return VIEW.AIRPAX;
   }
-  if (location.includes(TASK_LIST_PATHS.RORO[0])
-  && !location.includes(TASK_LIST_PATHS.AIRPAX[0])
-  && !location.includes(TASK_LIST_PATHS.RORO_V2[0])) {
+  if (location.startsWith(TASK_LIST_PATHS.RORO[0])
+    || location.startsWith(TASK_LIST_PATHS.RORO_V2[0])) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.RORO);
     return VIEW.RORO;
-  }
-  if (location.includes(TASK_LIST_PATHS.RORO_V2[0])
-    && !location.includes(TASK_LIST_PATHS.AIRPAX[0])
-    && location.includes(TASK_LIST_PATHS.RORO[0])) {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.RORO_V2);
-    return VIEW.RORO_V2;
-  }
-  if (!TASK_LIST_PATHS.AIRPAX[0].includes(location)
-    && !TASK_LIST_PATHS.RORO[0].includes(location) && !TASK_LIST_PATHS.RORO_V2[0].includes(location)) {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.NONE);
-    return VIEW.NONE;
   }
 };
 
@@ -122,17 +153,17 @@ const convertToIso3Code = (iso2Code) => {
 // TODO: Write test
 const CommonUtil = {
   iso3Code: convertToIso3Code,
-  setViewAndGet: determineViewByPath,
   unclaimRedirect: getUnclaimRedirectURL,
-  taskListURL: getTaskListURL,
-  sourceRedirect: getSourceRedirectURL,
-  viewDetailsURL: getViewDetailsURL,
   filterKeyByView: getFilterKeyByView,
-  taskStatusKeyByView: getTaskStatusKeyByView,
-  setTaskStatusByView,
-  removeFiltersByView,
-  removeTaskStatusByView,
   movementStats: getMovementStats,
+  removeTaskStatusByView,
+  removeFiltersByView,
+  setTaskStatusByView,
+  setViewAndGet: determineViewByPath,
+  sourceRedirect: getSourceRedirectURL,
+  taskListURL: getTaskListURL,
+  taskStatusKeyByView: getTaskStatusKeyByView,
+  viewDetailsURL: getViewDetailsURL,
 };
 
 export default CommonUtil;

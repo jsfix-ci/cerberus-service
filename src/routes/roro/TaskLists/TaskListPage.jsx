@@ -8,9 +8,9 @@ import {
   DEFAULT_MOVEMENT_RORO_MODES,
   DEFAULT_RORO_HAS_SELECTORS,
   LOCAL_STORAGE_KEYS,
-  RORO_FILTERS,
+  RORO_FILTERS, STRINGS,
   TAB_STATUS_MAPPING,
-  TARGETER_GROUP,
+  TARGETER_GROUP, TASK_LIST_PATHS,
   TASK_STATUS,
 } from '../../../utils/constants';
 import config from '../../../utils/config';
@@ -278,13 +278,22 @@ const TaskListPage = () => {
     <>
       <div className="heading-container govuk-!-margin-bottom-8">
         <h1 className="govuk-heading-xl govuk-!-margin-bottom-0 govuk-!-padding-right-1">Task management (RoRo)</h1>
+        {config.roroV2ViewEnabled && (
+          <Link
+            className="roro-task-link"
+            onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
+            to={TASK_LIST_PATHS.RORO_V2[0]}
+          >
+            {STRINGS.TASK_LINK_HEADERS.RORO_V2}
+          </Link>
+        )}
         {config.copTargetingApiEnabled && (
         <Link
           className="airpax-task-link"
           onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
-          to="/airpax/tasks"
+          to={TASK_LIST_PATHS.AIRPAX[0]}
         >
-          Airpax tasks
+          {STRINGS.TASK_LINK_HEADERS.AIRPAX}
         </Link>
         )}
       </div>

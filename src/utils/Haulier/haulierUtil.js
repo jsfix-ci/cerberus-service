@@ -11,7 +11,6 @@ const getHaulier = (targetTask) => {
   return targetTask?.movement?.haulier || undefined;
 };
 
-// TODO: Write tests
 const HaulierUtil = {
   get: getHaulier,
   name: getHaulierName,

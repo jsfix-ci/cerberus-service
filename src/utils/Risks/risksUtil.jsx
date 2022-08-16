@@ -159,8 +159,8 @@ const RisksUtil = {
   extractHighestRisk: extractRiskType,
   formatHighestThreat: formatHighestThreatLevel,
   roro: {
-    taskListTotalRiskScore: calculateTaskListTotalRiskScore, // TODO Write tests
-    taskDetailsTotalRiskScore: calculateTaskVersionTotalRiskScore, // TODO Write tests
+    taskListTotalRiskScore: calculateTaskListTotalRiskScore,
+    taskDetailsTotalRiskScore: calculateTaskVersionTotalRiskScore,
   },
 };
 

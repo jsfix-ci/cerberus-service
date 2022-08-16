@@ -1,17 +1,17 @@
-import { formatTaskData } from './taskSummaryDataUtil';
+import { TaskSummaryDataUtil } from '../index';
 import { testInputDataFieldsComplete,
   testInputDataFieldsEmpty,
   testOutputDataFieldsComplete,
-  testOutputDataFieldsEmpty } from './__fixtures__/taskSummaryData.fixture';
+  testOutputDataFieldsEmpty } from '../../__fixtures__/taskSummaryRoRoData.fixture';
 
 describe('formatting task summary data', () => {
   it('should return an object of formatted data', () => {
-    const formattedData = formatTaskData(testInputDataFieldsComplete);
+    const formattedData = TaskSummaryDataUtil.format(testInputDataFieldsComplete);
     expect(formattedData).toEqual(testOutputDataFieldsComplete);
   });
 
   it('should return user friendly results for null/undefined fields', () => {
-    const formattedData = formatTaskData(testInputDataFieldsEmpty);
+    const formattedData = TaskSummaryDataUtil.format(testInputDataFieldsEmpty);
     expect(formattedData).toEqual(testOutputDataFieldsEmpty);
   });
 });

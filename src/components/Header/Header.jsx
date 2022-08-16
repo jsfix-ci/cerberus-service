@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useKeycloak } from '../../context/Keycloak';
 import NavigationItem from '../NavigationItem/NavigationItem';
+import { TASK_LIST_PATHS } from '../../utils/constants';
 
 const Header = () => {
   const keycloak = useKeycloak();
@@ -58,8 +59,9 @@ const Header = () => {
               }
               aria-label="Navigation menu"
             >
-              {location.pathname.startsWith('/tasks') && <NavigationItem href="/tasks">Tasks</NavigationItem>}
-              {location.pathname.startsWith('/airpax/tasks') && <NavigationItem href="/airpax/tasks">Tasks</NavigationItem>}
+              {location.pathname.startsWith(TASK_LIST_PATHS.RORO[0]) && <NavigationItem href={TASK_LIST_PATHS.RORO[0]}>Tasks</NavigationItem>}
+              {location.pathname.startsWith(TASK_LIST_PATHS.AIRPAX[0]) && <NavigationItem href={TASK_LIST_PATHS.AIRPAX[0]}>Tasks</NavigationItem>}
+              {location.pathname.startsWith(TASK_LIST_PATHS.RORO_V2[0]) && <NavigationItem href={TASK_LIST_PATHS.RORO_V2[0]}>Tasks</NavigationItem>}
               <li className="govuk-header__navigation-item">
                 <Link to="/" onClick={(e) => logout(e)} className="govuk-header__link">Sign out</Link>
               </li>

@@ -6,7 +6,7 @@ import { COMPONENT_TYPES, VIEW } from '../../utils/constants';
 import { airpax, roro } from '../../forms/filter';
 
 const getMovementSelectorCounts = (view, filtersAndSelectorsCount) => {
-  if (view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     return {
       movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
       modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
@@ -163,7 +163,7 @@ const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filter
     forceUpdate();
   }, [filtersAndSelectorsCount]);
 
-  if (view === VIEW.RORO_V2) {
+  if (view === VIEW.RORO) {
     return (
       <RoRoFilter />
     );

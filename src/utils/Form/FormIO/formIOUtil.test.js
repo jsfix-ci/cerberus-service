@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import { augmentRequest, interpolate } from './formIOUtil';
+import { FormIOUtil } from '../../index';
 
 describe('formio support', () => {
   test('can interpolate file url', () => {
@@ -18,7 +18,7 @@ describe('formio support', () => {
       },
       businessKey: 'businessKey',
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].url).toEqual(
       'http://localhost:8080/api/attachment/files/businessKey',
     );
@@ -40,7 +40,7 @@ describe('formio support', () => {
         apiUrl: 'http://localhost:8080',
       },
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].data.url).toEqual('http://localhost:8080/api/data');
   });
 
@@ -55,7 +55,7 @@ describe('formio support', () => {
     const data = {
       businessKey: 'apples',
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].label).toEqual('apples hello');
   });
 
@@ -71,7 +71,7 @@ describe('formio support', () => {
     const data = {
       businessKey: 'businessKey',
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].html).toEqual('<p>Your reference businessKey</p>');
   });
 
@@ -87,7 +87,7 @@ describe('formio support', () => {
     const data = {
       businessKey: 'businessKey',
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].content).toEqual('<p>Your reference businessKey</p>');
   });
 
@@ -102,7 +102,7 @@ describe('formio support', () => {
     const data = {
       businessKey: 'businessKey',
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].defaultValue).toEqual('businessKey');
   });
 
@@ -118,12 +118,12 @@ describe('formio support', () => {
     const data = {
       businessKey: 'businessKey',
     };
-    interpolate(form, data);
+    FormIOUtil.interpolate(form, data);
     expect(form.components[0].defaultValue).toEqual('businessKey');
   });
 
   test('can augment request', async () => {
-    const plugin = augmentRequest(
+    const plugin = FormIOUtil.augmentRequest(
       {
         token:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
@@ -137,7 +137,7 @@ describe('formio support', () => {
   });
 
   test('can handle file', async () => {
-    const plugin = augmentRequest(
+    const plugin = FormIOUtil.augmentRequest(
       {
         token:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
@@ -162,7 +162,7 @@ describe('formio support', () => {
       access_token: 'new-access-token',
     });
 
-    const plugin = augmentRequest(
+    const plugin = FormIOUtil.augmentRequest(
       {
         token:
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1OTAwNTk2NDksImV4cCI6MTU1ODQzNzI0OSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20ifQ.LQdevf8dw6r1XrJIHfocqlcaX95mCPNvsg0ztl6Bvaw',

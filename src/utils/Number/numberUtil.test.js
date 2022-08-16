@@ -1,10 +1,23 @@
-/* eslint-disable no-unused-vars */
 import { NumberUtil } from '../index';
 
 describe('NumberUtil', () => {
-  it('should do something', () => {
-    // TODO What does the number util do?
-    expect(true).toBeTruthy();
+  it.each([
+    [1000, '1,000'],
+    [2500, '2,500'],
+    [78632, '78,632'],
+    [10000000, '10,000,000'],
+    ['10000000', '10,000,000'],
+  ])('should format long numbers with commas', (given, expected) => {
+    expect(NumberUtil.withComma(given)).toEqual(expected);
+  });
+
+  it.each([
+    [''],
+    [null],
+    [undefined],
+    ['ABCDEFGHIJ'],
+  ])('should return the given value when invalid', (given) => {
+    expect(NumberUtil.withComma(given)).toEqual(given);
   });
 
   it('should validate false if given is a number', () => {
@@ -51,5 +64,10 @@ describe('NumberUtil', () => {
     ['_'],
   ])('should return false when value does not equate to 0', (value) => {
     expect(NumberUtil.checkZeroCount(value)).toBeFalsy();
+  });
+
+  it('should reset a negative number to 0', () => {
+    const output = NumberUtil.resetZero(-1);
+    expect(output).toEqual(0);
   });
 });
