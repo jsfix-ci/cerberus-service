@@ -85,23 +85,26 @@ const TaskListPage = () => {
     const taskStatus = StorageUtil.localStorageTaskStatus(taskStatusKey);
     const storedData = StorageUtil.localStorageItem(filterKey);
 
+    const commonParams = () => {
+      return {
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        ruleIds: storedData.ruleIds,
+        searchText: storedData.searchText,
+        assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
+      };
+    };
+
     if (view === VIEW.AIRPAX) {
       if (storedData) {
         const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
-          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
           movementModes: mode.movementModes,
-          selectors: storedData.selectors || mode.selectors,
-          ruleIds: storedData.ruleIds || mode.ruleIds,
-          searchText: storedData.searchText || mode.searchText,
-          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
+          selectors: storedData.selectors,
+          ...commonParams(),
         }));
         const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
-          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
           movementModes: [storedData.mode] || [],
           selectors: selector.selectors,
-          ruleIds: storedData.ruleIds || [],
-          searchText: storedData.searchText || selector.searchText,
-          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
+          ...commonParams(),
         }));
         return movementModes.concat(selectors);
       }
@@ -121,20 +124,14 @@ const TaskListPage = () => {
     if (view === VIEW.RORO) {
       if (storedData) {
         const movementModes = DEFAULT_MOVEMENT_RORO_MODES_V2.map((mode) => ({
-          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
           movementModes: mode.movementModes,
-          selectors: storedData.selectors || mode.selectors,
-          ruleIds: storedData.ruleIds || mode.ruleIds,
-          searchText: storedData.searchText || mode.searchText,
-          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
+          selectors: storedData.selectors,
+          ...commonParams(),
         }));
         const selectors = DEFAULT_RORO_SELECTORS_V2.map((selector) => ({
-          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
           movementModes: storedData.movementModes || [],
           selectors: selector.selectors,
-          ruleIds: storedData.ruleIds || [],
-          searchText: storedData.searchText || selector.searchText,
-          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
+          ...commonParams(),
         }));
         return movementModes.concat(selectors);
       }
