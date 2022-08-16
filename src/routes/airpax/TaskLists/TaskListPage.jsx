@@ -43,6 +43,7 @@ const TaskListPage = () => {
   const history = useHistory();
   const isMounted = useIsMounted();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const currentUser = keycloak.tokenParsed.email;
   const source = axios.CancelToken.source();
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
@@ -51,6 +52,7 @@ const TaskListPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   const [rulesOptions, setRulesOptions] = useState([]);
+  const [assignedToMeChecked, setAssignedToMeChecked] = useState(false);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
 
   const getRulesOptions = async () => {
@@ -137,12 +139,14 @@ const TaskListPage = () => {
       movementModes: payload?.mode ? [payload.mode] : [],
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
+      assignees: getTaskStatus(AIRPAX_TASK_STATUS_KEY) === TASK_STATUS_IN_PROGRESS ? payload?.assignedToMe : [],
     };
     localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     getTaskCount(payload);
     setAppliedFilters(payload);
     getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
     setLoading(false);
+    setAssignedToMeChecked(payload.assignees?.length > 0);
   };
 
   const handleFilterReset = (e) => {
@@ -185,6 +189,18 @@ const TaskListPage = () => {
   if (isLoading) {
     return <LoadingSpinner />;
   }
+
+  const handleAssignedToMeFilter = (tabId) => {
+    const filtersToApply = tabId !== 'inProgress' ? {
+      ...appliedFilters,
+      assignees: [],
+    } : {
+      ...appliedFilters,
+      assignees: assignedToMeChecked ? [currentUser] : [],
+    };
+    setAppliedFilters(filtersToApply);
+    getTaskCount(filtersToApply);
+  };
 
   return (
     <>
@@ -238,6 +254,7 @@ const TaskListPage = () => {
             id="tasks"
             onTabClick={(e) => {
               history.push();
+              handleAssignedToMeFilter(e.id);
               getFiltersAndSelectorsCount(e.id);
             }}
             items={[
