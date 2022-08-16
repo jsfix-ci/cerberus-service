@@ -116,6 +116,7 @@ describe('TaskListFilters', () => {
       movementModes: ['AIR_PASSENGER'],
       rules: [{ id: 1234, name: 'Alpha' }, { id: 5678, name: 'Bravo' }],
       ruleIds: [1234, 5678],
+      searchText: null,
       formStatus: {
         page: 'filter',
       },
@@ -152,7 +153,7 @@ describe('TaskListFilters', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(JSON.parse(mockAxios.history.post[3].data)).toMatchObject(EXPECTED_POST_PARAMS);
+    expect(JSON.parse(mockAxios.history.post[1].data)).toMatchObject(EXPECTED_POST_PARAMS);
   });
 
   it('should verify post param ruleIds array when options array id is 0', async () => {
@@ -200,6 +201,6 @@ describe('TaskListFilters', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(JSON.parse(mockAxios.history.post[3].data)).toMatchObject(EXPECTED_POST_PARAMS);
+    expect(JSON.parse(mockAxios.history.post[1].data)).toMatchObject(EXPECTED_POST_PARAMS);
   });
 });

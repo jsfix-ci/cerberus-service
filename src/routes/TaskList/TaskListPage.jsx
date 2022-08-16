@@ -27,7 +27,6 @@ import config from '../../utils/config';
 
 // Components/Pages
 import ErrorSummary from '../../components/ErrorSummary/ErrorSummary';
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import Filter from '../../components/Filter/Filter';
 import Tabs from '../../components/Tabs/Tabs';
 import TasksTab from './TasksTab';
@@ -55,7 +54,6 @@ const TaskListPage = () => {
   const [error, setError] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
-  const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(
     () => (view === VIEW.AIRPAX ? DEFAULT_APPLIED_AIRPAX_FILTER_STATE : DEFAULT_APPLIED_RORO_FILTER_STATE_V2),
   );
@@ -188,7 +186,6 @@ const TaskListPage = () => {
   };
 
   const applyFilters = async (payload) => {
-    setLoading(true);
     const taskStatusKey = CommonUtil.taskStatusKeyByView(view);
     payload = {
       ...payload,
@@ -211,7 +208,6 @@ const TaskListPage = () => {
     setAppliedFilters(payload);
     await getTaskCount(payload);
     await getFiltersAndSelectorsCount(StorageUtil.localStorageTaskStatus(taskStatusKey));
-    setLoading(false);
   };
 
   const handleFilterReset = async (e) => {
@@ -235,7 +231,6 @@ const TaskListPage = () => {
     }
     await applyFilters(storedFilters);
     await getFiltersAndSelectorsCount(StorageUtil.localStorageTaskStatus(taskStatusKey));
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -266,10 +261,6 @@ const TaskListPage = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <>
       <Header
@@ -284,107 +275,109 @@ const TaskListPage = () => {
           errorList={[{ children: error }]}
         />
       )}
-      <div className="govuk-grid-row">
-        <section className="govuk-grid-column-one-quarter sticky">
-          <div className="cop-filters-container">
-            <div className="cop-filters-header">
-              <h2 className="govuk-heading-s">Filters</h2>
-              <button
-                className="govuk-link govuk-heading-s "
-                data-module="govuk-button"
-                type="button"
-                onClick={(e) => handleFilterReset(e)}
-              >
-                Clear all filters
-              </button>
+      {authorisedGroup && (
+        <div className="govuk-grid-row">
+          <section className="govuk-grid-column-one-quarter sticky">
+            <div className="cop-filters-container">
+              <div className="cop-filters-header">
+                <h2 className="govuk-heading-s">Filters</h2>
+                <button
+                  className="govuk-link govuk-heading-s "
+                  data-module="govuk-button"
+                  type="button"
+                  onClick={(e) => handleFilterReset(e)}
+                >
+                  Clear all filters
+                </button>
+              </div>
+              <div>
+                <Filter
+                  view={view}
+                  taskStatus={StorageUtil.localStorageTaskStatus(CommonUtil.taskStatusKeyByView(view))}
+                  onApply={applyFilters}
+                  appliedFilters={appliedFilters}
+                  filtersAndSelectorsCount={filtersAndSelectorsCount}
+                  rulesOptions={rulesOptions}
+                />
+              </div>
             </div>
-            <div>
-              <Filter
-                view={view}
-                taskStatus={StorageUtil.localStorageTaskStatus(CommonUtil.taskStatusKeyByView(view))}
-                onApply={applyFilters}
-                appliedFilters={appliedFilters}
-                filtersAndSelectorsCount={filtersAndSelectorsCount}
-                rulesOptions={rulesOptions}
-              />
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="govuk-grid-column-three-quarters">
-          <Tabs
-            title="Title"
-            id="tasks"
-            onTabClick={(e) => {
-              history.push();
-              handleAssignedToMeFilter(e.id);
-              getFiltersAndSelectorsCount(e.id);
-            }}
-            items={[
-              {
-                id: TASK_STATUS.NEW,
-                label: `New (${taskCountsByStatus?.new || 0})`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">New tasks</h2>
-                    <TasksTab
-                      taskStatus={TASK_STATUS.NEW}
-                      filtersToApply={appliedFilters}
-                      setError={setError}
-                      targetTaskCount={taskCountsByStatus?.new}
-                    />
-                  </>
-                ),
-              },
-              {
-                id: TASK_STATUS.IN_PROGRESS,
-                label: `In progress (${taskCountsByStatus?.inProgress || 0})`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">In progress tasks</h2>
-                    <TasksTab
-                      taskStatus={TASK_STATUS.IN_PROGRESS}
-                      filtersToApply={appliedFilters}
-                      setError={setError}
-                      targetTaskCount={taskCountsByStatus?.inProgress}
-                    />
-                  </>
-                ),
-              },
-              {
-                id: TASK_STATUS.ISSUED,
-                label: `Issued (${taskCountsByStatus?.issued || 0})`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">Target issued tasks</h2>
-                    <TasksTab
-                      taskStatus={TASK_STATUS.ISSUED}
-                      filtersToApply={appliedFilters}
-                      setError={setError}
-                      targetTaskCount={taskCountsByStatus?.issued}
-                    />
-                  </>
-                ),
-              },
-              {
-                id: TASK_STATUS.COMPLETE,
-                label: `Complete (${taskCountsByStatus?.complete || 0})`,
-                panel: (
-                  <>
-                    <h2 className="govuk-heading-l">Completed tasks</h2>
-                    <TasksTab
-                      taskStatus={TASK_STATUS.COMPLETE}
-                      filtersToApply={appliedFilters}
-                      setError={setError}
-                      targetTaskCount={taskCountsByStatus?.complete}
-                    />
-                  </>
-                ),
-              },
-            ]}
-          />
-        </section>
-      </div>
+          <section className="govuk-grid-column-three-quarters">
+            <Tabs
+              title="Title"
+              id="tasks"
+              onTabClick={(e) => {
+                history.push();
+                handleAssignedToMeFilter(e.id);
+                getFiltersAndSelectorsCount(e.id);
+              }}
+              items={[
+                {
+                  id: TASK_STATUS.NEW,
+                  label: `New (${taskCountsByStatus?.new || 0})`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">New tasks</h2>
+                      <TasksTab
+                        taskStatus={TASK_STATUS.NEW}
+                        filtersToApply={appliedFilters}
+                        setError={setError}
+                        targetTaskCount={taskCountsByStatus?.new}
+                      />
+                    </>
+                  ),
+                },
+                {
+                  id: TASK_STATUS.IN_PROGRESS,
+                  label: `In progress (${taskCountsByStatus?.inProgress || 0})`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">In progress tasks</h2>
+                      <TasksTab
+                        taskStatus={TASK_STATUS.IN_PROGRESS}
+                        filtersToApply={appliedFilters}
+                        setError={setError}
+                        targetTaskCount={taskCountsByStatus?.inProgress}
+                      />
+                    </>
+                  ),
+                },
+                {
+                  id: TASK_STATUS.ISSUED,
+                  label: `Issued (${taskCountsByStatus?.issued || 0})`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">Target issued tasks</h2>
+                      <TasksTab
+                        taskStatus={TASK_STATUS.ISSUED}
+                        filtersToApply={appliedFilters}
+                        setError={setError}
+                        targetTaskCount={taskCountsByStatus?.issued}
+                      />
+                    </>
+                  ),
+                },
+                {
+                  id: TASK_STATUS.COMPLETE,
+                  label: `Complete (${taskCountsByStatus?.complete || 0})`,
+                  panel: (
+                    <>
+                      <h2 className="govuk-heading-l">Completed tasks</h2>
+                      <TasksTab
+                        taskStatus={TASK_STATUS.COMPLETE}
+                        filtersToApply={appliedFilters}
+                        setError={setError}
+                        targetTaskCount={taskCountsByStatus?.complete}
+                      />
+                    </>
+                  ),
+                },
+              ]}
+            />
+          </section>
+        </div>
+      )}
     </>
   );
 };
