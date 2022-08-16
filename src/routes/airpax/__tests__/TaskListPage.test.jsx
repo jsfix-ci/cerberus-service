@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import '../../../__mocks__/keycloakMock';
@@ -166,12 +167,12 @@ describe('TaskListPage', () => {
     };
   });
 
-  const setTabAndTaskValues = (tabValue, pnrValue, taskStatus = 'new') => {
+  const setTabAndTaskValues = (tabValue, pnrValue) => {
     return (
       <MockApplicationContext>
         <PnrAccessContext.Provider value={pnrValue}>
           <TaskSelectedTabContext.Provider value={tabValue}>
-            <TaskListPage taskStatus={taskStatus} />
+            <TaskListPage />
           </TaskSelectedTabContext.Provider>
         </PnrAccessContext.Provider>
       </MockApplicationContext>
@@ -217,12 +218,40 @@ describe('TaskListPage', () => {
     await waitFor(() => expect(screen.queryByText('There is a problem')).not.toBeInTheDocument());
   });
 
+  it.each([
+    [0],
+    [2],
+    [3],
+  ])(
+    'should not show Assgined to me checkbox for new, issued and completed tabs', async (index) => {
+      mockAxios
+        .onPost('/targeting-tasks/pages')
+        .reply(200, [dataCurrentUser]);
+
+      const { container } = render(setTabAndTaskValues(tabData, pnrData));
+      const tab = container.getElementsByClassName('govuk-tabs__tab')[index];
+      await waitFor(() => userEvent.click(tab));
+      expect(screen.queryAllByText('Assigned to me')).toHaveLength(0);
+    },
+  );
+
+  it('should show Assgined to me checkbox when In Progress tab is clicked', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataCurrentUser]);
+
+    const { container } = render(setTabAndTaskValues(tabData, pnrData));
+    const inProgress = container.getElementsByClassName('govuk-tabs__tab')[1];
+    await waitFor(() => userEvent.click(inProgress));
+    expect(screen.getByText('Assigned to me')).toBeInTheDocument();
+  });
+
   it('should render a target task on the task list page', async () => {
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, [dataCurrentUser]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(screen.getByText('Single passenger')).toBeInTheDocument();
     expect(screen.getByText('DC')).toBeInTheDocument();
@@ -256,7 +285,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages', defaultPostPagesParams)
       .reply(200, [dataCurrentUser]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -266,7 +295,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, [dataNoAssignee]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'new')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
     expect(screen.getByText('Claim')).toBeInTheDocument();
   });
 
@@ -275,7 +304,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, [dataCurrentUser]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'inProgress')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
     expect(screen.getByText('Assigned to you')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -285,7 +314,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, [dataOtherUser]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'inProgress')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
     expect(screen.getByText('Assigned to notcurrentuser')).toBeInTheDocument();
     expect(screen.getByText('Unclaim task')).toBeInTheDocument();
   });
@@ -295,7 +324,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, [dataTargetIssued]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'issued')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
@@ -307,7 +336,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, [dataTaskComplete]);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, 'complete')));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
     expect(screen.queryByText('Assigned to you')).not.toBeInTheDocument();
     expect(screen.queryByText('Assigned to notcurrentuser')).not.toBeInTheDocument();
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
@@ -320,7 +349,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -334,7 +363,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_IN_PROGRESS)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -347,7 +376,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_TARGET_ISSUED)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -360,7 +389,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_COMPLETED)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(JSON.parse(mockAxios.history.post[0].data)).toMatchObject(EXPECTED_POST_PARAM);
   });
@@ -374,7 +403,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(403, dataNoAssignee);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
     expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();
@@ -407,7 +436,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(403, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData, TASK_STATUS_NEW)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
 
     expect(screen.getByText(/You do not have access to view new PNR data/)).toBeInTheDocument();
     expect(screen.getByText(/To view new PNR data, you will need to request access/)).toBeInTheDocument();
