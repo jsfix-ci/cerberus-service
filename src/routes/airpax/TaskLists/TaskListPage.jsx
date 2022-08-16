@@ -52,7 +52,6 @@ const TaskListPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
   const [rulesOptions, setRulesOptions] = useState([]);
-  const [assignedToMeChecked, setAssignedToMeChecked] = useState(false);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
 
   const getRulesOptions = async () => {
@@ -146,7 +145,6 @@ const TaskListPage = () => {
     setAppliedFilters(payload);
     getFiltersAndSelectorsCount(getTaskStatus(AIRPAX_TASK_STATUS_KEY));
     setLoading(false);
-    setAssignedToMeChecked(payload.assignees?.length > 0);
   };
 
   const handleFilterReset = (e) => {
@@ -190,13 +188,22 @@ const TaskListPage = () => {
     return <LoadingSpinner />;
   }
 
+  const getAssignee = () => {
+    const payload = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
+    if (payload?.assignees?.length > 0) {
+      return true;
+    }
+    return false;
+  };
+
   const handleAssignedToMeFilter = (tabId) => {
-    const filtersToApply = tabId !== 'inProgress' ? {
+    const inProgress = tabId === TASK_STATUS_IN_PROGRESS;
+    const filtersToApply = tabId !== TASK_STATUS_IN_PROGRESS ? {
       ...appliedFilters,
       assignees: [],
     } : {
       ...appliedFilters,
-      assignees: assignedToMeChecked ? [currentUser] : [],
+      assignees: inProgress && getAssignee() ? [currentUser] : [],
     };
     setAppliedFilters(filtersToApply);
     getTaskCount(filtersToApply);

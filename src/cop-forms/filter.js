@@ -21,8 +21,8 @@ const MODE_OPTIONS = [
   },
 ];
 
-export const airpax = (assignee, show) => {
-  const assignedToMe = show && {
+const assignedToMe = (assignee) => {
+  return {
     id: 'assignedToMe',
     fieldId: 'assignedToMe',
     type: 'checkboxes',
@@ -36,7 +36,9 @@ export const airpax = (assignee, show) => {
       ],
     },
   };
+};
 
+export const airpax = (assignee, show) => {
   return {
     id: 'filter',
     version: '0.0.1',
@@ -48,7 +50,7 @@ export const airpax = (assignee, show) => {
         id: 'filter',
         name: 'filter',
         components: [
-          assignedToMe,
+          show && assignedToMe(assignee),
           {
             id: 'search',
             fieldId: 'searchText',
@@ -114,21 +116,6 @@ export const airpax = (assignee, show) => {
 };
 
 export const roro = (assignee, show) => {
-  const assignedToMe = show && {
-    id: 'assignedToMe',
-    fieldId: 'assignedToMe',
-    type: 'checkboxes',
-    label: '',
-    data: {
-      options: [
-        {
-          value: assignee,
-          label: 'Assigned to me',
-        },
-      ],
-    },
-  };
-
   return {
     id: 'filter',
     version: '0.0.1',
@@ -139,7 +126,7 @@ export const roro = (assignee, show) => {
       id: 'filter',
       name: 'filter',
       components: [
-        assignedToMe,
+        show && assignedToMe(assignee),
         {
           id: 'mode',
           fieldId: 'mode',

@@ -132,17 +132,17 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
     return null;
   };
 
+  const renderAssigneeComponent = () => {
+    return ![TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED].includes(_taskStatus);
+  };
+
+  const filter = setupFilterCounts(airpax(currentUser, renderAssigneeComponent()), _taskStatus, movementModeCounts, modeSelectorCounts);
+
   const AirpaxFilter = () => {
     const onApplyFilter = async (_, payload, onSuccess) => {
       onSuccess(payload);
       onApply(payload);
     };
-
-    const renderAssigneeComponent = () => {
-      return ![TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED].includes(_taskStatus);
-    };
-
-    const filter = setupFilterCounts(airpax(currentUser, renderAssigneeComponent()), _taskStatus, movementModeCounts, modeSelectorCounts);
 
     return (
       <FormRenderer
@@ -162,15 +162,11 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
       onApply(payload);
     };
 
-    const renderAssigneeComponent = () => {
-      return ![TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED].includes(_taskStatus);
-    };
-
-    const filter = setupFilterCounts(roro(currentUser, renderAssigneeComponent()), _taskStatus, movementModeCounts, modeSelectorCounts);
+    const roroFilter = setupFilterCounts(roro(currentUser, renderAssigneeComponent()), _taskStatus, movementModeCounts, modeSelectorCounts);
 
     return (
       <FormRenderer
-        {...filter}
+        {...roroFilter}
         hooks={{
           onGetComponent,
           onSubmit: onApplyFilter,
