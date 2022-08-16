@@ -415,7 +415,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it('Should check rule matches details on task management page', () => {
+  it.only('Should check rule matches details on task management page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTO-TEST';
     const nextPage = 'a[data-test="next"]';
@@ -454,7 +454,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         cy.get('body').then(($el) => {
           if ($el.find(nextPage).length > 0) {
             cy.findTaskInAllThePages(`${businessKey}`, null, {
-              selector: 'Paid by cash1',
+              selector: 'Alcohol and 2 other rules',
               risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
@@ -462,7 +462,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
             });
           } else {
             cy.findTaskInSinglePage(`${businessKey}`, null, {
-              selector: 'Paid by cash1',
+              selector: 'Alcohol and 2 other rules',
               risk: 'Alcohol and 2 other rules',
               riskTier: 'Tier 1',
             }).then((taskFound) => {
@@ -781,6 +781,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     cy.contains('Issue target').click();
     cy.wait(2000);
     cy.get('#note').should('not.exist');
+    cy.contains('Cancel').click();
     cy.contains('Assessment complete').click();
     cy.wait(2000);
     cy.get('#note').should('not.exist');

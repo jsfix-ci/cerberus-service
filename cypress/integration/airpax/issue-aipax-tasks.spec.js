@@ -15,7 +15,7 @@ describe('Create AirPax task and issue target', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
-        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`, userId);
+        cy.claimAirPaxTaskWithUsername(`${taskResponse.id}`, userId);
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
@@ -31,6 +31,7 @@ describe('Create AirPax task and issue target', () => {
             cy.fixture('airpax/filterTargetPage.json').then((filter) => {
               filter.filterParams.assignees[0] = userId;
               cy.filterPageByAssignee(filter).then((filterResponse) => {
+                console.log(filterResponse);
                 expect(filterResponse[0].assignee).to.eql(userId);
               });
             });
@@ -49,7 +50,7 @@ describe('Create AirPax task and issue target', () => {
         cy.wait(3000);
         let businessKey = taskResponse.id;
         let movementId = taskResponse.movement.id;
-        cy.claimAirPaxTaskWithUserId(`${taskResponse.id}`, userId);
+        cy.claimAirPaxTaskWithUsername(`${taskResponse.id}`, userId);
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((issueTask) => {
           issueTask.id = businessKey;
@@ -98,19 +99,6 @@ describe('Create AirPax task and issue target', () => {
           cy.get('input[value="OUTBOUND"]').check();
           cy.contains('Continue').click();
 
-          // Update Co-traveller details
-          cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name')
-            .siblings('.govuk-summary-list__actions')
-            .within(() => {
-              cy.get('.govuk-link').contains('Change').click();
-              cy.wait(2000);
-            });
-          cy.get('input[name="seatNumber"]').type('34B');
-          cy.get('#bagCount').type('1');
-          cy.get('#weight').type(targetData.movement.baggage.weight);
-          cy.get('#tags').type(targetData.movement.baggage.tags);
-          cy.contains('Continue').click();
-
           // Add Selection Details
           cy.clickChangeInTIS('Targeting indicators');
           cy.get('input[class="hods-multi-select-autocomplete__input"]').type('Paid by cash');
@@ -151,13 +139,7 @@ describe('Create AirPax task and issue target', () => {
     let errorNames = [
       'Issuing hub is required',
       'Port is required',
-      'Seat number is required',
-      'Number of bags is required',
-      'Baggage weight (kg) is required',
-      'Tag details is required',
-      'Targeting indicators is required',
-      'Nominal type is required',
-      'System checks completed is required',
+      'Inbound or outbound is required',
       'Select the team that should receive the target is required'];
 
     let expectedErrorNames = [];
@@ -233,16 +215,6 @@ describe('Create AirPax task and issue target', () => {
         cy.contains('Issue target').click();
         cy.wait(2000);
         cy.fixture('airpax/issue-task-airpax.json').then((targetData) => {
-          cy.get('.govuk-summary-list__row').should('have.class', 'govuk-summary-list__title').next().contains('Given name')
-            .siblings('.govuk-summary-list__actions')
-            .within(() => {
-              cy.get('.govuk-link').contains('Change').click();
-              cy.wait(2000);
-            });
-          cy.contains('Add another passenger').should('be.visible');
-          cy.contains('Remove').should('be.visible').click({ force: true });
-          cy.contains('Continue').click();
-
           cy.contains('h2', 'Other passenger details').next().within(() => {
             cy.get('dt.govuk-summary-list__key').invoke('text').then((text) => {
               expect(text).to.equal('Nothing entered (optional)');
