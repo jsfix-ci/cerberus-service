@@ -10,9 +10,9 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.navigation('Tasks');
   });
 
-  it('Should verify filter component is sticky', () => {
-    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
-    cy.wait('@airpaxTask').then(({ response }) => {
+  it.only('Should verify filter component is sticky', () => {
+    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
+    cy.wait('@tasks').then(({ response }) => {
       expect(response.statusCode).to.be.equal(200);
     });
     cy.get('.govuk-grid-column-one-quarter').should('have.class', 'sticky');

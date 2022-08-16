@@ -12,8 +12,8 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
   });
 
   it('Should verify filter component is sticky', () => {
-    cy.intercept('POST', '/camunda/v1/targeting-tasks/pages').as('tasks');
-    cy.wait('@tasks').then(({ response }) => {
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(200);
     });
     cy.get('.govuk-grid-column-one-quarter').should('have.class', 'sticky');
