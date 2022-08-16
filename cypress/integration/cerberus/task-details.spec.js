@@ -1048,7 +1048,7 @@ describe('Render tasks from Camunda and manage them on task details Page', () =>
         cy.wait(4000);
         let businessKey = response.businessKey;
         cy.checkTaskDisplayed(businessKey);
-        cy.get('.task-versions .task-versions--right').should('contain.text', 'Highest threat level is Tier 4');
+        cy.get('.task-versions .task-versions--right').should('contain.text', 'No changes in this versionHighest threat level is Tier 4');
         cy.get('h2.govuk-heading-m').should('contain.text', '0 selector matches');
       });
     });

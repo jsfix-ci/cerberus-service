@@ -6,7 +6,7 @@ describe('Targeter to see how long before a task is due to arrive So that Target
   });
 
   it('Should verify Difference between Departure and booking date is a month before travel', () => {
-    cy.getBusinessKey('-RORO-Accompanied-Freight-RoRo-ACC_').then((businessKeys) => {
+    cy.getBusinessKey('-RORO-Accompanied-Freight-RoRo-ACC-SBT').then((businessKeys) => {
       expect(businessKeys.length).to.not.equal(0);
       cy.visit(`/tasks/${businessKeys[0]}`);
       cy.contains(`${businessKeys[0]}`);

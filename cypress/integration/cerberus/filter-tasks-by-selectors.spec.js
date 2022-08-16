@@ -234,6 +234,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
         cy.get(`a[href="#${key}"]`).click();
         cy.getTaskCount(null, 'true', statusTab[key]).then((numberOfTasks) => {
           // COP-9796 Number of tasks per selector filter on each of the status tab
+          cy.pageLoaded();
           cy.wait(1000);
           cy.get('.govuk-radios__item label').eq(0).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
@@ -256,6 +257,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
         cy.get(`a[href="#${key}"]`).click();
         cy.getTaskCount(null, 'false', statusTab[key]).then((numberOfTasks) => {
           // COP-9796 Number of tasks per selector filter on each of the status tab
+          cy.pageLoaded();
           cy.wait(1000);
           cy.get('.govuk-radios__item label').eq(1).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
@@ -278,6 +280,7 @@ describe('Filter tasks by Selectors on task management Page', () => {
         cy.get(`a[href="#${key}"]`).click();
         cy.getTaskCount(null, 'any', statusTab[key]).then((numberOfTasks) => {
           // COP-9796 Number of tasks per selector filter on each of the status tab
+          cy.pageLoaded();
           cy.wait(1000);
           cy.get('.govuk-radios__item label').eq(2).invoke('text').then((selectorTargets) => {
             let targets = parseInt(selectorTargets.match(/\d+/)[0], 10);
