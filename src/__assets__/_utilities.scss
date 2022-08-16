@@ -25,3 +25,8 @@
     position: relative;
   }
 }
+
+// Hiding an optional text without label as form renderer currently doesn't support this feature
+label[for=assignedToMe] {
+  display: none;
+}
