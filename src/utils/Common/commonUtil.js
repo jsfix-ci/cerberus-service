@@ -65,10 +65,10 @@ const getFilterKeyByView = (view) => {
 const getViewDetailsURL = (view, targetTask) => {
   switch (view) {
     case VIEW.AIRPAX: {
-      return `${TASK_LIST_PATHS.AIRPAX[0]}/${targetTask.id}`;
+      return `${TASK_LIST_PATHS.AIRPAX}/${targetTask.id}`;
     }
     case VIEW.RORO: {
-      return `${TASK_LIST_PATHS.RORO_V2[0]}/${targetTask.id}`;
+      return `${TASK_LIST_PATHS.RORO_V2}/${targetTask.id}`;
     }
     default: {
       return undefined;
@@ -79,10 +79,10 @@ const getViewDetailsURL = (view, targetTask) => {
 const getSourceRedirectURL = (view, businessKey) => {
   switch (view) {
     case VIEW.AIRPAX: {
-      return `${TASK_LIST_PATHS.AIRPAX[0]}/${businessKey}`;
+      return `${TASK_LIST_PATHS.AIRPAX}/${businessKey}`;
     }
     case VIEW.RORO: {
-      return `${TASK_LIST_PATHS.RORO_V2[0]}/${businessKey}`;
+      return `${TASK_LIST_PATHS.RORO_V2}/${businessKey}`;
     }
     default: {
       return undefined;
@@ -93,10 +93,10 @@ const getSourceRedirectURL = (view, businessKey) => {
 const getTaskListURL = (view, businessKey) => {
   switch (view) {
     case VIEW.AIRPAX: {
-      return `${TASK_LIST_PATHS.AIRPAX[0]}/${businessKey}`;
+      return `${TASK_LIST_PATHS.AIRPAX}/${businessKey}`;
     }
     case VIEW.RORO: {
-      return `${TASK_LIST_PATHS.RORO_V2[0]}/${businessKey}`;
+      return `${TASK_LIST_PATHS.RORO_V2}/${businessKey}`;
     }
     default: {
       return undefined;
@@ -107,10 +107,10 @@ const getTaskListURL = (view, businessKey) => {
 const getUnclaimRedirectURL = (view) => {
   switch (view) {
     case VIEW.AIRPAX: {
-      return TASK_LIST_PATHS.AIRPAX[0];
+      return TASK_LIST_PATHS.AIRPAX;
     }
     case VIEW.RORO: {
-      return TASK_LIST_PATHS.RORO_V2[0];
+      return TASK_LIST_PATHS.RORO_V2;
     }
     default: {
       return undefined;
@@ -123,18 +123,18 @@ const determineViewByPath = (location) => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.NONE);
     return VIEW.NONE;
   }
-  if (!location.startsWith(TASK_LIST_PATHS.AIRPAX[0])
-    && !location.startsWith(TASK_LIST_PATHS.RORO[0])
-    && !location.startsWith(TASK_LIST_PATHS.RORO_V2[0])) {
+  if (!location.startsWith(TASK_LIST_PATHS.AIRPAX)
+    && !location.startsWith(TASK_LIST_PATHS.RORO)
+    && !location.startsWith(TASK_LIST_PATHS.RORO_V2)) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.NONE);
     return VIEW.NONE;
   }
-  if (location.startsWith(TASK_LIST_PATHS.AIRPAX[0])) {
+  if (location.startsWith(TASK_LIST_PATHS.AIRPAX)) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.AIRPAX);
     return VIEW.AIRPAX;
   }
-  if (location.startsWith(TASK_LIST_PATHS.RORO[0])
-    || location.startsWith(TASK_LIST_PATHS.RORO_V2[0])) {
+  if (location.startsWith(TASK_LIST_PATHS.RORO)
+    || location.startsWith(TASK_LIST_PATHS.RORO_V2)) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VIEW, VIEW.RORO);
     return VIEW.RORO;
   }

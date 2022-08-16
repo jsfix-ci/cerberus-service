@@ -35,12 +35,12 @@ describe('CommonUtil', () => {
   });
 
   it.each([
-    [TASK_LIST_PATHS.AIRPAX[0], VIEW.AIRPAX],
-    [TASK_LIST_PATHS.RORO[0], VIEW.RORO],
-    [TASK_LIST_PATHS.RORO_V2[0], VIEW.RORO],
-    [`${TASK_LIST_PATHS.AIRPAX[0]}/${BUSINESS_KEY}`, VIEW.AIRPAX],
-    [`${TASK_LIST_PATHS.RORO[0]}/${BUSINESS_KEY}`, VIEW.RORO],
-    [`${TASK_LIST_PATHS.RORO_V2[0]}/${BUSINESS_KEY}`, VIEW.RORO],
+    [TASK_LIST_PATHS.AIRPAX, VIEW.AIRPAX],
+    [TASK_LIST_PATHS.RORO, VIEW.RORO],
+    [TASK_LIST_PATHS.RORO_V2, VIEW.RORO],
+    [`${TASK_LIST_PATHS.AIRPAX}/${BUSINESS_KEY}`, VIEW.AIRPAX],
+    [`${TASK_LIST_PATHS.RORO}/${BUSINESS_KEY}`, VIEW.RORO],
+    [`${TASK_LIST_PATHS.RORO_V2}/${BUSINESS_KEY}`, VIEW.RORO],
   ])('should set & return the view based on location', (location, expected) => {
     localStorage.clear();
     const view = CommonUtil.setViewAndGet(location);
@@ -60,8 +60,8 @@ describe('CommonUtil', () => {
   });
 
   it.each([
-    [VIEW.AIRPAX, TASK_LIST_PATHS.AIRPAX[0]],
-    [VIEW.RORO, TASK_LIST_PATHS.RORO_V2[0]],
+    [VIEW.AIRPAX, TASK_LIST_PATHS.AIRPAX],
+    [VIEW.RORO, TASK_LIST_PATHS.RORO_V2],
   ])('should generate the unclaim redirect URL when view is AirPax', (view, expected) => {
     expect(CommonUtil.unclaimRedirect(view)).toEqual(expected);
   });
@@ -73,8 +73,8 @@ describe('CommonUtil', () => {
   });
 
   it.each([
-    [VIEW.AIRPAX, `${TASK_LIST_PATHS.AIRPAX[0]}/${BUSINESS_KEY}`],
-    [VIEW.RORO, `${TASK_LIST_PATHS.RORO_V2[0]}/${BUSINESS_KEY}`],
+    [VIEW.AIRPAX, `${TASK_LIST_PATHS.AIRPAX}/${BUSINESS_KEY}`],
+    [VIEW.RORO, `${TASK_LIST_PATHS.RORO_V2}/${BUSINESS_KEY}`],
   ])('should generate the task list page URL for each valid view supplied', (view, expected) => {
     expect(CommonUtil.taskListURL(view, BUSINESS_KEY)).toEqual(expected);
   });
@@ -152,8 +152,8 @@ describe('CommonUtil', () => {
   });
 
   it.each([
-    [VIEW.AIRPAX, `${TASK_LIST_PATHS.AIRPAX[0]}/${BUSINESS_KEY}`],
-    [VIEW.RORO, `${TASK_LIST_PATHS.RORO_V2[0]}/${BUSINESS_KEY}`],
+    [VIEW.AIRPAX, `${TASK_LIST_PATHS.AIRPAX}/${BUSINESS_KEY}`],
+    [VIEW.RORO, `${TASK_LIST_PATHS.RORO_V2}/${BUSINESS_KEY}`],
   ])('should generate the source redirect URL from view', (view, expected) => {
     expect(CommonUtil.sourceRedirect(view, BUSINESS_KEY)).toEqual(expected);
   });
@@ -194,8 +194,8 @@ describe('CommonUtil', () => {
   });
 
   it.each([
-    [VIEW.AIRPAX, `${TASK_LIST_PATHS.AIRPAX[0]}/${BUSINESS_KEY}`],
-    [VIEW.RORO, `${TASK_LIST_PATHS.RORO_V2[0]}/${BUSINESS_KEY}`],
+    [VIEW.AIRPAX, `${TASK_LIST_PATHS.AIRPAX}/${BUSINESS_KEY}`],
+    [VIEW.RORO, `${TASK_LIST_PATHS.RORO_V2}/${BUSINESS_KEY}`],
   ])('should return the view details URL for each view', (view, expected) => {
     expect(CommonUtil.viewDetailsURL(view, MOCK_TARGET_TASK)).toEqual(expected);
   });

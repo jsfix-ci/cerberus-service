@@ -23,7 +23,7 @@ import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes
 const mockRoRoLocation = () => {
   // Extend the react-router-dom mock from jest.setup.jsx.
   const extendedRouterMock = jest.requireMock('react-router-dom');
-  extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.RORO_V2[0] }));
+  extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.RORO_V2 }));
 };
 
 describe('TaskListPage', () => {

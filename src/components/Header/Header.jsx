@@ -59,9 +59,9 @@ const Header = () => {
               }
               aria-label="Navigation menu"
             >
-              {location.pathname.startsWith(TASK_LIST_PATHS.RORO[0]) && <NavigationItem href={TASK_LIST_PATHS.RORO[0]}>Tasks</NavigationItem>}
-              {location.pathname.startsWith(TASK_LIST_PATHS.AIRPAX[0]) && <NavigationItem href={TASK_LIST_PATHS.AIRPAX[0]}>Tasks</NavigationItem>}
-              {location.pathname.startsWith(TASK_LIST_PATHS.RORO_V2[0]) && <NavigationItem href={TASK_LIST_PATHS.RORO_V2[0]}>Tasks</NavigationItem>}
+              {location.pathname.startsWith(TASK_LIST_PATHS.RORO) && <NavigationItem href={TASK_LIST_PATHS.RORO}>Tasks</NavigationItem>}
+              {location.pathname.startsWith(TASK_LIST_PATHS.AIRPAX) && <NavigationItem href={TASK_LIST_PATHS.AIRPAX}>Tasks</NavigationItem>}
+              {location.pathname.startsWith(TASK_LIST_PATHS.RORO_V2) && <NavigationItem href={TASK_LIST_PATHS.RORO_V2}>Tasks</NavigationItem>}
               <li className="govuk-header__navigation-item">
                 <Link to="/" onClick={(e) => logout(e)} className="govuk-header__link">Sign out</Link>
               </li>

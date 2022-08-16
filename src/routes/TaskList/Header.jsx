@@ -23,7 +23,7 @@ const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
               selectTabIndex(0);
               selectTaskManagementTabIndex(0);
             }}
-            to={TASK_LIST_PATHS.RORO[0]}
+            to={TASK_LIST_PATHS.RORO}
           >
             {STRINGS.TASK_LINK_HEADERS.RORO_V1}
           </Link>
@@ -34,7 +34,7 @@ const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
                 selectTabIndex(0);
                 selectTaskManagementTabIndex(0);
               }}
-              to={TASK_LIST_PATHS.AIRPAX[0]}
+              to={TASK_LIST_PATHS.AIRPAX}
             >
               {STRINGS.TASK_LINK_HEADERS.AIRPAX}
             </Link>
@@ -51,7 +51,7 @@ const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
               selectTabIndex(0);
               selectTaskManagementTabIndex(0);
             }}
-            to={TASK_LIST_PATHS.RORO[0]}
+            to={TASK_LIST_PATHS.RORO}
           >
             {STRINGS.TASK_LINK_HEADERS.RORO_V1}
           </Link>
@@ -62,7 +62,7 @@ const Header = ({ view, selectTabIndex, selectTaskManagementTabIndex }) => {
                 selectTabIndex(0);
                 selectTaskManagementTabIndex(0);
               }}
-              to={TASK_LIST_PATHS.RORO_V2[0]}
+              to={TASK_LIST_PATHS.RORO_V2}
             >
               {STRINGS.TASK_LINK_HEADERS.RORO_V2}
             </Link>

@@ -12,7 +12,7 @@ import { getLocalStoredItemByKeyValue } from '../../utils/Storage/storageUtil';
 
 // Extend the react-router-dom mock from jest.setup.jsx.
 const extendedRouterMock = jest.requireMock('react-router-dom');
-extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.AIRPAX[0] }));
+extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.AIRPAX }));
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);

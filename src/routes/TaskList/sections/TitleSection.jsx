@@ -8,10 +8,10 @@ import ClaimUnclaimTask from '../../../components/Buttons/ClaimUnclaimTask';
 
 const getClaimRedirectEndpoint = (view, targetTask) => {
   if (view === VIEW.AIRPAX) {
-    return `${TASK_LIST_PATHS.AIRPAX[0]}/${targetTask.id}`;
+    return `${TASK_LIST_PATHS.AIRPAX}/${targetTask.id}`;
   }
   if (view === VIEW.RORO) {
-    return `${TASK_LIST_PATHS.RORO_V2[0]}/${targetTask.id}`;
+    return `${TASK_LIST_PATHS.RORO_V2}/${targetTask.id}`;
   }
 };
 
