@@ -11,6 +11,16 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     cy.visit('/airpax/tasks');
   });
 
+  it('Should verify filter component is sticky', () => {
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.wait('@airpaxTask').then(({ response }) => {
+      expect(response.statusCode).to.be.equal(200);
+    });
+    cy.get('.govuk-grid-column-one-quarter').should('have.class', 'sticky');
+    cy.contains('© Crown copyright').scrollIntoView();
+    cy.get('.govuk-grid-column-one-quarter').should('be.visible');
+  });
+
   it('Should view filter tasks by selectors', () => {
     const filterNames = [
       'Has no selector',

@@ -10,6 +10,16 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.navigation('Tasks');
   });
 
+  it('Should verify filter component is sticky', () => {
+    cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
+    cy.wait('@airpaxTask').then(({ response }) => {
+      expect(response.statusCode).to.be.equal(200);
+    });
+    cy.get('.govuk-grid-column-one-quarter').should('have.class', 'sticky');
+    cy.contains('© Crown copyright').scrollIntoView();
+    cy.get('.govuk-grid-column-one-quarter').should('be.visible');
+  });
+
   it('Should verify filter by mode and Link to AirPax is displayed', () => {
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.contain('RoRo');
