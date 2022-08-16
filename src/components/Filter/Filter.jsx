@@ -1,12 +1,17 @@
 import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import React, { useState, useCallback, useEffect } from 'react';
-import { COMPONENT_TYPES, VIEW } from '../../utils/constants';
+import { COMPONENT_TYPES, VIEW, MOVEMENT_VARIANT, TASK_STATUS } from '../../utils/constants';
 
 import { airpax, roro } from '../../forms/filter';
+import { useKeycloak } from '../../context/Keycloak';
 
-const getMovementSelectorCounts = (view, filtersAndSelectorsCount) => {
-  if (view === VIEW.RORO) {
+const renderAssigneeComponent = (taskStatus) => {
+  return ![TASK_STATUS.NEW, TASK_STATUS.ISSUED, TASK_STATUS.COMPLETE].includes(taskStatus);
+};
+
+const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
+  if (mode === MOVEMENT_VARIANT.RORO) {
     return {
       movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
       modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
@@ -19,6 +24,8 @@ const getMovementSelectorCounts = (view, filtersAndSelectorsCount) => {
 };
 
 const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filtersAndSelectorsCount, rulesOptions }) => {
+  const keycloak = useKeycloak();
+  const currentUser = keycloak.tokenParsed.email;
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
   const { movementModeCounts, modeSelectorCounts } = getMovementSelectorCounts(view, filtersAndSelectorsCount);
@@ -71,6 +78,7 @@ const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filter
         }),
       };
     });
+    return filter;
   };
 
   const onGetComponent = (component, wrap) => {
@@ -125,11 +133,11 @@ const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filter
       onApply(payload);
     };
 
-    setupFilterCounts(airpax, _taskStatus, movementModeCounts, modeSelectorCounts);
+    const airpaxFilter = setupFilterCounts(airpax(currentUser, renderAssigneeComponent(_taskStatus)), _taskStatus, movementModeCounts, modeSelectorCounts);
 
     return (
       <FormRenderer
-        {...airpax}
+        {...airpaxFilter}
         hooks={{
           onGetComponent,
           onSubmit: onApplyFilter,
@@ -145,11 +153,11 @@ const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filter
       onApply(payload);
     };
 
-    setupFilterCounts(roro, _taskStatus, movementModeCounts, modeSelectorCounts);
+    const roroFilter = setupFilterCounts(roro(currentUser, renderAssigneeComponent(_taskStatus)), _taskStatus, movementModeCounts, modeSelectorCounts);
 
     return (
       <FormRenderer
-        {...roro}
+        {...roroFilter}
         hooks={{
           onGetComponent,
           onSubmit: onApplyFilter,
@@ -161,7 +169,7 @@ const Filter = ({ view, taskStatus: _taskStatus, onApply, appliedFilters, filter
 
   useEffect(() => {
     forceUpdate();
-  }, [filtersAndSelectorsCount]);
+  }, [filtersAndSelectorsCount, _taskStatus]);
 
   if (view === VIEW.RORO) {
     return (

@@ -89,13 +89,13 @@ describe('CommonUtil', () => {
     [VIEW.AIRPAX, LOCAL_STORAGE_KEYS.AIRPAX_FILTERS],
     [VIEW.RORO, LOCAL_STORAGE_KEYS.RORO_FILTERS],
   ])('should return the appropriate filter key for the view', (view, expected) => {
-    expect(CommonUtil.filterKeyByView(view)).toEqual(expected);
+    expect(CommonUtil.filtersKeyByView(view)).toEqual(expected);
   });
 
   it.each([
     ...INVALID_VIEWS,
   ])('should not return a filter key for the any invalid view', (view) => {
-    expect(CommonUtil.filterKeyByView(view)).toBeUndefined();
+    expect(CommonUtil.filtersKeyByView(view)).toBeUndefined();
   });
 
   it('should return the movement stats node within an entity', () => {

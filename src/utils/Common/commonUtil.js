@@ -154,7 +154,7 @@ const convertToIso3Code = (iso2Code) => {
 const CommonUtil = {
   iso3Code: convertToIso3Code,
   unclaimRedirect: getUnclaimRedirectURL,
-  filterKeyByView: getFilterKeyByView,
+  filtersKeyByView: getFilterKeyByView,
   movementStats: getMovementStats,
   removeTaskStatusByView,
   removeFiltersByView,

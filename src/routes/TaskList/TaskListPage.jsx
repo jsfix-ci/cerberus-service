@@ -49,6 +49,7 @@ const TaskListPage = () => {
   const location = useLocation();
   const view = CommonUtil.setViewAndGet(location.pathname);
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const currentUser = keycloak.tokenParsed.email;
   const source = axios.CancelToken.source();
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
@@ -61,11 +62,26 @@ const TaskListPage = () => {
   const [rulesOptions, setRulesOptions] = useState([]);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
 
-  console.log('VIEW: ', view); // TODO: Remove
+  const hasAssignee = () => {
+    const payload = StorageUtil.localStorageItem(CommonUtil.filtersKeyByView(view));
+    return !!payload?.assignedToMe?.length;
+  };
+
+  const getTaskCount = async (payload) => {
+    try {
+      const data = await AxiosRequests.taskCount(apiClient, payload);
+      if (!isMounted.current) return null;
+      setTaskCountsByStatus(data);
+    } catch (e) {
+      if (!isMounted.current) return null;
+      setError(e.message);
+      setTaskCountsByStatus(undefined);
+    }
+  };
 
   const getAppliedFilters = () => {
     const taskStatusKey = CommonUtil.taskStatusKeyByView(view);
-    const filterKey = CommonUtil.filterKeyByView(view);
+    const filterKey = CommonUtil.filtersKeyByView(view);
     const taskStatus = StorageUtil.localStorageTaskStatus(taskStatusKey);
     const storedData = StorageUtil.localStorageItem(filterKey);
     if (view === VIEW.AIRPAX) {
@@ -76,6 +92,7 @@ const TaskListPage = () => {
           selectors: storedData.selectors || mode.selectors,
           ruleIds: storedData.ruleIds || mode.ruleIds,
           searchText: storedData.searchText || mode.searchText,
+          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
         }));
         const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -83,6 +100,7 @@ const TaskListPage = () => {
           selectors: selector.selectors,
           ruleIds: storedData.ruleIds || [],
           searchText: storedData.searchText || selector.searchText,
+          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
         }));
         return movementModes.concat(selectors);
       }
@@ -107,6 +125,7 @@ const TaskListPage = () => {
           selectors: storedData.selectors || mode.selectors,
           ruleIds: storedData.ruleIds || mode.ruleIds,
           searchText: storedData.searchText || mode.searchText,
+          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
         }));
         const selectors = DEFAULT_RORO_SELECTORS_V2.map((selector) => ({
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -114,6 +133,7 @@ const TaskListPage = () => {
           selectors: selector.selectors,
           ruleIds: storedData.ruleIds || [],
           searchText: storedData.searchText || selector.searchText,
+          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
         }));
         return movementModes.concat(selectors);
       }
@@ -144,18 +164,6 @@ const TaskListPage = () => {
     }
   };
 
-  const getTaskCount = async (payload) => {
-    try {
-      const data = await AxiosRequests.taskCount(apiClient, payload);
-      if (!isMounted.current) return null;
-      setTaskCountsByStatus(data);
-    } catch (e) {
-      if (!isMounted.current) return null;
-      setError(e.message);
-      setTaskCountsByStatus(undefined);
-    }
-  };
-
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
     CommonUtil.setTaskStatusByView(view, taskStatus);
     try {
@@ -167,6 +175,18 @@ const TaskListPage = () => {
       setError(e.message);
       setFiltersAndSelectorsCount(undefined);
     }
+  };
+
+  const handleAssignedToMeFilter = async (tabId) => {
+    const filtersToApply = tabId !== TASK_STATUS.IN_PROGRESS ? {
+      ...appliedFilters,
+      assignees: [],
+    } : {
+      ...appliedFilters,
+      assignees: ((tabId === TASK_STATUS.IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
+    };
+    setAppliedFilters(filtersToApply);
+    await getTaskCount(filtersToApply);
   };
 
   const applyFilters = async (payload) => {
@@ -182,6 +202,7 @@ const TaskListPage = () => {
       }),
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
+      assignees: StorageUtil.localStorageTaskStatus(taskStatusKey) === TASK_STATUS.IN_PROGRESS ? payload?.assignedToMe : [],
     };
     if (view === VIEW.RORO) {
       localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_FILTERS, JSON.stringify(payload));
@@ -197,11 +218,10 @@ const TaskListPage = () => {
 
   const handleFilterReset = async (e) => {
     e.preventDefault();
-    const taskStatusKey = CommonUtil.taskStatusKeyByView(view);
     const defaultFilters = (view !== VIEW.RORO)
       ? DEFAULT_APPLIED_AIRPAX_FILTER_STATE : DEFAULT_APPLIED_RORO_FILTER_STATE_V2;
     CommonUtil.removeFiltersByView(view);
-    await getFiltersAndSelectorsCount(StorageUtil.localStorageTaskStatus(taskStatusKey));
+    await getFiltersAndSelectorsCount(StorageUtil.localStorageTaskStatus(CommonUtil.taskStatusKeyByView(view)));
     setAppliedFilters(defaultFilters);
     await getTaskCount(defaultFilters);
   };
@@ -299,6 +319,7 @@ const TaskListPage = () => {
             id="tasks"
             onTabClick={(e) => {
               history.push();
+              handleAssignedToMeFilter(e.id);
               getFiltersAndSelectorsCount(e.id);
             }}
             items={[

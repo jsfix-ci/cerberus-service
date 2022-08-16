@@ -304,6 +304,13 @@ export const RORO_FILTERS = [
 ];
 
 // TODO: RoRo V1
+export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
+  movementModes: [],
+  hasSelectors: 'both',
+  mode: [],
+};
+
+// TODO: RoRo V1
 export const DEFAULT_MOVEMENT_RORO_MODES = [
   {
     taskStatuses: [],
@@ -341,13 +348,17 @@ export const DEFAULT_RORO_HAS_SELECTORS = [
   },
 ];
 
-// TODO: RoRo V1
-export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
-  movementModes: [],
-  hasSelectors: 'both',
-  mode: [],
+// Airpax
+export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
+  movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
+  mode: MOVEMENT_MODES.AIR_PASSENGER,
+  selectors: 'ANY',
+  rules: [],
+  searchText: '',
+  assignees: [],
 };
 
+// Airpax
 export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
   {
     taskStatuses: [],
@@ -355,9 +366,11 @@ export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
     selectors: 'ANY',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
 ];
 
+// Airpax
 export const DEFAULT_AIRPAX_SELECTORS = [
   {
     taskStatuses: [],
@@ -365,6 +378,7 @@ export const DEFAULT_AIRPAX_SELECTORS = [
     selectors: 'PRESENT',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
   {
     taskStatuses: [],
@@ -372,6 +386,7 @@ export const DEFAULT_AIRPAX_SELECTORS = [
     selectors: 'NOT_PRESENT',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
   {
     taskStatuses: [],
@@ -379,15 +394,18 @@ export const DEFAULT_AIRPAX_SELECTORS = [
     selectors: 'ANY',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
 ];
 
-export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
-  movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-  mode: MOVEMENT_MODES.AIR_PASSENGER,
+// RoRo V2
+export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
+  movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+  mode: [],
   selectors: 'ANY',
   rules: [],
   searchText: '',
+  assignees: [],
 };
 
 // RoRo V2
@@ -396,16 +414,25 @@ export const DEFAULT_MOVEMENT_RORO_MODES_V2 = [
     taskStatuses: [],
     movementModes: [MOVEMENT_MODES.UNACCOMPANIED_FREIGHT],
     selectors: 'ANY',
+    ruleIds: [],
+    searchText: '',
+    assignees: [],
   },
   {
     taskStatuses: [],
     movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT],
     selectors: 'ANY',
+    ruleIds: [],
+    searchText: '',
+    assignees: [],
   },
   {
     taskStatuses: [],
     movementModes: [MOVEMENT_MODES.TOURIST],
     selectors: 'ANY',
+    ruleIds: [],
+    searchText: '',
+    assignees: [],
   },
 ];
 
@@ -417,6 +444,7 @@ export const DEFAULT_RORO_SELECTORS_V2 = [
     selectors: 'PRESENT',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
   {
     taskStatuses: [],
@@ -424,6 +452,7 @@ export const DEFAULT_RORO_SELECTORS_V2 = [
     selectors: 'NOT_PRESENT',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
   {
     taskStatuses: [],
@@ -431,17 +460,9 @@ export const DEFAULT_RORO_SELECTORS_V2 = [
     selectors: 'ANY',
     ruleIds: [],
     searchText: '',
+    assignees: [],
   },
 ];
-
-// RoRo V2
-export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
-  movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-  mode: [],
-  selectors: 'ANY',
-  rules: [],
-  searchText: '',
-};
 
 export const TAB_STATUS_MAPPING = {
   new: 'NEW',
