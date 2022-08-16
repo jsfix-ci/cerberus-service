@@ -84,6 +84,7 @@ const TaskListPage = () => {
     const filterKey = CommonUtil.filtersKeyByView(view);
     const taskStatus = StorageUtil.localStorageTaskStatus(taskStatusKey);
     const storedData = StorageUtil.localStorageItem(filterKey);
+
     if (view === VIEW.AIRPAX) {
       if (storedData) {
         const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({

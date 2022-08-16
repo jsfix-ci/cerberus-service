@@ -128,6 +128,14 @@ export const roro = (assignee, show) => {
       components: [
         show && assignedToMe(assignee),
         {
+          id: 'search',
+          fieldId: 'searchText',
+          label: 'Search',
+          type: 'text',
+          required: false,
+          placeholder: 'Passenger Name or Task Id',
+        },
+        {
           id: 'mode',
           fieldId: 'mode',
           label: 'Mode',
@@ -160,6 +168,14 @@ export const roro = (assignee, show) => {
               },
             ],
           },
+        },
+        {
+          id: 'rules',
+          fieldId: 'rules',
+          label: 'Rule matches',
+          type: 'multiautocomplete',
+          multi: true,
+          required: false,
         },
       ],
       actions: [
