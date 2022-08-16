@@ -415,7 +415,7 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
     });
   });
 
-  it.only('Should check rule matches details on task management page', () => {
+  it('Should check rule matches details on task management page', () => {
     cy.acceptPNRTerms();
     const taskName = 'AUTO-TEST';
     const nextPage = 'a[data-test="next"]';

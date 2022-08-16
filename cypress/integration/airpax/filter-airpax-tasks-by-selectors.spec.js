@@ -108,7 +108,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     });
   });
 
-  it.only('Should apply filter tasks by selectors on Issued tasks', () => {
+  it('Should apply filter tasks by selectors on Issued tasks', () => {
     let actualTotalTargets = 0;
 
     cy.get('a[href="#issued"]').click();
