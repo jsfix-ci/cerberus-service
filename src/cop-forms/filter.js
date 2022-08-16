@@ -21,39 +21,125 @@ const MODE_OPTIONS = [
   },
 ];
 
-export const airpax = {
-  id: 'filter',
-  version: '0.0.1',
-  name: 'filter',
-  type: 'form',
-  components: [],
-  pages: [
-    {
+const assignedToMe = (assignee) => {
+  return {
+    id: 'assignedToMe',
+    fieldId: 'assignedToMe',
+    type: 'checkboxes',
+    label: '',
+    data: {
+      options: [
+        {
+          value: assignee,
+          label: 'Assigned to me',
+        },
+      ],
+    },
+  };
+};
+
+export const airpax = (assignee, show) => {
+  return {
+    id: 'filter',
+    version: '0.0.1',
+    name: 'filter',
+    type: 'form',
+    components: [],
+    pages: [
+      {
+        id: 'filter',
+        name: 'filter',
+        components: [
+          show && assignedToMe(assignee),
+          {
+            id: 'search',
+            fieldId: 'searchText',
+            label: 'Search',
+            type: 'text',
+            required: false,
+            placeholder: 'Passenger Name or Task Id',
+          },
+          {
+            id: 'mode',
+            fieldId: 'mode',
+            label: 'Mode',
+            type: 'select',
+            required: true,
+            dynamicOptions: true,
+            data: {
+              options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('AIRPAX')),
+            },
+          },
+          {
+            id: 'selectors',
+            fieldId: 'selectors',
+            label: 'Selectors',
+            type: 'radios',
+            required: true,
+            dynamicOptions: true,
+            data: {
+              options: [
+                {
+                  value: 'NOT_PRESENT',
+                  label: 'Has no selector',
+                },
+                {
+                  value: 'PRESENT',
+                  label: 'Has selector',
+                },
+                {
+                  value: 'ANY',
+                  label: 'Both',
+                },
+              ],
+            },
+          },
+          {
+            id: 'rules',
+            fieldId: 'rules',
+            label: 'Rule matches',
+            type: 'multiautocomplete',
+            multi: true,
+            required: false,
+          },
+        ],
+        actions: [
+          {
+            type: 'submit',
+            validate: true,
+            label: 'Apply',
+          },
+        ],
+      },
+    ],
+  };
+};
+
+export const roro = (assignee, show) => {
+  return {
+    id: 'filter',
+    version: '0.0.1',
+    name: 'filter',
+    type: 'form',
+    components: [],
+    pages: [{
       id: 'filter',
       name: 'filter',
       components: [
-        {
-          id: 'search',
-          fieldId: 'searchText',
-          label: 'Search',
-          type: 'text',
-          required: false,
-          placeholder: 'Passenger Name or Task Id',
-        },
+        show && assignedToMe(assignee),
         {
           id: 'mode',
           fieldId: 'mode',
           label: 'Mode',
-          type: 'select',
-          required: true,
+          type: 'checkboxes',
           dynamicOptions: true,
           data: {
-            options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('AIRPAX')),
+            options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('RORO')),
           },
         },
         {
-          id: 'selectors',
-          fieldId: 'selectors',
+          id: 'hasSelectors',
+          fieldId: 'hasSelectors',
           label: 'Selectors',
           type: 'radios',
           required: true,
@@ -61,27 +147,19 @@ export const airpax = {
           data: {
             options: [
               {
-                value: 'NOT_PRESENT',
+                value: 'false',
                 label: 'Has no selector',
               },
               {
-                value: 'PRESENT',
+                value: 'true',
                 label: 'Has selector',
               },
               {
-                value: 'ANY',
+                value: 'both',
                 label: 'Both',
               },
             ],
           },
-        },
-        {
-          id: 'rules',
-          fieldId: 'rules',
-          label: 'Rule matches',
-          type: 'multiautocomplete',
-          multi: true,
-          required: false,
         },
       ],
       actions: [
@@ -91,61 +169,6 @@ export const airpax = {
           label: 'Apply',
         },
       ],
-    },
-  ],
-};
-
-export const roro = {
-  id: 'filter',
-  version: '0.0.1',
-  name: 'filter',
-  type: 'form',
-  components: [],
-  pages: [{
-    id: 'filter',
-    name: 'filter',
-    components: [
-      {
-        id: 'mode',
-        fieldId: 'mode',
-        label: 'Mode',
-        type: 'checkboxes',
-        dynamicOptions: true,
-        data: {
-          options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('RORO')),
-        },
-      },
-      {
-        id: 'hasSelectors',
-        fieldId: 'hasSelectors',
-        label: 'Selectors',
-        type: 'radios',
-        required: true,
-        dynamicOptions: true,
-        data: {
-          options: [
-            {
-              value: 'false',
-              label: 'Has no selector',
-            },
-            {
-              value: 'true',
-              label: 'Has selector',
-            },
-            {
-              value: 'both',
-              label: 'Both',
-            },
-          ],
-        },
-      },
-    ],
-    actions: [
-      {
-        type: 'submit',
-        validate: true,
-        label: 'Apply',
-      },
-    ],
-  }],
+    }],
+  };
 };

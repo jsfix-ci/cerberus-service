@@ -43,6 +43,7 @@ const TaskListPage = () => {
   const history = useHistory();
   const isMounted = useIsMounted();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
+  const currentUser = keycloak.tokenParsed.email;
   const source = axios.CancelToken.source();
   const [authorisedGroup, setAuthorisedGroup] = useState();
   const [error, setError] = useState(null);
@@ -137,6 +138,7 @@ const TaskListPage = () => {
       movementModes: payload?.mode ? [payload.mode] : [],
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
+      assignees: getTaskStatus(AIRPAX_TASK_STATUS_KEY) === TASK_STATUS_IN_PROGRESS ? payload?.assignedToMe : [],
     };
     localStorage.setItem(AIRPAX_FILTERS_KEY, JSON.stringify(payload));
     getTaskCount(payload);
@@ -185,6 +187,27 @@ const TaskListPage = () => {
   if (isLoading) {
     return <LoadingSpinner />;
   }
+
+  const getAssignee = () => {
+    const payload = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
+    if (payload?.assignees?.length > 0) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleAssignedToMeFilter = (tabId) => {
+    const inProgress = tabId === TASK_STATUS_IN_PROGRESS;
+    const filtersToApply = tabId !== TASK_STATUS_IN_PROGRESS ? {
+      ...appliedFilters,
+      assignees: [],
+    } : {
+      ...appliedFilters,
+      assignees: inProgress && getAssignee() ? [currentUser] : [],
+    };
+    setAppliedFilters(filtersToApply);
+    getTaskCount(filtersToApply);
+  };
 
   return (
     <>
@@ -238,6 +261,7 @@ const TaskListPage = () => {
             id="tasks"
             onTabClick={(e) => {
               history.push();
+              handleAssignedToMeFilter(e.id);
               getFiltersAndSelectorsCount(e.id);
             }}
             items={[

@@ -1,9 +1,11 @@
 import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import React, { useState, useCallback, useEffect } from 'react';
-import { COMPONENT_TYPES, DEFAULT_APPLIED_RORO_FILTER_STATE, MOVEMENT_VARIANT } from '../constants';
+import { COMPONENT_TYPES, DEFAULT_APPLIED_RORO_FILTER_STATE, MOVEMENT_VARIANT, TASK_STATUS_COMPLETED, TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED } from '../constants';
 
 import { airpax, roro } from '../cop-forms/filter';
+
+import { useKeycloak } from '../utils/keycloak';
 
 const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
   if (mode === MOVEMENT_VARIANT.RORO) {
@@ -19,6 +21,8 @@ const getMovementSelectorCounts = (mode, filtersAndSelectorsCount) => {
 };
 
 const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filtersAndSelectorsCount, rulesOptions }) => {
+  const keycloak = useKeycloak();
+  const currentUser = keycloak.tokenParsed.email;
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
   const { movementModeCounts, modeSelectorCounts } = getMovementSelectorCounts(mode, filtersAndSelectorsCount);
@@ -79,6 +83,7 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
         }),
       };
     });
+    return filter;
   };
 
   const onGetComponent = (component, wrap) => {
@@ -127,17 +132,21 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
     return null;
   };
 
+  const renderAssigneeComponent = () => {
+    return ![TASK_STATUS_NEW, TASK_STATUS_TARGET_ISSUED, TASK_STATUS_COMPLETED].includes(_taskStatus);
+  };
+
+  const filter = setupFilterCounts(airpax(currentUser, renderAssigneeComponent()), _taskStatus, movementModeCounts, modeSelectorCounts);
+
   const AirpaxFilter = () => {
     const onApplyFilter = async (_, payload, onSuccess) => {
       onSuccess(payload);
       onApply(payload);
     };
 
-    setupFilterCounts(airpax, _taskStatus, movementModeCounts, modeSelectorCounts);
-
     return (
       <FormRenderer
-        {...airpax}
+        {...filter}
         hooks={{
           onGetComponent,
           onSubmit: onApplyFilter,
@@ -153,11 +162,11 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
       onApply(payload);
     };
 
-    setupFilterCounts(roro, _taskStatus, movementModeCounts, modeSelectorCounts);
+    const roroFilter = setupFilterCounts(roro(currentUser, renderAssigneeComponent()), _taskStatus, movementModeCounts, modeSelectorCounts);
 
     return (
       <FormRenderer
-        {...roro}
+        {...roroFilter}
         hooks={{
           onGetComponent,
           onSubmit: onApplyFilter,
@@ -169,7 +178,7 @@ const Filter = ({ mode, taskStatus: _taskStatus, onApply, appliedFilters, filter
 
   useEffect(() => {
     forceUpdate();
-  }, [filtersAndSelectorsCount]);
+  }, [filtersAndSelectorsCount, _taskStatus]);
 
   if (mode === MOVEMENT_VARIANT.RORO) {
     return (
