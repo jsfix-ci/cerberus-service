@@ -10,7 +10,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.navigation('Tasks');
   });
 
-  it.only('Should verify filter component is sticky', () => {
+  it('Should verify filter component is sticky', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.wait('@airpaxTask').then(({ response }) => {
       expect(response.statusCode).to.be.equal(200);
