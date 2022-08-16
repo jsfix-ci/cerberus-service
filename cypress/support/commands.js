@@ -2375,5 +2375,5 @@ Cypress.Commands.add('verifyFindTaskId', (businessKey) => {
 });
 
 Cypress.Commands.add('pageLoaded', () => {
-    cy.get('.loading-spinner', { timeout: 30000 }).should('not.exist');
+  cy.get('.loading-spinner', { timeout: 30000 }).should('not.exist');
 });
