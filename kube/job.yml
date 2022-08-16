@@ -12,6 +12,9 @@ spec:
     spec:
       backoffLimit: 0
       template:
+        metadata:
+          labels:
+            cop-test-team: testing
         spec:
           containers:
             - name: {{.JOB_NAME}}
