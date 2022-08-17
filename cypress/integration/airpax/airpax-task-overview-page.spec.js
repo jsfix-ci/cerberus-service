@@ -1,4 +1,4 @@
-import { formatVoyageText } from '../../../src/utils/stringConversion';
+import { formatVoyageText } from '../../../src/utils/String/stringUtil';
 
 describe('AirPax Tasks overview Page - Should check All user journeys', () => {
   const departureTime = Cypress.dayjs().utc().valueOf();
