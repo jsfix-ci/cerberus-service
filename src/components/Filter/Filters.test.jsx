@@ -24,9 +24,9 @@ describe('Filters', () => {
   });
 
   it.each([
-    [VIEW.AIRPAX, DEFAULT_APPLIED_AIRPAX_FILTER_STATE],
-    [VIEW.RORO, DEFAULT_APPLIED_RORO_FILTER_STATE_V2],
-  ])('should render the filter based on view', async (view, appliedFilters) => {
+    [VIEW.AIRPAX, DEFAULT_APPLIED_AIRPAX_FILTER_STATE, 1],
+    [VIEW.RORO, DEFAULT_APPLIED_RORO_FILTER_STATE_V2, 0],
+  ])('should render the filter based on view', async (view, appliedFilters, expectedLenth) => {
     await waitFor(() => render(
       <Filter
         view={view}
@@ -39,7 +39,7 @@ describe('Filters', () => {
     // Titles & Actions
     expect(screen.getByText('Apply')).toBeInTheDocument();
     expect(screen.getByText(/Mode/)).toBeInTheDocument();
-    expect(screen.getByText('Rule matches (optional)')).toBeInTheDocument();
+    expect(screen.queryAllByText('Rule matches (optional)')).toHaveLength(expectedLenth);
 
     // Radio buttons
     expect(screen.getAllByRole('radio').length).toBe(3);
