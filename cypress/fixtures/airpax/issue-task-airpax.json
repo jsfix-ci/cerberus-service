@@ -22,15 +22,15 @@
         "trailer": null,
         "journey": {
             "id": "BA0103",
-            "direction": null,
+            "direction": "INBOUND",
             "route": "CDG - YYZ - YYC - LHR",
             "arrival": {
-                "country": null,
+                "country": "CA",
                 "location": "YYC",
                 "time": "2022-07-10T15:30:01Z"
             },
             "departure": {
-                "country": null,
+                "country": "GB",
                 "location": "LHR",
                 "time": "2022-07-10T12:30:01Z"
             }

@@ -1,10 +1,11 @@
 {
     "filterParams": {
-        "movementModes": [],
+        "movementModes": ["AIR_PASSENGER"],
         "statuses": [],
         "groupCodes": [
             "GP6PO2H9",
-            "GP6R02K8"
+            "GP6R02K8",
+            "AP1T01P1"
         ],
         "assignees": [
             "joe.bloggs@homeoffice.gov.uk"

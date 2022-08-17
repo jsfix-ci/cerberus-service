@@ -129,7 +129,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
     filterOptions.forEach((selector, index) => {
       cy.applySelectorFilter(selector, 'issued').then((actualTargets) => {
         cy.log('actual targets', actualTargets);
-        if (selector !== 'any') {
+        if (selector !== 'ANY') {
           actualTotalTargets += actualTargets;
         }
         cy.getAirPaxTaskCount(null, selector, 'ISSUED').then((numberOfTasks) => {

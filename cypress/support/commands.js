@@ -2296,6 +2296,19 @@ Cypress.Commands.add('claimAirPaxTaskWithUserId', (taskId) => {
   });
 });
 
+Cypress.Commands.add('claimAirPaxTaskWithUsername', (taskId, userId) => {
+  cy.request({
+    method: 'POST',
+    url: `https://${targetingApiUrl}/v2/targeting-tasks/${taskId}/claim`,
+    headers: { Authorization: `Bearer ${token}` },
+    body: {
+      'userId': userId,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
+
 Cypress.Commands.add('filterPageByAssignee', (filter) => {
   cy.request({
     method: 'POST',
