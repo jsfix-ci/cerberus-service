@@ -403,7 +403,7 @@ export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
   movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
   mode: [],
   selectors: 'ANY',
-  rules: [],
+  ruleIds: [],
   searchText: '',
   assignees: [],
 };
