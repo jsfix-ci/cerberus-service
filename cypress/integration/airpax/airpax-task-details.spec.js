@@ -472,7 +472,7 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = movementID;
-      task.data.movement.persons[0].person.nationality = 'AUS';
+      task.data.movement.persons[1].person.nationality = 'AUS';
       cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -481,7 +481,7 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = movementID;
-      task.data.movement.persons[0].person.nationality = 'THA';
+      task.data.movement.persons[1].person.nationality = 'THA';
       cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
