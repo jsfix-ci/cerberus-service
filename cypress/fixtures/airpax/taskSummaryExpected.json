@@ -1,5 +1,5 @@
 {
-  "passengerGroup": "In group of 2",
+  "passengerGroup": "Sinle passenger",
   "passengerType": "Passenger DC",
   "departureStatus": "DC",
   "flightName": "British Airways",
@@ -14,7 +14,7 @@
     "lastName": "Testing GivenName",
     "gender": "Female, ",
     "dateOfBirth": "30 Dec 1976, ",
-    "nationality": "AU",
+    "nationality": "AUS",
     "checkedBaggage": "1 checked bag, ",
     "baggageWeight": "23kg ",
     "checkInTime": "Check-in 13:00, ",
@@ -31,7 +31,7 @@
     "bookingDateTime": "09 Jun 2022",
     "bookingDuration": "2 months before travel"
   },
-  "coTraveller": "BATZ STOUP, ZUES CARLO ",
+  "coTraveller": "None",
   "route": "CDG → YYZ → YYC → LHR  ",
   "riskScore": "Risk Score: 0"
 }
