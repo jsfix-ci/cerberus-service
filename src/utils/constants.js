@@ -485,8 +485,9 @@ export const FORM_ACTIONS = {
 
 export const TASK_LIST_PATHS = {
   AIRPAX: '/airpax/tasks',
+  ISSUE_TARGET: '/issue-target',
   RORO: '/tasks',
-  RORO_V2: '/roro/v2/tasks',
+  RORO_V2: '/roro/tasks',
   ALL_TASK_LIST: ['/tasks', '/roro/v2/tasks', '/airpax/tasks'],
 };
 
