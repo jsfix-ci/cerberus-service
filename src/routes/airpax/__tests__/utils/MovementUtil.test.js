@@ -69,6 +69,7 @@ describe('MovementUtil', () => {
         },
         journey: {
           id: 'BA103',
+          direction: 'INBOUND',
           arrival: {
             country: null,
             location: 'LHR',
@@ -630,5 +631,19 @@ describe('MovementUtil', () => {
   it('should return unknown text when given date is within an invalid range', () => {
     const PAST_DATES = [undefined, null, ''];
     PAST_DATES.forEach((date) => expect(MovementUtil.voyageText(date)).toEqual(UNKNOWN_TEXT));
+  });
+
+  it('should return the movement direction', () => {
+    const journey = MovementUtil.movementJourney(targetTaskMin);
+    expect(MovementUtil.direction(journey)).toEqual('INBOUND');
+  });
+
+  it('should return undefined for invalid movement direction', () => {
+    const INVALID_DIRECTIONS = [undefined, null, ''];
+    INVALID_DIRECTIONS.forEach((direction) => {
+      targetTaskMin.movement.journey.direction = direction;
+      const journey = MovementUtil.movementJourney(targetTaskMin);
+      expect(MovementUtil.direction(journey)).toBeUndefined();
+    });
   });
 });

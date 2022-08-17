@@ -108,7 +108,7 @@
             "Operation name (optional)": ""
         },
         {
-            "Targeting indicators": ""
+            "Targeting indicators": "Infrequent trips made through port (person)"
         },
         {
             "Target category": "A"
@@ -132,6 +132,44 @@
         },
         {
            "Targeter actions / Remarks (optional)": ""
+        }
+    ],
+    "RefilledPassenger2Details": [
+        {
+            "Given name": "ZUES CARLO"
+        },
+        {
+            "Family name": "BATZ STOUP"
+        },
+        {
+            "Date of birth": "10 December 1976"
+        },
+        {
+            "Nationality (optional)": "British Citizen"
+        },
+        {
+            "Sex (optional)": "Male"
+        },
+        {
+            "Travel document type": "Passport and Emergency Travel Document"
+        },
+        {
+            "Seat number": "34B"
+        },
+        {
+            "Number of bags": "1"
+        },
+        {
+            "Baggage weight (kg)": "23kg"
+        },
+        {
+            "Tag details": "739238"
+        },
+        {
+            "Photograph (optional)": ""
+        },
+        {
+            "Approximate photograph date (optional)": ""
         }
     ]
 }

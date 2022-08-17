@@ -7,7 +7,28 @@ import tisSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionDa
 
 describe('Target Information Sheet', () => {
   let PREFILL_DATA = {};
-  const TEST_KEY = 'test-key';
+
+  const keycloak = {
+    tokenParsed: {
+      given_name: 'Joe',
+      family_name: 'Bloggs',
+    },
+  };
+
+  const airPaxRefDataMode = {
+    'id': 2,
+    'mode': 'Scheduled Air Passenger',
+    'modecode': 'airpass',
+    'crossingtype': [
+      'air',
+    ],
+    'ien': true,
+    'ca': true,
+    'ct': true,
+    'validfrom': '2021-05-28T00:01:01.000Z',
+    'validto': null,
+    'updatedby': 'Mohammed Abdul Odud',
+  };
 
   beforeEach(() => {
     PREFILL_DATA = {
@@ -34,7 +55,7 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
-  it('should varify that targeting indicators auto population data contains value & label', () => {
+  it('should verify that targeting indicators auto population data contains value & label', () => {
     const EXPECTED_NODE_KEYS = [
       'value',
       'label',
@@ -70,28 +91,6 @@ describe('Target Information Sheet', () => {
       'norminalChecks',
       'submittingUser'];
 
-    const keycloak = {
-      tokenParsed: {
-        given_name: 'Joe',
-        family_name: 'Bloggs',
-      },
-    };
-
-    const airPaxRefDataMode = {
-      'id': 2,
-      'mode': 'Scheduled Air Passenger',
-      'modecode': 'airpass',
-      'crossingtype': [
-        'air',
-      ],
-      'ien': true,
-      'ca': true,
-      'ct': true,
-      'validfrom': '2021-05-28T00:01:01.000Z',
-      'validto': null,
-      'updatedby': 'Mohammed Abdul Odud',
-    };
-
     const submissionPayload = TargetInformationUtil
       .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
 
@@ -115,25 +114,27 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
-  it('should store to local storage', () => {
-    const GIVEN = { alpha: 'alpha', bravo: 'bravo' };
-    TargetInformationUtil.cache.store(TEST_KEY, GIVEN);
-    expect(localStorage.getItem(TEST_KEY)).not.toBeNull();
-  });
+  it('should generate the submission payload and the jouney node within it', () => {
+    const EXPECTED = {
+      id: 'BA103',
+      direction: undefined,
+      route: 'CDG - YYZ - YYC - LHR',
+      arrival: {
+        date: '2022-06-23T10:27:00Z',
+        time: '2022-06-23T10:27:00Z',
+        country: null,
+        location: 'LHR',
+      },
+      departure: {
+        country: null,
+        location: 'FRA',
+        date: 'Invalid Date',
+        time: 'Invalid Date',
+      },
+    };
 
-  it('should retrieve stored data', () => {
-    const GIVEN = { alpha: 'alpha', bravo: 'bravo' };
-    TargetInformationUtil.cache.store(TEST_KEY, GIVEN);
-    expect(TargetInformationUtil.cache.get(TEST_KEY)).toMatchObject(GIVEN);
-  });
-
-  it('should remove stored data', () => {
-    const GIVEN = { alpha: 'alpha', bravo: 'bravo' };
-    TargetInformationUtil.cache.store(TEST_KEY, GIVEN);
-
-    expect(TargetInformationUtil.cache.get(TEST_KEY)).toMatchObject(GIVEN);
-
-    TargetInformationUtil.cache.remove(TEST_KEY);
-    expect(localStorage.getItem(TEST_KEY)).toBeNull();
+    const submissionPayload = TargetInformationUtil
+      .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
+    expect(submissionPayload.movement.journey).toMatchObject(EXPECTED);
   });
 });

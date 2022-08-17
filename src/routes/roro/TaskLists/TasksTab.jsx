@@ -87,7 +87,7 @@ const TasksTab = ({
       filtersToApply = {
         ...filtersToApply,
         hasSelectors: toRoRoSelectorsValue(filtersToApply?.hasSelectors),
-        movementModes: filtersToApply?.mode ? [filtersToApply.mode] : [],
+        movementModes: filtersToApply?.movementModes || [filtersToApply.mode],
       };
       try {
         const tasks = await camundaClientV1.post('/targeting-tasks/pages', {

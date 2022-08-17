@@ -1,6 +1,3 @@
-/// <reference types="Cypress"/>
-/// <reference path="../support/index.d.ts" />
-
 describe('Filter airpax tasks by Selectors on task management Page', () => {
   const filterOptions = [
     'NOT_PRESENT',
@@ -211,6 +208,7 @@ describe('Filter airpax tasks by Selectors on task management Page', () => {
   });
 
   after(() => {
+    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });

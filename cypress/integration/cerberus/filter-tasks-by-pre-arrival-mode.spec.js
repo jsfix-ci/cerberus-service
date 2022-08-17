@@ -14,7 +14,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
     cy.get('.govuk-heading-xl').invoke('text').then((Heading) => {
       expect(Heading).to.contain('RoRo');
     });
-    cy.get('#mode').should('be.visible');
+    cy.get('.govuk-checkboxes li').should('be.visible');
     cy.get('.airpax-task-link')
       .should('have.attr', 'href').and('include', 'airpax/task').then((href) => {
         cy.intercept('POST', 'v2/targeting-tasks/pages').as('airpaxTaskList');
@@ -44,7 +44,7 @@ describe('Filter tasks by pre-arrival mode on task management Page', () => {
       cy.get('h2.govuk-heading-s').should('have.text', 'Filters');
       cy.get('.cop-filters-header .govuk-link').should('have.text', 'Clear all filters');
 
-      cy.get('.govuk-select option').each((element) => {
+      cy.get('.govuk-checkboxes li').each((element) => {
         cy.wrap(element).invoke('text').then((value) => {
           expectedFilterNames.push(value.substring(0, value.indexOf('(')).trim());
         });

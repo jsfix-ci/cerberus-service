@@ -18,8 +18,8 @@ describe('RenderForm', () => {
 
   const ON_CANCEL_CALLS = [];
 
-  const ON_CANCEL = (action) => {
-    ON_CANCEL_CALLS.push(action);
+  const ON_CANCEL = () => {
+    ON_CANCEL_CALLS.push(undefined);
   };
 
   beforeEach(() => {

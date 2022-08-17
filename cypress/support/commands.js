@@ -393,6 +393,17 @@ Cypress.Commands.add('getAllProcessInstanceId', (businessKey) => {
   });
 });
 
+Cypress.Commands.add('moveAllTasksToCompleteTab', () => {
+  cy.request({
+    method: 'POST',
+    url: `https://${cerberusServiceUrl}/camunda/v1/test/targeting-tasks/new-and-in-progress-completions`,
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+    return response;
+  });
+});
+
 Cypress.Commands.add('checkTaskDisplayed', (businessKey) => {
   cy.visit(`/tasks/${businessKey}`);
   cy.get('.govuk-caption-xl').should('have.text', businessKey);
@@ -645,8 +656,10 @@ Cypress.Commands.add(('getOccupantCounts'), () => {
   cy.get('.task-details-container').eq(1).within(() => {
     cy.get('.govuk-task-details-grid-row').each((item) => {
       cy.wrap(item).find('ul').each((detail) => {
-        cy.wrap(detail).find('li.govuk-grid-value').invoke('text').then((key) => {
-          cy.wrap(detail).next().invoke('text').then((value) => {
+        // cy.wrap(detail).find('li.govuk-grid-value').invoke('text').then((key) => {
+        cy.wrap(detail).invoke('text').then((key) => {
+          //  cy.wrap(detail).next().invoke('text').then((value) => {
+          cy.wrap(detail).invoke('text').then((value) => {
             obj[key] = value;
           });
         });
@@ -725,7 +738,7 @@ Cypress.Commands.add('checkTaskSummary', (registrationNumber, bookingDateTime) =
 Cypress.Commands.add('deleteAutomationTestData', () => {
   let dateNowFormatted;
   if (Cypress.dayjs().day() === 1) {
-    dateNowFormatted = Cypress.dayjs().subtract(3, 'day').format('DD-MM-YYYY');
+    dateNowFormatted = Cypress.dayjs().subtract(1, 'day').format('DD-MM-YYYY');
   } else {
     dateNowFormatted = Cypress.dayjs().subtract(1, 'day').format('DD-MM-YYYY');
   }
@@ -734,7 +747,8 @@ Cypress.Commands.add('deleteAutomationTestData', () => {
     url: `https://${cerberusServiceUrl}/camunda/engine-rest/process-instance`,
     headers: { Authorization: `Bearer ${token}` },
     body: {
-      'businessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
+      //   'businessKeyLike': `%AUTOTEST-${dateNowFormatted}-%`,
+      'businessKeyLike': '%AUTOTEST-19-07-2022_RORO-UnAccompanied-Freight_ASSESSMENT%',
     },
   }).then((response) => {
     const processInstanceId = response.body.map((item) => item.id);
@@ -1398,7 +1412,7 @@ Cypress.Commands.add('toVoyageText', (dateTime, isTaskDetails = false, prefix = 
 
 Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
   let payload;
-  if (modeName === null && selector !== 'both') {
+  if (modeName === null && selector !== 'any') {
     payload = [
       {
         'taskStatuses': [
@@ -1408,7 +1422,7 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
         'hasSelectors': selector,
       },
     ];
-  } else if (modeName === null && selector === 'both') {
+  } else if (modeName === null && selector === 'any') {
     payload = [
       {
         'taskStatuses': [
@@ -1418,7 +1432,7 @@ Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {
         'hasSelectors': null,
       },
     ];
-  } else if (selector === 'both') {
+  } else if (selector === 'any') {
     payload = [
       {
         'taskStatuses': [
@@ -1522,10 +1536,12 @@ Cypress.Commands.add('applyModesFilter', (filterOptions, taskType) => {
   cy.intercept('POST', '/camunda/v1/targeting-tasks/status-counts').as('counts');
   if (filterOptions instanceof Array) {
     filterOptions.forEach((option) => {
-      cy.get('select').select(option).should('have.value', option);
+      cy.get(`.govuk-checkboxes [value=${option}]`)
+        .click({ force: true });
     });
   } else {
-    cy.get('select').select(filterOptions).should('have.value', filterOptions);
+    cy.get(`.govuk-checkboxes [value=${filterOptions}]`)
+      .click({ force: true });
   }
 
   cy.contains('Apply').click();
@@ -2341,4 +2357,25 @@ Cypress.Commands.add('waitForStatusCounts', () => {
   cy.wait('@airpaxTask').then(({ response }) => {
     expect(response.statusCode).to.equal(200);
   });
+});
+
+function searchTaskList(businessKey) {
+  cy.get('.govuk-task-list-card').then(($taskListCard) => {
+    cy.wait(2000);
+    if ($taskListCard.text().includes(businessKey)) {
+      cy.get('.govuk-task-list-card').contains(businessKey).parents('.card-container').within(() => {
+        cy.get('h4.task-heading').should('have.text', businessKey);
+      });
+    } else if (Cypress.$('a[data-test=\'next\']').length >= 1) {
+      cy.get('a[data-test=\'next\']').contains('Next').click();
+      cy.wait(3000);
+      return searchTaskList(businessKey);
+    } else {
+      throw new Error(`Couldn't find TaskId with ${businessKey} on any page`);
+    }
+  });
+}
+
+Cypress.Commands.add('verifyFindTaskId', (businessKey) => {
+  searchTaskList(businessKey);
 });

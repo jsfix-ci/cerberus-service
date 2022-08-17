@@ -86,11 +86,15 @@ export const RULES_FIELD_DESCRIPTION = {
 };
 
 export const BUSINESS_KEY_PATH = '/businessKey/generate';
-export const FORM_TIS_CACHE_STORE = 'form-tis-cache-store';
 export const FORM_NAMES = {
   NOTE_CERBERUS: 'noteCerberus',
   TARGET_INFORMATION_SHEET: 'targetInformationSheet',
   AIRPAX_TARGET_INFORMATION_SHEET: 'cerberus-airpax-target-information-sheet',
+};
+
+export const COMPONENT_TYPES = {
+  TYPE_SELECT: 'select',
+  TYPE_MULTIAUTOCOMPLETE: 'multiautocomplete',
 };
 
 export const DEPARTURE_STATUS = {
@@ -126,6 +130,55 @@ export const MOVEMENT_VARIANT = {
 export const TASK_STATUS_KEY = 'TASK_STATUS_KEY';
 export const RORO_FILTERS_KEY = 'RORO_FILTERS';
 export const AIRPAX_FILTERS_KEY = 'AIRPAX_FILTERS';
+
+export const RORO_FILTERS = [
+  {
+    filterName: 'movementModes',
+    filterType: 'checkbox',
+    filterClassPrefix: 'checkboxes',
+    filterLabel: 'Mode',
+    filterOptions: [
+      {
+        optionName: 'RORO_UNACCOMPANIED_FREIGHT',
+        optionLabel: 'RoRo unaccompanied freight',
+        checked: false,
+      },
+      {
+        optionName: 'RORO_ACCOMPANIED_FREIGHT',
+        optionLabel: 'RoRo accompanied freight',
+        checked: false,
+      },
+      {
+        optionName: 'RORO_TOURIST',
+        optionLabel: 'RoRo Tourist',
+        checked: false,
+      },
+    ],
+  },
+  {
+    filterName: 'hasSelectors',
+    filterType: 'radio',
+    filterClassPrefix: 'radios',
+    filterLabel: 'Selectors',
+    filterOptions: [
+      {
+        optionName: 'true',
+        optionLabel: 'Has selector',
+        checked: false,
+      },
+      {
+        optionName: 'false',
+        optionLabel: 'Has no selector',
+        checked: false,
+      },
+      {
+        optionName: 'any',
+        optionLabel: 'Both',
+        checked: true,
+      },
+    ],
+  },
+];
 
 export const DEFAULT_MOVEMENT_RORO_MODES = [
   {
@@ -200,7 +253,7 @@ export const DEFAULT_AIRPAX_SELECTORS = [
 export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
   movementModes: [],
   hasSelectors: 'both',
-  mode: '',
+  mode: [],
 };
 
 export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
