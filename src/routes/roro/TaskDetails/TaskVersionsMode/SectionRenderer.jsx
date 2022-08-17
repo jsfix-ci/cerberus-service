@@ -8,20 +8,23 @@ import {
   formatKey,
   formatField,
   formatLinkField,
-} from '../../../../utils/FieldFormat/fieldFormatterUtil';
-import { formatGender } from '../../../../utils/Person/personUtil';
+} from '../../../../utils/formatField';
+import formatGender from '../../../../utils/genderFormatter';
 import {
-  DATE_FORMATS,
-  ICON,
-  MOVEMENT_MODES,
-} from '../../../../utils/constants';
+  RORO_UNACCOMPANIED_FREIGHT,
+  RORO_ACCOMPANIED_FREIGHT,
+  GROUP_ICON,
+  INDIVIDUAL_ICON,
+  RORO_TOURIST,
+  SHORT_DATE_ALT,
+} from '../../../../constants';
 import {
   isValid,
+  hasZeroCount,
   hasDriver,
   hasTaskVersionPassengers,
   hasCarrierCounts,
-} from '../../../../utils/Movement/movementUtil';
-import { hasZeroCount } from '../../../../utils/Number/numberUtil';
+} from '../../../../utils/roroDataUtil';
 
 import EnrichmentCount from './EnrichmentCount';
 
@@ -191,7 +194,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
             </span>
             {dob?.content ? (
               <span className={`font__bold ${applyHighlightValue(dob)}`}>
-                , born {formatField(DATE_FORMATS.SHORT_ALT, dob?.content)}
+                , born {formatField(SHORT_DATE_ALT, dob?.content)}
               </span>
             ) : (
               <span className={`font__bold ${applyHighlightValue(dob)}`}>
@@ -243,7 +246,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
               <span
                 className={`font__bold ${applyHighlightValue(passportExpiry)}`}
               >
-                Expires {formatField(DATE_FORMATS.SHORT_ALT, passportExpiry?.content)}
+                Expires {formatField(SHORT_DATE_ALT, passportExpiry?.content)}
               </span>
             ) : (
               <span
@@ -256,7 +259,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
           <p className="govuk-!-margin-bottom-0 font__light">
             <span className={applyHighlightValue(passportExpiry)}>
               {renderDocumentExpiry(
-                formatField(DATE_FORMATS.SHORT_ALT, passportExpiry?.content),
+                formatField(SHORT_DATE_ALT, passportExpiry?.content),
                 arrivalTime,
               )}
             </span>
@@ -332,7 +335,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
 
 const renderVehicleSection = ({ contents }, movementMode) => {
   const enrichmentCount = contents.find(({ propName }) => propName === 'enrichmentCount')?.content;
-  if (movementMode !== MOVEMENT_MODES.UNACCOMPANIED_FREIGHT.toUpperCase()) {
+  if (movementMode !== RORO_UNACCOMPANIED_FREIGHT.toUpperCase()) {
     if (contents.length > 0) {
       const vehicleArray = contents.filter(({ propName }) => {
         return (
@@ -364,8 +367,8 @@ const renderVehicleSection = ({ contents }, movementMode) => {
 const renderTrailerSection = ({ contents }, movementMode) => {
   const trailerEnrichmentCount = contents.find(({ propName }) => propName === 'trailerEnrichmentCount')?.content;
   if (
-    movementMode === MOVEMENT_MODES.UNACCOMPANIED_FREIGHT.toUpperCase()
-    || movementMode === MOVEMENT_MODES.ACCOMPANIED_FREIGHT.toUpperCase()
+    movementMode === RORO_UNACCOMPANIED_FREIGHT.toUpperCase()
+    || movementMode === RORO_ACCOMPANIED_FREIGHT.toUpperCase()
   ) {
     const trailerDataArray = contents.filter(({ propName }) => {
       return (
@@ -430,8 +433,8 @@ const renderOccupantCarrierCountsSection = (
 ) => {
   if (passengersMetadata) {
     if (
-      movementMode === MOVEMENT_MODES.ACCOMPANIED_FREIGHT
-      || movementMode === MOVEMENT_MODES.TOURIST
+      movementMode === RORO_ACCOMPANIED_FREIGHT
+      || movementMode === RORO_TOURIST
     ) {
       /**
        * Discard the driver element that was initially added to obtain actual number
@@ -441,8 +444,8 @@ const renderOccupantCarrierCountsSection = (
       let occupantsCountJsxElement;
       let driverName;
       if (
-        movementModeIcon !== ICON.GROUP
-        && movementModeIcon !== ICON.INDIVIDUAL
+        movementModeIcon !== GROUP_ICON
+        && movementModeIcon !== INDIVIDUAL_ICON
       ) {
         if (driverField.contents.length > 0) {
           driverName = driverField.contents.find(
@@ -576,7 +579,7 @@ const renderPrimaryTraveller = ({ childSets }, movementModeIcon) => {
   const enrichmentCount = primaryTraveller.find(({ propName }) => propName === 'enrichmentCount')?.content;
   if (primaryTraveller.length > 0) {
     let primaryTravellerArray;
-    if (movementModeIcon === ICON.INDIVIDUAL) {
+    if (movementModeIcon === INDIVIDUAL_ICON) {
       primaryTravellerArray = primaryTraveller.filter(({ propName }) => {
         return (
           propName === 'name'

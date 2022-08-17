@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import { MOVEMENT_MODES } from '../../../../utils/constants';
+import { RORO_ACCOMPANIED_FREIGHT } from '../../../../constants';
 import {
   renderBookingSection,
   renderVehicleSection,
@@ -1090,7 +1090,7 @@ describe('SectionRenderer', () => {
       const passengersMetadata = hasDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
       const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, MOVEMENT_MODES.ACCOMPANIED_FREIGHT)).toJSON();
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
       expect(tree).toMatchSnapshot();
     });
 
@@ -1100,7 +1100,7 @@ describe('SectionRenderer', () => {
       const passengersMetadata = noDriverNoPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
       const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, MOVEMENT_MODES.ACCOMPANIED_FREIGHT)).toJSON();
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
       expect(tree).toMatchSnapshot();
     });
 
@@ -1110,7 +1110,7 @@ describe('SectionRenderer', () => {
       const passengersMetadata = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'occupants');
 
       const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, MOVEMENT_MODES.ACCOMPANIED_FREIGHT)).toJSON();
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
       expect(tree).toMatchSnapshot();
     });
 
@@ -1120,7 +1120,7 @@ describe('SectionRenderer', () => {
       const passengersMetadata = hasDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
       const tree = renderer.create(renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, MOVEMENT_MODES.ACCOMPANIED_FREIGHT)).toJSON();
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT)).toJSON();
       expect(tree).toMatchSnapshot();
     });
 
@@ -1130,7 +1130,7 @@ describe('SectionRenderer', () => {
       const passengersMetadata = noDriverHasPaxHasCategoryCounts.find(({ propName }) => propName === 'occupants');
 
       const tree = renderer.create(renderOccupantCarrierCountsSection(
-        driverField, passengersField, passengersMetadata, MOVEMENT_MODES.ACCOMPANIED_FREIGHT,
+        driverField, passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT,
       )).toJSON();
       expect(tree).toMatchSnapshot();
     });
@@ -1141,7 +1141,7 @@ describe('SectionRenderer', () => {
       const passengersMetadata = noDriverNoPaxNoCategoryAndNoUnknownCounts.find(({ propName }) => propName === 'occupants');
 
       const section = renderOccupantCarrierCountsSection(driverField,
-        passengersField, passengersMetadata, MOVEMENT_MODES.ACCOMPANIED_FREIGHT);
+        passengersField, passengersMetadata, RORO_ACCOMPANIED_FREIGHT);
       expect(section).toBeUndefined();
     });
   });

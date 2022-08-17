@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
 import ReactDOMServer from 'react-dom/server';
-import { MOVEMENT_MODES } from '../../../utils/constants';
+import { RORO_UNACCOMPANIED_FREIGHT } from '../../../constants';
 
 import { TaskVersions, sortRulesByThreat } from '../TaskDetails/TaskVersions';
 import { taskSingleVersion, taskNoRulesMatch, taskFootPassengerSingleVersion, taskFootPassengersSingleVersion,
@@ -250,7 +250,7 @@ describe('TaskVersions', () => {
     const passengersField = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'passengers');
     const passengersMetadata = noDriverNoPaxNoCategoryCounts.find(({ propName }) => propName === 'occupants');
 
-    const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT);
+    const section = renderOccupantCarrierCountsSection(driverField, passengersField, passengersMetadata, RORO_UNACCOMPANIED_FREIGHT);
 
     expect(ReactDOMServer.renderToString(section)).toEqual(ReactDOMServer.renderToString(''));
   });
@@ -265,7 +265,7 @@ describe('TaskVersions', () => {
       movementMode="RORO Accompanied Freight"
     />);
 
-    const rulesMatchedElement = container.getElementsByTagName('th');
+    const rulesMatchedElement = container.querySelectorAll('.govuk-table__header');
     for (let i = 0; i < expected.length - 1; i += 1) {
       expect(rulesMatchedElement[i].textContent).toEqual(expected[i]);
     }

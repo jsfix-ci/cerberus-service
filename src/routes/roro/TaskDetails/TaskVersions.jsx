@@ -3,18 +3,19 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 import _ from 'lodash';
-import Accordion from '../../../components/Accordion/Accordion';
+import Accordion from '../../../govuk/Accordion';
 import TaskSummary from './TaskSummary';
 import RoRoAccompaniedTaskVersion from './TaskVersionsMode/RoRoAccompaniedMode';
 import RoRoUnaccompaniedTaskVersion from './TaskVersionsMode/RoRoUnaccompaniedMode';
 import RoRoTouristTaskVersion from './TaskVersionsMode/RoRoTouristMode';
 // config
-import { DATE_FORMATS, ICON, MOVEMENT_MODES } from '../../../utils/constants';
+import { RORO_TOURIST, LONG_DATE_FORMAT, RORO_TOURIST_CAR_ICON,
+  INDIVIDUAL_ICON, GROUP_ICON, RORO_ACCOMPANIED_FREIGHT, RORO_UNACCOMPANIED_FREIGHT } from '../../../constants';
 // utils
-import { getMovementModeIcon } from '../../../utils/Movement/movementUtil';
-import { modifyRoRoPassengersTaskDetails } from '../../../utils/RoRoData/roroDataUtil';
-import Table from '../../../components/Table/Table';
-import { capitalizeFirstLetter } from '../../../utils/String/stringUtil';
+import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
+import { modifyRoRoPassengersTaskDetails } from '../../../utils/roroDataUtil';
+import Table from '../../../govuk/Table';
+import { capitalizeFirstLetter } from '../../../utils/stringConversion';
 
 import { SelectorMatchesTaskVersion } from './TaskVersionsMode/SelectorMatchesTaskVersion';
 
@@ -35,19 +36,19 @@ const translateRiskIndicators = (riskIndicators) => riskIndicators.map((riskIndi
 });
 
 const stripOutSectionsByMovementMode = (version, movementMode) => {
-  if (movementMode.toUpperCase() === MOVEMENT_MODES.TOURIST.toUpperCase()) {
+  if (movementMode.toUpperCase() === RORO_TOURIST.toUpperCase()) {
     const vehicle = {
       registrationNumber: version.find(({ propName }) => propName === 'vehicle').contents.find(({ propName }) => propName === 'registrationNumber').content,
     };
     const passengers = version.find(({ propName }) => propName === 'passengers').childSets;
     const movementModeIcon = getMovementModeIcon(movementMode, vehicle, passengers);
-    if (movementModeIcon === ICON.CAR) {
+    if (movementModeIcon === RORO_TOURIST_CAR_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods');
     }
-    if (movementModeIcon === ICON.INDIVIDUAL) {
+    if (movementModeIcon === INDIVIDUAL_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
     }
-    if (movementModeIcon === ICON.GROUP) {
+    if (movementModeIcon === GROUP_ICON) {
       return version.filter(({ propName }) => propName !== 'haulier' && propName !== 'account' && propName !== 'goods' && propName !== 'vehicle' && propName !== 'driver');
     }
   }
@@ -238,7 +239,7 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
       <div>
         <TaskSummary movementMode={movementMode} taskSummaryData={taskSummaryBasedOnTIS} />
       </div>
-      {movementMode === MOVEMENT_MODES.ACCOMPANIED_FREIGHT && (
+      {movementMode === RORO_ACCOMPANIED_FREIGHT && (
       <RoRoAccompaniedTaskVersion
         version={version}
         movementMode={movementMode}
@@ -246,14 +247,14 @@ const renderSectionsBasedOnTIS = (movementMode, taskSummaryBasedOnTIS, version) 
         taskSummaryData={taskSummaryBasedOnTIS}
       />
       )}
-      {movementMode === MOVEMENT_MODES.UNACCOMPANIED_FREIGHT && (
+      {movementMode === RORO_UNACCOMPANIED_FREIGHT && (
       <RoRoUnaccompaniedTaskVersion
         version={version}
         movementMode={movementMode}
         taskSummaryData={taskSummaryBasedOnTIS}
       />
       )}
-      {movementMode === MOVEMENT_MODES.TOURIST && (
+      {movementMode === RORO_TOURIST && (
       <RoRoTouristTaskVersion
         version={version}
         movementMode={movementMode}
@@ -334,7 +335,7 @@ const TaskVersions = ({ taskSummaryBasedOnTIS, taskVersions, businessKey, taskVe
             summary: (
               <>
                 <div className="task-versions--left">
-                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).format(DATE_FORMATS.LONG)}</div>
+                  <div className="govuk-caption-m">{dayjs.utc(creationDate ? creationDate.split(',')[0] : null).format(LONG_DATE_FORMAT)}</div>
                 </div>
                 <div className="task-versions--right">
                   <ul className="govuk-list">
