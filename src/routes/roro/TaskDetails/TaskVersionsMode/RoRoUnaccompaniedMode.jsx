@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { calculateTaskVersionTotalRiskScore } from '../../../../utils/Risks/risksUtil';
+import { calculateTaskVersionTotalRiskScore } from '../../../../utils/rickScoreCalculator';
 import {
   renderTargetingIndicatorsSection,
   renderTrailerSection,
@@ -12,7 +12,7 @@ import {
 import {
   extractTaskVersionsBookingField,
   modifyCountryCodeIfPresent,
-} from '../../../../utils/RoRoData/roroDataUtil';
+} from '../../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');

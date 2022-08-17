@@ -10,22 +10,32 @@ import * as pluralise from 'pluralise';
 import qs from 'qs';
 
 // Config
-import { TASK_OUTCOME, TASK_STATUS } from '../../../utils/constants';
-import config from '../../../utils/config';
+import {
+  TASK_OUTCOME_INSUFFICIENT_RESOURCES,
+  TASK_OUTCOME_MISSED,
+  TASK_OUTCOME_NEGATIVE,
+  TASK_OUTCOME_NO_SHOW,
+  TASK_OUTCOME_POSITIVE,
+  TASK_OUTCOME_TARGET_WITHDRAWN,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_IN_PROGRESS,
+  TASK_STATUS_NEW,
+} from '../../../constants';
+import config from '../../../config';
 
 // Utils
-import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../../context/Keycloak';
-import { useIsMounted } from '../../../utils/Hooks/hooks';
-import { calculateTaskListTotalRiskScore } from '../../../utils/Risks/risksUtil';
-import { getMovementModeIcon } from '../../../utils/Movement/movementUtil';
-import { modifyRoRoPassengersTaskList, toRoRoSelectorsValue } from '../../../utils/RoRoData/roroDataUtil';
+import useAxiosInstance from '../../../utils/axiosInstance';
+import { useKeycloak } from '../../../utils/keycloak';
+import { useIsMounted } from '../../../utils/hooks';
+import { calculateTaskListTotalRiskScore } from '../../../utils/rickScoreCalculator';
+import getMovementModeIcon from '../../../utils/getVehicleModeIcon';
+import { modifyRoRoPassengersTaskList, toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
 // Components/Pages
-import ClaimButton from '../../../components/Buttons/ClaimTaskButton';
-import Pagination from '../../../components/Pagination/Pagination';
+import ClaimButton from '../../../components/ClaimTaskButton';
+import Pagination from '../../../components/Pagination';
 import TaskListMode from './TaskListMode';
-import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const TasksTab = ({
   taskStatus,
@@ -190,23 +200,23 @@ const TasksTab = ({
     let outcomeText;
     let outcomeClass = 'genericOutcome';
     switch (outcome) {
-      case TASK_OUTCOME.POSITIVE:
+      case TASK_OUTCOME_POSITIVE:
         outcomeText = 'Positive Exam';
         outcomeClass = 'positiveOutcome';
         break;
-      case TASK_OUTCOME.NEGATIVE:
+      case TASK_OUTCOME_NEGATIVE:
         outcomeText = 'Negative Exam';
         break;
-      case TASK_OUTCOME.NO_SHOW:
+      case TASK_OUTCOME_NO_SHOW:
         outcomeText = 'No Show';
         break;
-      case TASK_OUTCOME.MISSED:
+      case TASK_OUTCOME_MISSED:
         outcomeText = 'Missed Target';
         break;
-      case TASK_OUTCOME.INSUFFICIENT_RESOURCES:
+      case TASK_OUTCOME_INSUFFICIENT_RESOURCES:
         outcomeText = 'Insufficient Resources';
         break;
-      case TASK_OUTCOME.TARGET_WITHDRAWN:
+      case TASK_OUTCOME_TARGET_WITHDRAWN:
         outcomeText = 'Target Withdrawn';
         break;
       default:
@@ -222,7 +232,7 @@ const TasksTab = ({
   };
 
   const hasOutcome = (target) => {
-    if (target.status.toUpperCase() === TASK_STATUS.COMPLETE.toUpperCase()) {
+    if (target.status.toUpperCase() === TASK_STATUS_COMPLETED.toUpperCase()) {
       return getOutcome(target.outcome);
     }
   };
@@ -380,8 +390,8 @@ const TasksTab = ({
                       <div className="govuk-!-font-size-19">
                         <div className="claim-button-container">
                           <div>
-                            {(activeTab === TASK_STATUS.NEW
-                              || activeTab === TASK_STATUS.IN_PROGRESS
+                            {(activeTab === TASK_STATUS_NEW
+                              || activeTab === TASK_STATUS_IN_PROGRESS
                               || currentUser === target.assignee) && (
                               <ClaimButton
                                 className="govuk-!-font-weight-bold govuk-button"

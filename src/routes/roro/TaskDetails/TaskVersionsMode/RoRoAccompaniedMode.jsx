@@ -1,5 +1,5 @@
 import React from 'react';
-import { calculateTaskVersionTotalRiskScore } from '../../../../utils/Risks/risksUtil';
+import { calculateTaskVersionTotalRiskScore } from '../../../../utils/rickScoreCalculator';
 
 import {
   renderTargetingIndicatorsSection,
@@ -15,11 +15,11 @@ import {
 } from './SectionRenderer';
 
 import {
+  hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
-} from '../../../../utils/RoRoData/roroDataUtil';
-import { hasTaskVersionPassengers } from '../../../../utils/Movement/movementUtil';
+} from '../../../../utils/roroDataUtil';
 
 const renderFirstColumn = (version, movementMode) => {
   const targIndicatorsField = version.find(({ propName }) => propName === 'targetingIndicators');
