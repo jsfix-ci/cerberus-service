@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EnrichmentCount should render the enrichment component 1`] = `
+<h3
+  className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+>
+  TEST TITLE
+  <span
+    className="govuk-visually-hidden"
+  >
+    <span
+      className="govuk-!-margin-left-3 "
+    >
+      (
+      -/-/-
+      )
+    </span>
+  </span>
+</h3>
+`;
+
+exports[`EnrichmentCount should render the enrichment component with examination count 1`] = `
+<h3
+  className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+>
+  TEST TITLE
+  <span
+    className="govuk-visually-hidden"
+  >
+    <span
+      className="govuk-!-margin-left-3 "
+    >
+      (
+      -/1/-
+      )
+    </span>
+  </span>
+</h3>
+`;
+
+exports[`EnrichmentCount should render the enrichment component with movement count 1`] = `
+<h3
+  className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+>
+  TEST TITLE
+  <span
+    className="govuk-visually-hidden"
+  >
+    <span
+      className="govuk-!-margin-left-3 "
+    >
+      (
+      1/-/-
+      )
+    </span>
+  </span>
+</h3>
+`;
+
+exports[`EnrichmentCount should render the enrichment component with movement, seizure & examination count 1`] = `
+<h3
+  className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+>
+  TEST TITLE
+  <span
+    className="govuk-visually-hidden"
+  >
+    <span
+      className="govuk-!-margin-left-3 font--red"
+    >
+      (
+      1/1/1
+      )
+    </span>
+  </span>
+</h3>
+`;
+
+exports[`EnrichmentCount should render the enrichment component with seizure count 1`] = `
+<h3
+  className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+>
+  TEST TITLE
+  <span
+    className="govuk-visually-hidden"
+  >
+    <span
+      className="govuk-!-margin-left-3 font--red"
+    >
+      (
+      -/-/1
+      )
+    </span>
+  </span>
+</h3>
+`;

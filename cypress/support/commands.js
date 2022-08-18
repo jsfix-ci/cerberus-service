@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import config from '../../src/config';
+import config from '../../src/utils/config';
 
-import DateTimeUtil, { toRelativeTime } from '../../src/utils/DatetimeUtil';
-import { BEFORE_TRAVEL_TEXT, UNKNOWN_TEXT } from '../../src/constants';
+import DatetimeUtil, { toRelativeTime } from '../../src/utils/Datetime/datetimeUtil';
+import { STRINGS } from '../../src/utils/constants';
 
 const duration = require('dayjs/plugin/duration');
 
@@ -1337,14 +1337,14 @@ Cypress.Commands.add('removeOptionFromMultiSelectDropdown', (elementName, values
 const formatVoyageText = (dateTime) => {
   console.log(dateTime);
   const time = toRelativeTime(dateTime);
-  const isPastDate = DateTimeUtil.isPast(dateTime);
-  if (isPastDate !== UNKNOWN_TEXT) {
+  const isPastDate = DatetimeUtil.isPast(dateTime);
+  if (isPastDate !== STRINGS.UNKNOWN_TEXT) {
     if (isPastDate) {
       return `arrived ${time}`.trim();
     }
-    return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+    return `arriving in ${time.replace(STRINGS.BEFORE_TRAVEL_TEXT, '')}`.trim();
   }
-  return UNKNOWN_TEXT;
+  return STRINGS.UNKNOWN_TEXT;
 };
 
 Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
@@ -1387,22 +1387,22 @@ Cypress.Commands.add('createCerberusTask', (payload, taskName) => {
 });
 
 Cypress.Commands.add('toVoyageText', (dateTime, isTaskDetails = false, prefix = '') => {
-  const time = DateTimeUtil.relativeTime(dateTime);
-  const isPastDate = DateTimeUtil.isPast(dateTime);
+  const time = DatetimeUtil.relativeTime(dateTime);
+  const isPastDate = DatetimeUtil.isPast(dateTime);
   console.log(isPastDate);
-  if (isPastDate !== UNKNOWN_TEXT) {
+  if (isPastDate !== STRINGS.UNKNOWN_TEXT) {
     if (!isTaskDetails) {
       if (isPastDate) {
         return `arrived ${time}`.trim();
       }
-      return `arriving in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+      return `arriving in ${time.replace(STRINGS.BEFORE_TRAVEL_TEXT, '')}`.trim();
     }
     if (isPastDate) {
       return `arrived at ${prefix} ${time}`.trim();
     }
-    return `arrival at ${prefix} in ${time.replace(BEFORE_TRAVEL_TEXT, '')}`.trim();
+    return `arrival at ${prefix} in ${time.replace(STRINGS.BEFORE_TRAVEL_TEXT, '')}`.trim();
   }
-  return UNKNOWN_TEXT;
+  return STRINGS.UNKNOWN_TEXT;
 });
 
 Cypress.Commands.add('getTaskCount', (modeName, selector, statusTab) => {

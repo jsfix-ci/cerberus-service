@@ -3,7 +3,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import config from '../../../src/config';
+import config from '../../../src/utils/config';
 
 const duration = require('dayjs/plugin/duration');
 
@@ -1438,7 +1438,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
         cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['occupant-count']);
+          expect(details).to.deep.equal(expectedDetails['occupant-count2']);
         });
       });
 

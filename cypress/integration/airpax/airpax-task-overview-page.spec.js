@@ -1,4 +1,4 @@
-import { formatVoyageText } from '../../../src/utils/stringConversion';
+import { formatVoyageText } from '../../../src/utils/String/stringUtil';
 
 describe('AirPax Tasks overview Page - Should check All user journeys', () => {
   const departureTime = Cypress.dayjs().utc().valueOf();
@@ -349,12 +349,14 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         let businessKey = taskResponse.id;
         cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
         cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
         cy.get('@expectedData').then((expectedTaskSumary) => {
           cy.verifyAirPaxTaskListInfo(businessKey, 'Crew').then((actualTaskSummary) => {
             expect(expectedTaskSumary).to.deep.equal(actualTaskSummary);
           });
         });
-        cy.wait(3000);
         cy.checkAirPaxTaskDisplayed(businessKey);
         cy.contains('Crew');
       });
@@ -373,7 +375,11 @@ describe('AirPax Tasks overview Page - Should check All user journeys', () => {
         expect(taskResponse.movement.id).to.contain('AIRPAX');
         cy.wait(4000);
         let businessKey = taskResponse.id;
+        cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
         cy.visit('/airpax/tasks');
+        cy.wait('@airpaxTask').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
         cy.checkAirPaxTaskDisplayed(businessKey);
         cy.get('strong.hods-tag.govuk-tag.govuk-tag--newTarget').should('be.visible').and('have.text', 'new');
         cy.claimAirPaxTaskWithUserId(businessKey);

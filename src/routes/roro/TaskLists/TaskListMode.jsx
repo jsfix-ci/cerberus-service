@@ -3,20 +3,24 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 // Config
 import * as pluralise from 'pluralise';
-import * as constants from '../../../constants';
+import { DATE_FORMATS,
+  STRINGS,
+  ICON,
+  MOVEMENT_MODES } from '../../../utils/constants';
 // Utils
-import { calculateTimeDifference } from '../../../utils/DatetimeUtil';
-import formatGender from '../../../utils/genderFormatter';
-import { hasVehicleMake, hasVehicleModel, hasVehicle, hasTrailer, filterKnownPassengers } from '../../../utils/roroDataUtil';
+import { calculateTimeDifference } from '../../../utils/Datetime/datetimeUtil';
+import { formatGender } from '../../../utils/Person/personUtil';
+import { filterKnownPassengers } from '../../../utils/RoRoData/roroDataUtil';
+import { hasVehicle, hasVehicleMake, hasVehicleModel, hasTrailer } from '../../../utils/Movement/movementUtil';
 import EnrichmentCount from './EnrichmentCount';
-import { formatVoyageText } from '../../../utils/stringConversion';
+import { formatVoyageText } from '../../../utils/String/stringUtil';
 
 const getMovementModeTypeText = (movementModeIcon) => {
   switch (movementModeIcon) {
-    case constants.RORO_TOURIST_CAR_ICON: {
+    case ICON.CAR: {
       return 'Vehicle';
     }
-    case constants.INDIVIDUAL_ICON: {
+    case ICON.INDIVIDUAL: {
       return 'Single passenger';
     }
     default: {
@@ -28,10 +32,10 @@ const getMovementModeTypeText = (movementModeIcon) => {
 const getMovementModeTypeContent = (roroData, movementModeIcon, passengers) => {
   const actualPassengers = filterKnownPassengers(passengers);
   switch (movementModeIcon) {
-    case constants.RORO_TOURIST_CAR_ICON: {
+    case ICON.CAR: {
       return !roroData.vehicle.registrationNumber ? '\xa0' : roroData.vehicle.registrationNumber.toUpperCase();
     }
-    case constants.INDIVIDUAL_ICON: {
+    case ICON.INDIVIDUAL: {
       return '1 foot passenger';
     }
     default: {
@@ -69,20 +73,24 @@ const renderRoRoTouristModeSection = (roroData, movementModeIcon, passengers) =>
   return (
     <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
       <i className={`icon-position--left ${movementModeIcon}`} />
-      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{getMovementModeTypeText(movementModeIcon)}</p>
-      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">{getMovementModeTypeContent(roroData, movementModeIcon, passengers)}</p>
+      <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
+        {getMovementModeTypeText(movementModeIcon)}
+      </p>
+      <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
+        {getMovementModeTypeContent(roroData, movementModeIcon, passengers)}
+      </p>
     </div>
   );
 };
 
 const renderRoroModeSection = (roroData, movementModeIcon) => {
-  if (movementModeIcon === constants.RORO_UNACCOMPANIED_ICON) {
+  if (movementModeIcon === ICON.TRAILER) {
     return (
       <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
         <i className={`icon-position--left ${movementModeIcon}`} />
         <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{'\xa0'}</p>
         <p className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
-          {hasTrailer(roroData.vehicle?.trailer?.regNumber) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
+          {hasTrailer(roroData?.vehicle) ? roroData.vehicle.trailer.regNumber.toUpperCase() : '\xa0'}
         </p>
       </div>
     );
@@ -111,11 +119,11 @@ const renderRoroVoyageSection = (roroData) => {
         ${!roroData.eta ? 'unknown' : formatVoyageText(roroData.eta)}`}
       </p>
       <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
-        {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(constants.LONG_DATE_FORMAT)}{' '}
+        {!roroData.departureTime ? 'unknown' : dayjs.utc(roroData.departureTime).format(DATE_FORMATS.LONG)}{' '}
         <span className="dot" />
         <span className="govuk-!-font-weight-bold"> {roroData.departureLocation || 'unknown'}</span>{' '}-{' '}
         <span className="govuk-!-font-weight-bold">{roroData.arrivalLocation || 'unknown'}</span> <span className="dot" /> {!roroData.eta ? 'unknown'
-          : dayjs.utc(roroData.eta).format(constants.LONG_DATE_FORMAT)}
+          : dayjs.utc(roroData.eta).format(DATE_FORMATS.LONG)}
       </p>
     </div>
   );
@@ -134,7 +142,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
           </ul>
         </div>
       </div>
-      <div className="govuk-grid-item verticel-dotted-line">
+      <div className="govuk-grid-item vertical-dotted-line">
         <div>
           <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
             Document
@@ -145,21 +153,25 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
           </ul>
         </div>
       </div>
-      <div className="govuk-grid-item verticel-dotted-line">
+      <div className="govuk-grid-item vertical-dotted-line">
         <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
           Booking
         </h3>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
           {roroData.bookingDateTime ? (
             <>
-              {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+              {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(DATE_FORMATS.SHORT)}</li>}
               {roroData.bookingDateTime && <br />}
-              {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
+              {roroData.bookingDateTime && (
+              <li>
+                {calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}
+              </li>
+              )}
             </>
           ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
         </ul>
       </div>
-      <div className="govuk-grid-item verticel-dotted-line">
+      <div className="govuk-grid-item vertical-dotted-line">
         <h3 className={`
           govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular
           ${hasTravellersWithPreviousSeizures(roroData.passengers) ? 'font--red' : ''}
@@ -179,7 +191,7 @@ const renderRoRoTouristSingleAndGroupCardBody = (roroData) => {
 const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
   const dateTimeArray = roroData.bookingDateTime.split(',').filter((x) => x.length > 0);
   const passengers = roroData?.passengers;
-  if (movementModeIcon === constants.RORO_TOURIST_CAR_ICON) {
+  if (movementModeIcon === ICON.CAR) {
     return (
       <>
         <section className="task-list--item-2">
@@ -212,7 +224,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                 </ul>
               </div>
             </div>
-            <div className="govuk-grid-item verticel-dotted-line">
+            <div className="govuk-grid-item vertical-dotted-line">
               <div>
                 <EnrichmentCount labelText="VRN" enrichmentCountText={roroData.vehicle?.enrichmentCount} />
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
@@ -232,21 +244,22 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
                 </ul>
               </div>
             </div>
-            <div className="govuk-grid-item verticel-dotted-line">
+            <div className="govuk-grid-item vertical-dotted-line">
               <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                 Booking
               </h3>
               <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                 {roroData.bookingDateTime ? (
                   <>
-                    {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+                    {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(DATE_FORMATS.SHORT)}</li>}
                     {roroData.bookingDateTime && <br />}
-                    {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
+                    {roroData.bookingDateTime
+                      && <li>{calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>}
                   </>
                 ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
               </ul>
             </div>
-            <div className="govuk-grid-item verticel-dotted-line">
+            <div className="govuk-grid-item vertical-dotted-line">
               <h3 className={`
                 govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular
                 ${hasTravellersWithPreviousSeizures(roroData.passengers) ? 'font--red' : ''}
@@ -264,7 +277,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.INDIVIDUAL_ICON) {
+  if (movementModeIcon === ICON.INDIVIDUAL) {
     return (
       <>
         <section className="task-list--item-2">
@@ -281,7 +294,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
       </>
     );
   }
-  if (movementModeIcon === constants.GROUP_ICON) {
+  if (movementModeIcon === ICON.GROUP) {
     return (
       <>
         <section className="task-list--item-2">
@@ -306,7 +319,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
   const movementMode = target.movementMode.toUpperCase();
   return (
     <>
-      {movementMode === constants.RORO_UNACCOMPANIED_FREIGHT.toUpperCase() && (
+      {movementMode === MOVEMENT_MODES.UNACCOMPANIED_FREIGHT.toUpperCase() && (
         <>
           <section className="task-list--item-2">
             <div>
@@ -332,7 +345,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   </ul>
                 </div>
               </div>
-              <div className="govuk-grid-item verticel-dotted-line">
+              <div className="govuk-grid-item vertical-dotted-line">
                 <EnrichmentCount labelText="Haulier details" enrichmentCountText={roroData.haulier?.enrichmentCount} />
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.haulier?.name ? (
@@ -346,14 +359,15 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   {roroData.account ? (
                     <>
                       {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(DATE_FORMATS.SHORT)}</li>}
                       {roroData.bookingDateTime && <br />}
-                      {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
+                      {roroData.bookingDateTime
+                        && <li>{calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
               </div>
-              <div className="govuk-grid-item verticel-dotted-line">
+              <div className="govuk-grid-item vertical-dotted-line">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Goods description
                 </h3>
@@ -365,12 +379,12 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
               </div>
-              <div className="govuk-grid-item verticel-dotted-line" />
+              <div className="govuk-grid-item vertical-dotted-line" />
             </div>
           </section>
         </>
       )}
-      {movementMode === constants.RORO_ACCOMPANIED_FREIGHT.toUpperCase() && (
+      {movementMode === MOVEMENT_MODES.ACCOMPANIED_FREIGHT.toUpperCase() && (
         <>
           <section className="task-list--item-2">
             <div>
@@ -409,7 +423,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 </div>
               </div>
 
-              <div className="govuk-grid-item verticel-dotted-line">
+              <div className="govuk-grid-item vertical-dotted-line">
                 <div>
                   <EnrichmentCount labelText="Vehicle details" enrichmentCountText={roroData.vehicle.enrichmentCount} />
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
@@ -436,7 +450,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                 </div>
               </div>
 
-              <div className="govuk-grid-item verticel-dotted-line">
+              <div className="govuk-grid-item vertical-dotted-line">
                 <EnrichmentCount labelText="Haulier details" enrichmentCountText={roroData.haulier?.enrichmentCount} />
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData.haulier?.name ? (
@@ -450,15 +464,19 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
                   {roroData.account ? (
                     <>
                       {roroData.account.name && <li className="govuk-!-font-weight-bold">{roroData.account.name}</li>}
-                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(constants.SHORT_DATE_FORMAT)}</li>}
+                      {roroData.bookingDateTime && <li>Booked on {dayjs.utc(dateTimeArray[0]).format(DATE_FORMATS.SHORT)}</li>}
                       {roroData.bookingDateTime && <br />}
-                      {roroData.bookingDateTime && <li>{calculateTimeDifference(dateTimeArray, constants.DEFAULT_DATE_TIME_STRING_PREFIX)}</li>}
+                      {roroData.bookingDateTime && (
+                      <li>
+                        {calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}
+                      </li>
+                      )}
                     </>
                   ) : (<li className="govuk-!-font-weight-bold">Unknown</li>)}
                 </ul>
               </div>
 
-              <div className="govuk-grid-item verticel-dotted-line">
+              <div className="govuk-grid-item vertical-dotted-line">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular">
                   Goods description
                 </h3>
@@ -474,7 +492,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
           </section>
         </>
       )}
-      {movementMode === constants.RORO_TOURIST.toUpperCase() && (
+      {movementMode === MOVEMENT_MODES.TOURIST.toUpperCase() && (
         renderRoRoTouristCard(roroData, movementMode, movementModeIcon)
       )}
     </>

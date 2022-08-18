@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TitleSection should render the title section for Airpax 1`] = `
+<section>
+  <div>
+    <div
+      className="govuk-grid-row"
+    >
+      <div
+        className="govuk-grid-column-two-thirds"
+      >
+        <div
+          className="task-title-container govuk-!-padding-top-2 govuk-!-padding-left-2"
+        >
+          <h4
+            className="govuk-heading-s task-heading"
+          >
+            DEV-20220419-001
+          </h4>
+        </div>
+        <div
+          className="govuk-grid-column govuk-!-padding-left-2"
+        />
+        <div
+          className="govuk-grid-column govuk-!-padding-left-2"
+        >
+          <p
+            className="govuk-body govuk-tag govuk-tag--updatedTarget"
+          >
+            Updated
+          </p>
+        </div>
+      </div>
+      <div
+        className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3"
+      >
+        <div
+          className="claim-button-container"
+        >
+          <span
+            className="govuk-body task-list--assignee"
+          >
+            Assigned to you
+             
+          </span>
+          <button
+            className="link-button govuk-!-font-weight-bold govuk-button"
+            onClick={[Function]}
+            type="button"
+          >
+            Unclaim task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`TitleSection should render the title section for RoRo v2 accompanied 1`] = `
+<section>
+  <div>
+    <div
+      className="govuk-grid-row"
+    >
+      <div
+        className="govuk-grid-column-two-thirds"
+      >
+        <div
+          className="task-title-container govuk-!-padding-top-2 govuk-!-padding-left-2"
+        >
+          <h4
+            className="govuk-heading-s task-heading"
+          >
+            DEV-20220809-1566
+          </h4>
+        </div>
+        <div
+          className="govuk-grid-column govuk-!-padding-left-2"
+        >
+          <h4
+            className="govuk-heading-s task-highest-risk govuk-!-margin-bottom-0"
+          >
+            SELECTOR
+             
+            <span
+              className="govuk-tag govuk-tag--riskTier"
+            >
+              A
+            </span>
+            <span
+              className="govuk-body task-risk-statement"
+            >
+              Class A Drugs and 2 other rules
+            </span>
+          </h4>
+        </div>
+        <div
+          className="govuk-grid-column govuk-!-padding-left-2"
+        />
+      </div>
+      <div
+        className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3"
+      >
+        <div
+          className="claim-button-container"
+        >
+          <span
+            className="govuk-body task-list--assignee"
+          >
+            Assigned to you
+             
+          </span>
+          <button
+            className="link-button govuk-!-font-weight-bold govuk-button"
+            onClick={[Function]}
+            type="button"
+          >
+            Unclaim task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`TitleSection should render the title section for RoRo v2 foot passenger 1`] = `
+<section>
+  <div>
+    <div
+      className="govuk-grid-row"
+    >
+      <div
+        className="govuk-grid-column-two-thirds"
+      >
+        <div
+          className="task-title-container govuk-!-padding-top-2 govuk-!-padding-left-2"
+        >
+          <h4
+            className="govuk-heading-s task-heading"
+          >
+            DEV-20220809-1568
+          </h4>
+        </div>
+        <div
+          className="govuk-grid-column govuk-!-padding-left-2"
+        >
+          <h4
+            className="govuk-heading-s task-highest-risk govuk-!-margin-bottom-0"
+          >
+            
+             
+            <span
+              className="govuk-tag govuk-tag--riskTier"
+            >
+              Tier 4
+            </span>
+            <span
+              className="govuk-body task-risk-statement"
+            >
+              Class A Drugs and 0 other rules
+            </span>
+          </h4>
+        </div>
+        <div
+          className="govuk-grid-column govuk-!-padding-left-2"
+        />
+      </div>
+      <div
+        className="govuk-grid-column-one-third govuk-!-padding-top-2 govuk-!-padding-right-3"
+      >
+        <div
+          className="claim-button-container"
+        >
+          <span
+            className="govuk-body task-list--assignee"
+          >
+             
+          </span>
+          <button
+            className="link-button govuk-!-font-weight-bold govuk-button"
+            onClick={[Function]}
+            type="button"
+          >
+            Claim
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;

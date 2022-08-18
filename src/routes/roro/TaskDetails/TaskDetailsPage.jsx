@@ -5,23 +5,23 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAMES, TASK_STATUS_NEW, MOVEMENT_VARIANT } from '../../../constants';
-import config from '../../../config';
+import { FORM_NAMES, TASK_STATUS, MOVEMENT_VARIANT } from '../../../utils/constants';
+import config from '../../../utils/config';
 // Utils
-import useAxiosInstance from '../../../utils/axiosInstance';
-import { useKeycloak } from '../../../utils/keycloak';
-import { useFormSubmit } from '../../../utils/formioSupport';
-import { findAndUpdateTaskVersionDifferences } from '../../../utils/findAndUpdateTaskVersionDifferences';
+import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { useKeycloak } from '../../../context/Keycloak';
+import { useFormSubmit } from '../../../utils/Form/FormIO/formIOUtil';
+import { findAndUpdateTaskVersionDifferences } from '../../../utils/TaskVersion/taskVersionUtil';
 // Components/Pages
-import ClaimButton from '../../../components/ClaimTaskButton';
-import RenderForm from '../../../components/RenderForm';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import TaskNotes from '../../../components/TaskNotes';
+import ClaimButton from '../../../components/Buttons/ClaimTaskButton';
+import RenderForm from '../../../components/RenderForm/RenderForm';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
+import TaskNotes from '../../../components/TaskNotes/TaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
-import Button from '../../../govuk/Button';
-import ErrorSummary from '../../../govuk/ErrorSummary';
-import Panel from '../../../govuk/Panel';
+import Button from '../../../components/Buttons/Button';
+import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
+import Panel from '../../../components/Panel/Panel';
 import '../__assets__/TaskDetailsPage.scss';
 
 const escapeJSON = (input) => {
@@ -320,9 +320,9 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-one-half">
               <span className="govuk-caption-xl">{businessKey}</span>
               <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
-              {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase() && (
+              {targetStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase() && (
                 <>
-                  {targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+                  {targetStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
                   && <p className="govuk-tag govuk-tag--newTarget">New</p>}
                   <p className="govuk-body">
                     {getAssignee()}
@@ -338,7 +338,7 @@ const TaskDetailsPage = () => {
               )}
             </div>
             <div className="govuk-grid-column-one-half task-actions--buttons">
-              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS_NEW.toUpperCase()
+              {assignee === currentUser && targetStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
               && processInstanceData.taskDefinitionKey === 'developTarget' && (
                 <>
                   {showActionButtons && (
