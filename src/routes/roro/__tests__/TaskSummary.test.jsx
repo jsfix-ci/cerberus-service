@@ -4,7 +4,7 @@ import { screen, render } from '@testing-library/react';
 import TaskSummary from '../TaskDetails/TaskSummary';
 // import { testInputDataFieldsEmpty } from '../../utils/__fixtures__/taskSummaryData.fixture';
 import taskSummaryData from '../__fixtures__/taskSummaryData.fixture.json';
-import { MOVEMENT_MODES } from '../../../utils/constants';
+import { RORO_ACCOMPANIED_FREIGHT } from '../../../constants';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
@@ -14,19 +14,14 @@ jest.mock('react-router-dom', () => ({
 
 describe('TaskSummary', () => {
   it('should render the summary section', () => {
-    const { container } = render(
-      <TaskSummary
-        movementMode={MOVEMENT_MODES.ACCOMPANIED_FREIGHT}
-        taskSummaryData={taskSummaryData}
-      />,
-    );
+    const { container } = render(<TaskSummary movementMode={RORO_ACCOMPANIED_FREIGHT} taskSummaryData={taskSummaryData} />);
     expect(container.firstChild.classList.contains('card')).toBe(true);
   });
 
   it('should display Vehicle & trailer & driver titles when data contains them', () => {
     render(
       <TaskSummary
-        movementMode={MOVEMENT_MODES.ACCOMPANIED_FREIGHT}
+        movementMode={RORO_ACCOMPANIED_FREIGHT}
         taskSummaryData={
           {
             ...taskSummaryData,
@@ -49,7 +44,7 @@ describe('TaskSummary', () => {
   it('should display Vehicle only when data contains trailers but no vehicle or driver', () => {
     render(
       <TaskSummary
-        movementMode={MOVEMENT_MODES.ACCOMPANIED_FREIGHT}
+        movementMode={RORO_ACCOMPANIED_FREIGHT}
         taskSummaryData={
           {
             ...taskSummaryData,

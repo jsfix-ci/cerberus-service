@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { useFormSubmit } from '../../utils/Form/FormIO/formIOUtil';
-import RenderForm from '../../components/RenderForm/RenderForm';
-import Panel from '../../components/Panel/Panel';
-import { FORM_NAMES } from '../../utils/constants';
+import { useFormSubmit } from '../../utils/formioSupport';
+import RenderForm from '../../components/RenderForm';
+import Panel from '../../govuk/Panel';
+import { FORM_NAMES } from '../../constants';
 
 const IssueTargetPage = () => {
   const submitForm = useFormSubmit();

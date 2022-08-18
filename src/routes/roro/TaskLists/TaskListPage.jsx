@@ -1,30 +1,33 @@
 // Third party imports
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useIsMounted } from '../../../utils/Hooks/hooks';
+import { useIsMounted } from '../../../utils/hooks';
 
 // Config
 import {
   DEFAULT_MOVEMENT_RORO_MODES,
   DEFAULT_RORO_HAS_SELECTORS,
-  LOCAL_STORAGE_KEYS,
-  RORO_FILTERS, STRINGS,
+  RORO_FILTERS,
   TAB_STATUS_MAPPING,
-  TARGETER_GROUP, TASK_LIST_PATHS,
-  TASK_STATUS,
-} from '../../../utils/constants';
-import config from '../../../utils/config';
+  TARGETER_GROUP,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_IN_PROGRESS,
+  TASK_STATUS_NEW,
+  TASK_STATUS_TARGET_ISSUED,
+  RORO_TASK_STATUS_KEY,
+} from '../../../constants';
+import config from '../../../config';
 
 // Utils
-import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../../context/Keycloak';
-import { toRoRoSelectorsValue } from '../../../utils/RoRoData/roroDataUtil';
+import useAxiosInstance from '../../../utils/axiosInstance';
+import { useKeycloak } from '../../../utils/keycloak';
+import { toRoRoSelectorsValue } from '../../../utils/roroDataUtil';
 
 // Components/Pages
 import TasksTab from './TasksTab';
-import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
-import Tabs from '../../../components/Tabs/Tabs';
+import ErrorSummary from '../../../govuk/ErrorSummary';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import Tabs from '../../../components/Tabs';
 import Filter from './Filter';
 
 // Context
@@ -52,8 +55,8 @@ const TaskListPage = () => {
   let filterPosition = 0;
 
   const getAppliedFilters = () => {
-    const taskStatus = localStorage.getItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS) !== 'null'
-      ? localStorage.getItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS)
+    const taskStatus = localStorage.getItem(RORO_TASK_STATUS_KEY) !== 'null'
+      ? localStorage.getItem(RORO_TASK_STATUS_KEY)
       : 'new';
     if (
       localStorage.getItem('filterMovementMode')
@@ -110,7 +113,7 @@ const TaskListPage = () => {
   };
 
   const getFiltersAndSelectorsCount = async (taskId = 'new') => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS, taskId);
+    localStorage.setItem(RORO_TASK_STATUS_KEY, taskId);
     setFiltersAndSelectorsCount();
     if (camundaClientV1) {
       try {
@@ -171,7 +174,7 @@ const TaskListPage = () => {
     }
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount(localStorage.getItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS));
+    getFiltersAndSelectorsCount(localStorage.getItem(RORO_TASK_STATUS_KEY));
     setLoading(false);
   };
 
@@ -222,7 +225,7 @@ const TaskListPage = () => {
 
     getTaskCount(apiParams);
     setFiltersToApply(apiParams);
-    getFiltersAndSelectorsCount(localStorage.getItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS));
+    getFiltersAndSelectorsCount(localStorage.getItem(RORO_TASK_STATUS_KEY));
     setLoading(false);
   };
 
@@ -263,7 +266,7 @@ const TaskListPage = () => {
   }, [hasSelectors, movementModesSelected]);
 
   useEffect(() => {
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS);
+    localStorage.removeItem(RORO_TASK_STATUS_KEY);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -278,22 +281,13 @@ const TaskListPage = () => {
     <>
       <div className="heading-container govuk-!-margin-bottom-8">
         <h1 className="govuk-heading-xl govuk-!-margin-bottom-0 govuk-!-padding-right-1">Task management (RoRo)</h1>
-        {config.roroV2ViewEnabled && (
-          <Link
-            className="roro-task-link"
-            onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
-            to={TASK_LIST_PATHS.RORO_V2}
-          >
-            {STRINGS.TASK_LINK_HEADERS.RORO_V2}
-          </Link>
-        )}
         {config.copTargetingApiEnabled && (
         <Link
           className="airpax-task-link"
           onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
-          to={TASK_LIST_PATHS.AIRPAX}
+          to="/airpax/tasks"
         >
-          {STRINGS.TASK_LINK_HEADERS.AIRPAX}
+          Airpax tasks
         </Link>
         )}
       </div>
@@ -364,13 +358,13 @@ const TaskListPage = () => {
               }}
               items={[
                 {
-                  id: TASK_STATUS.NEW,
+                  id: TASK_STATUS_NEW,
                   label: `New (${taskCountsByStatus?.new || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">New tasks</h2>
                       <TasksTab
-                        taskStatus={TASK_STATUS.NEW}
+                        taskStatus={TASK_STATUS_NEW}
                         filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.new}
                         setError={setError}
@@ -379,7 +373,7 @@ const TaskListPage = () => {
                   ),
                 },
                 {
-                  id: TASK_STATUS.IN_PROGRESS,
+                  id: TASK_STATUS_IN_PROGRESS,
                   label: `In progress (${
                     taskCountsByStatus?.inProgress || '0'
                   })`,
@@ -387,7 +381,7 @@ const TaskListPage = () => {
                     <>
                       <h2 className="govuk-heading-l">In progress tasks</h2>
                       <TasksTab
-                        taskStatus={TASK_STATUS.IN_PROGRESS}
+                        taskStatus={TASK_STATUS_IN_PROGRESS}
                         filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.inProgress}
                         setError={setError}
@@ -396,13 +390,13 @@ const TaskListPage = () => {
                   ),
                 },
                 {
-                  id: TASK_STATUS.ISSUED,
+                  id: TASK_STATUS_TARGET_ISSUED,
                   label: `Issued (${taskCountsByStatus?.issued || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Target issued tasks</h2>
                       <TasksTab
-                        taskStatus={TASK_STATUS.ISSUED}
+                        taskStatus={TASK_STATUS_TARGET_ISSUED}
                         filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.issued}
                         setError={setError}
@@ -411,13 +405,13 @@ const TaskListPage = () => {
                   ),
                 },
                 {
-                  id: TASK_STATUS.COMPLETE,
+                  id: TASK_STATUS_COMPLETED,
                   label: `Complete (${taskCountsByStatus?.complete || '0'})`,
                   panel: (
                     <>
                       <h2 className="govuk-heading-l">Completed tasks</h2>
                       <TasksTab
-                        taskStatus={TASK_STATUS.COMPLETE}
+                        taskStatus={TASK_STATUS_COMPLETED}
                         filtersToApply={filtersToApply}
                         targetTaskCount={taskCountsByStatus?.complete}
                         setError={setError}

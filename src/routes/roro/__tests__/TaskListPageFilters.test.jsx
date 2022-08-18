@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '../../../__mocks__/keycloakMock';
 import TaskListPage from '../TaskLists/TaskListPage';
 import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { TASK_STATUS } from '../../../utils/constants';
+import { TASK_STATUS_IN_PROGRESS, TASK_STATUS_NEW } from '../../../constants';
 
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
@@ -21,7 +21,7 @@ describe('TaskListFilters', () => {
     mockAxios.reset();
   });
 
-  const setTabAndTaskValues = (value, taskStatus = TASK_STATUS.NEW) => {
+  const setTabAndTaskValues = (value, taskStatus = TASK_STATUS_NEW) => {
     return (
       <TaskSelectedTabContext.Provider value={value}>
         <TaskListPage taskStatus={taskStatus} setError={() => {}} />
@@ -190,7 +190,7 @@ describe('TaskListFilters', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, []);
 
-    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS.IN_PROGRESS)));
+    await waitFor(() => render(setTabAndTaskValues(tabData, TASK_STATUS_IN_PROGRESS)));
 
     expect(screen.queryByText('You are not authorised to view these tasks.')).not.toBeInTheDocument();
     expect(screen.getByText('RoRo unaccompanied freight (5)')).toBeInTheDocument();

@@ -225,7 +225,6 @@ steps:
       from_secret: NGINX_TAG
     REFDATA_API_URL:
       from_secret: DEV_REFDATA_API_URL
-    RORO_V2_VIEW_ENABLED: 'true'
   when:
     branch:
     - release-candidate
@@ -351,7 +350,6 @@ steps:
       from_secret: NGINX_TAG
     REFDATA_API_URL:
       from_secret: SIT_REFDATA_API_URL
-    RORO_V2_VIEW_ENABLED: 'false'
   when:
     branch:
     - release-candidate
@@ -481,7 +479,6 @@ steps:
       from_secret: NGINX_TAG
     REFDATA_API_URL:
       from_secret: STAGING_REFDATA_API_URL
-    RORO_V2_VIEW_ENABLED: 'false'
   when:
     event:
     - promote
@@ -611,7 +608,6 @@ steps:
       from_secret: NGINX_TAG
     REFDATA_API_URL:
       from_secret: PRODUCTION_REFDATA_API_URL
-    RORO_V2_VIEW_ENABLED: 'false'
   when:
     event:
     - promote
