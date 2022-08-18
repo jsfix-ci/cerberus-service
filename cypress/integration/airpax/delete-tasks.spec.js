@@ -71,7 +71,7 @@ describe('Delet tasks and verify it on UI', () => {
     });
   });
 
-  it('Should delete a RoRo task with movementId verify it is not present', () => {
+  it.skip('Should delete a RoRo task with movementId verify it is not present', () => {
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('taskList');
     let date = new Date();
     let dateNowFormatted = Cypress.dayjs(date).utc().format('DD-MM-YYYY');
