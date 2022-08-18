@@ -25,16 +25,8 @@
   "occupant-count": {
     "Infants": "0",
     "Children": "0",
-    "Adults": "0",
+    "Adults": "1",
     "OAPs": "0"
-  },
-  "occupant-count2": {
-    "0": "0",
-    "1": "1",
-    "Infants": "Infants",
-    "Children": "Children",
-    "Adults": "Adults",
-    "OAPs": "OAPs"
   },
   "driver": {
     "Driver": "Scottello TurnerUnknown, born 27 Apr 1993, Unknown",

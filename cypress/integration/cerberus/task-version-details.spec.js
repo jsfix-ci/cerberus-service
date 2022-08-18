@@ -1438,7 +1438,7 @@ describe('Task Details of different tasks on task details Page', () => {
     cy.fixture('accompanied-task-details.json').then((expectedDetails) => {
       cy.contains('h3', 'Occupants').nextAll().within(() => {
         cy.getOccupantCounts().then((details) => {
-          expect(details).to.deep.equal(expectedDetails['occupant-count2']);
+          expect(details).to.deep.equal(expectedDetails['occupant-count']);
         });
       });
 
