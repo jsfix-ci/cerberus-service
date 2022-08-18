@@ -544,7 +544,6 @@ describe('Verify AirPax task details of different sections', () => {
 
   it('Should verify Voyage details of an AirPax task on task details page', () => {
     cy.intercept('GET', '/v2/targeting-tasks/*').as('task');
-    cy.intercept('GET', 'https://api.dev.refdata.homeoffice.gov.uk/v2/entities/carrierlist?mode=dataOnly').as('flightOperator');
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
@@ -552,9 +551,6 @@ describe('Verify AirPax task details of different sections', () => {
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
-        cy.wait('@flightOperator').then(({ response }) => {
-          expect(response.statusCode).to.be.equal(200);
-        });
         cy.wait(3000);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
           cy.contains('h3', 'Voyage').next().within((elements) => {
