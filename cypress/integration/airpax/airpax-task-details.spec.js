@@ -25,8 +25,8 @@ describe('Verify AirPax task details of different sections', () => {
 
   it('Should check airPax task not visible if User not agreed for PNR terms', () => {
     const expectedText = 'You do not have access to view new PNR data. \n'
-        + '          To view new PNR data, \n'
-        + '          you will need to request access.';
+      + '          To view new PNR data, \n'
+      + '          you will need to request access.';
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
     cy.doNotAcceptPNRTerms();
@@ -52,8 +52,8 @@ describe('Verify AirPax task details of different sections', () => {
 
   it('Should check airPax task not visible if User not in the authorised location', () => {
     const expectedText = 'You do not have access to view new PNR data. \n'
-        + '          To view new PNR data, \n'
-        + '          you will need to request access.';
+      + '          To view new PNR data, \n'
+      + '          you will need to request access.';
 
     cy.intercept('POST', '/v2/targeting-tasks/pages').as('airpaxTask');
     cy.visit('/airpax/tasks');
@@ -472,7 +472,7 @@ describe('Verify AirPax task details of different sections', () => {
 
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = movementID;
-      task.data.movement.persons[1].person.nationality = 'AUS';
+      task.data.movement.persons[1].person.nationality = 'GBR';
       cy.createTargetingApiTask(task).then((response) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${response.id}`);
@@ -543,13 +543,19 @@ describe('Verify AirPax task details of different sections', () => {
   });
 
   it('Should verify Voyage details of an AirPax task on task details page', () => {
+    cy.intercept('GET', '/v2/targeting-tasks/*').as('task');
+    cy.intercept('GET', 'https://api.dev.refdata.homeoffice.gov.uk/v2/entities/carrierlist?mode=dataOnly').as('flightOperator');
     cy.acceptPNRTerms();
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
-      cy.createTargetingApiTask(task).then((response) => {
+      cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(4000);
-        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+        cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.wait('@flightOperator').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.wait(3000);
         cy.fixture('airpax/airpax-task-expected-details.json').then((expectedDetails) => {
           cy.contains('h3', 'Voyage').next().within((elements) => {
             cy.getairPaxTaskDetail(elements).then((actualVoyageDetails) => {
@@ -575,6 +581,10 @@ describe('Verify AirPax task details of different sections', () => {
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(4000);
         cy.checkAirPaxTaskDisplayed(`${taskResponse.id}`);
+        cy.wait('@task').then(({ response }) => {
+          expect(response.statusCode).to.be.equal(200);
+        });
+        cy.reload();
         cy.wait('@task').then(({ response }) => {
           expect(response.statusCode).to.be.equal(200);
         });

@@ -34,7 +34,6 @@ describe('Targeter to see how long before departure check-in occurs So that Targ
   });
 
   after(() => {
-    cy.deleteAutomationTestData();
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
   });
