@@ -91,7 +91,7 @@ export const MOVEMENT_ROLE = {
   PASSENGER: 'PASSENGER',
 };
 
-export const MOVEMENT_VARIANT = {
+export const MODE = {
   RORO: 'RORO',
   AIRPAX: 'AIRPAX',
 };

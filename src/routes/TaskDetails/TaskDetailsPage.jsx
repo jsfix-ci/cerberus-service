@@ -7,7 +7,7 @@ import axios from 'axios';
 // Config
 import config from '../../utils/config';
 import { TASK_STATUS,
-  MOVEMENT_VARIANT,
+  MODE,
   FORM_MESSAGES } from '../../utils/constants';
 
 import { ApplicationContext } from '../../context/ApplicationContext';
@@ -307,7 +307,7 @@ const TaskDetailsPage = () => {
           {!isSubmitted && currentUser === assignee
             && (
             <TaskNotes
-              noteVariant={MOVEMENT_VARIANT.AIRPAX}
+              noteVariant={MODE.AIRPAX}
               displayForm={assignee === currentUser
                 && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen}
               businessKey={businessKey}

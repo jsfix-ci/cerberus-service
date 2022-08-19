@@ -10,7 +10,9 @@ import {
   TAB_STATUS_MAPPING,
   TASK_LIST_PATHS,
   TASK_STATUS,
-  SORT_ORDER, MOVEMENT_MODES,
+  SORT_ORDER,
+  MODE,
+  MOVEMENT_MODES,
 } from '../../../utils/constants';
 
 // Utils
@@ -23,7 +25,7 @@ import config from '../../../utils/config';
 
 // Components/Pages
 import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import AirpaxFilter from '../../../components/Filter/AirpaxFilter';
+import Filter from '../../../components/Filter/Filter';
 import Tabs from '../../../components/Tabs/Tabs';
 import TaskManagementHeader from '../../../components/Headers/TaskManagementHeader';
 
@@ -44,6 +46,7 @@ export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
   rules: [],
   searchText: '',
   assignees: [],
+  assignedToMe: [],
 };
 
 export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
@@ -282,7 +285,8 @@ const TaskListPage = () => {
       {authorisedGroup && (
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
-            <AirpaxFilter
+            <Filter
+              mode={MODE.AIRPAX}
               taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS)}
               currentUser={currentUser}
               onApply={applyFilters}

@@ -10,7 +10,9 @@ import {
   TAB_STATUS_MAPPING,
   TASK_LIST_PATHS,
   TASK_STATUS,
-  SORT_ORDER, MOVEMENT_MODES,
+  SORT_ORDER,
+  MODE,
+  MOVEMENT_MODES,
 } from '../../../utils/constants';
 
 // Utils
@@ -23,7 +25,7 @@ import config from '../../../utils/config';
 
 // Components/Pages
 import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import RoRoFilter from '../../../components/Filter/RoRoFilter';
+import Filter from '../../../components/Filter/Filter';
 import Tabs from '../../../components/Tabs/Tabs';
 import TaskManagementHeader from '../../../components/Headers/TaskManagementHeader';
 
@@ -45,6 +47,7 @@ export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
   ruleIds: [],
   searchText: '',
   assignees: [],
+  assignedToMe: [],
 };
 
 // RoRo V2
@@ -280,7 +283,8 @@ const TaskListPage = () => {
       {authorisedGroup && (
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
-            <RoRoFilter
+            <Filter
+              mode={MODE.RORO}
               taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS)}
               currentUser={currentUser}
               onApply={applyFilters}
