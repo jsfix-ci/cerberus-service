@@ -23,8 +23,8 @@ const MODE_OPTIONS = [
 
 const getAssigneeComponent = (assignee) => {
   return {
-    id: 'getAssigneeComponent',
-    fieldId: 'getAssigneeComponent',
+    id: 'assignedToMe',
+    fieldId: 'assignedToMe',
     type: 'checkboxes',
     label: '',
     data: {
