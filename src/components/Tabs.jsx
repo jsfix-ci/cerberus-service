@@ -15,7 +15,7 @@ const Tabs = ({
 }) => {
   const location = useLocation();
   const isTaskListPage = TASK_LIST_PATHS.includes(location.pathname);
-  const { selectedTabIndex, selectTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
+  const { selectedTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
   const indexToUse = isTaskListPage ? (selectedTabIndex || 0) : 0;
   const [currentTabIndex, setCurrentTabIndex] = useState(indexToUse);
   const currentTab = items[currentTabIndex];
@@ -53,7 +53,6 @@ const Tabs = ({
                   className="govuk-tabs__tab"
                   onClick={(e) => {
                     e.preventDefault();
-                    selectTabIndex(index);
                     setCurrentTabIndex(index);
                     if (isTaskListPage) {
                       selectTaskManagementTabIndex(index);
