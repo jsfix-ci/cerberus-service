@@ -11,7 +11,6 @@ import {
   TASK_LIST_PATHS,
   TASK_STATUS,
   SORT_ORDER,
-  MODE,
   MOVEMENT_MODES,
 } from '../../../utils/constants';
 
@@ -25,8 +24,9 @@ import config from '../../../utils/config';
 
 // Components/Pages
 import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import Filter from '../../../components/Filter/Filter';
+import Filter from '../../../components/Filter/Custom/Filter';
 import Tabs from '../../../components/Tabs/Tabs';
+import TasksTab from '../TasksTab';
 import TaskManagementHeader from '../../../components/Headers/TaskManagementHeader';
 
 // Context
@@ -35,9 +35,11 @@ import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext'
 // Services
 import AxiosRequests from '../../../api/axiosRequests';
 
+// Forms
+import { airpax } from '../../../forms/filters';
+
 // Styling
 import '../__assets__/TaskListPage.scss';
-import TasksTab from '../TasksTab';
 
 export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
   movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
@@ -286,14 +288,17 @@ const TaskListPage = () => {
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
             <Filter
-              mode={MODE.AIRPAX}
+              filter={airpax}
               taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS)}
               currentUser={currentUser}
+              data={appliedFilters}
+              filtersAndSelectorsCount={{
+                movementModeCounts: filtersAndSelectorsCount?.slice(0, 1),
+                modeSelectorCounts: filtersAndSelectorsCount?.slice(1),
+              }}
+              customOptions={{ rulesOptions }}
               onApply={applyFilters}
-              appliedFilters={appliedFilters}
-              filtersAndSelectorsCount={filtersAndSelectorsCount}
-              rulesOptions={rulesOptions}
-              handleFilterReset={(e) => handleFilterReset(e)}
+              handleFilterReset={handleFilterReset}
             />
           </section>
           <section className="govuk-grid-column-three-quarters">

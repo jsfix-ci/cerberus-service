@@ -214,6 +214,9 @@ export const FORM_MESSAGES = {
 export const COMPONENT_TYPES = {
   TYPE_SELECT: 'select',
   TYPE_MULTIAUTOCOMPLETE: 'multiautocomplete',
+  TYPE_CHECKBOXES: 'checkboxes',
+  TYPE_RADIOS: 'radios',
+  TYPE_TEXT_INPUT: 'text',
 };
 
 export const DEPARTURE_STATUS = {

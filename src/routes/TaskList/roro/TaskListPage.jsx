@@ -11,7 +11,6 @@ import {
   TASK_LIST_PATHS,
   TASK_STATUS,
   SORT_ORDER,
-  MODE,
   MOVEMENT_MODES,
 } from '../../../utils/constants';
 
@@ -25,8 +24,9 @@ import config from '../../../utils/config';
 
 // Components/Pages
 import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import Filter from '../../../components/Filter/Filter';
+import Filter from '../../../components/Filter/Custom/Filter';
 import Tabs from '../../../components/Tabs/Tabs';
+import TasksTab from '../TasksTab';
 import TaskManagementHeader from '../../../components/Headers/TaskManagementHeader';
 
 // Context
@@ -35,9 +35,11 @@ import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext'
 // Services
 import AxiosRequests from '../../../api/axiosRequests';
 
+// Forms
+import { roro } from '../../../forms/filters';
+
 // Styling
 import '../__assets__/TaskListPage.scss';
-import TasksTab from '../TasksTab';
 
 // RoRo V2
 export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
@@ -284,13 +286,16 @@ const TaskListPage = () => {
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
             <Filter
-              mode={MODE.RORO}
+              filter={roro}
               taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS)}
               currentUser={currentUser}
+              data={appliedFilters}
+              filtersAndSelectorsCount={{
+                movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
+                modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
+              }}
               onApply={applyFilters}
-              appliedFilters={appliedFilters}
-              filtersAndSelectorsCount={filtersAndSelectorsCount}
-              handleFilterReset={(e) => handleFilterReset(e)}
+              handleFilterReset={handleFilterReset}
             />
           </section>
           <section className="govuk-grid-column-three-quarters">
