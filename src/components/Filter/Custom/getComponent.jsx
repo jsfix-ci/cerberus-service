@@ -8,66 +8,80 @@ import { Checkboxes,
 
 import { COMPONENT_TYPES } from '../../../utils/constants';
 
-const Select = (component) => {
+const getTextInput = (key, wrapperOptions, componentOptions) => {
   return (
-    <select
-      className="govuk-select"
-      id={component.id}
-      name={component.fieldId}
-      onChange={component.onChange}
-      onBlur={component.onChange}
-      value={component.value}
-    >
-      {component.options.map((opt) => {
-        return (
-          <option
-            key={opt.value}
-            value={opt.value}
-          >
-            {opt.label}
-          </option>
-        );
-      })}
-    </select>
+    <FormGroup key={key} {...wrapperOptions}>
+      <TextInput {...componentOptions} />
+    </FormGroup>
   );
 };
 
-const getComponent = (component, wrapperOptions, componentOptions) => {
+const getCheckboxes = (key, wrapperOptions, componentOptions) => {
+  return (
+    <FormGroup key={key} {...wrapperOptions}>
+      <Checkboxes {...componentOptions} />
+    </FormGroup>
+  );
+};
+
+const getRadios = (key, wrapperOptions, componentOptions) => {
+  return (
+    <FormGroup key={key} {...wrapperOptions}>
+      <Radios {...componentOptions} />
+    </FormGroup>
+  );
+};
+
+const getMultiSelect = (key, wrapperOptions, componentOptions) => {
+  return (
+    <FormGroup key={key} {...wrapperOptions}>
+      <MultiSelectAutocomplete {...componentOptions} />
+    </FormGroup>
+  );
+};
+
+const getSelect = (key, wrapperOptions, componentOptions) => {
+  return (
+    <FormGroup key={key} {...wrapperOptions}>
+      <select
+        className="govuk-select"
+        id={componentOptions.id}
+        name={componentOptions.fieldId}
+        onChange={componentOptions.onChange}
+        onBlur={componentOptions.onChange}
+        value={componentOptions.value}
+      >
+        {componentOptions.options.map((opt) => {
+          return (
+            <option
+              key={opt.value}
+              value={opt.value}
+            >
+              {opt.label}
+            </option>
+          );
+        })}
+      </select>
+    </FormGroup>
+  );
+};
+
+const getComponent = (key, component, wrapperOptions, componentOptions) => {
   switch (component.type) {
-    case COMPONENT_TYPES.TYPE_TEXT_INPUT: {
-      return (
-        <FormGroup {...wrapperOptions}>
-          <TextInput {...componentOptions} />
-        </FormGroup>
-      );
+    case COMPONENT_TYPES.TEXT_INPUT: {
+      return getTextInput(key, wrapperOptions, componentOptions);
     }
-    case COMPONENT_TYPES.TYPE_CHECKBOXES: {
-      return (
-        <FormGroup {...wrapperOptions}>
-          <Checkboxes {...componentOptions} />
-        </FormGroup>
-      );
+    case COMPONENT_TYPES.CHECKBOXES: {
+      return getCheckboxes(key, wrapperOptions, componentOptions);
     }
-    case COMPONENT_TYPES.TYPE_RADIOS: {
-      return (
-        <FormGroup {...wrapperOptions}>
-          <Radios {...componentOptions} />
-        </FormGroup>
-      );
+    case COMPONENT_TYPES.RADIOS: {
+      return getRadios(key, wrapperOptions, componentOptions);
     }
-    case COMPONENT_TYPES.TYPE_MULTIAUTOCOMPLETE: {
-      return (
-        <FormGroup {...wrapperOptions}>
-          <MultiSelectAutocomplete {...componentOptions} />
-        </FormGroup>
-      );
+    case COMPONENT_TYPES.MULTIAUTOCOMPLETE: {
+      return getMultiSelect(key, wrapperOptions, componentOptions);
     }
-    case COMPONENT_TYPES.TYPE_SELECT: {
-      return (
-        <FormGroup {...wrapperOptions}>
-          {Select(componentOptions)}
-        </FormGroup>
-      );
+    case COMPONENT_TYPES.SELECT: {
+      return getSelect(key, wrapperOptions, componentOptions);
     }
     default: {
       return null;

@@ -212,11 +212,11 @@ export const FORM_MESSAGES = {
 };
 
 export const COMPONENT_TYPES = {
-  TYPE_SELECT: 'select',
-  TYPE_MULTIAUTOCOMPLETE: 'multiautocomplete',
-  TYPE_CHECKBOXES: 'checkboxes',
-  TYPE_RADIOS: 'radios',
-  TYPE_TEXT_INPUT: 'text',
+  SELECT: 'select',
+  MULTIAUTOCOMPLETE: 'multiautocomplete',
+  CHECKBOXES: 'checkboxes',
+  RADIOS: 'radios',
+  TEXT_INPUT: 'text',
 };
 
 export const DEPARTURE_STATUS = {
@@ -300,14 +300,14 @@ export const RORO_FILTERS = [
   },
 ];
 
-// TODO: RoRo V1
+// RoRo V1
 export const DEFAULT_APPLIED_RORO_FILTER_STATE = {
   movementModes: [],
   hasSelectors: 'both',
   mode: [],
 };
 
-// TODO: RoRo V1
+// RoRo V1
 export const DEFAULT_MOVEMENT_RORO_MODES = [
   {
     taskStatuses: [],
@@ -326,7 +326,7 @@ export const DEFAULT_MOVEMENT_RORO_MODES = [
   },
 ];
 
-// TODO: RoRo V1
+// RoRo V1
 export const DEFAULT_RORO_HAS_SELECTORS = [
   {
     taskStatuses: [],

@@ -1,32 +1,29 @@
-import getComponent from './getComponent';
+import cleanComponent from './cleanComponent';
+import setUpOptions from './setUpOptions';
 
-const setUpOptions = (component, customOptions) => {
-  if (component.id === 'rules') {
-    return {
-      options: customOptions.rulesOptions,
-    };
-  }
-  return (component?.data?.options && { options: component.data.options });
+const DEFAULT_WRAPPER_OPTIONS = ['id', 'label', 'required'];
+
+const setUpValue = (component, data) => {
+  return { value: data[component?.fieldId] || '' };
 };
 
 const setupComponent = (data, component, customOption, onChange) => {
   const wrapperOptions = {
-    id: component?.id,
-    label: component?.label,
-    ...(component?.required && { required: component.required }),
+    /**
+     * Converts an object into an array map, performs filtering
+     * and converts the resulting filtered array map back to an object
+     */
+    ...Object.fromEntries(Object.entries(component).filter(([key]) => DEFAULT_WRAPPER_OPTIONS.includes(key))),
   };
-  const componentOptions = {
+  let componentOptions = {
     ...wrapperOptions,
-    fieldId: component?.fieldId,
-    type: component?.type,
-    ...(component?.multi && { multi: component.multi }),
-    ...(component?.placeholder && { placeholder: component.placeholder }),
-    ...(component?.item && { item: component.item }),
-    value: data[component?.fieldId] || '',
+    ...Object.fromEntries(Object.entries(component).filter(([key]) => !DEFAULT_WRAPPER_OPTIONS.includes(key))),
+    ...setUpValue(component, data),
     ...setUpOptions(component, customOption),
     onChange,
   };
-  return getComponent(component, wrapperOptions, componentOptions);
+  componentOptions = cleanComponent(componentOptions);
+  return { wrapperOptions, componentOptions };
 };
 
 export default setupComponent;

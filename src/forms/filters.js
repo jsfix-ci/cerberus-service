@@ -102,6 +102,7 @@ export const airpax = (assignee, showAssignee) => {
             item: { value: 'id', label: 'name' },
             multi: true,
             required: false,
+            useCustomOptions: true,
           },
         ],
         actions: [

@@ -3,26 +3,24 @@ import PropTypes from 'prop-types';
 
 import { Button, ButtonGroup, ErrorSummary } from '@ukhomeoffice/cop-react-components';
 
-import FormUtils from '../../../utils/Form/ReactForm';
+import getComponent from './getComponent';
 import setupComponent from './setupComponent';
 import setupFilterCounts from '../helper/setupCounts';
 
-const Filter = ({ filter,
+const Filter = ({ form: _form,
   taskStatus,
-  currentUser,
   data,
   filtersAndSelectorsCount,
   customOptions,
   onApply,
   handleFilterReset }) => {
+  const [errorList, setErrorList] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [value, setValue] = useState(data);
-  const [errorList, setErrorList] = useState([]);
 
   const { movementModeCounts, modeSelectorCounts } = filtersAndSelectorsCount;
 
-  const filterJson = setupFilterCounts(filter(currentUser, FormUtils.showAssigneeComponent(taskStatus)),
-    taskStatus, movementModeCounts, modeSelectorCounts);
+  const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts);
 
   const onChange = ({ target }) => {
     setValue((prev) => {
@@ -32,7 +30,7 @@ const Filter = ({ filter,
 
   const validate = () => {
     const errors = [];
-    filterJson.pages.forEach((page) => page.components.forEach((component) => {
+    form.pages.forEach((page) => page.components.forEach((component) => {
       if (component?.required && !value[component.fieldId]?.length) {
         errors.push({ id: component.id,
           error: `${component?.label || component?.fieldId} is required` });
@@ -69,8 +67,9 @@ const Filter = ({ filter,
       </div>
       <div>
         {hasError && <ErrorSummary errors={errorList} />}
-        {filterJson.pages[0].components.map((component) => {
-          return setupComponent(value, component, customOptions, onChange);
+        {form.pages[0].components.map((component, index) => {
+          const { wrapperOptions, componentOptions } = setupComponent(value, component, customOptions, onChange);
+          return getComponent(index, component, wrapperOptions, componentOptions);
         })}
         <ButtonGroup>
           <Button onClick={() => {
@@ -87,11 +86,13 @@ const Filter = ({ filter,
 };
 
 Filter.propTypes = {
-  filter: PropTypes.func.isRequired,
+  form: PropTypes.shape({}).isRequired,
   taskStatus: PropTypes.string.isRequired,
-  currentUser: PropTypes.string.isRequired,
   data: PropTypes.shape({}),
-  filtersAndSelectorsCount: PropTypes.shape({}),
+  filtersAndSelectorsCount: PropTypes.shape({
+    movementModeCounts: PropTypes.arrayOf(PropTypes.object),
+    modeSelectorCounts: PropTypes.arrayOf(PropTypes.object),
+  }),
   customOptions: PropTypes.shape({}),
   onApply: PropTypes.func.isRequired,
   handleFilterReset: PropTypes.func.isRequired,

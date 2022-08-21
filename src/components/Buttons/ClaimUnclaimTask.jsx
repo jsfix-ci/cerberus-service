@@ -8,7 +8,6 @@ import { TASK_STATUS } from '../../utils/constants';
 // Config
 import config from '../../utils/config';
 
-// TODO: Update tests
 const ClaimUnclaimTask = ({ assignee, currentUser, businessKey, source, buttonType }) => {
   const keycloak = useKeycloak();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);

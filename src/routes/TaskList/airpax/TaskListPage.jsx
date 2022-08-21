@@ -16,6 +16,7 @@ import {
 
 // Utils
 import { CommonUtil, StorageUtil } from '../../../utils';
+import FormUtils from '../../../utils/Form/ReactForm';
 import { useKeycloak } from '../../../context/Keycloak';
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
 
@@ -288,15 +289,15 @@ const TaskListPage = () => {
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
             <Filter
-              filter={airpax}
+              form={airpax(currentUser,
+                FormUtils.showAssigneeComponent(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS)))}
               taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS)}
-              currentUser={currentUser}
               data={appliedFilters}
               filtersAndSelectorsCount={{
                 movementModeCounts: filtersAndSelectorsCount?.slice(0, 1),
                 modeSelectorCounts: filtersAndSelectorsCount?.slice(1),
               }}
-              customOptions={{ rulesOptions }}
+              customOptions={{ rules: rulesOptions }}
               onApply={applyFilters}
               handleFilterReset={handleFilterReset}
             />
