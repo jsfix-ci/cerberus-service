@@ -34,6 +34,7 @@ import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext'
 import '../__assets__/TaskListPage.scss';
 
 const TaskListPage = () => {
+  console.log('TASK LIST PAGE RENDERED');
   const history = useHistory();
   const keycloak = useKeycloak();
   const isMounted = useIsMounted();

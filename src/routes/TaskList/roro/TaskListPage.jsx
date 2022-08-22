@@ -107,6 +107,7 @@ export const DEFAULT_RORO_SELECTORS_V2 = [
 ];
 
 const TaskListPage = () => {
+  console.log('TASK LIST PAGE RENDERED');
   const keycloak = useKeycloak();
   const history = useHistory();
   const isMounted = useIsMounted();

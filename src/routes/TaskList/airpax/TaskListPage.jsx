@@ -88,6 +88,7 @@ export const DEFAULT_AIRPAX_SELECTORS = [
 ];
 
 const TaskListPage = () => {
+  console.log('TASK LIST PAGE RENDERED');
   const keycloak = useKeycloak();
   const history = useHistory();
   const isMounted = useIsMounted();
