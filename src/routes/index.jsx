@@ -6,10 +6,10 @@ import { useKeycloak } from '../context/Keycloak';
 import Layout from '../components/Layout/Layout';
 import PnrAccessRequest from '../access/PnrAccessRequest';
 
-import AirpaxTaskListPage from './TaskList/airpax/TaskListPage';
+import AirpaxTaskListPage from './TaskList/TaskListPage';
 import AirPaxTaskDetailsPage from './TaskDetails/TaskDetailsPage';
 
-import RoRoTaskListPage from './TaskList/roro/TaskListPage';
+import RoRoTaskListPage from './TaskList/TaskListPage';
 import RoRoTaskDetailsPage from './TaskDetails/TaskDetailsPage';
 
 // TODO: To be removed at a later point

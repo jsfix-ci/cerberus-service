@@ -4,10 +4,10 @@ import TrailerUtil from '../../../utils/Trailer/trailerUtil';
 import DatetimeUtil from '../../../utils/Datetime/datetimeUtil';
 import { MOVEMENT_MODES } from '../../../utils/constants';
 
-import AirpaxMovementSection from '../airpax/sections/AirpaxMovementSection';
-import AccompaniedMovementSection from '../roro/sections/AccompaniedMovementSection';
-import UnaccompaniedMovementSection from '../roro/sections/UnaccompaniedMovementSection';
-import TouristMovementSection from '../roro/sections/TouristMovementSection';
+import AirpaxMovementSection from '../airpax/local/components/AirpaxMovementSection';
+import AccompaniedMovementSection from '../roro/local/components/AccompaniedMovementSection';
+import UnaccompaniedMovementSection from '../roro/local/components/UnaccompaniedMovementSection';
+import TouristMovementSection from '../roro/local/components/TouristMovementSection';
 
 const getMovementComponent = (mode, targetTask) => {
   const person = PersonUtil.get(targetTask);

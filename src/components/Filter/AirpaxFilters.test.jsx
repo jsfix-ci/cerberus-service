@@ -8,7 +8,8 @@ import {
   TASK_STATUS,
 } from '../../utils/constants';
 
-import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE } from '../../routes/TaskList/airpax/TaskListPage';
+import DEFAULTS from '../../routes/TaskList/constants';
+import { VIEW } from '../../utils/Common/commonUtil';
 
 describe('Filters', () => {
   const APPLIED_FILTERS = [];
@@ -27,7 +28,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <AirpaxFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        appliedFilters={DEFAULTS[VIEW.AIRPAX].filters.default}
         onApply={jest.fn()}
       />,
     ));
@@ -48,7 +49,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <AirpaxFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        appliedFilters={DEFAULTS[VIEW.AIRPAX].filters.default}
         onApply={jest.fn()}
       />,
     ));
@@ -78,7 +79,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <AirpaxFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        appliedFilters={DEFAULTS[VIEW.AIRPAX].filters.default}
         onApply={ON_FILTER_APPLY}
       />,
     ));

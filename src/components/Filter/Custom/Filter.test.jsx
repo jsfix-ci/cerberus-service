@@ -5,10 +5,10 @@ import { MOVEMENT_MODES, TASK_STATUS } from '../../../utils/constants';
 
 import Filter from './Filter';
 
-import { DEFAULT_APPLIED_AIRPAX_FILTER_STATE } from '../../../routes/TaskList/airpax/TaskListPage';
-import { DEFAULT_APPLIED_RORO_FILTER_STATE_V2 } from '../../../routes/TaskList/roro/TaskListPage';
+import DEFAULTS from '../../../routes/TaskList/constants';
 
 import { airpax, roro } from '../../../forms/filters';
+import { VIEW } from '../../../utils/Common/commonUtil';
 
 describe('Custom.Filter', () => {
   const APPLIED_FILTERS = [];
@@ -24,7 +24,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
-        data={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        data={DEFAULTS[VIEW.AIRPAX].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -49,7 +49,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.IN_PROGRESS}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
-        data={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        data={DEFAULTS[VIEW.AIRPAX].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -73,7 +73,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
-        data={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        data={DEFAULTS[VIEW.AIRPAX].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -102,7 +102,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={ON_APPLY}
-        data={DEFAULT_APPLIED_AIRPAX_FILTER_STATE}
+        data={DEFAULTS[VIEW.AIRPAX].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -121,7 +121,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
-        data={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        data={DEFAULTS[VIEW.RORO_V2].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -148,7 +148,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.IN_PROGRESS}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
-        data={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        data={DEFAULTS[VIEW.RORO_V2].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -175,7 +175,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
-        data={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        data={DEFAULTS[VIEW.RORO_V2].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);
@@ -210,7 +210,7 @@ describe('Custom.Filter', () => {
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={ON_APPLY}
-        data={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        data={DEFAULTS[VIEW.RORO_V2].filters.default}
         customOptions={{}}
         filtersAndSelectorsCount={{}}
       />);

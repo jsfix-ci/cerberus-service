@@ -3,13 +3,13 @@ import { AccountUtil,
   BookingUtil,
   CommonUtil,
   GoodsUtil,
-  HaulierUtil } from '../../../../utils';
-import DatetimeUtil from '../../../../utils/Datetime/datetimeUtil';
-import TrailerUtil from '../../../../utils/Trailer/trailerUtil';
+  HaulierUtil } from '../../../../../utils';
+import DatetimeUtil from '../../../../../utils/Datetime/datetimeUtil';
+import TrailerUtil from '../../../../../utils/Trailer/trailerUtil';
 
-import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
+import { DATE_FORMATS, STRINGS } from '../../../../../utils/constants';
 
-import EnrichmentCount from '../EnrichmentCount';
+import EnrichmentCount from '../../../../../components/EnrichmentCount/EnrichmentCount';
 
 const UnaccompaniedMovementSection = ({ trailer,
   haulier,

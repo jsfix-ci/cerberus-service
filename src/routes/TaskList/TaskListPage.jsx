@@ -1,117 +1,47 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import useIsMounted from '../../../utils/Hooks/hooks';
+import useIsMounted from '../../utils/Hooks/hooks';
 
 import {
   LOCAL_STORAGE_KEYS,
-  STRINGS,
   TARGETER_GROUP,
   TAB_STATUS_MAPPING,
-  TASK_LIST_PATHS,
   TASK_STATUS,
-  SORT_ORDER,
-  MOVEMENT_MODES,
-} from '../../../utils/constants';
+} from '../../utils/constants';
+
+import DEFAULTS from './constants';
 
 // Utils
-import { CommonUtil, StorageUtil } from '../../../utils';
-import FormUtils from '../../../utils/Form/ReactForm';
-import { useKeycloak } from '../../../context/Keycloak';
-import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { CommonUtil, StorageUtil } from '../../utils';
+import { useKeycloak } from '../../context/Keycloak';
+import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 
 // Config
-import config from '../../../utils/config';
+import config from '../../utils/config';
 
 // Components/Pages
-import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import Filter from '../../../components/Filter/Custom/Filter';
-import Tabs from '../../../components/Tabs/Tabs';
-import TasksTab from '../TasksTab';
-import TaskManagementHeader from '../../../components/Headers/TaskManagementHeader';
+import ErrorSummary from '../../components/ErrorSummary/ErrorSummary';
+import Filter from '../../components/Filter/Filter';
+import Tabs from '../../components/Tabs/Tabs';
+import TaskManagementHeader from '../../components/Headers/TaskManagementHeader';
 
 // Context
-import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
+import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
+import { ViewContext } from '../../context/ViewContext';
 
 // Services
-import AxiosRequests from '../../../api/axiosRequests';
-
-// Forms
-import { roro } from '../../../forms/filters';
+import AxiosRequests from '../../api/axiosRequests';
 
 // Styling
-import '../__assets__/TaskListPage.scss';
-
-// RoRo V2
-export const DEFAULT_APPLIED_RORO_FILTER_STATE_V2 = {
-  movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-  mode: [],
-  selectors: 'ANY',
-  ruleIds: [],
-  searchText: '',
-  assignees: [],
-  assignedToMe: [],
-};
-
-// RoRo V2
-export const DEFAULT_MOVEMENT_RORO_MODES_V2 = [
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.UNACCOMPANIED_FREIGHT],
-    selectors: 'ANY',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT],
-    selectors: 'ANY',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.TOURIST],
-    selectors: 'ANY',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-];
-
-// RoRo V2
-export const DEFAULT_RORO_SELECTORS_V2 = [
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-    selectors: 'PRESENT',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-    selectors: 'NOT_PRESENT',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-    selectors: 'ANY',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-];
+import './TaskListPage.scss';
+import TasksTab from './TasksTab';
+import { VIEW } from '../../utils/Common/commonUtil';
 
 const TaskListPage = () => {
   const keycloak = useKeycloak();
   const history = useHistory();
+  const location = useLocation();
   const isMounted = useIsMounted();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const currentUser = keycloak.tokenParsed.email;
@@ -120,18 +50,19 @@ const TaskListPage = () => {
   const [error, setError] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
-  const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_RORO_FILTER_STATE_V2);
+  const [appliedFilters, setAppliedFilters] = useState();
+  const [rulesOptions, setRulesOptions] = useState([]);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
-  const sortParams = [
-    {
-      field: 'ARRIVAL_TIME',
-      order: SORT_ORDER.ASC,
-    },
-    {
-      field: 'THREAT_LEVEL',
-      order: SORT_ORDER.DESC,
-    },
-  ];
+  const { setView, getView } = useContext(ViewContext);
+
+  const adaptMovementModes = (payload) => {
+    if (typeof payload?.mode === 'string') {
+      return [payload.mode];
+    }
+    if (Array.isArray(payload?.mode)) {
+      return payload?.mode?.length ? payload?.mode : payload?.movementModes;
+    }
+  };
 
   const getTaskCount = async (payload) => {
     try {
@@ -146,35 +77,35 @@ const TaskListPage = () => {
   };
 
   const getAppliedFilters = () => {
-    const taskStatus = StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS);
-    const storedData = StorageUtil.getItem(LOCAL_STORAGE_KEYS.RORO_FILTERS);
+    const taskStatus = StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS);
+    const storedData = StorageUtil.getItem(DEFAULTS[getView()].filters.key);
     if (storedData) {
-      const movementModes = DEFAULT_MOVEMENT_RORO_MODES_V2.map((mode) => ({
+      const movementModes = DEFAULTS[getView()].filters.movementModes.map((mode) => ({
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: mode.movementModes,
         selectors: storedData.selectors,
-        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         ruleIds: storedData.ruleIds,
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
-          && CommonUtil.hasAssignee(LOCAL_STORAGE_KEYS.RORO_FILTERS)) ? [currentUser] : [],
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
       }));
-      const selectors = DEFAULT_RORO_SELECTORS_V2.map((selector) => ({
-        movementModes: storedData.movementModes || [],
-        selectors: selector.selectors,
+      const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        movementModes: adaptMovementModes(storedData),
+        selectors: selector.selectors,
         ruleIds: storedData.ruleIds,
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
-          && CommonUtil.hasAssignee(LOCAL_STORAGE_KEYS.RORO_FILTERS)) ? [currentUser] : [],
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
       }));
       return movementModes.concat(selectors);
     }
     return [
-      ...DEFAULT_MOVEMENT_RORO_MODES_V2.map((mode) => ({
+      ...DEFAULTS[getView()].filters.movementModes.map((mode) => ({
         ...mode,
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
       })),
-      ...DEFAULT_RORO_SELECTORS_V2.map((selector) => {
+      ...DEFAULTS[getView()].filters.selectors.map((selector) => {
         return {
           ...selector,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -183,8 +114,20 @@ const TaskListPage = () => {
     ];
   };
 
+  const getRulesOptions = async () => {
+    try {
+      const data = await AxiosRequests.getRules(apiClient);
+      if (!isMounted.current) return null;
+      setRulesOptions(data);
+    } catch (e) {
+      if (!isMounted.current) return null;
+      setError(e.message);
+      setRulesOptions([]);
+    }
+  };
+
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS, taskStatus);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, taskStatus);
     try {
       const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
       if (!isMounted.current) return null;
@@ -203,7 +146,7 @@ const TaskListPage = () => {
     } : {
       ...appliedFilters,
       assignees: ((tabId === TASK_STATUS.IN_PROGRESS)
-        && CommonUtil.hasAssignee(LOCAL_STORAGE_KEYS.RORO_FILTERS)) ? [currentUser] : [],
+        && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
     };
     setAppliedFilters(filtersToApply);
     await getTaskCount(filtersToApply);
@@ -212,38 +155,49 @@ const TaskListPage = () => {
   const applyFilters = async (payload) => {
     payload = {
       ...payload,
-      movementModes: payload?.mode.length ? payload.mode : payload.movementModes,
+      movementModes: adaptMovementModes(payload),
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
-      assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS) === TASK_STATUS.IN_PROGRESS
+      assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
     };
-    localStorage.setItem(LOCAL_STORAGE_KEYS.RORO_FILTERS, JSON.stringify(payload));
+    localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
     await getTaskCount(payload);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS));
+    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
   };
 
   const handleFilterReset = async (e) => {
     e.preventDefault();
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.RORO_FILTERS);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS));
-    setAppliedFilters(DEFAULT_APPLIED_RORO_FILTER_STATE_V2);
-    await getTaskCount(DEFAULT_APPLIED_RORO_FILTER_STATE_V2);
+    localStorage.removeItem(DEFAULTS[getView()].filters.key);
+    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
+    setAppliedFilters(DEFAULTS[getView()].filters.default);
+    await getTaskCount(DEFAULTS[getView()].filters.default);
   };
 
   const applySavedFiltersOnLoad = async () => {
-    const storedFilters = StorageUtil.getItem(LOCAL_STORAGE_KEYS.RORO_FILTERS) || DEFAULT_APPLIED_RORO_FILTER_STATE_V2;
+    const storedFilters = StorageUtil.getItem(DEFAULTS[getView()].filters.key) || DEFAULTS[getView()].filters.default;
     await applyFilters(storedFilters);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS));
+    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
   };
+
+  useEffect(() => {
+    const view = CommonUtil.viewByPath(location.pathname);
+    setView(view);
+  }, []);
+
+  useEffect(() => {
+    if (getView() && !appliedFilters) {
+      setAppliedFilters(DEFAULTS[getView()].filters.default);
+    }
+  }, [getView()]);
 
   useEffect(() => {
     selectTabIndex(taskManagementTabIndex);
   }, []);
 
   useEffect(() => {
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.TASK_STATUS);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -257,22 +211,24 @@ const TaskListPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (getView() === VIEW.AIRPAX) {
+      getRulesOptions();
+    }
+    return () => {
+      AxiosRequests.cancel(source);
+    };
+  }, []);
+
+  if (!getView()) {
+    return null;
+  }
+
   return (
     <>
       <TaskManagementHeader
-        headerText={STRINGS.TASK_MANAGEMENT_INLINE_HEADERS.RORO_V2}
-        links={[
-          {
-            url: TASK_LIST_PATHS.RORO,
-            label: STRINGS.TASK_LINK_HEADERS.RORO_V1,
-            show: true,
-          },
-          {
-            url: TASK_LIST_PATHS.AIRPAX,
-            label: STRINGS.TASK_LINK_HEADERS.AIRPAX,
-            show: config.copTargetingApiEnabled,
-          },
-        ]}
+        headerText={DEFAULTS[getView()].headers.title}
+        links={DEFAULTS[getView()].headers.links}
         selectTabIndex={selectTabIndex}
         selectTaskManagementTabIndex={selectTaskManagementTabIndex}
       />
@@ -287,16 +243,14 @@ const TaskListPage = () => {
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
             <Filter
-              form={roro(currentUser,
-                FormUtils.showAssigneeComponent(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS)))}
-              taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.RORO_TASK_STATUS)}
-              data={appliedFilters}
-              filtersAndSelectorsCount={{
-                movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
-                modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
-              }}
+              mode={DEFAULTS[getView()].filters.mode}
+              taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)}
+              currentUser={currentUser}
               onApply={applyFilters}
-              handleFilterReset={handleFilterReset}
+              appliedFilters={appliedFilters}
+              filtersAndSelectorsCount={filtersAndSelectorsCount}
+              rulesOptions={rulesOptions}
+              handleFilterReset={(e) => handleFilterReset(e)}
             />
           </section>
           <section className="govuk-grid-column-three-quarters">
@@ -318,10 +272,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.NEW}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.new}
-                        redirectPath={TASK_LIST_PATHS.RORO_V2}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
@@ -335,10 +289,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.IN_PROGRESS}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.inProgress}
-                        redirectPath={TASK_LIST_PATHS.RORO_V2}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
@@ -352,10 +306,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.ISSUED}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.issued}
-                        redirectPath={TASK_LIST_PATHS.RORO_V2}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
@@ -369,10 +323,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.COMPLETE}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.complete}
-                        redirectPath={TASK_LIST_PATHS.RORO_V2}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
