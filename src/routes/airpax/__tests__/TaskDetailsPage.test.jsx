@@ -68,7 +68,7 @@ describe('Task details page', () => {
 
     await waitFor(() => renderPage());
 
-    expect(screen.getAllByText('Overview')).toHaveLength(4);
+    expect(screen.getAllByText('Overview')).toHaveLength(1);
     expect(screen.getByText('BK-123')).toBeInTheDocument();
   });
 
@@ -77,7 +77,7 @@ describe('Task details page', () => {
 
     await waitFor(() => renderPage());
 
-    expect(screen.getAllByText('Overview')).toHaveLength(4);
+    expect(screen.getAllByText('Overview')).toHaveLength(1);
     expect(screen.getByText('Task activity')).toBeInTheDocument();
   });
 
@@ -86,7 +86,7 @@ describe('Task details page', () => {
 
     await waitFor(() => renderPage());
 
-    expect(screen.getAllByText('Overview')).toHaveLength(4);
+    expect(screen.getAllByText('Overview')).toHaveLength(1);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
@@ -95,7 +95,7 @@ describe('Task details page', () => {
 
     await waitFor(() => renderPage());
 
-    expect(screen.getAllByText('Overview')).toHaveLength(4);
+    expect(screen.getAllByText('Overview')).toHaveLength(1);
     expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 
@@ -104,7 +104,7 @@ describe('Task details page', () => {
 
     await waitFor(() => renderPage());
 
-    expect(screen.getAllByText('Overview')).toHaveLength(4);
+    expect(screen.getAllByText('Overview')).toHaveLength(1);
     expect(screen.queryByText('Add a new note')).toBeInTheDocument();
   });
 
