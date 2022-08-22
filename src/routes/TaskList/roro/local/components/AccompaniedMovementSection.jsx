@@ -6,11 +6,11 @@ import { AccountUtil,
   GoodsUtil,
   HaulierUtil,
   PersonUtil,
-  VehicleUtil } from '../../../../utils';
-import TrailerUtil from '../../../../utils/Trailer/trailerUtil';
-import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
-import DatetimeUtil from '../../../../utils/Datetime/datetimeUtil';
-import EnrichmentCount from '../EnrichmentCount';
+  VehicleUtil } from '../../../../../utils';
+import TrailerUtil from '../../../../../utils/Trailer/trailerUtil';
+import { DATE_FORMATS, STRINGS } from '../../../../../utils/constants';
+import DatetimeUtil from '../../../../../utils/Datetime/datetimeUtil';
+import EnrichmentCount from '../../../../../components/EnrichmentCount/EnrichmentCount';
 
 const AccompaniedMovementSection = ({ person,
   vehicle,

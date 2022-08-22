@@ -6,7 +6,8 @@ import RoRoFilter from './RoRoFilter';
 import { MOVEMENT_MODES,
   TASK_STATUS } from '../../utils/constants';
 
-import { DEFAULT_APPLIED_RORO_FILTER_STATE_V2 } from '../../routes/TaskList/roro/TaskListPage';
+import DEFAULTS from '../../routes/TaskList/constants';
+import { VIEW } from '../../utils/Common/commonUtil';
 
 describe('Filters', () => {
   const APPLIED_FILTERS = [];
@@ -25,7 +26,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <RoRoFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        appliedFilters={DEFAULTS[VIEW.RORO_V2].filters.default}
         onApply={jest.fn()}
       />,
     ));
@@ -46,7 +47,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <RoRoFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        appliedFilters={DEFAULTS[VIEW.RORO_V2].filters.default}
         onApply={jest.fn()}
       />,
     ));
@@ -64,7 +65,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <RoRoFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        appliedFilters={DEFAULTS[VIEW.RORO_V2].filters.default}
         onApply={jest.fn()}
       />,
     ));
@@ -97,7 +98,7 @@ describe('Filters', () => {
     await waitFor(() => render(
       <RoRoFilter
         taskStatus={TASK_STATUS.NEW}
-        appliedFilters={DEFAULT_APPLIED_RORO_FILTER_STATE_V2}
+        appliedFilters={DEFAULTS[VIEW.RORO_V2].filters.default}
         onApply={ON_FILTER_APPLY}
       />,
     ));

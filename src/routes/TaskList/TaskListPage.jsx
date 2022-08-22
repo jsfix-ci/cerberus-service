@@ -1,96 +1,47 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import useIsMounted from '../../../utils/Hooks/hooks';
+import useIsMounted from '../../utils/Hooks/hooks';
 
 import {
   LOCAL_STORAGE_KEYS,
-  STRINGS,
   TARGETER_GROUP,
   TAB_STATUS_MAPPING,
-  TASK_LIST_PATHS,
   TASK_STATUS,
-  SORT_ORDER,
-  MODE,
-  MOVEMENT_MODES,
-} from '../../../utils/constants';
+} from '../../utils/constants';
+
+import DEFAULTS from './constants';
 
 // Utils
-import { CommonUtil, StorageUtil } from '../../../utils';
-import { useKeycloak } from '../../../context/Keycloak';
-import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
+import { CommonUtil, StorageUtil } from '../../utils';
+import { useKeycloak } from '../../context/Keycloak';
+import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 
 // Config
-import config from '../../../utils/config';
+import config from '../../utils/config';
 
 // Components/Pages
-import ErrorSummary from '../../../components/ErrorSummary/ErrorSummary';
-import Filter from '../../../components/Filter/Filter';
-import Tabs from '../../../components/Tabs/Tabs';
-import TaskManagementHeader from '../../../components/Headers/TaskManagementHeader';
+import ErrorSummary from '../../components/ErrorSummary/ErrorSummary';
+import Filter from '../../components/Filter/Filter';
+import Tabs from '../../components/Tabs/Tabs';
+import TaskManagementHeader from '../../components/Headers/TaskManagementHeader';
 
 // Context
-import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
+import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
+import { ViewContext } from '../../context/ViewContext';
 
 // Services
-import AxiosRequests from '../../../api/axiosRequests';
+import AxiosRequests from '../../api/axiosRequests';
 
 // Styling
-import '../__assets__/TaskListPage.scss';
-import TasksTab from '../TasksTab';
-
-export const DEFAULT_APPLIED_AIRPAX_FILTER_STATE = {
-  movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-  mode: MOVEMENT_MODES.AIR_PASSENGER,
-  selectors: 'ANY',
-  rules: [],
-  searchText: '',
-  assignees: [],
-  assignedToMe: [],
-};
-
-export const DEFAULT_MOVEMENT_AIRPAX_MODE = [
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-    selectors: 'ANY',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-];
-
-export const DEFAULT_AIRPAX_SELECTORS = [
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-    selectors: 'PRESENT',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-    selectors: 'NOT_PRESENT',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-  {
-    taskStatuses: [],
-    movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-    selectors: 'ANY',
-    ruleIds: [],
-    searchText: '',
-    assignees: [],
-  },
-];
+import './TaskListPage.scss';
+import TasksTab from './TasksTab';
+import { VIEW } from '../../utils/Common/commonUtil';
 
 const TaskListPage = () => {
-  console.log('TASK LIST PAGE RENDERED');
   const keycloak = useKeycloak();
   const history = useHistory();
+  const location = useLocation();
   const isMounted = useIsMounted();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const currentUser = keycloak.tokenParsed.email;
@@ -99,19 +50,19 @@ const TaskListPage = () => {
   const [error, setError] = useState(null);
   const [taskCountsByStatus, setTaskCountsByStatus] = useState();
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
-  const [appliedFilters, setAppliedFilters] = useState(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
+  const [appliedFilters, setAppliedFilters] = useState();
   const [rulesOptions, setRulesOptions] = useState([]);
   const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
-  const sortParams = [
-    {
-      field: 'WINDOW_OF_OPPORTUNITY',
-      order: SORT_ORDER.ASC,
-    },
-    {
-      field: 'BOOKING_LEAD_TIME',
-      order: SORT_ORDER.ASC,
-    },
-  ];
+  const { setView, getView } = useContext(ViewContext);
+
+  const adaptMovementModes = (payload) => {
+    if (typeof payload?.mode === 'string') {
+      return [payload.mode];
+    }
+    if (Array.isArray(payload?.mode)) {
+      return payload?.mode?.length ? payload?.mode : payload?.movementModes;
+    }
+  };
 
   const getTaskCount = async (payload) => {
     try {
@@ -126,35 +77,35 @@ const TaskListPage = () => {
   };
 
   const getAppliedFilters = () => {
-    const taskStatus = StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS);
-    const storedData = StorageUtil.getItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS);
+    const taskStatus = StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS);
+    const storedData = StorageUtil.getItem(DEFAULTS[getView()].filters.key);
     if (storedData) {
-      const movementModes = DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
+      const movementModes = DEFAULTS[getView()].filters.movementModes.map((mode) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         movementModes: mode.movementModes,
         selectors: storedData.selectors,
         ruleIds: storedData.ruleIds,
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
-          && CommonUtil.hasAssignee(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)) ? [currentUser] : [],
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
       }));
-      const selectors = DEFAULT_AIRPAX_SELECTORS.map((selector) => ({
+      const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: [storedData.mode] || [],
+        movementModes: adaptMovementModes(storedData),
         selectors: selector.selectors,
         ruleIds: storedData.ruleIds,
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
-          && CommonUtil.hasAssignee(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)) ? [currentUser] : [],
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
       }));
       return movementModes.concat(selectors);
     }
     return [
-      ...DEFAULT_MOVEMENT_AIRPAX_MODE.map((mode) => ({
+      ...DEFAULTS[getView()].filters.movementModes.map((mode) => ({
         ...mode,
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
       })),
-      ...DEFAULT_AIRPAX_SELECTORS.map((selector) => {
+      ...DEFAULTS[getView()].filters.selectors.map((selector) => {
         return {
           ...selector,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -176,7 +127,7 @@ const TaskListPage = () => {
   };
 
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS, taskStatus);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, taskStatus);
     try {
       const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
       if (!isMounted.current) return null;
@@ -195,7 +146,7 @@ const TaskListPage = () => {
     } : {
       ...appliedFilters,
       assignees: ((tabId === TASK_STATUS.IN_PROGRESS)
-        && CommonUtil.hasAssignee(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)) ? [currentUser] : [],
+        && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
     };
     setAppliedFilters(filtersToApply);
     await getTaskCount(filtersToApply);
@@ -204,39 +155,49 @@ const TaskListPage = () => {
   const applyFilters = async (payload) => {
     payload = {
       ...payload,
-      movementModes: payload?.mode ? [payload.mode] : [],
+      movementModes: adaptMovementModes(payload),
       ruleIds: payload?.rules ? payload.rules.map((rule) => rule.id).filter((id) => typeof id === 'number') : [],
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
-      assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS) === TASK_STATUS.IN_PROGRESS
+      assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
     };
-    localStorage.setItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS, JSON.stringify(payload));
+    localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
     await getTaskCount(payload);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS));
+    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
   };
 
   const handleFilterReset = async (e) => {
     e.preventDefault();
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS));
-    setAppliedFilters(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
-    await getTaskCount(DEFAULT_APPLIED_AIRPAX_FILTER_STATE);
+    localStorage.removeItem(DEFAULTS[getView()].filters.key);
+    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
+    setAppliedFilters(DEFAULTS[getView()].filters.default);
+    await getTaskCount(DEFAULTS[getView()].filters.default);
   };
 
   const applySavedFiltersOnLoad = async () => {
-    const storedFilters = StorageUtil.getItem(LOCAL_STORAGE_KEYS.AIRPAX_FILTERS)
-      || DEFAULT_APPLIED_AIRPAX_FILTER_STATE;
+    const storedFilters = StorageUtil.getItem(DEFAULTS[getView()].filters.key) || DEFAULTS[getView()].filters.default;
     await applyFilters(storedFilters);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS));
+    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
   };
+
+  useEffect(() => {
+    const view = CommonUtil.viewByPath(location.pathname);
+    setView(view);
+  }, []);
+
+  useEffect(() => {
+    if (getView() && !appliedFilters) {
+      setAppliedFilters(DEFAULTS[getView()].filters.default);
+    }
+  }, [getView()]);
 
   useEffect(() => {
     selectTabIndex(taskManagementTabIndex);
   }, []);
 
   useEffect(() => {
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.TASK_STATUS);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -251,28 +212,23 @@ const TaskListPage = () => {
   }, []);
 
   useEffect(() => {
-    getRulesOptions();
+    if (getView() === VIEW.AIRPAX) {
+      getRulesOptions();
+    }
     return () => {
       AxiosRequests.cancel(source);
     };
   }, []);
 
+  if (!getView()) {
+    return null;
+  }
+
   return (
     <>
       <TaskManagementHeader
-        headerText={STRINGS.TASK_MANAGEMENT_INLINE_HEADERS.AIRPAX}
-        links={[
-          {
-            url: TASK_LIST_PATHS.RORO,
-            label: STRINGS.TASK_LINK_HEADERS.RORO_V1,
-            show: true,
-          },
-          {
-            url: TASK_LIST_PATHS.RORO_V2,
-            label: STRINGS.TASK_LINK_HEADERS.RORO_V2,
-            show: config.roroV2ViewEnabled,
-          },
-        ]}
+        headerText={DEFAULTS[getView()].headers.title}
+        links={DEFAULTS[getView()].headers.links}
         selectTabIndex={selectTabIndex}
         selectTaskManagementTabIndex={selectTaskManagementTabIndex}
       />
@@ -287,8 +243,8 @@ const TaskListPage = () => {
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
             <Filter
-              mode={MODE.AIRPAX}
-              taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.AIRPAX_TASK_STATUS)}
+              mode={DEFAULTS[getView()].filters.mode}
+              taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)}
               currentUser={currentUser}
               onApply={applyFilters}
               appliedFilters={appliedFilters}
@@ -316,10 +272,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.NEW}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.new}
-                        redirectPath={TASK_LIST_PATHS.AIRPAX}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
@@ -333,10 +289,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.IN_PROGRESS}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.inProgress}
-                        redirectPath={TASK_LIST_PATHS.AIRPAX}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
@@ -350,10 +306,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.ISSUED}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.issued}
-                        redirectPath={TASK_LIST_PATHS.AIRPAX}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),
@@ -367,10 +323,10 @@ const TaskListPage = () => {
                       <TasksTab
                         taskStatus={TASK_STATUS.COMPLETE}
                         filtersToApply={appliedFilters}
-                        sortParams={sortParams}
+                        sortParams={DEFAULTS[getView()].sortParams}
                         setError={setError}
                         targetTaskCount={taskCountsByStatus?.complete}
-                        redirectPath={TASK_LIST_PATHS.AIRPAX}
+                        redirectPath={DEFAULTS[getView()].redirectPath}
                       />
                     </>
                   ),

@@ -240,11 +240,10 @@ export const DEPARTURE_STATUS = {
 };
 
 export const LOCAL_STORAGE_KEYS = {
-  PNR_USER_SESSION_ID: 'pnr-user-session',
-  RORO_TASK_STATUS: 'roro-task-status',
-  AIRPAX_TASK_STATUS: 'airpax-task-status',
-  RORO_FILTERS: 'roro-filters',
   AIRPAX_FILTERS: 'airpax-filters',
+  PNR_USER_SESSION_ID: 'pnr-user-session',
+  RORO_FILTERS: 'roro-filters',
+  TASK_STATUS: 'task-status',
   VIEW: 'VIEW',
 };
 
@@ -377,8 +376,3 @@ export const UTC_DATE_REGEXS = [
   /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
   /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
 ];
-
-export const SORT_ORDER = {
-  ASC: 'ASC',
-  DESC: 'DESC',
-};

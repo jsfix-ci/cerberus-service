@@ -1,7 +1,7 @@
 import React from 'react';
 import { VisuallyHidden } from '@ukhomeoffice/cop-react-components';
 import classNames from 'classnames';
-import { EnrichmentUtil } from '../../../utils';
+import { EnrichmentUtil } from '../../utils';
 
 const hasPreviousSeizures = (seizureCount) => {
   return seizureCount >= 1;

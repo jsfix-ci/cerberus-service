@@ -1,7 +1,7 @@
 import React from 'react';
-import { MovementUtil, VehicleUtil, VesselUtil } from '../../../../utils';
-import { DESCRIPTION_MAPPING, ICON, ICON_MAPPING, MOVEMENT_MODES } from '../../../../utils/constants';
-import TrailerUtil from '../../../../utils/Trailer/trailerUtil';
+import { MovementUtil, VehicleUtil, VesselUtil } from '../../../../../utils';
+import { DESCRIPTION_MAPPING, ICON, ICON_MAPPING, MOVEMENT_MODES } from '../../../../../utils/constants';
+import TrailerUtil from '../../../../../utils/Trailer/trailerUtil';
 
 const VoyageSection = ({ mode,
   journey,

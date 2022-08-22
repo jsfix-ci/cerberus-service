@@ -1,7 +1,31 @@
 import lookup from 'country-code-lookup';
 
-import { STRINGS } from '../constants';
+import { STRINGS, TASK_LIST_PATHS } from '../constants';
 import { getLocalStoredItemByKeyValue } from '../Storage/storageUtil';
+
+export const VIEW = {
+  RORO: 'RORO',
+  AIRPAX: 'AIRPAX',
+  RORO_V2: 'RORO_V2',
+  NONE: 'RORO',
+};
+
+const getViewByPath = (path) => {
+  switch (path) {
+    case TASK_LIST_PATHS.RORO: {
+      return VIEW.RORO;
+    }
+    case TASK_LIST_PATHS.AIRPAX: {
+      return VIEW.AIRPAX;
+    }
+    case TASK_LIST_PATHS.RORO_V2: {
+      return VIEW.RORO_V2;
+    }
+    default: {
+      return VIEW.RORO;
+    }
+  }
+};
 
 const hasAssignee = (filterKey) => {
   const payload = getLocalStoredItemByKeyValue(filterKey);
@@ -27,6 +51,7 @@ const CommonUtil = {
   iso3Code: convertToIso3Code,
   movementStats: getMovementStats,
   hasAssignee,
+  viewByPath: getViewByPath,
 };
 
 export default CommonUtil;
@@ -34,5 +59,6 @@ export default CommonUtil;
 export {
   convertToIso3Code,
   getMovementStats,
+  getViewByPath,
   hasAssignee,
 };

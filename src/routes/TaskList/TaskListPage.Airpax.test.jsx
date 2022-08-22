@@ -2,32 +2,32 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import '../../../__mocks__/keycloakMock';
+import '../../__mocks__/keycloakMock';
+
 // Components/Pages
-import { ApplicationContext } from '../../../context/ApplicationContext';
-import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
-import { PnrAccessContext } from '../../../context/PnrAccessContext';
+import { ApplicationContext } from '../../context/ApplicationContext';
+import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
+import { PnrAccessContext } from '../../context/PnrAccessContext';
+import { ViewContext } from '../../context/ViewContext';
 
 import TaskListPage from './TaskListPage';
 
-import { LOCAL_STORAGE_KEYS, TASK_LIST_PATHS, TASK_STATUS } from '../../../utils/constants';
+import { LOCAL_STORAGE_KEYS, TASK_LIST_PATHS, TASK_STATUS } from '../../utils/constants';
+import { VIEW } from '../../utils/Common/commonUtil';
 
 // Fixture
-import dataCurrentUser from '../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import dataOtherUser from '../../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
-import dataNoAssignee from '../../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
-import dataTargetIssued from '../../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
-import dataTaskComplete from '../../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
-import refDataAirlineCodes from '../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import dataCurrentUser from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import dataOtherUser from '../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
+import dataNoAssignee from '../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
+import dataTargetIssued from '../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
+import dataTaskComplete from '../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
+import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
-const mockAirpaxLocation = () => {
+describe('Airpax.TaskListPage', () => {
   // Extend the react-router-dom mock from jest.setup.jsx.
   const extendedRouterMock = jest.requireMock('react-router-dom');
   extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.AIRPAX }));
-};
 
-describe('TaskListPage', () => {
-  mockAirpaxLocation();
   const mockAxios = new MockAdapter(axios);
 
   let defaultPostPagesParams;
@@ -172,17 +172,20 @@ describe('TaskListPage', () => {
   const setTabAndTaskValues = (tabValue, pnrValue) => {
     return (
       <MockApplicationContext>
-        <PnrAccessContext.Provider value={pnrValue}>
-          <TaskSelectedTabContext.Provider value={tabValue}>
-            <TaskListPage />
-          </TaskSelectedTabContext.Provider>
-        </PnrAccessContext.Provider>
+        <ViewContext.Provider value={{ getView: jest.fn().mockReturnValue(VIEW.AIRPAX), setView: jest.fn() }}>
+          <PnrAccessContext.Provider value={pnrValue}>
+            <TaskSelectedTabContext.Provider value={tabValue}>
+              <TaskListPage />
+            </TaskSelectedTabContext.Provider>
+          </PnrAccessContext.Provider>
+        </ViewContext.Provider>
       </MockApplicationContext>
     );
   };
 
   it('should render a message related to the tab clicked, on click', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID, JSON.stringify({ sessionId: '123-456', requested: true }));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID,
+      JSON.stringify({ sessionId: '123-456', requested: true }));
     mockAxios
       .onPost('/targeting-tasks/pages')
       .reply(200, [])
