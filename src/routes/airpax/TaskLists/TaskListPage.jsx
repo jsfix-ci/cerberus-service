@@ -188,25 +188,21 @@ const TaskListPage = () => {
     return <LoadingSpinner />;
   }
 
-  const getAssignee = () => {
+  const hasAssignee = () => {
     const payload = getLocalStoredItemByKeyValue(AIRPAX_FILTERS_KEY);
-    if (payload?.assignees?.length > 0) {
-      return true;
-    }
-    return false;
+    return !!payload?.assignedToMe?.length;
   };
 
-  const handleAssignedToMeFilter = (tabId) => {
-    const inProgress = tabId === TASK_STATUS_IN_PROGRESS;
+  const handleAssignedToMeFilter = async (tabId) => {
     const filtersToApply = tabId !== TASK_STATUS_IN_PROGRESS ? {
       ...appliedFilters,
       assignees: [],
     } : {
       ...appliedFilters,
-      assignees: inProgress && getAssignee() ? [currentUser] : [],
+      assignees: ((tabId === TASK_STATUS_IN_PROGRESS) && hasAssignee()) ? [currentUser] : [],
     };
     setAppliedFilters(filtersToApply);
-    getTaskCount(filtersToApply);
+    await getTaskCount(filtersToApply);
   };
 
   return (
