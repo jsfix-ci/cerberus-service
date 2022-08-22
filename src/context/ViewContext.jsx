@@ -38,8 +38,10 @@ const ViewProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log('VIEW - BEFORE: ', getView());
     console.log('VIEW CONTEXT - USE EFFECT TRIGGERED');
     getViewByPath(location.pathname);
+    console.log('VIEW - AFTER: ', getView());
   }, [location.pathname]);
 
   return (

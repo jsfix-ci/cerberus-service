@@ -54,8 +54,8 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter>
-      <PnrAccessRequest>
-        <ViewProvider>
+      <ViewProvider>
+        <PnrAccessRequest>
           <Route path="/" exact><Redirect to={TASK_LIST_PATHS.RORO} /></Route>
           <Route path={TASK_LIST_PATHS.RORO} exact><Layout><RoRoTaskListPageV1 /></Layout></Route>
           <Route path={`${TASK_LIST_PATHS.RORO}/:businessKey`} exact>
@@ -82,8 +82,8 @@ const AppRouter = () => {
               <RoRoTaskDetailsPage />
             </Layout>
           </Route>
-        </ViewProvider>
-      </PnrAccessRequest>
+        </PnrAccessRequest>
+      </ViewProvider>
     </BrowserRouter>
   );
 };
