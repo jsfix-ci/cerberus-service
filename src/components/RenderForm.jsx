@@ -35,7 +35,7 @@ const RenderForm = ({ formName,
   const [formattedPreFillData, setFormattedPreFillData] = useState();
   const [submitted, setSubmitted] = useState(false);
   const keycloak = useKeycloak();
-  const { setAirPaxTisCache } = useContext(ApplicationContext);
+  const { setAirpaxTisCache } = useContext(ApplicationContext);
   const formApiClient = useAxiosInstance(keycloak, config.formApiUrl);
   const uploadApiClient = useAxiosInstance(keycloak, config.fileUploadApiUrl);
 
@@ -183,7 +183,7 @@ const RenderForm = ({ formName,
           onSubmit: async (type, payload, onSuccess) => {
             if (type === FORM_ACTIONS.NEXT) {
               if (cacheTisFormData) {
-                setAirPaxTisCache(TargetInformationUtil.convertToPrefill(payload));
+                setAirpaxTisCache(TargetInformationUtil.convertToPrefill(payload));
               }
               // Do nothing.
               return onSuccess(payload);

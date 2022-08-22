@@ -16,7 +16,7 @@ const TaskListCard = ({
     <div className="govuk-task-list-card">
       <div className="card-container">
         {buildTaskTitleSection(targetTask, currentUser, taskStatus)}
-        {buildVoyageSection(targetTask, refDataAirlineCodes)}
+        {buildVoyageSection(targetTask, refDataAirlineCodes())}
         {buildMovementInfoSection(targetTask)}
         {buildTargetIndicatorsSection(targetTask)}
       </div>

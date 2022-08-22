@@ -99,7 +99,7 @@ exports[`TaskVersions should render task versions 1`] = `
               <p
                 className="content-line-one govuk-!-padding-right-2"
               >
-                Unknown flight, 
+                Unknown flight,
               arrived at London 4 years ago
               
               </p>
