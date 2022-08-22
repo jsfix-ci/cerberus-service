@@ -1,7 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import TaskVersions from './TaskVersions';
 import { ApplicationContext } from '../../context/ApplicationContext';
@@ -14,8 +12,6 @@ import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes
 import config from '../../utils/config';
 
 describe('TaskVersions', () => {
-  const mockAxios = new MockAdapter(axios);
-
   let tabData = {};
 
   const MockApplicationContext = ({ children }) => (
@@ -105,11 +101,6 @@ describe('TaskVersions', () => {
     },
   ];
 
-  it('should render PNR Data tab in version accordion', () => {
-    render(setTabAndTaskValues(mockTaskVersionsWithRuleThreat, tabData));
-    expect(screen.getByText('PNR Data')).toBeInTheDocument();
-  });
-
   it('should render task versions and rule threat level', () => {
     render(setTabAndTaskValues(mockTaskVersionsWithRuleThreat, tabData));
     expect(screen.getByText('Version 1 (latest)')).toBeInTheDocument();
@@ -159,23 +150,6 @@ describe('TaskVersions', () => {
     expect(screen.queryAllByText(/Credit card ending X63X, expiry 10\/20/)).toHaveLength(2);
     expect(screen.getByText('Agent IATA')).toBeInTheDocument();
     expect(screen.getByText('Agent location')).toBeInTheDocument();
-  });
-
-  it('should render PNR Data when PNR tab is clicked', async () => {
-    mockAxios
-      .onGet('/targeting-tasks/BK-123/passenger-name-record-versions/2')
-      .reply(200, {
-        locator: 'LSV4UV',
-        raw: 'This is raw PNR Data',
-      });
-
-    await waitFor(() => render(setTabAndTaskValues([taskDetailsData.versions[0]], tabData)));
-
-    await waitFor(() => { fireEvent.click(screen.getByText(/PNR Data/i)); });
-
-    expect(mockAxios.history.get[0].url).toEqual('/targeting-tasks/BK-123/passenger-name-record-versions/2');
-
-    expect(screen.getByText(/This is raw PNR Data/i)).toBeInTheDocument();
   });
 
   /*
