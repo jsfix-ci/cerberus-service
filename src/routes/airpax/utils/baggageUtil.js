@@ -50,7 +50,10 @@ const getBaggageWeight = (baggage) => {
   if (getNumberOfCheckedBags(baggage) > 0 && baggage.weight === 'kg') {
     return UNKNOWN_TEXT;
   }
-  if (getNumberOfCheckedBags(baggage) === 0) {
+  if (getNumberOfCheckedBags(baggage) === 0 || getNumberOfCheckedBags(baggage) === UNKNOWN_TEXT) {
+    return 0;
+  }
+  if (baggage.weight === '0kg') {
     return 0;
   }
   if (baggage.weight.endsWith('kg')) {

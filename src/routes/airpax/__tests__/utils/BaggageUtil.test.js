@@ -15,6 +15,11 @@ describe('BaggageUtil', () => {
     [0, 'None'],
   ];
 
+  let invalidBagsCounts = [
+    [0, 0],
+    ['Unknown', 0],
+  ];
+
   beforeEach(() => {
     targetTaskMin = {
       movement: {
@@ -95,16 +100,24 @@ describe('BaggageUtil', () => {
     expect(output).toEqual(UNKNOWN_TEXT);
   });
 
-  it('should return the count of checked bags', () => {
-    targetTaskMin.movement.baggage.numberOfCheckedBags = 2;
-    const output = BaggageUtil.checkedCount(BaggageUtil.get(targetTaskMin));
-    expect(output).toEqual(2);
+  it.each(invalidBagsCounts)(
+    'should return 0 for invalid checked bags values', (invalidBagsCount, expected) => {
+      targetTaskMin.movement.baggage.numberOfCheckedBags = invalidBagsCount;
+      const output = BaggageUtil.weight(BaggageUtil.get(targetTaskMin));
+      expect(output).toEqual(expected);
+    },
+  );
+
+  it('should return 0 if baggage weight is 0kg', () => {
+    targetTaskMin.movement.baggage.weight = '0kg';
+    const output = BaggageUtil.weight(BaggageUtil.get(targetTaskMin));
+    expect(output).toEqual(0);
   });
 
-  it('should return the count of checked bags when count is 0', () => {
-    targetTaskMin.movement.baggage.numberOfCheckedBags = 0;
+  it('should return Unknown if count of the checked bags return Unknown', () => {
+    targetTaskMin.movement.baggage.numberOfCheckedBags = UNKNOWN_TEXT;
     const output = BaggageUtil.checkedCount(BaggageUtil.get(targetTaskMin));
-    expect(output).toEqual(0);
+    expect(output).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return Unknown if no Tags numbers are found', () => {
