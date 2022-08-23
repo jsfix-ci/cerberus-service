@@ -81,7 +81,7 @@ const TouristMovementSection = ({ targetTask }) => {
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li>Booked on {DatetimeUtil.format(BookingUtil.bookedAt(booking), DATE_FORMATS.SHORT)}</li>
               <br />
-              <li>{DatetimeUtil.calculateTimeDifference(datetimeList, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>
+              <li>{DatetimeUtil.timeDiff(datetimeList, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>
             </ul>
           </div>
         </div>
@@ -135,7 +135,7 @@ const TouristMovementSection = ({ targetTask }) => {
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li>Booked on {DatetimeUtil.format(BookingUtil.bookedAt(booking), DATE_FORMATS.SHORT)}</li>
               <br />
-              <li>{DatetimeUtil.calculateTimeDifference(datetimeList, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>
+              <li>{DatetimeUtil.timeDiff(datetimeList, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>
             </ul>
           </div>
         </div>

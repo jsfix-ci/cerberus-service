@@ -29,8 +29,7 @@ describe('DatetimeUtil', () => {
   ])(
     'should calculate the relative time difference', (dateTimeCommaString, expected) => {
       const dateTimeArray = dateTimeCommaString.split(',').filter((x) => x.length > 0);
-      const formattedDateString = DateTimeUtil
-        .calculateTimeDifference(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX);
+      const formattedDateString = DateTimeUtil.timeDiff(dateTimeArray, STRINGS.DEFAULT_BOOKING_STRING_PREFIX);
       expect(formattedDateString).toEqual(expected);
     },
   );
@@ -40,7 +39,7 @@ describe('DatetimeUtil', () => {
     const suffix = 'later';
     const expected = '16 days later';
 
-    const formattedDateString = DateTimeUtil.calculateTimeDifference(dateTimeArray, undefined, suffix);
+    const formattedDateString = DateTimeUtil.timeDiff(dateTimeArray, undefined, suffix);
     expect(formattedDateString).toEqual(expected);
   });
 
@@ -50,7 +49,7 @@ describe('DatetimeUtil', () => {
     const suffix = 'later';
     const expected = 'Arrival 16 days later';
 
-    const formattedDateString = DateTimeUtil.calculateTimeDifference(dateTimeArray, prefix, suffix);
+    const formattedDateString = DateTimeUtil.timeDiff(dateTimeArray, prefix, suffix);
     expect(formattedDateString).toEqual(expected);
   });
 
@@ -58,7 +57,7 @@ describe('DatetimeUtil', () => {
     const dateTimeArray = ['2020-10-24T01:15:00', '2020-11-08T14:00:00'];
     const expected = '16 days before travel';
 
-    const formattedDateString = DateTimeUtil.calculateTimeDifference(dateTimeArray);
+    const formattedDateString = DateTimeUtil.timeDiff(dateTimeArray);
     expect(formattedDateString).toEqual(expected);
   });
 

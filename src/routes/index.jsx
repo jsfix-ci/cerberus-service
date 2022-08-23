@@ -6,11 +6,8 @@ import { useKeycloak } from '../context/Keycloak';
 import Layout from '../components/Layout/Layout';
 import PnrAccessRequest from '../access/PnrAccessRequest';
 
-import AirpaxTaskListPage from './TaskList/TaskListPage';
-import AirPaxTaskDetailsPage from './TaskDetails/TaskDetailsPage';
-
-import RoRoTaskListPage from './TaskList/TaskListPage';
-import RoRoTaskDetailsPage from './TaskDetails/TaskDetailsPage';
+import TaskListPage from './TaskList/TaskListPage';
+import TaskDetailsPage from './TaskDetails/TaskDetailsPage';
 
 // TODO: To be removed at a later point
 import RoRoTaskListPageV1 from './roro/TaskLists/TaskListPage';
@@ -65,19 +62,23 @@ const AppRouter = () => {
 
         <Route path={TASK_LIST_PATHS.AIRPAX} exact>
           <Layout>
-            <AirpaxTaskListPage />
+            <TaskListPage />
           </Layout>
         </Route>
         <Route path={`${TASK_LIST_PATHS.AIRPAX}/:businessKey`} exact>
           <Layout beforeMain={<Link className="govuk-back-link" to={TASK_LIST_PATHS.AIRPAX}>Back to task list</Link>}>
-            <AirPaxTaskDetailsPage />
+            <TaskDetailsPage />
           </Layout>
         </Route>
 
-        <Route path={TASK_LIST_PATHS.RORO_V2} exact><Layout><RoRoTaskListPage /></Layout></Route>
+        <Route path={TASK_LIST_PATHS.RORO_V2} exact>
+          <Layout>
+            <TaskListPage />
+          </Layout>
+        </Route>
         <Route path={`${TASK_LIST_PATHS.RORO_V2}/:businessKey`} exact>
           <Layout beforeMain={<Link className="govuk-back-link" to={TASK_LIST_PATHS.RORO_V2}>Back to task list</Link>}>
-            <RoRoTaskDetailsPage />
+            <TaskDetailsPage />
           </Layout>
         </Route>
       </PnrAccessRequest>

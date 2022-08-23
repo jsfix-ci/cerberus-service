@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import useIsMounted from '../../utils/Hooks/hooks';
+import { useIsMounted } from '../../utils/Hooks/hooks';
 
 import {
   LOCAL_STORAGE_KEYS,

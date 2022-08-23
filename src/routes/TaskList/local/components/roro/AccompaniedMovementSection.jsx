@@ -94,7 +94,7 @@ const AccompaniedMovementSection = ({ person,
               <br />
               <li>Booked on {DatetimeUtil.format(BookingUtil.bookedAt(booking), DATE_FORMATS.SHORT)}</li>
               <br />
-              <li>{DatetimeUtil.calculateTimeDifference(bookingDepartureTime, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>
+              <li>{DatetimeUtil.timeDiff(bookingDepartureTime, STRINGS.DEFAULT_BOOKING_STRING_PREFIX)}</li>
             </ul>
           </div>
         </>
