@@ -71,12 +71,14 @@ describe('BaggageUtil', () => {
 
   it.each([
     ['1', '1kg'],
+    [1, '1kg'],
     ['5kg', '5kg'],
     ['0kg', '0kg'],
     ['kg', UNKNOWN_TEXT],
     [null, UNKNOWN_TEXT],
     [undefined, UNKNOWN_TEXT],
     ['', UNKNOWN_TEXT],
+    [0, UNKNOWN_TEXT],
   ])(
     'should return the appropriate baggage weight', (given, expected) => {
       targetTaskMin.movement.baggage.weight = given;

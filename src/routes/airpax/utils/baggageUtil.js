@@ -56,7 +56,7 @@ const getBaggageWeight = (baggage) => {
   if (baggage.weight === '0kg') {
     return formatField('WEIGHT', 0);
   }
-  if (baggage.weight.endsWith('kg')) {
+  if (typeof baggage?.weight === 'string' && baggage.weight.endsWith('kg')) {
     return baggage.weight;
   }
   return formatField('WEIGHT', baggage.weight);
