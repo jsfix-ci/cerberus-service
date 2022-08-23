@@ -38,6 +38,7 @@ const TaskManagementForm = ({ onCancel,
   setTargetStatus,
   setAssignee,
   setError,
+  delay,
   ...props }) => {
   const submitForm = useFormSubmit();
   return (
@@ -54,7 +55,9 @@ const TaskManagementForm = ({ onCancel,
           form,
           { ...data.data, actionTarget },
           FORM_NAMES.TARGET_INFORMATION_SHEET,
-        );
+        ).then(() => new Promise((resolve) => {
+          setTimeout(resolve, delay || 0);
+        }));
         refreshNotes();
         setTargetStatus();
         setAssignee();
@@ -440,6 +443,7 @@ const TaskDetailsPage = () => {
                     setTargetStatus={() => setTargetStatus('Issued')}
                     setAssignee={() => setAssignee(null)}
                     setError={setError}
+                    delay={1000}
                   >
                     <TaskCompletedSuccessMessage message="Target created successfully" />
                   </TaskManagementForm>
