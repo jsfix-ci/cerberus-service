@@ -89,6 +89,12 @@ describe('BaggageUtil', () => {
     },
   );
 
+  it('should return unknown for weight returning a text kg & checked bags are greater than 0', () => {
+    targetTaskMin.movement.baggage = { weight: 'kg', numberOfCheckedBags: 1 };
+    const output = BaggageUtil.weight(BaggageUtil.get(targetTaskMin));
+    expect(output).toEqual(UNKNOWN_TEXT);
+  });
+
   it('should return the count of checked bags', () => {
     targetTaskMin.movement.baggage.numberOfCheckedBags = 2;
     const output = BaggageUtil.checkedCount(BaggageUtil.get(targetTaskMin));
