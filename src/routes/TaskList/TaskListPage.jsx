@@ -22,7 +22,6 @@ import config from '../../utils/config';
 
 // Components/Pages
 import ErrorSummary from '../../components/ErrorSummary/ErrorSummary';
-import Filter from '../../components/Filter/Filter';
 import Tabs from '../../components/Tabs/Tabs';
 import TaskManagementHeader from '../../components/Headers/TaskManagementHeader';
 
@@ -37,6 +36,7 @@ import AxiosRequests from '../../api/axiosRequests';
 import './components/shared/TaskListPage.scss';
 import TasksTab from './components/shared/TasksTab';
 import { VIEW } from '../../utils/Common/commonUtil';
+import getFilter from '../../components/Filter/helper/getFilter';
 
 const TaskListPage = () => {
   const keycloak = useKeycloak();
@@ -242,16 +242,17 @@ const TaskListPage = () => {
       {authorisedGroup && (
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
-            <Filter
-              mode={DEFAULTS[getView()].filters.mode}
-              taskStatus={StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)}
-              currentUser={currentUser}
-              onApply={applyFilters}
-              appliedFilters={appliedFilters}
-              filtersAndSelectorsCount={filtersAndSelectorsCount}
-              rulesOptions={rulesOptions}
-              handleFilterReset={(e) => handleFilterReset(e)}
-            />
+            {getFilter(
+              currentUser,
+              StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS),
+              appliedFilters,
+              filtersAndSelectorsCount,
+              {
+                rules: rulesOptions,
+              },
+              applyFilters,
+              handleFilterReset,
+            )}
           </section>
           <section className="govuk-grid-column-three-quarters">
             <Tabs
