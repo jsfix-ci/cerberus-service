@@ -12,7 +12,7 @@
 const setUpOptions = (component, customOptions) => {
   if (component?.useCustomOptions) {
     return {
-      options: customOptions[component.id],
+      options: customOptions[component.id] || [],
     };
   }
   return (component?.data?.options && { options: component.data.options });

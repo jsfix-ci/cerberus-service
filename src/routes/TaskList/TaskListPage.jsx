@@ -36,7 +36,7 @@ import AxiosRequests from '../../api/axiosRequests';
 import './components/shared/TaskListPage.scss';
 import TasksTab from './components/shared/TasksTab';
 import { VIEW } from '../../utils/Common/commonUtil';
-import getFilter from '../../components/Filter/helper/getFilter';
+import getFilter from '../../components/Filter/Custom/getFilter';
 
 const TaskListPage = () => {
   const keycloak = useKeycloak();
@@ -243,6 +243,7 @@ const TaskListPage = () => {
         <div className="govuk-grid-row">
           <section className="govuk-grid-column-one-quarter sticky">
             {getFilter(
+              getView(),
               currentUser,
               StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS),
               appliedFilters,
