@@ -92,7 +92,7 @@ const calculateTimeDifference = (dateTimeArray, prefix = '', suffix = '') => {
 };
 
 const DateTimeUtil = {
-  calculateTimeDifference,
+  timeDiff: calculateTimeDifference,
   convertToUTC: formatToUTCDate,
   date: getDate,
   format: getFormattedDate,
