@@ -1,15 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { ApplicationContext } from '../../context/ApplicationContext';
+import { ApplicationContext } from '../../../../context/ApplicationContext';
 
 import TaskListCard from './TaskListCard';
 
-import { TASK_STATUS } from '../../utils/constants';
+import { TASK_STATUS } from '../../../../utils/constants';
 
-import targetTask from '../../__fixtures__/targetListData';
-import mockRoRoTargetTask from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import targetTask from '../../../../__fixtures__/targetListData';
+import mockRoRoTargetTask from '../../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
+import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 describe('TaskListCard', () => {
   const MockApplicationContext = ({ children }) => (

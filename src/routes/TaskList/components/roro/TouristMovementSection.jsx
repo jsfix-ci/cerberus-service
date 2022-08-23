@@ -7,12 +7,12 @@ import { BookingUtil,
   EnrichmentUtil,
   MovementUtil,
   PersonUtil,
-  VehicleUtil } from '../../../../../utils';
-import DatetimeUtil from '../../../../../utils/Datetime/datetimeUtil';
+  VehicleUtil } from '../../../../utils';
+import DatetimeUtil from '../../../../utils/Datetime/datetimeUtil';
 
-import { DATE_FORMATS, ICON, ICON_MAPPING, MOVEMENT_MODES, STRINGS } from '../../../../../utils/constants';
+import { DATE_FORMATS, ICON, ICON_MAPPING, MOVEMENT_MODES, STRINGS } from '../../../../utils/constants';
 
-import EnrichmentCount from '../../../../../components/EnrichmentCount/EnrichmentCount';
+import EnrichmentCount from '../../../../components/EnrichmentCount/EnrichmentCount';
 
 const TouristMovementSection = ({ targetTask }) => {
   const person = PersonUtil.get(targetTask);

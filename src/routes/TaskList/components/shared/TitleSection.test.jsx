@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import { TitleSection } from './index';
-import { TASK_STATUS } from '../../utils/constants';
+import TitleSection from './TitleSection';
+import { TASK_STATUS } from '../../../../utils/constants';
 
-import mockRoRoTargetTask from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
-import mockAirpaxTargetTask from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import mockRoRoFootPassengerTask from '../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
+import mockRoRoTargetTask from '../../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
+import mockAirpaxTargetTask from '../../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import mockRoRoFootPassengerTask from '../../../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
 
 describe('TitleSection', () => {
   it('should render the title section for RoRo v2 accompanied', () => {

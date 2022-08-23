@@ -1,7 +1,7 @@
 import React from 'react';
-import getVoyageComponent from './helper/voyageSection';
+import getVoyageComponent from '../../helper/voyageSection';
 
-import { MovementUtil } from '../../utils';
+import { MovementUtil } from '../../../../utils';
 
 const VoyageSection = ({ targetTask, refDataAirlineCodes }) => {
   const mode = MovementUtil.movementMode(targetTask);

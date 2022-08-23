@@ -1,13 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import { VoyageSection } from './index';
+import VoyageSection from './VoyageSection';
 
-import mockRoRoTargetTask from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
-import mockAirpaxTargetTask from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import mockRoRoFootPassengerTask from '../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
+import mockRoRoTargetTask from '../../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
+import mockAirpaxTargetTask from '../../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import mockRoRoFootPassengerTask from '../../../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
 
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 describe('VoyageSection', () => {
   it('should render the voyage section for an airpax task', () => {

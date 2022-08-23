@@ -1,68 +1,30 @@
-import * as pluralise from 'pluralise';
 import React from 'react';
 import { AccountUtil,
   BookingUtil,
   CommonUtil,
   GoodsUtil,
-  HaulierUtil,
-  PersonUtil,
-  VehicleUtil } from '../../../../../utils';
-import TrailerUtil from '../../../../../utils/Trailer/trailerUtil';
-import { DATE_FORMATS, STRINGS } from '../../../../../utils/constants';
-import DatetimeUtil from '../../../../../utils/Datetime/datetimeUtil';
-import EnrichmentCount from '../../../../../components/EnrichmentCount/EnrichmentCount';
+  HaulierUtil } from '../../../../utils';
+import DatetimeUtil from '../../../../utils/Datetime/datetimeUtil';
+import TrailerUtil from '../../../../utils/Trailer/trailerUtil';
 
-const AccompaniedMovementSection = ({ person,
-  vehicle,
-  trailer,
+import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
+
+import EnrichmentCount from '../../../../components/EnrichmentCount/EnrichmentCount';
+
+const UnaccompaniedMovementSection = ({ trailer,
   haulier,
   account,
   booking,
   goods,
-  bookingDepartureTime,
-  othersCount }) => {
+  bookingDepartureTime }) => {
   return (
     <>
       <div className="govuk-grid-item">
         <>
           <div>
-            <EnrichmentCount labelText="Driver details" movementStats={CommonUtil.movementStats(person)} />
-            <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{PersonUtil.fullname(person)}</li>
-              <li>DOB: {PersonUtil.dob(person, DATE_FORMATS.SHORT)}</li>
-            </ul>
-          </div>
-          <div>
-            <h3
-              className="govuk-heading-s govuk-!-margin-top-3 govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text"
-            >
-              Passenger details
-            </h3>
-            <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">
-                {pluralise.withCount(othersCount, '% passenger', '% passengers', 'None')}
-              </li>
-            </ul>
-          </div>
-        </>
-      </div>
-
-      <div className="govuk-grid-item vertical-dotted-line">
-        <>
-          <div>
-            <EnrichmentCount labelText="Vehicle details" movementStats={CommonUtil.movementStats(vehicle)} />
-            <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{VehicleUtil.vehicleReg(vehicle)}</li>
-              <li>{VehicleUtil.vehicleColour(vehicle)}</li>
-              <li>{VehicleUtil.vehicleMake(vehicle)}</li>
-              <li>{VehicleUtil.vehicleModel(vehicle)}</li>
-            </ul>
-          </div>
-          <div>
             <EnrichmentCount
               labelText="Trailer details"
               movementStats={CommonUtil.movementStats(trailer)}
-              classnames="govuk-!-margin-top-3"
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{TrailerUtil.trailerReg(trailer)}</li>
@@ -71,7 +33,6 @@ const AccompaniedMovementSection = ({ person,
           </div>
         </>
       </div>
-
       <div className="govuk-grid-item vertical-dotted-line">
         <>
           <div>
@@ -99,7 +60,6 @@ const AccompaniedMovementSection = ({ person,
           </div>
         </>
       </div>
-
       <div className="govuk-grid-item vertical-dotted-line">
         <div>
           <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text">
@@ -110,8 +70,9 @@ const AccompaniedMovementSection = ({ person,
           </ul>
         </div>
       </div>
+      <div className="govuk-grid-item vertical-dotted-line" />
     </>
   );
 };
 
-export default AccompaniedMovementSection;
+export default UnaccompaniedMovementSection;

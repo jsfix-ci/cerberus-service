@@ -2,26 +2,26 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import '../../__mocks__/keycloakMock';
+import '../../../__mocks__/keycloakMock';
 
 // Components/Pages
-import { ApplicationContext } from '../../context/ApplicationContext';
-import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
-import { PnrAccessContext } from '../../context/PnrAccessContext';
-import { ViewContext } from '../../context/ViewContext';
+import { ApplicationContext } from '../../../context/ApplicationContext';
+import { TaskSelectedTabContext } from '../../../context/TaskSelectedTabContext';
+import { PnrAccessContext } from '../../../context/PnrAccessContext';
+import { ViewContext } from '../../../context/ViewContext';
 
-import TaskListPage from './TaskListPage';
+import TaskListPage from '../TaskListPage';
 
-import { TASK_LIST_PATHS } from '../../utils/constants';
-import { VIEW } from '../../utils/Common/commonUtil';
+import { TASK_LIST_PATHS } from '../../../utils/constants';
+import { VIEW } from '../../../utils/Common/commonUtil';
 
 // Fixture
-import roroDataCurrentUser from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
-import dataOtherUser from '../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
-import dataNoAssignee from '../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
-import dataTargetIssued from '../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
-import dataTaskComplete from '../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import roroDataCurrentUser from '../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
+import dataOtherUser from '../../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
+import dataNoAssignee from '../../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
+import dataTargetIssued from '../../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
+import dataTaskComplete from '../../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
+import refDataAirlineCodes from '../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 describe('RoRo.TaskListPage', () => {
   // Extend the react-router-dom mock from jest.setup.jsx.
