@@ -34,8 +34,8 @@ import { ViewContext } from '../../context/ViewContext';
 import AxiosRequests from '../../api/axiosRequests';
 
 // Styling
-import './TaskListPage.scss';
-import TasksTab from './TasksTab';
+import './components/shared/TaskListPage.scss';
+import TasksTab from './components/shared/TasksTab';
 import { VIEW } from '../../utils/Common/commonUtil';
 
 const TaskListPage = () => {

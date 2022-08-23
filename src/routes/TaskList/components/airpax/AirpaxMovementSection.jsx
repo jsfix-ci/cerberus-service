@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaggageUtil, BookingUtil, DocumentUtil, MovementUtil, PersonUtil } from '../../../../../utils';
+import { BaggageUtil, BookingUtil, DocumentUtil, MovementUtil, PersonUtil } from '../../../../utils';
 
 const AirpaxMovementSection = ({ person, baggage, booking, journey, flight, document, otherPersons, movementType }) => {
   return (

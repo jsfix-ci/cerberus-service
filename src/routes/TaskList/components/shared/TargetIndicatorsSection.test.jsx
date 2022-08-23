@@ -2,12 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
-import { TASK_LIST_PATHS } from '../../utils/constants';
+import { TASK_LIST_PATHS } from '../../../../utils/constants';
 
-import mockAirpaxTargetListData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import mockRoRoAirpaxTargetListData from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
+import mockAirpaxTargetListData from '../../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import mockRoRoAirpaxTargetListData from '../../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
 
-import { TargetIndicatorsSection } from './index';
+import TargetIndicatorsSection from './TargetIndicatorsSection';
 
 describe('TargetIndicatorsSection', () => {
   it('should render the a airpax targeting indicators section', () => {

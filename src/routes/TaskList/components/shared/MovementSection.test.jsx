@@ -1,11 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import { MovementSection } from './index';
+import MovementSection from './MovementSection';
 
-import mockRoRoTargetTask from '../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
-import mockAirpaxTargetTask from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import mockRoRoFootPassengerTask from '../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
+import mockRoRoTargetTask from '../../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
+import mockAirpaxTargetTask from '../../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import mockRoRoFootPassengerTask from '../../../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
 
 // TODO: Test names will need updating once RoRo V1 is replaced.
 describe('MovementSection', () => {

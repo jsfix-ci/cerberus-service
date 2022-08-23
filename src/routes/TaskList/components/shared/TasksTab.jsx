@@ -9,26 +9,26 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
-import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
-import { useKeycloak } from '../../context/Keycloak';
+import { useAxiosInstance } from '../../../../utils/Axios/axiosInstance';
+import { useKeycloak } from '../../../../context/Keycloak';
 
 // Config
-import config from '../../utils/config';
-import { StringUtil } from '../../utils';
+import config from '../../../../utils/config';
+import { StringUtil } from '../../../../utils';
 
 // Components/Pages
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import Pagination from '../../components/Pagination/Pagination';
+import LoadingSpinner from '../../../../components/LoadingSpinner/LoadingSpinner';
+import Pagination from '../../../../components/Pagination/Pagination';
 import TaskListCard from './TaskListCard';
 import { LOCAL_STORAGE_KEYS,
   STATUS_CODES,
-  TASK_STATUS_MAPPING } from '../../utils/constants';
+  TASK_STATUS_MAPPING } from '../../../../utils/constants';
 
 // Context
-import { PnrAccessContext } from '../../context/PnrAccessContext';
+import { PnrAccessContext } from '../../../../context/PnrAccessContext';
 
 // Services
-import AxiosRequests from '../../api/axiosRequests';
+import AxiosRequests from '../../../../api/axiosRequests';
 
 const TasksTab = ({
   taskStatus,

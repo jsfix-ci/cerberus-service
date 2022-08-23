@@ -1,8 +1,8 @@
 $govuk-assets-path: '~govuk-frontend/govuk/assets/';
 @import '~govuk-frontend/govuk/vendor/_sass-mq';
-@import '../../../node_modules/govuk-frontend/govuk/settings/all';
-@import '../../../node_modules/govuk-frontend/govuk/helpers/all';
-@import '../../../node_modules/govuk-frontend/govuk/tools/all';
+@import '../../../../../node_modules/govuk-frontend/govuk/settings/all';
+@import '../../../../../node_modules/govuk-frontend/govuk/helpers/all';
+@import '../../../../../node_modules/govuk-frontend/govuk/tools/all';
 .govuk-task-list-card {
   padding: 1em;
   font-size: 1em;

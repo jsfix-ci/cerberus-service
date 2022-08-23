@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MovementUtil } from '../../utils';
+import { MovementUtil } from '../../../../utils';
 
-import getMovementComponent from './helper/movementSection';
+import getMovementComponent from '../../helper/movementSection';
 
 const MovementSection = ({ targetTask }) => {
   const mode = MovementUtil.movementMode(targetTask);

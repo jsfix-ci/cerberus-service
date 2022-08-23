@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { RisksUtil } from '../../utils';
+import { RisksUtil } from '../../../../utils';
 
 const TargetIndicatorsSection = ({ targetTask, redirectPath }) => {
   const targetingIndicators = RisksUtil.getIndicators(RisksUtil.getRisks(targetTask));

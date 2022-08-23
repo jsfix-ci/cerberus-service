@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { MovementUtil, RisksUtil } from '../../utils';
+import { MovementUtil, RisksUtil } from '../../../../utils';
 
-import { TASK_STATUS } from '../../utils/constants';
+import { TASK_STATUS } from '../../../../utils/constants';
 
-import ClaimUnclaimTask from '../../components/Buttons/ClaimUnclaimTask';
+import ClaimUnclaimTask from '../../../../components/Buttons/ClaimUnclaimTask';
 
 const TitleSection = ({ targetTask, currentUser, taskStatus, redirectPath }) => {
   return (

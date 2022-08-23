@@ -1,6 +1,6 @@
 import React from 'react';
-import { ICON } from '../../../../../utils/constants';
-import { MovementUtil } from '../../../../../utils';
+import { ICON } from '../../../../utils/constants';
+import { MovementUtil } from '../../../../utils';
 
 const VoyageSection = ({ refDataAirlineCodes,
   journey,

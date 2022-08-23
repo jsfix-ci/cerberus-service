@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
-import { ApplicationContext } from '../../context/ApplicationContext';
+import { ApplicationContext } from '../../../../context/ApplicationContext';
 
-import { TitleSection, VoyageSection, MovementSection, TargetIndicatorsSection } from './index';
+import TitleSection from './TitleSection';
+import MovementSection from './MovementSection';
+import TargetIndicatorsSection from './TargetIndicatorsSection';
+import VoyageSection from './VoyageSection';
 
 const TaskListCard = ({ targetTask, taskStatus, currentUser, redirectPath }) => {
   const { refDataAirlineCodes } = useContext(ApplicationContext);
