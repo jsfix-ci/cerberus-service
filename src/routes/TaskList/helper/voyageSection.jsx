@@ -1,8 +1,8 @@
 import React from 'react';
 import { MovementUtil, PersonUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../utils';
 import { MOVEMENT_MODES } from '../../../utils/constants';
-import AirpaxVoyageSection from '../airpax/local/components/VoyageSection';
-import RoRoVoyageSection from '../roro/local/components/VoyageSection';
+import AirpaxVoyageSection from '../local/components/airpax/VoyageSection';
+import RoRoVoyageSection from '../local/components/roro/VoyageSection';
 
 const getVoyageComponent = (mode, targetTask, refDataAirlineCodes) => {
   const journey = MovementUtil.movementJourney(targetTask);
