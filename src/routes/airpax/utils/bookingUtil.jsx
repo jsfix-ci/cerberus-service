@@ -92,27 +92,27 @@ const getPayments = (booking) => {
   return null;
 };
 
-const getTicketType = (ticket) => {
-  if (!ticket?.type) {
+const getTicketTypes = (tickets) => {
+  if (!tickets?.length) {
     return UNKNOWN_TEXT;
   }
-  return ticket.type;
+  return tickets.map((ticket) => ticket.type).join(', ');
 };
 
-const getTicketNumber = (ticket) => {
-  if (!ticket?.number) {
+const getTicketNumbers = (tickets) => {
+  if (!tickets?.length) {
     return UNKNOWN_TEXT;
   }
-  return ticket.number;
+  return tickets.map((ticket) => ticket.number).join(', ');
 };
 
-const hasTicket = (booking) => {
-  return !!booking?.ticket;
+const hasTickets = (booking) => {
+  return !!booking?.tickets?.length;
 };
 
-const getTicket = (booking) => {
-  if (hasTicket(booking)) {
-    return booking.ticket;
+const getTickets = (booking) => {
+  if (hasTickets(booking)) {
+    return booking.tickets;
   }
   return null;
 };
@@ -218,9 +218,9 @@ const BookingUtil = {
   countryCode: getBookingCountryCode,
   countryName: getBookingCountryName,
   bookingType: getBookingType,
-  bookingTicket: getTicket,
-  ticketNumber: getTicketNumber,
-  ticketType: getTicketType,
+  bookingTickets: getTickets,
+  ticketNumbers: getTicketNumbers,
+  ticketTypes: getTicketTypes,
   payments: getPayments,
   containsPayments: hasPayments,
   paymentAmount: getPaymentAmount,
@@ -247,9 +247,9 @@ export {
   getBookingCountryCode,
   getBookingCountryName,
   getBookingType,
-  getTicket,
-  getTicketNumber,
-  getTicketType,
+  getTickets,
+  getTicketNumbers,
+  getTicketTypes,
   getPayments,
   getPaymentAmount,
   getPaymentCard,
