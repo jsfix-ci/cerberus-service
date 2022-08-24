@@ -12,11 +12,12 @@ const formatField = (fieldType, content) => {
   dayjs.extend(relativeTime);
   dayjs.extend(updateLocale);
   dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
-  if (!content) {
+
+  if (!content && content !== 0) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  let result;
 
+  let result;
   switch (true) {
     case fieldType.includes(UNITS.DISTANCE.value):
       result = `${content}${UNITS.DISTANCE.unit}`;
