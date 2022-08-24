@@ -2,16 +2,6 @@ import * as pluralise from 'pluralise';
 import { STRINGS } from '../constants';
 import { formatField } from '../FieldFormat/fieldFormatterUtil';
 
-const getBaggageWeight = (baggage) => {
-  if (!baggage?.weight) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  if (baggage.weight.endsWith('kg')) {
-    return baggage.weight;
-  }
-  return formatField('WEIGHT', baggage.weight);
-};
-
 const hasBaggage = (targetTask) => {
   return !!targetTask?.movement?.baggage;
 };
@@ -51,6 +41,25 @@ const getNumberOfCheckedBags = (baggage) => {
     return STRINGS.UNKNOWN_TEXT;
   }
   return baggage.numberOfCheckedBags;
+};
+
+const getBaggageWeight = (baggage) => {
+  if (!baggage?.weight && baggage?.weight !== 0) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  if (getNumberOfCheckedBags(baggage) > 0 && baggage.weight === 'kg') {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  if (getNumberOfCheckedBags(baggage) === 0 || getNumberOfCheckedBags(baggage) === STRINGS.UNKNOWN_TEXT) {
+    return formatField('WEIGHT', 0);
+  }
+  if (baggage.weight === '0kg') {
+    return formatField('WEIGHT', 0);
+  }
+  if (typeof baggage?.weight === 'string' && baggage.weight.endsWith('kg')) {
+    return baggage.weight;
+  }
+  return formatField('WEIGHT', baggage.weight);
 };
 
 const toFormattedCheckedBagsCount = (baggage) => {
