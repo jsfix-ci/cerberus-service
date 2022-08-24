@@ -51,6 +51,9 @@ const getFilter = (
             movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
             modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
           }}
+          customOptions={{
+            rules: customOptions?.rules,
+          }}
           onApply={onApply}
           handleFilterReset={handleFilterReset}
         />

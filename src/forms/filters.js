@@ -171,6 +171,16 @@ export const roro = (assignee, show) => {
             ],
           },
         },
+        {
+          id: 'rules',
+          fieldId: 'rules',
+          label: 'Rule matches',
+          type: 'multiautocomplete',
+          item: { value: 'id', label: 'name' },
+          multi: true,
+          required: false,
+          useCustomOptions: true,
+        },
       ],
       actions: [
         {

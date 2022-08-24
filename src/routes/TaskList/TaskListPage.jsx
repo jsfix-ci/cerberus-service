@@ -35,7 +35,6 @@ import AxiosRequests from '../../api/axiosRequests';
 // Styling
 import './components/shared/TaskListPage.scss';
 import TasksTab from './components/shared/TasksTab';
-import { VIEW } from '../../utils/Common/commonUtil';
 import getFilter from '../../components/Filter/Custom/getFilter';
 
 const TaskListPage = () => {
@@ -211,9 +210,7 @@ const TaskListPage = () => {
   }, []);
 
   useEffect(() => {
-    if (getView() === VIEW.AIRPAX) {
-      getRulesOptions();
-    }
+    getRulesOptions();
     return () => {
       AxiosRequests.cancel(source);
     };
