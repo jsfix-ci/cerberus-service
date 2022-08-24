@@ -3,6 +3,7 @@ import { LOCAL_STORAGE_KEYS,
   MOVEMENT_MODES,
   STRINGS,
   TASK_LIST_PATHS } from '../../utils/constants';
+import { VIEW } from '../../utils/Common/commonUtil';
 import config from '../../utils/config';
 
 const SORT_ORDER = {
@@ -11,7 +12,7 @@ const SORT_ORDER = {
 };
 
 const DEFAULTS = {
-  AIRPAX: {
+  [VIEW.AIRPAX]: {
     filters: {
       key: LOCAL_STORAGE_KEYS.AIRPAX_FILTERS,
       default: {
@@ -88,7 +89,7 @@ const DEFAULTS = {
       },
     ],
   },
-  RORO_V2: {
+  [VIEW.RORO_V2]: {
     filters: {
       key: LOCAL_STORAGE_KEYS.RORO_FILTERS,
       default: {

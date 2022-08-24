@@ -182,8 +182,7 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    const view = CommonUtil.viewByPath(location.pathname);
-    setView(view);
+    setView(CommonUtil.viewByPath(location.pathname));
   }, []);
 
   useEffect(() => {
