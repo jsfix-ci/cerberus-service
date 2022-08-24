@@ -12,7 +12,7 @@ describe('Filter airpax tasks by Assignee', () => {
       cy.createMovementId(task, taskName);
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(3000);
-        let businessKey = taskResponse.id;
+        const businessKey = taskResponse.id;
         cy.claimAirPaxTaskWithUsername(businessKey, userId);
         cy.wait(2000);
         cy.visit('/airpax/tasks');
