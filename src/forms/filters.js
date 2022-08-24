@@ -26,7 +26,7 @@ const getAssigneeComponent = (assignee) => {
     id: 'assignedToMe',
     fieldId: 'assignedToMe',
     type: 'checkboxes',
-    label: '',
+    label: 'Assigned to me',
     data: {
       options: [
         {
@@ -99,8 +99,10 @@ export const airpax = (assignee, showAssignee) => {
             fieldId: 'rules',
             label: 'Rule matches',
             type: 'multiautocomplete',
+            item: { value: 'id', label: 'name' },
             multi: true,
             required: false,
+            useCustomOptions: true,
           },
         ],
         actions: [

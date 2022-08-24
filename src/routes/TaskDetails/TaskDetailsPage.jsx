@@ -38,7 +38,6 @@ import airpaxTis from '../../forms/airpaxTisCerberus';
 import dismissTask from '../../forms/dismissTaskCerberus';
 import completeTask from '../../forms/completeTaskCerberus';
 
-// TODO: Update tests
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
   const keycloak = useKeycloak();

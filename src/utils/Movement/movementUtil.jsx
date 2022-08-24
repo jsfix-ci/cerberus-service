@@ -553,7 +553,6 @@ const getBusinessKey = (targetTask) => {
   return targetTask?.id || STRINGS.UNKNOWN_TEXT;
 };
 
-// TODO: Update tests
 const MovementUtil = {
   businessKey: getBusinessKey,
   outcome: getOutcome,

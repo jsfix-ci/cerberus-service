@@ -27,7 +27,7 @@ const AirpaxFilter = ({ taskStatus,
 
   const onGetComponent = (component, wrap) => {
     const attrs = Utils.Component.clean(component, ['fieldId', 'dynamicOptions', 'multi']);
-    if (component.type === COMPONENT_TYPES.TYPE_SELECT) {
+    if (component.type === COMPONENT_TYPES.SELECT) {
       const select = (
         <select
           className="govuk-select"
@@ -54,7 +54,7 @@ const AirpaxFilter = ({ taskStatus,
       }
       return select;
     }
-    if (component.type === COMPONENT_TYPES.TYPE_MULTIAUTOCOMPLETE) {
+    if (component.type === COMPONENT_TYPES.MULTIAUTOCOMPLETE) {
       const multiSelect = (
         <MultiSelectAutocomplete
           className="hods-multi-select-autocomplete"
