@@ -2373,3 +2373,7 @@ function searchTaskList(businessKey) {
 Cypress.Commands.add('verifyFindTaskId', (businessKey) => {
   searchTaskList(businessKey);
 });
+
+Cypress.Commands.add('createMovementId', (task, taskName) => {
+  task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+});
