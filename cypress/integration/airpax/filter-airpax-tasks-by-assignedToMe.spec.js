@@ -1,4 +1,4 @@
-describe('Filter airpax tasks by Selectors on task management Page', () => {
+describe('Filter airpax tasks by Assignee', () => {
   beforeEach(() => {
     cy.login(Cypress.env('userName'));
     cy.acceptPNRTerms();
