@@ -267,7 +267,7 @@ describe('MovementUtil', () => {
 
   it('should return the movement description text for multiple persons', () => {
     targetTaskMin.movement.description = 'group';
-
+    targetTaskMin.movement.groupSize = 2;
     targetTaskMin.movement.person = {
       name: {
         first: 'Isaiah',
@@ -280,7 +280,6 @@ describe('MovementUtil', () => {
       nationality: 'GBR',
       document: null,
     };
-
     targetTaskMin.movement.otherPersons = [
       {
         name: {
@@ -295,7 +294,6 @@ describe('MovementUtil', () => {
         document: null,
       },
     ];
-
     const output = MovementUtil.description(targetTaskMin);
     expect(output).toEqual('In group of 2');
   });
