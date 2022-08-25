@@ -531,7 +531,7 @@ exports[`TaskVersions should render task versions 1`] = `
                   <p
                     className="govuk-!-margin-bottom-0 font__bold"
                   >
-                    4
+                    0
                   </p>
                 </div>
                 <div
