@@ -335,7 +335,7 @@ exports[`TaskVersions should render task versions 1`] = `
                 </div>
               </div>
               <div
-                className="task-details-container"
+                className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
               >
                 <h3
                   className="govuk-heading-m govuk-!-margin-top-0"
@@ -384,7 +384,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      France (FR)
+                      France (FRA)
                     </p>
                   </div>
                   <div
@@ -398,7 +398,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__bold"
                     >
-                      France (FR)
+                      France (FRA)
                     </p>
                   </div>
                   <div
@@ -436,7 +436,7 @@ exports[`TaskVersions should render task versions 1`] = `
                     <p
                       className="govuk-!-margin-bottom-0 font__light"
                     >
-                      4 years after travel
+                      Unknown
                     </p>
                   </div>
                   <div

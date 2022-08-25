@@ -6,27 +6,27 @@ import {
   AGO_TEXT,
   A_SMALL_TEXT,
   AN_SMALL_TEXT,
-  UNKNOWN_TEXT,
   AFTER_TRAVEL_TEXT,
   BEFORE_TRAVEL_TEXT,
   SHORT_DATE_FORMAT_ALT,
+  UNKNOWN_TEXT,
+  UTC_DATE_FORMAT,
 } from '../../../constants';
 import { formatField } from '../../../utils/formatField';
-import { getFormattedDate } from './datetimeUtil';
+import Common from './common';
+import { getFormattedDate, validateDate } from './datetimeUtil';
 
 const calculateExpiry = (passportExpiry, arrivalTime) => {
-  const expiry = arrivalTime
-    && passportExpiry !== 'Unknown'
-    && `${arrivalTime},${moment(passportExpiry).format('YYYY-MM-DDTHH:mm:ss')}`;
-  if (expiry) {
-    return formatField('BOOKING_DATETIME', expiry)
-      .split(', ')[1]
-      .replace(BEFORE_TRAVEL_TEXT, AFTER_TRAVEL_TEXT)
-      .replace(AGO_TEXT, BEFORE_TRAVEL_TEXT)
-      .replace(A_SMALL_TEXT, A_TITLE_CASE_TEXT)
-      .replace(AN_SMALL_TEXT, AN_TITLE_CASE_TEXT);
+  if (!validateDate(passportExpiry) || !validateDate(arrivalTime)) {
+    return UNKNOWN_TEXT;
   }
-  return UNKNOWN_TEXT;
+  const expiry = `${arrivalTime},${moment(passportExpiry).format(UTC_DATE_FORMAT)}`;
+  return formatField('BOOKING_DATETIME', expiry)
+    .split(', ')[1]
+    .replace(BEFORE_TRAVEL_TEXT, AFTER_TRAVEL_TEXT)
+    .replace(AGO_TEXT, BEFORE_TRAVEL_TEXT)
+    .replace(A_SMALL_TEXT, A_TITLE_CASE_TEXT)
+    .replace(AN_SMALL_TEXT, AN_TITLE_CASE_TEXT);
 };
 
 const hasDocument = (person) => {
@@ -40,12 +40,20 @@ const getDocument = (person) => {
   return null;
 };
 
+const getDocumentExpiryDate = (document) => {
+  return document?.expiry || undefined;
+};
+
 const getDocumentExpiry = (document, taskDetails = false) => {
   const expiryPrefix = 'Expires';
   if (!document?.expiry) {
     return taskDetails ? UNKNOWN_TEXT : `${expiryPrefix} ${UNKNOWN_TEXT}`;
   }
   return taskDetails ? `${getFormattedDate(document?.expiry, SHORT_DATE_FORMAT_ALT)}` : `${expiryPrefix} ${getFormattedDate(document?.expiry, SHORT_DATE_FORMAT_ALT)}`;
+};
+
+const getDocumentValidityDate = (document) => {
+  return document?.validFrom || undefined;
 };
 
 const getDocumentValidity = (document, taskDetails = false) => {
@@ -94,12 +102,12 @@ const getDocumentCountryOfIssue = (document, taskDetails = false) => {
   }
   if (taskDetails) {
     return lookup.byIso(document.countryOfIssue) !== null
-      ? `${lookup.byIso(document.countryOfIssue).country} (${document.countryOfIssue})`
+      ? `${lookup.byIso(document.countryOfIssue).country} (${Common.iso3Code(document.countryOfIssue)})`
       : `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
   }
 
   return lookup.byIso(document.countryOfIssue) !== null
-    ? `${countryOfIssuePrefix} ${document.countryOfIssue}`
+    ? `${countryOfIssuePrefix} ${Common.iso3Code(document.countryOfIssue)}`
     : `${countryOfIssuePrefix} ${UNKNOWN_TEXT}`;
 };
 
@@ -107,7 +115,7 @@ const getDocumentCountryOfIssueCode = (document) => {
   if (!document?.countryOfIssue) {
     return UNKNOWN_TEXT;
   }
-  return document.countryOfIssue;
+  return Common.iso3Code(document.countryOfIssue);
 };
 
 const getDocumentNationality = (document, taskDetails = false) => {
@@ -124,7 +132,9 @@ const getDocumentDOB = (document) => {
 const DocumentUtil = {
   get: getDocument,
   docExpiry: getDocumentExpiry,
+  docExpiryDate: getDocumentExpiryDate,
   docValidity: getDocumentValidity,
+  docValidityDate: getDocumentValidityDate,
   docType: getDocumentType,
   docNumber: getDocumentNumber,
   docName: getDocumentName,
@@ -141,7 +151,9 @@ export default DocumentUtil;
 export {
   getDocument,
   getDocumentExpiry,
+  getDocumentExpiryDate,
   getDocumentValidity,
+  getDocumentValidityDate,
   getDocumentType,
   getDocumentNumber,
   getDocumentName,
