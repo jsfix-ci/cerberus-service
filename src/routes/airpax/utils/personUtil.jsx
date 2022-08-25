@@ -118,7 +118,10 @@ const getAllPersons = (person, otherPersons) => {
 };
 
 const getTotalNumberOfPersons = (targetTask) => {
-  return targetTask?.movement?.groupSize || 0;
+  if (!targetTask?.movement?.person) {
+    return 0;
+  }
+  return targetTask.movement.otherPersons.length + 1;
 };
 
 const getTotalNumberOfOtherPersons = (targetTask) => {

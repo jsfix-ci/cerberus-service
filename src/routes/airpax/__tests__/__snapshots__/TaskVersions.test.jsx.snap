@@ -531,7 +531,7 @@ exports[`TaskVersions should render task versions 1`] = `
                   <p
                     className="govuk-!-margin-bottom-0 font__bold"
                   >
-                    0
+                    4
                   </p>
                 </div>
                 <div
@@ -611,7 +611,7 @@ exports[`TaskVersions should render task versions 1`] = `
                   <p
                     className="govuk-!-margin-bottom-0 font__bold"
                   >
-                    TIC-1234, TIC-7863-XZ
+                    Unknown
                   </p>
                 </div>
                 <div
@@ -625,7 +625,7 @@ exports[`TaskVersions should render task versions 1`] = `
                   <p
                     className="govuk-!-margin-bottom-0 font__bold"
                   >
-                    ONE-WAY, RETURN
+                    Unknown
                   </p>
                 </div>
               </div>

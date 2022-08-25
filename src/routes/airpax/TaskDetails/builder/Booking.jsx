@@ -30,7 +30,7 @@ const toBookingTimeDiference = (date, version) => {
 
 const Booking = ({ version }) => {
   const booking = BookingUtil.get(version);
-  const tickets = BookingUtil.bookingTickets(booking);
+  const ticket = BookingUtil.bookingTicket(booking);
   const agent = BookingUtil.agent(booking);
 
   return (
@@ -51,8 +51,8 @@ const Booking = ({ version }) => {
           `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(booking)})`,
         ])}
         {renderBlock('Booking type', [BookingUtil.bookingType(booking)])}
-        {renderBlock('Ticket number', [BookingUtil.ticketNumbers(tickets)])}
-        {renderBlock('Ticket type', [BookingUtil.ticketTypes(tickets)])}
+        {renderBlock('Ticket number', [BookingUtil.ticketNumber(ticket)])}
+        {renderBlock('Ticket type', [BookingUtil.ticketType(ticket)])}
       </div>
       {BookingUtil.containsPayments(booking) ? (
         <>
