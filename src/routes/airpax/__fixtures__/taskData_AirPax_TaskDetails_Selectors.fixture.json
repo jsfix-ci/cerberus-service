@@ -21,11 +21,18 @@
       "paymentMethod": "Account",
       "bookedAt": "2020-08-02T09:20:00Z",
       "checkInAt": "2020-08-04T12:10:00Z",
-      "ticket": {
-        "number": "TIC-998765421",
-        "type": "Return",
-        "price": "59.99"
-      },
+      "tickets": [
+        {
+          "number": "TIC-1234",
+          "type": "ONE-WAY",
+          "price": null
+        },
+        {
+          "number": "TIC-7863-XZ",
+          "type": "RETURN",
+          "price": null
+        }
+      ],
       "country": "GB"
     },
     "journey": {
@@ -316,11 +323,18 @@
           "paymentMethod": "Account",
           "bookedAt": "2020-08-02T09:20:00Z",
           "checkInAt": "2020-08-04T12:10:00Z",
-          "ticket": {
-            "number": "TIC-998765421",
-            "type": "Return",
-            "price": "59.99"
-          },
+          "tickets": [
+            {
+              "number": "TIC-1234",
+              "type": "ONE-WAY",
+              "price": null
+            },
+            {
+              "number": "TIC-7863-XZ",
+              "type": "RETURN",
+              "price": null
+            }
+          ],
           "country": "GB"
         },
         "journey": {
