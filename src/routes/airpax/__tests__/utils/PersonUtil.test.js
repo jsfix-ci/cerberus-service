@@ -141,7 +141,21 @@ describe('PersonUtil', () => {
   it('should return total number of people within a movement with 1 person', () => {
     const targetTaskMin = {
       movement: {
-        groupSize: 1,
+        person: {
+          name: {
+            first: 'Isaiah',
+            last: 'Ford',
+            full: 'Isaiah Ford',
+          },
+          role: 'PASSENGER',
+          dateOfBirth: '1966-05-13T00:00:00Z',
+          gender: 'M',
+          nationality: 'GBR',
+          document: null,
+          ssrCodes: 'ABC',
+          frequentFlyerNumber: 123456,
+        },
+        otherPersons: [],
       },
     };
 
@@ -152,13 +166,30 @@ describe('PersonUtil', () => {
   it('should return total number of people within a movement with multiple persons', () => {
     const targetTaskMin = {
       movement: {
-        groupSize: 2,
         person: {
-          name: null,
+          name: {
+            first: 'Isaiah',
+            last: 'Ford',
+            full: 'Isaiah Ford',
+          },
+          role: 'PASSENGER',
+          dateOfBirth: '1966-05-13T00:00:00Z',
+          gender: 'M',
+          nationality: 'GBR',
+          document: null,
         },
         otherPersons: [
           {
-            name: null,
+            name: {
+              first: 'John',
+              last: 'Cheese',
+              full: 'John Cheese',
+            },
+            role: 'PASSENGER',
+            dateOfBirth: '1967-05-13T00:00:00Z',
+            gender: 'M',
+            nationality: 'GBR',
+            document: null,
           },
         ],
       },

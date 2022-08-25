@@ -23,18 +23,11 @@ const targetListData = {
       paymentMethod: null,
       bookedAt: null,
       checkInAt: null,
-      tickets: [
-        {
-          number: 'TIC-1234',
-          type: 'ONE-WAY',
-          price: null,
-        },
-        {
-          number: 'TIC-7863-XZ',
-          type: 'RETURN',
-          price: null,
-        },
-      ],
+      ticket: {
+        number: null,
+        type: null,
+        price: null,
+      },
       country: null,
     },
     journey: {
@@ -151,18 +144,11 @@ const targetListData = {
           paymentMethod: null,
           bookedAt: null,
           checkInAt: null,
-          tickets: [
-            {
-              number: 'TIC-1234',
-              type: 'ONE-WAY',
-              price: null,
-            },
-            {
-              number: 'TIC-7863-XZ',
-              type: 'RETURN',
-              price: null,
-            },
-          ],
+          ticket: {
+            number: null,
+            type: null,
+            price: null,
+          },
           country: null,
           payments: [
             {
@@ -578,18 +564,11 @@ const targetListData = {
           paymentMethod: null,
           bookedAt: null,
           checkInAt: null,
-          tickets: [
-            {
-              number: 'TIC-1234',
-              type: 'ONE-WAY',
-              price: null,
-            },
-            {
-              number: 'TIC-7863-XZ',
-              type: 'RETURN',
-              price: null,
-            },
-          ],
+          ticket: {
+            number: null,
+            type: null,
+            price: null,
+          },
           country: null,
           payments: [
             {
