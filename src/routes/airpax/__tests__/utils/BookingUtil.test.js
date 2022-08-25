@@ -232,24 +232,35 @@ describe('BookingUtil', () => {
     expect(tickets).toBeNull();
   });
 
-  it('should return the ticket numbers if present', () => {
-    const TICKET_ONE = 'TIC-1234';
-    const TICKET_TWO = 'TIC-7863-XZ';
-    const EXPECTED = `${TICKET_ONE}, ${TICKET_TWO}`;
-    booking.tickets = [
+  it.each([
+    [[
       {
-        number: TICKET_ONE,
+        number: 'TIC-1234',
         type: 'ONE-WAY',
         price: null,
       },
       {
-        number: TICKET_TWO,
+        number: 'TIC-7863-XZ',
         type: 'RETURN',
         price: null,
       },
-    ];
+    ], 'TIC-1234, TIC-7863-XZ'],
+    [[
+      {
+        number: null,
+        type: 'ONE-WAY',
+        price: null,
+      },
+      {
+        number: 'TIC-7863-XZ',
+        type: 'RETURN',
+        price: null,
+      },
+    ], 'TIC-7863-XZ'],
+  ])('should return the appropriate ticket numbers', (given, expected) => {
+    booking.tickets = given;
     const ticketNumbers = BookingUtil.ticketNumbers(booking.tickets);
-    expect(ticketNumbers).toEqual(EXPECTED);
+    expect(ticketNumbers).toEqual(expected);
   });
 
   it('should return unknown when ticket numbers are not present', () => {
@@ -258,24 +269,36 @@ describe('BookingUtil', () => {
     expect(ticketNumbers).toEqual(UNKNOWN_TEXT);
   });
 
-  it('should return the ticket types if present', () => {
-    const TICKET_TYPE_ONE = 'ONE-WAY';
-    const TICKET_TYPE_TWO = 'RETURN';
-    const EXPECTED = `${TICKET_TYPE_ONE}, ${TICKET_TYPE_TWO}`;
-    booking.tickets = [
+  it.each([
+    [[
       {
         number: 'TIC-1234',
-        type: TICKET_TYPE_ONE,
+        type: 'ONE-WAY',
         price: null,
       },
       {
         number: 'TIC-7863-XZ',
-        type: TICKET_TYPE_TWO,
+        type: 'RETURN',
         price: null,
       },
-    ];
+    ], 'ONE-WAY, RETURN'],
+    [[
+      {
+        number: 'TIC-1234',
+        type: 'ONE-WAY',
+        price: null,
+      },
+      {
+        number: 'TIC-7863-XZ',
+        type: null,
+        price: null,
+      },
+    ], 'ONE-WAY'],
+
+  ])('should return the appropriate ticket types', (given, expected) => {
+    booking.tickets = given;
     const ticketTypes = BookingUtil.ticketTypes(booking.tickets);
-    expect(ticketTypes).toEqual(EXPECTED);
+    expect(ticketTypes).toEqual(expected);
   });
 
   it('should return an empty string when ticket types is null', () => {

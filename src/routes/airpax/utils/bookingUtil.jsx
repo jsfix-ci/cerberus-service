@@ -96,14 +96,14 @@ const getTicketTypes = (tickets) => {
   if (!tickets?.length) {
     return UNKNOWN_TEXT;
   }
-  return tickets.map((ticket) => ticket.type).join(', ');
+  return tickets.filter((ticket) => !!ticket.type).map((ticket) => ticket.type).join(', ');
 };
 
 const getTicketNumbers = (tickets) => {
   if (!tickets?.length) {
     return UNKNOWN_TEXT;
   }
-  return tickets.map((ticket) => ticket.number).join(', ');
+  return tickets.filter((ticket) => !!ticket?.number).map((ticket) => ticket?.number).join(', ');
 };
 
 const hasTickets = (booking) => {
