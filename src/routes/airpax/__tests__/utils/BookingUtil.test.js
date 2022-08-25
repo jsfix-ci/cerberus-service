@@ -16,13 +16,11 @@ describe('BookingUtil', () => {
       paymentMethod: null,
       bookedAt: '2020-02-07T17:15:00Z',
       checkInAt: null,
-      tickets: [
-        {
-          number: null,
-          type: null,
-          price: null,
-        },
-      ],
+      ticket: {
+        number: null,
+        type: null,
+        price: null,
+      },
       country: 'GB',
       payments: [
         {
@@ -214,96 +212,44 @@ describe('BookingUtil', () => {
     expect(type).toEqual(UNKNOWN_TEXT);
   });
 
-  it('should return a booking tickets if present', () => {
-    const ticket = BookingUtil.bookingTickets(booking);
+  it('should return a booking ticket object if present', () => {
+    const ticket = BookingUtil.bookingTicket(booking);
 
-    const expected = [{
+    const expected = {
       number: null,
       type: null,
       price: null,
-    }];
+    };
 
     expect(ticket).toEqual(expected);
   });
 
-  it('should return null when there are no booking tickets', () => {
-    booking.tickets = null;
-    const tickets = BookingUtil.bookingTickets(booking);
-    expect(tickets).toBeNull();
+  it('should return null when a booking ticket is not present', () => {
+    booking.ticket = null;
+    const ticket = BookingUtil.bookingTicket(booking);
+    expect(ticket).toBeNull();
   });
 
-  it.each([
-    [[
-      {
-        number: 'TIC-1234',
-        type: 'ONE-WAY',
-        price: null,
-      },
-      {
-        number: 'TIC-7863-XZ',
-        type: 'RETURN',
-        price: null,
-      },
-    ], 'TIC-1234, TIC-7863-XZ'],
-    [[
-      {
-        number: null,
-        type: 'ONE-WAY',
-        price: null,
-      },
-      {
-        number: 'TIC-7863-XZ',
-        type: 'RETURN',
-        price: null,
-      },
-    ], 'TIC-7863-XZ'],
-  ])('should return the appropriate ticket numbers', (given, expected) => {
-    booking.tickets = given;
-    const ticketNumbers = BookingUtil.ticketNumbers(booking.tickets);
-    expect(ticketNumbers).toEqual(expected);
+  it('should return the ticket number if present', () => {
+    booking.ticket.number = 'TIC-098376';
+    const ticketNumber = BookingUtil.ticketNumber(booking.ticket);
+    expect(ticketNumber).toEqual(booking.ticket.number);
   });
 
-  it('should return unknown when ticket numbers are not present', () => {
-    booking.tickets = null;
-    const ticketNumbers = BookingUtil.ticketNumbers(booking.tickets);
-    expect(ticketNumbers).toEqual(UNKNOWN_TEXT);
+  it('should return unknown when ticket number is not present', () => {
+    const ticketNumber = BookingUtil.ticketNumber(booking.ticket);
+    expect(ticketNumber).toEqual(UNKNOWN_TEXT);
   });
 
-  it.each([
-    [[
-      {
-        number: 'TIC-1234',
-        type: 'ONE-WAY',
-        price: null,
-      },
-      {
-        number: 'TIC-7863-XZ',
-        type: 'RETURN',
-        price: null,
-      },
-    ], 'ONE-WAY, RETURN'],
-    [[
-      {
-        number: 'TIC-1234',
-        type: 'ONE-WAY',
-        price: null,
-      },
-      {
-        number: 'TIC-7863-XZ',
-        type: null,
-        price: null,
-      },
-    ], 'ONE-WAY'],
-
-  ])('should return the appropriate ticket types', (given, expected) => {
-    booking.tickets = given;
-    const ticketTypes = BookingUtil.ticketTypes(booking.tickets);
-    expect(ticketTypes).toEqual(expected);
+  it('should return the ticket type if present', () => {
+    booking.ticket.type = 'Online';
+    const ticketType = BookingUtil.ticketType(booking.ticket);
+    expect(ticketType).toEqual(booking.ticket.type);
   });
 
-  it('should return an empty string when ticket types is null', () => {
-    const ticketTypes = BookingUtil.ticketTypes(booking.tickets);
-    expect(ticketTypes).toEqual('');
+  it('should return unknown when ticket type is not present', () => {
+    const ticketType = BookingUtil.ticketType(booking.ticket);
+    expect(ticketType).toEqual(UNKNOWN_TEXT);
   });
 
   it('should return the payment object if present', () => {

@@ -13,18 +13,11 @@
       "paymentMethod":"CC",
       "bookedAt":"2022-06-09T10:00:00Z",
       "checkInAt":"2022-06-12T13:00:00Z",
-      "tickets": [
-        {
-          "number": "TIC-1234",
-          "type": "ONE-WAY",
-          "price": null
-        },
-        {
-          "number": "TIC-7863-XZ",
-          "type": "RETURN",
-          "price": null
-        }
-      ],
+      "ticket":{
+        "number":"1234",
+        "type":"Return",
+        "price":"£25.00"
+      },
       "country":"GB",
       "payments":[
         {
@@ -190,7 +183,7 @@
   "risks":{
     "targetingIndicators":{
       "indicators":[
-
+        
       ],
       "count":0,
       "score":0

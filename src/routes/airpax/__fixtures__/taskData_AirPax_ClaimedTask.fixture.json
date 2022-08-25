@@ -30,21 +30,14 @@
         "paymentMethod":null,
         "bookedAt":null,
         "checkInAt":"2019-07-20T16:43:35Z",
-        "tickets": [
-          {
-            "number": "TIC-1234",
-            "type": "ONE-WAY",
-            "price": null
-          },
-          {
-            "number": "TIC-7863-XZ",
-            "type": "RETURN",
-            "price": null
-          }
-        ],
+        "ticket":{
+          "number":null,
+          "type":null,
+          "price":null
+        },
         "country":null,
         "payments":[
-
+          
         ],
         "agent":{
           "iata":"890534932",
@@ -114,7 +107,7 @@
         ]
       },
       "otherPersons":[
-
+        
       ],
       "flight":{
         "departureStatus":"DEPARTURE_CONFIRMED",
@@ -126,7 +119,7 @@
         "numberOfCheckedBags":null,
         "weight":null,
         "tags":[
-
+          
         ]
       },
       "vehicle":null,
@@ -168,13 +161,13 @@
             "Cash including AVTCs"
           ],
           "indicatorMatches":[
-
+            
           ]
         }
       ],
       "matchedSelectorGroups":{
         "groups":[
-
+          
         ],
         "totalNumberOfSelectors":0
       },
@@ -199,21 +192,14 @@
             "paymentMethod":null,
             "bookedAt":null,
             "checkInAt":"2019-07-20T16:43:35Z",
-            "tickets": [
-              {
-                "number": "TIC-1234",
-                "type": "ONE-WAY",
-                "price": null
-              },
-              {
-                "number": "TIC-7863-XZ",
-                "type": "RETURN",
-                "price": null
-              }
-            ],
+            "ticket":{
+              "number":null,
+              "type":null,
+              "price":null
+            },
             "country":null,
             "payments":[
-
+              
             ],
             "agent":{
               "iata":"890534932",
@@ -283,7 +269,7 @@
             ]
           },
           "otherPersons":[
-
+            
           ],
           "flight":{
             "departureStatus":"DEPARTURE_CONFIRMED",
@@ -295,7 +281,7 @@
             "numberOfCheckedBags":null,
             "weight":null,
             "tags":[
-
+              
             ]
           },
           "vehicle":null,
@@ -337,13 +323,13 @@
                 "Cash including AVTCs"
               ],
               "indicatorMatches":[
-
+                
               ]
             }
           ],
           "matchedSelectorGroups":{
             "groups":[
-
+              
             ],
             "totalNumberOfSelectors":0
           },
