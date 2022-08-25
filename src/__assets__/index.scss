@@ -5,6 +5,7 @@ $govuk-font-family: 'GDS Transport', arial, sans-serif !important;
 @import "~govuk-frontend/govuk/all";
 @import "formio";
 @import "utilities";
+@import "formbuilder-overrides";
 @import "c-icons";
 
 .govuk-width-container {
