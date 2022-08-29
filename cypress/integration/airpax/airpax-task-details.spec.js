@@ -758,6 +758,66 @@ describe('Verify AirPax task details of different sections', () => {
     });
   });
 
+  it('Should verify Baggage details of an AirPax task', () => {
+    cy.acceptPNRTerms();
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax.json').then((task) => {
+      task.data.movement.serviceMovement.attributes.attrs.checkedInCount = null;
+      task.data.movement.serviceMovement.attributes.attrs.checkedInWeight = null;
+      cy.createMovementId(task, taskName, null);
+      cy.createTargetingApiTask(task).then((response) => {
+        cy.wait(4000);
+        const businessKey = response.id;
+        const movementId = response.movement.id;
+        cy.checkAirPaxTaskDisplayed(businessKey);
+        cy.fixture('airpax/airpax-task-expected-details.json').then((expectedResponse) => {
+          expectedResponse.Baggage[0]['Checked bags'] = 'Unknown';
+          expectedResponse.Baggage[1]['Total weight'] = 'Unknown';
+          expectedResponse.Baggage[2]['Tag number'] = 'Unknown';
+          cy.contains('h3', 'Baggage').nextAll().within((elements) => {
+            cy.getairPaxTaskDetail(elements).then((details) => {
+              expect(details).to.deep.equal(expectedResponse.Baggage);
+            });
+          });
+        });
+        task.data.movement.serviceMovement.attributes.attrs.checkedInCount = null;
+        task.data.movement.serviceMovement.attributes.attrs.checkedInWeight = '0kg';
+        cy.createMovementId(task, null, movementId);
+        cy.createTargetingApiTask(task).then(() => {
+          cy.wait(4000);
+          cy.checkAirPaxTaskDisplayed(businessKey);
+          cy.fixture('airpax/airpax-task-expected-details.json').then((expectedResponse) => {
+            expectedResponse.Baggage[0]['Checked bags'] = 'Unknown';
+            expectedResponse.Baggage[1]['Total weight'] = '0kg';
+            expectedResponse.Baggage[2]['Tag number'] = 'Unknown';
+            cy.contains('h3', 'Baggage').nextAll().within((elements) => {
+              cy.getairPaxTaskDetail(elements).then((details) => {
+                expect(details).to.deep.equal(expectedResponse.Baggage);
+              });
+            });
+          });
+          task.data.movement.serviceMovement.attributes.attrs.checkedInCount = '1';
+          task.data.movement.serviceMovement.attributes.attrs.checkedInWeight = '23kg';
+          cy.createMovementId(task, null, movementId);
+          cy.createTargetingApiTask(task).then(() => {
+            cy.wait(4000);
+            cy.checkAirPaxTaskDisplayed(businessKey);
+            cy.fixture('airpax/airpax-task-expected-details.json').then((expectedResponse) => {
+              expectedResponse.Baggage[0]['Checked bags'] = '1';
+              expectedResponse.Baggage[1]['Total weight'] = '23kg';
+              expectedResponse.Baggage[2]['Tag number'] = '739238';
+              cy.contains('h3', 'Baggage').nextAll().within((elements) => {
+                cy.getairPaxTaskDetail(elements).then((details) => {
+                  expect(details).to.deep.equal(expectedResponse.Baggage);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));

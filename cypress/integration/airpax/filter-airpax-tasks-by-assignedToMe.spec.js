@@ -9,7 +9,7 @@ describe('Filter airpax tasks by Assignee', () => {
     const userId = Cypress.env('userName');
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax.json').then((task) => {
-      cy.createMovementId(task, taskName);
+      cy.createMovementId(task, taskName, null);
       cy.createTargetingApiTask(task).then((taskResponse) => {
         cy.wait(3000);
         const businessKey = taskResponse.id;
