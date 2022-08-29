@@ -2374,6 +2374,10 @@ Cypress.Commands.add('verifyFindTaskId', (businessKey) => {
   searchTaskList(businessKey);
 });
 
-Cypress.Commands.add('createMovementId', (task, taskName) => {
-  task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+Cypress.Commands.add('createMovementId', (task, taskName, movementId) => {
+  if (movementId === null) {
+    task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+  } else {
+    task.data.movementId = movementId;
+  }
 });
