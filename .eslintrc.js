@@ -67,20 +67,5 @@ module.exports = {
         'no-console': 'off',
       },
     },
-    // Cypress tests
-    {
-      files: ['*.spec.js', 'commands.js', 'index.js', 'cypress_runner.js'],
-      rules: {
-        'jest/valid-expect': 0,
-        'jest/valid-expect-in-promise': 0,
-        'jest/no-standalone-expect': 'off',
-        'jest/no-conditional-expect': 'off',
-        'no-unused-expressions': 'off',
-        'quote-props': 'off',
-        'cypress/no-unnecessary-waiting': 'off',
-        'no-console': 0,
-        'no-dupe-keys': 'off',
-      },
-    },
   ],
 };
