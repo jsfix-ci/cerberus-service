@@ -1266,20 +1266,6 @@
               "paymentAmount": "441.0"
             },
             {
-              "number": "1741815210698",
-              "issueDate": 17731,
-              "priceType": "T",
-              "currencyCode": "CAD",
-              "paymentAmount": "1095.24"
-            },
-            {
-              "number": "1718705911248",
-              "issueDate": 17731,
-              "priceType": "B",
-              "currencyCode": "CAD",
-              "paymentAmount": "441.0"
-            },
-            {
               "number": "1718705911248",
               "issueDate": 17731,
               "priceType": "T",
