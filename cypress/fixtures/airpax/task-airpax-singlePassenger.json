@@ -558,7 +558,6 @@
             "commonAPIPlus.SourceData.0.type": "PNR",
             "commonAPIPlus.manifestDetails.protocol": "MQ",
             "commonAPIPlus.manifestDetails.dataType": "PNR",
-            "commonAPIPlus.pnrDetails.pnrData.pnrDetail.passengerDetails.passenger.1.uniquePassengerId": "20058AB300012AD6",
             "commonAPIPlus.dcsDetails.dcsData.dcsRecord.ticketNumber": "AL12345",
             "bookingType": "Online",
             "paymentMethod": "CC",
@@ -1076,6 +1075,7 @@
           ],
           "itineraryTravel": [
             {
+              "voyage":{
               "type": "FLIGHT",
               "voyageType": null,
               "departureLocation": "CDG",
@@ -1093,8 +1093,12 @@
               "routeId": "AC0850",
               "carrier": null,
               "craftId": null
+              },
+               "numInParty": 1,
+              "bookingDate": 1531376040000
             },
             {
+              "voyage":{
               "type": "FLIGHT",
               "voyageType": null,
               "departureLocation": "YYZ",
@@ -1113,7 +1117,11 @@
               "carrier": null,
               "craftId": null
             },
+            "numInParty": 1,
+            "bookingDate": 1531376040000
+          },
             {
+              "voyage": {
               "type": "FLIGHT",
               "voyageType": null,
               "departureLocation": "YYC",
@@ -1131,7 +1139,10 @@
               "routeId": "XZ0123",
               "carrier": null,
               "craftId": null
-            }
+            },
+            "numInParty": 1,
+            "bookingDate": 1531376040000
+          }
           ],
           "payments": [
             {

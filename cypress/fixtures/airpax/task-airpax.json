@@ -950,11 +950,11 @@
           "type": "FLIGHT",
           "voyageType": null,
           "departureLocation": "LHR",
-          "departureCountry": null,
+          "departureCountry": "GB",
           "scheduledDepartureTimestamp": 1657456201000,
           "actualDepartureTimestamp": null,
           "arrivalLocation": "YYC",
-          "arrivalCountry": null,
+          "arrivalCountry": "CA",
           "scheduledArrivalTimestamp": 1657467001000,
           "actualArrivalTimestamp": null,
           "intermediateLocations": null,
@@ -1138,6 +1138,7 @@
           ],
           "itineraryTravel": [
             {
+              "voyage": { 
               "type": "FLIGHT",
               "voyageType": null,
               "departureLocation": "CDG",
@@ -1156,7 +1157,11 @@
               "carrier": null,
               "craftId": null
             },
+            "numInParty": 2,
+            "bookingDate": 1531376040000
+          },
             {
+              "voyage": {
               "type": "FLIGHT",
               "voyageType": null,
               "departureLocation": "YYZ",
@@ -1175,7 +1180,11 @@
               "carrier": null,
               "craftId": null
             },
+            "numInParty": 2,
+            "bookingDate": 1531376040000
+          },
             {
+              "voyage": {
               "type": "FLIGHT",
               "voyageType": null,
               "departureLocation": "YYC",
@@ -1193,7 +1202,10 @@
               "routeId": "XZ0123",
               "carrier": null,
               "craftId": null
-            }
+              },
+              "numInParty": 2,
+            "bookingDate": 1531376040000
+          }
           ],
           "payments": [
             {
@@ -1306,6 +1318,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage":{
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYC",
@@ -1323,7 +1336,10 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
               ]
             },
             {
@@ -1340,6 +1356,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage":{
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "CDG",
@@ -1357,7 +1374,10 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
               ]
             },
             {
@@ -1367,6 +1387,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYZ",
@@ -1384,8 +1405,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "A",
@@ -1394,6 +1418,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYC",
@@ -1411,8 +1436,11 @@
                   "routeId": "EF0123",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "X",
@@ -1421,6 +1449,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYC",
@@ -1438,8 +1467,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "A",
@@ -1448,6 +1480,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYC",
@@ -1465,8 +1498,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "A",
@@ -1482,6 +1518,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "CDG",
@@ -1499,8 +1536,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "A",
@@ -1509,6 +1549,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYZ",
@@ -1526,8 +1567,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "A",
@@ -1536,6 +1580,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYC",
@@ -1553,8 +1598,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             },
             {
               "status": "X",
@@ -1563,6 +1611,7 @@
               "contacts": [],
               "itineraryTravel": [
                 {
+                  "voyage": {
                   "type": "FLIGHT",
                   "voyageType": null,
                   "departureLocation": "YYC",
@@ -1580,8 +1629,11 @@
                   "routeId": "AC0850",
                   "carrier": null,
                   "craftId": null
-                }
-              ]
+                },
+                "numInParty": null,
+                "bookingDate": null
+              }
+            ]
             }
           ]
         },
