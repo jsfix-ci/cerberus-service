@@ -8,13 +8,7 @@
     "build:dev": "webpack --mode=development",
     "lint": "eslint -f table --ext=js,jsx -- .",
     "start": "webpack serve --mode=development",
-    "test": "jest --coverage -u",
-    "cypress:test:local": "node get_secrets.js local && cypress run",
-    "cypress:test:dev": "node get_secrets.js dev && cypress run",
-    "cypress:test:sit": "node get_secrets.js sit && cypress run",
-    "cypress:test:staging": "node get_secrets.js staging && cypress run",
-    "cypress:runner": "cypress open",
-    "cypress:test:report": "node cypress_runner"
+    "test": "jest --coverage -u"
   },
   "repository": {
     "type": "git",
@@ -37,7 +31,7 @@
     "classnames": "^2.3.1",
     "country-code-lookup": "0.0.20",
     "dayjs": "^1.11.5",
-    "dns-packet": "^5.3.0",
+    "dns-packet": "^5.4.0",
     "formiojs": "^4.14.7",
     "fs-extra": "^9.0.1",
     "govuk-frontend": "^3.14.0",
