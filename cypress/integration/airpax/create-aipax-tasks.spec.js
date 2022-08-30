@@ -122,7 +122,7 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
-  it.only('Should create an AirPax task with multiple passengers and check it on UI', () => {
+  it('Should create an AirPax task with multiple passengers and check it on UI', () => {
     const taskName = 'AIRPAX';
     cy.fixture('airpax/task-airpax-multiple-passengers.json').then((task) => {
       task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
