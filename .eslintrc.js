@@ -11,7 +11,6 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'plugin:jest/recommended',
     'plugin:react/recommended',
-    'plugin:cypress/recommended',
   ],
   parser: 'babel-eslint',
   globals: {
