@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/UKHomeOffice/cerberus-service#readme",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.37.0",
+    "@aws-sdk/client-secrets-manager": "^3.160.0",
     "@nitro-land/airport-codes": "^1.0.4",
     "@ukhomeoffice/cop-react-components": "^1.13.1",
     "@ukhomeoffice/cop-react-form-renderer": "^3.17.2",
