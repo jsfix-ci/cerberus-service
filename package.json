@@ -37,7 +37,7 @@
     "classnames": "^2.3.1",
     "country-code-lookup": "0.0.20",
     "dayjs": "^1.11.5",
-    "dns-packet": "^5.3.0",
+    "dns-packet": "^5.4.0",
     "formiojs": "^4.14.7",
     "fs-extra": "^9.0.1",
     "govuk-frontend": "^3.14.0",
