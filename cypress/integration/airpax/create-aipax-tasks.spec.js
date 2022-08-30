@@ -110,6 +110,30 @@ describe('Create AirPax task and verify it on UI', () => {
     });
   });
 
+  it('Should create an AirPax task with single passenger and check it on UI', () => {
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax-singlePassenger.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+  });
+
+  it('Should create an AirPax task with multiple passengers and check it on UI', () => {
+    const taskName = 'AIRPAX';
+    cy.fixture('airpax/task-airpax-multiple-passengers.json').then((task) => {
+      task.data.movementId = `${taskName}_${Math.floor((Math.random() * 1000000) + 1)}:CMID=TEST`;
+      cy.createTargetingApiTask(task).then((response) => {
+        expect(response.movement.id).to.contain('AIRPAX');
+        cy.wait(4000);
+        cy.checkAirPaxTaskDisplayed(`${response.id}`);
+      });
+    });
+  });
+
   after(() => {
     cy.contains('Sign out').click();
     cy.url().should('include', Cypress.env('auth_realm'));
