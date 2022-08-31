@@ -162,7 +162,7 @@ steps:
   - kd --file kube/cert.yml
   - kd --file kube/network-policy.yml
   - kd --file kube/service.yml
-  - kd --file kube/deployment.yml --timeout=5m
+  - kd --file kube/deployment.yml --timeout=15m
   - kd --file kube/ingress.yml
   environment:
     CERBERUS_UI_IMAGE: quay.io/ukhomeofficedigital/cerberus-ui-service
