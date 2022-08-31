@@ -437,12 +437,10 @@ const formDataToPrefillPayload = (formData) => {
       ...(formData?.issuingHub && { issuingHub: formData?.issuingHub }),
       ...(formData?.person && { person: addThumbUrl(formData?.person) }),
       ...(formData?.otherPersons?.length
-        && { otherPersons: formData?.otherPersons.map((person) => { return addThumbUrl(person); }) }),
+        && { otherPersons: formData?.otherPersons.map((person) => addThumbUrl(person)) }),
       ...(formData?.category && { category: formData?.category }),
       ...(formData?.warnings && { warnings: formData?.warnings }),
       ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
-      ...(formData?.arrivalPort && { arrivalPort: formData?.arrivalPort }),
-      ...(formData?.departurePort && { departurePort: formData?.departurePort }),
       ...(formData?.formStatus && { formStatus: formData?.formStatus }),
       ...(formData?.meta && { meta: formData?.meta }),
       ...(formData?.operation && { operation: formData?.operation }),

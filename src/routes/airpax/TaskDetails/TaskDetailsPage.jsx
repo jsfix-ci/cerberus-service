@@ -306,7 +306,8 @@ const TaskDetailsPage = () => {
             <TaskNotes
               noteVariant={MOVEMENT_VARIANT.AIRPAX}
               displayForm={assignee === currentUser
-                && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen}
+                && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen
+                && TASK_STATUS_IN_PROGRESS === formattedTaskStatus}
               businessKey={businessKey}
               setRefreshNotesForm={() => setRefreshNotesForm(!refreshNotesForm)}
               setError={setError}

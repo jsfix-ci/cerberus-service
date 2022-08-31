@@ -84,8 +84,6 @@ describe('Target Information Sheet', () => {
   it('should generate submission payload', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
-      'category',
-      'eventPort',
       'movement',
       'operation',
       'issuingHub',
@@ -101,14 +99,8 @@ describe('Target Information Sheet', () => {
   it('should convert the form submission data back to a form prefill data', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
-      'category',
-      'eventPort',
       'movement',
-      'operation',
-      'issuingHub',
-      'norminalChecks',
-      'submittingUser',
-      'meta'];
+    ];
 
     const prefillFormData = TargetInformationUtil.convertToPrefill(targetPrefillData);
 
@@ -139,21 +131,44 @@ describe('Target Information Sheet', () => {
     expect(submissionPayload.movement.journey).toMatchObject(EXPECTED);
   });
 
-  it('should populate the submission payload with the appropriate port based on movement direction', () => {
-    const EXPECTED_NODE_KEYS = [
-      'eventPort',
-    ];
+  it.each([
+    [
+      'INBOUND',
+      {
+        'id': 1897,
+        'name': 'Arrival Port',
+      },
+      {
+        'id': 1698,
+        'name': 'Departure Port',
+      },
+      ['eventPort'],
+      'arrivalPort',
+    ],
+    [
+      'OUTBOUND',
+      {
+        'id': 1897,
+        'name': 'Arrival Port',
+      },
+      {
+        'id': 1698,
+        'name': 'Departure Port',
+      },
+      ['eventPort'],
+      'departurePort',
+    ],
+  ])('should populate the submission payload with the appropriate port',
+    (direction, arrivalPort, departurePort, expectedPortNodeKey, portNodeKey) => {
+      const FORM_DATA = _.cloneDeep(tisSubmissionData);
+      FORM_DATA.movement.direction = direction;
+      FORM_DATA.movement.arrivalPort = arrivalPort;
+      FORM_DATA.movement.departurePort = departurePort;
 
-    const MOCK_FORM_DATA = _.cloneDeep(tisSubmissionData);
-    MOCK_FORM_DATA.movement.direction = 'INBOUND';
-    MOCK_FORM_DATA.movement.arrivalPort = {
-      'id': 1897,
-      'name': 'Rand Port',
-    };
+      const submissionPayload = TargetInformationUtil
+        .submissionPayload(targetData, FORM_DATA, keycloak, airPaxRefDataMode);
 
-    const submissionPayload = TargetInformationUtil
-      .submissionPayload(targetData, MOCK_FORM_DATA, keycloak, airPaxRefDataMode);
-
-    checkObjects(Object.keys(submissionPayload), EXPECTED_NODE_KEYS);
-  });
+      checkObjects(Object.keys(submissionPayload), expectedPortNodeKey);
+      expect(submissionPayload.eventPort).toMatchObject(FORM_DATA.movement[portNodeKey]);
+    });
 });
