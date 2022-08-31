@@ -7,6 +7,11 @@ import PersonUtil from './personUtil';
 import RisksUtil from './risksUtil';
 import { replaceInvalidValues } from '../../../utils/stringConversion';
 
+const DIRECTION = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND',
+};
+
 const addThumbUrl = (person) => {
   if (!person?.photograph?.url || !person?.photograph?.url?.startsWith('blob:')) {
     const file = person?.photograph?.file;
@@ -23,7 +28,7 @@ const addThumbUrl = (person) => {
   return person;
 };
 
-const toNorminalChecksSubmissionNode = (formData) => {
+const toNominalChecksSubmissionNode = (formData) => {
   return {
     nominalChecks: formData?.nominalChecks?.map((nominalCheck) => {
       return {
@@ -155,6 +160,20 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
   }
 };
 
+const toPortSubmissionNode = (formData) => {
+  const direction = formData?.movement?.direction;
+  if (direction === DIRECTION.INBOUND && formData?.movement?.arrivalPort) {
+    return {
+      eventPort: formData.movement.arrivalPort,
+    };
+  }
+  if (direction === DIRECTION.OUTBOUND && formData?.movement?.departurePort) {
+    return {
+      eventPort: formData.movement.departurePort,
+    };
+  }
+};
+
 const toTargetReceiptTeamNode = (formData) => {
   if (formData?.teamToReceiveTheTarget) {
     return {
@@ -163,7 +182,7 @@ const toTargetReceiptTeamNode = (formData) => {
   }
 };
 
-const toNorminalChecksNode = (formData) => {
+const toNominalChecksNode = (formData) => {
   if (formData?.nominalChecks?.length) {
     return {
       nominalChecks: formData?.nominalChecks,
@@ -344,9 +363,15 @@ const toIssuingHubNode = (formData) => {
 };
 
 const toPortNode = (formData) => {
-  if (formData?.eventPort) {
+  const direction = MovementUtil.direction(formData?.movement?.journey);
+  if (direction === DIRECTION.INBOUND && formData?.eventPort) {
     return {
-      eventPort: formData.eventPort,
+      arrivalPort: formData.eventPort,
+    };
+  }
+  if (direction === DIRECTION.OUTBOUND && formData?.eventPort) {
+    return {
+      departurePort: formData.eventPort,
     };
   }
 };
@@ -372,7 +397,7 @@ const toTisPrefillPayload = (informationSheet) => {
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
       ...toWarningsNode(informationSheet),
-      ...toNorminalChecksNode(informationSheet),
+      ...toNominalChecksNode(informationSheet),
       ...toTargetReceiptTeamNode(informationSheet),
     };
   }
@@ -384,7 +409,7 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
   if (formData) {
     submissionPayload = {
       ...toIdNode(formData),
-      ...toPortNode(formData),
+      ...toPortSubmissionNode(formData),
       ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
       ...toIssuingHubNode(formData),
       ...toTargetReceiptTeamNode(formData),
@@ -393,7 +418,7 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
       ...toOperationNode(formData),
       ...toSubmittingUserNode(formData, keycloak),
       ...toRisksSubmissionNode(formData),
-      ...toNorminalChecksSubmissionNode(formData),
+      ...toNominalChecksSubmissionNode(formData),
       form: {
         ...formData?.form,
       },
@@ -416,7 +441,8 @@ const formDataToPrefillPayload = (formData) => {
       ...(formData?.category && { category: formData?.category }),
       ...(formData?.warnings && { warnings: formData?.warnings }),
       ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
-      ...(formData?.eventPort && { eventPort: formData?.eventPort }),
+      ...(formData?.arrivalPort && { arrivalPort: formData?.arrivalPort }),
+      ...(formData?.departurePort && { departurePort: formData?.departurePort }),
       ...(formData?.formStatus && { formStatus: formData?.formStatus }),
       ...(formData?.meta && { meta: formData?.meta }),
       ...(formData?.operation && { operation: formData?.operation }),

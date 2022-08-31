@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 export default {
   id: 'cerberus-airpax-target-information-sheet',
-  version: '1.2.2',
+  version: '1.3.0',
   name: 'cerberus-airpax-target-information-sheet',
   title: 'Target Information Sheet (AirPax)',
   type: 'hub-and-spoke',
@@ -107,21 +107,6 @@ export default {
       },
     },
     {
-      id: 'eventPort',
-      fieldId: 'eventPort',
-      label: 'Port',
-      hint: 'The port that the target is scheduled to arrive at',
-      type: 'autocomplete',
-      item: {
-        value: 'id',
-        label: 'name',
-      },
-      required: true,
-      data: {
-        url: '${environmentContext.referenceDataUrl}/v2/entities/port?limit=500&skip=0&sort=name.asc&select=id,name&filter=countryid=eq.234&filter=air=eq.true&filter=nonoperational=eq.false&mode=dataOnly&validDateTime=true',
-      },
-    },
-    {
       id: 'movement',
       fieldId: 'movement',
       type: 'container',
@@ -158,6 +143,46 @@ export default {
                 label: 'Outbound',
               },
             ],
+          },
+        },
+        {
+          id: 'arrivalPort',
+          fieldId: 'arrivalPort',
+          label: 'Port',
+          hint: 'The port that the target is scheduled to arrive at',
+          type: 'autocomplete',
+          item: {
+            value: 'id',
+            label: 'name',
+          },
+          required: true,
+          data: {
+            url: '${environmentContext.referenceDataUrl}/v2/entities/port?skip=0&sort=name.asc&select=id,name&filter=countryid=eq.234&filter=air=eq.true&filter=nonoperational=eq.false&mode=dataOnly&validDateTime=true',
+          },
+          show_when: {
+            field: './direction',
+            op: 'eq',
+            value: 'INBOUND',
+          },
+        },
+        {
+          id: 'departurePort',
+          fieldId: 'departurePort',
+          label: 'Port',
+          hint: 'The port that the target is scheduled to depart from',
+          type: 'autocomplete',
+          item: {
+            value: 'id',
+            label: 'name',
+          },
+          required: true,
+          data: {
+            url: '${environmentContext.referenceDataUrl}/v2/entities/port?skip=0&sort=name.asc&select=id,name&filter=countryid=eq.234&filter=air=eq.true&filter=nonoperational=eq.false&mode=dataOnly&validDateTime=true',
+          },
+          show_when: {
+            field: './direction',
+            op: 'eq',
+            value: 'OUTBOUND',
           },
         },
         {
@@ -919,9 +944,6 @@ export default {
       components: [
         {
           use: 'issuingHub',
-        },
-        {
-          use: 'eventPort',
         },
       ],
       actions: [

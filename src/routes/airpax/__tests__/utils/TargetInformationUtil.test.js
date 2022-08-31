@@ -1,4 +1,5 @@
 /* eslint-disable jest/expect-expect */
+import _ from 'lodash';
 import { TargetInformationUtil } from '../../utils';
 
 import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
@@ -37,7 +38,7 @@ describe('Target Information Sheet', () => {
   });
 
   const checkObjects = (result, expected) => {
-    expect(expected.every((v) => result.includes(v)));
+    expect(expected.every((v) => result.includes(v))).toBeTruthy();
   };
 
   it('should generate prefill data', () => {
@@ -88,7 +89,7 @@ describe('Target Information Sheet', () => {
       'movement',
       'operation',
       'issuingHub',
-      'norminalChecks',
+      'nominalChecks',
       'submittingUser'];
 
     const submissionPayload = TargetInformationUtil
@@ -114,7 +115,7 @@ describe('Target Information Sheet', () => {
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
-  it('should generate the submission payload and the jouney node within it', () => {
+  it('should generate the submission payload and the journey node within it', () => {
     const EXPECTED = {
       id: 'BA103',
       direction: undefined,
@@ -136,5 +137,23 @@ describe('Target Information Sheet', () => {
     const submissionPayload = TargetInformationUtil
       .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
     expect(submissionPayload.movement.journey).toMatchObject(EXPECTED);
+  });
+
+  it('should populate the submission payload with the appropriate port based on movement direction', () => {
+    const EXPECTED_NODE_KEYS = [
+      'eventPort',
+    ];
+
+    const MOCK_FORM_DATA = _.cloneDeep(tisSubmissionData);
+    MOCK_FORM_DATA.movement.direction = 'INBOUND';
+    MOCK_FORM_DATA.movement.arrivalPort = {
+      'id': 1897,
+      'name': 'Rand Port',
+    };
+
+    const submissionPayload = TargetInformationUtil
+      .submissionPayload(targetData, MOCK_FORM_DATA, keycloak, airPaxRefDataMode);
+
+    checkObjects(Object.keys(submissionPayload), EXPECTED_NODE_KEYS);
   });
 });
