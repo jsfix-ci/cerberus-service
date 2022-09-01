@@ -209,6 +209,7 @@ steps:
     RORO_V2_VIEW_ENABLED: 'true'
   when:
     branch:
+    - release-candidate
     - roro-v2-migration
     event:
     - push
