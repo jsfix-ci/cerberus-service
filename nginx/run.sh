@@ -19,7 +19,6 @@ do
   sed -i 's,REPLACE_REFDATA_API_URL,'${REFDATA_API_URL}',g' $file
   sed -i 's,copTargetingApiEnabled:!1,copTargetingApiEnabled:'${COP_TARGETING_API_ENABLED}',g' $file
   sed -i 's,roroV2ViewEnabled:!1,roroV2ViewEnabled:'${RORO_V2_VIEW_ENABLED}',g' $file
-  cat $file
 done
 echo "== Finished ENV sub =="
 # --- End Insert ENV to JS bundle ---
