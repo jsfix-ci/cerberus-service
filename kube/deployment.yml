@@ -157,6 +157,8 @@ spec:
             value: "{{.NGINX_CONFIG_FILE}}"
           - name: REFDATA_API_URL
             value: "https://{{.REFDATA_API_URL}}"
+          - name: RORO_V2_VIEW_ENABLED
+            value: "{{.RORO_V2_VIEW_ENABLED}}"
       volumes:
       - name: certs
         secret:
