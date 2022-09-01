@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
@@ -8,6 +9,7 @@ import '../../__mocks__/keycloakMock';
 import { ApplicationContext } from '../../context/ApplicationContext';
 
 import TaskDetailsPage from './TaskDetailsPage';
+
 import dataCurrentUser from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import dataOtherUser from '../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
 import dataNoAssignee from '../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
@@ -17,6 +19,7 @@ import dataClaimedTask from '../../__fixtures__/taskData_AirPax_ClaimedTask.fixt
 import dataDismissedTask from '../../__fixtures__/taskData_AirPax_DismissedTask.json';
 
 import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import { TASK_STATUS } from '../../utils/constants';
 
 // Extend the react-router-dom mock from jest.setup.jsx.
 const extendedRouterMock = jest.requireMock('react-router-dom');
@@ -275,5 +278,17 @@ describe('Task details page', () => {
 
       expect(confirmMock).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('should not render notes form when task has been issued by the current user', async () => {
+    const MOCK_DATA = _.cloneDeep(dataCurrentUser);
+    MOCK_DATA.status = TASK_STATUS.ISSUED;
+
+    mockAxiosCalls(MOCK_DATA, {});
+
+    await waitFor(() => renderPage());
+
+    expect(screen.getAllByText('Overview')).toHaveLength(1);
+    expect(screen.queryByText('Add a new note')).not.toBeInTheDocument();
   });
 });

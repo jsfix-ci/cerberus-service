@@ -6,9 +6,9 @@ import axios from 'axios';
 
 // Config
 import config from '../../utils/config';
-import { TASK_STATUS,
+import { FORM_MESSAGES,
   MODE,
-  FORM_MESSAGES } from '../../utils/constants';
+  TASK_STATUS } from '../../utils/constants';
 
 import { ApplicationContext } from '../../context/ApplicationContext';
 
@@ -308,7 +308,8 @@ const TaskDetailsPage = () => {
             <TaskNotes
               noteVariant={MODE.AIRPAX}
               displayForm={assignee === currentUser
-                && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen}
+                && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen
+                && TASK_STATUS.IN_PROGRESS === formattedTaskStatus}
               businessKey={businessKey}
               setRefreshNotesForm={() => setRefreshNotesForm(!refreshNotesForm)}
               setError={setError}

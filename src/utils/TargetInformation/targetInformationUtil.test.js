@@ -1,5 +1,6 @@
 /* eslint-disable jest/expect-expect */
-import { TargetInformationUtil } from '../index';
+import _ from 'lodash';
+import { TargetInformationUtil } from '..';
 
 import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import targetPrefillData from '../../__fixtures__/targetData_AirPax_PrefillData.json';
@@ -37,7 +38,7 @@ describe('Target Information Sheet', () => {
   });
 
   const checkObjects = (result, expected) => {
-    expect(expected.every((v) => result.includes(v)));
+    expect(expected.every((v) => result.includes(v))).toBeTruthy();
   };
 
   it('should generate prefill data', () => {
@@ -83,12 +84,10 @@ describe('Target Information Sheet', () => {
   it('should generate submission payload', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
-      'category',
-      'eventPort',
       'movement',
       'operation',
       'issuingHub',
-      'norminalChecks',
+      'nominalChecks',
       'submittingUser'];
 
     const submissionPayload = TargetInformationUtil
@@ -100,21 +99,15 @@ describe('Target Information Sheet', () => {
   it('should convert the form submission data back to a form prefill data', () => {
     const EXPECTED_NODE_KEYS = [
       'id',
-      'category',
-      'eventPort',
       'movement',
-      'operation',
-      'issuingHub',
-      'norminalChecks',
-      'submittingUser',
-      'meta'];
+    ];
 
     const prefillFormData = TargetInformationUtil.convertToPrefill(targetPrefillData);
 
     checkObjects(Object.keys(prefillFormData), EXPECTED_NODE_KEYS);
   });
 
-  it('should generate the submission payload and the jouney node within it', () => {
+  it('should generate the submission payload and the journey node within it', () => {
     const EXPECTED = {
       id: 'BA103',
       direction: undefined,
@@ -137,4 +130,45 @@ describe('Target Information Sheet', () => {
       .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
     expect(submissionPayload.movement.journey).toMatchObject(EXPECTED);
   });
+
+  it.each([
+    [
+      'INBOUND',
+      {
+        'id': 1897,
+        'name': 'Arrival Port',
+      },
+      {
+        'id': 1698,
+        'name': 'Departure Port',
+      },
+      ['eventPort'],
+      'arrivalPort',
+    ],
+    [
+      'OUTBOUND',
+      {
+        'id': 1897,
+        'name': 'Arrival Port',
+      },
+      {
+        'id': 1698,
+        'name': 'Departure Port',
+      },
+      ['eventPort'],
+      'departurePort',
+    ],
+  ])('should populate the submission payload with the appropriate port',
+    (direction, arrivalPort, departurePort, expectedPortNodeKey, portNodeKey) => {
+      const FORM_DATA = _.cloneDeep(tisSubmissionData);
+      FORM_DATA.movement.direction = direction;
+      FORM_DATA.movement.arrivalPort = arrivalPort;
+      FORM_DATA.movement.departurePort = departurePort;
+
+      const submissionPayload = TargetInformationUtil
+        .submissionPayload(targetData, FORM_DATA, keycloak, airPaxRefDataMode);
+
+      checkObjects(Object.keys(submissionPayload), expectedPortNodeKey);
+      expect(submissionPayload.eventPort).toMatchObject(FORM_DATA.movement[portNodeKey]);
+    });
 });
