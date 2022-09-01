@@ -149,7 +149,6 @@ steps:
   when:
     branch:
     - release-candidate
-    - roro-v2-migration
     event:
     - push
 
@@ -211,7 +210,6 @@ steps:
   when:
     branch:
     - release-candidate
-    - roro-v2-migration
     event:
     - push
 
