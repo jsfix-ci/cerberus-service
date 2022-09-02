@@ -5,12 +5,12 @@ exports[`Commons Utils should render a jsx block from given 1`] = `
   className="govuk-!-margin-bottom-2"
 >
   <p
-    className="govuk-!-margin-bottom-0 font__light"
+    className="govuk-!-margin-bottom-0 font__light undefined"
   >
     Reference
   </p>
   <p
-    className="govuk-!-margin-bottom-0 font__bold"
+    className="govuk-!-margin-bottom-0 font__bold undefined"
   >
     TR-172653
   </p>

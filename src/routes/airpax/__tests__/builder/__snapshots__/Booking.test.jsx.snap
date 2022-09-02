@@ -16,12 +16,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Reference
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         LSV4UV
       </p>
@@ -30,12 +30,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Number of travellers
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         0
       </p>
@@ -44,17 +44,17 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Booking date
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Unknown
       </p>
@@ -63,17 +63,17 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Check-in date
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Unknown
       </p>
@@ -82,12 +82,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Booking country
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown (Unknown)
       </p>
@@ -96,12 +96,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Booking type
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
@@ -110,12 +110,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Ticket number
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         TIC-1234, TIC-7863-XZ
       </p>
@@ -124,12 +124,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Ticket type
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         ONE-WAY, RETURN
       </p>
@@ -185,12 +185,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Agent IATA
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
@@ -199,12 +199,12 @@ exports[`Booking should render the booking component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Agent location
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>

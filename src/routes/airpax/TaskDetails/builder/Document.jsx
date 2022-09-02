@@ -10,10 +10,20 @@ import {
 
 import renderBlock from './helper/common';
 
-const Document = ({ version }) => {
+const Document = ({ version, versionDiff }) => {
   const person = PersonUtil.get(version);
+  const personDiff = PersonUtil.get(versionDiff);
   const document = DocumentUtil.get(person);
+  const documentDiff = DocumentUtil.get(personDiff);
   const journey = getJourney(version);
+  const journeyDiff = getJourney(versionDiff);
+  const documentJourneyDiff = { ...documentDiff, ...journeyDiff };
+
+  console.log('VERSION DIFF ', versionDiff);
+  console.log('PERSON DIFF ', personDiff);
+  console.log('DOCUMENT DIFF ', documentDiff);
+  console.log('JOURNEY DIFF ', journeyDiff);
+  console.log('DOCUMENT AND JOURNEY DIFF ', documentJourneyDiff);
 
   return (
     <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">

@@ -158,12 +158,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light false"
                 >
                   Name
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold false"
                 >
                   MESTA, GEMMA
                 </p>
@@ -172,19 +172,19 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 />
               </div>
               <div
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Date of birth
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
@@ -193,12 +193,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Age at travel
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
@@ -207,12 +207,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Gender
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
@@ -221,12 +221,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Nationality
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown (Unknown)
                 </p>
@@ -235,12 +235,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Departure status
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   <span>
                     Unknown
@@ -251,19 +251,19 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 />
               </div>
               <div
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Frequent flyer number
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   579419193A
                 </p>
@@ -272,19 +272,19 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 />
               </div>
               <div
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   SSR codes
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   DOCS, AUTH
                 </p>
@@ -306,12 +306,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Type
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Passport
                 </p>
@@ -320,12 +320,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Number
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   1234567
                 </p>
@@ -334,12 +334,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Document nationality
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   France (FRA)
                 </p>
@@ -348,12 +348,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Country of issue
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   France (FRA)
                 </p>
@@ -362,17 +362,17 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Valid from
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   14 Apr 1970
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   52 years before travel
                 </p>
@@ -381,17 +381,17 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Valid To
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Unknown
                 </p>
@@ -400,12 +400,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Name
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   MESTA, GEMMA
                 </p>
@@ -414,12 +414,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Date of birth
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
@@ -446,12 +446,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Checked bags
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
@@ -460,12 +460,12 @@ exports[`TaskVersions should render task versions 1`] = `
                 className="govuk-!-margin-bottom-2"
               >
                 <p
-                  className="govuk-!-margin-bottom-0 font__light"
+                  className="govuk-!-margin-bottom-0 font__light undefined"
                 >
                   Total weight
                 </p>
                 <p
-                  className="govuk-!-margin-bottom-0 font__bold"
+                  className="govuk-!-margin-bottom-0 font__bold undefined"
                 >
                   Unknown
                 </p>
@@ -510,12 +510,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Reference
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     LSV4UV
                   </p>
@@ -524,12 +524,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Number of travellers
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     0
                   </p>
@@ -538,17 +538,17 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Booking date
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Unknown
                   </p>
@@ -557,17 +557,17 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Check-in date
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Unknown
                   </p>
@@ -576,12 +576,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Booking country
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown (Unknown)
                   </p>
@@ -590,12 +590,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Booking type
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown
                   </p>
@@ -604,12 +604,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Ticket number
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     TIC-1234, TIC-7863-XZ
                   </p>
@@ -618,12 +618,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Ticket type
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     ONE-WAY, RETURN
                   </p>
@@ -679,12 +679,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Agent IATA
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown
                   </p>
@@ -693,12 +693,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Agent location
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown
                   </p>
@@ -728,17 +728,17 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Departure from
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     YYC
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Calgary, Canada
                   </p>
@@ -747,12 +747,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Departure time
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Wed 3 Oct 2018 at 18:32
                   </p>
@@ -761,17 +761,17 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Arrival at
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     LHR
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     London, United Kingdom
                   </p>
@@ -780,12 +780,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Arrival time
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Wed 3 Oct 2018 at 21:19
                   </p>
@@ -794,12 +794,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Scheduled flight time
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     2h 46m
                   </p>
@@ -808,12 +808,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Flight code
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     AC0850
                   </p>
@@ -822,12 +822,12 @@ exports[`TaskVersions should render task versions 1`] = `
                   className="govuk-!-margin-bottom-2"
                 >
                   <p
-                    className="govuk-!-margin-bottom-0 font__light"
+                    className="govuk-!-margin-bottom-0 font__light undefined"
                   >
                     Operator
                   </p>
                   <p
-                    className="govuk-!-margin-bottom-0 font__bold"
+                    className="govuk-!-margin-bottom-0 font__bold undefined"
                   >
                     Unknown
                   </p>

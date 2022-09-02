@@ -15,6 +15,8 @@ from '../../../constants';
 
 import { ApplicationContext } from '../../../context/ApplicationContext';
 
+import mockData from '../__fixtures__/testDiffs';
+
 // Utils
 import useAxiosInstance from '../../../utils/axiosInstance';
 import { useKeycloak } from '../../../utils/keycloak';
@@ -80,8 +82,11 @@ const TaskDetailsPage = () => {
       const response = await apiClient.get(`/targeting-tasks/${businessKey}`);
       const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(response.data.versions);
       setTaskData({
-        ...response.data, taskVersionDifferencesCounts: differencesCounts,
+        ...mockData, taskVersionDifferencesCounts: differencesCounts,
       });
+      // setTaskData({
+      //   ...response.data, taskVersionDifferencesCounts: differencesCounts,
+      // });
     } catch (e) {
       setError(e.message);
       setTaskData({});

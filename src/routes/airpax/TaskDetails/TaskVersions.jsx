@@ -2,6 +2,8 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
+
+import { diff } from 'jsondiffpatch';
 // Constants
 import { LONG_DATE_FORMAT } from '../../../constants';
 // Components/govuk
@@ -18,14 +20,30 @@ import SelectorMatches from './builder/SelectorMatches';
 import RuleMatches from './builder/RuleMatches';
 import TaskSummary from './TaskSummary';
 
-const renderVersionDetails = (version) => {
+const getPreviousVersion = (taskVersions, index) => {
+  if (taskVersions.length === 1 || index === taskVersions.length - 1) {
+    return undefined;
+  }
+  return taskVersions[index + 1];
+};
+
+const getVersionDiff = (versions, currentVersion, index) => {
+  const previousVersion = getPreviousVersion(versions, index);
+  if (!previousVersion) {
+    return undefined;
+  }
+  // console.log("DIFF ", diff(currentVersion, previousVersion));
+  return diff(currentVersion, previousVersion);
+};
+
+const renderVersionDetails = (version, versionDiff) => {
   return (
     <>
       <TaskSummary version={version} />
       <div className="govuk-task-details-grid">
         <div className="govuk-grid-column-one-third">
-          <Passenger version={version} />
-          <Document version={version} />
+          <Passenger version={version} versionDiff={versionDiff} />
+          <Document version={version} versionDiff={versionDiff} />
           <Baggage version={version} />
         </div>
         <div className="govuk-grid-column-one-third vertical-dotted-line__first">
@@ -62,7 +80,8 @@ const TaskVersions = ({ taskVersions, businessKey, taskVersionDifferencesCounts 
       items={
         taskVersions.map((version, index) => {
           const threatLevel = version.risks.highestThreatLevel;
-          const sections = renderVersionDetails(version);
+          const versionDiff = getVersionDiff(taskVersions, version, index);
+          const sections = renderVersionDetails(version, versionDiff);
           return {
             expanded: index === 0,
             heading: `Version ${version.number}${index === 0 ? ' (latest)' : ''}`,

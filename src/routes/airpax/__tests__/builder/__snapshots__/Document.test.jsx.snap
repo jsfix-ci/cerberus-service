@@ -16,12 +16,12 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Type
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
@@ -30,12 +30,12 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Number
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
@@ -44,12 +44,12 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Document nationality
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
@@ -58,12 +58,12 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Country of issue
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
@@ -72,17 +72,17 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Valid from
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Unknown
       </p>
@@ -91,17 +91,17 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Valid To
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Unknown
       </p>
@@ -110,12 +110,12 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Name
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         MESTA, GEMMA
       </p>
@@ -124,12 +124,12 @@ exports[`Document should render the document component 1`] = `
       className="govuk-!-margin-bottom-2"
     >
       <p
-        className="govuk-!-margin-bottom-0 font__light"
+        className="govuk-!-margin-bottom-0 font__light undefined"
       >
         Date of birth
       </p>
       <p
-        className="govuk-!-margin-bottom-0 font__bold"
+        className="govuk-!-margin-bottom-0 font__bold undefined"
       >
         Unknown
       </p>
