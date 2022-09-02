@@ -4,7 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import '../../__mocks__/keycloakMock';
 import ClaimUnclaimTask from './ClaimUnclaimTask';
-import { TASK_LIST_PATHS } from '../../utils/constants';
+import { PATHS } from '../../utils/constants';
 
 describe('Claim/Unclaim task buttons', () => {
   const mockAxios = new MockAdapter(axios);
@@ -24,7 +24,7 @@ describe('Claim/Unclaim task buttons', () => {
     render(<ClaimUnclaimTask
       assignee={targetTask.assignee}
       businessKey={targetTask.id}
-      source={TASK_LIST_PATHS.AIRPAX}
+      source={PATHS.AIRPAX}
       buttonType="button"
     />);
 
@@ -43,7 +43,7 @@ describe('Claim/Unclaim task buttons', () => {
     render(<ClaimUnclaimTask
       assignee={targetTask.assignee}
       businessKey={targetTask.id}
-      source={TASK_LIST_PATHS.RORO_V2}
+      source={PATHS.RORO_V2}
       buttonType="button"
     />);
 
@@ -63,7 +63,7 @@ describe('Claim/Unclaim task buttons', () => {
       currentUser={currentUser}
       assignee={targetTask.assignee}
       businessKey={targetTask.id}
-      source={TASK_LIST_PATHS.AIRPAX}
+      source={PATHS.AIRPAX}
       buttonType="button"
     />);
 
@@ -82,7 +82,7 @@ describe('Claim/Unclaim task buttons', () => {
     render(<ClaimUnclaimTask
       assignee={targetTask.assignee}
       businessKey={targetTask.id}
-      source={TASK_LIST_PATHS.RORO_V2}
+      source={PATHS.RORO_V2}
       buttonType="button"
     />);
 
@@ -101,7 +101,7 @@ describe('Claim/Unclaim task buttons', () => {
       currentUser={currentUser}
       assignee={targetTask.assignee}
       businessKey={targetTask.id}
-      source={TASK_LIST_PATHS.RORO_V2}
+      source={PATHS.RORO_V2}
       buttonType="button"
     />);
 
@@ -120,7 +120,7 @@ describe('Claim/Unclaim task buttons', () => {
     render(<ClaimUnclaimTask
       assignee={targetTask.assignee}
       businessKey={targetTask.id}
-      source={TASK_LIST_PATHS.AIRPAX}
+      source={PATHS.AIRPAX}
       buttonType="button"
     />);
 

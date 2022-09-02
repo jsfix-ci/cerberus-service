@@ -2,7 +2,7 @@ import { LOCAL_STORAGE_KEYS,
   MODE,
   MOVEMENT_MODES,
   STRINGS,
-  TASK_LIST_PATHS } from '../../utils/constants';
+  PATHS } from '../../utils/constants';
 import { VIEW } from '../../utils/Common/commonUtil';
 import config from '../../utils/config';
 
@@ -66,18 +66,18 @@ const DEFAULTS = {
       title: STRINGS.TASK_MANAGEMENT_INLINE_HEADERS.AIRPAX,
       links: [
         {
-          url: TASK_LIST_PATHS.RORO,
+          url: PATHS.RORO,
           label: STRINGS.TASK_LINK_HEADERS.RORO_V1,
           show: true,
         },
         {
-          url: TASK_LIST_PATHS.RORO_V2,
+          url: PATHS.RORO_V2,
           label: STRINGS.TASK_LINK_HEADERS.RORO_V2,
           show: config.roroV2ViewEnabled,
         },
       ],
     },
-    redirectPath: TASK_LIST_PATHS.AIRPAX,
+    redirectPath: PATHS.AIRPAX,
     sortParams: [
       {
         field: 'WINDOW_OF_OPPORTUNITY',
@@ -159,18 +159,18 @@ const DEFAULTS = {
       title: STRINGS.TASK_MANAGEMENT_INLINE_HEADERS.RORO_V2,
       links: [
         {
-          url: TASK_LIST_PATHS.RORO,
+          url: PATHS.RORO,
           label: STRINGS.TASK_LINK_HEADERS.RORO_V1,
           show: true,
         },
         {
-          url: TASK_LIST_PATHS.AIRPAX,
+          url: PATHS.AIRPAX,
           label: STRINGS.TASK_LINK_HEADERS.AIRPAX,
           show: config.copTargetingApiEnabled,
         },
       ],
     },
-    redirectPath: TASK_LIST_PATHS.RORO_V2,
+    redirectPath: PATHS.RORO_V2,
     sortParams: [
       {
         field: 'ARRIVAL_TIME',

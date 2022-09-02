@@ -7,14 +7,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { TASK_STATUS, TASK_LIST_PATHS } from '../../utils/constants';
+import { TASK_STATUS, PATHS } from '../../utils/constants';
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 
 const Tabs = ({
   id, idPrefix, className, title, items, onTabClick, tabIndex, ...attributes
 }) => {
   const location = useLocation();
-  const isTaskListPage = TASK_LIST_PATHS.ALL_TASK_LIST.includes(location.pathname);
+  const isTaskListPage = PATHS.TASK_LISTS().includes(location.pathname);
   const { selectedTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
   const indexToUse = isTaskListPage ? (selectedTabIndex || 0) : 0;
   const [currentTabIndex, setCurrentTabIndex] = useState(indexToUse);

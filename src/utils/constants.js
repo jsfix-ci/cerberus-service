@@ -363,12 +363,18 @@ export const FORM_ACTIONS = {
   NEXT: 'next',
 };
 
-export const TASK_LIST_PATHS = {
+export const PATHS = {
   AIRPAX: '/airpax/tasks',
-  ISSUE_TARGET: '/issue-target',
   RORO: '/tasks',
   RORO_V2: '/roro/tasks',
-  ALL_TASK_LIST: ['/tasks', '/roro/v2/tasks', '/airpax/tasks'],
+  ISSUE_TARGET: '/issue-target',
+  TASK_LISTS() {
+    return [
+      this.RORO,
+      this.RORO_V2,
+      this.AIRPAX,
+    ];
+  },
 };
 
 export const STATUS_CODES = {

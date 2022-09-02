@@ -1,4 +1,4 @@
-import { STRINGS, TASK_LIST_PATHS } from '../constants';
+import { STRINGS, PATHS } from '../constants';
 import CommonUtil, { VIEW } from './commonUtil';
 
 describe('CommonUtil', () => {
@@ -39,9 +39,9 @@ describe('CommonUtil', () => {
   });
 
   it.each([
-    [TASK_LIST_PATHS.AIRPAX, VIEW.AIRPAX],
-    [TASK_LIST_PATHS.RORO, VIEW.RORO],
-    [TASK_LIST_PATHS.RORO_V2, VIEW.RORO_V2],
+    [PATHS.AIRPAX, VIEW.AIRPAX],
+    [PATHS.RORO, VIEW.RORO],
+    [PATHS.RORO_V2, VIEW.RORO_V2],
     [undefined, VIEW.RORO],
   ])('should return the view based on the path', (path, expected) => {
     expect(CommonUtil.viewByPath(path)).toEqual(expected);
