@@ -47,7 +47,7 @@ const TaskListPage = () => {
   const [storedFilters, setStoredFilters] = useState(null);
   const [hasSelectors, setHasSelectors] = useState(null);
   const [movementModesSelected, setMovementModesSelected] = useState([]);
-  const { selectTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
+  const { selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
 
   let filterPosition = 0;
 
@@ -281,7 +281,7 @@ const TaskListPage = () => {
         {config.roroV2ViewEnabled && (
           <Link
             className="roro-task-link"
-            onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
+            onClick={() => selectTaskManagementTabIndex(0)}
             to={PATHS.RORO_V2}
           >
             {STRINGS.TASK_LINK_HEADERS.RORO_V2}
@@ -290,7 +290,7 @@ const TaskListPage = () => {
         {config.copTargetingApiEnabled && (
         <Link
           className="airpax-task-link"
-          onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
+          onClick={() => selectTaskManagementTabIndex(0)}
           to={PATHS.AIRPAX}
         >
           {STRINGS.TASK_LINK_HEADERS.AIRPAX}
