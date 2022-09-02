@@ -219,8 +219,7 @@ describe('TaskListPage', () => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     mockAxios.reset();
     tabData = {
-      selectedTabIndex: 0,
-      selectTabIndex: jest.fn(),
+      taskManagementTabIndex: 0,
       selectTaskManagementTabIndex: jest.fn(),
     };
   });
@@ -300,7 +299,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 0, selectTaskManagementTabIndex: jest.fn() }, 'new')));
 
     await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/business:key=a_b_c`));
     await waitFor(() => expect(screen.getAllByText('View details')[1].href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
@@ -316,7 +315,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataInProgress);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 1, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'inProgress')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 1, selectTaskManagementTabIndex: jest.fn() }, 'inProgress')));
     await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/business:key=d_e_f`));
     await waitFor(() => expect(screen.getAllByText('View details')[1].href).toBe(`${envUrl}/tasks/business:key=d_e_f123`));
     await waitFor(() => expect(screen.getAllByText('View details')[2].href).toBe(`${envUrl}/tasks/business:key=d_e_f234`));
@@ -329,7 +328,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataIssued);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 2, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'issued')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 2, selectTaskManagementTabIndex: jest.fn() }, 'issued')));
     await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/ghi`));
   });
 
@@ -340,7 +339,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataComplete);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'completed')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 3, selectTaskManagementTabIndex: jest.fn() }, 'completed')));
     await waitFor(() => expect(screen.getAllByText('View details')[0].href).toBe(`${envUrl}/tasks/jkl`));
   });
 
@@ -363,7 +362,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataInProgress);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 1, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'inProgress')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 1, selectTaskManagementTabIndex: jest.fn() }, 'inProgress')));
 
     fireEvent.click(screen.getByRole('link', { name: /In progress/i }));
 
@@ -378,7 +377,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataIssued);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 2, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'issued')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 2, selectTaskManagementTabIndex: jest.fn() }, 'issued')));
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
 
@@ -393,7 +392,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataComplete);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'complete')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 3, selectTaskManagementTabIndex: jest.fn() }, 'complete')));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
 
@@ -408,7 +407,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 0, selectTaskManagementTabIndex: jest.fn() }, 'new')));
 
     expect(screen.getAllByText('Local ref')).toHaveLength(1);
     expect(screen.getAllByText('B')).toHaveLength(1);
@@ -425,7 +424,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 0, selectTaskManagementTabIndex: jest.fn() }, 'new')));
 
     expect(screen.getAllByText('2 indicators')).toHaveLength(1);
     expect(screen.getAllByText('Paid by cash')).toHaveLength(1);
@@ -439,7 +438,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 0, selectTaskManagementTabIndex: jest.fn() }, 'new')));
 
     expect(screen.getAllByText('Risk Score: 25')).toHaveLength(1);
   });
@@ -582,7 +581,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataComplete);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'complete')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 3, selectTaskManagementTabIndex: jest.fn() }, 'complete')));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
 
@@ -596,7 +595,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataComplete);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 3, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'complete')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 3, selectTaskManagementTabIndex: jest.fn() }, 'complete')));
 
     fireEvent.click(screen.getByRole('link', { name: /Complete/i }));
 
@@ -610,7 +609,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListDataIssued);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 2, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'issued')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 2, selectTaskManagementTabIndex: jest.fn() }, 'issued')));
 
     fireEvent.click(screen.getByRole('link', { name: /Issued/i }));
 
@@ -778,7 +777,7 @@ describe('TaskListPage', () => {
       .onPost('/targeting-tasks/pages')
       .reply(200, taskListData);
 
-    await waitFor(() => render(setTabAndTaskValues({ selectedTabIndex: 0, selectTabIndex: jest.fn(), selectTaskManagementTabIndex: jest.fn() }, 'new')));
+    await waitFor(() => render(setTabAndTaskValues({ taskManagementTabIndex: 0, selectTaskManagementTabIndex: jest.fn() }, 'new')));
 
     expect(screen.queryAllByText('Showing 1 - 100 of 150 results')).toHaveLength(2);
     expect(screen.queryAllByText('Next')).toHaveLength(2);

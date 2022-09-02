@@ -11,8 +11,8 @@ import { TASK_STATUS } from '../../../utils/constants';
 describe('TaskListFilters', () => {
   const mockAxios = new MockAdapter(axios);
   const tabData = {
-    selectedTabIndex: 1,
-    selectTabIndex: jest.fn(),
+    taskManagementTabIndex: 1,
+    setTaskManagementTabIndex: jest.fn(),
   };
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => {});

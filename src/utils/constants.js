@@ -62,6 +62,13 @@ export const TASK_STATUS = {
   UPDATED: 'Updated',
 };
 
+export const TASK_STATUS_BY_INDEX = {
+  0: TASK_STATUS.NEW,
+  1: TASK_STATUS.IN_PROGRESS,
+  2: TASK_STATUS.ISSUED,
+  3: TASK_STATUS.COMPLETE,
+};
+
 export const TASK_OUTCOME = {
   POSITIVE: 'positive',
   NEGATIVE: 'negative',
