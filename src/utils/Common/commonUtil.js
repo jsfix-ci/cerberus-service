@@ -1,6 +1,6 @@
 import lookup from 'country-code-lookup';
 
-import { STRINGS, TASK_LIST_PATHS } from '../constants';
+import { STRINGS, PATHS } from '../constants';
 import { getLocalStoredItemByKeyValue } from '../Storage/storageUtil';
 
 export const VIEW = {
@@ -12,13 +12,13 @@ export const VIEW = {
 
 const getViewByPath = (path) => {
   switch (path) {
-    case TASK_LIST_PATHS.RORO: {
+    case PATHS.RORO: {
       return VIEW.RORO;
     }
-    case TASK_LIST_PATHS.AIRPAX: {
+    case PATHS.AIRPAX: {
       return VIEW.AIRPAX;
     }
-    case TASK_LIST_PATHS.RORO_V2: {
+    case PATHS.RORO_V2: {
       return VIEW.RORO_V2;
     }
     default: {

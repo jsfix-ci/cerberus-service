@@ -12,7 +12,7 @@ import { ViewContext } from '../../../context/ViewContext';
 
 import TaskListPage from '../TaskListPage';
 
-import { LOCAL_STORAGE_KEYS, TASK_LIST_PATHS, TASK_STATUS } from '../../../utils/constants';
+import { LOCAL_STORAGE_KEYS, PATHS, TASK_STATUS } from '../../../utils/constants';
 import { VIEW } from '../../../utils/Common/commonUtil';
 
 // Fixture
@@ -26,7 +26,7 @@ import refDataAirlineCodes from '../../../__fixtures__/taskData_Airpax_AirlineCo
 describe('Airpax.TaskListPage', () => {
   // Extend the react-router-dom mock from jest.setup.jsx.
   const extendedRouterMock = jest.requireMock('react-router-dom');
-  extendedRouterMock.useLocation = jest.fn(() => ({ pathname: TASK_LIST_PATHS.AIRPAX }));
+  extendedRouterMock.useLocation = jest.fn(() => ({ pathname: PATHS.AIRPAX }));
 
   const mockAxios = new MockAdapter(axios);
 

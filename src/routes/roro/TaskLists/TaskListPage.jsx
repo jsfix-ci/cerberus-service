@@ -10,7 +10,7 @@ import {
   LOCAL_STORAGE_KEYS,
   RORO_FILTERS, STRINGS,
   TAB_STATUS_MAPPING,
-  TARGETER_GROUP, TASK_LIST_PATHS,
+  TARGETER_GROUP, PATHS,
   TASK_STATUS,
 } from '../../../utils/constants';
 import config from '../../../utils/config';
@@ -282,7 +282,7 @@ const TaskListPage = () => {
           <Link
             className="roro-task-link"
             onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
-            to={TASK_LIST_PATHS.RORO_V2}
+            to={PATHS.RORO_V2}
           >
             {STRINGS.TASK_LINK_HEADERS.RORO_V2}
           </Link>
@@ -291,7 +291,7 @@ const TaskListPage = () => {
         <Link
           className="airpax-task-link"
           onClick={() => { selectTabIndex(0); selectTaskManagementTabIndex(0); }}
-          to={TASK_LIST_PATHS.AIRPAX}
+          to={PATHS.AIRPAX}
         >
           {STRINGS.TASK_LINK_HEADERS.AIRPAX}
         </Link>

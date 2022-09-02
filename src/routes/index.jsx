@@ -16,7 +16,7 @@ import RoRoIssueTargetPageV1 from './roro/IssueTargetPage';
 
 // Hooks
 import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/Hooks/hooks';
-import { TASK_LIST_PATHS } from '../utils/constants';
+import { PATHS } from '../utils/constants';
 
 const AppRouter = () => {
   const keycloak = useKeycloak();
@@ -51,33 +51,33 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <PnrAccessRequest>
-        <Route path="/" exact><Redirect to={TASK_LIST_PATHS.RORO} /></Route>
-        <Route path={TASK_LIST_PATHS.RORO} exact><Layout><RoRoTaskListPageV1 /></Layout></Route>
-        <Route path={`${TASK_LIST_PATHS.RORO}/:businessKey`} exact>
-          <Layout beforeMain={<Link className="govuk-back-link" to={TASK_LIST_PATHS.RORO}>Back to task list</Link>}>
+        <Route path="/" exact><Redirect to={PATHS.RORO} /></Route>
+        <Route path={PATHS.RORO} exact><Layout><RoRoTaskListPageV1 /></Layout></Route>
+        <Route path={`${PATHS.RORO}/:businessKey`} exact>
+          <Layout beforeMain={<Link className="govuk-back-link" to={PATHS.RORO}>Back to task list</Link>}>
             <RoRoTaskDetailsPageV1 />
           </Layout>
         </Route>
-        <Route path={TASK_LIST_PATHS.ISSUE_TARGET} exact><Layout><RoRoIssueTargetPageV1 /></Layout></Route>
+        <Route path={PATHS.ISSUE_TARGET} exact><Layout><RoRoIssueTargetPageV1 /></Layout></Route>
 
-        <Route path={TASK_LIST_PATHS.AIRPAX} exact>
+        <Route path={PATHS.AIRPAX} exact>
           <Layout>
             <TaskListPage />
           </Layout>
         </Route>
-        <Route path={`${TASK_LIST_PATHS.AIRPAX}/:businessKey`} exact>
-          <Layout beforeMain={<Link className="govuk-back-link" to={TASK_LIST_PATHS.AIRPAX}>Back to task list</Link>}>
+        <Route path={`${PATHS.AIRPAX}/:businessKey`} exact>
+          <Layout beforeMain={<Link className="govuk-back-link" to={PATHS.AIRPAX}>Back to task list</Link>}>
             <TaskDetailsPage />
           </Layout>
         </Route>
 
-        <Route path={TASK_LIST_PATHS.RORO_V2} exact>
+        <Route path={PATHS.RORO_V2} exact>
           <Layout>
             <TaskListPage />
           </Layout>
         </Route>
-        <Route path={`${TASK_LIST_PATHS.RORO_V2}/:businessKey`} exact>
-          <Layout beforeMain={<Link className="govuk-back-link" to={TASK_LIST_PATHS.RORO_V2}>Back to task list</Link>}>
+        <Route path={`${PATHS.RORO_V2}/:businessKey`} exact>
+          <Layout beforeMain={<Link className="govuk-back-link" to={PATHS.RORO_V2}>Back to task list</Link>}>
             <TaskDetailsPage />
           </Layout>
         </Route>
