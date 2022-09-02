@@ -6,9 +6,9 @@ import Filter from './Filter';
 
 import FormUtils from '../../../utils/Form/ReactForm';
 import { StorageUtil } from '../../../utils';
-import { LOCAL_STORAGE_KEYS } from '../../../utils/constants';
+import { LOCAL_STORAGE_KEYS, MODE } from '../../../utils/constants';
 
-import { airpax, roro } from '../../../forms/filters';
+import filter from '../../../forms/filters';
 
 const getFilter = (
   view,
@@ -24,8 +24,8 @@ const getFilter = (
     case VIEW.AIRPAX: {
       return (
         <Filter
-          form={airpax(currentUser,
-            FormUtils.showAssigneeComponent(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)))}
+          form={filter(currentUser,
+            FormUtils.showAssigneeComponent(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)), MODE.AIRPAX)}
           taskStatus={taskStatus}
           data={data}
           filtersAndSelectorsCount={{
@@ -43,8 +43,8 @@ const getFilter = (
     case VIEW.RORO_V2: {
       return (
         <Filter
-          form={roro(currentUser,
-            FormUtils.showAssigneeComponent(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)))}
+          form={filter(currentUser,
+            FormUtils.showAssigneeComponent(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS)), MODE.RORO)}
           taskStatus={taskStatus}
           data={data}
           filtersAndSelectorsCount={{

@@ -3,7 +3,7 @@ import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import React from 'react';
 import { COMPONENT_TYPES, MODE } from '../../utils/constants';
 
-import { airpax, roro } from '../../forms/filters';
+import filter from '../../forms/filters';
 import setupFilterCounts from './helper/setupCounts';
 import FormUtils from '../../utils/Form/ReactForm';
 
@@ -84,7 +84,7 @@ const Filter = ({ mode,
 
   const AirpaxFilter = () => {
     const filterJson = setupFilterCounts(
-      airpax(currentUser, FormUtils.showAssigneeComponent(taskStatus)), taskStatus, movementModeCounts, modeSelectorCounts,
+      filter(currentUser, FormUtils.showAssigneeComponent(taskStatus), MODE.AIRPAX), taskStatus, movementModeCounts, modeSelectorCounts,
     );
 
     return (
@@ -101,7 +101,7 @@ const Filter = ({ mode,
 
   const RoRoFilter = () => {
     const filterJson = setupFilterCounts(
-      roro(currentUser, FormUtils.showAssigneeComponent(taskStatus)), taskStatus, movementModeCounts, modeSelectorCounts,
+      filter(currentUser, FormUtils.showAssigneeComponent(taskStatus), MODE.RORO), taskStatus, movementModeCounts, modeSelectorCounts,
     );
 
     return (

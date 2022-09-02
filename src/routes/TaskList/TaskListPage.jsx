@@ -52,6 +52,13 @@ const TaskListPage = () => {
   const { taskManagementTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
   const { setView, getView } = useContext(ViewContext);
 
+  const adaptMovementDirection = (payload) => {
+    if (payload?.movementDirection?.length <= 1) {
+      return payload.movementDirection;
+    }
+    return payload.movementDirection.filter((direction) => direction !== 'ANY');
+  };
+
   const adaptMovementModes = (payload) => {
     if (typeof payload?.mode === 'string') {
       return [payload.mode];
@@ -73,6 +80,7 @@ const TaskListPage = () => {
     }
   };
 
+  // Used for already applied filters
   const getAppliedFilters = () => {
     const taskStatus = StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS);
     const storedData = StorageUtil.getItem(DEFAULTS[getView()].filters.key);
@@ -85,6 +93,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+        movementDirection: adaptMovementDirection(storedData),
       }));
       const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -94,6 +103,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+        movementDirection: adaptMovementDirection(storedData),
       }));
       return movementModes.concat(selectors);
     }
@@ -149,6 +159,7 @@ const TaskListPage = () => {
     await getTaskCount(filtersToApply);
   };
 
+  // Used for when filters are applied via the filter component
   const applyFilters = async (payload) => {
     payload = {
       ...payload,
@@ -157,6 +168,7 @@ const TaskListPage = () => {
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
       assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
+      movementDirection: adaptMovementDirection(payload),
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
@@ -231,7 +243,7 @@ const TaskListPage = () => {
       )}
       {authorisedGroup && (
         <div className="govuk-grid-row">
-          <section className="govuk-grid-column-one-quarter sticky">
+          <section className="govuk-grid-column-one-quarter">
             {getFilter(
               getView(),
               currentUser,
@@ -249,7 +261,7 @@ const TaskListPage = () => {
             <Tabs
               title="Title"
               id="tasks"
-              onTabClick={(e) => {
+              onTabClick={async (e) => {
                 history.push();
                 handleAssignedToMeFilter(e.id);
                 getFiltersAndSelectorsCount(e.id);
