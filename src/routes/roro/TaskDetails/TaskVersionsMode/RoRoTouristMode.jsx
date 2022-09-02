@@ -1,7 +1,7 @@
 import React from 'react';
-import { RORO_TOURIST_CAR_ICON, GROUP_ICON, INDIVIDUAL_ICON } from '../../../../constants';
+import { ICON } from '../../../../utils/constants';
 
-import { calculateTaskVersionTotalRiskScore } from '../../../../utils/rickScoreCalculator';
+import { calculateTaskVersionTotalRiskScore } from '../../../../utils/Risks/risksUtil';
 
 import {
   renderTargetingIndicatorsSection,
@@ -15,11 +15,11 @@ import {
 } from './SectionRenderer';
 
 import {
-  hasTaskVersionPassengers,
   extractTaskVersionsBookingField,
   modifyRoRoPassengersTaskList,
   modifyCountryCodeIfPresent,
-} from '../../../../utils/roroDataUtil';
+} from '../../../../utils/RoRoData/roroDataUtil';
+import { hasTaskVersionPassengers } from '../../../../utils/Movement/movementUtil';
 
 const footPassengersTaskVersion = (version, movementMode, movementModeIcon, taskSummaryData) => {
   const renderFirstColumn = () => {
@@ -255,13 +255,13 @@ const touristCarTaskVersion = (version, movementMode, taskSummaryData) => {
 };
 
 const RoRoTouristTaskVersion = ({ version, movementMode, movementModeIcon, taskSummaryData }) => {
-  if (movementModeIcon === RORO_TOURIST_CAR_ICON) {
+  if (movementModeIcon === ICON.CAR) {
     return touristCarTaskVersion(version, movementMode, taskSummaryData);
   }
-  if (movementModeIcon === INDIVIDUAL_ICON) {
+  if (movementModeIcon === ICON.INDIVIDUAL) {
     return footPassengerTaskVersion(version, movementMode, movementModeIcon, taskSummaryData);
   }
-  if (movementModeIcon === GROUP_ICON) {
+  if (movementModeIcon === ICON.GROUP) {
     return footPassengersTaskVersion(version, movementMode, movementModeIcon, taskSummaryData);
   }
 };

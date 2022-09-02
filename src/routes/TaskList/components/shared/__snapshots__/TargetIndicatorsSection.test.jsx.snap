@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TargetIndicatorsSection should render the a airpax targeting indicators section 1`] = `
+<section
+  className="task-list--target-indicator-section"
+>
+  <div
+    className="govuk-grid-row"
+  >
+    <div
+      className="govuk-grid-item"
+    >
+      <div
+        className="govuk-grid-column"
+      >
+        <ul
+          className="govuk-list task-labels govuk-!-margin-top-2"
+        >
+          <li
+            className="task-labels-item"
+          >
+            <strong
+              className="govuk-!-font-weight-bold govuk-!-font-size-16"
+            >
+              Risk Score: 
+              60
+            </strong>
+          </li>
+        </ul>
+      </div>
+      <div
+        className="govuk-grid-column"
+      >
+        <ul
+          className="govuk-list task-labels govuk-!-margin-top-0"
+        >
+          <li
+            className="task-labels-item"
+          >
+            <ul
+              className="govuk-list item-list--bulleted"
+            >
+              <li
+                className="govuk-!-font-weight-bold govuk-!-font-size-16"
+              >
+                2 indicators
+              </li>
+              <li
+                className="threat-indicator-bullet govuk-!-font-size-16"
+              >
+                Quick turnaround freight (under 24 hours)
+              </li>
+              <li
+                className="threat-indicator-bullet govuk-!-font-size-16"
+              >
+                Quick turnaround tourist (under 24 hours)
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      className="govuk-grid-item task-link-container"
+    >
+      <div>
+        <a
+          className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+          href="/airpax/tasks/DEV-20220419-001"
+        >
+          View details
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`TargetIndicatorsSection should render the a roro targeting indicators section 1`] = `
+<section
+  className="task-list--target-indicator-section"
+>
+  <div
+    className="govuk-grid-row"
+  >
+    <div
+      className="govuk-grid-item"
+    >
+      <div
+        className="govuk-grid-column"
+      >
+        <ul
+          className="govuk-list task-labels govuk-!-margin-top-2"
+        >
+          <li
+            className="task-labels-item"
+          >
+            <strong
+              className="govuk-!-font-weight-bold govuk-!-font-size-16"
+            >
+              Risk Score: 
+              80
+            </strong>
+          </li>
+        </ul>
+      </div>
+      <div
+        className="govuk-grid-column"
+      >
+        <ul
+          className="govuk-list task-labels govuk-!-margin-top-0"
+        >
+          <li
+            className="task-labels-item"
+          >
+            <ul
+              className="govuk-list item-list--bulleted"
+            >
+              <li
+                className="govuk-!-font-weight-bold govuk-!-font-size-16"
+              >
+                3 indicators
+              </li>
+              <li
+                className="threat-indicator-bullet govuk-!-font-size-16"
+              >
+                Paid by cash
+              </li>
+              <li
+                className="threat-indicator-bullet govuk-!-font-size-16"
+              >
+                Empty trailer for round trip
+              </li>
+              <li
+                className="threat-indicator-bullet govuk-!-font-size-16"
+              >
+                Empty vehicle
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      className="govuk-grid-item task-link-container"
+    >
+      <div>
+        <a
+          className="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+          href="/roro/tasks/DEV-20220809-1566"
+        >
+          View details
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+`;

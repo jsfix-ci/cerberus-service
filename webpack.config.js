@@ -57,6 +57,7 @@ module.exports = {
       FILE_UPLOAD_SERVICE_URL: '',
       REFDATA_API_URL: '',
       COP_TARGETING_API_ENABLED: '',
+      RORO_V2_VIEW_ENABLED: '',
     }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
   ],

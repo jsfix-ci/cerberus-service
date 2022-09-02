@@ -1,6 +1,6 @@
 import React from 'react';
 import { VisuallyHidden } from '@ukhomeoffice/cop-react-components';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { formatWithCommas } from '../../../../utils/Number/numberUtil';
 
 const EnrichmentCount = ({ enrichmentCount }) => {
   return (
@@ -19,13 +19,13 @@ const EnrichmentCount = ({ enrichmentCount }) => {
         </div>
         <div className="values">
           <div className="govuk-grid-column-one-third">
-            <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[0]) || '-' }</span>
+            <span className="font__bold">{formatWithCommas(enrichmentCount?.split('/')[0]) || '-' }</span>
           </div>
           <div className="govuk-grid-column-one-third">
-            <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[1]) || '-' }</span>
+            <span className="font__bold">{formatWithCommas(enrichmentCount?.split('/')[1]) || '-' }</span>
           </div>
           <div className="govuk-grid-column-one-third">
-            <span className="font__bold">{numberWithCommas(enrichmentCount?.split('/')[2]) || '-' }</span>
+            <span className="font__bold">{formatWithCommas(enrichmentCount?.split('/')[2]) || '-' }</span>
           </div>
         </div>
       </div>

@@ -1,0 +1,165 @@
+{
+  "id": "DEV-20220809-1568",
+  "status": "NEW",
+  "assignee": null,
+  "relisted": false,
+  "latestVersionNumber": 1,
+  "notes": [
+    {
+      "id": "1e288e03-a161-4f6a-8aba-5265ff68a7fc",
+      "content": "task created",
+      "timestamp": "2022-08-09T18:53:48.695211034Z",
+      "userId": "rules-based-targeting"
+    }
+  ],
+  "movement": {
+    "id": "ROROXML:CMID=7c9977b1e44a4b7defa066754a5add1a/60e14ec3f5f109464c3f20457662b971/b09aba9186ad63e598755d0fc9eab2e4",
+    "status": "PRE_ARRIVAL",
+    "mode": "RORO_TOURIST",
+    "description": "individual",
+    "groupSize": 1,
+    "booking": {
+      "reference": "87982044",
+      "type": null,
+      "paymentMethod": "Cash",
+      "bookedAt": "2021-12-30T10:15:59.547Z",
+      "checkInAt": null,
+      "ticket": {
+        "number": null,
+        "type": "Single",
+        "price": null
+      },
+      "country": "GB",
+      "payments": [],
+      "agent": null
+    },
+    "journey": {
+      "id": "b33a44cece16cda881345b9374f18995",
+      "direction": null,
+      "arrival": {
+        "country": null,
+        "location": "BEL",
+        "time": "2021-12-30T18:30:00Z"
+      },
+      "departure": {
+        "country": null,
+        "location": "BKD",
+        "time": "2021-12-30T10:30:00Z"
+      },
+      "route": [
+        "BKD",
+        "BEL"
+      ],
+      "itinerary": [
+        {
+          "id": "b33a44cece16cda881345b9374f18995",
+          "arrival": {
+            "country": null,
+            "location": "BEL",
+            "time": "2021-12-30T18:30:00Z"
+          },
+          "departure": {
+            "country": null,
+            "location": "BKD",
+            "time": "2021-12-30T10:30:00Z"
+          },
+          "duration": 28800000
+        }
+      ],
+      "duration": 28800000
+    },
+    "vessel": {
+      "operator": "Stena Line",
+      "name": "Stena Edda"
+    },
+    "person": {
+      "entitySearchUrl": null,
+      "name": {
+        "first": "calauz",
+        "last": "geanina mihaela",
+        "full": "calauz geanina mihaela"
+      },
+      "role": "PASSENGER",
+      "dateOfBirth": null,
+      "gender": "M",
+      "nationality": "GB",
+      "document": null,
+      "movementStats": null,
+      "frequentFlyerNumber": null,
+      "ssrCodes": []
+    },
+    "otherPersons": [],
+    "flight": null,
+    "baggage": null,
+    "vehicle": null,
+    "trailer": null,
+    "goods": null,
+    "haulier": null,
+    "account": null,
+    "booker": null,
+    "occupants": {
+      "numberOfOaps": 0,
+      "numberOfAdults": 1,
+      "numberOfChildren": 0,
+      "numberOfInfants": 0,
+      "numberOfUnknowns": 0,
+      "numberOfOccupants": 1
+    }
+  },
+  "risks": {
+    "targetingIndicators": {
+      "indicators": [
+        {
+          "id": 10,
+          "name": "STANDARDISED:cashPaid",
+          "description": "Paid by cash",
+          "score": 30
+        },
+        {
+          "id": 26,
+          "name": "TOURIST-LATE-BOOKING-0_1_HR",
+          "description": "Late booking tourist (under 1 hour)",
+          "score": 30
+        }
+      ],
+      "count": 2,
+      "score": 60
+    },
+    "matchedRules": [
+      {
+        "id": 208,
+        "name": "PF - Cash Paid",
+        "type": "Pre-arrival",
+        "priority": "Tier 4",
+        "description": "Booking has been paid by Cash",
+        "version": 2,
+        "abuseTypes": [
+          "Class A Drugs"
+        ],
+        "indicatorMatches": [
+          {
+            "entity": "Message",
+            "descriptor": "cashPaid",
+            "operator": "equals",
+            "value": "true"
+          },
+          {
+            "entity": "Message",
+            "descriptor": "mode",
+            "operator": "in",
+            "value": "[RORO Tourist]"
+          }
+        ]
+      }
+    ],
+    "matchedSelectorGroups": {
+      "groups": [],
+      "totalNumberOfSelectors": 0
+    },
+    "highestThreatLevel": {
+      "type": "RULE",
+      "value": "Tier 4"
+    }
+  },
+  "versions": []
+}

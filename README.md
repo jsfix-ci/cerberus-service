@@ -88,6 +88,7 @@ Once that port forwarding is set up you will then be able to run the service by 
   CERBERUS_WORKFLOW_SERVICE_URL=https://localhost:9433/camunda/ \
   COP_TARGETING_API_ENABLED=true \
   COP_TARGETING_API_URL=https://localhost:9443/v2 \
+  RORO_V2_VIEW_ENABLED=true \
   npm run start
 ```
 
@@ -111,6 +112,7 @@ docker run --name cerberus-service -p 8080:8080 \
   --env CERBERUS_WORKFLOW_SERVICE_URL=https://localhost:9433/camunda/ \
   --env COP_TARGETING_API_ENABLED=true \
   --env COP_TARGETING_API_URL=https://localhost:9443/v2 \
+  --env RORO_V2_VIEW_ENABLED=true \
   cerberus-service
 ```
 **4. Run the resulting Docker container using docker compose**

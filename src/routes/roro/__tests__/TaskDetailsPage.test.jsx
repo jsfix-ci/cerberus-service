@@ -12,7 +12,7 @@ import noteFormFixure from '../__fixtures__/noteFormResponse.fixture.json';
 import targetModeFreightAccompanied from '../__fixtures__/targetMode_RoRoFreightAccompanied.fixture.json';
 import targetModeFreightUnaccompanied from '../__fixtures__/targetMode_RoRoFreightUnaccompanied.fixture.json';
 import targetModeTourist from '../__fixtures__/targetMode_RoRoTourist.fixture.json';
-import { FORM_NAMES } from '../../../constants';
+import { FORM_NAMES } from '../../../utils/constants';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({
