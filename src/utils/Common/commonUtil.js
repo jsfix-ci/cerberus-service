@@ -10,7 +10,7 @@ export const VIEW = {
   NONE: 'RORO',
 };
 
-const findAndSetTaskStatus = (taskManagementTabIndex) => {
+const setTaskStatus = (taskManagementTabIndex) => {
   localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, TASK_STATUS_BY_INDEX[taskManagementTabIndex]);
 };
 
@@ -56,7 +56,7 @@ const CommonUtil = {
   movementStats: getMovementStats,
   hasAssignee,
   viewByPath: getViewByPath,
-  setStatus: findAndSetTaskStatus,
+  setStatus: setTaskStatus,
 };
 
 export default CommonUtil;
@@ -66,5 +66,5 @@ export {
   getMovementStats,
   getViewByPath,
   hasAssignee,
-  findAndSetTaskStatus,
+  setTaskStatus,
 };
