@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 
-const TaskManagementHeader = ({ headerText, links = [], selectTabIndex, selectTaskManagementTabIndex }) => {
+const TaskManagementHeader = ({ headerText, links = [], selectTaskManagementTabIndex }) => {
   return (
     <div className="heading-container govuk-!-margin-bottom-8">
       <h1 className="govuk-heading-xl govuk-!-margin-bottom-0 govuk-!-padding-right-1">
@@ -15,7 +15,6 @@ const TaskManagementHeader = ({ headerText, links = [], selectTabIndex, selectTa
                 key={link.url}
                 className="task-link"
                 onClick={() => {
-                  selectTabIndex(0);
                   selectTaskManagementTabIndex(0);
                 }}
                 to={link.url}

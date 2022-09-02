@@ -1,4 +1,4 @@
-import { STRINGS, PATHS } from '../constants';
+import { LOCAL_STORAGE_KEYS, STRINGS, PATHS, TASK_STATUS } from '../constants';
 import CommonUtil, { VIEW } from './commonUtil';
 
 describe('CommonUtil', () => {
@@ -45,5 +45,16 @@ describe('CommonUtil', () => {
     [undefined, VIEW.RORO],
   ])('should return the view based on the path', (path, expected) => {
     expect(CommonUtil.viewByPath(path)).toEqual(expected);
+  });
+
+  it.each([
+    [0, TASK_STATUS.NEW],
+    [1, TASK_STATUS.IN_PROGRESS],
+    [2, TASK_STATUS.ISSUED],
+    [3, TASK_STATUS.COMPLETE],
+    [4, 'undefined'],
+  ])('should set the correct task status by the selected tab index', (taskManagementTabIndex, expected) => {
+    CommonUtil.setStatus(taskManagementTabIndex);
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.TASK_STATUS)).toEqual(expected);
   });
 });

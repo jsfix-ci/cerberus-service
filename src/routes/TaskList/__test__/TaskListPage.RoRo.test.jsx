@@ -43,8 +43,7 @@ describe('RoRo.TaskListPage', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     tabData = {
-      selectedTabIndex: 0,
-      selectTabIndex: jest.fn(),
+      taskManagementTabIndex: 0,
       selectTaskManagementTabIndex: jest.fn(),
     };
 

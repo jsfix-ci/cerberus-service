@@ -3,12 +3,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useIsMounted } from '../../utils/Hooks/hooks';
 
-import {
-  LOCAL_STORAGE_KEYS,
-  TARGETER_GROUP,
+import { LOCAL_STORAGE_KEYS,
   TAB_STATUS_MAPPING,
-  TASK_STATUS,
-} from '../../utils/constants';
+  TARGETER_GROUP,
+  TASK_STATUS } from '../../utils/constants';
 
 import DEFAULTS from './constants';
 
@@ -51,7 +49,7 @@ const TaskListPage = () => {
   const [filtersAndSelectorsCount, setFiltersAndSelectorsCount] = useState();
   const [appliedFilters, setAppliedFilters] = useState();
   const [rulesOptions, setRulesOptions] = useState([]);
-  const { taskManagementTabIndex, selectTaskManagementTabIndex, selectTabIndex } = useContext(TaskSelectedTabContext);
+  const { taskManagementTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
   const { setView, getView } = useContext(ViewContext);
 
   const adaptMovementModes = (payload) => {
@@ -191,11 +189,8 @@ const TaskListPage = () => {
   }, [getView()]);
 
   useEffect(() => {
-    selectTabIndex(taskManagementTabIndex);
-  }, []);
-
-  useEffect(() => {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.TASK_STATUS);
+    CommonUtil.setStatus(taskManagementTabIndex);
     const isTargeter = keycloak.tokenParsed.groups.indexOf(TARGETER_GROUP) > -1;
     if (!isTargeter) {
       setAuthorisedGroup(false);
@@ -225,7 +220,6 @@ const TaskListPage = () => {
       <TaskManagementHeader
         headerText={DEFAULTS[getView()].headers.title}
         links={DEFAULTS[getView()].headers.links}
-        selectTabIndex={selectTabIndex}
         selectTaskManagementTabIndex={selectTaskManagementTabIndex}
       />
       {!authorisedGroup && <p>You are not authorised to view these tasks.</p>}

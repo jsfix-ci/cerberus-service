@@ -22,10 +22,10 @@ describe('TaskVersions', () => {
 
   beforeEach(() => {
     config.dayjsConfig.timezone = LONDON_TIMEZONE;
-    tabData = { selectedTabIndex: 0,
-      selectTabIndex: jest.fn(),
+    tabData = {
       taskManagementTabIndex: 0,
-      selectTaskManagementTabIndex: jest.fn() };
+      selectTaskManagementTabIndex: jest.fn(),
+    };
   });
 
   const setTabAndTaskValues = (taskVersions, selectTabData, businessKey = 'BK-123', taskVersionDifferencesCounts = 0) => {

@@ -1,6 +1,6 @@
 import lookup from 'country-code-lookup';
 
-import { STRINGS, PATHS } from '../constants';
+import { LOCAL_STORAGE_KEYS, PATHS, STRINGS, TASK_STATUS_BY_INDEX } from '../constants';
 import { getLocalStoredItemByKeyValue } from '../Storage/storageUtil';
 
 export const VIEW = {
@@ -8,6 +8,10 @@ export const VIEW = {
   AIRPAX: 'AIRPAX',
   RORO_V2: 'RORO_V2',
   NONE: 'RORO',
+};
+
+const findAndSetTaskStatus = (taskManagementTabIndex) => {
+  localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, TASK_STATUS_BY_INDEX[taskManagementTabIndex]);
 };
 
 const getViewByPath = (path) => {
@@ -52,6 +56,7 @@ const CommonUtil = {
   movementStats: getMovementStats,
   hasAssignee,
   viewByPath: getViewByPath,
+  setStatus: findAndSetTaskStatus,
 };
 
 export default CommonUtil;
@@ -61,4 +66,5 @@ export {
   getMovementStats,
   getViewByPath,
   hasAssignee,
+  findAndSetTaskStatus,
 };

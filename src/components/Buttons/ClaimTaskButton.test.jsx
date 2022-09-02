@@ -91,8 +91,8 @@ describe('Claim/Unclaim buttons', () => {
     expect(mockAxios.history.post[0].url).toEqual(`task/${task.id}/unclaim`);
 
     const tabData = {
-      selectedTabIndex: 0,
-      selectTabIndex: jest.fn(),
+      taskManagementTabIndex: 0,
+      setTaskManagementTabIndex: jest.fn(),
     };
     await waitFor(() => render(<TaskSelectedTabContext.Provider value={tabData}><TaskListPage taskStatus="new" setError={() => { }} /></TaskSelectedTabContext.Provider>));
 

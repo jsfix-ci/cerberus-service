@@ -134,8 +134,7 @@ describe('Airpax.TaskListPage', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     tabData = {
-      selectedTabIndex: 0,
-      selectTabIndex: jest.fn(),
+      taskManagementTabIndex: 0,
       selectTaskManagementTabIndex: jest.fn(),
     };
 
@@ -366,7 +365,7 @@ describe('Airpax.TaskListPage', () => {
 
   it('should contain the expect post params for in_progress tab', async () => {
     const PARAM_IN_PROGRESS = 'IN_PROGRESS';
-    tabData.selectedTabIndex = 1;
+    tabData.taskManagementTabIndex = 1;
     defaultPostPagesParams.filterParams.taskStatuses = [PARAM_IN_PROGRESS];
 
     mockAxios
@@ -379,7 +378,7 @@ describe('Airpax.TaskListPage', () => {
   });
 
   it('should contain the expect post params for issued tab', async () => {
-    tabData.selectedTabIndex = 2;
+    tabData.taskManagementTabIndex = 2;
     defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.ISSUED.toUpperCase()];
 
     mockAxios
@@ -392,7 +391,7 @@ describe('Airpax.TaskListPage', () => {
   });
 
   it('should contain the expect post params for completed tab', async () => {
-    tabData.selectedTabIndex = 3;
+    tabData.taskManagementTabIndex = 3;
     defaultPostPagesParams.filterParams.taskStatuses = [TASK_STATUS.COMPLETE.toUpperCase()];
 
     mockAxios

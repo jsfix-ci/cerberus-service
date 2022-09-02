@@ -22,7 +22,6 @@ describe('TaskManagementHeader', () => {
       <TaskManagementHeader
         headerText="Hello"
         links={LINKS}
-        selectTabIndex={jest.fn()}
         selectTaskManagementTabIndex={jest.fn()}
       />,
     );
@@ -39,7 +38,6 @@ describe('TaskManagementHeader', () => {
       <TaskManagementHeader
         headerText="Hello"
         links={LINKS}
-        selectTabIndex={jest.fn()}
         selectTaskManagementTabIndex={jest.fn()}
       />,
     );
