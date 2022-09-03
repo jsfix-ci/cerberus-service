@@ -1,7 +1,7 @@
-import { COMPONENT_TYPES } from '../../../utils/constants';
+import { COMPONENT_TYPES } from '../../../../utils/constants';
 import cleanComponent from './cleanComponent';
 
-describe('Custom.cleanComponent', () => {
+describe('Custom.Component.cleanComponent', () => {
   it('should clean the component', () => {
     const ID = 'id';
     const LABEL = 'label';
@@ -23,8 +23,7 @@ describe('Custom.cleanComponent', () => {
       multi: true,
     };
 
-    const component = cleanComponent(COMPONENT);
-    expect(component).toMatchObject({
+    expect(cleanComponent(COMPONENT)).toMatchObject({
       id: ID,
       label: LABEL,
       fieldId: FIELD_ID,

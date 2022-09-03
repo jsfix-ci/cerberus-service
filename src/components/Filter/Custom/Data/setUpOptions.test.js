@@ -1,6 +1,6 @@
 import setUpOptions from './setUpOptions';
 
-describe('Custom.setupOptions', () => {
+describe('Custom.Data.setupOptions', () => {
   const ID = 'test-id';
   const FIELD_ID = 'field-id';
   const LABEL = 'label';
@@ -20,8 +20,7 @@ describe('Custom.setupOptions', () => {
       },
     };
 
-    const component = setUpOptions(COMPONENT, undefined);
-    expect(component).toMatchObject({
+    expect(setUpOptions(COMPONENT, undefined)).toMatchObject({
       options: OPTIONS,
     });
   });
@@ -35,8 +34,7 @@ describe('Custom.setupOptions', () => {
       useCustomOptions: true,
     };
 
-    const component = setUpOptions(COMPONENT, CUSTOM_OPTIONS);
-    expect(component).toMatchObject({
+    expect(setUpOptions(COMPONENT, CUSTOM_OPTIONS)).toMatchObject({
       options: CUSTOM_OPTIONS[ID],
     });
   });

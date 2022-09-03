@@ -1,15 +1,16 @@
 import { render } from '@testing-library/react';
 
 import getComponent from './getComponent';
-import { COMPONENT_TYPES } from '../../../utils/constants';
+import { COMPONENT_TYPES } from '../../../../utils/constants';
 
-describe('Custom.getComponent', () => {
+describe('Custom.Component.getComponent', () => {
   it('should return an appropriately rendered text input', () => {
     const ID = 'test-id';
     const FIELD_ID = 'field-id';
     const LABEL = 'label';
     const OPTIONS = [];
     const KEY = 'test-key';
+    const DATA = {};
 
     const COMPONENT = {
       id: ID,
@@ -33,7 +34,7 @@ describe('Custom.getComponent', () => {
       options: OPTIONS,
     };
 
-    const { container } = render(getComponent(KEY, COMPONENT, WRAPPER_OPTIONS, COMPONENT_OPTIONS));
+    const { container } = render(getComponent(KEY, DATA, COMPONENT, WRAPPER_OPTIONS, COMPONENT_OPTIONS));
 
     const formGroup = container.getElementsByClassName('govuk-form-group');
     expect(formGroup).toBeDefined();

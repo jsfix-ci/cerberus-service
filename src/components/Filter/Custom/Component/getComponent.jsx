@@ -6,7 +6,7 @@ import { Checkboxes,
   Radios,
   TextInput } from '@ukhomeoffice/cop-react-components';
 
-import { COMPONENT_TYPES } from '../../../utils/constants';
+import { COMPONENT_TYPES } from '../../../../utils/constants';
 
 const getTextInput = (key, wrapperOptions, componentOptions) => {
   return (
@@ -66,7 +66,7 @@ const getSelect = (key, wrapperOptions, componentOptions) => {
   );
 };
 
-const getComponent = (key, component, wrapperOptions, componentOptions) => {
+const getComponent = (key, data, component, wrapperOptions, componentOptions) => {
   switch (component.type) {
     case COMPONENT_TYPES.TEXT_INPUT: {
       return getTextInput(key, wrapperOptions, componentOptions);
