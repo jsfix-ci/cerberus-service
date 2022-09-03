@@ -53,10 +53,14 @@ const TaskListPage = () => {
   const { setView, getView } = useContext(ViewContext);
 
   const adaptMovementDirection = (payload) => {
-    if (payload?.movementDirection?.length <= 1) {
-      return payload.movementDirection;
+    const ANY = 'ANY';
+    if (!payload?.movementDirection?.length) {
+      return [ANY];
     }
-    return payload.movementDirection.filter((direction) => direction !== 'ANY');
+    if (payload?.movementDirection?.length === 1 && payload?.movementDirection[0] === ANY) {
+      return payload?.movementDirection;
+    }
+    return payload.movementDirection.filter((direction) => direction !== ANY);
   };
 
   const adaptMovementModes = (payload) => {
@@ -156,7 +160,7 @@ const TaskListPage = () => {
         && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
     };
     setAppliedFilters(filtersToApply);
-    await getTaskCount(filtersToApply);
+    getTaskCount(filtersToApply);
   };
 
   // Used for when filters are applied via the filter component
@@ -172,16 +176,16 @@ const TaskListPage = () => {
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
-    await getTaskCount(payload);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
+    getTaskCount(payload);
+    getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
   };
 
   const handleFilterReset = async (e) => {
     e.preventDefault();
     localStorage.removeItem(DEFAULTS[getView()].filters.key);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
+    getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
     setAppliedFilters(DEFAULTS[getView()].filters.default);
-    await getTaskCount(DEFAULTS[getView()].filters.default);
+    getTaskCount(DEFAULTS[getView()].filters.default);
   };
 
   const applySavedFiltersOnLoad = async () => {
