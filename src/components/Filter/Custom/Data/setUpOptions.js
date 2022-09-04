@@ -10,11 +10,13 @@
  *
  */
 const setUpOptions = (component, customOptions) => {
-  if (component?.useCustomOptions) {
+  // Use custom options
+  if (component && component?.useCustomOptions) {
     return {
       options: customOptions[component.id] || [],
     };
   }
+  // Default defined options/ set refdata options
   return (component?.data?.options && { options: component.data.options });
 };
 

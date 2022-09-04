@@ -1,15 +1,5 @@
 import _ from 'lodash';
 
-const getFieldPath = (path) => {
-  if (!path) {
-    return undefined;
-  }
-  if (path.startsWith('./')) {
-    return path.replaceAll('./', '');
-  }
-  return path;
-};
-
 const getComparisonValue = (condition) => {
   if (['in', 'nin'].includes(condition.op)) {
     return condition.values;
@@ -19,8 +9,9 @@ const getComparisonValue = (condition) => {
 
 const meetsCondition = (condition, data) => {
   if (condition && typeof condition === 'object') {
-    const path = getFieldPath(condition.field);
-    const value = _.get(data, path);
+    // Currently, the is limited to the component fieldId within the form.
+    const fieldPath = condition.field;
+    const value = _.get(data, fieldPath);
     const compare = getComparisonValue(condition);
     switch (condition.op) {
       case '=':
@@ -48,7 +39,7 @@ const meetsCondition = (condition, data) => {
         return compare !== value;
       }
       case 'contains': {
-        return value?.toString().toLowerCase().includes(compare);
+        return value?.toString().toLowerCase().includes(compare.toString().toLowerCase());
         // If no value is provided, the field cannot contain it, so it must fail the condition.
       }
       default: {

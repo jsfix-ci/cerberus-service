@@ -10,7 +10,6 @@ describe('Custom.Component.getComponent', () => {
     const LABEL = 'label';
     const OPTIONS = [];
     const KEY = 'test-key';
-    const DATA = {};
 
     const COMPONENT = {
       id: ID,
@@ -34,7 +33,7 @@ describe('Custom.Component.getComponent', () => {
       options: OPTIONS,
     };
 
-    const { container } = render(getComponent(KEY, DATA, COMPONENT, WRAPPER_OPTIONS, COMPONENT_OPTIONS));
+    const { container } = render(getComponent(KEY, COMPONENT, WRAPPER_OPTIONS, COMPONENT_OPTIONS));
 
     const formGroup = container.getElementsByClassName('govuk-form-group');
     expect(formGroup).toBeDefined();

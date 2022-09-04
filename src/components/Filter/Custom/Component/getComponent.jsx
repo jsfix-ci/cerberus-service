@@ -66,7 +66,7 @@ const getSelect = (key, wrapperOptions, componentOptions) => {
   );
 };
 
-const getComponent = (key, data, component, wrapperOptions, componentOptions) => {
+const getComponent = (key, component, wrapperOptions, componentOptions) => {
   switch (component.type) {
     case COMPONENT_TYPES.TEXT_INPUT: {
       return getTextInput(key, wrapperOptions, componentOptions);

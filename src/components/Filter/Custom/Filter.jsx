@@ -5,26 +5,27 @@ import { Button, ButtonGroup, ErrorSummary } from '@ukhomeoffice/cop-react-compo
 
 import cleanPayload from './Data/cleanPayload';
 import getComponent from './Component/getComponent';
-import getVisibleComponent from './Component/getVisibleComponent';
+import getVisibleComponents from './Component/getVisibleComponents';
 import setupComponent from './Component/setupComponent';
 import setupFilterCounts from '../helper/setupCounts';
+import setupRefDataOptions from './Data/setupRefDataOptions';
 
 const Filter = ({ form: _form,
   taskStatus,
   data: _data,
   filtersAndSelectorsCount,
-  customOptions,
+  customOptions: _customOptions,
   onApply: _onApply,
   handleFilterReset }) => {
   const [errorList, setErrorList] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [data, setData] = useState(_data);
+
   const { movementModeCounts, modeSelectorCounts } = filtersAndSelectorsCount;
 
   const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts);
-
-  const visibleComponents = form.pages[0].components
-    .map((component) => getVisibleComponent(component, data)).filter((c) => c);
+  setupRefDataOptions(form.pages[0].components);
+  const visibleComponents = getVisibleComponents(form.pages[0].components, data);
 
   const onChange = ({ target }) => {
     setData((prev) => {
@@ -51,8 +52,8 @@ const Filter = ({ form: _form,
   };
 
   const onApply = () => {
-    const cleanedPayload = cleanPayload(visibleComponents, form.pages[0].components, data);
-    _onApply(cleanedPayload);
+    const payload = cleanPayload(visibleComponents, visibleComponents, data);
+    _onApply(payload);
   };
 
   useEffect(() => {
@@ -77,13 +78,13 @@ const Filter = ({ form: _form,
       <div>
         {hasError && <ErrorSummary errors={errorList} />}
         {visibleComponents.map((component, index) => {
-          const { wrapperOptions, componentOptions } = setupComponent(data, component, customOptions, onChange);
-          return getComponent(index, data, component, wrapperOptions, componentOptions);
+          const { wrapperOptions, componentOptions } = setupComponent(data, component, _customOptions, onChange);
+          return getComponent(index, component, wrapperOptions, componentOptions);
         })}
         <ButtonGroup>
           <Button onClick={() => {
             if (validate()) {
-              onApply(data);
+              onApply();
             }
           }}
           >Apply
