@@ -23,6 +23,7 @@ const DEFAULTS = {
         searchText: '',
         assignees: [],
         assignedToMe: [],
+        movementDirection: ['ANY'],
       },
       mode: MODE.AIRPAX,
       movementModes: [
@@ -33,6 +34,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
       ],
       selectors: [
@@ -43,6 +45,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
         {
           taskStatuses: [],
@@ -51,6 +54,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
         {
           taskStatuses: [],
@@ -59,6 +63,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
       ],
     },
@@ -100,6 +105,7 @@ const DEFAULTS = {
         searchText: '',
         assignees: [],
         assignedToMe: [],
+        movementDirection: ['ANY'],
       },
       mode: MODE.RORO,
       movementModes: [
@@ -110,6 +116,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
         {
           taskStatuses: [],
@@ -118,6 +125,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
         {
           taskStatuses: [],
@@ -126,6 +134,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
       ],
       selectors: [
@@ -136,6 +145,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
         {
           taskStatuses: [],
@@ -144,6 +154,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
         {
           taskStatuses: [],
@@ -152,6 +163,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
+          movementDirection: ['ANY'],
         },
       ],
     },

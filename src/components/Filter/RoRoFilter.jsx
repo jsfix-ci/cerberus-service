@@ -1,10 +1,12 @@
 import FormRenderer from '@ukhomeoffice/cop-react-form-renderer';
 import React from 'react';
 
+import { MODE } from '../../utils/constants';
+
 import FormUtils from '../../utils/Form/ReactForm';
 import setupFilterCounts from './helper/setupCounts';
 
-import { roro } from '../../forms/filters';
+import filter from '../../forms/filters';
 
 const getMovementSelectorCounts = (filtersAndSelectorsCount) => {
   return {
@@ -27,7 +29,7 @@ const RoRoFilter = ({ taskStatus,
   };
 
   const filterJson = setupFilterCounts(
-    roro(currentUser, FormUtils.showAssigneeComponent(taskStatus)), taskStatus, movementModeCounts, modeSelectorCounts,
+    filter(currentUser, FormUtils.showAssigneeComponent(taskStatus), MODE.RORO), taskStatus, movementModeCounts, modeSelectorCounts,
   );
 
   return (

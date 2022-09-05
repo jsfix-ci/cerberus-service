@@ -1,5 +1,5 @@
 import cleanComponent from './cleanComponent';
-import setUpOptions from './setUpOptions';
+import setUpOptions from '../Data/setUpOptions';
 
 const DEFAULT_WRAPPER_OPTIONS = ['id', 'label', 'required'];
 

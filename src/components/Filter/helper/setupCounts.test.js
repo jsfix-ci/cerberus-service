@@ -1,6 +1,6 @@
 import setupFilterCounts from './setupCounts';
-import { airpax, roro } from '../../../forms/filters';
-import { MOVEMENT_MODES, TASK_STATUS } from '../../../utils/constants';
+import filter from '../../../forms/filters';
+import { MODE, MOVEMENT_MODES, TASK_STATUS } from '../../../utils/constants';
 
 describe('SetupFilterCounts', () => {
   it('should set up selectors counts for an airpax filter', () => {
@@ -59,7 +59,7 @@ describe('SetupFilterCounts', () => {
     const selectorCounts = filtersAndSelectorCounts?.slice(1);
 
     const filterJson = setupFilterCounts(
-      airpax('test', false), TASK_STATUS.NEW, modeCounts, selectorCounts,
+      filter('test', false, MODE.AIRPAX), TASK_STATUS.NEW, modeCounts, selectorCounts,
     );
     const selectorOptions = filterJson.pages[0].components.find((component) => component.id === 'selectors').data.options;
     expect(selectorOptions[0].label).toEqual('Has no selector (8)');
@@ -147,7 +147,7 @@ describe('SetupFilterCounts', () => {
     const selectorCounts = filtersAndSelectorCounts?.slice(3);
 
     const filterJson = setupFilterCounts(
-      roro('test', false), TASK_STATUS.NEW, modeCounts, selectorCounts,
+      filter('test', false, MODE.RORO), TASK_STATUS.NEW, modeCounts, selectorCounts,
     );
     const modeOptions = filterJson.pages[0].components.find((component) => component.id === 'mode').data.options;
     expect(modeOptions[0].label).toEqual('RoRo unaccompanied freight (2)');

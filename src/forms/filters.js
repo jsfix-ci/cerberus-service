@@ -1,25 +1,35 @@
-const MODE_OPTIONS = [
-  {
-    value: 'AIR_PASSENGER',
-    label: 'Air passenger',
-    showFor: ['AIRPAX'],
+import { MODE } from '../utils/constants';
+
+const MODE_OPTIONS = {
+  [MODE.RORO]: {
+    type: 'checkboxes',
+    options: [
+      {
+        value: 'RORO_UNACCOMPANIED_FREIGHT',
+        label: 'RoRo unaccompanied freight',
+      },
+      {
+        value: 'RORO_ACCOMPANIED_FREIGHT',
+        label: 'RoRo accompanied freight',
+      },
+      {
+        value: 'RORO_TOURIST',
+        label: 'RoRo Tourist',
+      },
+    ],
+    required: false,
   },
-  {
-    value: 'RORO_UNACCOMPANIED_FREIGHT',
-    label: 'RoRo unaccompanied freight',
-    showFor: ['RORO'],
+  [MODE.AIRPAX]: {
+    type: 'select',
+    options: [
+      {
+        value: 'AIR_PASSENGER',
+        label: 'Air passenger',
+      },
+    ],
+    required: true,
   },
-  {
-    value: 'RORO_ACCOMPANIED_FREIGHT',
-    label: 'RoRo accompanied freight',
-    showFor: ['RORO'],
-  },
-  {
-    value: 'RORO_TOURIST',
-    label: 'RoRo Tourist',
-    showFor: ['RORO'],
-  },
-];
+};
 
 const getAssigneeComponent = (assignee) => {
   return {
@@ -38,7 +48,7 @@ const getAssigneeComponent = (assignee) => {
   };
 };
 
-export const airpax = (assignee, showAssignee) => {
+const filter = (assignee, showAssignee, mode) => {
   return {
     id: 'filter',
     version: '0.0.1',
@@ -63,11 +73,11 @@ export const airpax = (assignee, showAssignee) => {
             id: 'mode',
             fieldId: 'mode',
             label: 'Mode',
-            type: 'select',
-            required: true,
+            type: MODE_OPTIONS[mode].type,
+            required: MODE_OPTIONS[mode].required,
             dynamicOptions: true,
             data: {
-              options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('AIRPAX')),
+              options: MODE_OPTIONS[mode].options,
             },
           },
           {
@@ -104,6 +114,24 @@ export const airpax = (assignee, showAssignee) => {
             required: false,
             useCustomOptions: true,
           },
+          {
+            id: 'movementDirection',
+            fieldId: 'movementDirection',
+            label: 'Direction of travel',
+            type: 'checkboxes',
+            data: {
+              options: [
+                {
+                  value: 'INBOUND',
+                  label: 'Inbound',
+                },
+                {
+                  value: 'OUTBOUND',
+                  label: 'Outbound',
+                },
+              ],
+            },
+          },
         ],
         actions: [
           {
@@ -117,78 +145,4 @@ export const airpax = (assignee, showAssignee) => {
   };
 };
 
-export const roro = (assignee, show) => {
-  return {
-    id: 'filter',
-    version: '0.0.1',
-    name: 'filter',
-    type: 'form',
-    components: [],
-    pages: [{
-      id: 'filter',
-      name: 'filter',
-      components: [
-        show && getAssigneeComponent(assignee),
-        {
-          id: 'search',
-          fieldId: 'searchText',
-          label: 'Search',
-          type: 'text',
-          required: false,
-          placeholder: 'Passenger Name or Task Id',
-        },
-        {
-          id: 'mode',
-          fieldId: 'mode',
-          label: 'Mode',
-          type: 'checkboxes',
-          dynamicOptions: true,
-          data: {
-            options: MODE_OPTIONS.filter((opt) => opt.showFor.includes('RORO')),
-          },
-        },
-        {
-          id: 'selectors',
-          fieldId: 'selectors',
-          label: 'Selectors',
-          type: 'radios',
-          required: true,
-          dynamicOptions: true,
-          data: {
-            options: [
-              {
-                value: 'NOT_PRESENT',
-                label: 'Has no selector',
-              },
-              {
-                value: 'PRESENT',
-                label: 'Has selector',
-              },
-              {
-                value: 'ANY',
-                label: 'Both',
-              },
-            ],
-          },
-        },
-        {
-          id: 'rules',
-          fieldId: 'rules',
-          label: 'Rule matches',
-          type: 'multiautocomplete',
-          item: { value: 'id', label: 'name' },
-          multi: true,
-          required: false,
-          useCustomOptions: true,
-        },
-      ],
-      actions: [
-        {
-          type: 'submit',
-          validate: true,
-          label: 'Apply',
-        },
-      ],
-    }],
-  };
-};
+export default filter;

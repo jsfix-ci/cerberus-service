@@ -1,17 +1,18 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { MOVEMENT_MODES, TASK_STATUS } from '../../../utils/constants';
+import { MODE, MOVEMENT_MODES, TASK_STATUS } from '../../../utils/constants';
 
 import Filter from './Filter';
 
 import DEFAULTS from '../../../routes/TaskList/constants';
 
-import { airpax, roro } from '../../../forms/filters';
+import filter from '../../../forms/filters';
 import { VIEW } from '../../../utils/Common/commonUtil';
 
 describe('Custom.Filter', () => {
   const APPLIED_FILTERS = [];
+
   const ON_APPLY = (payload) => {
     APPLIED_FILTERS.length = 0;
     APPLIED_FILTERS.push(payload);
@@ -20,7 +21,7 @@ describe('Custom.Filter', () => {
   describe('Airpax', () => {
     it('should render the airpax filter', () => {
       render(<Filter
-        form={airpax('test-user', false)}
+        form={filter('test-user', false, MODE.AIRPAX)}
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
@@ -45,7 +46,7 @@ describe('Custom.Filter', () => {
 
     it('should render the assigned to me checkbox', () => {
       render(<Filter
-        form={airpax('test-user', true)}
+        form={filter('test-user', true, MODE.AIRPAX)}
         taskStatus={TASK_STATUS.IN_PROGRESS}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
@@ -69,7 +70,7 @@ describe('Custom.Filter', () => {
 
     it('should select a single radio', async () => {
       render(<Filter
-        form={airpax('test-user', false)}
+        form={filter('test-user', false, MODE.AIRPAX)}
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
@@ -87,7 +88,7 @@ describe('Custom.Filter', () => {
       expect(screen.getByLabelText('Both (0)')).not.toBeChecked();
     });
 
-    it('should verify payload from form', async () => {
+    it('should verify payload from filter', async () => {
       const EXPECTED = {
         mode: MOVEMENT_MODES.AIR_PASSENGER,
         selectors: 'ANY',
@@ -98,7 +99,7 @@ describe('Custom.Filter', () => {
       };
 
       render(<Filter
-        form={airpax('test-user', false)}
+        form={filter('test-user', false, MODE.AIRPAX)}
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={ON_APPLY}
@@ -117,7 +118,7 @@ describe('Custom.Filter', () => {
   describe('RoRo', () => {
     it('should render the roro filter', () => {
       render(<Filter
-        form={roro('test-user', false)}
+        form={filter('test-user', false, MODE.RORO)}
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
@@ -144,7 +145,7 @@ describe('Custom.Filter', () => {
 
     it('should render the assigned to me checkbox', () => {
       render(<Filter
-        form={roro('test-user', true)}
+        form={filter('test-user', true, MODE.RORO)}
         taskStatus={TASK_STATUS.IN_PROGRESS}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
@@ -171,7 +172,7 @@ describe('Custom.Filter', () => {
 
     it('should select a checkbox', async () => {
       render(<Filter
-        form={roro('test-user', false)}
+        form={filter('test-user', false, MODE.RORO)}
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={jest.fn()}
@@ -191,7 +192,7 @@ describe('Custom.Filter', () => {
       expect(screen.getByLabelText('RoRo Tourist (0)')).not.toBeChecked();
     });
 
-    it('should verify payload from form', async () => {
+    it('should verify payload from filter', async () => {
       const EXPECTED = {
         movementModes: [
           MOVEMENT_MODES.ACCOMPANIED_FREIGHT,
@@ -203,10 +204,14 @@ describe('Custom.Filter', () => {
         ruleIds: [],
         searchText: '',
         assignees: [],
+        assignedToMe: [],
+        movementDirection: ['ANY'],
       };
 
+      const EXPECTED_KEYS = Object.keys(EXPECTED);
+
       render(<Filter
-        form={roro('test-user', false)}
+        form={filter('test-user', false, MODE.RORO)}
         taskStatus={TASK_STATUS.NEW}
         handleFilterReset={jest.fn()}
         onApply={ON_APPLY}
@@ -219,6 +224,7 @@ describe('Custom.Filter', () => {
 
       expect(APPLIED_FILTERS).toHaveLength(1);
       expect(APPLIED_FILTERS[0]).toMatchObject(EXPECTED);
+      expect(Object.keys(APPLIED_FILTERS[0]).every((k) => EXPECTED_KEYS.includes(k))).toBeTruthy();
     });
   });
 });

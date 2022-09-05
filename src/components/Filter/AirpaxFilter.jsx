@@ -2,12 +2,12 @@ import FormRenderer, { Utils } from '@ukhomeoffice/cop-react-form-renderer';
 import { MultiSelectAutocomplete } from '@ukhomeoffice/cop-react-components';
 import React from 'react';
 
-import { COMPONENT_TYPES } from '../../utils/constants';
+import { COMPONENT_TYPES, MODE } from '../../utils/constants';
 
 import FormUtils from '../../utils/Form/ReactForm';
 import setupFilterCounts from './helper/setupCounts';
 
-import { airpax } from '../../forms/filters';
+import filter from '../../forms/filters';
 
 const getMovementSelectorCounts = (filtersAndSelectorsCount) => {
   return {
@@ -77,7 +77,7 @@ const AirpaxFilter = ({ taskStatus,
   };
 
   const filterJson = setupFilterCounts(
-    airpax(currentUser, FormUtils.showAssigneeComponent(taskStatus)), taskStatus, movementModeCounts, modeSelectorCounts,
+    filter(currentUser, FormUtils.showAssigneeComponent(taskStatus), MODE.AIRPAX), taskStatus, movementModeCounts, modeSelectorCounts,
   );
 
   return (
