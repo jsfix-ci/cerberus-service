@@ -14,7 +14,7 @@ import { useKeycloak } from '../../../../context/Keycloak';
 
 // Config
 import config from '../../../../utils/config';
-import { StringUtil } from '../../../../utils';
+import { StorageUtil, StringUtil } from '../../../../utils';
 
 // Components/Pages
 import LoadingSpinner from '../../../../components/LoadingSpinner/LoadingSpinner';
@@ -45,7 +45,7 @@ const TasksTab = ({
   const location = useLocation();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
   const source = axios.CancelToken.source();
-  const { canViewPnrData } = useContext(PnrAccessContext);
+  const { canViewPnrData, setViewPnrData } = useContext(PnrAccessContext);
   const [activePage, setActivePage] = useState(0);
   const [targetTasks, setTargetTasks] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -89,6 +89,15 @@ const TasksTab = ({
       setRefreshTaskList(false);
     }
   };
+
+  useEffect(() => {
+    if (!StorageUtil.getItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID)) {
+      setViewPnrData(false);
+    }
+    if (StorageUtil.getItem(LOCAL_STORAGE_KEYS.PNR_USER_SESSION_ID)?.sessionId !== keycloak.sessionId) {
+      setViewPnrData(false);
+    }
+  }, [keycloak.sessionId]);
 
   useEffect(() => {
     const { page } = qs.parse(location.search, { ignoreQueryPrefix: true });
