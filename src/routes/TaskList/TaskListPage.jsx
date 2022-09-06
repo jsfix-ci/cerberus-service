@@ -6,13 +6,13 @@ import { useIsMounted } from '../../utils/Hooks/hooks';
 import { LOCAL_STORAGE_KEYS,
   TAB_STATUS_MAPPING,
   TARGETER_GROUP,
-  TASK_STATUS,
-  VIEW } from '../../utils/constants';
+  TASK_STATUS } from '../../utils/constants';
 
 import DEFAULTS from './constants';
 
 // Utils
-import { CommonUtil, StorageUtil } from '../../utils';
+import CommonUtil, { VIEW } from '../../utils/Common/commonUtil';
+import { StorageUtil } from '../../utils';
 import { useKeycloak } from '../../context/Keycloak';
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 
@@ -58,10 +58,10 @@ const TaskListPage = () => {
   const isPnrAccessRequired = () => {
     switch (getView()) {
       case VIEW.AIRPAX: {
-        return canViewPnrData;
+        return !canViewPnrData;
       }
       default: {
-        return true;
+        return false;
       }
     }
   };
@@ -83,7 +83,7 @@ const TaskListPage = () => {
   };
 
   const getTaskCount = async (payload) => {
-    if (isPnrAccessRequired()) {
+    if (!isPnrAccessRequired()) {
       try {
         const data = await AxiosRequests.taskCount(apiClient, payload);
         if (!isMounted.current) return null;
@@ -153,7 +153,7 @@ const TaskListPage = () => {
 
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, taskStatus);
-    if (isPnrAccessRequired()) {
+    if (!isPnrAccessRequired()) {
       try {
         const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
         if (!isMounted.current) return null;
