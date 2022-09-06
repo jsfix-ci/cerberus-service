@@ -6,7 +6,8 @@ import { useIsMounted } from '../../utils/Hooks/hooks';
 import { LOCAL_STORAGE_KEYS,
   TAB_STATUS_MAPPING,
   TARGETER_GROUP,
-  TASK_STATUS } from '../../utils/constants';
+  TASK_STATUS,
+  MODE } from '../../utils/constants';
 
 import DEFAULTS from './constants';
 
@@ -54,6 +55,17 @@ const TaskListPage = () => {
   const { setView, getView } = useContext(ViewContext);
   const { canViewPnrData } = useContext(PnrAccessContext);
 
+  const getSelectedView = () => {
+    switch (getView()) {
+      case MODE.AIRPAX: {
+        return canViewPnrData;
+      }
+      default: {
+        return true;
+      }
+    }
+  };
+
   const adaptMovementDirection = (payload) => {
     if (payload?.movementDirection?.length <= 1) {
       return payload.movementDirection;
@@ -71,7 +83,7 @@ const TaskListPage = () => {
   };
 
   const getTaskCount = async (payload) => {
-    if (canViewPnrData) {
+    if (getSelectedView()) {
       try {
         const data = await AxiosRequests.taskCount(apiClient, payload);
         if (!isMounted.current) return null;
@@ -141,7 +153,7 @@ const TaskListPage = () => {
 
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, taskStatus);
-    if (canViewPnrData) {
+    if (getSelectedView()) {
       try {
         const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
         if (!isMounted.current) return null;
