@@ -11,7 +11,8 @@ import { LOCAL_STORAGE_KEYS,
 import DEFAULTS from './constants';
 
 // Utils
-import { CommonUtil, StorageUtil } from '../../utils';
+import CommonUtil, { VIEW } from '../../utils/Common/commonUtil';
+import { StorageUtil } from '../../utils';
 import { useKeycloak } from '../../context/Keycloak';
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
 import getFilter from '../../components/Filter/Custom/getFilter';
@@ -28,6 +29,7 @@ import TasksTab from './components/shared/TasksTab';
 // Context
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
 import { ViewContext } from '../../context/ViewContext';
+import { PnrAccessContext } from '../../context/PnrAccessContext';
 
 // Services
 import AxiosRequests from '../../api/axiosRequests';
@@ -51,6 +53,18 @@ const TaskListPage = () => {
   const [rulesOptions, setRulesOptions] = useState([]);
   const { taskManagementTabIndex, selectTaskManagementTabIndex } = useContext(TaskSelectedTabContext);
   const { setView, getView } = useContext(ViewContext);
+  const { canViewPnrData } = useContext(PnrAccessContext);
+
+  const isPnrAccessRequired = () => {
+    switch (getView()) {
+      case VIEW.AIRPAX: {
+        return !canViewPnrData;
+      }
+      default: {
+        return false;
+      }
+    }
+  };
 
   const adaptMovementDirection = (payload) => {
     if (payload?.movementDirection?.length <= 1) {
@@ -69,13 +83,17 @@ const TaskListPage = () => {
   };
 
   const getTaskCount = async (payload) => {
-    try {
-      const data = await AxiosRequests.taskCount(apiClient, payload);
-      if (!isMounted.current) return null;
-      setTaskCountsByStatus(data);
-    } catch (e) {
-      if (!isMounted.current) return null;
-      setError(e.message);
+    if (!isPnrAccessRequired()) {
+      try {
+        const data = await AxiosRequests.taskCount(apiClient, payload);
+        if (!isMounted.current) return null;
+        setTaskCountsByStatus(data);
+      } catch (e) {
+        if (!isMounted.current) return null;
+        setError(e.message);
+        setTaskCountsByStatus(undefined);
+      }
+    } else {
       setTaskCountsByStatus(undefined);
     }
   };
@@ -135,13 +153,17 @@ const TaskListPage = () => {
 
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, taskStatus);
-    try {
-      const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
-      if (!isMounted.current) return null;
-      setFiltersAndSelectorsCount(data);
-    } catch (e) {
-      if (!isMounted.current) return null;
-      setError(e.message);
+    if (!isPnrAccessRequired()) {
+      try {
+        const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
+        if (!isMounted.current) return null;
+        setFiltersAndSelectorsCount(data);
+      } catch (e) {
+        if (!isMounted.current) return null;
+        setError(e.message);
+        setFiltersAndSelectorsCount(undefined);
+      }
+    } else {
       setFiltersAndSelectorsCount(undefined);
     }
   };
@@ -193,6 +215,13 @@ const TaskListPage = () => {
   useEffect(() => {
     setView(CommonUtil.viewByPath(location.pathname));
   }, []);
+
+  useEffect(() => {
+    if (!canViewPnrData) {
+      setFiltersAndSelectorsCount(undefined);
+      setTaskCountsByStatus(undefined);
+    }
+  }, [canViewPnrData]);
 
   useEffect(() => {
     if (getView() && !appliedFilters) {
