@@ -7,7 +7,7 @@ import { LOCAL_STORAGE_KEYS,
   TAB_STATUS_MAPPING,
   TARGETER_GROUP,
   TASK_STATUS,
-  MODE } from '../../utils/constants';
+  VIEW } from '../../utils/constants';
 
 import DEFAULTS from './constants';
 
@@ -55,9 +55,9 @@ const TaskListPage = () => {
   const { setView, getView } = useContext(ViewContext);
   const { canViewPnrData } = useContext(PnrAccessContext);
 
-  const getSelectedView = () => {
+  const isPnrAccessRequired = () => {
     switch (getView()) {
-      case MODE.AIRPAX: {
+      case VIEW.AIRPAX: {
         return canViewPnrData;
       }
       default: {
@@ -83,7 +83,7 @@ const TaskListPage = () => {
   };
 
   const getTaskCount = async (payload) => {
-    if (getSelectedView()) {
+    if (isPnrAccessRequired()) {
       try {
         const data = await AxiosRequests.taskCount(apiClient, payload);
         if (!isMounted.current) return null;
@@ -153,7 +153,7 @@ const TaskListPage = () => {
 
   const getFiltersAndSelectorsCount = async (taskStatus = TASK_STATUS.NEW) => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, taskStatus);
-    if (getSelectedView()) {
+    if (isPnrAccessRequired()) {
       try {
         const data = await AxiosRequests.filtersCount(apiClient, getAppliedFilters());
         if (!isMounted.current) return null;

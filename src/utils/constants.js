@@ -103,6 +103,12 @@ export const MODE = {
   AIRPAX: 'AIRPAX',
 };
 
+export const VIEW = {
+  RORO: 'RORO',
+  RORO_V2: 'RORO_V2',
+  AIRPAX: 'AIRPAX',
+};
+
 export const ICON = {
   CAR: 'c-icon-car',
   INDIVIDUAL: 'c-icon-person',
