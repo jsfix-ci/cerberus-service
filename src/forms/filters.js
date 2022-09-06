@@ -114,24 +114,6 @@ const filter = (assignee, showAssignee, mode) => {
             required: false,
             useCustomOptions: true,
           },
-          {
-            id: 'movementDirection',
-            fieldId: 'movementDirection',
-            label: 'Direction of travel',
-            type: 'checkboxes',
-            data: {
-              options: [
-                {
-                  value: 'INBOUND',
-                  label: 'Inbound',
-                },
-                {
-                  value: 'OUTBOUND',
-                  label: 'Outbound',
-                },
-              ],
-            },
-          },
         ],
         actions: [
           {
