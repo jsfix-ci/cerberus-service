@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import qs from 'qs';
 // Config
-import { FORM_NAMES, TASK_STATUS, MODE } from '../../../utils/constants';
+import { FORM_NAMES, TASK_STATUS } from '../../../utils/constants';
 import config from '../../../utils/config';
 // Utils
 import { useAxiosInstance } from '../../../utils/Axios/axiosInstance';
@@ -16,7 +16,7 @@ import { findAndUpdateTaskVersionDifferences } from '../../../utils/TaskVersion/
 import ClaimButton from '../../../components/Buttons/ClaimTaskButton';
 import RenderForm from '../../../components/RenderForm/RenderForm';
 import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
-import TaskNotes from '../../../components/TaskNotes/TaskNotes';
+import TaskNotes from '../../../components/TaskNotes/roro/RoRoTaskNotes';
 import { TaskVersions } from './TaskVersions';
 // Styling
 import Button from '../../../components/Buttons/Button';
@@ -461,7 +461,6 @@ const TaskDetailsPage = () => {
             </div>
             <div className="govuk-grid-column-one-third">
               <TaskNotes
-                noteVariant={MODE.RORO}
                 displayForm={assignee === currentUser
                   && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissFormOpen}
                 businessKey={targetData.taskSummaryBasedOnTIS?.parentBusinessKey?.businessKey}

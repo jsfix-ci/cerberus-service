@@ -4,22 +4,24 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import '../../__mocks__/keycloakMock';
+import '../../../__mocks__/keycloakMock';
 
-import { ApplicationContext } from '../../context/ApplicationContext';
+import { ApplicationContext } from '../../../context/ApplicationContext';
+import { ViewContext } from '../../../context/ViewContext';
 
-import TaskDetailsPage from './TaskDetailsPage';
+import TaskDetailsPage from '../TaskDetailsPage';
 
-import dataCurrentUser from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import dataOtherUser from '../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
-import dataNoAssignee from '../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
-import dataTargetIssued from '../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
-import dataTaskComplete from '../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
-import dataClaimedTask from '../../__fixtures__/taskData_AirPax_ClaimedTask.fixture.json';
-import dataDismissedTask from '../../__fixtures__/taskData_AirPax_DismissedTask.json';
+import dataCurrentUser from '../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
+import dataOtherUser from '../../../__fixtures__/taskData_AirPax_AssigneeOtherUser.fixture.json';
+import dataNoAssignee from '../../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
+import dataTargetIssued from '../../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
+import dataTaskComplete from '../../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
+import dataClaimedTask from '../../../__fixtures__/taskData_AirPax_ClaimedTask.fixture.json';
+import dataDismissedTask from '../../../__fixtures__/taskData_AirPax_DismissedTask.json';
 
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
-import { TASK_STATUS } from '../../utils/constants';
+import refDataAirlineCodes from '../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import { TASK_STATUS } from '../../../utils/constants';
+import { VIEW } from '../../../utils/Common/commonUtil';
 
 // Extend the react-router-dom mock from jest.setup.jsx.
 const extendedRouterMock = jest.requireMock('react-router-dom');
@@ -52,7 +54,9 @@ describe('Task details page', () => {
 
   const renderPage = async () => render(
     <MockApplicationContext>
-      <TaskDetailsPage />
+      <ViewContext.Provider value={{ getView: jest.fn().mockReturnValue(VIEW.AIRPAX), setView: jest.fn() }}>
+        <TaskDetailsPage />
+      </ViewContext.Provider>
     </MockApplicationContext>,
   );
 

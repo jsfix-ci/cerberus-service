@@ -57,4 +57,16 @@ describe('CommonUtil', () => {
     CommonUtil.setStatus(taskManagementTabIndex);
     expect(localStorage.getItem(LOCAL_STORAGE_KEYS.TASK_STATUS)).toEqual(expected);
   });
+
+  it.each([
+    ['/roro/tasks/DEV-123', PATHS.RORO_V2],
+    ['/airpax/tasks/DEV-123', PATHS.AIRPAX],
+    ['/tasks/DEV-123', PATHS.RORO],
+    [undefined, undefined],
+    [null, null],
+    ['', ''],
+    [1, '1'],
+  ])('should extract the task list path from URL and return the expected value', (path, expected) => {
+    expect(CommonUtil.taskListPath(path)).toEqual(expected);
+  });
 });

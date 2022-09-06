@@ -2,14 +2,14 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import TaskVersions from './TaskVersions';
-import { ApplicationContext } from '../../context/ApplicationContext';
-import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
+import { ApplicationContext } from '../../../../context/ApplicationContext';
+import { TaskSelectedTabContext } from '../../../../context/TaskSelectedTabContext';
 
-import { LONDON_TIMEZONE } from '../../utils/constants';
-import taskDetailsData from '../../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import { LONDON_TIMEZONE } from '../../../../utils/constants';
+import taskDetailsData from '../../../../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
+import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
-import config from '../../utils/config';
+import config from '../../../../utils/config';
 
 describe('TaskVersions', () => {
   let tabData = {};

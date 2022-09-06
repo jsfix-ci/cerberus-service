@@ -124,4 +124,122 @@ describe('AxiosRequests', () => {
     expect(CANCELS).toHaveLength(1);
     expect(CANCELS[0]).toEqual('Cancelling request');
   });
+
+  it('should call the submit tis api function and verify payload', async () => {
+    const ON_POST_CALLS = [];
+    const ON_POST = (payload) => {
+      ON_POST_CALLS.length = 0;
+      ON_POST_CALLS.push(payload);
+    };
+
+    const PAYLOAD = {
+      id: 'BK-123',
+      form: 'airpax-tis',
+    };
+
+    const axiosInstance = {
+      post: (_, payload) => ON_POST(payload),
+    };
+
+    await AxiosRequests.submitTis(axiosInstance, PAYLOAD);
+    expect(ON_POST_CALLS[0]).toMatchObject(PAYLOAD);
+  });
+
+  it('should throw an error on submit tis api request failure', async () => {
+    const axiosInstance = {
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
+    };
+    await expect(AxiosRequests.submitTis(axiosInstance, {}))
+      .rejects
+      .toEqual(EXPECTED_ERROR);
+  });
+
+  it('should call the save notes api function and verify payload', async () => {
+    const ON_POST_CALLS = [];
+    const ON_POST = (payload) => {
+      ON_POST_CALLS.length = 0;
+      ON_POST_CALLS.push(payload);
+    };
+
+    const PAYLOAD = {
+      id: 'BK-123',
+      note: 'This is a test note',
+    };
+
+    const axiosInstance = {
+      post: (_, payload) => ON_POST(payload),
+    };
+
+    await AxiosRequests.saveNote(axiosInstance, 'BK-123', PAYLOAD);
+    expect(ON_POST_CALLS[0]).toMatchObject(PAYLOAD);
+  });
+
+  it('should throw an error on save notes api request failure', async () => {
+    const axiosInstance = {
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
+    };
+    await expect(AxiosRequests.saveNote(axiosInstance, 'BK-123', {}))
+      .rejects
+      .toEqual(EXPECTED_ERROR);
+  });
+
+  it('should call the complete task api function and verify payload', async () => {
+    const ON_POST_CALLS = [];
+    const ON_POST = (payload) => {
+      ON_POST_CALLS.length = 0;
+      ON_POST_CALLS.push(payload);
+    };
+
+    const PAYLOAD = {
+      id: 'BK-123',
+      note: 'Task completed',
+      reason: 'No reason',
+    };
+
+    const axiosInstance = {
+      post: (_, payload) => ON_POST(payload),
+    };
+
+    await AxiosRequests.completeTask(axiosInstance, 'BK-123', PAYLOAD);
+    expect(ON_POST_CALLS[0]).toMatchObject(PAYLOAD);
+  });
+
+  it('should throw an error on complete task api request failure', async () => {
+    const axiosInstance = {
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
+    };
+    await expect(AxiosRequests.completeTask(axiosInstance, 'BK-123', {}))
+      .rejects
+      .toEqual(EXPECTED_ERROR);
+  });
+
+  it('should call the dismiss task api function and verify payload', async () => {
+    const ON_POST_CALLS = [];
+    const ON_POST = (payload) => {
+      ON_POST_CALLS.length = 0;
+      ON_POST_CALLS.push(payload);
+    };
+
+    const PAYLOAD = {
+      id: 'BK-123',
+      note: 'Task dismissed',
+      reason: 'No reason',
+    };
+
+    const axiosInstance = {
+      post: (_, payload) => ON_POST(payload),
+    };
+
+    await AxiosRequests.dismissTask(axiosInstance, 'BK-123', PAYLOAD);
+    expect(ON_POST_CALLS[0]).toMatchObject(PAYLOAD);
+  });
+
+  it('should throw an error on dismiss task api request failure', async () => {
+    const axiosInstance = {
+      post: jest.fn(() => Promise.reject(Error(ERROR_MESSAGE))),
+    };
+    await expect(AxiosRequests.dismissTask(axiosInstance, 'BK-123', {}))
+      .rejects
+      .toEqual(EXPECTED_ERROR);
+  });
 });

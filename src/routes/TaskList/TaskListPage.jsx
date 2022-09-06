@@ -14,6 +14,7 @@ import DEFAULTS from './constants';
 import { CommonUtil, StorageUtil } from '../../utils';
 import { useKeycloak } from '../../context/Keycloak';
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
+import getFilter from '../../components/Filter/Custom/getFilter';
 
 // Config
 import config from '../../utils/config';
@@ -22,6 +23,7 @@ import config from '../../utils/config';
 import ErrorSummary from '../../components/ErrorSummary/ErrorSummary';
 import Tabs from '../../components/Tabs/Tabs';
 import TaskManagementHeader from '../../components/Headers/TaskManagementHeader';
+import TasksTab from './components/shared/TasksTab';
 
 // Context
 import { TaskSelectedTabContext } from '../../context/TaskSelectedTabContext';
@@ -32,8 +34,6 @@ import AxiosRequests from '../../api/axiosRequests';
 
 // Styling
 import './components/shared/TaskListPage.scss';
-import TasksTab from './components/shared/TasksTab';
-import getFilter from '../../components/Filter/Custom/getFilter';
 
 const TaskListPage = () => {
   const keycloak = useKeycloak();

@@ -3,20 +3,20 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as pluralise from 'pluralise';
 // Constants
-import { DATE_FORMATS } from '../../utils/constants';
+import { DATE_FORMATS } from '../../../../utils/constants';
 // Components/govuk
-import Accordion from '../../components/Accordion/Accordion';
+import Accordion from '../../../../components/Accordion/Accordion';
 // Components
-import Document from './builder/Document';
-import Baggage from './builder/Baggage';
-import Booking from './builder/Booking';
-import Passenger from './builder/Passenger';
-import Voyage from './builder/Voyage';
-import Itinerary from './builder/Itinerary';
-import CoTraveller from './builder/CoTraveller';
-import SelectorMatches from './builder/SelectorMatches';
-import RuleMatches from './builder/RuleMatches';
-import TaskSummary from './TaskSummary';
+import Document from '../../builder/Document';
+import Baggage from '../../builder/Baggage';
+import Booking from '../../builder/Booking';
+import Passenger from '../../builder/Passenger';
+import Voyage from '../../builder/Voyage';
+import Itinerary from '../../builder/Itinerary';
+import CoTraveller from '../../builder/CoTraveller';
+import SelectorMatches from '../../builder/SelectorMatches';
+import RuleMatches from '../../builder/RuleMatches';
+import TaskSummary from '../../TaskSummary';
 
 const renderVersionDetails = (version) => {
   return (

@@ -10,6 +10,11 @@ export const VIEW = {
   NONE: 'RORO',
 };
 
+const getTaskListPathFromURL = (path) => {
+  const regex = /(.*)\/.*/;
+  return path?.toString()?.replace(regex, '$1') || path;
+};
+
 const setTaskStatus = (taskManagementTabIndex) => {
   localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, TASK_STATUS_BY_INDEX[taskManagementTabIndex]);
 };
@@ -52,6 +57,7 @@ const convertToIso3Code = (iso2Code) => {
 };
 
 const CommonUtil = {
+  taskListPath: getTaskListPathFromURL,
   iso3Code: convertToIso3Code,
   movementStats: getMovementStats,
   hasAssignee,
@@ -64,6 +70,7 @@ export default CommonUtil;
 export {
   convertToIso3Code,
   getMovementStats,
+  getTaskListPathFromURL,
   getViewByPath,
   hasAssignee,
   setTaskStatus,
