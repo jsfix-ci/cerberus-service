@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
-import { MovementUtil } from '../../utils';
+import React from 'react';
+import { MovementUtil } from '../../../../../utils';
 
-import { ICON } from '../../utils/constants';
-import { ApplicationContext } from '../../context/ApplicationContext';
+import { ICON } from '../../../../../utils/constants';
 
-const TaskSummary = ({ version }) => {
+const AirpaxTaskSummary = ({ version, refDataAirlineCodes }) => {
   const journey = MovementUtil.movementJourney(version);
   const flight = MovementUtil.movementFlight(version);
   const arrivalTime = MovementUtil.arrivalTime(journey);
-  const { refDataAirlineCodes } = useContext(ApplicationContext);
   return (
     <section className="task-list--voyage-section overflow-hidden">
       <div className="govuk-grid-row grid-background--greyed">
@@ -26,7 +24,7 @@ const TaskSummary = ({ version }) => {
         <div className="govuk-grid-column-three-quarters govuk-!-padding-right-7 align-right">
           <i className="c-icon-aircraft" />
           <p className="content-line-one govuk-!-padding-right-2">
-            {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes())} flight, 
+            {`${MovementUtil.airlineName(MovementUtil.airlineOperator(flight), refDataAirlineCodes)} flight, 
               ${MovementUtil.voyageText(arrivalTime, true, MovementUtil.iataToCity(MovementUtil.arrivalLoc(journey)))}
               `}
           </p>
@@ -46,4 +44,4 @@ const TaskSummary = ({ version }) => {
   );
 };
 
-export default TaskSummary;
+export default AirpaxTaskSummary;

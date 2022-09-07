@@ -42,7 +42,6 @@ const getVoyageComponent = (mode, targetTask, refDataAirlineCodes) => {
           vessel={vessel}
           vehicle={vehicle}
           trailer={trailer}
-          description={description}
           iconDescription={iconDescription}
           arrivalTime={arrivalTime}
           totalPersons={totalPersons}

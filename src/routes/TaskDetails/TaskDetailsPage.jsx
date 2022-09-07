@@ -75,6 +75,13 @@ const TaskDetailsPage = () => {
     }
   };
 
+  const setActionButtons = (_issueTargetFormOpen, _dismissTaskFormOpen, _completeFormOpen, _showActionButtons) => {
+    setIssueTargetFormOpen(_issueTargetFormOpen);
+    setDismissTaskFormOpen(_dismissTaskFormOpen);
+    setCompleteFormOpen(_completeFormOpen);
+    setShowActionButtons(_showActionButtons);
+  };
+
   const getPrefillData = async () => {
     try {
       const data = await AxiosRequests.informationSheet(apiClient, businessKey);
@@ -168,10 +175,7 @@ const TaskDetailsPage = () => {
                         <Button
                           className="govuk-!-margin-right-1"
                           onClick={() => {
-                            setIssueTargetFormOpen(true);
-                            setDismissTaskFormOpen(false);
-                            setCompleteFormOpen(false);
-                            setShowActionButtons(false);
+                            setActionButtons(true, false, false, false);
                           }}
                         >
                           Issue target
@@ -179,10 +183,7 @@ const TaskDetailsPage = () => {
                         <Button
                           className="govuk-button--secondary govuk-!-margin-right-1"
                           onClick={() => {
-                            setCompleteFormOpen(true);
-                            setDismissTaskFormOpen(false);
-                            setIssueTargetFormOpen(false);
-                            setShowActionButtons(false);
+                            setActionButtons(false, false, true, false);
                           }}
                         >
                           Assessment complete
@@ -190,10 +191,7 @@ const TaskDetailsPage = () => {
                         <Button
                           className="govuk-button--warning"
                           onClick={() => {
-                            setDismissTaskFormOpen(true);
-                            setCompleteFormOpen(false);
-                            setIssueTargetFormOpen(false);
-                            setShowActionButtons(false);
+                            setActionButtons(false, true, false, false);
                           }}
                         >
                           Dismiss

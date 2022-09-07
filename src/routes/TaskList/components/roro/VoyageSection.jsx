@@ -8,7 +8,6 @@ const VoyageSection = ({ mode,
   vessel,
   vehicle,
   trailer,
-  description,
   iconDescription,
   arrivalTime,
   totalPersons }) => {
@@ -59,7 +58,7 @@ const VoyageSection = ({ mode,
         <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
           <i className={`icon-position--left ${ICON_MAPPING[mode]?.[iconDescription]}`} />
           <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
-            {DESCRIPTION_MAPPING[description]}
+            {DESCRIPTION_MAPPING[iconDescription]}
           </p>
           <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
             <span className="govuk-font-weight-bold">

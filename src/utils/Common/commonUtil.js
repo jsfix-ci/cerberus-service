@@ -36,7 +36,7 @@ const getViewByPath = (path) => {
   }
 };
 
-const hasAssignee = (filterKey) => {
+const containsAssignee = (filterKey) => {
   const payload = getLocalStoredItemByKeyValue(filterKey);
   return !!payload?.assignedToMe?.length;
 };
@@ -60,7 +60,7 @@ const CommonUtil = {
   taskListPath: getTaskListPathFromURL,
   iso3Code: convertToIso3Code,
   movementStats: getMovementStats,
-  hasAssignee,
+  hasAssignee: containsAssignee,
   viewByPath: getViewByPath,
   setStatus: setTaskStatus,
 };
@@ -72,6 +72,6 @@ export {
   getMovementStats,
   getTaskListPathFromURL,
   getViewByPath,
-  hasAssignee,
+  containsAssignee,
   setTaskStatus,
 };

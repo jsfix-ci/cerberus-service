@@ -3,11 +3,11 @@ import { screen, render } from '@testing-library/react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { ApplicationContext } from '../../context/ApplicationContext';
+import { ApplicationContext } from '../../../../context/ApplicationContext';
 
 import TaskSummary from './TaskSummary';
-import taskSummaryAirPaxData from '../../__fixtures__/taskSummaryAirPaxData.fixture.json';
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import taskSummaryAirPaxData from '../../../../__fixtures__/taskSummaryAirPaxData.fixture.json';
+import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
 
 // mock useParams
 jest.mock('react-router-dom', () => ({

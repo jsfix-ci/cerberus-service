@@ -16,7 +16,7 @@ import Itinerary from '../../builder/Itinerary';
 import CoTraveller from '../../builder/CoTraveller';
 import SelectorMatches from '../../builder/SelectorMatches';
 import RuleMatches from '../../builder/RuleMatches';
-import TaskSummary from '../../TaskSummary';
+import TaskSummary from './TaskSummary';
 
 const renderVersionDetails = (version) => {
   return (
