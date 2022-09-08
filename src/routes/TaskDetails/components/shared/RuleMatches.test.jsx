@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import RulesMatches from './RuleMatches';
-import taskDetailsSelectors from '../../../__fixtures__/taskData_AirPax_TaskDetails_Selectors.fixture.json';
+import taskDetailsSelectors from '../../../../__fixtures__/taskData_AirPax_TaskDetails_Selectors.fixture.json';
 
 describe('RuleMatches', () => {
   it('should render RuleMatches component', () => {

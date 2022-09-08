@@ -16,6 +16,10 @@ const formatField = (fieldType, content) => {
   if (!content && content !== 0) {
     return STRINGS.UNKNOWN_TEXT;
   }
+  // TODO:
+  if (content === STRINGS.UNKNOWN_TEXT) {
+    return content;
+  }
 
   let result;
   switch (true) {

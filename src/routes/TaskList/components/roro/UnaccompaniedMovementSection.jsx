@@ -27,7 +27,7 @@ const UnaccompaniedMovementSection = ({ trailer,
               movementStats={CommonUtil.movementStats(trailer)}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{TrailerUtil.trailerReg(trailer)}</li>
+              <li className="govuk-!-font-weight-bold">{TrailerUtil.registration(trailer)}</li>
               <li>{TrailerUtil.type(trailer)}</li>
             </ul>
           </div>

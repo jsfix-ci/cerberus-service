@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { DATE_FORMATS } from '../../../utils/constants';
-import { ApplicationContext } from '../../../context/ApplicationContext';
+import { DATE_FORMATS } from '../../../../utils/constants';
+import { ApplicationContext } from '../../../../context/ApplicationContext';
 
-import { MovementUtil } from '../../../utils';
-import renderBlock from './helper/common';
+import { MovementUtil } from '../../../../utils';
+import renderBlock from '../../helper/common';
 
 const Voyage = ({ version }) => {
   const journey = MovementUtil.movementJourney(version);

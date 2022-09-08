@@ -1,7 +1,7 @@
 import React from 'react';
 
-import AirpaxTaskSummary from '../components/airpax/summary/AirpaxTaskSummary';
-import RoRoTaskSummary from '../components/roro/summary/RoRoTaskSummary';
+import AirpaxTaskSummary from '../components/airpax/AirpaxTaskSummary';
+import RoRoTaskSummary from '../components/roro/RoRoTaskSummary';
 
 import { MOVEMENT_MODES } from '../../../utils/constants';
 

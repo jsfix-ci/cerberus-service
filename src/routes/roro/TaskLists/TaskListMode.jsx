@@ -206,7 +206,7 @@ const renderRoRoTouristCard = (roroData, movementMode, movementModeIcon) => {
           <div className="govuk-grid-row">
             <div className="govuk-grid-item">
               <div>
-                <EnrichmentCount labelText="Driver" enrichmentCountText={roroData.driver?.enrichmentCount} />
+                <EnrichmentCount labelText="Occupants" enrichmentCountText={roroData.driver?.enrichmentCount} />
                 <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                   {roroData?.passengers ? (
                     <>
@@ -398,7 +398,7 @@ const TaskListMode = ({ roroData, target, movementModeIcon }) => {
             <div className="govuk-grid-row">
               <div className="govuk-grid-item">
                 <div>
-                  <EnrichmentCount labelText="Driver details" enrichmentCountText={roroData.driver?.enrichmentCount} />
+                  <EnrichmentCount labelText="Occupants details" enrichmentCountText={roroData.driver?.enrichmentCount} />
                   <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-2">
                     {roroData.driver ? (
                       <>

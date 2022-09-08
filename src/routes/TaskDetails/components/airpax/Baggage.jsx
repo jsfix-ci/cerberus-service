@@ -3,8 +3,8 @@ import React from 'react';
 import {
   BaggageUtil,
   PersonUtil,
-} from '../../../utils';
-import renderBlock, { renderRow } from './helper/common';
+} from '../../../../utils';
+import renderBlock, { renderRow } from '../../helper/common';
 
 const Baggage = ({ version }) => {
   const baggage = BaggageUtil.get(version);

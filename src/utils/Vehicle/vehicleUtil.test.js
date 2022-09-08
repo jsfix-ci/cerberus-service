@@ -32,7 +32,7 @@ describe('VehicleUtil', () => {
 
   it('should extract the vehicle colour if present', () => {
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleColour(vehicle)).toEqual(mockTaskData.movement.vehicle.colour);
+    expect(VehicleUtil.colour(vehicle)).toEqual(mockTaskData.movement.vehicle.colour);
   });
 
   it.each([
@@ -40,12 +40,12 @@ describe('VehicleUtil', () => {
   ])(`should return ${STRINGS.UNKNOWN_TEXT} when vehicle colour is invalid`, (colour) => {
     MOCK_TARGET_TASK.movement.vehicle.colour = colour;
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleColour(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(VehicleUtil.colour(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should extract the vehicle make if present', () => {
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleMake(vehicle)).toEqual(mockTaskData.movement.vehicle.make);
+    expect(VehicleUtil.make(vehicle)).toEqual(mockTaskData.movement.vehicle.make);
   });
 
   it.each([
@@ -53,12 +53,12 @@ describe('VehicleUtil', () => {
   ])(`should return ${STRINGS.UNKNOWN_TEXT} when vehicle make is invalid`, (make) => {
     MOCK_TARGET_TASK.movement.vehicle.make = make;
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleMake(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(VehicleUtil.make(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should extract the vehicle model if present', () => {
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleModel(vehicle)).toEqual(mockTaskData.movement.vehicle.model);
+    expect(VehicleUtil.model(vehicle)).toEqual(mockTaskData.movement.vehicle.model);
   });
 
   it.each([
@@ -66,12 +66,12 @@ describe('VehicleUtil', () => {
   ])(`should return ${STRINGS.UNKNOWN_TEXT} when vehicle model is invalid`, (model) => {
     MOCK_TARGET_TASK.movement.vehicle.model = model;
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleModel(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(VehicleUtil.model(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should extract the vehicle registration if present', () => {
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleReg(vehicle)).toEqual(mockTaskData.movement.vehicle.registration);
+    expect(VehicleUtil.registration(vehicle)).toEqual(mockTaskData.movement.vehicle.registration);
   });
 
   it.each([
@@ -79,6 +79,6 @@ describe('VehicleUtil', () => {
   ])(`should return ${STRINGS.UNKNOWN_TEXT} when vehicle registration is invalid`, (registration) => {
     MOCK_TARGET_TASK.movement.vehicle.registration = registration;
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
-    expect(VehicleUtil.vehicleReg(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
+    expect(VehicleUtil.registration(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 });

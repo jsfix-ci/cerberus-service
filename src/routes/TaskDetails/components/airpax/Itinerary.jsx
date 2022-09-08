@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DATE_FORMATS, STRINGS } from '../../../utils/constants';
-import { MovementUtil } from '../../../utils';
+import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
+import { MovementUtil } from '../../../../utils';
 
 const Itinerary = ({ version }) => {
   const itinerary = MovementUtil.movementItinerary(MovementUtil.movementJourney(version));

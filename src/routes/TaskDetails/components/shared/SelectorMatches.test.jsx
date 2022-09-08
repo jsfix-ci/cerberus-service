@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import SelectorMatches from './SelectorMatches';
-import taskDetailsSelectors from '../../../__fixtures__/taskData_AirPax_TaskDetails_Selectors.fixture.json';
+import taskDetailsSelectors from '../../../../__fixtures__/taskData_AirPax_TaskDetails_Selectors.fixture.json';
 
 describe('SelectorMatches', () => {
   it('should render SelectorMatches component', () => {

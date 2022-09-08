@@ -1,11 +1,11 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import Table from '../../../components/Table/Table';
+import Table from '../../../../components/Table/Table';
 
-import { CO_TRAVELLERS_TABLE_HEADERS } from '../../../utils/constants';
+import { CO_TRAVELLERS_TABLE_HEADERS } from '../../../../utils/constants';
 
-import { PersonUtil, MovementUtil, DocumentUtil } from '../../../utils';
-import '../../../components/Table/Table.scss';
+import { PersonUtil, MovementUtil, DocumentUtil } from '../../../../utils';
+import '../../../../components/Table/Table.scss';
 
 const toTravellerColumnContent = (person, version) => {
   return (

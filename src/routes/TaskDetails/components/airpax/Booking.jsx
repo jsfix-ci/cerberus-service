@@ -2,18 +2,19 @@ import React from 'react';
 import {
   DATE_FORMATS,
   STRINGS,
-} from '../../../utils/constants';
+} from '../../../../utils/constants';
 import {
   BookingUtil,
   PersonUtil,
   DateTimeUtil,
   MovementUtil,
-} from '../../../utils';
+} from '../../../../utils';
 
-import renderBlock from './helper/common';
-import { calculateTimeDifference } from '../../../utils/Datetime/datetimeUtil';
+import renderBlock from '../../helper/common';
+import { calculateTimeDifference } from '../../../../utils/Datetime/datetimeUtil';
 
-const toBookingTimeDiference = (date, version) => {
+// TODO: This is a duplicate of the one found in the roro Booking component.
+const toBookingTimeDifference = (date, version) => {
   if (!DateTimeUtil.validate(date)) {
     return STRINGS.UNKNOWN_TEXT;
   }
@@ -41,10 +42,10 @@ const Booking = ({ version }) => {
         ])}
         {renderBlock('Booking date', [
           DateTimeUtil.format(BookingUtil.bookedAt(booking), DATE_FORMATS.LONG),
-          toBookingTimeDiference(BookingUtil.bookedAt(booking), version),
+          toBookingTimeDifference(BookingUtil.bookedAt(booking), version),
         ])}
         {renderBlock('Check-in date', [DateTimeUtil.format(BookingUtil.checkInAt(booking), DATE_FORMATS.LONG),
-          toBookingTimeDiference(BookingUtil.checkInAt(booking), version)])}
+          toBookingTimeDifference(BookingUtil.checkInAt(booking), version)])}
         {renderBlock('Booking country', [
           `${BookingUtil.countryName(booking)} (${BookingUtil.countryCode(booking)})`,
         ])}

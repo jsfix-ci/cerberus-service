@@ -10,6 +10,17 @@ const INVALID_VALUES = [
   'Invalid Date',
   'NaN'];
 
+const formatAddress = (address) => {
+  if (!address) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return Object.keys(address)
+    .filter((k) => k !== 'entitySearchUrl')
+    .filter((k) => !!address[k])
+    .map((k) => address[k])
+    .join(', ');
+};
+
 const capitalizeString = (value) => {
   if (!value) {
     return value;
@@ -84,6 +95,7 @@ const StringUtil = {
   format: {
     camelCase: formatTaskStatusToCamelCase,
     snakeCase: formatTaskStatusToSnakeCase,
+    address: formatAddress, // TODO
   },
   modeIconText: formatMovementModeIconText,
   replaceInvalid: replaceInvalidValues,

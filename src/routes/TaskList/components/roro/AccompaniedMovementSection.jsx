@@ -26,7 +26,7 @@ const AccompaniedMovementSection = ({ person,
       <div className="govuk-grid-item">
         <>
           <div>
-            <EnrichmentCount labelText="Driver details" movementStats={CommonUtil.movementStats(person)} />
+            <EnrichmentCount labelText="Occupants details" movementStats={CommonUtil.movementStats(person)} />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{PersonUtil.fullname(person)}</li>
               <li>DOB: {PersonUtil.dob(person, DATE_FORMATS.SHORT)}</li>
@@ -52,10 +52,10 @@ const AccompaniedMovementSection = ({ person,
           <div>
             <EnrichmentCount labelText="Vehicle details" movementStats={CommonUtil.movementStats(vehicle)} />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{VehicleUtil.vehicleReg(vehicle)}</li>
-              <li>{VehicleUtil.vehicleColour(vehicle)}</li>
-              <li>{VehicleUtil.vehicleMake(vehicle)}</li>
-              <li>{VehicleUtil.vehicleModel(vehicle)}</li>
+              <li className="govuk-!-font-weight-bold">{VehicleUtil.registration(vehicle)}</li>
+              <li>{VehicleUtil.colour(vehicle)}</li>
+              <li>{VehicleUtil.make(vehicle)}</li>
+              <li>{VehicleUtil.model(vehicle)}</li>
             </ul>
           </div>
           <div>
@@ -65,7 +65,7 @@ const AccompaniedMovementSection = ({ person,
               classnames="govuk-!-margin-top-3"
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{TrailerUtil.trailerReg(trailer)}</li>
+              <li className="govuk-!-font-weight-bold">{TrailerUtil.registration(trailer)}</li>
               <li>{TrailerUtil.type(trailer)}</li>
             </ul>
           </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import Document from './Document';
-import taskDetailsData from '../../../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
+import taskDetailsData from '../../../../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
 
 describe('Document', () => {
   it('should render the document component', () => {

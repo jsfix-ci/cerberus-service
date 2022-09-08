@@ -24,6 +24,10 @@ import { getTotalNumberOfPersons } from '../Person/personUtil';
 import { isNotNumber } from '../Number/numberUtil';
 import CommonUtil from '../Common/commonUtil';
 
+const getOccupantCounts = (targetTask) => {
+  return targetTask?.movement?.occupants || undefined;
+};
+
 const getOutcomeTagBlock = (outcome) => {
   let outcomeText;
   let outcomeClass = 'genericOutcome';
@@ -607,6 +611,7 @@ const MovementUtil = {
   isSinglePassenger,
   isTaskDetailsPassenger,
   isValid,
+  occupantCounts: getOccupantCounts, // TODO
 };
 
 export default MovementUtil;

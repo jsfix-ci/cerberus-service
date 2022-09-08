@@ -1,7 +1,7 @@
 import React from 'react';
-import { MovementUtil } from '../../../../../utils';
+import { MovementUtil } from '../../../../utils';
 
-import { ICON } from '../../../../../utils/constants';
+import { ICON } from '../../../../utils/constants';
 
 const AirpaxTaskSummary = ({ version, refDataAirlineCodes }) => {
   const journey = MovementUtil.movementJourney(version);

@@ -1,7 +1,7 @@
 import React from 'react';
 import lookup from 'country-code-lookup';
 import dayjs from 'dayjs';
-import CommonUtil from '../Common/commonUtil';
+import { convertToIso3Code } from '../Common/commonUtil';
 import { getFormattedDate } from '../Datetime/datetimeUtil';
 import { DATE_FORMATS, GENDERS, STRINGS } from '../constants';
 
@@ -22,7 +22,7 @@ const getNationality = (person) => {
   if (!person?.nationality) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return CommonUtil.iso3Code(person.nationality);
+  return convertToIso3Code(person.nationality);
 };
 
 const getCountryName = (person) => {

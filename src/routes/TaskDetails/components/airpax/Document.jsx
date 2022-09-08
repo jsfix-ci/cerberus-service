@@ -1,14 +1,14 @@
 import React from 'react';
 // Utils
-import { getDate } from '../../../utils/Datetime/datetimeUtil';
-import { getJourney, getArrivalTime } from '../../../utils/Movement/movementUtil';
+import { getDate } from '../../../../utils/Datetime/datetimeUtil';
+import { getJourney, getArrivalTime } from '../../../../utils/Movement/movementUtil';
 
 import {
   DocumentUtil,
   PersonUtil,
-} from '../../../utils';
+} from '../../../../utils';
 
-import renderBlock from './helper/common';
+import renderBlock from '../../helper/common';
 
 const Document = ({ version }) => {
   const person = PersonUtil.get(version);

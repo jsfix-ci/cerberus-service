@@ -53,7 +53,7 @@ const TouristMovementSection = ({ targetTask }) => {
         <div className="govuk-grid-item">
           <div>
             <EnrichmentCount
-              labelText="Driver"
+              labelText="Occupants"
               movementStats={CommonUtil.movementStats(person)}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
@@ -69,7 +69,7 @@ const TouristMovementSection = ({ targetTask }) => {
               movementStats={CommonUtil.movementStats(vehicle)}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{VehicleUtil.vehicleReg(vehicle)}</li>
+              <li className="govuk-!-font-weight-bold">{VehicleUtil.registration(vehicle)}</li>
             </ul>
           </div>
         </div>

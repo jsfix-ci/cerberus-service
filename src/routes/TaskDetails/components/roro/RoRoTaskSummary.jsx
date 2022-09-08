@@ -1,8 +1,8 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import { MovementUtil, PersonUtil, StringUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../../../utils';
+import { MovementUtil, PersonUtil, StringUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../../utils';
 
-import { ICON, ICON_MAPPING, MOVEMENT_MODES, STRINGS } from '../../../../../utils/constants';
+import { ICON, ICON_MAPPING, MOVEMENT_MODES, STRINGS } from '../../../../utils/constants';
 
 const toMovementDescriptionContent = (mode, vehicle, trailer, person, totalPersons, iconFromDescription) => {
   switch (mode) {
@@ -10,9 +10,9 @@ const toMovementDescriptionContent = (mode, vehicle, trailer, person, totalPerso
     case MOVEMENT_MODES.ACCOMPANIED_FREIGHT: {
       return (
         <>
-          {vehicle ? VehicleUtil.vehicleReg(vehicle) : ''}
+          {vehicle ? VehicleUtil.registration(vehicle) : ''}
           {vehicle && trailer ? <span className="govuk-!-font-weight-regular"> {STRINGS.DESCRIPTIONS.PREPOSITIONS.WITH} </span> : ''}
-          {trailer ? TrailerUtil.trailerReg(trailer) : ''}
+          {trailer ? TrailerUtil.registration(trailer) : ''}
           {vehicle && person ? <span className="govuk-!-font-weight-regular"> driven by {PersonUtil.fullname(person)}</span> : ''}
         </>
       );
@@ -21,7 +21,7 @@ const toMovementDescriptionContent = (mode, vehicle, trailer, person, totalPerso
       if (iconFromDescription === ICON.CAR) {
         return (
           <>
-            {vehicle ? VehicleUtil.vehicleReg(vehicle) : ''}
+            {vehicle ? VehicleUtil.registration(vehicle) : ''}
             {vehicle && person ? <span className="govuk-!-font-weight-regular"> driven by {PersonUtil.fullname(person)}</span> : ''}
           </>
         );
