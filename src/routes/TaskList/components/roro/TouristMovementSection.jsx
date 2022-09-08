@@ -1,13 +1,16 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { BookingUtil,
+import {
+  BookingUtil,
   CommonUtil,
   DocumentUtil,
   EnrichmentUtil,
+  JourneyUtil,
   MovementUtil,
   PersonUtil,
-  VehicleUtil } from '../../../../utils';
+  VehicleUtil,
+} from '../../../../utils';
 import DatetimeUtil from '../../../../utils/Datetime/datetimeUtil';
 
 import { DATE_FORMATS, ICON, ICON_MAPPING, MOVEMENT_MODES, STRINGS } from '../../../../utils/constants';
@@ -20,11 +23,11 @@ const TouristMovementSection = ({ targetTask }) => {
   const document = DocumentUtil.get(person);
   const vehicle = VehicleUtil.get(targetTask);
   const booking = BookingUtil.get(targetTask);
-  const journey = MovementUtil.movementJourney(targetTask);
+  const journey = JourneyUtil.get(targetTask);
   const mode = MovementUtil.movementMode(targetTask);
   const description = MovementUtil.iconDescription(targetTask);
   const iconFromDescription = ICON_MAPPING[mode]?.[description];
-  const datetimeList = DatetimeUtil.toList(BookingUtil.bookedAt(booking), MovementUtil.departureTime(journey));
+  const datetimeList = DatetimeUtil.toList(BookingUtil.bookedAt(booking), JourneyUtil.departureTime(journey));
 
   const createCoTravellers = () => {
     if (Array.isArray(otherPersons) && !otherPersons.length) {

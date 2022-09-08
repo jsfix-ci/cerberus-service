@@ -1,5 +1,5 @@
 import React from 'react';
-import { AccountUtil, BaggageUtil, BookingUtil, DocumentUtil, GoodsUtil, HaulierUtil, MovementUtil, PersonUtil, VehicleUtil } from '../../../utils';
+import { AccountUtil, BaggageUtil, BookingUtil, DocumentUtil, GoodsUtil, HaulierUtil, JourneyUtil, MovementUtil, PersonUtil, VehicleUtil } from '../../../utils';
 import TrailerUtil from '../../../utils/Trailer/trailerUtil';
 import DatetimeUtil from '../../../utils/Datetime/datetimeUtil';
 import { MOVEMENT_MODES } from '../../../utils/constants';
@@ -13,7 +13,7 @@ const getMovementComponent = (mode, targetTask) => {
   const person = PersonUtil.get(targetTask);
   const baggage = BaggageUtil.get(targetTask);
   const booking = BookingUtil.get(targetTask);
-  const journey = MovementUtil.movementJourney(targetTask);
+  const journey = JourneyUtil.get(targetTask);
   const flight = MovementUtil.movementFlight(targetTask);
   const document = DocumentUtil.get(person);
   const otherPersons = PersonUtil.getOthers(targetTask);
@@ -23,7 +23,7 @@ const getMovementComponent = (mode, targetTask) => {
   const haulier = HaulierUtil.get(targetTask);
   const account = AccountUtil.get(targetTask);
   const goods = GoodsUtil.get(targetTask);
-  const bookingDepartureTime = DatetimeUtil.toList(BookingUtil.bookedAt(booking), MovementUtil.departureTime(journey));
+  const bookingDepartureTime = DatetimeUtil.toList(BookingUtil.bookedAt(booking), JourneyUtil.departureTime(journey));
 
   switch (mode) {
     case MOVEMENT_MODES.AIR_PASSENGER: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MovementUtil, VehicleUtil, VesselUtil } from '../../../../utils';
+import { JourneyUtil, MovementUtil, VehicleUtil, VesselUtil } from '../../../../utils';
 import { DESCRIPTION_MAPPING, ICON, ICON_MAPPING, MOVEMENT_MODES } from '../../../../utils/constants';
 import TrailerUtil from '../../../../utils/Trailer/trailerUtil';
 
@@ -78,12 +78,12 @@ const VoyageSection = ({ mode,
           {`${VesselUtil.operator(vessel)} voyage of ${VesselUtil.name(vessel)}, ${MovementUtil.voyageText(arrivalTime)}`}
         </p>
         <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
-          {`${MovementUtil.formatDepartureTime(journey)}`}
+          {`${JourneyUtil.formatDepartureTime(journey)}`}
           <span className="dot" />
-          <span className="govuk-!-font-weight-bold">{MovementUtil.departureLoc(journey)}</span> &#8594;
-          <span className="govuk-!-font-weight-bold"> {MovementUtil.arrivalLoc(journey)}</span>
+          <span className="govuk-!-font-weight-bold">{JourneyUtil.departureLoc(journey)}</span> &#8594;
+          <span className="govuk-!-font-weight-bold"> {JourneyUtil.arrivalLoc(journey)}</span>
           <span className="dot" />
-          {MovementUtil.formatArrivalTime(journey)}
+          {JourneyUtil.formatArrivalTime(journey)}
         </p>
       </div>
     );

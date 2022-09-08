@@ -11,6 +11,7 @@ import FormIOUtil from './Form/FormIO/formIOUtil';
 import GoodsUtil from './Goods/goodsUtil';
 import HaulierUtil from './Haulier/haulierUtil';
 import HyperlinkifyUtil from './Hyperlink/hyperlinkifyUtil';
+import JourneyUtil from './Journey/journeyUtil';
 import MovementUtil from './Movement/movementUtil';
 import NumberUtil from './Number/numberUtil';
 import PersonUtil from './Person/personUtil';
@@ -38,6 +39,7 @@ export { AccountUtil,
   GoodsUtil,
   HaulierUtil,
   HyperlinkifyUtil,
+  JourneyUtil,
   MovementUtil,
   NumberUtil,
   PersonUtil,

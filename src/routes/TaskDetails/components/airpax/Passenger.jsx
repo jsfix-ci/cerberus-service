@@ -1,11 +1,11 @@
 import React from 'react';
+
 import renderBlock from '../../helper/common';
-import MovementUtil from '../../../../utils/Movement/movementUtil';
-import PersonUtil from '../../../../utils/Person/personUtil';
+import { JourneyUtil, MovementUtil, PersonUtil } from '../../../../utils';
 
 const Passenger = ({ version }) => {
   const person = PersonUtil.get(version);
-  const departureDate = MovementUtil.departureTime(MovementUtil.movementJourney(version));
+  const departureDate = JourneyUtil.departureTime(JourneyUtil.get(version));
   return (
     <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
       <h3 className="govuk-heading-m govuk-!-margin-top-0">{MovementUtil.movementType(version)}</h3>

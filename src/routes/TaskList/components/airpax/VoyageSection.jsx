@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { ICON } from '../../../../utils/constants';
-import { MovementUtil } from '../../../../utils';
+
+import { JourneyUtil, MovementUtil } from '../../../../utils';
 
 const VoyageSection = ({ refDataAirlineCodes,
   journey,
@@ -37,12 +39,12 @@ const VoyageSection = ({ refDataAirlineCodes,
         <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
           <span className="govuk-!-font-weight-bold">{MovementUtil.flightNumber(flight)}</span>
           <span className="dot" />
-          {`${MovementUtil.formatDepartureTime(journey)}`}
+          {`${JourneyUtil.formatDepartureTime(journey)}`}
           <span className="dot" />
-          <span className="govuk-!-font-weight-bold">{MovementUtil.departureLoc(journey)}</span> &#8594;
-          <span className="govuk-!-font-weight-bold"> {MovementUtil.arrivalLoc(journey)}</span>
+          <span className="govuk-!-font-weight-bold">{JourneyUtil.departureLoc(journey)}</span> &#8594;
+          <span className="govuk-!-font-weight-bold"> {JourneyUtil.arrivalLoc(journey)}</span>
           <span className="dot" />
-          {MovementUtil.formatArrivalTime(journey)}
+          {JourneyUtil.formatArrivalTime(journey)}
         </p>
       </div>
     );

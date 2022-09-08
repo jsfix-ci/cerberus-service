@@ -1,6 +1,6 @@
 import React from 'react';
 import * as pluralise from 'pluralise';
-import { MovementUtil, PersonUtil, StringUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../../utils';
+import { JourneyUtil, MovementUtil, PersonUtil, StringUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../../utils';
 
 import { ICON, ICON_MAPPING, MOVEMENT_MODES, STRINGS } from '../../../../utils/constants';
 
@@ -67,12 +67,12 @@ const TaskSummary = ({ version }) => {
   const mode = MovementUtil.movementMode(version);
   const description = MovementUtil.iconDescription(version);
   const iconFromDescription = ICON_MAPPING[mode]?.[description];
-  const journey = MovementUtil.movementJourney(version);
+  const journey = JourneyUtil.get(version);
   const vessel = VesselUtil.get(version);
   const vehicle = VehicleUtil.get(version);
   const person = PersonUtil.get(version);
   const trailer = TrailerUtil.get(version);
-  const arrivalTime = MovementUtil.arrivalTime(journey);
+  const arrivalTime = JourneyUtil.arrivalTime(journey);
   const totalPersons = PersonUtil.totalPersons(version);
   return (
     <section className="card">
@@ -95,12 +95,12 @@ const TaskSummary = ({ version }) => {
               {`${VesselUtil.operator(vessel)} voyage of ${VesselUtil.name(vessel)}`}
             </p>
             <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
-              {`${MovementUtil.formatDepartureTime(journey)}`}
+              {`${JourneyUtil.formatDepartureTime(journey)}`}
               <span className="dot" />
-              <span className="govuk-!-font-weight-bold">{MovementUtil.departureLoc(journey)}</span> &#8594;
-              <span className="govuk-!-font-weight-bold"> {MovementUtil.arrivalLoc(journey)}</span>
+              <span className="govuk-!-font-weight-bold">{JourneyUtil.departureLoc(journey)}</span> &#8594;
+              <span className="govuk-!-font-weight-bold"> {JourneyUtil.arrivalLoc(journey)}</span>
               <span className="dot" />
-              {MovementUtil.formatArrivalTime(journey)}
+              {JourneyUtil.formatArrivalTime(journey)}
               <br />
               <span>{StringUtil.voyageText(arrivalTime)}</span>
             </p>

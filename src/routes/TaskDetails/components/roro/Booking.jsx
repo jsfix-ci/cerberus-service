@@ -7,7 +7,7 @@ import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
 import { BookingUtil, DateTimeUtil } from '../../../../utils';
 import renderBlock from '../../helper/common';
 import { calculateTimeDifference, toDateTimeList, validateDate } from '../../../../utils/Datetime/datetimeUtil';
-import { getDepartureTime, getJourney } from '../../../../utils/Movement/movementUtil';
+import { getDepartureTime, getJourney } from '../../../../utils/Journey/journeyUtil';
 
 // TODO: This is a duplicate of the one found in the airpax Booking component.
 const toBookingTimeDifference = (date, version) => {

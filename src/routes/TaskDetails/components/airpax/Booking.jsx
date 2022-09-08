@@ -3,12 +3,10 @@ import {
   DATE_FORMATS,
   STRINGS,
 } from '../../../../utils/constants';
-import {
-  BookingUtil,
+import { BookingUtil,
   PersonUtil,
   DateTimeUtil,
-  MovementUtil,
-} from '../../../../utils';
+  JourneyUtil } from '../../../../utils';
 
 import renderBlock from '../../helper/common';
 import { calculateTimeDifference } from '../../../../utils/Datetime/datetimeUtil';
@@ -18,8 +16,8 @@ const toBookingTimeDifference = (date, version) => {
   if (!DateTimeUtil.validate(date)) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  const journey = MovementUtil.movementJourney(version);
-  const departureTime = MovementUtil.departureTime(journey);
+  const journey = JourneyUtil.get(version);
+  const departureTime = JourneyUtil.departureTime(journey);
   const dateTimeList = DateTimeUtil.toList(date, departureTime);
   return calculateTimeDifference(dateTimeList).replace(
     STRINGS.DAYJS_FUTURE,

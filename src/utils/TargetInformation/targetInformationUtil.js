@@ -5,6 +5,7 @@ import DateTimeUtil from '../Datetime/datetimeUtil';
 import MovementUtil from '../Movement/movementUtil';
 import PersonUtil from '../Person/personUtil';
 import RisksUtil from '../Risks/risksUtil';
+import JourneyUtil from '../Journey/journeyUtil';
 import { replaceInvalidValues } from '../String/stringUtil';
 
 const DIRECTION = {
@@ -114,7 +115,7 @@ const toPersonSubmissionNode = (person, meta, index) => {
 
 const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
   if (taskData && formData) {
-    const journey = MovementUtil.movementJourney(taskData);
+    const journey = JourneyUtil.get(taskData);
     const arrivalDateTime = DateTimeUtil.convertToUTC(
       `${formData?.movement?.arrival?.date} ${formData?.movement?.arrival?.time}`, 'DD-MM-YYYY HH:mm', DATE_FORMATS.UTC,
     );
@@ -332,20 +333,20 @@ const toMainPersonNode = (data) => {
 
 const toMovementNode = (formData) => {
   const flight = MovementUtil.movementFlight(formData);
-  const journey = MovementUtil.movementJourney(formData);
+  const journey = JourneyUtil.get(formData);
   return {
     movement: {
       flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
         || replaceInvalidValues(formData?.movement?.journey?.id),
-      routeToUK: replaceInvalidValues(MovementUtil.movementRoute(journey)),
-      direction: replaceInvalidValues(MovementUtil.direction(journey)),
+      routeToUK: replaceInvalidValues(JourneyUtil.movementRoute(journey)),
+      direction: replaceInvalidValues(JourneyUtil.direction(journey)),
       arrival: {
-        date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'DD-MM-YYYY')),
-        time: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'HH:mm')),
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'HH:mm')),
       },
       departure: {
-        date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.departureTime(journey), 'DD-MM-YYYY')),
-        time: replaceInvalidValues(DateTimeUtil.format(MovementUtil.departureTime(journey), 'HH:mm')),
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'HH:mm')),
       },
     },
   };
@@ -363,7 +364,7 @@ const toIssuingHubNode = (formData) => {
 };
 
 const toPortNode = (formData) => {
-  const direction = MovementUtil.direction(formData?.movement?.journey);
+  const direction = JourneyUtil.direction(formData?.movement?.journey);
   if (direction === DIRECTION.INBOUND && formData?.eventPort) {
     return {
       arrivalPort: formData.eventPort,
