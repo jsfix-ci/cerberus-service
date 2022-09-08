@@ -3,6 +3,27 @@ import * as pluralise from 'pluralise';
 import { STRINGS } from '../constants';
 import { capitalizeFirstLetter } from '../String/stringUtil';
 
+const getIndicatorsTotalScore = (entity) => {
+  if (!entity) {
+    return 0;
+  }
+  return entity?.score || 0;
+};
+
+const getIndicatorsTotalCount = (entity) => {
+  if (!entity) {
+    return 0;
+  }
+  return entity?.count || 0;
+};
+
+const getIndicatorDescription = (targetingIndicator) => {
+  if (!targetingIndicator) {
+    return 0;
+  }
+  return targetingIndicator?.description || 0;
+};
+
 const calculateTaskVersionTotalRiskScore = (fieldChildsets) => {
   let totalRiskScore = 0;
   fieldChildsets.map((childSet) => {
@@ -40,6 +61,10 @@ const formatTargetIndicators = (targetingIndicators) => {
       </ul>
     );
   }
+};
+
+const getIndicators = (targetingIndicators) => {
+  return targetingIndicators?.indicators || [];
 };
 
 const getTargetingIndicators = (risks) => {
@@ -147,6 +172,8 @@ const formatHighestThreatLevel = (targetTask) => {
 
 const RisksUtil = {
   getRisks: getRisk,
+  extractHighestRisk: extractRiskType,
+  formatHighestThreat: formatHighestThreatLevel,
   format: formatTargetIndicators,
   getIndicators: getTargetingIndicators,
   getWarning: getSelectorWarning,
@@ -156,8 +183,10 @@ const RisksUtil = {
   getHighestThreat: getHighestThreatLevel,
   getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
   getMatchedRules: getRiskMatchedRules,
-  extractHighestRisk: extractRiskType,
-  formatHighestThreat: formatHighestThreatLevel,
+  indicators: getIndicators, // TODO
+  indicatorScore: getIndicatorsTotalScore, // TODO
+  indicatorCount: getIndicatorsTotalCount, // TODO
+  indicatorDescription: getIndicatorDescription, // TODO
   roro: {
     taskListTotalRiskScore: calculateTaskListTotalRiskScore,
     taskDetailsTotalRiskScore: calculateTaskVersionTotalRiskScore,

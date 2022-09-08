@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { DATE_FORMATS, STRINGS } from '../../../../utils/constants';
 
@@ -22,11 +23,11 @@ const toBookingTimeDifference = (date, version) => {
   );
 };
 
-const Booking = ({ version }) => {
+const Booking = ({ version, classModifiers }) => {
   const booking = BookingUtil.get(version);
   const tickets = BookingUtil.bookingTickets(booking);
   return (
-    <div className="task-details-container">
+    <div className={classNames('task-details-container', classModifiers)}>
       <h3 className="govuk-heading-m govuk-!-margin-top-0">Booking and check-in</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Reference', [BookingUtil.bookingRef(booking)])}

@@ -1,14 +1,14 @@
 import React from 'react';
+import classNames from 'classnames';
 
 // Utils
 import { HaulierUtil, StringUtil } from '../../../../utils';
-
 import renderBlock from '../../helper/common';
 
-const Haulier = ({ version }) => {
+const Haulier = ({ version, classModifiers }) => {
   const haulier = HaulierUtil.get(version);
   return (
-    <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
+    <div className={classNames('task-details-container', 'govuk-!-margin-bottom-2', classModifiers)}>
       <h3 className="govuk-heading-m govuk-!-margin-top-0">Haulier details</h3>
       <div className="govuk-task-details-grid-column">
         {renderBlock('Name', [HaulierUtil.name(haulier)])}

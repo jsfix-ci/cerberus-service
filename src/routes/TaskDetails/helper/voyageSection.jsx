@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AirpaxTaskSummary from '../components/airpax/AirpaxTaskSummary';
-import RoRoTaskSummary from '../components/roro/RoRoTaskSummary';
+import TaskSummary from '../components/roro/TaskSummary';
 
 import { MOVEMENT_MODES } from '../../../utils/constants';
 
@@ -13,7 +13,7 @@ const getVoyageComponent = (mode, version, refDataAirlineCodes) => {
     case MOVEMENT_MODES.TOURIST:
     case MOVEMENT_MODES.UNACCOMPANIED_FREIGHT:
     case MOVEMENT_MODES.ACCOMPANIED_FREIGHT: {
-      return <RoRoTaskSummary version={version} />;
+      return <TaskSummary version={version} />;
     }
     default: {
       return null;

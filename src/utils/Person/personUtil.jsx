@@ -125,17 +125,6 @@ const toCoTravellers = (otherPersons) => {
   });
 };
 
-const getAllPersons = (person, otherPersons) => {
-  let allPersons = [];
-  if (person) {
-    allPersons.push(person);
-  }
-  if (otherPersons) {
-    allPersons = allPersons.concat(otherPersons);
-  }
-  return allPersons;
-};
-
 const getTotalNumberOfPersons = (targetTask) => {
   return targetTask?.movement?.groupSize || 0;
 };
@@ -152,7 +141,11 @@ const getOtherPersons = (targetTask) => {
   if (hasOtherPersons(targetTask)) {
     return targetTask.movement.otherPersons;
   }
-  return null;
+  return undefined;
+};
+
+const getPersonByRole = (persons, role) => {
+  return persons.find((person) => person?.role === role);
 };
 
 const hasPerson = (targetTask) => {
@@ -163,12 +156,26 @@ const getPerson = (targetTask) => {
   if (hasPerson(targetTask)) {
     return targetTask.movement.person;
   }
-  return null;
+  return undefined;
+};
+
+const getAllPersons = (targetTask) => {
+  let allPersons = [];
+  const person = getPerson(targetTask);
+  const otherPersons = getOtherPersons(targetTask);
+  if (person) {
+    allPersons.push(person);
+  }
+  if (otherPersons) {
+    allPersons.push(...otherPersons);
+  }
+  return allPersons;
 };
 
 const PersonUtil = {
   formatGender,
   get: getPerson,
+  findByRole: getPersonByRole, // TODO
   getOthers: getOtherPersons,
   totalPersons: getTotalNumberOfPersons,
   othersCount: getTotalNumberOfOtherPersons,
@@ -200,6 +207,7 @@ export {
   getFirstName,
   getFullName,
   getLastName,
+  getPersonByRole,
   toCoTravellers,
   getTotalNumberOfPersons,
   getTotalNumberOfOtherPersons,

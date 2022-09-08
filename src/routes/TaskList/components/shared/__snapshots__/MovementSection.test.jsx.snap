@@ -23,7 +23,7 @@ exports[`MovementSection should render the movement section for Airpax 1`] = `
             className="govuk-!-font-weight-bold"
           >
             FORD
-            ,
+            , 
           </li>
           <li
             className="govuk-!-font-weight-regular"
@@ -38,13 +38,13 @@ exports[`MovementSection should render the movement section for Airpax 1`] = `
             className="govuk-!-font-weight-regular"
           >
             Male
-            ,
+            , 
           </li>
           <li
             className="govuk-!-font-weight-regular"
           >
             13 May 1966
-            ,
+            , 
           </li>
           <li
             className="govuk-!-font-weight-regular"
@@ -59,13 +59,13 @@ exports[`MovementSection should render the movement section for Airpax 1`] = `
             className="govuk-!-font-weight-regular"
           >
             1 checked bag
-            ,
+            , 
           </li>
           <li
             className="govuk-!-font-weight-regular"
           >
             1kg
-
+             
           </li>
         </ul>
         <ul
@@ -75,13 +75,13 @@ exports[`MovementSection should render the movement section for Airpax 1`] = `
             className="govuk-!-font-weight-regular"
           >
             Check-in Unknown
-            ,
+            , 
           </li>
           <li
             className="govuk-!-font-weight-regular"
           >
             seat Unknown
-
+             
           </li>
         </ul>
       </div>
@@ -202,14 +202,14 @@ exports[`MovementSection should render the movement section for Airpax 1`] = `
         >
           <span>
             FRA
-
+             
             →
-
+             
           </span>
           <span>
             LHR
-
-
+             
+             
           </span>
         </li>
       </ul>
@@ -232,7 +232,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
         <h3
           className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
         >
-          Occupants details
+          Driver details
           <span
             className="govuk-visually-hidden"
           >
@@ -254,7 +254,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
             Daniel Fagan
           </li>
           <li>
-            DOB:
+            DOB: 
             03/08/1984
           </li>
         </ul>
@@ -403,7 +403,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
           </li>
           <br />
           <li>
-            Booked on
+            Booked on 
             02/08/2020
           </li>
           <br />
@@ -508,7 +508,7 @@ exports[`MovementSection should render the movement section for a RoRo V2 foot p
           className="govuk-body-s govuk-list govuk-!-margin-bottom-0"
         >
           <li>
-            Booked on
+            Booked on 
             30/12/2021
           </li>
           <br />

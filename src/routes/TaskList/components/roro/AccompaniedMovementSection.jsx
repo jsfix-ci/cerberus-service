@@ -26,7 +26,7 @@ const AccompaniedMovementSection = ({ person,
       <div className="govuk-grid-item">
         <>
           <div>
-            <EnrichmentCount labelText="Occupants details" movementStats={CommonUtil.movementStats(person)} />
+            <EnrichmentCount labelText="Driver details" movementStats={CommonUtil.movementStats(person)} />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{PersonUtil.fullname(person)}</li>
               <li>DOB: {PersonUtil.dob(person, DATE_FORMATS.SHORT)}</li>

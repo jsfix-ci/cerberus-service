@@ -116,21 +116,21 @@ const getTicketPrices = (tickets) => {
     return STRINGS.UNKNOWN_TEXT;
   }
   return tickets.filter((ticket) => !!ticket.price)
-    .map((ticket) => formatField(UNITS.CURRENCY.value, ticket.price)).join(', ');
+    .map((ticket) => formatField(UNITS.CURRENCY.value, ticket.price)).join(', ') || STRINGS.UNKNOWN_TEXT;
 };
 
 const getTicketTypes = (tickets) => {
   if (!tickets?.length) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return tickets.filter((ticket) => !!ticket.type).map((ticket) => ticket.type).join(', ');
+  return tickets.filter((ticket) => !!ticket.type).map((ticket) => ticket.type).join(', ') || STRINGS.UNKNOWN_TEXT;
 };
 
 const getTicketNumbers = (tickets) => {
   if (!tickets?.length) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return tickets.filter((ticket) => !!ticket?.number).map((ticket) => ticket?.number).join(', ');
+  return tickets.filter((ticket) => !!ticket?.number).map((ticket) => ticket?.number).join(', ') || STRINGS.UNKNOWN_TEXT;
 };
 
 const hasTickets = (booking) => {

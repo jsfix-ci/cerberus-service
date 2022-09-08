@@ -20,12 +20,20 @@ const formatWithCommas = (value) => {
   return value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
+const isGreaterThanZero = (value) => {
+  if (isNotNumber(value)) {
+    return false;
+  }
+  return value > 0;
+};
+
 const hasZeroCount = (content) => {
   return content === '0' || content === 0;
 };
 
 const NumberUtil = {
   checkZeroCount: hasZeroCount,
+  greaterThanZero: isGreaterThanZero, // TODO
   notANumber: isNotNumber,
   withComma: formatWithCommas,
   resetZero: resetToZero,
@@ -33,4 +41,4 @@ const NumberUtil = {
 
 export default NumberUtil;
 
-export { hasZeroCount, isNotNumber, formatWithCommas, resetToZero };
+export { hasZeroCount, isGreaterThanZero, isNotNumber, formatWithCommas, resetToZero };

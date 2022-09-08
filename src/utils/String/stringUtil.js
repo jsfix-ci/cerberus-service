@@ -11,7 +11,7 @@ const INVALID_VALUES = [
   'NaN'];
 
 const formatAddress = (address) => {
-  if (!address) {
+  if (!address || address === STRINGS.UNKNOWN_TEXT) {
     return STRINGS.UNKNOWN_TEXT;
   }
   return Object.keys(address)

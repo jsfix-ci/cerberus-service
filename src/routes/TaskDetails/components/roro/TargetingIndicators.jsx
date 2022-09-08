@@ -1,28 +1,56 @@
 import React from 'react';
-import PersonUtil from '../../../../utils/Person/personUtil';
-import MovementUtil from '../../../../utils/Movement/movementUtil';
-import renderBlock from '../../helper/common';
+import classNames from 'classnames';
 
-const TargetingIndicators = ({ version }) => {
-  const person = PersonUtil.get(version);
-  const departureDate = MovementUtil.departureTime(MovementUtil.movementJourney(version));
-  return (
-    <div className="task-details-container bottom-border-thin govuk-!-margin-bottom-2">
-      <h3 className="govuk-heading-m govuk-!-margin-top-0">Targeting indicators</h3>
-      <div className="govuk-task-details-grid-column">
-        {renderBlock('Name', [`${PersonUtil.lastname(person)}, ${PersonUtil.firstname(person)}`])}
-        {renderBlock(undefined, undefined)}
-        {renderBlock('Date of birth', [PersonUtil.dob(person)])}
-        {renderBlock('Age at travel', [PersonUtil.travelAge(person, departureDate)])}
-        {renderBlock('Gender', [PersonUtil.gender(person)])}
-        {renderBlock('Nationality', [`${PersonUtil.countryName(person)} (${PersonUtil.nationality(person)})`])}
-        {renderBlock('Departure status', [MovementUtil.status(version, true)])}
-        {renderBlock(undefined, undefined)}
-        {renderBlock('Frequent flyer number', [PersonUtil.frequentFlyerNumber(person)])}
-        {renderBlock(undefined, undefined)}
-        {renderBlock('SSR codes', [PersonUtil.ssrCodes(person)])}
+import { RisksUtil } from '../../../../utils';
+
+const toTargetingIndicatorsBlock = (indicators) => {
+  return indicators.map((indicator, index) => {
+    const classModifiers = index !== indicators.length - 1
+      ? 'govuk-task-details-grid-row bottom-border'
+      : 'govuk-task-details-grid-row';
+    return (
+      <div key={index} className={classNames(classModifiers)}>
+        <ul className="govuk-!-margin-bottom-0 govuk-!-padding-left-3">
+          <li className="govuk-grid-key list-bullet font__light">
+            {RisksUtil.indicatorDescription(indicator)}
+          </li>
+        </ul>
+        <span className="govuk-grid-value font__bold">
+          {RisksUtil.indicatorScore(indicator)}
+        </span>
       </div>
-    </div>
+    );
+  });
+};
+
+const TargetingIndicators = ({ version, classModifiers }) => {
+  const targetingIndicators = RisksUtil.getIndicators(RisksUtil.getRisks(version));
+  const indicators = RisksUtil.indicators(targetingIndicators);
+  return (
+    <>
+      <h3 className="govuk-heading-m govuk-!-margin-top-0">Targeting indicators</h3>
+      <div className={classNames('govuk-task-details-indicator-container govuk-!-margin-bottom-2', classModifiers)}>
+        <div className="govuk-task-details-grid-row bottom-border">
+          <span className="govuk-grid-key font__light">Indicators</span>
+          <span className="govuk-grid-value font__light">Total score</span>
+        </div>
+        <div className="govuk-task-details-grid-row govuk-!-padding-bottom-1">
+          <span className="govuk-grid-key font__bold">{RisksUtil.indicatorCount(targetingIndicators)}</span>
+          <span className="govuk-grid-key font__bold">{RisksUtil.indicatorScore(targetingIndicators)}</span>
+        </div>
+        {indicators && indicators?.length ? (
+          <>
+            <div className="govuk-task-details-grid-row bottom-border">
+              <span className="govuk-grid-key font__bold">Indicator</span>
+              <span className="govuk-grid-value font__bold">Score</span>
+            </div>
+            <div className="task-details-container">
+              {toTargetingIndicatorsBlock(indicators)}
+            </div>
+          </>
+        ) : null}
+      </div>
+    </>
   );
 };
 

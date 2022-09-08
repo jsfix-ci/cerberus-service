@@ -303,7 +303,7 @@ describe('BookingUtil', () => {
 
   it('should return an empty string when ticket types is null', () => {
     const ticketTypes = BookingUtil.ticketTypes(booking.tickets);
-    expect(ticketTypes).toEqual('');
+    expect(ticketTypes).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
   it('should return the payment object if present', () => {
