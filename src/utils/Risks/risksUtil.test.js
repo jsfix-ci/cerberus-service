@@ -1,5 +1,6 @@
 import renderer from 'react-test-renderer';
 import { RisksUtil } from '../index';
+import { STRINGS } from '../constants';
 
 describe('RisksUtil', () => {
   it('should get risk if present', () => {
@@ -69,7 +70,7 @@ describe('RisksUtil', () => {
       score: 60,
     };
 
-    const output = RisksUtil.getIndicators(risks);
+    const output = RisksUtil.targetingIndicators(risks);
     expect(output).toEqual(expected);
   });
 
@@ -416,5 +417,150 @@ describe('RisksUtil', () => {
 
     const output = RisksUtil.extractHighestRisk(risks, highestRisk);
     expect(output).toEqual('Class A Drugs');
+  });
+
+  it('should get the targeting indicators within the targeting indicators object', () => {
+    const targetingIndicators = {
+      indicators: [
+        {
+          description: 'Quick turnaround freight (under 24 hours)',
+        },
+        {
+          description: 'Quick turnaround tourist (under 24 hours)',
+        },
+      ],
+      count: 2,
+      score: 60,
+    };
+
+    const expected = [
+      {
+        description: 'Quick turnaround freight (under 24 hours)',
+      },
+      {
+        description: 'Quick turnaround tourist (under 24 hours)',
+      },
+    ];
+
+    expect(RisksUtil.indicators(targetingIndicators)).toMatchObject(expected);
+  });
+
+  it('should return an empty array if no targeting indicators is present', () => {
+    const targetingIndicators = {
+      indicators: [],
+      count: 0,
+      score: 0,
+    };
+    expect(RisksUtil.indicators(targetingIndicators)).toMatchObject([]);
+  });
+
+  it('should return the total targeting indicators score for a targeting indicators object', () => {
+    const targetingIndicators = {
+      indicators: [
+        {
+          description: 'Quick turnaround freight (under 24 hours)',
+        },
+        {
+          description: 'Quick turnaround tourist (under 24 hours)',
+        },
+      ],
+      count: 2,
+      score: 60,
+    };
+    expect(RisksUtil.indicatorScore(targetingIndicators)).toEqual(60);
+  });
+
+  it.each([
+    [undefined],
+    [null],
+    [''],
+  ])('should return 0 when targeting indicators total score is invalid for a targeting indicators object', (score) => {
+    const targetingIndicators = {
+      indicators: [
+        {
+          description: 'Quick turnaround freight (under 24 hours)',
+        },
+        {
+          description: 'Quick turnaround tourist (under 24 hours)',
+        },
+      ],
+      count: 2,
+      score,
+    };
+    expect(RisksUtil.indicatorScore(targetingIndicators)).toEqual(0);
+  });
+
+  it('should return the score for an indicator', () => {
+    const indicator = {
+      description: 'Quick turnaround freight (under 24 hours)',
+      score: 20,
+    };
+    expect(RisksUtil.indicatorScore(indicator)).toEqual(20);
+  });
+
+  it.each([
+    [undefined],
+    [null],
+    [''],
+  ])('should return 0 when the indicator score is invalid', (score) => {
+    const indicator = {
+      description: 'Quick turnaround freight (under 24 hours)',
+      score,
+    };
+    expect(RisksUtil.indicatorScore(indicator)).toEqual(0);
+  });
+
+  it('should return the total targeting indicators count for a targeting indicators object', () => {
+    const targetingIndicators = {
+      indicators: [
+        {
+          description: 'Quick turnaround freight (under 24 hours)',
+        },
+        {
+          description: 'Quick turnaround tourist (under 24 hours)',
+        },
+      ],
+      count: 2,
+      score: 60,
+    };
+    expect(RisksUtil.indicatorCount(targetingIndicators)).toEqual(2);
+  });
+
+  it.each([
+    [undefined],
+    [null],
+    [''],
+  ])('should return 0 when targeting indicators total count is invalid for a targeting indicators object', (count) => {
+    const targetingIndicators = {
+      indicators: [
+        {
+          description: 'Quick turnaround freight (under 24 hours)',
+        },
+        {
+          description: 'Quick turnaround tourist (under 24 hours)',
+        },
+      ],
+      count,
+      score: 0,
+    };
+    expect(RisksUtil.indicatorScore(targetingIndicators)).toEqual(0);
+  });
+
+  it("should return an indicator's description", () => {
+    const indicator = {
+      description: 'Quick turnaround freight (under 24 hours)',
+    };
+    expect(RisksUtil.indicatorDescription(indicator)).toEqual(indicator.description);
+  });
+
+  it.each([
+    [undefined],
+    [null],
+    [''],
+  ])('should return unknown when an indicator has an invalid value', (description) => {
+    const indicator = {
+      description,
+    };
+    expect(RisksUtil.indicatorDescription(indicator)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 });

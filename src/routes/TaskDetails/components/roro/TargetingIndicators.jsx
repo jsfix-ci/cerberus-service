@@ -24,7 +24,7 @@ const toTargetingIndicatorsBlock = (indicators) => {
 };
 
 const TargetingIndicators = ({ version, classModifiers }) => {
-  const targetingIndicators = RisksUtil.getIndicators(RisksUtil.getRisks(version));
+  const targetingIndicators = RisksUtil.targetingIndicators(RisksUtil.getRisks(version));
   const indicators = RisksUtil.indicators(targetingIndicators);
   return (
     <>

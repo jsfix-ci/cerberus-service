@@ -250,7 +250,7 @@ const BookingUtil = {
   bookingTickets: getTickets,
   ticketNumbers: getTicketNumbers,
   ticketTypes: getTicketTypes,
-  ticketPrices: getTicketPrices, // TODO
+  ticketPrices: getTicketPrices,
   payments: getPayments,
   containsPayments: hasPayments,
   paymentAmount: getPaymentAmount,
@@ -281,6 +281,7 @@ export {
   getTickets,
   getTicketNumbers,
   getTicketTypes,
+  getTicketPrices,
   getPayments,
   getPaymentAmount,
   getPaymentCard,

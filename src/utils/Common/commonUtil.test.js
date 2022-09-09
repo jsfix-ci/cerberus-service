@@ -69,4 +69,22 @@ describe('CommonUtil', () => {
   ])('should extract the task list path from URL and return the expected value', (path, expected) => {
     expect(CommonUtil.taskListPath(path)).toEqual(expected);
   });
+
+  it('should extract the entity search URL from an entity', () => {
+    const entity = {
+      entitySearchUrl: 'https://entitysearch.notprod.dacc.homeoffice.gov.uk//search?type=VEHICLE&term=103000003407321&fields=[%22id%22]',
+    };
+    expect(CommonUtil.entitySearchURL(entity)).toEqual(entity.entitySearchUrl);
+  });
+
+  it.each([
+    [undefined],
+    [null],
+    [''],
+  ])('should evaluate to false when the entity search URL within an entity is invalid', (entitySearchUrl) => {
+    const entity = {
+      entitySearchUrl,
+    };
+    expect(CommonUtil.entitySearchURL(entity)).toBeFalsy();
+  });
 });

@@ -436,4 +436,35 @@ describe('BookingUtil', () => {
     const section = renderer.create(BookingUtil.paymentsBlock(booking)).toJSON();
     expect(section).toMatchSnapshot();
   });
+
+  it.each([
+    [[
+      {
+        number: 'TIC-1234',
+        type: 'ONE-WAY',
+        price: '59.99',
+      },
+      {
+        number: 'TIC-7863-XZ',
+        type: 'RETURN',
+        price: '34.99',
+      },
+    ], '£59.99, £34.99'],
+    [[
+      {
+        number: null,
+        type: 'ONE-WAY',
+        price: '23.97',
+      },
+      {
+        number: 'TIC-7863-XZ',
+        type: 'RETURN',
+        price: null,
+      },
+    ], '£23.97'],
+  ])('should return the appropriate ticket price', (given, expected) => {
+    booking.tickets = given;
+    const ticketNumbers = BookingUtil.ticketPrices(booking.tickets);
+    expect(ticketNumbers).toEqual(expected);
+  });
 });

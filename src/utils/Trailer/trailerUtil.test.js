@@ -41,4 +41,56 @@ describe('TrailerUtil', () => {
     const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
     expect(TrailerUtil.type(trailer)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
+
+  it('should extract the trailer height if present', () => {
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.height(trailer)).toEqual(mockTaskData.movement.trailer.height);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])(`should return ${STRINGS.UNKNOWN_TEXT} when trailer height is invalid`, (height) => {
+    MOCK_TARGET_TASK.movement.trailer.height = height;
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.height(trailer)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should extract the trailer length if present', () => {
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.length(trailer)).toEqual(mockTaskData.movement.trailer.length);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])(`should return ${STRINGS.UNKNOWN_TEXT} when trailer length is invalid`, (length) => {
+    MOCK_TARGET_TASK.movement.trailer.length = length;
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.length(trailer)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should extract the trailer loaded status if present', () => {
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.loadStatus(trailer)).toEqual(mockTaskData.movement.trailer.loadStatus);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])(`should return ${STRINGS.UNKNOWN_TEXT} when trailer loaded status is invalid`, (loadStatus) => {
+    MOCK_TARGET_TASK.movement.trailer.loadStatus = loadStatus;
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.loadStatus(trailer)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should extract the trailer country of registration if present', () => {
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.nationality(trailer)).toEqual(mockTaskData.movement.trailer.nationality);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])(`should return ${STRINGS.UNKNOWN_TEXT} when trailer country of registration is invalid`, (nationaility) => {
+    MOCK_TARGET_TASK.movement.trailer.nationality = nationaility;
+    const trailer = TrailerUtil.get(MOCK_TARGET_TASK);
+    expect(TrailerUtil.nationality(trailer)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
 });

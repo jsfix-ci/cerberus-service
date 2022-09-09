@@ -227,7 +227,7 @@ const toCategoryNode = (formData) => {
 
 const toTargetingIndicatorsNode = (formData) => {
   const risks = RisksUtil.getRisks(formData);
-  const targetingIndicators = RisksUtil.getIndicators(risks);
+  const targetingIndicators = RisksUtil.targetingIndicators(risks);
   if (targetingIndicators?.length) {
     return {
       targetingIndicators: targetingIndicators.map((ti) => {

@@ -95,7 +95,7 @@ const StringUtil = {
   format: {
     camelCase: formatTaskStatusToCamelCase,
     snakeCase: formatTaskStatusToSnakeCase,
-    address: formatAddress, // TODO
+    address: formatAddress,
   },
   modeIconText: formatMovementModeIconText,
   replaceInvalid: replaceInvalidValues,
@@ -104,8 +104,10 @@ const StringUtil = {
 
 export default StringUtil;
 
-export { capitalizeFirstLetter,
+export { capitalizeString,
+  capitalizeFirstLetter,
   escapeString,
+  formatAddress,
   formatMovementModeIconText,
   formatTaskStatusToCamelCase,
   formatTaskStatusToSnakeCase,

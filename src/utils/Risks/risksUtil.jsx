@@ -10,18 +10,18 @@ const getIndicatorsTotalScore = (entity) => {
   return entity?.score || 0;
 };
 
-const getIndicatorsTotalCount = (entity) => {
-  if (!entity) {
+const getIndicatorsTotalCount = (targetingIndicators) => {
+  if (!targetingIndicators) {
     return 0;
   }
-  return entity?.count || 0;
+  return targetingIndicators?.count || 0;
 };
 
 const getIndicatorDescription = (targetingIndicator) => {
   if (!targetingIndicator) {
     return 0;
   }
-  return targetingIndicator?.description || 0;
+  return targetingIndicator?.description || STRINGS.UNKNOWN_TEXT;
 };
 
 const calculateTaskVersionTotalRiskScore = (fieldChildsets) => {
@@ -171,25 +171,25 @@ const formatHighestThreatLevel = (targetTask) => {
 };
 
 const RisksUtil = {
-  getRisks: getRisk,
   extractHighestRisk: extractRiskType,
-  formatHighestThreat: formatHighestThreatLevel,
   format: formatTargetIndicators,
-  getIndicators: getTargetingIndicators,
-  getWarning: getSelectorWarning,
-  getMatches: getIndicatorMatches,
+  formatHighestThreat: formatHighestThreatLevel,
   getGroups: getSelectorGroups,
-  getRules: getMatchedRules,
   getHighestThreat: getHighestThreatLevel,
-  getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
   getMatchedRules: getRiskMatchedRules,
-  indicators: getIndicators, // TODO
-  indicatorScore: getIndicatorsTotalScore, // TODO
-  indicatorCount: getIndicatorsTotalCount, // TODO
-  indicatorDescription: getIndicatorDescription, // TODO
+  getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
+  getMatches: getIndicatorMatches,
+  getRisks: getRisk,
+  getRules: getMatchedRules,
+  getWarning: getSelectorWarning,
+  indicatorCount: getIndicatorsTotalCount,
+  indicatorDescription: getIndicatorDescription,
+  indicators: getIndicators,
+  indicatorScore: getIndicatorsTotalScore,
+  targetingIndicators: getTargetingIndicators,
   roro: {
-    taskListTotalRiskScore: calculateTaskListTotalRiskScore,
     taskDetailsTotalRiskScore: calculateTaskVersionTotalRiskScore,
+    taskListTotalRiskScore: calculateTaskListTotalRiskScore,
   },
 };
 
@@ -206,6 +206,10 @@ export {
   getSelectorGroups,
   getMatchedRules,
   getHighestThreatLevel,
+  getIndicators,
+  getIndicatorsTotalScore,
+  getIndicatorsTotalCount,
+  getIndicatorDescription,
   getRiskMatchedSelectorGroups,
   getRiskMatchedRules,
   extractRiskType,

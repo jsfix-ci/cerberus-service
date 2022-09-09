@@ -175,7 +175,7 @@ const getAllPersons = (targetTask) => {
 const PersonUtil = {
   formatGender,
   get: getPerson,
-  findByRole: getPersonByRole, // TODO
+  findByRole: getPersonByRole,
   getOthers: getOtherPersons,
   totalPersons: getTotalNumberOfPersons,
   othersCount: getTotalNumberOfOtherPersons,

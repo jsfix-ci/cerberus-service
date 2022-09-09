@@ -70,4 +70,23 @@ describe('NumberUtil', () => {
     const output = NumberUtil.resetZero(-1);
     expect(output).toEqual(0);
   });
+
+  it.each([
+    [16],
+    [1.5],
+    [12],
+    [2],
+    ['2'],
+  ])('should evaluate to true when given greater than zero', (value) => {
+    expect(NumberUtil.greaterThanZero(value)).toBeTruthy();
+  });
+
+  it.each([
+    [-1],
+    [0],
+    ['A'],
+    ['-!'],
+  ])('should evaluate to false when value is less than or equal to zero', (value) => {
+    expect(NumberUtil.greaterThanZero(value)).toBeFalsy();
+  });
 });

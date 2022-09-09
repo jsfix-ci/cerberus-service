@@ -157,7 +157,15 @@
     "haulier": {
       "entitySearchUrl": null,
       "name": "Sinkable Hauling",
-      "address": null,
+      "address": {
+        "entitySearchUrl": null,
+        "line1": "University of Portsmouth",
+        "line2": "Royal Dockyards",
+        "line3": null,
+        "city": "Portsmouth",
+        "postcode": "PO1 2EF",
+        "country": "GB"
+      },
       "contacts": {
         "phone": {
           "value": "289675932",

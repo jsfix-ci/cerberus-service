@@ -24,7 +24,7 @@ const isGreaterThanZero = (value) => {
   if (isNotNumber(value)) {
     return false;
   }
-  return value > 0;
+  return parseInt(value, 10) > 0;
 };
 
 const hasZeroCount = (content) => {
@@ -33,7 +33,7 @@ const hasZeroCount = (content) => {
 
 const NumberUtil = {
   checkZeroCount: hasZeroCount,
-  greaterThanZero: isGreaterThanZero, // TODO
+  greaterThanZero: isGreaterThanZero,
   notANumber: isNotNumber,
   withComma: formatWithCommas,
   resetZero: resetToZero,
@@ -41,4 +41,4 @@ const NumberUtil = {
 
 export default NumberUtil;
 
-export { hasZeroCount, isGreaterThanZero, isNotNumber, formatWithCommas, resetToZero };
+export { formatWithCommas, hasZeroCount, isGreaterThanZero, isNotNumber, resetToZero };

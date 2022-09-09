@@ -48,12 +48,22 @@ const getTrailer = (targetTask) => {
 
 const TrailerUtil = {
   get: getTrailer,
-  length: getTrailerLength, // TODO
-  loadStatus: getLoadedStatus, // TODO
+  height: getTrailerHeight,
+  length: getTrailerLength,
+  loadStatus: getLoadedStatus,
+  nationality: getTrailerNationality,
   registration: getTrailerRegistration,
-  nationality: getTrailerNationality, // TODO
   type: getTrailerType,
-  height: getTrailerHeight, // TODO
 };
 
 export default TrailerUtil;
+
+export {
+  getTrailer,
+  getTrailerHeight,
+  getTrailerLength,
+  getLoadedStatus,
+  getTrailerNationality,
+  getTrailerRegistration,
+  getTrailerType,
+};

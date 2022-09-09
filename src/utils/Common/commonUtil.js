@@ -46,6 +46,10 @@ const getMovementStats = (entity) => {
   return entity?.movementStats || undefined;
 };
 
+const getEntitySearchURL = (entity) => {
+  return entity?.entitySearchUrl || undefined;
+};
+
 const convertToIso3Code = (iso2Code) => {
   if (!iso2Code) {
     return STRINGS.UNKNOWN_TEXT;
@@ -57,18 +61,20 @@ const convertToIso3Code = (iso2Code) => {
 };
 
 const CommonUtil = {
-  taskListPath: getTaskListPathFromURL,
+  entitySearchURL: getEntitySearchURL,
+  hasAssignee: containsAssignee,
   iso3Code: convertToIso3Code,
   movementStats: getMovementStats,
-  hasAssignee: containsAssignee,
-  viewByPath: getViewByPath,
   setStatus: setTaskStatus,
+  taskListPath: getTaskListPathFromURL,
+  viewByPath: getViewByPath,
 };
 
 export default CommonUtil;
 
 export {
   convertToIso3Code,
+  getEntitySearchURL,
   getMovementStats,
   getTaskListPathFromURL,
   getViewByPath,

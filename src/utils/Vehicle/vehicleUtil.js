@@ -51,9 +51,9 @@ const VehicleUtil = {
   colour: getVehicleColour,
   make: getVehicleMake,
   model: getVehicleModel,
-  nationality: getVehicleNationality, // TODO
-  type: getVehicleType, // TODO
+  nationality: getVehicleNationality,
   registration: getVehicleRegistration,
+  type: getVehicleType,
 };
 
 export default VehicleUtil;
@@ -63,5 +63,7 @@ export {
   getVehicleColour,
   getVehicleMake,
   getVehicleModel,
+  getVehicleNationality,
   getVehicleRegistration,
+  getVehicleType,
 };

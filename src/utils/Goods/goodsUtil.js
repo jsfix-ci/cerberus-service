@@ -32,7 +32,7 @@ const GoodsUtil = {
   get: getGoods,
   description: getDescription,
   hazardous: getHazardous,
-  weight: getGoodsWeight, // TODO
+  weight: getGoodsWeight, // TODO: See comment above
 };
 
 export default GoodsUtil;

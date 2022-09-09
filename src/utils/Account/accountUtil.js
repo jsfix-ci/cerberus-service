@@ -33,7 +33,7 @@ const getAccountReference = (account) => {
   if (!account) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return account?.reference || undefined;
+  return account?.reference || STRINGS.UNKNOWN_TEXT;
 };
 
 const getShortName = (account) => {
@@ -55,14 +55,14 @@ const getAccount = (targetTask) => {
 };
 
 const AccountUtil = {
-  address: getAddress, // TODO
+  address: getAddress,
   email: getAccountEmail, // TODO: See comment above
   get: getAccount,
-  mobile: getAccountMobile, // TODO
+  mobile: getAccountMobile,
   name: getAccountName,
-  shortName: getShortName, // TODO
-  reference: getAccountReference, // TODO
-  telephone: getAccountTelephone, // TODO
+  shortName: getShortName,
+  reference: getAccountReference,
+  telephone: getAccountTelephone,
 };
 
 export default AccountUtil;
@@ -70,4 +70,9 @@ export default AccountUtil;
 export {
   getAccount,
   getAccountName,
+  getAddress,
+  getAccountMobile,
+  getAccountReference,
+  getAccountTelephone,
+  getShortName,
 };

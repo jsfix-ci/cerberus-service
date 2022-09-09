@@ -14,6 +14,7 @@ describe('MovementUtil', () => {
   beforeEach(() => {
     targetTaskMin = {
       relisted: false,
+      latestVersionNumber: 1,
       movement: {
         id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
         status: 'PRE_ARRIVAL',
@@ -62,8 +63,15 @@ describe('MovementUtil', () => {
           operator: 'BA',
           seatNumber: null,
         },
+        occupants: {
+          numberOfOaps: 0,
+          numberOfAdults: 1,
+          numberOfChildren: 0,
+          numberOfInfants: 0,
+          numberOfUnknowns: 3,
+          numberOfOccupants: 4,
+        },
       },
-      latestVersionNumber: 1,
       versions: [],
     };
   });
@@ -761,5 +769,21 @@ describe('MovementUtil', () => {
       },
     ];
     expect(MovementUtil.isSinglePassenger(passengers)).toBeFalsy();
+  });
+
+  it('should get the occupant counts', () => {
+    const occupants = MovementUtil.occupantCounts(targetTaskMin);
+    expect(occupants).toMatchObject(targetTaskMin.movement.occupants);
+    Object.keys(occupants).forEach((k) => {
+      expect(occupants[k]).toEqual(targetTaskMin.movement.occupants[k]);
+    });
+  });
+
+  it.each([
+    [undefined],
+    [null],
+  ])('should get the occupant counts', (counts) => {
+    targetTaskMin.movement.occupants = counts;
+    expect(MovementUtil.occupantCounts(targetTaskMin)).toBeUndefined();
   });
 });

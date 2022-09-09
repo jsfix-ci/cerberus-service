@@ -81,4 +81,30 @@ describe('VehicleUtil', () => {
     const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
     expect(VehicleUtil.registration(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
+
+  it('should extract the vehicle country of registration if present', () => {
+    const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
+    expect(VehicleUtil.nationality(vehicle)).toEqual(mockTaskData.movement.vehicle.nationality);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])('should return unknown when vehicle country of registration is not present', (nationality) => {
+    MOCK_TARGET_TASK.movement.vehicle.nationality = nationality;
+    const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
+    expect(VehicleUtil.nationality(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should extract the vehicle type if present', () => {
+    const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
+    expect(VehicleUtil.type(vehicle)).toEqual(mockTaskData.movement.vehicle.type);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])('should return unknown when vehicle type is not present', (type) => {
+    MOCK_TARGET_TASK.movement.vehicle.type = type;
+    const vehicle = VehicleUtil.get(MOCK_TARGET_TASK);
+    expect(VehicleUtil.type(vehicle)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
 });

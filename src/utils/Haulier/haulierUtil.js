@@ -33,11 +33,19 @@ const getHaulier = (targetTask) => {
 };
 
 const HaulierUtil = {
-  address: getAddress, // TODO
+  address: getAddress,
   get: getHaulier,
-  mobile: getHaulierMobile, // TODO
+  mobile: getHaulierMobile,
   name: getHaulierName,
-  telephone: getHaulierTelephone, // TODO
+  telephone: getHaulierTelephone,
 };
 
 export default HaulierUtil;
+
+export {
+  getAddress,
+  getHaulier,
+  getHaulierMobile,
+  getHaulierName,
+  getHaulierTelephone,
+};
