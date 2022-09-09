@@ -58,6 +58,18 @@ describe('Task details page', () => {
 
   const ACTION_BUTTONS = ['Issue target', 'Assessment complete', 'Dismiss'];
 
+  it('should render 404 (Not found) for tasks that have been archived', async () => {
+    mockAxios
+      .onGet('/targeting-tasks/BK-123')
+      .reply(404)
+      .onGet('/targeting-tasks/BK-123/information-sheets')
+      .reply(404);
+
+    await waitFor(() => renderPage());
+
+    expect(screen.getByText('Request failed with status code 404')).toBeInTheDocument();
+  });
+
   it('should render TaskDetailsPage component with a loading state', () => {
     mockAxiosCalls([], {});
 

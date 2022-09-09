@@ -1,7 +1,7 @@
 import setupComponent from './setupComponent';
-import { COMPONENT_TYPES } from '../../../utils/constants';
+import { COMPONENT_TYPES } from '../../../../utils/constants';
 
-describe('Custom.setupComponent', () => {
+describe('Custom.Component.setupComponent', () => {
   it('should appropriately setup a component', () => {
     const ID = 'id';
     const LABEL = 'label';

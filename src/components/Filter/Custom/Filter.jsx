@@ -3,39 +3,44 @@ import PropTypes from 'prop-types';
 
 import { Button, ButtonGroup, ErrorSummary } from '@ukhomeoffice/cop-react-components';
 
-import getComponent from './getComponent';
-import setupComponent from './setupComponent';
+import cleanPayload from './Data/cleanPayload';
+import getComponent from './Component/getComponent';
+import getVisibleComponents from './Component/getVisibleComponents';
+import setupComponent from './Component/setupComponent';
 import setupFilterCounts from '../helper/setupCounts';
+import setupRefDataOptions from './Data/setupRefDataOptions';
 
 const Filter = ({ form: _form,
   taskStatus,
-  data,
+  data: _data,
   filtersAndSelectorsCount,
-  customOptions,
-  onApply,
+  customOptions: _customOptions,
+  onApply: _onApply,
   handleFilterReset }) => {
   const [errorList, setErrorList] = useState([]);
   const [hasError, setHasError] = useState(false);
-  const [value, setValue] = useState(data);
+  const [data, setData] = useState(_data);
 
   const { movementModeCounts, modeSelectorCounts } = filtersAndSelectorsCount;
 
   const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts);
+  setupRefDataOptions(form.pages[0].components);
+  const visibleComponents = getVisibleComponents(form.pages[0].components, data);
 
   const onChange = ({ target }) => {
-    setValue((prev) => {
+    setData((prev) => {
       return { ...prev, [target.name]: target.value };
     });
   };
 
   const validate = () => {
     const errors = [];
-    form.pages.forEach((page) => page.components.forEach((component) => {
-      if (component?.required && !value[component.fieldId]?.length) {
+    visibleComponents.forEach((component) => {
+      if (component?.required && !data[component.fieldId]?.length) {
         errors.push({ id: component.id,
           error: `${component?.label || component?.fieldId} is required` });
       }
-    }));
+    });
     if (errors.length) {
       setErrorList(errors);
       setHasError(true);
@@ -46,11 +51,16 @@ const Filter = ({ form: _form,
     return true;
   };
 
+  const onApply = () => {
+    const payload = cleanPayload(visibleComponents, visibleComponents, data);
+    _onApply(payload);
+  };
+
   useEffect(() => {
-    if (data !== value) {
-      setValue(data);
+    if (_data !== data) {
+      setData(_data);
     }
-  }, [data]);
+  }, [_data]);
 
   return (
     <div className="cop-filters-container">
@@ -67,14 +77,14 @@ const Filter = ({ form: _form,
       </div>
       <div>
         {hasError && <ErrorSummary errors={errorList} />}
-        {form.pages[0].components.map((component, index) => {
-          const { wrapperOptions, componentOptions } = setupComponent(value, component, customOptions, onChange);
+        {visibleComponents.map((component, index) => {
+          const { wrapperOptions, componentOptions } = setupComponent(data, component, _customOptions, onChange);
           return getComponent(index, component, wrapperOptions, componentOptions);
         })}
         <ButtonGroup>
           <Button onClick={() => {
             if (validate()) {
-              onApply(value);
+              onApply();
             }
           }}
           >Apply

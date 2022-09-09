@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 
 import getComponent from './getComponent';
-import { COMPONENT_TYPES } from '../../../utils/constants';
+import { COMPONENT_TYPES } from '../../../../utils/constants';
 
-describe('Custom.getComponent', () => {
+describe('Custom.Component.getComponent', () => {
   it('should return an appropriately rendered text input', () => {
     const ID = 'test-id';
     const FIELD_ID = 'field-id';
