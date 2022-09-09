@@ -67,14 +67,10 @@ const TaskListPage = () => {
   };
 
   const adaptMovementDirection = (payload) => {
-    const ANY = 'ANY';
-    if (!payload?.movementDirection?.length) {
-      return [ANY];
+    if (!payload?.journeyDirections?.length) {
+      return [];
     }
-    if (payload?.movementDirection?.length === 1 && payload?.movementDirection[0] === ANY) {
-      return payload?.movementDirection;
-    }
-    return payload.movementDirection.filter((direction) => direction !== ANY);
+    return payload?.journeyDirections;
   };
 
   const adaptMovementModes = (payload) => {
@@ -115,7 +111,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        movementDirection: adaptMovementDirection(storedData),
+        journeyDirections: adaptMovementDirection(storedData),
       }));
       const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -125,7 +121,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        movementDirection: adaptMovementDirection(storedData),
+        journeyDirections: adaptMovementDirection(storedData),
       }));
       return movementModes.concat(selectors);
     }
@@ -194,7 +190,7 @@ const TaskListPage = () => {
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
       assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
-      movementDirection: adaptMovementDirection(payload),
+      journeyDirections: adaptMovementDirection(payload),
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);

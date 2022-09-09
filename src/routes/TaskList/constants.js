@@ -23,7 +23,7 @@ const DEFAULTS = {
         searchText: '',
         assignees: [],
         assignedToMe: [],
-        movementDirection: ['ANY'],
+        journeyDirections: [],
       },
       mode: MODE.AIRPAX,
       movementModes: [
@@ -34,7 +34,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
       ],
       selectors: [
@@ -45,7 +45,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
         {
           taskStatuses: [],
@@ -54,7 +54,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
         {
           taskStatuses: [],
@@ -63,7 +63,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
       ],
     },
@@ -105,7 +105,7 @@ const DEFAULTS = {
         searchText: '',
         assignees: [],
         assignedToMe: [],
-        movementDirection: ['ANY'],
+        journeyDirections: [],
       },
       mode: MODE.RORO,
       movementModes: [
@@ -116,7 +116,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
         {
           taskStatuses: [],
@@ -125,7 +125,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
         {
           taskStatuses: [],
@@ -134,7 +134,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
       ],
       selectors: [
@@ -145,7 +145,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
         {
           taskStatuses: [],
@@ -154,7 +154,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
         {
           taskStatuses: [],
@@ -163,7 +163,7 @@ const DEFAULTS = {
           ruleIds: [],
           searchText: '',
           assignees: [],
-          movementDirection: ['ANY'],
+          journeyDirections: [],
         },
       ],
     },
