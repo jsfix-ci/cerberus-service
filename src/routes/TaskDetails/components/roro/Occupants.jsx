@@ -7,12 +7,12 @@ import OccupantCount from './OccupantCount';
 
 import { MOVEMENT_ROLE } from '../../../../utils/constants';
 
-import { DocumentUtil, MovementUtil, PersonUtil } from '../../../../utils';
+import { DocumentUtil, JourneyUtil, MovementUtil, PersonUtil } from '../../../../utils';
 
 const Occupants = ({ version, classModifiers }) => {
   const mode = MovementUtil.movementMode(version);
-  const journey = MovementUtil.movementJourney(version);
-  const departureTime = MovementUtil.departureTime(journey);
+  const journey = JourneyUtil.get(version);
+  const departureTime = JourneyUtil.departureTime(journey);
   const allPersons = PersonUtil.allPersons(version);
   const primaryTraveller = PersonUtil.findByRole(allPersons, MOVEMENT_ROLE.DRIVER);
   const otherPersons = allPersons.filter((person) => !_.isEqual(person, primaryTraveller));

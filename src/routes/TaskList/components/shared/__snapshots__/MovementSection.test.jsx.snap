@@ -230,7 +230,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
     >
       <div>
         <h3
-          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text"
         >
           Driver details
           <span
@@ -281,7 +281,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
     >
       <div>
         <h3
-          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text"
         >
           Vehicle details
           <span
@@ -317,7 +317,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
       </div>
       <div>
         <h3
-          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular govuk-!-margin-top-3"
+          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text govuk-!-margin-top-3"
         >
           Trailer details
           <span
@@ -351,7 +351,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
     >
       <div>
         <h3
-          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text"
         >
           Haulier details
           <span
@@ -378,7 +378,7 @@ exports[`MovementSection should render the movement section for RoRo V2 1`] = `
       </div>
       <div>
         <h3
-          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular govuk-!-margin-top-3"
+          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text govuk-!-margin-top-3"
         >
           Account details
           <span
@@ -449,7 +449,7 @@ exports[`MovementSection should render the movement section for a RoRo V2 foot p
     >
       <div>
         <h3
-          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular"
+          className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-regular secondary-text"
         >
           Primary traveller
           <span

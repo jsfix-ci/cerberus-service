@@ -35,7 +35,7 @@ const TouristMovementSection = ({ targetTask }) => {
     }
     const maxToDisplay = 4;
     const remaining = otherPersons.length > maxToDisplay ? otherPersons.length - maxToDisplay : 0;
-    const coTravellersJsx = otherPersons.map((_person, index) => {
+    return otherPersons.map((_person, index) => {
       if (index < maxToDisplay) {
         return (
           <li key={index}>
@@ -45,9 +45,6 @@ const TouristMovementSection = ({ targetTask }) => {
         );
       }
     });
-    return (
-      { coTravellersJsx }
-    );
   };
 
   const TouristCar = () => {
@@ -56,8 +53,9 @@ const TouristMovementSection = ({ targetTask }) => {
         <div className="govuk-grid-item">
           <div>
             <EnrichmentCount
-              labelText="Occupants"
+              labelText="Driver"
               movementStats={CommonUtil.movementStats(person)}
+              classnames={['secondary-text']}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{PersonUtil.fullname(person)}</li>
@@ -70,6 +68,7 @@ const TouristMovementSection = ({ targetTask }) => {
             <EnrichmentCount
               labelText="VRN"
               movementStats={CommonUtil.movementStats(vehicle)}
+              classnames={['secondary-text']}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{VehicleUtil.registration(vehicle)}</li>
@@ -114,7 +113,11 @@ const TouristMovementSection = ({ targetTask }) => {
       <>
         <div className="govuk-grid-item">
           <div>
-            <EnrichmentCount labelText="Primary traveller" movementStats={CommonUtil.movementStats(person)} />
+            <EnrichmentCount
+              labelText="Primary traveller"
+              movementStats={CommonUtil.movementStats(person)}
+              classnames={['secondary-text']}
+            />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{PersonUtil.fullname(person)}</li>
             </ul>

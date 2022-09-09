@@ -4,8 +4,8 @@ import { ICON, ICON_MAPPING, MOVEMENT_MODES } from '../../../utils/constants';
 
 import AirpaxVersionDetails from '../components/airpax/AirpaxVersionDetails';
 import AccompaniedVersionDetails from '../components/roro/AccompaniedVersionDetails';
-import TouristIndividualVersionDetails from '../components/roro/TouristIndividualVersionDetails';
-import TouristGroupVersionDetails from '../components/roro/TouristGroupVersionDetails';
+import TouristIndividualVersionDetails from '../components/roro/tourist/individual/TouristIndividualVersionDetails';
+import TouristGroupVersionDetails from '../components/roro/tourist/group/TouristGroupVersionDetails';
 import TouristVersionDetails from '../components/roro/TouristVersionDetails';
 import UnaccompaniedVersionDetails from '../components/roro/UnaccompaniedVersionDetails';
 
