@@ -10,7 +10,10 @@ const Vehicle = ({ version, classModifiers }) => {
     <div className={classNames('task-details-container', 'govuk-!-margin-bottom-2', classModifiers)}>
       <h3 className="govuk-heading-m govuk-!-margin-top-0">Vehicle</h3>
       <div className="govuk-task-details-grid-column">
-        {renderBlock('Vehicle registration', [VehicleUtil.registration(vehicle)])}
+        {renderBlock('Vehicle registration', [{
+          content: VehicleUtil.registration(vehicle),
+          entitySearchURL: CommonUtil.entitySearchURL(vehicle),
+        }])}
         {renderBlock('Type', [VehicleUtil.type(vehicle)])}
         {renderBlock('Make', [VehicleUtil.make(vehicle)])}
         {renderBlock('Model', [VehicleUtil.model(vehicle)])}

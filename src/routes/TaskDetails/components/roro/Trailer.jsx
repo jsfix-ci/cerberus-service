@@ -12,7 +12,10 @@ const Trailer = ({ version, classModifiers }) => {
     <div className={classNames('task-details-container', 'govuk-!-margin-bottom-2', classModifiers)}>
       <h3 className="govuk-heading-m govuk-!-margin-top-0">Trailer</h3>
       <div className="govuk-task-details-grid-column">
-        {renderBlock('Trailer registration number', [TrailerUtil.registration(trailer)])}
+        {renderBlock('Trailer registration number', [{
+          content: TrailerUtil.registration(trailer),
+          entitySearchURL: CommonUtil.entitySearchURL(trailer),
+        }])}
         {renderBlock('Trailer type', [TrailerUtil.type(trailer)])}
         {renderBlock('Trailer country of registration', [CommonUtil.iso3Code(TrailerUtil.nationality(trailer))])}
         {renderBlock('Empty or loaded', [TrailerUtil.loadStatus(trailer)])}
