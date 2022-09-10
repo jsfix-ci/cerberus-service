@@ -7,8 +7,8 @@ import MockAdapter from 'axios-mock-adapter';
 import { renderHook } from '@testing-library/react-hooks';
 import { useIsMounted, useGetRefDataAirlineCodes, useGetAirpaxRefDataMode } from './hooks';
 
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
-import airPaxRefDataMode from '../../__fixtures__/taskData_Airpax_AixpaxRefDataMode.json';
+import refDataAirlineCodes from '../../__fixtures__/airpax-airline-codes.json';
+import airPaxRefDataMode from '../../__fixtures__/airpax-refdata-mode.json';
 
 import { ApplicationContext } from '../../context/ApplicationContext';
 

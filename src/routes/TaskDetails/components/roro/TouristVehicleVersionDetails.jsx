@@ -5,7 +5,7 @@ import Vehicle from './Vehicle';
 import Booking from './Booking';
 import Occupants from './Occupants';
 
-const TouristVersionDetails = ({ version }) => {
+const TouristVehicleVersionDetails = ({ version }) => {
   return (
     <div className="govuk-task-details-grid govuk-!-padding-top-4">
       <div className="govuk-grid-column-one-third">
@@ -26,4 +26,4 @@ const TouristVersionDetails = ({ version }) => {
   );
 };
 
-export default TouristVersionDetails;
+export default TouristVehicleVersionDetails;

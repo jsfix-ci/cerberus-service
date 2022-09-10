@@ -115,8 +115,14 @@ const getTicketPrices = (tickets) => {
   if (!tickets?.length) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return tickets.filter((ticket) => !!ticket.price)
-    .map((ticket) => formatField(UNITS.CURRENCY.value, ticket.price)).join(', ') || STRINGS.UNKNOWN_TEXT;
+  return tickets
+    .filter((ticket) => !!ticket.price)
+    .map((ticket) => {
+      if (ticket.price.startsWith(UNITS.CURRENCY.unit)) {
+        return ticket.price;
+      }
+      return formatField(UNITS.CURRENCY.name, ticket.price);
+    }).join(', ') || STRINGS.UNKNOWN_TEXT;
 };
 
 const getTicketTypes = (tickets) => {

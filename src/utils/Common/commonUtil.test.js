@@ -17,6 +17,7 @@ describe('CommonUtil', () => {
     [undefined],
     [null],
     [''],
+    ['Unknown'],
   ])('should return unknown for invalid iso2 codes', (given) => {
     expect(CommonUtil.iso3Code(given)).toEqual(STRINGS.UNKNOWN_TEXT);
   });

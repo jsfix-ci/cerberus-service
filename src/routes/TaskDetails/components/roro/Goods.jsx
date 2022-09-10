@@ -15,7 +15,7 @@ const Goods = ({ version, classModifiers }) => {
       <div className="govuk-task-details-grid-column">
         {renderBlock('Description', [GoodsUtil.description(goods)])}
         {renderBlock('Is cargo hazardous?', [GoodsUtil.hazardous(goods)])}
-        {renderBlock('Weight of goods', [FieldFormatterUtil.format.field(UNITS.WEIGHT.value, GoodsUtil.weight(goods))])}
+        {renderBlock('Weight of goods', [FieldFormatterUtil.format.field(UNITS.WEIGHT.name, GoodsUtil.weight(goods))])}
       </div>
     </div>
   );

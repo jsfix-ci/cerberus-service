@@ -12,32 +12,32 @@ export const LONDON_TIMEZONE = 'Europe/London';
 
 export const UNITS = {
   BOOKING_DATETIME: {
-    value: 'BOOKING_DATETIME',
+    name: 'BOOKING_DATETIME',
   },
   CHANGED: {
-    value: 'CHANGED',
+    name: 'CHANGED',
   },
   DATETIME: {
-    value: 'DATETIME',
+    name: 'DATETIME',
   },
   DISTANCE: {
-    value: 'DISTANCE',
+    name: 'DISTANCE',
     unit: 'm',
   },
   WEIGHT: {
-    value: 'WEIGHT',
+    name: 'WEIGHT',
     unit: 'kg',
   },
   CURRENCY: {
-    value: 'CURRENCY',
+    name: 'CURRENCY',
     unit: '£',
   },
   SHORT_DATE: {
-    value: 'SHORT_DATE',
+    name: 'SHORT_DATE',
     unit: 'days',
   },
   SHORT_DATE_ALT: {
-    value: 'SHORT_DATE_ALT',
+    name: 'SHORT_DATE_ALT',
     unit: 'days',
   },
 };

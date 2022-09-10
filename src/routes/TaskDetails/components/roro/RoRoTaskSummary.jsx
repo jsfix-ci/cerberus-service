@@ -63,7 +63,7 @@ const toMovementDescription = (mode, vehicle, trailer, totalPersons) => {
   }
 };
 
-const TaskSummary = ({ version }) => {
+const RoRoTaskSummary = ({ version }) => {
   const mode = MovementUtil.movementMode(version);
   const description = MovementUtil.iconDescription(version);
   const iconFromDescription = ICON_MAPPING[mode]?.[description];
@@ -111,4 +111,4 @@ const TaskSummary = ({ version }) => {
   );
 };
 
-export default TaskSummary;
+export default RoRoTaskSummary;

@@ -7,7 +7,7 @@ import { TaskSelectedTabContext } from '../../../../context/TaskSelectedTabConte
 
 import { LONDON_TIMEZONE } from '../../../../utils/constants';
 import taskDetailsData from '../../../../__fixtures__/taskData_AirPax_TaskDetails.fixture.json';
-import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../../../../__fixtures__/airpax-airline-codes.json';
 
 import config from '../../../../utils/config';
 

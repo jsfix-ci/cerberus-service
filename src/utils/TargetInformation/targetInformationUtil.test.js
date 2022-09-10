@@ -3,8 +3,8 @@ import _ from 'lodash';
 import { TargetInformationUtil } from '..';
 
 import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import targetPrefillData from '../../__fixtures__/targetData_AirPax_PrefillData.json';
-import tisSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionData.json';
+import targetPrefillData from '../../__fixtures__/airpax-information-sheet-auto-population.json';
+import tisSubmissionData from '../../__fixtures__/airpax-information-sheet-submission.json';
 
 describe('Target Information Sheet', () => {
   let PREFILL_DATA = {};

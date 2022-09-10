@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { UNITS } from '../../../../utils/constants';
 
-import { FieldFormatterUtil, TrailerUtil } from '../../../../utils';
+import { CommonUtil, FieldFormatterUtil, TrailerUtil } from '../../../../utils';
 import renderBlock from '../../helper/common';
 
 const Trailer = ({ version, classModifiers }) => {
@@ -14,10 +14,10 @@ const Trailer = ({ version, classModifiers }) => {
       <div className="govuk-task-details-grid-column">
         {renderBlock('Trailer registration number', [TrailerUtil.registration(trailer)])}
         {renderBlock('Trailer type', [TrailerUtil.type(trailer)])}
-        {renderBlock('Trailer country of registration', [TrailerUtil.nationality(trailer)])}
+        {renderBlock('Trailer country of registration', [CommonUtil.iso3Code(TrailerUtil.nationality(trailer))])}
         {renderBlock('Empty or loaded', [TrailerUtil.loadStatus(trailer)])}
-        {renderBlock('Trailer length', [FieldFormatterUtil.format.field(UNITS.DISTANCE.value, TrailerUtil.length(trailer))])}
-        {renderBlock('Trailer height', [FieldFormatterUtil.format.field(UNITS.DISTANCE.value, TrailerUtil.height(trailer))])}
+        {renderBlock('Trailer length', [FieldFormatterUtil.format.field(UNITS.DISTANCE.name, TrailerUtil.length(trailer))])}
+        {renderBlock('Trailer height', [FieldFormatterUtil.format.field(UNITS.DISTANCE.name, TrailerUtil.height(trailer))])}
       </div>
     </div>
   );

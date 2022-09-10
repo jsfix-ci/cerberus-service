@@ -13,32 +13,28 @@ const formatField = (fieldType, content) => {
   dayjs.extend(updateLocale);
   dayjs.updateLocale('en', { relativeTime: config.dayjsConfig.relativeTime });
 
-  if (!content && content !== 0) {
+  if ((!content && content !== 0) || content === STRINGS.UNKNOWN_TEXT) {
     return STRINGS.UNKNOWN_TEXT;
-  }
-  // TODO:
-  if (content === STRINGS.UNKNOWN_TEXT) {
-    return content;
   }
 
   let result;
   switch (true) {
-    case fieldType.includes(UNITS.DISTANCE.value):
+    case fieldType.includes(UNITS.DISTANCE.name):
       result = `${content}${UNITS.DISTANCE.unit}`;
       break;
-    case fieldType.includes(UNITS.WEIGHT.value):
+    case fieldType.includes(UNITS.WEIGHT.name):
       result = `${content}${UNITS.WEIGHT.unit}`;
       break;
-    case fieldType.includes(UNITS.CURRENCY.value):
+    case fieldType.includes(UNITS.CURRENCY.name):
       result = `${UNITS.CURRENCY.unit}${content}`;
       break;
-    case fieldType.includes(UNITS.SHORT_DATE_ALT.value):
+    case fieldType.includes(UNITS.SHORT_DATE_ALT.name):
       result = dayjs(0).add(content, UNITS.SHORT_DATE_ALT.unit).format(DATE_FORMATS.SHORT_ALT);
       break;
-    case fieldType.includes(UNITS.SHORT_DATE.value):
+    case fieldType.includes(UNITS.SHORT_DATE.name):
       result = dayjs(0).add(content, UNITS.SHORT_DATE.unit).format(DATE_FORMATS.SHORT);
       break;
-    case fieldType.includes(UNITS.BOOKING_DATETIME.value): {
+    case fieldType.includes(UNITS.BOOKING_DATETIME.name): {
       const splitBookingDateTime = content.split(',');
       const bookingDateTime = dayjs.utc(splitBookingDateTime[0]); // This can also act as the check-in time
       if (splitBookingDateTime.length < 2) {
@@ -50,14 +46,14 @@ const formatField = (fieldType, content) => {
       }
       break;
     }
-    case fieldType.includes(UNITS.DATETIME.value):
+    case fieldType.includes(UNITS.DATETIME.name):
       result = dayjs.utc(content).format(DATE_FORMATS.LONG);
       break;
     default:
       result = content;
   }
 
-  if (fieldType.includes(UNITS.CHANGED.value)) {
+  if (fieldType.includes(UNITS.CHANGED.name)) {
     result = <span className="task-versions--highlight">{result}</span>;
   }
   return result;
@@ -66,7 +62,7 @@ const formatField = (fieldType, content) => {
 const formatKey = (fieldType, content) => {
   return (
     <>
-      {fieldType.includes(UNITS.CHANGED.value)
+      {fieldType.includes(UNITS.CHANGED.name)
         ? <span className="govuk-grid-key font__light task-versions--highlight">{content}</span>
         : <span className="govuk-grid-key font__light">{content}</span>}
     </>

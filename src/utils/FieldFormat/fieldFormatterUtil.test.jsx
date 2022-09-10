@@ -199,8 +199,8 @@ describe('formatField', () => {
 
   describe('Content not provided or null', () => {
     it('Should return Unknown if content is not provided for a fieldType', () => {
-      const restult = FieldFormatterUtil.format.field('STRING', null);
-      expect(restult).toBe('Unknown');
+      const result = FieldFormatterUtil.format.field('STRING', null);
+      expect(result).toBe('Unknown');
     });
   });
 });
@@ -232,5 +232,12 @@ describe('formatLinkField', () => {
         expect(FieldFormatterUtil.link.add('STRING-CHANGED', content, link)).toEqual(expectedOutput);
       },
     );
+  });
+
+  describe('UNKNOWN', () => {
+    it('Should return Unknown if content Unknown', () => {
+      const result = FieldFormatterUtil.format.field('STRING', 'Unknown');
+      expect(result).toBe('Unknown');
+    });
   });
 });

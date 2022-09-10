@@ -6,7 +6,7 @@ import AirpaxVersionDetails from '../components/airpax/AirpaxVersionDetails';
 import AccompaniedVersionDetails from '../components/roro/AccompaniedVersionDetails';
 import TouristIndividualVersionDetails from '../components/roro/tourist/individual/TouristIndividualVersionDetails';
 import TouristGroupVersionDetails from '../components/roro/tourist/group/TouristGroupVersionDetails';
-import TouristVersionDetails from '../components/roro/TouristVersionDetails';
+import TouristVehicleVersionDetails from '../components/roro/TouristVehicleVersionDetails';
 import UnaccompaniedVersionDetails from '../components/roro/UnaccompaniedVersionDetails';
 
 import { MovementUtil } from '../../../utils';
@@ -31,7 +31,7 @@ const getVersionDetails = (mode, version) => {
       if (iconFromDescription === ICON.GROUP) {
         return <TouristGroupVersionDetails version={version} />;
       }
-      return <TouristVersionDetails version={version} />;
+      return <TouristVehicleVersionDetails version={version} />;
     }
     default: {
       return null;

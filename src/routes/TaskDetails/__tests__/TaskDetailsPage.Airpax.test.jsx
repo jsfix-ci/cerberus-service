@@ -19,7 +19,7 @@ import dataTaskComplete from '../../../__fixtures__/taskData_AirPax_TaskComplete
 import dataClaimedTask from '../../../__fixtures__/taskData_AirPax_ClaimedTask.fixture.json';
 import dataDismissedTask from '../../../__fixtures__/taskData_AirPax_DismissedTask.json';
 
-import refDataAirlineCodes from '../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../../../__fixtures__/airpax-airline-codes.json';
 import { TASK_STATUS } from '../../../utils/constants';
 import { VIEW } from '../../../utils/Common/commonUtil';
 

@@ -51,7 +51,7 @@ const getEntitySearchURL = (entity) => {
 };
 
 const convertToIso3Code = (iso2Code) => {
-  if (!iso2Code) {
+  if (!iso2Code || iso2Code === STRINGS.UNKNOWN_TEXT) {
     return STRINGS.UNKNOWN_TEXT;
   }
   if (!lookup.byIso(iso2Code)) {

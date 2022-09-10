@@ -21,7 +21,7 @@ import dataOtherUser from '../../../__fixtures__/taskData_AirPax_AssigneeOtherUs
 import dataNoAssignee from '../../../__fixtures__/taskData_AirPax_NoAssignee.fixture.json';
 import dataTargetIssued from '../../../__fixtures__/taskData_AirPax_TargetIssued.fixtures.json';
 import dataTaskComplete from '../../../__fixtures__/taskData_AirPax_TaskComplete.fixture.json';
-import refDataAirlineCodes from '../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../../../__fixtures__/airpax-airline-codes.json';
 
 describe('RoRo.TaskListPage', () => {
   // Extend the react-router-dom mock from jest.setup.jsx.
