@@ -52,7 +52,7 @@ const toMovementDescription = (mode, vehicle, trailer, totalPersons) => {
       return description;
     }
     case MOVEMENT_MODES.TOURIST: {
-      description += vehicle && totalPersons === 1 ? STRINGS.DESCRIPTIONS.VEHICLE : '';
+      description += vehicle && totalPersons >= 0 ? STRINGS.DESCRIPTIONS.VEHICLE : '';
       description += !vehicle && totalPersons === 1 ? STRINGS.DESCRIPTIONS.SINGLE_PASSENGER : '';
       description += !vehicle && totalPersons > 1 ? STRINGS.DESCRIPTIONS.GROUP : '';
       return description;
