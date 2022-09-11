@@ -7,7 +7,7 @@
 }
 
 .word-break {
-  overflow-wrap: break-word;  
+  overflow-wrap: break-word;
 }
 
 .overflow-hidden {
@@ -28,5 +28,9 @@
 
 // Hiding (optional) text that doesn't have a label as form renderer currently doesn't support this feature
 label[for=assignedToMe] {
+  display: none;
+}
+
+label[for=informTouristFreight] {
   display: none;
 }

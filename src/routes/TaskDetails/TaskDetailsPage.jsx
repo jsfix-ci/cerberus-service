@@ -39,7 +39,6 @@ import './TaskDetailsPage.scss';
 import dismissTask from '../../forms/dismissTaskCerberus';
 import completeTask from '../../forms/completeTaskCerberus';
 import getTisForm from '../../utils/Form/ReactForm/getTisForm';
-import { VIEW } from '../../utils/Common/commonUtil';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -173,17 +172,14 @@ const TaskDetailsPage = () => {
                   <>
                     {showActionButtons && (
                       <>
-                        {/* TODO: Remove the conditional check below once the TIS form is complete */}
-                        {getView() !== VIEW.RORO_V2 ? (
-                          <Button
-                            className="govuk-!-margin-right-1"
-                            onClick={() => {
-                              setActionButtons(true, false, false, false);
-                            }}
-                          >
-                            Issue target
-                          </Button>
-                        ) : null}
+                        <Button
+                          className="govuk-!-margin-right-1"
+                          onClick={() => {
+                            setActionButtons(true, false, false, false);
+                          }}
+                        >
+                          Issue target
+                        </Button>
                         <Button
                           className="govuk-button--secondary govuk-!-margin-right-1"
                           onClick={() => {
