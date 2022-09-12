@@ -39,7 +39,7 @@ const TouristMovementSection = ({ targetTask }) => {
       if (index < maxToDisplay) {
         return (
           <li key={index}>
-            {PersonUtil.firstname(_person)}{(index !== maxToDisplay - 1) && (index !== otherPersons.length - 1) ? ',' : ''}
+            {PersonUtil.fullname(_person)}{(index !== maxToDisplay - 1) && (index !== otherPersons.length - 1) ? ',' : ''}
             {(remaining > 0 && index + 1 === maxToDisplay) ? ` plus ${remaining} more` : ''}
           </li>
         );
