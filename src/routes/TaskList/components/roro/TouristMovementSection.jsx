@@ -32,19 +32,16 @@ const TouristMovementSection = ({ targetTask }) => {
     }
     const maxToDisplay = 4;
     const remaining = otherPersons.length > maxToDisplay ? otherPersons.length - maxToDisplay : 0;
-    const coTravellersJsx = otherPersons.map((_person, index) => {
+    return otherPersons.map((_person, index) => {
       if (index < maxToDisplay) {
         return (
           <li key={index}>
-            {PersonUtil.firstname(_person)}{(index !== maxToDisplay - 1) && (index !== otherPersons.length - 1) ? ',' : ''}
+            {PersonUtil.fullname(_person)}{(index !== maxToDisplay - 1) && (index !== otherPersons.length - 1) ? ',' : ''}
             {(remaining > 0 && index + 1 === maxToDisplay) ? ` plus ${remaining} more` : ''}
           </li>
         );
       }
     });
-    return (
-      { coTravellersJsx }
-    );
   };
 
   const TouristCar = () => {
