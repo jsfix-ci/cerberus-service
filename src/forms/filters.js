@@ -119,6 +119,7 @@ const filter = (assignee, showAssignee, mode) => {
             fieldId: 'journeyDirections',
             label: 'Direction of travel',
             type: 'checkboxes',
+            dynamicOptions: true,
             data: {
               options: [
                 {

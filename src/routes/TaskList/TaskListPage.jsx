@@ -123,7 +123,21 @@ const TaskListPage = () => {
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: adaptMovementDirection(storedData),
       }));
-      return movementModes.concat(selectors);
+      const directions = DEFAULTS[getView()].filters.directions.map((direction) => ({
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        movementModes: adaptMovementModes(storedData),
+        selectors: storedData.selectors,
+        ruleIds: storedData.ruleIds,
+        searchText: storedData.searchText,
+        assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+        journeyDirections: direction.journeyDirections,
+      }));
+      return [
+        ...movementModes,
+        ...selectors,
+        ...directions,
+      ];
     }
     return [
       ...DEFAULTS[getView()].filters.movementModes.map((mode) => ({
@@ -133,6 +147,12 @@ const TaskListPage = () => {
       ...DEFAULTS[getView()].filters.selectors.map((selector) => {
         return {
           ...selector,
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        };
+      }),
+      ...DEFAULTS[getView()].filters.directions.map((direction) => {
+        return {
+          ...direction,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
