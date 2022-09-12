@@ -3,11 +3,11 @@ import React from 'react';
 import { ICON, ICON_MAPPING, MOVEMENT_MODES } from '../../../utils/constants';
 
 import AirpaxVersionDetails from '../components/airpax/AirpaxVersionDetails';
-import AccompaniedVersionDetails from '../components/roro/AccompaniedVersionDetails';
+import AccompaniedVersionDetails from '../components/roro/accompanied/AccompaniedVersionDetails';
 import TouristIndividualVersionDetails from '../components/roro/tourist/individual/TouristIndividualVersionDetails';
 import TouristGroupVersionDetails from '../components/roro/tourist/group/TouristGroupVersionDetails';
-import TouristVehicleVersionDetails from '../components/roro/TouristVehicleVersionDetails';
-import UnaccompaniedVersionDetails from '../components/roro/UnaccompaniedVersionDetails';
+import TouristVehicleVersionDetails from '../components/roro/tourist/vehicle/TouristVehicleVersionDetails';
+import UnaccompaniedVersionDetails from '../components/roro/unaccompanied/UnaccompaniedVersionDetails';
 
 import { MovementUtil } from '../../../utils';
 

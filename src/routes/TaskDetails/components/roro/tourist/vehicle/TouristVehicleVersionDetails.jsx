@@ -1,18 +1,16 @@
 import React from 'react';
 
 import TargetingIndicators from '../../shared/TargetingIndicators';
+import Vehicle from '../../shared/Vehicle';
 import Booking from '../../shared/Booking';
-import GroupOccupants from './GroupOccupants';
-import Document from '../../shared/Document';
-import PrimaryTraveller from './PrimaryTraveller';
+import Occupants from '../../shared/Occupants';
 
-const TouristVersionDetails = ({ version }) => {
+const TouristVehicleVersionDetails = ({ version }) => {
   return (
     <div className="govuk-task-details-grid govuk-!-padding-top-4">
       <div className="govuk-grid-column-one-third">
         <TargetingIndicators version={version} classModifiers={['bottom-border-thin']} />
-        <PrimaryTraveller version={version} classModifiers={['bottom-border-thin']} />
-        <Document version={version} />
+        <Vehicle version={version} />
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line__first">
         <div className="govuk-task-details__col-2">
@@ -21,11 +19,11 @@ const TouristVersionDetails = ({ version }) => {
       </div>
       <div className="govuk-grid-column-one-third vertical-dotted-line__second">
         <div className="govuk-task-details__col-3">
-          <GroupOccupants version={version} />
+          <Occupants version={version} />
         </div>
       </div>
     </div>
   );
 };
 
-export default TouristVersionDetails;
+export default TouristVehicleVersionDetails;

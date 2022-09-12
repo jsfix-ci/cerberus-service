@@ -1,23 +1,28 @@
+import _ from 'lodash';
 import React from 'react';
 import classNames from 'classnames';
 
-import Occupant from '../../shared/Occupant';
-import OccupantCount from '../../shared/OccupantCount';
+import Occupant from './Occupant';
+import OccupantCount from './OccupantCount';
 
-import { DocumentUtil, JourneyUtil, MovementUtil, PersonUtil } from '../../../../../../utils';
+import { MOVEMENT_ROLE } from '../../../../../utils/constants';
 
-const GroupOccupants = ({ version, classModifiers }) => {
+import { DocumentUtil, JourneyUtil, MovementUtil, PersonUtil } from '../../../../../utils';
+
+const Occupants = ({ version, classModifiers }) => {
   const mode = MovementUtil.movementMode(version);
   const journey = JourneyUtil.get(version);
   const departureTime = JourneyUtil.departureTime(journey);
-  const primaryTraveller = PersonUtil.get(version);
-  const otherPersons = PersonUtil.getOthers(version);
+  const allPersons = PersonUtil.allPersons(version);
+  const primaryTraveller = PersonUtil.findByRole(allPersons, MOVEMENT_ROLE.DRIVER);
+  const otherPersons = allPersons.filter((person) => !_.isEqual(person, primaryTraveller));
   const secondaryCoTraveller = otherPersons[0] || undefined;
   const tertiaryCoTravellers = otherPersons?.slice(1, otherPersons.length);
   const occupantCounts = MovementUtil.occupantCounts(version);
 
   return (
     <div className={classNames('task-details-container', classModifiers)}>
+      <h3 className="govuk-heading-m govuk-!-margin-top-0">Occupants</h3>
       <OccupantCount
         mode={mode}
         primaryTraveller={primaryTraveller}
@@ -25,19 +30,23 @@ const GroupOccupants = ({ version, classModifiers }) => {
         occupantCounts={occupantCounts}
         classModifiers={primaryTraveller ? ['govuk-!-padding-bottom-1'] : []}
       />
+      <Occupant
+        person={primaryTraveller}
+        document={DocumentUtil.get(primaryTraveller)}
+        departureTime={departureTime}
+        classModifiers={secondaryCoTraveller ? ['bottom-border-thin'] : []}
+        labelText="Driver"
+      />
 
       {secondaryCoTraveller ? (
-        <>
-          <h3 className="govuk-heading-m govuk-!-margin-top-0">Other travellers</h3>
-          <Occupant
-            person={secondaryCoTraveller}
-            document={DocumentUtil.get(secondaryCoTraveller)}
-            departureTime={departureTime}
-            classModifiers={tertiaryCoTravellers?.length
-              ? ['govuk-!-padding-top-0', 'bottom-border-thin'] : ['govuk-!-padding-top-4']}
-            labelText="Occupant"
-          />
-        </>
+        <Occupant
+          person={secondaryCoTraveller}
+          document={DocumentUtil.get(secondaryCoTraveller)}
+          departureTime={departureTime}
+          classModifiers={tertiaryCoTravellers?.length
+            ? ['govuk-!-padding-top-4', 'bottom-border-thin'] : ['govuk-!-padding-top-4']}
+          labelText="Occupant"
+        />
       ) : null}
 
       {tertiaryCoTravellers?.length ? (
@@ -66,4 +75,4 @@ const GroupOccupants = ({ version, classModifiers }) => {
   );
 };
 
-export default GroupOccupants;
+export default Occupants;

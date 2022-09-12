@@ -1,9 +1,9 @@
 import React from 'react';
 
-import TargetingIndicators from '../../TargetingIndicators';
-import Booking from '../../Booking';
+import TargetingIndicators from '../../shared/TargetingIndicators';
+import Booking from '../../shared/Booking';
 import PrimaryTraveller from './PrimaryTraveller';
-import OccupantCount from '../../OccupantCount';
+import OccupantCount from '../../shared/OccupantCount';
 
 import { MovementUtil, PersonUtil } from '../../../../../../utils';
 
