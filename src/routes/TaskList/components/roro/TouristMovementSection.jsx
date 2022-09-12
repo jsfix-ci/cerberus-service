@@ -32,7 +32,7 @@ const TouristMovementSection = ({ targetTask }) => {
     }
     const maxToDisplay = 4;
     const remaining = otherPersons.length > maxToDisplay ? otherPersons.length - maxToDisplay : 0;
-    const coTravellersJsx = otherPersons.map((_person, index) => {
+    return otherPersons.map((_person, index) => {
       if (index < maxToDisplay) {
         return (
           <li key={index}>
@@ -42,9 +42,6 @@ const TouristMovementSection = ({ targetTask }) => {
         );
       }
     });
-    return (
-      { coTravellersJsx }
-    );
   };
 
   const TouristCar = () => {
