@@ -6,6 +6,38 @@ import { LOCAL_STORAGE_KEYS,
 import { VIEW } from '../../utils/Common/commonUtil';
 import config from '../../utils/config';
 
+const AIRPAX_MODE_PARAMS = {
+  taskStatuses: [],
+  movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
+  selectors: 'ANY',
+  ruleIds: [],
+  searchText: '',
+  assignees: [],
+  journeyDirections: [],
+};
+
+const RORO_MODE_PARAMS = {
+  mode: [],
+  selectors: 'ANY',
+  ruleIds: [],
+  searchText: '',
+  assignees: [],
+  assignedToMe: [],
+  journeyDirections: [],
+};
+
+const JOURNEY_DIRECTIONS = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND',
+  UNKNOWN: 'UNKNOWN',
+};
+
+const SELECTORS = {
+  ANY: 'ANY',
+  PRESENT: 'PRESENT',
+  NOT_PRESENT: 'NOT_PRESENT',
+};
+
 const SORT_ORDER = {
   ASC: 'ASC',
   DESC: 'DESC',
@@ -23,47 +55,39 @@ const DEFAULTS = {
         searchText: '',
         assignees: [],
         assignedToMe: [],
-        movementDirection: ['ANY'],
+        journeyDirections: [],
       },
       mode: MODE.AIRPAX,
       movementModes: [
         {
-          taskStatuses: [],
-          movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-          selectors: 'ANY',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+          ...AIRPAX_MODE_PARAMS,
         },
       ],
       selectors: [
         {
-          taskStatuses: [],
-          movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-          selectors: 'PRESENT',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+          ...AIRPAX_MODE_PARAMS,
+          selectors: SELECTORS.PRESENT,
         },
         {
-          taskStatuses: [],
-          movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-          selectors: 'NOT_PRESENT',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+          ...AIRPAX_MODE_PARAMS,
+          selectors: SELECTORS.NOT_PRESENT,
         },
         {
-          taskStatuses: [],
-          movementModes: [MOVEMENT_MODES.AIR_PASSENGER],
-          selectors: 'ANY',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+          ...AIRPAX_MODE_PARAMS,
+        },
+      ],
+      directions: [
+        {
+          ...AIRPAX_MODE_PARAMS,
+          journeyDirections: [JOURNEY_DIRECTIONS.INBOUND],
+        },
+        {
+          ...AIRPAX_MODE_PARAMS,
+          journeyDirections: [JOURNEY_DIRECTIONS.OUTBOUND],
+        },
+        {
+          ...AIRPAX_MODE_PARAMS,
+          journeyDirections: [JOURNEY_DIRECTIONS.UNKNOWN],
         },
       ],
     },
@@ -105,65 +129,54 @@ const DEFAULTS = {
         searchText: '',
         assignees: [],
         assignedToMe: [],
-        movementDirection: ['ANY'],
+        journeyDirections: [],
       },
       mode: MODE.RORO,
       movementModes: [
         {
-          taskStatuses: [],
+          ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.UNACCOMPANIED_FREIGHT],
-          selectors: 'ANY',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
         },
         {
-          taskStatuses: [],
+          ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT],
-          selectors: 'ANY',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
         },
         {
-          taskStatuses: [],
+          ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.TOURIST],
-          selectors: 'ANY',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
         },
       ],
       selectors: [
         {
-          taskStatuses: [],
+          ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          selectors: 'PRESENT',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+          selectors: SELECTORS.PRESENT,
         },
         {
-          taskStatuses: [],
+          ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          selectors: 'NOT_PRESENT',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+          selectors: SELECTORS.NOT_PRESENT,
         },
         {
-          taskStatuses: [],
+          ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          selectors: 'ANY',
-          ruleIds: [],
-          searchText: '',
-          assignees: [],
-          movementDirection: ['ANY'],
+        },
+      ],
+      directions: [
+        {
+          ...RORO_MODE_PARAMS,
+          movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+          journeyDirections: [JOURNEY_DIRECTIONS.INBOUND],
+        },
+        {
+          ...RORO_MODE_PARAMS,
+          movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+          journeyDirections: [JOURNEY_DIRECTIONS.OUTBOUND],
+        },
+        {
+          ...RORO_MODE_PARAMS,
+          movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+          journeyDirections: [JOURNEY_DIRECTIONS.UNKNOWN],
         },
       ],
     },

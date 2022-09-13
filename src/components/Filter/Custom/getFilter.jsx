@@ -30,7 +30,8 @@ const getFilter = (
           data={data}
           filtersAndSelectorsCount={{
             movementModeCounts: filtersAndSelectorsCount?.slice(0, 1),
-            modeSelectorCounts: filtersAndSelectorsCount?.slice(1),
+            modeSelectorCounts: filtersAndSelectorsCount?.slice(1, 4),
+            directionCounts: filtersAndSelectorsCount?.slice(4),
           }}
           customOptions={{
             rules: customOptions?.rules,
@@ -49,7 +50,8 @@ const getFilter = (
           data={data}
           filtersAndSelectorsCount={{
             movementModeCounts: filtersAndSelectorsCount?.slice(0, 3),
-            modeSelectorCounts: filtersAndSelectorsCount?.slice(3),
+            modeSelectorCounts: filtersAndSelectorsCount?.slice(3, 6),
+            directionCounts: filtersAndSelectorsCount?.slice(6),
           }}
           customOptions={{
             rules: customOptions?.rules,
