@@ -1,4 +1,4 @@
-import { DATE_FORMATS } from '../constants';
+import { DATE_FORMATS, MOVEMENT_MODES } from '../constants';
 
 import AccountUtil from '../Account/accountUtil';
 import BaggageUtil from '../Baggage/baggageUtil';
@@ -14,10 +14,15 @@ import ConsignorUtil from '../Goods/consignorUtil';
 import VesselUtil from '../Vessel/vesselUtil';
 import { replaceInvalidValues } from '../String/stringUtil';
 
-const DIRECTION = {
+export const DIRECTION = {
   INBOUND: 'INBOUND',
   OUTBOUND: 'OUTBOUND',
 };
+
+const RORO_MODES = [
+  MOVEMENT_MODES.ACCOMPANIED_FREIGHT,
+  MOVEMENT_MODES.UNACCOMPANIED_FREIGHT,
+  MOVEMENT_MODES.TOURIST];
 
 const addThumbUrl = (person) => {
   if (!person?.photograph?.url || !person?.photograph?.url?.startsWith('blob:')) {
@@ -414,13 +419,12 @@ const toInterceptionNode = (formData) => {
 };
 
 const toMovementNode = (formData) => {
-  const flight = MovementUtil.movementFlight(formData);
   const journey = JourneyUtil.get(formData);
+  const mode = MovementUtil.movementMode(formData);
   return {
     movement: {
-      id: replaceInvalidValues(formData?.movement?.journey?.id),
-      flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
-        || replaceInvalidValues(formData?.movement?.journey?.id),
+      id: replaceInvalidValues(formData?.movement?.id),
+      ...(!RORO_MODES.includes(mode) && { flightNumber: replaceInvalidValues(formData?.movement?.journey?.id) }),
       routeToUK: replaceInvalidValues(JourneyUtil.movementRoute(journey)),
       direction: replaceInvalidValues(JourneyUtil.direction(journey)),
       arrival: {
@@ -479,6 +483,7 @@ const toModeNode = (formData) => {
   }
 };
 
+// This is also the task-id
 const toIdNode = (formData) => {
   if (formData?.id) {
     return { id: formData.id };
@@ -522,14 +527,14 @@ const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode)
       ...toIdNode(formData),
       ...toPortSubmissionNode(formData),
       ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
-      ...toIssuingHubNode(formData),
-      ...toTargetReceiptTeamNode(formData),
       ...toRemarksSubmissionNode(formData),
       ...toReasoningSubmissionNode(formData),
-      ...toOperationNode(formData),
-      ...toSubmittingUserNode(formData, keycloak),
       ...toRisksSubmissionNode(formData),
       ...toNominalChecksSubmissionNode(formData),
+      ...toIssuingHubNode(formData),
+      ...toTargetReceiptTeamNode(formData),
+      ...toOperationNode(formData),
+      ...toSubmittingUserNode(formData, keycloak),
       form: {
         ...formData?.form,
       },
