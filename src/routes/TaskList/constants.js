@@ -26,6 +26,18 @@ const RORO_MODE_PARAMS = {
   journeyDirections: [],
 };
 
+const JOURNEY_DIRECTIONS = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND',
+  UNKNOWN: 'UNKNOWN',
+};
+
+const SELECTORS = {
+  ANY: 'ANY',
+  PRESENT: 'PRESENT',
+  NOT_PRESENT: 'NOT_PRESENT',
+};
+
 const SORT_ORDER = {
   ASC: 'ASC',
   DESC: 'DESC',
@@ -54,11 +66,11 @@ const DEFAULTS = {
       selectors: [
         {
           ...AIRPAX_MODE_PARAMS,
-          selectors: 'PRESENT',
+          selectors: SELECTORS.PRESENT,
         },
         {
           ...AIRPAX_MODE_PARAMS,
-          selectors: 'NOT_PRESENT',
+          selectors: SELECTORS.NOT_PRESENT,
         },
         {
           ...AIRPAX_MODE_PARAMS,
@@ -67,11 +79,15 @@ const DEFAULTS = {
       directions: [
         {
           ...AIRPAX_MODE_PARAMS,
-          journeyDirections: ['INBOUND'],
+          journeyDirections: [JOURNEY_DIRECTIONS.INBOUND],
         },
         {
           ...AIRPAX_MODE_PARAMS,
-          journeyDirections: ['OUTBOUND'],
+          journeyDirections: [JOURNEY_DIRECTIONS.OUTBOUND],
+        },
+        {
+          ...AIRPAX_MODE_PARAMS,
+          journeyDirections: [JOURNEY_DIRECTIONS.UNKNOWN],
         },
       ],
     },
@@ -134,12 +150,12 @@ const DEFAULTS = {
         {
           ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          selectors: 'PRESENT',
+          selectors: SELECTORS.PRESENT,
         },
         {
           ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          selectors: 'NOT_PRESENT',
+          selectors: SELECTORS.NOT_PRESENT,
         },
         {
           ...RORO_MODE_PARAMS,
@@ -150,12 +166,17 @@ const DEFAULTS = {
         {
           ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          journeyDirections: ['INBOUND'],
+          journeyDirections: [JOURNEY_DIRECTIONS.INBOUND],
         },
         {
           ...RORO_MODE_PARAMS,
           movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
-          journeyDirections: ['OUTBOUND'],
+          journeyDirections: [JOURNEY_DIRECTIONS.OUTBOUND],
+        },
+        {
+          ...RORO_MODE_PARAMS,
+          movementModes: [MOVEMENT_MODES.ACCOMPANIED_FREIGHT, MOVEMENT_MODES.UNACCOMPANIED_FREIGHT, MOVEMENT_MODES.TOURIST],
+          journeyDirections: [JOURNEY_DIRECTIONS.UNKNOWN],
         },
       ],
     },

@@ -66,7 +66,7 @@ const TaskListPage = () => {
     }
   };
 
-  const adaptMovementDirection = (payload) => {
+  const adaptJourneyDirection = (payload) => {
     if (!payload?.journeyDirections?.length) {
       return [];
     }
@@ -111,7 +111,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        journeyDirections: adaptMovementDirection(storedData),
+        journeyDirections: adaptJourneyDirection(storedData),
       }));
       const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -121,7 +121,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        journeyDirections: adaptMovementDirection(storedData),
+        journeyDirections: adaptJourneyDirection(storedData),
       }));
       const directions = DEFAULTS[getView()].filters.directions.map((direction) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -210,7 +210,7 @@ const TaskListPage = () => {
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
       assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
-      journeyDirections: adaptMovementDirection(payload),
+      journeyDirections: adaptJourneyDirection(payload),
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);

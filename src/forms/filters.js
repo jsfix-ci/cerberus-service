@@ -130,6 +130,10 @@ const filter = (assignee, showAssignee, mode) => {
                   value: 'OUTBOUND',
                   label: 'Outbound',
                 },
+                {
+                  value: 'UNKNOWN',
+                  label: 'Unknown',
+                },
               ],
             },
           },

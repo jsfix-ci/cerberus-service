@@ -96,6 +96,7 @@ describe('Custom.Filter', () => {
         searchText: '',
         assignees: [],
         rules: [],
+        journeyDirections: [],
       };
 
       render(<Filter
