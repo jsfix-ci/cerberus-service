@@ -60,8 +60,8 @@ const TaskDetailsPage = () => {
   const [showActionButtons, setShowActionButtons] = useState(true);
   const {
     airPaxRefDataMode,
-    airPaxTisCache,
-    setAirpaxTisCache,
+    tisCache,
+    setTisCache,
   } = useContext(ApplicationContext);
   const {
     setView,
@@ -85,10 +85,10 @@ const TaskDetailsPage = () => {
   const getPrefillData = async () => {
     try {
       const data = await AxiosRequests.informationSheet(apiClient, businessKey);
-      setAirpaxTisCache(TargetInformationUtil.prefillPayload(data));
+      setTisCache(TargetInformationUtil.prefillPayload(data));
     } catch (e) {
       setError(e.message);
-      setAirpaxTisCache({});
+      setTisCache({});
     }
   };
 
@@ -121,7 +121,7 @@ const TaskDetailsPage = () => {
 
   useEffect(() => {
     getTaskData();
-    if (airPaxTisCache()?.id !== businessKey) {
+    if (tisCache()?.id !== businessKey) {
       getPrefillData();
     }
     return () => {
@@ -208,20 +208,20 @@ const TaskDetailsPage = () => {
                 <RenderForm
                   cacheTisFormData
                   form={getTisForm(getView())}
-                  preFillData={airPaxTisCache()}
+                  preFillData={tisCache()}
                   onSubmit={
                     async ({ data }) => {
                       try {
                         await AxiosRequests.submitTis(apiClient,
                           TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode()));
                         data?.meta?.documents.forEach((document) => delete document.file);
-                        setAirpaxTisCache({});
+                        setTisCache({});
                         setSubmitted(true);
                         if (error) {
                           setError(null);
                         }
                       } catch (e) {
-                        setAirpaxTisCache(TargetInformationUtil.convertToPrefill(data));
+                        setTisCache(TargetInformationUtil.convertToPrefill(data));
                         setError(e.response?.status === 404 ? 'Task doesn\'t exist.' : e.message);
                       }
                     }

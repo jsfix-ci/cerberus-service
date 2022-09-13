@@ -1,5 +1,12 @@
 import { STRINGS } from '../constants';
 
+const getAccountNumber = (account) => {
+  if (!account) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return account?.number || STRINGS.UNKNOWN_TEXT;
+};
+
 // TODO: Where does this come from?
 const getAccountEmail = (account) => {
   if (!account) {
@@ -60,6 +67,7 @@ const AccountUtil = {
   get: getAccount,
   mobile: getAccountMobile,
   name: getAccountName,
+  number: getAccountNumber,
   shortName: getShortName,
   reference: getAccountReference,
   telephone: getAccountTelephone,

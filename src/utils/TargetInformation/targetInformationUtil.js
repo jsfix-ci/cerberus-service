@@ -1,5 +1,6 @@
 import { DATE_FORMATS } from '../constants';
 
+import AccountUtil from '../Account/accountUtil';
 import BaggageUtil from '../Baggage/baggageUtil';
 import DateTimeUtil from '../Datetime/datetimeUtil';
 import MovementUtil from '../Movement/movementUtil';
@@ -10,6 +11,7 @@ import GoodsUtil from '../Goods/goodsUtil';
 import HaulierUtil from '../Haulier/haulierUtil';
 import ConsigneeUtil from '../Goods/consigneeUtil';
 import ConsignorUtil from '../Goods/consignorUtil';
+import VesselUtil from '../Vessel/vesselUtil';
 import { replaceInvalidValues } from '../String/stringUtil';
 
 const DIRECTION = {
@@ -336,6 +338,81 @@ const toMainPersonNode = (data) => {
   }
 };
 
+const toVehicleNode = (formData) => {
+  if (formData?.movement?.vehicle) {
+    return { vehicle: formData.movement.vehicle };
+  }
+};
+
+const toTrailerNode = (formData) => {
+  if (formData?.movement?.trailer) {
+    return { trailer: formData.movement.trailer };
+  }
+};
+
+const toGoodsNode = (formData) => {
+  const goods = GoodsUtil.get(formData);
+  const consignee = ConsigneeUtil.get(formData);
+  const consignor = ConsignorUtil.get(formData);
+  const haulier = HaulierUtil.get(formData);
+  if (goods) {
+    return {
+      goods: {
+        load: replaceInvalidValues(goods?.description),
+        weight: replaceInvalidValues(goods?.weight),
+        destinationCountry: goods?.destination,
+        detailsAvailable: [
+          ...(consignee ? ['consignee'] : []),
+          ...(consignor ? ['consignor'] : []),
+          ...(haulier ? ['haulier'] : []),
+        ],
+        ...(consignor && { consignor: {
+          name: replaceInvalidValues(consignor?.name),
+        } }
+        ),
+        ...(consignee && { consignee: {
+          name: replaceInvalidValues(consignee?.name),
+        } }),
+        ...(haulier && { haulier: {
+          name: replaceInvalidValues(haulier?.name),
+        } }),
+      },
+    };
+  }
+};
+
+const toPreArrivalNode = (formData) => {
+  const account = AccountUtil.get(formData);
+  if (formData?.selectionReasoning) {
+    return {
+      preArrival: {
+        accountName: replaceInvalidValues(AccountUtil.name(account)),
+        accountNumber: replaceInvalidValues(AccountUtil.number(account)),
+        whySelected: replaceInvalidValues(formData?.selectionReasoning),
+      },
+    };
+  }
+};
+
+const toInterceptionNode = (formData) => {
+  const vessel = VesselUtil.get(formData);
+  const journey = JourneyUtil.get(formData);
+  return {
+    interception: {
+      vesselName: replaceInvalidValues(VesselUtil.name(vessel)),
+      shippingCompany: replaceInvalidValues(VesselUtil.operator(vessel)),
+      arrival: {
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'HH:mm')),
+      },
+      departure: {
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'HH:mm')),
+      },
+    },
+  };
+};
+
 const toMovementNode = (formData) => {
   const flight = MovementUtil.movementFlight(formData);
   const journey = JourneyUtil.get(formData);
@@ -397,57 +474,14 @@ const toRefDataModeNode = (formData) => {
 };
 
 const toModeNode = (formData) => {
-  if (formData?.mode) {
-    return { mode: formData.mode };
+  if (formData?.movement?.mode) {
+    return { mode: formData?.movement?.mode };
   }
 };
 
 const toIdNode = (formData) => {
   if (formData?.id) {
     return { id: formData.id };
-  }
-};
-
-const toVehicleNode = (formData) => {
-  if (formData?.movement?.vehicle) {
-    return { vehicle: formData.movement.vehicle };
-  }
-};
-
-const toTrailerNode = (formData) => {
-  if (formData?.movement?.trailer) {
-    return { trailer: formData.movement.trailer };
-  }
-};
-
-const toGoodsNode = (formData) => {
-  const goods = GoodsUtil.get(formData);
-  const consignee = ConsigneeUtil.get(formData);
-  const consignor = ConsignorUtil.get(formData);
-  const haulier = HaulierUtil.get(formData);
-  if (goods) {
-    return {
-      goods: {
-        load: replaceInvalidValues(goods?.description),
-        weight: replaceInvalidValues(goods?.weight),
-        destinationCountry: goods?.destination,
-        detailsAvailable: [
-          ...(consignee ? ['consignee'] : []),
-          ...(consignor ? ['consignor'] : []),
-          ...(haulier ? ['haulier'] : []),
-        ],
-        ...(consignor && { consignor: {
-          name: replaceInvalidValues(consignor?.name),
-        } }
-        ),
-        ...(consignee && { consignee: {
-          name: replaceInvalidValues(consignee?.name),
-        } }),
-        ...(haulier && { haulier: {
-          name: replaceInvalidValues(haulier?.name),
-        } }),
-      },
-    };
   }
 };
 
@@ -459,6 +493,7 @@ const toTisPrefillPayload = (informationSheet) => {
       ...toModeNode(informationSheet),
       ...toRefDataModeNode(informationSheet),
       ...toDirectionNode(informationSheet),
+      ...toInterceptionNode(informationSheet),
       ...toPortNode(informationSheet),
       ...toVehicleNode(informationSheet),
       ...toTrailerNode(informationSheet),
@@ -468,6 +503,7 @@ const toTisPrefillPayload = (informationSheet) => {
       ...toMainPersonNode(informationSheet),
       ...toOtherPersonsNode(informationSheet),
       ...toReasoningNode(informationSheet),
+      ...toPreArrivalNode(informationSheet),
       ...toOperationNode(informationSheet),
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
