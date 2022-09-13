@@ -6,6 +6,10 @@ import MovementUtil from '../Movement/movementUtil';
 import PersonUtil from '../Person/personUtil';
 import RisksUtil from '../Risks/risksUtil';
 import JourneyUtil from '../Journey/journeyUtil';
+import GoodsUtil from '../Goods/goodsUtil';
+import HaulierUtil from '../Haulier/haulierUtil';
+import ConsigneeUtil from '../Goods/consigneeUtil';
+import ConsignorUtil from '../Goods/consignorUtil';
 import { replaceInvalidValues } from '../String/stringUtil';
 
 const DIRECTION = {
@@ -48,7 +52,7 @@ const toRisksSubmissionNode = (formData) => {
         targetingIndicators: formData?.targetingIndicators,
         selector: {
           category: replaceInvalidValues(formData?.category?.name),
-          groupReference: null,
+          groupReference: replaceInvalidValues(formData?.warnings?.identified?.groupReference),
           warning: {
             status: replaceInvalidValues(formData?.warnings?.identified.toUpperCase()),
             types: formData?.warnings?.type,
@@ -202,6 +206,7 @@ const toWarningsNode = (formData) => {
           type: warning?.types,
           details: replaceInvalidValues(warning?.detail),
           targetActions: replaceInvalidValues(formData?.remarks),
+          groupReference: replaceInvalidValues(risks?.selector?.groupReference),
         },
       };
     }
@@ -336,6 +341,7 @@ const toMovementNode = (formData) => {
   const journey = JourneyUtil.get(formData);
   return {
     movement: {
+      id: replaceInvalidValues(formData?.movement?.journey?.id),
       flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
         || replaceInvalidValues(formData?.movement?.journey?.id),
       routeToUK: replaceInvalidValues(JourneyUtil.movementRoute(journey)),
@@ -363,6 +369,13 @@ const toIssuingHubNode = (formData) => {
   };
 };
 
+const toDirectionNode = (formData) => {
+  const journey = JourneyUtil.get(formData);
+  if (journey?.direction) {
+    return { direction: journey?.direction };
+  }
+};
+
 const toPortNode = (formData) => {
   const direction = JourneyUtil.direction(formData?.movement?.journey);
   if (direction === DIRECTION.INBOUND && formData?.eventPort) {
@@ -377,9 +390,64 @@ const toPortNode = (formData) => {
   }
 };
 
+const toRefDataModeNode = (formData) => {
+  if (formData?.movement?.refDataMode) {
+    return { refDataMode: formData.movement.refDataMode };
+  }
+};
+
+const toModeNode = (formData) => {
+  if (formData?.mode) {
+    return { mode: formData.mode };
+  }
+};
+
 const toIdNode = (formData) => {
   if (formData?.id) {
     return { id: formData.id };
+  }
+};
+
+const toVehicleNode = (formData) => {
+  if (formData?.movement?.vehicle) {
+    return { vehicle: formData.movement.vehicle };
+  }
+};
+
+const toTrailerNode = (formData) => {
+  if (formData?.movement?.trailer) {
+    return { trailer: formData.movement.trailer };
+  }
+};
+
+const toGoodsNode = (formData) => {
+  const goods = GoodsUtil.get(formData);
+  const consignee = ConsigneeUtil.get(formData);
+  const consignor = ConsignorUtil.get(formData);
+  const haulier = HaulierUtil.get(formData);
+  if (goods) {
+    return {
+      goods: {
+        load: replaceInvalidValues(goods?.description),
+        weight: replaceInvalidValues(goods?.weight),
+        destinationCountry: goods?.destination,
+        detailsAvailable: [
+          ...(consignee ? ['consignee'] : []),
+          ...(consignor ? ['consignor'] : []),
+          ...(haulier ? ['haulier'] : []),
+        ],
+        ...(consignor && { consignor: {
+          name: replaceInvalidValues(consignor?.name),
+        } }
+        ),
+        ...(consignee && { consignee: {
+          name: replaceInvalidValues(consignee?.name),
+        } }),
+        ...(haulier && { haulier: {
+          name: replaceInvalidValues(haulier?.name),
+        } }),
+      },
+    };
   }
 };
 
@@ -388,7 +456,13 @@ const toTisPrefillPayload = (informationSheet) => {
   if (informationSheet) {
     tisPrefillData = {
       ...toIdNode(informationSheet),
+      ...toModeNode(informationSheet),
+      ...toRefDataModeNode(informationSheet),
+      ...toDirectionNode(informationSheet),
       ...toPortNode(informationSheet),
+      ...toVehicleNode(informationSheet),
+      ...toTrailerNode(informationSheet),
+      ...toGoodsNode(informationSheet),
       ...toMovementNode(informationSheet),
       ...toIssuingHubNode(informationSheet),
       ...toMainPersonNode(informationSheet),
@@ -440,6 +514,15 @@ const formDataToPrefillPayload = (formData) => {
       ...(formData?.otherPersons?.length
         && { otherPersons: formData?.otherPersons.map((person) => addThumbUrl(person)) }),
       ...(formData?.category && { category: formData?.category }),
+      ...(formData?.targetCategory && { targetCategory: formData?.targetCategory }),
+      ...(formData?.mode && { mode: formData?.mode }),
+      ...(formData?.direction && { direction: formData?.direction }),
+      ...(formData?.arrivalPort && { arrivalPort: formData?.arrivalPort }),
+      ...(formData?.interception && { interception: formData?.interception }),
+      ...(formData?.vehicle && { vehicle: formData?.vehicle }),
+      ...(formData?.trailer && { trailer: formData?.trailer }),
+      ...(formData?.goods && { goods: formData?.goods }),
+      ...(formData?.preArrival && { preArrival: formData?.preArrival }),
       ...(formData?.warnings && { warnings: formData?.warnings }),
       ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
       ...(formData?.formStatus && { formStatus: formData?.formStatus }),
@@ -449,6 +532,7 @@ const formDataToPrefillPayload = (formData) => {
       ...(formData?.additionalInfo && { additionalInfo: formData?.additionalInfo }),
       ...(formData?.whySelected && { whySelected: formData?.whySelected }),
       ...(formData?.teamToReceiveTheTarget && { teamToReceiveTheTarget: formData?.teamToReceiveTheTarget }),
+      ...(formData?.informTouristFreight && { informTouristFreight: formData?.informTouristFreight }),
       ...(formData?.form && { form: formData?.form }),
     };
   }
@@ -456,9 +540,9 @@ const formDataToPrefillPayload = (formData) => {
 };
 
 const TargetInformationUtil = {
-  prefillPayload: toTisPrefillPayload,
-  submissionPayload: toTisSubmissionPayload,
-  convertToPrefill: formDataToPrefillPayload,
+  prefillPayload: toTisPrefillPayload, // Convert to pre-population data
+  submissionPayload: toTisSubmissionPayload, // Convert to submission payload
+  convertToPrefill: formDataToPrefillPayload, // Convert form data back to pre-population data
 };
 
 export default TargetInformationUtil;

@@ -2,6 +2,8 @@ import AccountUtil from './Account/accountUtil';
 import AxiosInstance from './Axios/axiosInstance';
 import BaggageUtil from './Baggage/baggageUtil';
 import BookingUtil from './Booking/bookingUtil';
+import ConsigneeUtil from './Goods/consigneeUtil';
+import ConsignorUtil from './Goods/consignorUtil';
 import CommonUtil from './Common/commonUtil';
 import DateTimeUtil from './Datetime/datetimeUtil';
 import DocumentUtil from './Document/documentUtil';
@@ -31,6 +33,8 @@ export { AccountUtil,
   BaggageUtil,
   BookingUtil,
   CommonUtil,
+  ConsigneeUtil,
+  ConsignorUtil,
   DateTimeUtil,
   DocumentUtil,
   EnrichmentUtil,
