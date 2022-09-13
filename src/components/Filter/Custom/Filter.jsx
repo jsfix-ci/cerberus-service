@@ -21,9 +21,9 @@ const Filter = ({ form: _form,
   const [hasError, setHasError] = useState(false);
   const [data, setData] = useState(_data);
 
-  const { movementModeCounts, modeSelectorCounts } = filtersAndSelectorsCount;
+  const { movementModeCounts, modeSelectorCounts, directionCounts } = filtersAndSelectorsCount;
 
-  const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts);
+  const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts, directionCounts);
   setupRefDataOptions(form.pages[0].components);
   const visibleComponents = getVisibleComponents(form.pages[0].components, data);
 

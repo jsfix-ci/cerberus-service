@@ -66,11 +66,11 @@ const TaskListPage = () => {
     }
   };
 
-  const adaptMovementDirection = (payload) => {
-    if (payload?.movementDirection?.length <= 1) {
-      return payload.movementDirection;
+  const adaptJourneyDirection = (payload) => {
+    if (!payload?.journeyDirections?.length) {
+      return [];
     }
-    return payload.movementDirection.filter((direction) => direction !== 'ANY');
+    return payload?.journeyDirections;
   };
 
   const adaptMovementModes = (payload) => {
@@ -111,7 +111,7 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        movementDirection: adaptMovementDirection(storedData),
+        journeyDirections: adaptJourneyDirection(storedData),
       }));
       const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -121,9 +121,23 @@ const TaskListPage = () => {
         searchText: storedData.searchText,
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        movementDirection: adaptMovementDirection(storedData),
+        journeyDirections: adaptJourneyDirection(storedData),
       }));
-      return movementModes.concat(selectors);
+      const directions = DEFAULTS[getView()].filters.directions.map((direction) => ({
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        movementModes: adaptMovementModes(storedData),
+        selectors: storedData.selectors,
+        ruleIds: storedData.ruleIds,
+        searchText: storedData.searchText,
+        assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+        journeyDirections: direction.journeyDirections,
+      }));
+      return [
+        ...movementModes,
+        ...selectors,
+        ...directions,
+      ];
     }
     return [
       ...DEFAULTS[getView()].filters.movementModes.map((mode) => ({
@@ -133,6 +147,12 @@ const TaskListPage = () => {
       ...DEFAULTS[getView()].filters.selectors.map((selector) => {
         return {
           ...selector,
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        };
+      }),
+      ...DEFAULTS[getView()].filters.directions.map((direction) => {
+        return {
+          ...direction,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
@@ -178,7 +198,7 @@ const TaskListPage = () => {
         && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
     };
     setAppliedFilters(filtersToApply);
-    await getTaskCount(filtersToApply);
+    getTaskCount(filtersToApply);
   };
 
   // Used for when filters are applied via the filter component
@@ -190,20 +210,20 @@ const TaskListPage = () => {
       searchText: payload?.searchText ? payload.searchText.toUpperCase().trim() : null,
       assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
-      movementDirection: adaptMovementDirection(payload),
+      journeyDirections: adaptJourneyDirection(payload),
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
-    await getTaskCount(payload);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
+    getTaskCount(payload);
+    getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
   };
 
   const handleFilterReset = async (e) => {
     e.preventDefault();
     localStorage.removeItem(DEFAULTS[getView()].filters.key);
-    await getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
+    getFiltersAndSelectorsCount(StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS));
     setAppliedFilters(DEFAULTS[getView()].filters.default);
-    await getTaskCount(DEFAULTS[getView()].filters.default);
+    getTaskCount(DEFAULTS[getView()].filters.default);
   };
 
   const applySavedFiltersOnLoad = async () => {

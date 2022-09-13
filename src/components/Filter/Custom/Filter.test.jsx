@@ -96,6 +96,7 @@ describe('Custom.Filter', () => {
         searchText: '',
         assignees: [],
         rules: [],
+        journeyDirections: [],
       };
 
       render(<Filter
@@ -205,7 +206,7 @@ describe('Custom.Filter', () => {
         searchText: '',
         assignees: [],
         assignedToMe: [],
-        movementDirection: ['ANY'],
+        journeyDirections: [],
       };
 
       const EXPECTED_KEYS = Object.keys(EXPECTED);
