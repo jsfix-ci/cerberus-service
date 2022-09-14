@@ -28,6 +28,7 @@ const RenderForm = ({ formName,
   preFillData,
   cacheTisFormData,
   setError,
+  viewOnly,
   children }) => {
   const [form, setForm] = useState(_form);
   const [renderer, setRenderer] = useState(_renderer);
@@ -177,6 +178,7 @@ const RenderForm = ({ formName,
       <FormRenderer
         {...form}
         data={formattedPreFillData?.data}
+        viewOnly={viewOnly}
         hooks={{
           onGetComponent,
           onRequest: (req) => FormUtils.formHooks.onRequest(req, keycloak.token),
