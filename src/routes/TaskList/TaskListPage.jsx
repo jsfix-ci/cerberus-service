@@ -83,14 +83,15 @@ const TaskListPage = () => {
   };
 
   const adaptDepartureStatuses = (payload) => {
+    const { CHECKED_IN, BOOKED_PASSENGER } = DEPARTURE_STATUS;
     if (!payload?.departureStatuses?.length) {
       return [];
     }
-    if (payload.departureStatuses?.includes(DEPARTURE_STATUS.CHECKED_IN.value) && !payload.departureStatuses?.includes(DEPARTURE_STATUS.BOOKED_PASSENGER.value)) {
-      return payload.departureStatuses.concat(DEPARTURE_STATUS.BOOKED_PASSENGER.value);
+    if (payload.departureStatuses?.includes(CHECKED_IN.value) && !payload.departureStatuses?.includes(BOOKED_PASSENGER.value)) {
+      return payload.departureStatuses.concat(BOOKED_PASSENGER.value);
     }
-    if (!payload.departureStatuses?.includes(DEPARTURE_STATUS.CHECKED_IN.value)) {
-      return payload.departureStatuses?.filter((v) => v !== DEPARTURE_STATUS.BOOKED_PASSENGER.value);
+    if (!payload.departureStatuses?.includes(CHECKED_IN.value)) {
+      return payload.departureStatuses?.filter((v) => v !== BOOKED_PASSENGER.value);
     }
     return payload?.departureStatuses;
   };
