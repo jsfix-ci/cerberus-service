@@ -150,23 +150,21 @@ const TaskListPage = () => {
         journeyDirections: direction.journeyDirections,
         departureStatuses: adaptDepartureStatuses(storedData),
       }));
-      const flightStatuses = DEFAULTS[getView()].filters.flightStatuses.map((status) => ({
-        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
-        movementModes: adaptMovementModes(storedData),
-        selectors: storedData.selectors,
-        ruleIds: storedData.ruleIds,
-        searchText: storedData.searchText,
-        assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
-          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
-        journeyDirections: adaptJourneyDirection(storedData),
-        departureStatuses: status.departureStatuses,
-      }));
-
       return [
         ...movementModes,
         ...selectors,
         ...directions,
-        ...flightStatuses,
+        ...(DEFAULTS[getView()]?.filters?.flightStatuses ? DEFAULTS[getView()].filters.flightStatuses.map((status) => ({
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+          movementModes: adaptMovementModes(storedData),
+          selectors: storedData.selectors,
+          ruleIds: storedData.ruleIds,
+          searchText: storedData.searchText,
+          assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
+            && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+          journeyDirections: adaptJourneyDirection(storedData),
+          departureStatuses: status.departureStatuses,
+        })) : []),
       ];
     }
     return [
@@ -186,12 +184,12 @@ const TaskListPage = () => {
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
-      ...DEFAULTS[getView()].filters.flightStatuses.map((status) => {
+      ...(DEFAULTS[getView()]?.filters?.flightStatuses ? DEFAULTS[getView()].filters.flightStatuses.map((status) => {
         return {
           ...status,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
-      }),
+      }) : []),
     ];
   };
 
