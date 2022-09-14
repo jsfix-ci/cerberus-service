@@ -3,7 +3,7 @@
     "businessKey": "DEV-20220706-671",
     "movement": {
         "flightNumber": "BA0103",
-        "routeToUK": "CDG - YYZ - YYC - LHR",
+        "route": "CDG - YYZ - YYC - LHR",
         "arrival": {
             "date": "23-06-2022",
             "time": "10:27"

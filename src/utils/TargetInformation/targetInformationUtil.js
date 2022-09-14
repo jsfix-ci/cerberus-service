@@ -626,7 +626,6 @@ const toTisSubmissionPayload = (taskData, formData, keycloak) => {
 };
 
 const formDataToPrefillPayload = (formData) => {
-  console.log('FORM DATA TO PREFILL DATA: ', formData);
   let tisPrefillData = {};
   if (formData) {
     tisPrefillData = {
