@@ -14,6 +14,7 @@ const AIRPAX_MODE_PARAMS = {
   searchText: '',
   assignees: [],
   journeyDirections: [],
+  departureStatuses: [],
 };
 
 const RORO_MODE_PARAMS = {
@@ -56,8 +57,23 @@ const DEFAULTS = {
         assignees: [],
         assignedToMe: [],
         journeyDirections: [],
+        departureStatuses: [],
       },
       mode: MODE.AIRPAX,
+      flightStatuses: [
+        {
+          ...AIRPAX_MODE_PARAMS,
+          departureStatuses: ['CHECKED_IN', 'BOOKED_PASSENGER'],
+        },
+        {
+          ...AIRPAX_MODE_PARAMS,
+          departureStatuses: ['DEPARTURE_CONFIRMED'],
+        },
+        {
+          ...AIRPAX_MODE_PARAMS,
+          departureStatuses: ['ARRIVED'],
+        },
+      ],
       movementModes: [
         {
           ...AIRPAX_MODE_PARAMS,

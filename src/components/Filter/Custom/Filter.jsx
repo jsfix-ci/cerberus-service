@@ -21,9 +21,9 @@ const Filter = ({ form: _form,
   const [hasError, setHasError] = useState(false);
   const [data, setData] = useState(_data);
 
-  const { movementModeCounts, modeSelectorCounts, directionCounts } = filtersAndSelectorsCount;
+  const { movementModeCounts, modeSelectorCounts, directionCounts, flightStatusCounts } = filtersAndSelectorsCount;
 
-  const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts, directionCounts);
+  const form = setupFilterCounts(_form, taskStatus, movementModeCounts, modeSelectorCounts, directionCounts, flightStatusCounts);
   setupRefDataOptions(form.pages[0].components);
   const visibleComponents = getVisibleComponents(form.pages[0].components, data);
 
@@ -102,6 +102,7 @@ Filter.propTypes = {
   filtersAndSelectorsCount: PropTypes.shape({
     movementModeCounts: PropTypes.arrayOf(PropTypes.object),
     modeSelectorCounts: PropTypes.arrayOf(PropTypes.object),
+    flightStatusCounts: PropTypes.arrayOf(PropTypes.object),
   }),
   customOptions: PropTypes.shape({}),
   onApply: PropTypes.func.isRequired,

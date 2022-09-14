@@ -468,4 +468,13 @@ describe('Airpax.TaskListPage', () => {
     expect(screen.getByText(/To view complete PNR data, you will need to request access/)).toBeInTheDocument();
     expect(screen.getByText(/Request access to complete PNR data/)).toBeInTheDocument();
   });
+
+  it('should show flight status filters on AirPax mode', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [dataCurrentUser]);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
+    expect(screen.getByText(/Flight status/)).toBeInTheDocument();
+  });
 });
