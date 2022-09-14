@@ -1,16 +1,28 @@
-import { DATE_FORMATS } from '../constants';
+import { DATE_FORMATS, MOVEMENT_MODES } from '../constants';
 
+import AccountUtil from '../Account/accountUtil';
 import BaggageUtil from '../Baggage/baggageUtil';
 import DateTimeUtil from '../Datetime/datetimeUtil';
 import MovementUtil from '../Movement/movementUtil';
 import PersonUtil from '../Person/personUtil';
 import RisksUtil from '../Risks/risksUtil';
+import JourneyUtil from '../Journey/journeyUtil';
+import GoodsUtil from '../Goods/goodsUtil';
+import HaulierUtil from '../Haulier/haulierUtil';
+import ConsigneeUtil from '../Goods/consigneeUtil';
+import ConsignorUtil from '../Goods/consignorUtil';
+import VesselUtil from '../Vessel/vesselUtil';
 import { replaceInvalidValues } from '../String/stringUtil';
 
-const DIRECTION = {
+export const DIRECTION = {
   INBOUND: 'INBOUND',
   OUTBOUND: 'OUTBOUND',
 };
+
+const RORO_MODES = [
+  MOVEMENT_MODES.ACCOMPANIED_FREIGHT,
+  MOVEMENT_MODES.UNACCOMPANIED_FREIGHT,
+  MOVEMENT_MODES.TOURIST];
 
 const addThumbUrl = (person) => {
   if (!person?.photograph?.url || !person?.photograph?.url?.startsWith('blob:')) {
@@ -26,6 +38,22 @@ const addThumbUrl = (person) => {
     }
   }
   return person;
+};
+
+const toInformFreightAndTouristSubmissionNode = (formData) => {
+  const informFreightAndTourist = formData?.informFreightAndTourist;
+  if (informFreightAndTourist && informFreightAndTourist?.length) {
+    return {
+      informFreightAndTourist: true,
+    };
+  }
+  return false;
+};
+
+const toControlStrategySubmissionNode = (formData) => {
+  return {
+    controlStrategies: formData?.preArrival?.controlStrategy || [],
+  };
 };
 
 const toNominalChecksSubmissionNode = (formData) => {
@@ -47,7 +75,7 @@ const toRisksSubmissionNode = (formData) => {
         targetingIndicators: formData?.targetingIndicators,
         selector: {
           category: replaceInvalidValues(formData?.category?.name),
-          groupReference: null,
+          groupReference: replaceInvalidValues(formData?.warnings?.groupReference),
           warning: {
             status: replaceInvalidValues(formData?.warnings?.identified.toUpperCase()),
             types: formData?.warnings?.type,
@@ -72,9 +100,10 @@ const toSubmittingUserNode = (formData, keycloak) => {
 };
 
 const toReasoningSubmissionNode = (formData) => {
-  if (formData?.whySelected) {
+  const whySelected = formData?.whySelected || formData?.preArrival?.whySelected;
+  if (whySelected) {
     return {
-      selectionReasoning: replaceInvalidValues(formData?.whySelected),
+      selectionReasoning: replaceInvalidValues(whySelected),
     };
   }
 };
@@ -90,6 +119,7 @@ const toRemarksSubmissionNode = (formData) => {
 const toPersonSubmissionNode = (person, meta, index) => {
   if (person) {
     return {
+      poleId: person?.id,
       id: person?.id,
       name: person?.name,
       dateOfBirth: replaceInvalidValues(DateTimeUtil.convertToUTC(person?.dateOfBirth, 'DD-MM-YYYY', DATE_FORMATS.UTC)),
@@ -112,9 +142,9 @@ const toPersonSubmissionNode = (person, meta, index) => {
   }
 };
 
-const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
+const toMovementSubmissionNode = (taskData, formData) => {
   if (taskData && formData) {
-    const journey = MovementUtil.movementJourney(taskData);
+    const journey = JourneyUtil.get(taskData);
     const arrivalDateTime = DateTimeUtil.convertToUTC(
       `${formData?.movement?.arrival?.date} ${formData?.movement?.arrival?.time}`, 'DD-MM-YYYY HH:mm', DATE_FORMATS.UTC,
     );
@@ -125,11 +155,13 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
       movement: {
         id: taskData?.movement?.id,
         mode: taskData?.movement?.mode,
-        refDataMode: airPaxRefDataMode,
+        refDataMode: formData?.refDataMode,
         journey: {
           id: journey?.id,
           direction: formData?.movement?.direction,
-          route: formData?.movement?.routeToUK,
+          arrivalTime: arrivalDateTime,
+          departureTime: departureDateTime,
+          route: formData?.movement?.route,
           arrival: {
             ...formData?.movement?.arrival,
             country: journey?.arrival?.country,
@@ -155,13 +187,55 @@ const toMovementSubmissionNode = (taskData, formData, airPaxRefDataMode) => {
           weight: formData?.person?.baggage?.weight,
           tags: formData?.person?.baggage?.tags,
         },
+        vessel: {
+          operator: replaceInvalidValues(formData?.interception?.shippingCompany),
+          name: replaceInvalidValues(formData?.interception?.vesselName),
+        },
+        vehicle: formData?.vehicle,
+        trailer: formData?.trailer,
+        goods: {
+          description: formData?.goods?.load,
+          weight: formData?.goods?.weight,
+          destination: formData?.goods?.destinationCountry,
+        },
+        account: {
+          name: formData?.preArrival?.accountName,
+          number: formData?.preArrival?.accountNumber,
+        },
+        haulier: {
+          name: replaceInvalidValues(formData?.goods?.haulier?.name),
+          line1: replaceInvalidValues(formData?.goods?.haulier?.line1),
+          line2: replaceInvalidValues(formData?.goods?.haulier?.line2),
+          line3: replaceInvalidValues(formData?.goods?.haulier?.line3),
+          city: replaceInvalidValues(formData?.goods?.haulier?.city),
+          postcode: replaceInvalidValues(formData?.goods?.haulier?.postcode),
+          country: replaceInvalidValues(formData?.goods?.haulier?.country),
+        },
+        consignee: {
+          name: replaceInvalidValues(formData?.goods?.consignee?.name),
+          line1: replaceInvalidValues(formData?.goods?.consignee?.line1),
+          line2: replaceInvalidValues(formData?.goods?.consignee?.line2),
+          line3: replaceInvalidValues(formData?.goods?.consignee?.line3),
+          city: replaceInvalidValues(formData?.goods?.consignee?.city),
+          postcode: replaceInvalidValues(formData?.goods?.consignee?.postcode),
+          country: replaceInvalidValues(formData?.goods?.consignee?.country),
+        },
+        consignor: {
+          name: replaceInvalidValues(formData?.goods?.consignor?.name),
+          line1: replaceInvalidValues(formData?.goods?.consignor?.line1),
+          line2: replaceInvalidValues(formData?.goods?.consignor?.line2),
+          line3: replaceInvalidValues(formData?.goods?.consignor?.line3),
+          city: replaceInvalidValues(formData?.goods?.consignor?.city),
+          postcode: replaceInvalidValues(formData?.goods?.consignor?.postcode),
+          country: replaceInvalidValues(formData?.goods?.consignor?.country),
+        },
       },
     };
   }
 };
 
 const toPortSubmissionNode = (formData) => {
-  const direction = formData?.movement?.direction;
+  const direction = formData?.movement?.direction || formData?.direction;
   if (direction === DIRECTION.INBOUND && formData?.movement?.arrivalPort) {
     return {
       eventPort: formData.movement.arrivalPort,
@@ -201,6 +275,7 @@ const toWarningsNode = (formData) => {
           type: warning?.types,
           details: replaceInvalidValues(warning?.detail),
           targetActions: replaceInvalidValues(formData?.remarks),
+          groupReference: replaceInvalidValues(risks?.selector?.groupReference),
         },
       };
     }
@@ -226,7 +301,7 @@ const toCategoryNode = (formData) => {
 
 const toTargetingIndicatorsNode = (formData) => {
   const risks = RisksUtil.getRisks(formData);
-  const targetingIndicators = RisksUtil.getIndicators(risks);
+  const targetingIndicators = RisksUtil.targetingIndicators(risks);
   if (targetingIndicators?.length) {
     return {
       targetingIndicators: targetingIndicators.map((ti) => {
@@ -330,22 +405,115 @@ const toMainPersonNode = (data) => {
   }
 };
 
-const toMovementNode = (formData) => {
-  const flight = MovementUtil.movementFlight(formData);
-  const journey = MovementUtil.movementJourney(formData);
+const toVehicleNode = (formData) => {
+  if (formData?.movement?.vehicle) {
+    return { vehicle: formData.movement.vehicle };
+  }
+};
+
+const toTrailerNode = (formData) => {
+  if (formData?.movement?.trailer) {
+    return { trailer: formData.movement.trailer };
+  }
+};
+
+const toGoodsNode = (formData) => {
+  const goods = GoodsUtil.get(formData);
+  const consignee = ConsigneeUtil.get(formData);
+  const consignor = ConsignorUtil.get(formData);
+  const haulier = HaulierUtil.get(formData);
+  if (goods) {
+    return {
+      goods: {
+        load: replaceInvalidValues(goods?.description),
+        weight: replaceInvalidValues(goods?.weight),
+        destinationCountry: goods?.destination,
+        detailsAvailable: [
+          ...(consignee ? ['consignee'] : []),
+          ...(consignor ? ['consignor'] : []),
+          ...(haulier ? ['haulier'] : []),
+        ],
+        ...(consignor && { consignor: {
+          name: replaceInvalidValues(consignor?.name),
+          line1: replaceInvalidValues(consignor?.line1),
+          line2: replaceInvalidValues(consignor?.line2),
+          line3: replaceInvalidValues(consignor?.line3),
+          city: replaceInvalidValues(consignor?.city),
+          postcode: replaceInvalidValues(consignor?.postcode),
+          country: replaceInvalidValues(consignor?.country),
+        } }
+        ),
+        ...(consignee && { consignee: {
+          name: replaceInvalidValues(consignee?.name),
+          line1: replaceInvalidValues(consignee?.line1),
+          line2: replaceInvalidValues(consignee?.line2),
+          line3: replaceInvalidValues(consignee?.line3),
+          city: replaceInvalidValues(consignee?.city),
+          postcode: replaceInvalidValues(consignee?.postcode),
+          country: replaceInvalidValues(consignee?.country),
+        } }),
+        ...(haulier && { haulier: {
+          name: replaceInvalidValues(haulier?.name),
+          line1: replaceInvalidValues(haulier?.line1),
+          line2: replaceInvalidValues(haulier?.line2),
+          line3: replaceInvalidValues(haulier?.line3),
+          city: replaceInvalidValues(haulier?.city),
+          postcode: replaceInvalidValues(haulier?.postcode),
+          country: replaceInvalidValues(haulier?.country),
+        } }),
+      },
+    };
+  }
+};
+
+const toPreArrivalNode = (formData) => {
+  const account = AccountUtil.get(formData);
+  if (formData?.selectionReasoning) {
+    return {
+      preArrival: {
+        accountName: replaceInvalidValues(AccountUtil.name(account)),
+        accountNumber: replaceInvalidValues(AccountUtil.number(account)),
+        whySelected: replaceInvalidValues(formData?.selectionReasoning),
+      },
+    };
+  }
+};
+
+const toInterceptionNode = (formData) => {
+  const vessel = VesselUtil.get(formData);
+  const journey = JourneyUtil.get(formData);
   return {
-    movement: {
-      flightNumber: replaceInvalidValues(MovementUtil.flightNumber(flight))
-        || replaceInvalidValues(formData?.movement?.journey?.id),
-      routeToUK: replaceInvalidValues(MovementUtil.movementRoute(journey)),
-      direction: replaceInvalidValues(MovementUtil.direction(journey)),
+    interception: {
+      vesselName: replaceInvalidValues(VesselUtil.name(vessel)),
+      shippingCompany: replaceInvalidValues(VesselUtil.operator(vessel)),
       arrival: {
-        date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'DD-MM-YYYY')),
-        time: replaceInvalidValues(DateTimeUtil.format(MovementUtil.arrivalTime(journey), 'HH:mm')),
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'HH:mm')),
       },
       departure: {
-        date: replaceInvalidValues(DateTimeUtil.format(MovementUtil.departureTime(journey), 'DD-MM-YYYY')),
-        time: replaceInvalidValues(DateTimeUtil.format(MovementUtil.departureTime(journey), 'HH:mm')),
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'HH:mm')),
+      },
+    },
+  };
+};
+
+const toMovementNode = (formData) => {
+  const journey = JourneyUtil.get(formData);
+  const mode = MovementUtil.movementMode(formData);
+  return {
+    movement: {
+      id: replaceInvalidValues(formData?.movement?.id),
+      ...(!RORO_MODES.includes(mode) && { flightNumber: replaceInvalidValues(formData?.movement?.journey?.id) }),
+      route: replaceInvalidValues(JourneyUtil.movementRoute(journey)),
+      direction: replaceInvalidValues(JourneyUtil.direction(journey)),
+      arrival: {
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.arrivalTime(journey), 'HH:mm')),
+      },
+      departure: {
+        date: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'DD-MM-YYYY')),
+        time: replaceInvalidValues(DateTimeUtil.format(JourneyUtil.departureTime(journey), 'HH:mm')),
       },
     },
   };
@@ -362,8 +530,15 @@ const toIssuingHubNode = (formData) => {
   };
 };
 
+const toDirectionNode = (formData) => {
+  const journey = JourneyUtil.get(formData);
+  if (journey?.direction) {
+    return { direction: journey?.direction };
+  }
+};
+
 const toPortNode = (formData) => {
-  const direction = MovementUtil.direction(formData?.movement?.journey);
+  const direction = JourneyUtil.direction(formData?.movement?.journey);
   if (direction === DIRECTION.INBOUND && formData?.eventPort) {
     return {
       arrivalPort: formData.eventPort,
@@ -376,6 +551,19 @@ const toPortNode = (formData) => {
   }
 };
 
+const toRefDataModeNode = (formData) => {
+  if (formData?.movement?.refDataMode) {
+    return { refDataMode: formData.movement.refDataMode };
+  }
+};
+
+const toModeNode = (formData) => {
+  if (formData?.movement?.mode) {
+    return { mode: formData?.movement?.mode };
+  }
+};
+
+// This is also the task-id
 const toIdNode = (formData) => {
   if (formData?.id) {
     return { id: formData.id };
@@ -387,12 +575,20 @@ const toTisPrefillPayload = (informationSheet) => {
   if (informationSheet) {
     tisPrefillData = {
       ...toIdNode(informationSheet),
+      ...toModeNode(informationSheet),
+      ...toRefDataModeNode(informationSheet),
+      ...toDirectionNode(informationSheet),
+      ...toInterceptionNode(informationSheet),
       ...toPortNode(informationSheet),
+      ...toVehicleNode(informationSheet),
+      ...toTrailerNode(informationSheet),
+      ...toGoodsNode(informationSheet),
       ...toMovementNode(informationSheet),
       ...toIssuingHubNode(informationSheet),
       ...toMainPersonNode(informationSheet),
       ...toOtherPersonsNode(informationSheet),
       ...toReasoningNode(informationSheet),
+      ...toPreArrivalNode(informationSheet),
       ...toOperationNode(informationSheet),
       ...toTargetingIndicatorsNode(informationSheet),
       ...toCategoryNode(informationSheet),
@@ -404,21 +600,23 @@ const toTisPrefillPayload = (informationSheet) => {
   return tisPrefillData;
 };
 
-const toTisSubmissionPayload = (taskData, formData, keycloak, airPaxRefDataMode) => {
+const toTisSubmissionPayload = (taskData, formData, keycloak) => {
   let submissionPayload = {};
   if (formData) {
     submissionPayload = {
       ...toIdNode(formData),
       ...toPortSubmissionNode(formData),
-      ...toMovementSubmissionNode(taskData, formData, airPaxRefDataMode),
-      ...toIssuingHubNode(formData),
-      ...toTargetReceiptTeamNode(formData),
+      ...toMovementSubmissionNode(taskData, formData),
       ...toRemarksSubmissionNode(formData),
       ...toReasoningSubmissionNode(formData),
-      ...toOperationNode(formData),
-      ...toSubmittingUserNode(formData, keycloak),
       ...toRisksSubmissionNode(formData),
+      ...toControlStrategySubmissionNode(formData),
       ...toNominalChecksSubmissionNode(formData),
+      ...toIssuingHubNode(formData),
+      ...toTargetReceiptTeamNode(formData),
+      ...toOperationNode(formData),
+      ...toInformFreightAndTouristSubmissionNode(formData),
+      ...toSubmittingUserNode(formData, keycloak),
       form: {
         ...formData?.form,
       },
@@ -431,24 +629,35 @@ const formDataToPrefillPayload = (formData) => {
   let tisPrefillData = {};
   if (formData) {
     tisPrefillData = {
-      ...(formData?.id && { id: formData?.id }),
-      ...(formData?.businessKey && { businessKey: formData?.businessKey }),
-      ...(formData?.movement && { movement: formData?.movement }),
-      ...(formData?.issuingHub && { issuingHub: formData?.issuingHub }),
-      ...(formData?.person && { person: addThumbUrl(formData?.person) }),
-      ...(formData?.otherPersons?.length
-        && { otherPersons: formData?.otherPersons.map((person) => addThumbUrl(person)) }),
-      ...(formData?.category && { category: formData?.category }),
-      ...(formData?.warnings && { warnings: formData?.warnings }),
-      ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
-      ...(formData?.formStatus && { formStatus: formData?.formStatus }),
-      ...(formData?.meta && { meta: formData?.meta }),
-      ...(formData?.operation && { operation: formData?.operation }),
-      ...(formData?.targetingIndicators?.length && { targetingIndicators: formData?.targetingIndicators }),
       ...(formData?.additionalInfo && { additionalInfo: formData?.additionalInfo }),
-      ...(formData?.whySelected && { whySelected: formData?.whySelected }),
-      ...(formData?.teamToReceiveTheTarget && { teamToReceiveTheTarget: formData?.teamToReceiveTheTarget }),
+      ...(formData?.arrivalPort && { arrivalPort: formData?.arrivalPort }),
+      ...(formData?.businessKey && { businessKey: formData?.businessKey }),
+      ...(formData?.category && { category: formData?.category }),
+      ...(formData?.departurePort && { departurePort: formData?.departurePort }),
+      ...(formData?.direction && { direction: formData?.direction }),
       ...(formData?.form && { form: formData?.form }),
+      ...(formData?.formStatus && { formStatus: formData?.formStatus }),
+      ...(formData?.goods && { goods: formData?.goods }),
+      ...(formData?.id && { id: formData?.id }),
+      ...(formData?.informTouristFreight && { informTouristFreight: formData?.informTouristFreight }),
+      ...(formData?.interception && { interception: formData?.interception }),
+      ...(formData?.issuingHub && { issuingHub: formData?.issuingHub }),
+      ...(formData?.meta && { meta: formData?.meta }),
+      ...(formData?.mode && { mode: formData?.mode }),
+      ...(formData?.movement && { movement: formData?.movement }),
+      ...(formData?.nominalChecks?.length && { nominalChecks: formData?.nominalChecks }),
+      ...(formData?.operation && { operation: formData?.operation }),
+      ...(formData?.otherPersons?.length && { otherPersons: formData?.otherPersons.map((person) => addThumbUrl(person)) }),
+      ...(formData?.person && { person: addThumbUrl(formData?.person) }),
+      ...(formData?.preArrival && { preArrival: formData?.preArrival }),
+      ...(formData?.refDataMode && { refDataMode: formData?.refDataMode }),
+      ...(formData?.targetCategory && { targetCategory: formData?.targetCategory }),
+      ...(formData?.targetingIndicators?.length && { targetingIndicators: formData?.targetingIndicators }),
+      ...(formData?.teamToReceiveTheTarget && { teamToReceiveTheTarget: formData?.teamToReceiveTheTarget }),
+      ...(formData?.trailer && { trailer: formData?.trailer }),
+      ...(formData?.vehicle && { vehicle: formData?.vehicle }),
+      ...(formData?.warnings && { warnings: formData?.warnings }),
+      ...(formData?.whySelected && { whySelected: formData?.whySelected }),
     };
   }
   return tisPrefillData;

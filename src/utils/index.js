@@ -2,6 +2,8 @@ import AccountUtil from './Account/accountUtil';
 import AxiosInstance from './Axios/axiosInstance';
 import BaggageUtil from './Baggage/baggageUtil';
 import BookingUtil from './Booking/bookingUtil';
+import ConsigneeUtil from './Goods/consigneeUtil';
+import ConsignorUtil from './Goods/consignorUtil';
 import CommonUtil from './Common/commonUtil';
 import DateTimeUtil from './Datetime/datetimeUtil';
 import DocumentUtil from './Document/documentUtil';
@@ -11,6 +13,7 @@ import FormIOUtil from './Form/FormIO/formIOUtil';
 import GoodsUtil from './Goods/goodsUtil';
 import HaulierUtil from './Haulier/haulierUtil';
 import HyperlinkifyUtil from './Hyperlink/hyperlinkifyUtil';
+import JourneyUtil from './Journey/journeyUtil';
 import MovementUtil from './Movement/movementUtil';
 import NumberUtil from './Number/numberUtil';
 import PersonUtil from './Person/personUtil';
@@ -30,6 +33,8 @@ export { AccountUtil,
   BaggageUtil,
   BookingUtil,
   CommonUtil,
+  ConsigneeUtil,
+  ConsignorUtil,
   DateTimeUtil,
   DocumentUtil,
   EnrichmentUtil,
@@ -38,6 +43,7 @@ export { AccountUtil,
   GoodsUtil,
   HaulierUtil,
   HyperlinkifyUtil,
+  JourneyUtil,
   MovementUtil,
   NumberUtil,
   PersonUtil,

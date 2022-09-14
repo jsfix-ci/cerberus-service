@@ -1,5 +1,5 @@
 import React from 'react';
-import { MovementUtil, VehicleUtil, VesselUtil } from '../../../../utils';
+import { JourneyUtil, MovementUtil, VehicleUtil, VesselUtil } from '../../../../utils';
 import { DESCRIPTION_MAPPING, ICON, ICON_MAPPING, MOVEMENT_MODES } from '../../../../utils/constants';
 import TrailerUtil from '../../../../utils/Trailer/trailerUtil';
 
@@ -8,7 +8,6 @@ const VoyageSection = ({ mode,
   vessel,
   vehicle,
   trailer,
-  description,
   iconDescription,
   arrivalTime,
   totalPersons }) => {
@@ -16,7 +15,7 @@ const VoyageSection = ({ mode,
     const iconFromDescription = ICON_MAPPING[mode]?.[iconDescription];
 
     if (iconFromDescription === ICON.CAR) {
-      const vehicleReg = VehicleUtil.vehicleReg(vehicle);
+      const vehicleReg = VehicleUtil.registration(vehicle);
       return vehicleReg || '\xa0';
     }
     if (iconFromDescription === ICON.INDIVIDUAL) {
@@ -31,11 +30,11 @@ const VoyageSection = ({ mode,
         <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
           <i className={`icon-position--left ${ICON_MAPPING[mode]?.[iconDescription]}`} />
           <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
-            {VehicleUtil.vehicleMake(vehicle)} {VehicleUtil.vehicleModel(vehicle)}
+            {VehicleUtil.make(vehicle)} {VehicleUtil.model(vehicle)}
           </p>
           <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
             <span className="govuk-font-weight-bold">
-              {TrailerUtil.trailerReg(trailer)}
+              {TrailerUtil.registration(trailer)}
             </span>
           </span>
         </div>
@@ -48,7 +47,7 @@ const VoyageSection = ({ mode,
           <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">{'\xa0'}</p>
           <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
             <span className="govuk-font-weight-bold">
-              {VehicleUtil.vehicleReg(vehicle)}
+              {VehicleUtil.registration(vehicle)}
             </span>
           </span>
         </div>
@@ -59,7 +58,7 @@ const VoyageSection = ({ mode,
         <div className="govuk-grid-column-one-quarter govuk-!-padding-left-9">
           <i className={`icon-position--left ${ICON_MAPPING[mode]?.[iconDescription]}`} />
           <p className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1">
-            {DESCRIPTION_MAPPING[description]}
+            {DESCRIPTION_MAPPING[iconDescription]}
           </p>
           <span className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1">
             <span className="govuk-font-weight-bold">
@@ -79,12 +78,12 @@ const VoyageSection = ({ mode,
           {`${VesselUtil.operator(vessel)} voyage of ${VesselUtil.name(vessel)}, ${MovementUtil.voyageText(arrivalTime)}`}
         </p>
         <p className="govuk-body-s content-line-two govuk-!-padding-right-2">
-          {`${MovementUtil.formatDepartureTime(journey)}`}
+          {`${JourneyUtil.formatDepartureTime(journey)}`}
           <span className="dot" />
-          <span className="govuk-!-font-weight-bold">{MovementUtil.departureLoc(journey)}</span> &#8594;
-          <span className="govuk-!-font-weight-bold"> {MovementUtil.arrivalLoc(journey)}</span>
+          <span className="govuk-!-font-weight-bold">{JourneyUtil.departureLoc(journey)}</span> &#8594;
+          <span className="govuk-!-font-weight-bold"> {JourneyUtil.arrivalLoc(journey)}</span>
           <span className="dot" />
-          {MovementUtil.formatArrivalTime(journey)}
+          {JourneyUtil.formatArrivalTime(journey)}
         </p>
       </div>
     );

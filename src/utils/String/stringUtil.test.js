@@ -131,4 +131,25 @@ describe('StringUtil', () => {
   ])('should format input to snakeCase', (given, expected) => {
     expect(StringUtil.format.snakeCase(given)).toEqual(expected);
   });
+
+  it('should return a formatted address', () => {
+    const address = {
+      entitySearchUrl: null,
+      line1: 'University of Portsmouth',
+      line2: null,
+      line3: null,
+      city: 'Portsmouth',
+      postcode: 'PO1 2EF',
+      country: 'GB',
+    };
+    expect(StringUtil.format.address(address)).toEqual('University of Portsmouth, Portsmouth, PO1 2EF, GB');
+  });
+
+  it.each([
+    [undefined],
+    [null],
+    [''],
+  ])('should unknown when address to format is invalid', (address) => {
+    expect(StringUtil.format.address(address)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
 });

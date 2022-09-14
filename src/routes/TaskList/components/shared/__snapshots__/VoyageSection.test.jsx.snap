@@ -88,7 +88,9 @@ exports[`VoyageSection should render the voyage section for a RoRo v2 foot passe
         />
         <p
           className="govuk-body-s content-line-one govuk-!-margin-bottom-0 govuk-!-padding-left-1"
-        />
+        >
+          Single passenger
+        </p>
         <span
           className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1"
         >

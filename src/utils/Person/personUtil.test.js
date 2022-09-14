@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import { STRINGS } from '../constants';
+import { MOVEMENT_ROLE, STRINGS } from '../constants';
 
 import { PersonUtil } from '../index';
 
@@ -346,7 +346,13 @@ describe('PersonUtil', () => {
   });
 
   it('should return a list of all persons within the movement', () => {
-    const output = PersonUtil.allPersons(person, coTravellers);
+    const targetTaskMin = {
+      movement: {
+        person,
+        otherPersons: coTravellers,
+      },
+    };
+    const output = PersonUtil.allPersons(targetTaskMin);
     expect(output.length).toEqual(4);
   });
 
@@ -378,5 +384,32 @@ describe('PersonUtil', () => {
       },
     ];
     TARGET_TASKS.forEach((targetTask) => expect(PersonUtil.othersCount(targetTask)).toEqual(0));
+  });
+
+  it(`should find person by role ${MOVEMENT_ROLE.DRIVER}`, () => {
+    const allPersons = [
+      {
+        role: 'DRIVER',
+      },
+      {
+        role: 'PASSENGER',
+      },
+    ];
+    const output = PersonUtil.findByRole(allPersons, MOVEMENT_ROLE.DRIVER);
+    expect(output).toBeDefined();
+    expect(output).toMatchObject(allPersons[0]);
+  });
+
+  it(`should return undefined when person with role ${MOVEMENT_ROLE.DRIVER} can not be found`, () => {
+    const allPersons = [
+      {
+        role: 'PASSENGER',
+      },
+      {
+        role: 'PASSENGER',
+      },
+    ];
+    const output = PersonUtil.findByRole(allPersons, MOVEMENT_ROLE.DRIVER);
+    expect(output).toBeUndefined();
   });
 });

@@ -1,12 +1,15 @@
 import React from 'react';
-import { MovementUtil, PersonUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../utils';
+
 import { MOVEMENT_MODES } from '../../../utils/constants';
+
 import AirpaxVoyageSection from '../components/airpax/VoyageSection';
 import RoRoVoyageSection from '../components/roro/VoyageSection';
 
+import { JourneyUtil, MovementUtil, PersonUtil, TrailerUtil, VehicleUtil, VesselUtil } from '../../../utils';
+
 const getVoyageComponent = (mode, targetTask, refDataAirlineCodes) => {
-  const journey = MovementUtil.movementJourney(targetTask);
-  const arrivalTime = MovementUtil.arrivalTime(journey);
+  const journey = JourneyUtil.get(targetTask);
+  const arrivalTime = JourneyUtil.arrivalTime(journey);
   const flight = MovementUtil.movementFlight(targetTask);
   const vessel = VesselUtil.get(targetTask);
   const vehicle = VehicleUtil.get(targetTask);
@@ -42,7 +45,6 @@ const getVoyageComponent = (mode, targetTask, refDataAirlineCodes) => {
           vessel={vessel}
           vehicle={vehicle}
           trailer={trailer}
-          description={description}
           iconDescription={iconDescription}
           arrivalTime={arrivalTime}
           totalPersons={totalPersons}

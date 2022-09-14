@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaggageUtil, BookingUtil, DocumentUtil, MovementUtil, PersonUtil } from '../../../../utils';
+import { BaggageUtil, BookingUtil, DocumentUtil, JourneyUtil, MovementUtil, PersonUtil } from '../../../../utils';
 
 const AirpaxMovementSection = ({ person, baggage, booking, journey, flight, document, otherPersons, movementType }) => {
   return (
@@ -60,7 +60,7 @@ const AirpaxMovementSection = ({ person, baggage, booking, journey, flight, docu
           <li className="govuk-!-font-weight-regular">{BookingUtil.toBookingText(booking)}</li>
         </ul>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0 secondary-text">
-          <li className="govuk-!-font-weight-regular">{BookingUtil.bookedPrior(BookingUtil.bookedAt(booking), MovementUtil.departureTime(journey))}</li>
+          <li className="govuk-!-font-weight-regular">{BookingUtil.bookedPrior(BookingUtil.bookedAt(booking), JourneyUtil.departureTime(journey))}</li>
         </ul>
       </div>
 
@@ -75,7 +75,7 @@ const AirpaxMovementSection = ({ person, baggage, booking, journey, flight, docu
           Route
         </h3>
         <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-          <li className="govuk-!-font-weight-regular">{MovementUtil.convertMovementRoute(MovementUtil.movementRoute(journey))}</li>
+          <li className="govuk-!-font-weight-regular">{MovementUtil.convertMovementRoute(JourneyUtil.movementRoute(journey))}</li>
         </ul>
       </div>
     </>

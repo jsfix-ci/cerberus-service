@@ -7,7 +7,7 @@ import mockRoRoTargetTask from '../../../../__fixtures__/taskData_RoRo_Accompani
 import mockAirpaxTargetTask from '../../../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
 import mockRoRoFootPassengerTask from '../../../../__fixtures__/taskData_RoRo_Foot_Passenger_AssigneeCurrentUser.fixture.json';
 
-import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../../../../__fixtures__/airpax-airline-codes.json';
 
 describe('VoyageSection', () => {
   it('should render the voyage section for an airpax task', () => {

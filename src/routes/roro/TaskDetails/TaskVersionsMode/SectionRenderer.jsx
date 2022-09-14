@@ -190,7 +190,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
             </span>
             {dob?.content ? (
               <span className={`font__bold ${applyHighlightValue(dob)}`}>
-                , born {formatField(UNITS.SHORT_DATE_ALT.value, dob?.content)}
+                , born {formatField(UNITS.SHORT_DATE_ALT.name, dob?.content)}
               </span>
             ) : (
               <span className={`font__bold ${applyHighlightValue(dob)}`}>
@@ -242,7 +242,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
               <span
                 className={`font__bold ${applyHighlightValue(passportExpiry)}`}
               >
-                Expires {formatField(UNITS.SHORT_DATE_ALT.value, passportExpiry?.content)}
+                Expires {formatField(UNITS.SHORT_DATE_ALT.name, passportExpiry?.content)}
               </span>
             ) : (
               <span
@@ -255,7 +255,7 @@ const renderOccupants = (contents, fieldSetName, arrivalTime = undefined) => {
           <p className="govuk-!-margin-bottom-0 font__light">
             <span className={applyHighlightValue(passportExpiry)}>
               {renderDocumentExpiry(
-                formatField(UNITS.SHORT_DATE_ALT.value, passportExpiry?.content),
+                formatField(UNITS.SHORT_DATE_ALT.name, passportExpiry?.content),
                 arrivalTime,
               )}
             </span>
@@ -295,7 +295,7 @@ const renderTargetingIndicatorsSection = ({ type, hasChildSet, childSets }) => {
           : 'govuk-task-details-grid-row';
         return (
           <div className={className} key={uuidv4()}>
-            <ul className="list-bullet-container">
+            <ul className="govuk-!-margin-bottom-0 govuk-!-padding-left-3">
               {type.includes('CHANGED') ? (
                 <li className="govuk-grid-key list-bullet font__light task-versions--highlight">
                   {indicator}

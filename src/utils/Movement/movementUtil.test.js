@@ -1,64 +1,20 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import { MovementUtil } from '../index';
-import { STRINGS, UNKNOWN_TIME_DATA } from '../constants';
+import { STRINGS } from '../constants';
 
 describe('MovementUtil', () => {
   dayjs.extend(utc);
 
   let targetTaskMin;
 
-  const itineraries = [
-    {
-      id: 'AC0850',
-      arrival: {
-        country: null,
-        location: 'YYZ',
-        time: '2018-10-03T13:05:00Z',
-      },
-      departure: {
-        country: null,
-        location: 'CDG',
-        time: '2018-10-03T11:00:00Z',
-      },
-      duration: 7500000,
-    },
-    {
-      id: 'BD0998',
-      arrival: {
-        country: null,
-        location: 'YYC',
-        time: '2018-10-03T18:16:00Z',
-      },
-      departure: {
-        country: null,
-        location: 'YYZ',
-        time: '2018-10-03T16:05:00Z',
-      },
-      duration: 7860000,
-    },
-    {
-      id: 'XZ0123',
-      arrival: {
-        country: null,
-        location: 'LHR',
-        time: '2018-10-03T21:19:20Z',
-      },
-      departure: {
-        country: null,
-        location: 'YYC',
-        time: '2018-10-03T18:32:40Z',
-      },
-      duration: 10000000,
-    },
-  ];
-
   beforeEach(() => {
     targetTaskMin = {
       relisted: false,
+      latestVersionNumber: 1,
       movement: {
         id: 'AIRPAXTSV:CMID=9c19fe74233c057f25e5ad333672c3f9/2b4a6b5b08ea434880562d6836b1111',
         status: 'PRE_ARRIVAL',
@@ -107,8 +63,15 @@ describe('MovementUtil', () => {
           operator: 'BA',
           seatNumber: null,
         },
+        occupants: {
+          numberOfOaps: 0,
+          numberOfAdults: 1,
+          numberOfChildren: 0,
+          numberOfInfants: 0,
+          numberOfUnknowns: 3,
+          numberOfOccupants: 4,
+        },
       },
-      latestVersionNumber: 1,
       versions: [],
     };
   });
@@ -127,13 +90,6 @@ describe('MovementUtil', () => {
       twolettercode: 'QF',
     },
   ];
-
-  it('should return the route if present', () => {
-    const output = MovementUtil.movementRoute(targetTaskMin.movement.journey);
-    expect(output).not.toBeUndefined();
-    expect(output).not.toBeNull();
-    expect(output).toEqual(targetTaskMin.movement.journey.route);
-  });
 
   it('should return null if formatted seat number is not present', () => {
     const output = MovementUtil.seatNumber(targetTaskMin.movement.flight);
@@ -159,36 +115,6 @@ describe('MovementUtil', () => {
     expect(output).not.toBeUndefined();
     expect(output).not.toBeNull();
     expect(output).toEqual(targetTaskMin.movement.flight);
-  });
-
-  it('should return a departure time if present', () => {
-    const output = MovementUtil.departureTime(targetTaskMin.movement.journey);
-    expect(output).toEqual(targetTaskMin.movement.journey.departure.time);
-  });
-
-  it('should return arrival time if present', () => {
-    const output = MovementUtil.arrivalTime(targetTaskMin.movement.journey);
-    expect(output).toEqual(targetTaskMin.movement.journey.arrival.time);
-  });
-
-  it('should return a formatted departure date and time if present', () => {
-    const output = MovementUtil.formatDepartureTime(targetTaskMin.movement.journey);
-    expect(output).toEqual('7 Aug 2020 at 17:15');
-  });
-
-  it('should return a formatted arrival date and time if present', () => {
-    const output = MovementUtil.formatArrivalTime(targetTaskMin.movement.journey);
-    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return a departure location if present', () => {
-    const output = MovementUtil.departureLoc(targetTaskMin.movement.journey);
-    expect(output).toEqual(targetTaskMin.movement.journey.departure.location);
-  });
-
-  it('should return an arrival location if present', () => {
-    const output = MovementUtil.arrivalLoc(targetTaskMin.movement.journey);
-    expect(output).toEqual(targetTaskMin.movement.journey.arrival.location);
   });
 
   it('should return a flight number if present', () => {
@@ -378,102 +304,6 @@ describe('MovementUtil', () => {
     expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
   });
 
-  it('should return the flight duration when present', () => {
-    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(targetTaskMin.movement.journey.duration);
-  });
-
-  it('should return unknown when flight duration when duration is null', () => {
-    targetTaskMin.movement.journey.duration = null;
-    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return unknown when flight duration when duration is undefined', () => {
-    targetTaskMin.movement.journey.duration = undefined;
-    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return unknown when flight duration when duration is empty', () => {
-    targetTaskMin.movement.journey.duration = '';
-    const outcome = MovementUtil.flightDuration(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return the flight time flight duration is present', () => {
-    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual('2h 46m');
-  });
-
-  it('should return unknown when flight duration is null', () => {
-    targetTaskMin.movement.journey.duration = null;
-    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return unknown when flight duration is undefined', () => {
-    targetTaskMin.movement.journey.duration = undefined;
-    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return unknown when flight duration is empty', () => {
-    targetTaskMin.movement.journey.duration = '';
-    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should return unknown when flight duration is invalid', () => {
-    targetTaskMin.movement.journey.duration = 'A';
-    const outcome = MovementUtil.formatFlightTime(targetTaskMin.movement.journey);
-    expect(outcome).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  it('should convert the given time in milliseconds to a time object', () => {
-    const given = '10000000';
-
-    const expected = { h: 2, m: 46, s: 40 };
-
-    const output = MovementUtil.flightTimeObject(given);
-    expect(output).toEqual(expected);
-  });
-
-  it('should return a time object when given is 0', () => {
-    const expected = { h: 0, m: 0, s: 0 };
-    const output = MovementUtil.flightTimeObject(0);
-    expect(output).toEqual(expected);
-  });
-
-  it('should return a time object when given is string representation of 0', () => {
-    const expected = { h: 0, m: 0, s: 0 };
-    const output = MovementUtil.flightTimeObject('0');
-    expect(output).toEqual(expected);
-  });
-
-  it('should return a time object with unknown h. m & s when given is null', () => {
-    const given = null;
-    const output = MovementUtil.flightTimeObject(given);
-    expect(output).toEqual(UNKNOWN_TIME_DATA);
-  });
-
-  it('should return a time object with unknown h. m & s when given is undefined', () => {
-    const given = undefined;
-    const output = MovementUtil.flightTimeObject(given);
-    expect(output).toEqual(UNKNOWN_TIME_DATA);
-  });
-
-  it('should return a time object with unknown h. m & s when given is empty', () => {
-    const output = MovementUtil.flightTimeObject('');
-    expect(output).toEqual(UNKNOWN_TIME_DATA);
-  });
-
-  it('should return a time object with unknown h. m & s when given is a mixture of numbers & characters', () => {
-    const given = '3600-00000A';
-    const output = MovementUtil.flightTimeObject(given);
-    expect(output).toEqual(UNKNOWN_TIME_DATA);
-  });
-
   it('should return the itenerary flight number', () => {
     const expected = 'BA103';
     const output = MovementUtil.itinFlightNumber(targetTaskMin.movement.journey.itinerary[0]);
@@ -515,70 +345,11 @@ describe('MovementUtil', () => {
     expect(output).toEqual(expected);
   });
 
-  it('should return the country code using departure location when the departure country code is null', () => {
-    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('DEU');
-  });
-
-  it('should return the country code using departure location when the departure country code is undefined', () => {
-    targetTaskMin.movement.journey.itinerary[0].departure.country = undefined;
-    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('DEU');
-  });
-
-  it('should return the country code using departure location when the departure country code is an empty string', () => {
-    targetTaskMin.movement.journey.itinerary[0].departure.country = '';
-    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('DEU');
-  });
-
-  it('should return unknown when the country code can not be determined using the departure location', () => {
-    targetTaskMin.movement.journey.itinerary[0].departure.location = null;
-    targetTaskMin.movement.journey.itinerary[0].departure.country = '';
-    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
   it('should return the itinerary arrival country code', () => {
     targetTaskMin.movement.journey.itinerary[0].arrival.country = 'FR';
     const expected = 'FRA';
     const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
     expect(output).toEqual(expected);
-  });
-
-  it('should return the country code using the arrival location when arrival country code is null', () => {
-    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('GBR');
-  });
-
-  it('should return the country code using the arrival location when arrival country code is undefined', () => {
-    targetTaskMin.movement.journey.itinerary[0].arrival.country = undefined;
-    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('GBR');
-  });
-
-  it('should return the country code using the arrival location when arrival country code is an empty string', () => {
-    targetTaskMin.movement.journey.itinerary[0].arrival.country = '';
-    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual('GBR');
-  });
-
-  it('should return unknown when the country code can not be determined using the arrival location', () => {
-    targetTaskMin.movement.journey.itinerary[0].arrival.location = null;
-    targetTaskMin.movement.journey.itinerary[0].arrival.country = '';
-    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
-    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
-  });
-
-  describe('toItineraryBlock', () => {
-    const expected = ['Unknown', '3 hours later', '17 minutes later'];
-    for (let i = 0; i < itineraries.length; i += 1) {
-      it('should calculate time difference between flight legs', () => {
-        // As the first leg has nothing prior to it, unknown will be returned however not rendered.
-        render(MovementUtil.itinRelativeTime(i, itineraries[i], itineraries));
-        expect(screen.getByText(expected[i])).toBeInTheDocument();
-      });
-    }
   });
 
   it('should not render the updated label when versions array length is 0 or latestVersionNumber is not greater 1', () => {
@@ -631,17 +402,388 @@ describe('MovementUtil', () => {
     PAST_DATES.forEach((date) => expect(MovementUtil.voyageText(date)).toEqual(STRINGS.UNKNOWN_TEXT));
   });
 
-  it('should return the movement direction', () => {
-    const journey = MovementUtil.movementJourney(targetTaskMin);
-    expect(MovementUtil.direction(journey)).toEqual('INBOUND');
+  it('should return the country code using departure location when the departure country code is null', () => {
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual('DEU');
   });
 
-  it('should return undefined for invalid movement direction', () => {
-    const INVALID_DIRECTIONS = [undefined, null, ''];
-    INVALID_DIRECTIONS.forEach((direction) => {
-      targetTaskMin.movement.journey.direction = direction;
-      const journey = MovementUtil.movementJourney(targetTaskMin);
-      expect(MovementUtil.direction(journey)).toBeUndefined();
+  it('should return the country code using departure location when the departure country code is undefined', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = undefined;
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual('DEU');
+  });
+
+  it('should return the country code using departure location when the departure country code is an empty string', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.country = '';
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual('DEU');
+  });
+
+  it('should return unknown when the country code can not be determined using the departure location', () => {
+    targetTaskMin.movement.journey.itinerary[0].departure.location = null;
+    targetTaskMin.movement.journey.itinerary[0].departure.country = '';
+    const output = MovementUtil.itinDepartureCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should return the country code using the arrival location when arrival country code is null', () => {
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual('GBR');
+  });
+
+  it('should return the country code using the arrival location when arrival country code is undefined', () => {
+    targetTaskMin.movement.journey.itinerary[0].arrival.country = undefined;
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual('GBR');
+  });
+
+  it('should return the country code using the arrival location when arrival country code is an empty string', () => {
+    targetTaskMin.movement.journey.itinerary[0].arrival.country = '';
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual('GBR');
+  });
+
+  it('should return unknown when the country code can not be determined using the arrival location', () => {
+    targetTaskMin.movement.journey.itinerary[0].arrival.location = null;
+    targetTaskMin.movement.journey.itinerary[0].arrival.country = '';
+    const output = MovementUtil.itinArrivalCountryCode(targetTaskMin.movement.journey.itinerary[0]);
+    expect(output).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should return false if given empty', () => {
+    expect(MovementUtil.hasCheckinDate('')).toBeFalsy();
+  });
+
+  it('should return false if given null', () => {
+    expect(MovementUtil.hasCheckinDate(null)).toBeFalsy();
+  });
+
+  it('should return false if given undefined', () => {
+    expect(MovementUtil.hasCheckinDate(undefined)).toBeFalsy();
+  });
+
+  it('should return true if given not null, undefined or empty', () => {
+    expect(MovementUtil.hasCheckinDate('2022-01-22T10:12:55')).toBeTruthy();
+  });
+
+  it('should return false for hasEta if given empty', () => {
+    expect(MovementUtil.hasEta('')).toBeFalsy();
+  });
+
+  it('should return false for hasEta if given null', () => {
+    expect(MovementUtil.hasEta(null)).toBeFalsy();
+  });
+
+  it('should return false for hasEta if given undefined', () => {
+    expect(MovementUtil.hasEta(undefined)).toBeFalsy();
+  });
+
+  it('should return true for hasEta if given not null, undefined or empty', () => {
+    expect(MovementUtil.hasEta('2022-01-22T10:12:55')).toBeTruthy();
+  });
+
+  it('should true when all counts have non-null content', () => {
+    const suppliedPassengerCounts = [
+      {
+        propName: 'infantCount',
+      },
+      {
+        propName: 'childCount',
+      },
+      {
+        propName: 'adultCount',
+      },
+      {
+        propName: 'oapCount',
+      },
+    ];
+    const result = MovementUtil.hasCarrierCounts(suppliedPassengerCounts);
+    expect(result).toBeTruthy();
+  });
+
+  it('should return false for absence of a valid passenger when not found', () => {
+    const given = {
+      fieldSetName: 'Passengers',
+      hasChildSet: true,
+      contents: [],
+      childSets: [
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/-',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/1',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+      ],
+      type: 'STANDARD',
+      propName: 'passengers',
+    };
+    expect(MovementUtil.hasTaskVersionPassengers(given)).toEqual(false);
+  });
+
+  it('should return true for presence of a valid passenger when found', () => {
+    const given = {
+      fieldSetName: 'Passengers',
+      hasChildSet: true,
+      contents: [],
+      childSets: [
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: 'JOE BLOGGS',
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/-',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+        {
+          fieldSetName: '',
+          hasChildSet: false,
+          contents: [
+            {
+              fieldName: 'Name',
+              type: 'STRING',
+              content: 'JOHN CHEESE',
+              versionLastUpdated: null,
+              propName: 'name',
+            },
+            {
+              fieldName: 'Date of birth',
+              type: 'SHORT_DATE',
+              content: null,
+              versionLastUpdated: null,
+              propName: 'dob',
+            },
+            {
+              fieldName: 'Enrichment count',
+              type: 'HIDDEN',
+              content: '-/-/-',
+              versionLastUpdated: null,
+              propName: 'enrichmentCount',
+            },
+          ],
+          type: 'null',
+          propName: '',
+        },
+      ],
+      type: 'STANDARD',
+      propName: 'passengers',
+    };
+    expect(MovementUtil.hasTaskVersionPassengers(given)).toEqual(true);
+  });
+
+  it('should return true when there is only one passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESES',
+        dob: '',
+      },
+      {
+        name: '',
+        dob: '',
+      },
+    ];
+    expect(MovementUtil.isSinglePassenger(passengers)).toBeTruthy();
+  });
+
+  it('should return false when there is more than one passenger', () => {
+    const passengers = [
+      {
+        name: 'JIMS CHEESE',
+        dob: '',
+      },
+      {
+        name: 'ISIAH FORD',
+        dob: '',
+      },
+    ];
+    expect(MovementUtil.isSinglePassenger(passengers)).toBeFalsy();
+  });
+
+  it('should return true when there is only one task details passenger)', () => {
+    const passengers = [
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'Isiah Ford',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+    ];
+    expect(MovementUtil.isSinglePassenger(passengers)).toBeTruthy();
+  });
+
+  it('should return false when there is more than one task details passengers)', () => {
+    const passengers = [
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'Isiah Ford',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+      {
+        fieldSetName: '',
+        hasChildSet: false,
+        contents: [
+          {
+            fieldName: 'Name',
+            type: 'STRING',
+            content: 'JOHN CHEESE',
+            versionLastUpdated: null,
+            propName: 'name',
+          },
+          {
+            fieldName: 'Date of birth',
+            type: 'SHORT_DATE',
+            content: null,
+            versionLastUpdated: null,
+            propName: 'dob',
+          },
+        ],
+        type: 'null',
+        propName: '',
+      },
+    ];
+    expect(MovementUtil.isSinglePassenger(passengers)).toBeFalsy();
+  });
+
+  it('should get the occupant counts', () => {
+    const occupants = MovementUtil.occupantCounts(targetTaskMin);
+    expect(occupants).toMatchObject(targetTaskMin.movement.occupants);
+    Object.keys(occupants).forEach((k) => {
+      expect(occupants[k]).toEqual(targetTaskMin.movement.occupants[k]);
     });
+  });
+
+  it.each([
+    [undefined],
+    [null],
+  ])('should get the occupant counts', (counts) => {
+    targetTaskMin.movement.occupants = counts;
+    expect(MovementUtil.occupantCounts(targetTaskMin)).toBeUndefined();
   });
 });

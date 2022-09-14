@@ -1,5 +1,19 @@
 import { STRINGS } from '../constants';
 
+const getVehicleType = (vehicle) => {
+  if (!vehicle) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return vehicle?.type || STRINGS.UNKNOWN_TEXT;
+};
+
+const getVehicleNationality = (vehicle) => {
+  if (!vehicle) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return vehicle?.nationality || STRINGS.UNKNOWN_TEXT;
+};
+
 const getVehicleColour = (vehicle) => {
   if (!vehicle) {
     return STRINGS.UNKNOWN_TEXT;
@@ -34,10 +48,12 @@ const getVehicle = (targetTask) => {
 
 const VehicleUtil = {
   get: getVehicle,
-  vehicleColour: getVehicleColour,
-  vehicleMake: getVehicleMake,
-  vehicleModel: getVehicleModel,
-  vehicleReg: getVehicleRegistration,
+  colour: getVehicleColour,
+  make: getVehicleMake,
+  model: getVehicleModel,
+  nationality: getVehicleNationality,
+  registration: getVehicleRegistration,
+  type: getVehicleType,
 };
 
 export default VehicleUtil;
@@ -47,5 +63,7 @@ export {
   getVehicleColour,
   getVehicleMake,
   getVehicleModel,
+  getVehicleNationality,
   getVehicleRegistration,
+  getVehicleType,
 };

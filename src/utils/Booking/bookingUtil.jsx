@@ -1,12 +1,34 @@
 import React from 'react';
 import lookup from 'country-code-lookup';
+
+import { DATE_FORMATS, STRINGS, UNITS } from '../constants';
+
 import CommonUtil from '../Common/commonUtil';
 import { calculateTimeDifference, getFormattedDate, toDateTimeList } from '../Datetime/datetimeUtil';
+import { formatField } from '../FieldFormat/fieldFormatterUtil';
 
-import {
-  DATE_FORMATS,
-  STRINGS,
-} from '../constants';
+const getPaymentMethod = (booking) => {
+  if (!booking) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return booking?.paymentMethod || STRINGS.UNKNOWN_TEXT;
+};
+
+// TODO: Is there an address against the booking?
+const getBookingAddress = (booking) => {
+  if (!booking) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return STRINGS.UNKNOWN_TEXT;
+};
+
+// TODO: Is there a name attached to the booking or is the main person attached to the booking?
+const getBookingName = (booking) => {
+  if (!booking) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return STRINGS.UNKNOWN_TEXT;
+};
 
 const getAgentLocation = (agent) => {
   if (!agent?.location) {
@@ -89,18 +111,32 @@ const getPayments = (booking) => {
   return null;
 };
 
+const getTicketPrices = (tickets) => {
+  if (!tickets?.length) {
+    return STRINGS.UNKNOWN_TEXT;
+  }
+  return tickets
+    .filter((ticket) => !!ticket.price)
+    .map((ticket) => {
+      if (ticket.price.startsWith(UNITS.CURRENCY.unit)) {
+        return ticket.price;
+      }
+      return formatField(UNITS.CURRENCY.name, ticket.price);
+    }).join(', ') || STRINGS.UNKNOWN_TEXT;
+};
+
 const getTicketTypes = (tickets) => {
   if (!tickets?.length) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return tickets.filter((ticket) => !!ticket.type).map((ticket) => ticket.type).join(', ');
+  return tickets.filter((ticket) => !!ticket.type).map((ticket) => ticket.type).join(', ') || STRINGS.UNKNOWN_TEXT;
 };
 
 const getTicketNumbers = (tickets) => {
   if (!tickets?.length) {
     return STRINGS.UNKNOWN_TEXT;
   }
-  return tickets.filter((ticket) => !!ticket?.number).map((ticket) => ticket?.number).join(', ');
+  return tickets.filter((ticket) => !!ticket?.number).map((ticket) => ticket?.number).join(', ') || STRINGS.UNKNOWN_TEXT;
 };
 
 const hasTickets = (booking) => {
@@ -209,6 +245,8 @@ const BookingUtil = {
   bookedAt: getBookedAt,
   checkInAt: getCheckInAt,
   bookedPrior: getBookedPriorToDeparture,
+  bookingAddress: getBookingAddress, // TODO: See comment above
+  bookingName: getBookingName, // TODO: See comment above
   toCheckInText: toCheckInTimeText,
   bookingRef: getBookingReference,
   toBookingText: toBookingDateText,
@@ -218,6 +256,7 @@ const BookingUtil = {
   bookingTickets: getTickets,
   ticketNumbers: getTicketNumbers,
   ticketTypes: getTicketTypes,
+  ticketPrices: getTicketPrices,
   payments: getPayments,
   containsPayments: hasPayments,
   paymentAmount: getPaymentAmount,
@@ -229,6 +268,7 @@ const BookingUtil = {
   agentIata: getAgentIata,
   agentLocation: getAgentLocation,
   paymentsBlock: toPaymentsBlock,
+  paymentMethod: getPaymentMethod,
 };
 
 export default BookingUtil;
@@ -247,6 +287,7 @@ export {
   getTickets,
   getTicketNumbers,
   getTicketTypes,
+  getTicketPrices,
   getPayments,
   getPaymentAmount,
   getPaymentCard,

@@ -42,4 +42,44 @@ describe('HaulierUtil', () => {
     const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
     expect(HaulierUtil.name(haulier)).toEqual(STRINGS.UNKNOWN_TEXT);
   });
+
+  it('should extract the haulier address if present', () => {
+    const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
+    expect(HaulierUtil.address(haulier)).toMatchObject(mockTaskData.movement.haulier.address);
+  });
+
+  it.each([
+    [undefined],
+    [null],
+  ])('should return undefined when the haulier address is not present', (address) => {
+    MOCK_TARGET_TASK.movement.haulier.address = address;
+    const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
+    expect(HaulierUtil.address(haulier)).toBeUndefined();
+  });
+
+  it('should extract the haulier phone number if present', () => {
+    const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
+    expect(HaulierUtil.telephone(haulier)).toEqual(mockTaskData.movement.haulier.contacts.phone.value);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])('should return unknown when the haulier phone number is not present', (phone) => {
+    MOCK_TARGET_TASK.movement.haulier.contacts.phone.value = phone;
+    const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
+    expect(HaulierUtil.telephone(haulier)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
+
+  it('should extract the haulier mobile number if present', () => {
+    const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
+    expect(HaulierUtil.mobile(haulier)).toEqual(mockTaskData.movement.haulier.contacts.mobile.value);
+  });
+
+  it.each([
+    ...INVALID_VALUES,
+  ])('should return unknown when the haulier mobile number is not present', (mobile) => {
+    MOCK_TARGET_TASK.movement.haulier.contacts.mobile.value = mobile;
+    const haulier = HaulierUtil.get(MOCK_TARGET_TASK);
+    expect(HaulierUtil.mobile(haulier)).toEqual(STRINGS.UNKNOWN_TEXT);
+  });
 });

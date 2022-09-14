@@ -5,10 +5,9 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { renderHook } from '@testing-library/react-hooks';
-import { useIsMounted, useGetRefDataAirlineCodes, useGetAirpaxRefDataMode } from './hooks';
+import { useIsMounted, useGetRefDataAirlineCodes } from './hooks';
 
-import refDataAirlineCodes from '../../__fixtures__/taskData_Airpax_AirlineCodes.json';
-import airPaxRefDataMode from '../../__fixtures__/taskData_Airpax_AixpaxRefDataMode.json';
+import refDataAirlineCodes from '../../__fixtures__/airpax-airline-codes.json';
 
 import { ApplicationContext } from '../../context/ApplicationContext';
 
@@ -37,19 +36,5 @@ describe('axios Hooks', () => {
     );
 
     renderHook(() => useGetRefDataAirlineCodes(), { wrapper });
-  });
-
-  it('can fetch airpax mode', () => {
-    mockAxios.onGet('/v2/entities/targetmode').reply(200, airPaxRefDataMode);
-
-    const { Provider } = ApplicationContext;
-
-    const wrapper = ({ children }) => (
-      <Provider value={{ airPaxRefDataMode: jest.fn().mockReturnValue(airPaxRefDataMode) }}>
-        {children}
-      </Provider>
-    );
-
-    renderHook(() => useGetAirpaxRefDataMode(), { wrapper });
   });
 });

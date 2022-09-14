@@ -44,11 +44,11 @@ describe('GoodsUtil', () => {
   });
 
   it.each([
-    [true, true],
-    [false, false],
-    [undefined, false],
-    [null, false],
-    ['', false],
+    [true, 'Yes'],
+    [false, 'No'],
+    [undefined, 'No'],
+    [null, 'No'],
+    ['', 'No'],
   ])('should extract the hazardous value if present', (hazardous, expected) => {
     const goods = GoodsUtil.get(MOCK_TARGET_TASK);
     goods.hazardous = hazardous;

@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoRoTaskSummary should render the component without crashing 1`] = `
+<section
+  className="card"
+>
+  <div
+    className="task-list--voyage-section overflow-hidden"
+  >
+    <div
+      className="govuk-grid-row grid-background--greyed"
+    >
+      <div
+        className="govuk-grid-column-one-half govuk-!-padding-left-4"
+      >
+        <i
+          className="icon-position--left undefined"
+        />
+        <p
+          className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-padding-left-1"
+        />
+        <span
+          className="govuk-body-s govuk-!-margin-bottom-0 govuk-!-font-weight-bold govuk-!-padding-left-1"
+        >
+          <span
+            className="govuk-font-weight-bold"
+          />
+        </span>
+      </div>
+      <div
+        className="govuk-grid-column-one-half govuk-!-padding-right-1 align-right"
+      >
+        <i
+          className="c-icon-ship"
+        />
+        <p
+          className="govuk-body-s govuk-!-padding-right-2 govuk-!-margin-bottom-0"
+        >
+          Unknown voyage of Unknown
+        </p>
+        <p
+          className="govuk-body-s content-line-two govuk-!-padding-right-2"
+        >
+          Unknown
+          <span
+            className="dot"
+          />
+          <span
+            className="govuk-!-font-weight-bold"
+          >
+            Unknown
+          </span>
+           →
+          <span
+            className="govuk-!-font-weight-bold"
+          >
+             
+            Unknown
+          </span>
+          <span
+            className="dot"
+          />
+          Unknown
+          <br />
+          <span>
+            Unknown
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+`;

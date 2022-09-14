@@ -25,9 +25,11 @@ const UnaccompaniedMovementSection = ({ trailer,
             <EnrichmentCount
               labelText="Trailer details"
               movementStats={CommonUtil.movementStats(trailer)}
+              classnames={['secondary-text']}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
-              <li className="govuk-!-font-weight-bold">{TrailerUtil.trailerReg(trailer)}</li>
+              <li className="govuk-!-font-weight-bold">{TrailerUtil.registration(trailer)}</li>
+              <br />
               <li>{TrailerUtil.type(trailer)}</li>
             </ul>
           </div>
@@ -39,6 +41,7 @@ const UnaccompaniedMovementSection = ({ trailer,
             <EnrichmentCount
               labelText="Haulier details"
               movementStats={CommonUtil.movementStats(haulier)}
+              classnames={['secondary-text']}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{HaulierUtil.name(haulier)}</li>
@@ -48,7 +51,7 @@ const UnaccompaniedMovementSection = ({ trailer,
             <EnrichmentCount
               labelText="Account details"
               movementStats={CommonUtil.movementStats(account)}
-              classnames="govuk-!-margin-top-3"
+              classnames={['secondary-text', 'govuk-!-margin-top-3']}
             />
             <ul className="govuk-body-s govuk-list govuk-!-margin-bottom-0">
               <li className="govuk-!-font-weight-bold">{AccountUtil.name(account)}</li>

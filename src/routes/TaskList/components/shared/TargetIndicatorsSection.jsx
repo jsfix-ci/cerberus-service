@@ -3,7 +3,7 @@ import React from 'react';
 import { RisksUtil } from '../../../../utils';
 
 const TargetIndicatorsSection = ({ targetTask, redirectPath }) => {
-  const targetingIndicators = RisksUtil.getIndicators(RisksUtil.getRisks(targetTask));
+  const targetingIndicators = RisksUtil.targetingIndicators(RisksUtil.getRisks(targetTask));
   return (
     <section className="task-list--target-indicator-section">
       <div className="govuk-grid-row">

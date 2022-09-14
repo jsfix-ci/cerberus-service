@@ -15,14 +15,13 @@ import RoRoTaskDetailsPageV1 from './roro/TaskDetails/TaskDetailsPage';
 import RoRoIssueTargetPageV1 from './roro/IssueTargetPage';
 
 // Hooks
-import { useGetAirpaxRefDataMode, useGetRefDataAirlineCodes } from '../utils/Hooks/hooks';
+import { useGetRefDataAirlineCodes } from '../utils/Hooks/hooks';
 import { PATHS } from '../utils/constants';
 
 const AppRouter = () => {
   const keycloak = useKeycloak();
 
   initAll();
-  useGetAirpaxRefDataMode();
   useGetRefDataAirlineCodes();
 
   if (!keycloak) {

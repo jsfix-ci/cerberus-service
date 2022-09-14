@@ -3,6 +3,27 @@ import * as pluralise from 'pluralise';
 import { STRINGS } from '../constants';
 import { capitalizeFirstLetter } from '../String/stringUtil';
 
+const getIndicatorsTotalScore = (entity) => {
+  if (!entity) {
+    return 0;
+  }
+  return entity?.score || 0;
+};
+
+const getIndicatorsTotalCount = (targetingIndicators) => {
+  if (!targetingIndicators) {
+    return 0;
+  }
+  return targetingIndicators?.count || 0;
+};
+
+const getIndicatorDescription = (targetingIndicator) => {
+  if (!targetingIndicator) {
+    return 0;
+  }
+  return targetingIndicator?.description || STRINGS.UNKNOWN_TEXT;
+};
+
 const calculateTaskVersionTotalRiskScore = (fieldChildsets) => {
   let totalRiskScore = 0;
   fieldChildsets.map((childSet) => {
@@ -40,6 +61,10 @@ const formatTargetIndicators = (targetingIndicators) => {
       </ul>
     );
   }
+};
+
+const getIndicators = (targetingIndicators) => {
+  return targetingIndicators?.indicators || [];
 };
 
 const getTargetingIndicators = (risks) => {
@@ -146,21 +171,25 @@ const formatHighestThreatLevel = (targetTask) => {
 };
 
 const RisksUtil = {
-  getRisks: getRisk,
-  format: formatTargetIndicators,
-  getIndicators: getTargetingIndicators,
-  getWarning: getSelectorWarning,
-  getMatches: getIndicatorMatches,
-  getGroups: getSelectorGroups,
-  getRules: getMatchedRules,
-  getHighestThreat: getHighestThreatLevel,
-  getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
-  getMatchedRules: getRiskMatchedRules,
   extractHighestRisk: extractRiskType,
+  format: formatTargetIndicators,
   formatHighestThreat: formatHighestThreatLevel,
+  getGroups: getSelectorGroups,
+  getHighestThreat: getHighestThreatLevel,
+  getMatchedRules: getRiskMatchedRules,
+  getMatchedSelectorGroups: getRiskMatchedSelectorGroups,
+  getMatches: getIndicatorMatches,
+  getRisks: getRisk,
+  getRules: getMatchedRules,
+  getWarning: getSelectorWarning,
+  indicatorCount: getIndicatorsTotalCount,
+  indicatorDescription: getIndicatorDescription,
+  indicators: getIndicators,
+  indicatorScore: getIndicatorsTotalScore,
+  targetingIndicators: getTargetingIndicators,
   roro: {
-    taskListTotalRiskScore: calculateTaskListTotalRiskScore,
     taskDetailsTotalRiskScore: calculateTaskVersionTotalRiskScore,
+    taskListTotalRiskScore: calculateTaskListTotalRiskScore,
   },
 };
 
@@ -177,6 +206,10 @@ export {
   getSelectorGroups,
   getMatchedRules,
   getHighestThreatLevel,
+  getIndicators,
+  getIndicatorsTotalScore,
+  getIndicatorsTotalCount,
+  getIndicatorDescription,
   getRiskMatchedSelectorGroups,
   getRiskMatchedRules,
   extractRiskType,

@@ -10,6 +10,11 @@ export const VIEW = {
   NONE: 'RORO',
 };
 
+const getTaskListPathFromURL = (path) => {
+  const regex = /(.*)\/.*/;
+  return path?.toString()?.replace(regex, '$1') || path;
+};
+
 const setTaskStatus = (taskManagementTabIndex) => {
   localStorage.setItem(LOCAL_STORAGE_KEYS.TASK_STATUS, TASK_STATUS_BY_INDEX[taskManagementTabIndex]);
 };
@@ -31,7 +36,7 @@ const getViewByPath = (path) => {
   }
 };
 
-const hasAssignee = (filterKey) => {
+const containsAssignee = (filterKey) => {
   const payload = getLocalStoredItemByKeyValue(filterKey);
   return !!payload?.assignedToMe?.length;
 };
@@ -41,8 +46,12 @@ const getMovementStats = (entity) => {
   return entity?.movementStats || undefined;
 };
 
+const getEntitySearchURL = (entity) => {
+  return entity?.entitySearchUrl || undefined;
+};
+
 const convertToIso3Code = (iso2Code) => {
-  if (!iso2Code) {
+  if (!iso2Code || iso2Code === STRINGS.UNKNOWN_TEXT) {
     return STRINGS.UNKNOWN_TEXT;
   }
   if (!lookup.byIso(iso2Code)) {
@@ -52,19 +61,23 @@ const convertToIso3Code = (iso2Code) => {
 };
 
 const CommonUtil = {
+  entitySearchURL: getEntitySearchURL,
+  hasAssignee: containsAssignee,
   iso3Code: convertToIso3Code,
   movementStats: getMovementStats,
-  hasAssignee,
-  viewByPath: getViewByPath,
   setStatus: setTaskStatus,
+  taskListPath: getTaskListPathFromURL,
+  viewByPath: getViewByPath,
 };
 
 export default CommonUtil;
 
 export {
   convertToIso3Code,
+  getEntitySearchURL,
   getMovementStats,
+  getTaskListPathFromURL,
   getViewByPath,
-  hasAssignee,
+  containsAssignee,
   setTaskStatus,
 };

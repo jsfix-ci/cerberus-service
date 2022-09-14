@@ -3,8 +3,8 @@ import _ from 'lodash';
 import { TargetInformationUtil } from '..';
 
 import targetData from '../../__fixtures__/taskData_AirPax_AssigneeCurrentUser.fixture.json';
-import targetPrefillData from '../../__fixtures__/targetData_AirPax_PrefillData.json';
-import tisSubmissionData from '../../__fixtures__/targetData_AirPax_SubmissionData.json';
+import targetPrefillData from '../../__fixtures__/airpax-information-sheet-auto-population.json';
+import tisSubmissionData from '../../__fixtures__/airpax-information-sheet-submission.json';
 
 describe('Target Information Sheet', () => {
   let PREFILL_DATA = {};
@@ -14,21 +14,6 @@ describe('Target Information Sheet', () => {
       given_name: 'Joe',
       family_name: 'Bloggs',
     },
-  };
-
-  const airPaxRefDataMode = {
-    'id': 2,
-    'mode': 'Scheduled Air Passenger',
-    'modecode': 'airpass',
-    'crossingtype': [
-      'air',
-    ],
-    'ien': true,
-    'ca': true,
-    'ct': true,
-    'validfrom': '2021-05-28T00:01:01.000Z',
-    'validto': null,
-    'updatedby': 'Mohammed Abdul Odud',
   };
 
   beforeEach(() => {
@@ -91,7 +76,7 @@ describe('Target Information Sheet', () => {
       'submittingUser'];
 
     const submissionPayload = TargetInformationUtil
-      .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
+      .submissionPayload(targetData, tisSubmissionData, keycloak);
 
     checkObjects(Object.keys(submissionPayload), EXPECTED_NODE_KEYS);
   });
@@ -127,7 +112,7 @@ describe('Target Information Sheet', () => {
     };
 
     const submissionPayload = TargetInformationUtil
-      .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
+      .submissionPayload(targetData, tisSubmissionData, keycloak);
     expect(submissionPayload.movement.journey).toMatchObject(EXPECTED);
   });
 
@@ -166,7 +151,7 @@ describe('Target Information Sheet', () => {
       FORM_DATA.movement.departurePort = departurePort;
 
       const submissionPayload = TargetInformationUtil
-        .submissionPayload(targetData, FORM_DATA, keycloak, airPaxRefDataMode);
+        .submissionPayload(targetData, FORM_DATA, keycloak);
 
       checkObjects(Object.keys(submissionPayload), expectedPortNodeKey);
       expect(submissionPayload.eventPort).toMatchObject(FORM_DATA.movement[portNodeKey]);

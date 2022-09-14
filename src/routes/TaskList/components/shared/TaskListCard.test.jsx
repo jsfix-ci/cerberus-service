@@ -9,7 +9,7 @@ import { TASK_STATUS } from '../../../../utils/constants';
 
 import targetTask from '../../../../__fixtures__/targetListData';
 import mockRoRoTargetTask from '../../../../__fixtures__/taskData_RoRo_Accompanied_AssigneeCurrentUser.fixture.json';
-import refDataAirlineCodes from '../../../../__fixtures__/taskData_Airpax_AirlineCodes.json';
+import refDataAirlineCodes from '../../../../__fixtures__/airpax-airline-codes.json';
 
 describe('TaskListCard', () => {
   const MockApplicationContext = ({ children }) => (

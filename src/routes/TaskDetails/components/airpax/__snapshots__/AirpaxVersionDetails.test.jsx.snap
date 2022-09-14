@@ -1,0 +1,1152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AirpaxTaskVersionDetails should render the component without crashing 1`] = `
+Array [
+  <div
+    className="govuk-task-details-grid"
+  >
+    <div
+      className="govuk-grid-column-one-third"
+    >
+      <div
+        className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
+      >
+        <h3
+          className="govuk-heading-m govuk-!-margin-top-0"
+        >
+          Crew
+        </h3>
+        <div
+          className="govuk-task-details-grid-column"
+        >
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Name
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              MESTA, GEMMA
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            />
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Date of birth
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Age at travel
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Gender
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Nationality
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown (Unknown)
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Departure status
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              <span>
+                Unknown
+              </span>
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            />
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Frequent flyer number
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              579419193A
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            />
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              SSR codes
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              DOCS, AUTH
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
+      >
+        <h3
+          className="govuk-heading-m govuk-!-margin-top-0"
+        >
+          Document
+        </h3>
+        <div
+          className="govuk-task-details-grid-column"
+        >
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Type
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Passport
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Number
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              1234567
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Document nationality
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              France (FRA)
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Country of issue
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              France (FRA)
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Valid from
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              14 Apr 1970
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              52 years before travel
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Valid To
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Unknown
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Name
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              MESTA, GEMMA
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Date of birth
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className="task-details-container"
+      >
+        <h3
+          className="govuk-heading-m govuk-!-margin-top-0"
+        >
+          Baggage
+        </h3>
+        <p
+          className="font__light"
+        >
+          This booking is for multiple travellers. Check the travellers list for baggage allocations.
+        </p>
+        <div
+          className="govuk-task-details-grid-column"
+        >
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Checked bags
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Total weight
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold"
+            >
+              Unknown
+            </p>
+          </div>
+        </div>
+        <div>
+          <div
+            className="govuk-!-margin-bottom-2"
+          >
+            <p
+              className="govuk-!-margin-bottom-0 font__light"
+            >
+              Tag number
+            </p>
+            <p
+              className="govuk-!-margin-bottom-0 font__bold word-break"
+            >
+              Unknown
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="govuk-grid-column-one-third vertical-dotted-line__first"
+    >
+      <div
+        className="govuk-task-details__col-2"
+      >
+        <div
+          className="task-details-container"
+        >
+          <h3
+            className="govuk-heading-m govuk-!-margin-top-0"
+          >
+            Booking
+          </h3>
+          <div
+            className="govuk-task-details-grid-column"
+          >
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Reference
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                LSV4UV
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Number of travellers
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                0
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Booking date
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                7 Feb 2020 at 17:15
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                a year ago
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Check-in date
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Unknown
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Booking country
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown (Unknown)
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Booking type
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Ticket number
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                TIC-1234, TIC-7863-XZ
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Ticket type
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                ONE-WAY, RETURN
+              </p>
+            </div>
+          </div>
+          <div
+            className="bottom-border-thin"
+          >
+            <span
+              className="font__light"
+            >
+              Payments
+            </span>
+          </div>
+          <div
+            className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+          >
+            <div
+              className="font__bold"
+            >
+              2190.48
+            </div>
+            <div
+              className="font__light"
+            >
+              Credit card ending 
+              X63X
+              , expiry 
+              10/20
+            </div>
+          </div>
+          <div
+            className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+          >
+            <div
+              className="font__bold"
+            >
+              2190.48
+            </div>
+            <div
+              className="font__light"
+            >
+              Credit card ending 
+              X63X
+              , expiry 
+              10/20
+            </div>
+          </div>
+          <div
+            className="govuk-task-details-grid-column govuk-!-margin-top-3"
+          >
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Agent IATA
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Agent location
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="govuk-grid-column-one-third vertical-dotted-line__second"
+    >
+      <div
+        className="govuk-task-details__col-3"
+      >
+        <div
+          className="task-details-container bottom-border-thin govuk-!-margin-bottom-2"
+        >
+          <h3
+            className="govuk-heading-m govuk-!-margin-top-0"
+          >
+            Voyage
+          </h3>
+          <div
+            className="govuk-task-details-grid-column"
+          >
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Departure from
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                YYC
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Calgary, Canada
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Departure time
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Wed 3 Oct 2018 at 18:32
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Arrival at
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                LHR
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                London, United Kingdom
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Arrival time
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Wed 3 Oct 2018 at 21:19
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Scheduled flight time
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                2h 46m
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Flight code
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                AC0850
+              </p>
+            </div>
+            <div
+              className="govuk-!-margin-bottom-2"
+            >
+              <p
+                className="govuk-!-margin-bottom-0 font__light"
+              >
+                Operator
+              </p>
+              <p
+                className="govuk-!-margin-bottom-0 font__bold"
+              >
+                Unknown
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="task-details-container"
+        >
+          <h3
+            className="govuk-heading-m govuk-!-margin-top-0"
+          >
+            Itinerary
+          </h3>
+          <div
+            className="bottom-border-thin"
+          />
+          <div
+            className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+          >
+            <div
+              className="font__bold"
+            >
+              AC0850
+               
+              <span
+                className="dot__light"
+              />
+               
+              CDG
+               
+              <span
+                className="right-arrow"
+              >
+                →
+              </span>
+               
+              YYZ
+               
+              <span
+                className="dot__light"
+              />
+               
+              Wed 3 Oct 2018 at 11:00
+            </div>
+            <div
+              className="font__light"
+            >
+              FRA
+               
+              <span
+                className="right-arrow"
+              >
+                →
+              </span>
+               
+              CAN
+               
+              <span
+                className="dot__light"
+              />
+               
+              Arrival
+               
+              3 Oct 2018 at 13:05
+            </div>
+          </div>
+          <div
+            className="bottom-border-thin govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+          >
+            <div
+              className="font__light"
+            >
+              3 hours later
+            </div>
+            <div
+              className="font__bold"
+            >
+              BD0998
+               
+              <span
+                className="dot__light"
+              />
+               
+              YYZ
+               
+              <span
+                className="right-arrow"
+              >
+                →
+              </span>
+               
+              YYC
+               
+              <span
+                className="dot__light"
+              />
+               
+              Wed 3 Oct 2018 at 16:05
+            </div>
+            <div
+              className="font__light"
+            >
+              CAN
+               
+              <span
+                className="right-arrow"
+              >
+                →
+              </span>
+               
+              CAN
+               
+              <span
+                className="dot__light"
+              />
+               
+              Arrival
+               
+              3 Oct 2018 at 18:16
+            </div>
+          </div>
+          <div
+            className="false govuk-!-margin-top-1 govuk-!-padding-bottom-1"
+          >
+            <div
+              className="font__light"
+            >
+              17 minutes later
+            </div>
+            <div
+              className="font__bold"
+            >
+              XZ0123
+               
+              <span
+                className="dot__light"
+              />
+               
+              YYC
+               
+              <span
+                className="right-arrow"
+              >
+                →
+              </span>
+               
+              LHR
+               
+              <span
+                className="dot__light"
+              />
+               
+              Wed 3 Oct 2018 at 18:32
+            </div>
+            <div
+              className="font__light"
+            >
+              CAN
+               
+              <span
+                className="right-arrow"
+              >
+                →
+              </span>
+               
+              GBR
+               
+              <span
+                className="dot__light"
+              />
+               
+              Arrival
+               
+              3 Oct 2018 at 21:19
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div>
+    <div
+      className="co-travellers-container font__bold govuk-!-padding-top-2 govuk-!-margin-bottom-4"
+    >
+      <h3
+        className="govuk-heading-m govuk-!-margin-bottom-0"
+      >
+        3 Co-travellers
+      </h3>
+      <table
+        className="hods-table co-travellers-table"
+        role="table"
+      >
+        <thead
+          className="hods-table__heading"
+        >
+          <tr
+            role="row"
+          >
+            <th
+              role="columnheader"
+              scope="col"
+            >
+              Traveller
+            </th>
+            <th
+              role="columnheader"
+              scope="col"
+            >
+              Age
+            </th>
+            <th
+              role="columnheader"
+              scope="col"
+            >
+              Document
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="hods-table__body"
+        >
+          <tr
+            className="hods-table__row"
+            role="row"
+          >
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Traveller
+              </span>
+              <div
+                className="font__bold"
+              >
+                MAUSSER
+                , 
+                Unknown
+                 
+              </div>
+              <div
+                className="font__light"
+              >
+                Female
+                , 
+                14 Apr 1970
+                , 
+                Unknown
+                 (
+                Unknown
+                )
+              </div>
+            </td>
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Age
+              </span>
+              <div
+                className="font__bold"
+              >
+                52
+              </div>
+            </td>
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Document
+              </span>
+              <div
+                className="font__bold"
+              >
+                Unknown
+              </div>
+              <div
+                className="font__light"
+              >
+                Unknown
+              </div>
+              <div
+                className="font__light"
+              >
+                Issued by 
+                Unknown
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="hods-table__row"
+            role="row"
+          >
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Traveller
+              </span>
+              <div
+                className="font__bold"
+              >
+                MAUSSER
+                , 
+                SHARON
+                 
+              </div>
+              <div
+                className="font__light"
+              >
+                Unknown
+                , 
+                Unknown
+                , 
+                Unknown
+                 (
+                Unknown
+                )
+              </div>
+            </td>
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Age
+              </span>
+              <div
+                className="font__bold"
+              >
+                Unknown
+              </div>
+            </td>
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Document
+              </span>
+              <div
+                className="font__bold"
+              >
+                Unknown
+              </div>
+              <div
+                className="font__light"
+              >
+                Unknown
+              </div>
+              <div
+                className="font__light"
+              >
+                Issued by 
+                Unknown
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="hods-table__row"
+            role="row"
+          >
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Traveller
+              </span>
+              <div
+                className="font__bold"
+              >
+                UNKNOWN
+                , 
+                Unknown
+                 
+              </div>
+              <div
+                className="font__light"
+              >
+                Male
+                , 
+                10 Jun 1967
+                , 
+                Unknown
+                 (
+                Unknown
+                )
+              </div>
+            </td>
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Age
+              </span>
+              <div
+                className="font__bold"
+              >
+                55
+              </div>
+            </td>
+            <td
+              className="hods-table__cell"
+              role="cell"
+            >
+              <span
+                className="hods-table__heading"
+              >
+                Document
+              </span>
+              <div
+                className="font__bold"
+              >
+                Unknown
+              </div>
+              <div
+                className="font__light"
+              >
+                Unknown
+              </div>
+              <div
+                className="font__light"
+              >
+                Issued by 
+                Unknown
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>,
+]
+`;

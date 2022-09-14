@@ -93,15 +93,82 @@ const getInformationSheet = async (axiosClient, businessKey) => {
   }
 };
 
+/**
+ * Save notes to a task.
+ *
+ * @param axiosClient An axios client for a network request.
+ * @param businessKey The business key for the task a.k.a. taskId
+ * @param payload The request parameters.
+ * @returns {Promise<*>} A fulfilled promise.
+ */
+const saveTaskNote = async (axiosClient, businessKey, payload) => {
+  try {
+    return await axiosClient.post(`/targeting-tasks/${businessKey}/notes`, payload);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+/**
+ * Submit the target information sheet form.
+ *
+ * @param axiosClient An axios client for a network request.
+ * @param payload The request parameters.
+ * @returns {Promise<*>} A fulfilled promise.
+ */
+const submitTargetInformationSheet = async (axiosClient, payload) => {
+  try {
+    return await axiosClient.post('/targets', payload);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+/**
+ * Submits the task completion form.
+ *
+ * @param axiosClient An axios client for a network request.
+ * @param businessKey The business key for the task a.k.a. taskId
+ * @param payload The request parameters.
+ * @returns {Promise<*>} A fulfilled promise.
+ */
+const completeTargetingTask = async (axiosClient, businessKey, payload) => {
+  try {
+    return await axiosClient.post(`/targeting-tasks/${businessKey}/completions`, payload);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+/**
+ * Submits the task dismissal form.
+ *
+ * @param axiosClient An axios client for a network request.
+ * @param businessKey The business key for the task a.k.a. taskId
+ * @param payload The request parameters.
+ * @returns {Promise<*>} A fulfilled promise.
+ */
+const dismissTargetingTask = async (axiosClient, businessKey, payload) => {
+  try {
+    return await axiosClient.post(`/targeting-tasks/${businessKey}/dismissals`, payload);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
 const cancelAxiosRequests = (source) => {
   source.cancel('Cancelling request');
 };
 
 const AxiosRequests = {
+  completeTask: completeTargetingTask,
+  dismissTask: dismissTargetingTask,
   filtersCount: getFiltersAndSelectorsCount,
   getTasks: getTaskList,
   getRules: getRulesOptions,
   informationSheet: getInformationSheet,
+  saveNote: saveTaskNote,
+  submitTis: submitTargetInformationSheet,
   taskCount: getTaskCount,
   taskData: getTaskData,
   cancel: cancelAxiosRequests,
@@ -109,4 +176,13 @@ const AxiosRequests = {
 
 export default AxiosRequests;
 
-export { getFiltersAndSelectorsCount, getInformationSheet, getRulesOptions, getTaskCount, getTaskData, getTaskList };
+export { completeTargetingTask,
+  dismissTargetingTask,
+  getFiltersAndSelectorsCount,
+  getInformationSheet,
+  getRulesOptions,
+  getTaskCount,
+  getTaskData,
+  getTaskList,
+  saveTaskNote,
+  submitTargetInformationSheet };

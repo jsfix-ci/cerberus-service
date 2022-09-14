@@ -6,11 +6,10 @@ import axios from 'axios';
 
 // Config
 import config from '../../utils/config';
-import { FORM_MESSAGES,
-  MODE,
-  TASK_STATUS } from '../../utils/constants';
+import { FORM_MESSAGES, TASK_STATUS } from '../../utils/constants';
 
 import { ApplicationContext } from '../../context/ApplicationContext';
+import { ViewContext } from '../../context/ViewContext';
 
 // Utils
 import { useAxiosInstance } from '../../utils/Axios/axiosInstance';
@@ -18,25 +17,28 @@ import { useKeycloak } from '../../context/Keycloak';
 import { findAndUpdateTaskVersionDifferencesAirPax } from '../../utils/TaskVersion/taskVersionUtil';
 import { Renderers } from '../../utils/Form/ReactForm';
 import { escapeString } from '../../utils/String/stringUtil';
-import { StringUtil, TargetInformationUtil } from '../../utils';
+import { CommonUtil, StringUtil, TargetInformationUtil } from '../../utils';
 
 // Components/Pages
 import ActivityLog from '../../components/ActivityLog/ActivityLog';
 import ClaimUnclaimTask from '../../components/Buttons/ClaimUnclaimTask';
 import ErrorSummary from '../../components/ErrorSummary/ErrorSummary';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import TaskVersions from './TaskVersions';
+import TaskVersions from './components/shared/TaskVersions';
 import TaskNotes from '../../components/TaskNotes/TaskNotes';
 import RenderForm from '../../components/RenderForm/RenderForm';
-import TaskOutcomeMessage from './TaskOutcomeMessage';
+import TaskOutcomeMessage from './components/shared/TaskOutcomeMessage';
+
+// Services
+import AxiosRequests from '../../api/axiosRequests';
 
 // Styling
 import './TaskDetailsPage.scss';
 
-// JSON
-import airpaxTis from '../../forms/airpaxTisCerberus';
+// JSON (Forms)
 import dismissTask from '../../forms/dismissTaskCerberus';
 import completeTask from '../../forms/completeTaskCerberus';
+import getTisForm from '../../utils/Form/ReactForm/getTisForm';
 
 const TaskDetailsPage = () => {
   const { businessKey } = useParams();
@@ -44,28 +46,26 @@ const TaskDetailsPage = () => {
   const location = useLocation();
   const source = axios.CancelToken.source();
   const apiClient = useAxiosInstance(keycloak, config.taskApiUrl);
-  const { airPaxRefDataMode, airPaxTisCache, setAirpaxTisCache } = useContext(ApplicationContext);
   const currentUser = keycloak.tokenParsed.email;
   const [error, setError] = useState(null);
-  const [assignee, setAssignee] = useState();
-  const [formattedTaskStatus, setFormattedTaskStatus] = useState();
-  const [taskData, setTaskData] = useState();
+  const [assignee, setAssignee] = useState(null);
+  const [formattedTaskStatus, setFormattedTaskStatus] = useState(null);
+  const [taskData, setTaskData] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const [isSubmitted, setSubmitted] = useState();
-  const [isCompleteFormOpen, setCompleteFormOpen] = useState();
-  const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState();
-  const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState();
+  const [isSubmitted, setSubmitted] = useState(false);
+  const [isCompleteFormOpen, setCompleteFormOpen] = useState(false);
+  const [isDismissTaskFormOpen, setDismissTaskFormOpen] = useState(false);
+  const [isIssueTargetFormOpen, setIssueTargetFormOpen] = useState(false);
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
   const [showActionButtons, setShowActionButtons] = useState(true);
-
-  const getSourcePathURL = () => {
-    const regex = new RegExp(/(.*)\/.*/);
-    return location.pathname.match(regex)[1];
-  };
-
-  const cancelAxiosRequests = () => {
-    source.cancel('Cancelling request');
-  };
+  const {
+    tisCache,
+    setTisCache,
+  } = useContext(ApplicationContext);
+  const {
+    setView,
+    getView,
+  } = useContext(ViewContext);
 
   const onCancelConfirmation = (onCancel) => {
     // eslint-disable-next-line no-alert
@@ -74,22 +74,30 @@ const TaskDetailsPage = () => {
     }
   };
 
+  const setActionButtons = (_issueTargetFormOpen, _dismissTaskFormOpen, _completeFormOpen, _showActionButtons) => {
+    setIssueTargetFormOpen(_issueTargetFormOpen);
+    setDismissTaskFormOpen(_dismissTaskFormOpen);
+    setCompleteFormOpen(_completeFormOpen);
+    setShowActionButtons(_showActionButtons);
+  };
+
   const getPrefillData = async () => {
     try {
-      const response = await apiClient.get(`/targeting-tasks/${businessKey}/information-sheets`);
-      setAirpaxTisCache(TargetInformationUtil.prefillPayload(response.data));
+      const data = await AxiosRequests.informationSheet(apiClient, businessKey);
+      setTisCache(TargetInformationUtil.prefillPayload(data));
     } catch (e) {
       setError(e.message);
-      setAirpaxTisCache({});
+      setTisCache({});
     }
   };
 
   const getTaskData = async () => {
     try {
-      const response = await apiClient.get(`/targeting-tasks/${businessKey}`);
-      const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(response.data.versions);
+      const data = await AxiosRequests.taskData(apiClient, businessKey);
+      const { differencesCounts } = findAndUpdateTaskVersionDifferencesAirPax(data.versions);
       setTaskData({
-        ...response.data, taskVersionDifferencesCounts: differencesCounts,
+        ...data,
+        taskVersionDifferencesCounts: differencesCounts,
       });
     } catch (e) {
       setTaskData(null);
@@ -97,6 +105,10 @@ const TaskDetailsPage = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setView(CommonUtil.viewByPath(CommonUtil.taskListPath(location.pathname)));
+  }, []);
 
   useEffect(() => {
     if (taskData && (!assignee || !formattedTaskStatus)) {
@@ -108,11 +120,11 @@ const TaskDetailsPage = () => {
 
   useEffect(() => {
     getTaskData();
-    if (airPaxTisCache()?.id !== businessKey) {
+    if (tisCache()?.id !== businessKey) {
       getPrefillData();
     }
     return () => {
-      cancelAxiosRequests();
+      AxiosRequests.cancel(source);
     };
   }, [businessKey, refreshNotesForm]);
 
@@ -123,193 +135,193 @@ const TaskDetailsPage = () => {
   return (
     <>
       {error && (
-      <ErrorSummary
-        title="There is a problem"
-        errorList={[
-          { children: error },
-        ]}
-      />
+        <ErrorSummary
+          title="There is a problem"
+          errorList={[
+            { children: error },
+          ]}
+        />
       )}
       {taskData && (
-      <>
-        <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
-          <div className="govuk-grid-column-one-half">
-            <span className="govuk-caption-xl">{businessKey}</span>
-            <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
-            {!isSubmitted && (formattedTaskStatus !== TASK_STATUS.ISSUED && formattedTaskStatus !== TASK_STATUS.COMPLETE)
-              && (
-                <>
-                  {formattedTaskStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
-                    && <Tag className="govuk-tag govuk-tag--newTarget" text={TASK_STATUS.NEW} />}
-                  <p className="govuk-body">
-                    <ClaimUnclaimTask
-                      assignee={taskData.assignee}
-                      currentUser={currentUser}
-                      businessKey={businessKey}
-                      source={getSourcePathURL()}
-                      buttonType="textLink"
-                    />
-                  </p>
-                </>
+        <>
+          <div className="govuk-grid-row govuk-task-detail-header govuk-!-padding-bottom-9">
+            <div className="govuk-grid-column-one-half">
+              <span className="govuk-caption-xl">{businessKey}</span>
+              <h3 className="govuk-heading-xl govuk-!-margin-bottom-0">Overview</h3>
+              {!isSubmitted && (formattedTaskStatus !== TASK_STATUS.ISSUED && formattedTaskStatus !== TASK_STATUS.COMPLETE)
+                && (
+                  <>
+                    {formattedTaskStatus.toUpperCase() === TASK_STATUS.NEW.toUpperCase()
+                      && <Tag className="govuk-tag govuk-tag--newTarget" text={TASK_STATUS.NEW} />}
+                    <p className="govuk-body">
+                      <ClaimUnclaimTask
+                        assignee={taskData.assignee}
+                        currentUser={currentUser}
+                        businessKey={businessKey}
+                        source={CommonUtil.taskListPath(location.pathname)}
+                        buttonType="textLink"
+                      />
+                    </p>
+                  </>
+                )}
+            </div>
+            <div className="govuk-grid-column-one-half task-actions--buttons">
+              {!isSubmitted && assignee === currentUser
+                && formattedTaskStatus.toUpperCase() === TASK_STATUS.IN_PROGRESS.toUpperCase() && (
+                  <>
+                    {showActionButtons && (
+                      <>
+                        <Button
+                          className="govuk-!-margin-right-1"
+                          onClick={() => {
+                            setActionButtons(true, false, false, false);
+                          }}
+                        >
+                          Issue target
+                        </Button>
+                        <Button
+                          className="govuk-button--secondary govuk-!-margin-right-1"
+                          onClick={() => {
+                            setActionButtons(false, false, true, false);
+                          }}
+                        >
+                          Assessment complete
+                        </Button>
+                        <Button
+                          className="govuk-button--warning"
+                          onClick={() => {
+                            setActionButtons(false, true, false, false);
+                          }}
+                        >
+                          Dismiss
+                        </Button>
+                      </>
+                    )}
+                  </>
               )}
+            </div>
           </div>
-          <div className="govuk-grid-column-one-half task-actions--buttons">
-            {!isSubmitted && assignee === currentUser
-              && formattedTaskStatus.toUpperCase() === TASK_STATUS.IN_PROGRESS.toUpperCase() && (
-                <>
-                  {showActionButtons && (
-                    <>
-                      <Button
-                        className="govuk-!-margin-right-1"
-                        onClick={() => {
-                          setIssueTargetFormOpen(true);
-                          setDismissTaskFormOpen(false);
-                          setCompleteFormOpen(false);
-                          setShowActionButtons(false);
-                        }}
-                      >
-                        Issue target
-                      </Button>
-                      <Button
-                        className="govuk-button--secondary govuk-!-margin-right-1"
-                        onClick={() => {
-                          setCompleteFormOpen(true);
-                          setDismissTaskFormOpen(false);
-                          setIssueTargetFormOpen(false);
-                          setShowActionButtons(false);
-                        }}
-                      >
-                        Assessment complete
-                      </Button>
-                      <Button
-                        className="govuk-button--warning"
-                        onClick={() => {
-                          setDismissTaskFormOpen(true);
-                          setCompleteFormOpen(false);
-                          setIssueTargetFormOpen(false);
-                          setShowActionButtons(false);
-                        }}
-                      >
-                        Dismiss
-                      </Button>
-                    </>
-                  )}
-                </>
-            )}
-          </div>
-        </div>
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-two-thirds">
-            {isIssueTargetFormOpen && !isSubmitted && (
-            <RenderForm
-              cacheTisFormData
-              form={airpaxTis}
-              preFillData={airPaxTisCache()}
-              onSubmit={
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-two-thirds">
+              {isIssueTargetFormOpen && !isSubmitted && (
+                <RenderForm
+                  cacheTisFormData
+                  form={getTisForm(getView())}
+                  preFillData={tisCache()}
+                  onSubmit={
                     async ({ data }) => {
                       try {
-                        await apiClient.post('/targets',
-                          TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode()));
+                        await AxiosRequests.submitTis(apiClient,
+                          TargetInformationUtil.submissionPayload(taskData, data, keycloak));
                         data?.meta?.documents.forEach((document) => delete document.file);
-                        setAirpaxTisCache({});
+                        setTisCache({});
                         setSubmitted(true);
                         if (error) {
                           setError(null);
                         }
                       } catch (e) {
-                        setAirpaxTisCache(TargetInformationUtil.convertToPrefill(data));
-                        setError(e.response?.status === 404 ? "Task doesn't exist." : e.message);
+                        setTisCache(TargetInformationUtil.convertToPrefill(data));
+                        setError(e.response?.status === 404 ? 'Task doesn\'t exist.' : e.message);
                       }
                     }
-}
-              onCancel={() => onCancelConfirmation(() => {
-                setShowActionButtons(true);
-                setIssueTargetFormOpen();
-              })}
-              renderer={Renderers.REACT}
-              setError={setError}
-            />
-            )}
-            {isIssueTargetFormOpen && isSubmitted && (
-            <TaskOutcomeMessage
-              message="Target created successfully"
-              onFinish={() => setIssueTargetFormOpen()}
-              setRefreshNotesForm={setRefreshNotesForm}
-            />
-            )}
-            {isCompleteFormOpen && !isSubmitted && (
-            <RenderForm
-              preFillData={{ businessKey }}
-              onSubmit={
-                    async ({ data }) => {
-                      await apiClient.post(`/targeting-tasks/${businessKey}/completions`, {
-                        reason: data.reasonForCompletion,
-                        otherReasonDetail: data.otherReasonForCompletion,
-                        note: escapeString(data.addANote),
-                        userId: data.form.submittedBy,
+                  }
+                  onCancel={() => onCancelConfirmation(() => {
+                    setShowActionButtons(true);
+                    setIssueTargetFormOpen(false);
+                  })}
+                  renderer={Renderers.REACT}
+                  setError={setError}
+                />
+              )}
+              {isIssueTargetFormOpen && isSubmitted && (
+                <TaskOutcomeMessage
+                  message="Target created successfully"
+                  onFinish={() => setIssueTargetFormOpen(false)}
+                  setRefreshNotesForm={setRefreshNotesForm}
+                />
+              )}
+              {isCompleteFormOpen && !isSubmitted && (
+                <RenderForm
+                  preFillData={{ businessKey }}
+                  onSubmit={
+                    async ({ data: {
+                      addANote,
+                      form,
+                      otherReasonForCompletion,
+                      reasonForCompletion,
+                    } }) => {
+                      await AxiosRequests.completeTask(apiClient, businessKey, {
+                        reason: reasonForCompletion,
+                        otherReasonDetail: otherReasonForCompletion,
+                        note: escapeString(addANote),
+                        userId: form.submittedBy,
                       });
                       setSubmitted(true);
                     }
-}
-              onCancel={() => onCancelConfirmation(() => {
-                setShowActionButtons(true);
-                setCompleteFormOpen();
-              })}
-              form={completeTask}
-              renderer={Renderers.REACT}
-              setError={setError}
-            />
-            )}
-            {isCompleteFormOpen && isSubmitted && (
-            <TaskOutcomeMessage
-              message="Task has been completed"
-              onFinish={() => setCompleteFormOpen()}
-              setRefreshNotesForm={setRefreshNotesForm}
-            />
-            )}
-            {isDismissTaskFormOpen && !isSubmitted && (
-            <RenderForm
-              preFillData={{ businessKey }}
-              onSubmit={
-                    async ({ data }) => {
-                      await apiClient.post(`/targeting-tasks/${businessKey}/dismissals`, {
-                        reason: data.reasonForDismissing,
-                        otherReasonDetail: data.otherReasonToDismiss,
-                        note: escapeString(data.addANote),
-                        userId: data.form.submittedBy,
+                  }
+                  onCancel={() => onCancelConfirmation(() => {
+                    setShowActionButtons(true);
+                    setCompleteFormOpen(false);
+                  })}
+                  form={completeTask}
+                  renderer={Renderers.REACT}
+                  setError={setError}
+                />
+              )}
+              {isCompleteFormOpen && isSubmitted && (
+                <TaskOutcomeMessage
+                  message="Task has been completed"
+                  onFinish={() => setCompleteFormOpen(false)}
+                  setRefreshNotesForm={setRefreshNotesForm}
+                />
+              )}
+              {isDismissTaskFormOpen && !isSubmitted && (
+                <RenderForm
+                  preFillData={{ businessKey }}
+                  onSubmit={
+                    async ({ data: {
+                      addANote,
+                      form,
+                      otherReasonToDismiss,
+                      reasonForDismissing,
+                    } }) => {
+                      await AxiosRequests.dismissTask(apiClient, businessKey, {
+                        reason: reasonForDismissing,
+                        otherReasonDetail: otherReasonToDismiss,
+                        note: escapeString(addANote),
+                        userId: form.submittedBy,
                       });
                       setSubmitted(true);
                     }
-}
-              onCancel={() => onCancelConfirmation(() => {
-                setShowActionButtons(true);
-                setDismissTaskFormOpen();
-              })}
-              form={dismissTask}
-              renderer={Renderers.REACT}
-              setError={setError}
-            />
-            )}
-            {isDismissTaskFormOpen && isSubmitted && (
-            <TaskOutcomeMessage
-              message="Task has been dismissed"
-              onFinish={() => setDismissTaskFormOpen()}
-              setRefreshNotesForm={setRefreshNotesForm}
-            />
-            )}
-            {!isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen && taskData && (
-            <TaskVersions
-              taskVersions={taskData.versions}
-              businessKey={businessKey}
-              taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
-            />
-            )}
-          </div>
-          <div className="govuk-grid-column-one-third">
-            {!isSubmitted && currentUser === assignee
+                  }
+                  onCancel={() => onCancelConfirmation(() => {
+                    setShowActionButtons(true);
+                    setDismissTaskFormOpen(false);
+                  })}
+                  form={dismissTask}
+                  renderer={Renderers.REACT}
+                  setError={setError}
+                />
+              )}
+              {isDismissTaskFormOpen && isSubmitted && (
+                <TaskOutcomeMessage
+                  message="Task has been dismissed"
+                  onFinish={() => setDismissTaskFormOpen(false)}
+                  setRefreshNotesForm={setRefreshNotesForm}
+                />
+              )}
+              {!isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen && taskData && (
+                <TaskVersions
+                  taskVersions={taskData.versions}
+                  businessKey={businessKey}
+                  taskVersionDifferencesCounts={taskData.taskVersionDifferencesCounts}
+                />
+              )}
+            </div>
+            <div className="govuk-grid-column-one-third">
+              {!isSubmitted && currentUser === assignee
                 && (
                   <TaskNotes
-                    noteVariant={MODE.AIRPAX}
                     displayForm={assignee === currentUser
                       && !isIssueTargetFormOpen && !isCompleteFormOpen && !isDismissTaskFormOpen
                       && TASK_STATUS.IN_PROGRESS === formattedTaskStatus}
@@ -318,12 +330,12 @@ const TaskDetailsPage = () => {
                     setError={setError}
                   />
                 )}
-            <ActivityLog
-              activityLog={taskData?.notes}
-            />
+              <ActivityLog
+                activityLog={taskData?.notes}
+              />
+            </div>
           </div>
-        </div>
-      </>
+        </>
       )}
     </>
   );

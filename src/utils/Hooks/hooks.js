@@ -49,35 +49,4 @@ export const useGetRefDataAirlineCodes = () => {
   }, [keycloak]);
 };
 
-export const useGetAirpaxRefDataMode = () => {
-  const keycloak = useKeycloak();
-  const source = axios.CancelToken.source();
-  const refDataClient = useAxiosInstance(keycloak, config.refdataApiUrl);
-  const { setAirpaxRefDataMode } = useContext(ApplicationContext);
-
-  useEffect(() => {
-    const getAirpaxRefDataMode = async () => {
-      let response;
-      try {
-        response = await refDataClient.get('/v2/entities/targetmode', {
-          params: {
-            mode: 'dataOnly',
-            filter: 'modecode=eq.airpass',
-          },
-        });
-        setAirpaxRefDataMode(response.data.data[0]);
-      } catch (e) {
-        setAirpaxRefDataMode({});
-      }
-    };
-
-    if (keycloak?.token) {
-      getAirpaxRefDataMode();
-    }
-    return () => {
-      source.cancel('Cancelling request');
-    };
-  }, [keycloak]);
-};
-
 export default useIsMounted;

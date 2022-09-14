@@ -4,7 +4,6 @@ import lookup from 'country-code-lookup';
 import { Tag } from '@ukhomeoffice/cop-react-components';
 
 import {
-  DATE_FORMATS,
   DEPARTURE_STATUS,
   STRINGS,
   ICON,
@@ -12,17 +11,20 @@ import {
   MOVEMENT_MODES,
   MOVEMENT_ROLE,
   TASK_STATUS,
-  UNKNOWN_TIME_DATA, TASK_OUTCOME,
+  TASK_OUTCOME,
 } from '../constants';
 
 import { calculateTimeDifference,
-  getFormattedDate,
   isInPast,
   toDateTimeList,
   toRelativeTime } from '../Datetime/datetimeUtil';
 import { getTotalNumberOfPersons } from '../Person/personUtil';
-import { isNotNumber } from '../Number/numberUtil';
 import CommonUtil from '../Common/commonUtil';
+import JourneyUtil from '../Journey/journeyUtil';
+
+const getOccupantCounts = (targetTask) => {
+  return targetTask?.movement?.occupants || undefined;
+};
 
 const getOutcomeTagBlock = (outcome) => {
   let outcomeText;
@@ -224,10 +226,6 @@ const getMovementModeIcon = (movementMode, vehicle, passengers) => {
   return ICON.NONE;
 };
 
-const getMovementDirection = (journey) => {
-  return journey?.direction || undefined;
-};
-
 const toVoyageText = (dateTime, isTaskDetails = false, prefix = '') => {
   const time = toRelativeTime(dateTime);
   const isPastDate = isInPast(dateTime);
@@ -270,55 +268,6 @@ const getItineraryFlightNumber = (itinerary) => {
   return itinerary.id;
 };
 
-const hasItinerary = (journey) => {
-  return !!journey?.itinerary;
-};
-
-const getMovementItinerary = (journey) => {
-  if (hasItinerary(journey)) {
-    return journey.itinerary;
-  }
-  return null;
-};
-
-const getFlightTimeObject = (milliseconds) => {
-  if (!milliseconds && milliseconds !== 0) {
-    return UNKNOWN_TIME_DATA;
-  }
-
-  if (isNotNumber(milliseconds)) {
-    return UNKNOWN_TIME_DATA;
-  }
-
-  let seconds = Math.floor(milliseconds / 1000);
-  let minutes = Math.floor(seconds / 60);
-  let hours = Math.floor(minutes / 60);
-
-  seconds %= 60;
-  minutes %= 60;
-
-  return { h: hours, m: minutes, s: seconds };
-};
-
-const getJourneyDuration = (journey) => {
-  if (!journey?.duration) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return journey.duration;
-};
-
-const toFormattedFlightTime = (journey) => {
-  const duration = getJourneyDuration(journey);
-  if (duration === STRINGS.UNKNOWN_TEXT) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  const time = getFlightTimeObject(duration);
-  if (!time.h && !time.m) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return `${time.h}h ${time.m}m`;
-};
-
 const getByIataCode = (iataCode) => {
   return airports.findWhere({ iata: iataCode });
 };
@@ -332,10 +281,6 @@ const getCityByIataCode = (iataCode) => {
     return STRINGS.UNKNOWN_TEXT;
   }
   return city;
-};
-
-const getRoute = (journey) => {
-  return journey?.route;
 };
 
 const toRoute = (route) => {
@@ -366,39 +311,6 @@ const getFlight = (targetTask) => {
   return null;
 };
 
-const hasJourney = (targetTask) => {
-  return !!targetTask?.movement?.journey;
-};
-
-const getJourney = (targetTask) => {
-  if (hasJourney(targetTask)) {
-    return targetTask.movement.journey;
-  }
-  return null;
-};
-
-const getDepartureTime = (journey) => {
-  return journey?.departure?.time;
-};
-
-const getArrivalTime = (journey) => {
-  return journey?.arrival?.time;
-};
-
-const toFormattedDepartureDateTime = (journey, dateFormat = DATE_FORMATS.LONG) => {
-  if (!journey?.departure?.time) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return getFormattedDate(journey.departure.time, dateFormat);
-};
-
-const toFormattedArrivalDateTime = (journey, dateFormat = DATE_FORMATS.LONG) => {
-  if (!journey?.arrival?.time) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return getFormattedDate(journey.arrival.time, dateFormat);
-};
-
 const toFormattedLocation = (location) => {
   if (!location) {
     return STRINGS.UNKNOWN_TEXT;
@@ -407,27 +319,13 @@ const toFormattedLocation = (location) => {
   return airport ? `${airport.get('city')}, ${airport.get('country')}` : STRINGS.UNKNOWN_TEXT;
 };
 
-const getDepartureLocation = (journey) => {
-  if (!journey?.departure?.location) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return journey.departure.location;
-};
-
-const getArrivalLocation = (journey) => {
-  if (!journey?.arrival?.location) {
-    return STRINGS.UNKNOWN_TEXT;
-  }
-  return journey.arrival.location;
-};
-
 /**
  * If country code is not provided, it will use the arrival location
  * to extract the arrival country code.
  */
 const getItineraryArrivalCountryCode = (itinerary) => {
   if (!itinerary?.arrival?.country) {
-    const arrivalLoc = getArrivalLocation(itinerary);
+    const arrivalLoc = JourneyUtil.arrivalLoc(itinerary);
     if (!arrivalLoc) {
       return STRINGS.UNKNOWN_TEXT;
     }
@@ -449,7 +347,7 @@ const getItineraryArrivalCountryCode = (itinerary) => {
  */
 const getItineraryDepartureCountryCode = (itinerary) => {
   if (!itinerary?.departure?.country) {
-    const departureLoc = getDepartureLocation(itinerary);
+    const departureLoc = JourneyUtil.departureLoc(itinerary);
     if (!departureLoc) {
       return STRINGS.UNKNOWN_TEXT;
     }
@@ -538,8 +436,8 @@ const toAirlineName = (airlineCode, refDataAirlineCodes) => {
 };
 
 const toItineraryRelativeTime = (index, itinerary, itineraries) => {
-  const previousLegArrivalTime = getArrivalTime(itineraries[index - 1]);
-  const nextLegDepartureTime = getDepartureTime(itinerary);
+  const previousLegArrivalTime = JourneyUtil.arrivalTime((itineraries[index - 1]));
+  const nextLegDepartureTime = JourneyUtil.departureTime((itinerary));
   return (
     <div className="font__light">
       {calculateTimeDifference(
@@ -554,45 +452,13 @@ const getBusinessKey = (targetTask) => {
 };
 
 const MovementUtil = {
-  businessKey: getBusinessKey,
-  outcome: getOutcome,
-  outcomeStatusTag: getOutcomeStatusTag,
-  outcomeFLO: getOutcomeFrontlineOfficer,
-  outcomeFLOArrests: getOutcomeFrontlineArrests,
-  movementRoute: getRoute,
-  convertMovementRoute: toRoute,
-  seatNumber: getSeatNumber,
-  movementFlight: getFlight,
-  movementJourney: getJourney,
-  departureTime: getDepartureTime,
-  direction: getMovementDirection,
-  arrivalTime: getArrivalTime,
-  formatDepartureTime: toFormattedDepartureDateTime,
-  formatArrivalTime: toFormattedArrivalDateTime,
-  departureLoc: getDepartureLocation,
-  arrivalLoc: getArrivalLocation,
-  flightNumber: getFlightNumber,
-  airlineOperator: getAirlineOperator,
-  status: getDepartureStatus,
-  movementType: getMovementTypeText,
-  description: toDescriptionText,
   airlineName: toAirlineName,
+  airlineOperator: getAirlineOperator,
+  businessKey: getBusinessKey,
+  convertMovementRoute: toRoute,
+  description: toDescriptionText,
+  flightNumber: getFlightNumber,
   formatLoc: toFormattedLocation,
-  flightDuration: getJourneyDuration,
-  flightTimeObject: getFlightTimeObject,
-  formatFlightTime: toFormattedFlightTime,
-  movementMode: getMovementMode,
-  iconDescription: getIconDescription,
-  modeIcon: getMovementModeIcon,
-  movementItinerary: getMovementItinerary,
-  itinFlightNumber: getItineraryFlightNumber,
-  itinDepartureCountryCode: getItineraryDepartureCountryCode,
-  itinArrivalCountryCode: getItineraryArrivalCountryCode,
-  itinRelativeTime: toItineraryRelativeTime,
-  relistStatus: getRelistedStatus,
-  updatedStatus: getUpdatedStatus,
-  iataToCity: getCityByIataCode,
-  voyageText: toVoyageText,
   getNamedPassenger,
   hasCarrierCounts,
   hasCheckinDate,
@@ -604,23 +470,50 @@ const MovementUtil = {
   hasVehicle,
   hasVehicleMake,
   hasVehicleModel,
+  iataToCity: getCityByIataCode,
+  iconDescription: getIconDescription,
   isSinglePassenger,
   isTaskDetailsPassenger,
   isValid,
+  itinArrivalCountryCode: getItineraryArrivalCountryCode,
+  itinDepartureCountryCode: getItineraryDepartureCountryCode,
+  itinFlightNumber: getItineraryFlightNumber,
+  itinRelativeTime: toItineraryRelativeTime,
+  modeIcon: getMovementModeIcon,
+  movementFlight: getFlight,
+  movementMode: getMovementMode,
+  movementType: getMovementTypeText,
+  occupantCounts: getOccupantCounts,
+  outcome: getOutcome,
+  outcomeFLO: getOutcomeFrontlineOfficer,
+  outcomeFLOArrests: getOutcomeFrontlineArrests,
+  outcomeStatusTag: getOutcomeStatusTag,
+  relistStatus: getRelistedStatus,
+  seatNumber: getSeatNumber,
+  status: getDepartureStatus,
+  updatedStatus: getUpdatedStatus,
+  voyageText: toVoyageText,
 };
 
 export default MovementUtil;
 
 export {
-  getRoute,
-  toRoute,
+  getAirlineOperator,
   getBusinessKey,
-  getSeatNumber,
+  getCityByIataCode,
+  getDepartureStatus,
   getFlight,
-  getJourney,
-  getDepartureTime,
-  getArrivalTime,
+  getFlightNumber,
+  getItineraryArrivalCountryCode,
+  getItineraryDepartureCountryCode,
+  getItineraryFlightNumber,
+  getMovementModeIcon,
+  getMovementTypeText,
   getNamedPassenger,
+  getOccupantCounts,
+  getRelistedStatus,
+  getSeatNumber,
+  getUpdatedStatus,
   hasCarrierCounts,
   hasCheckinDate,
   hasDepartureTime,
@@ -634,28 +527,10 @@ export {
   isSinglePassenger,
   isTaskDetailsPassenger,
   isValid,
-  toFormattedDepartureDateTime,
-  toFormattedArrivalDateTime,
-  getDepartureLocation,
-  getArrivalLocation,
-  getFlightNumber,
-  getAirlineOperator,
-  getDepartureStatus,
-  getMovementTypeText,
-  toDescriptionText,
   toAirlineName,
+  toDescriptionText,
   toFormattedLocation,
-  getJourneyDuration,
-  toFormattedFlightTime,
-  getFlightTimeObject,
-  getItineraryFlightNumber,
-  getItineraryDepartureCountryCode,
-  getItineraryArrivalCountryCode,
   toItineraryRelativeTime,
-  getRelistedStatus,
-  getUpdatedStatus,
-  getCityByIataCode,
+  toRoute,
   toVoyageText,
-  getMovementDirection,
-  getMovementModeIcon,
 };

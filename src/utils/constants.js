@@ -12,32 +12,32 @@ export const LONDON_TIMEZONE = 'Europe/London';
 
 export const UNITS = {
   BOOKING_DATETIME: {
-    value: 'BOOKING_DATETIME',
+    name: 'BOOKING_DATETIME',
   },
   CHANGED: {
-    value: 'CHANGED',
+    name: 'CHANGED',
   },
   DATETIME: {
-    value: 'DATETIME',
+    name: 'DATETIME',
   },
   DISTANCE: {
-    value: 'DISTANCE',
+    name: 'DISTANCE',
     unit: 'm',
   },
   WEIGHT: {
-    value: 'WEIGHT',
+    name: 'WEIGHT',
     unit: 'kg',
   },
   CURRENCY: {
-    value: 'CURRENCY',
+    name: 'CURRENCY',
     unit: '£',
   },
   SHORT_DATE: {
-    value: 'SHORT_DATE',
+    name: 'SHORT_DATE',
     unit: 'days',
   },
   SHORT_DATE_ALT: {
-    value: 'SHORT_DATE_ALT',
+    name: 'SHORT_DATE_ALT',
     unit: 'days',
   },
 };
@@ -152,10 +152,19 @@ export const STRINGS = {
   DAYJS_FUTURE: 'before travel',
   DAYJS_FUTURE_AIRPAX_REPLACE: 'before departure',
   DAYJS_PAST: 'ago',
+  DESCRIPTIONS: {
+    VEHICLE: 'Vehicle',
+    TRAILER: 'Trailer',
+    GROUP: 'Group',
+    SINGLE_PASSENGER: 'Single passenger',
+    FOOT_PASSENGER: 'foot passenger',
+    PREPOSITIONS: {
+      WITH: 'with',
+    },
+  },
   NO_TEXT: 'No',
   NONE_TEXT: 'None',
   LATER_TEXT: 'later',
-  YES_TEXT: 'Yes',
   TASK_MANAGEMENT_INLINE_HEADERS: {
     AIRPAX: 'AirPax',
     RORO_V1: 'RoRo',
@@ -166,6 +175,7 @@ export const STRINGS = {
     RORO_V1: 'RoRo tasks',
     RORO_V2: 'RoRo V2 tasks',
   },
+  YES_TEXT: 'Yes',
 };
 
 export const FONT_CLASSES = {
@@ -185,14 +195,6 @@ export const CO_TRAVELLERS_TABLE_HEADERS = [
   'Age',
   'Document',
 ];
-
-export const WARNING_CODES_MAPPING = {
-  VIOL: 'Violence',
-  FIRE: 'Firearms',
-  WEAP: 'Weapons',
-  CTGN: 'Contagion',
-  SEH: 'Self Harm',
-};
 
 export const RULES_FIELD_NAMES = {
   name: 'Rule name',
