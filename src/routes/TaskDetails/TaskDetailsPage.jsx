@@ -59,7 +59,6 @@ const TaskDetailsPage = () => {
   const [refreshNotesForm, setRefreshNotesForm] = useState(false);
   const [showActionButtons, setShowActionButtons] = useState(true);
   const {
-    airPaxRefDataMode,
     tisCache,
     setTisCache,
   } = useContext(ApplicationContext);
@@ -213,7 +212,7 @@ const TaskDetailsPage = () => {
                     async ({ data }) => {
                       try {
                         await AxiosRequests.submitTis(apiClient,
-                          TargetInformationUtil.submissionPayload(taskData, data, keycloak, airPaxRefDataMode()));
+                          TargetInformationUtil.submissionPayload(taskData, data, keycloak));
                         data?.meta?.documents.forEach((document) => delete document.file);
                         setTisCache({});
                         setSubmitted(true);

@@ -8,7 +8,6 @@ const ApplicationContext = createContext({});
  */
 const ApplicationContextProvider = ({ children }) => {
   const _refDataAirlineCodes = useRef([]);
-  const _airPaxRefDataMode = useRef({});
   const _tisCache = useRef({});
 
   const refDataAirlineCodes = () => {
@@ -17,14 +16,6 @@ const ApplicationContextProvider = ({ children }) => {
 
   const setRefDataAirlineCodes = (value) => {
     _refDataAirlineCodes.current = value;
-  };
-
-  const airPaxRefDataMode = () => {
-    return _airPaxRefDataMode.current;
-  };
-
-  const setAirpaxRefDataMode = (value) => {
-    _airPaxRefDataMode.current = value;
   };
 
   const tisCache = () => {
@@ -38,8 +29,6 @@ const ApplicationContextProvider = ({ children }) => {
   return (
     <ApplicationContext.Provider value={{ refDataAirlineCodes,
       setRefDataAirlineCodes,
-      airPaxRefDataMode,
-      setAirpaxRefDataMode,
       tisCache,
       setTisCache }}
     >

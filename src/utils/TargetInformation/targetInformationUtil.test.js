@@ -16,21 +16,6 @@ describe('Target Information Sheet', () => {
     },
   };
 
-  const airPaxRefDataMode = {
-    'id': 2,
-    'mode': 'Scheduled Air Passenger',
-    'modecode': 'airpass',
-    'crossingtype': [
-      'air',
-    ],
-    'ien': true,
-    'ca': true,
-    'ct': true,
-    'validfrom': '2021-05-28T00:01:01.000Z',
-    'validto': null,
-    'updatedby': 'Mohammed Abdul Odud',
-  };
-
   beforeEach(() => {
     PREFILL_DATA = {
       ...targetPrefillData,
@@ -91,7 +76,7 @@ describe('Target Information Sheet', () => {
       'submittingUser'];
 
     const submissionPayload = TargetInformationUtil
-      .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
+      .submissionPayload(targetData, tisSubmissionData, keycloak);
 
     checkObjects(Object.keys(submissionPayload), EXPECTED_NODE_KEYS);
   });
@@ -127,7 +112,7 @@ describe('Target Information Sheet', () => {
     };
 
     const submissionPayload = TargetInformationUtil
-      .submissionPayload(targetData, tisSubmissionData, keycloak, airPaxRefDataMode);
+      .submissionPayload(targetData, tisSubmissionData, keycloak);
     expect(submissionPayload.movement.journey).toMatchObject(EXPECTED);
   });
 
@@ -166,7 +151,7 @@ describe('Target Information Sheet', () => {
       FORM_DATA.movement.departurePort = departurePort;
 
       const submissionPayload = TargetInformationUtil
-        .submissionPayload(targetData, FORM_DATA, keycloak, airPaxRefDataMode);
+        .submissionPayload(targetData, FORM_DATA, keycloak);
 
       checkObjects(Object.keys(submissionPayload), expectedPortNodeKey);
       expect(submissionPayload.eventPort).toMatchObject(FORM_DATA.movement[portNodeKey]);

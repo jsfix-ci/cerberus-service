@@ -23,8 +23,8 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.160.0",
     "@nitro-land/airport-codes": "^1.0.4",
-    "@ukhomeoffice/cop-react-components": "^1.13.1",
-    "@ukhomeoffice/cop-react-form-renderer": "^3.17.2",
+    "@ukhomeoffice/cop-react-components": "^1.14.2",
+    "@ukhomeoffice/cop-react-form-renderer": "^3.32.2",
     "@ukhomeoffice/formio-gds-template": "^1.0.12",
     "axios": "^0.27.2",
     "browserlist": "^1.0.1",
