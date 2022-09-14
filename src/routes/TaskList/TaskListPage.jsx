@@ -6,7 +6,7 @@ import { useIsMounted } from '../../utils/Hooks/hooks';
 import { LOCAL_STORAGE_KEYS,
   TAB_STATUS_MAPPING,
   TARGETER_GROUP,
-  TASK_STATUS } from '../../utils/constants';
+  TASK_STATUS, DEPARTURE_STATUS } from '../../utils/constants';
 
 import DEFAULTS from './constants';
 
@@ -86,11 +86,11 @@ const TaskListPage = () => {
     if (!payload?.departureStatuses?.length) {
       return [];
     }
-    if (payload.departureStatuses?.includes('CHECKED_IN') && !payload.departureStatuses?.includes('BOOKED_PASSENGER')) {
-      return payload.departureStatuses.concat('BOOKED_PASSENGER');
+    if (payload.departureStatuses?.includes(DEPARTURE_STATUS.CHECKED_IN.value) && !payload.departureStatuses?.includes(DEPARTURE_STATUS.BOOKED_PASSENGER.value)) {
+      return payload.departureStatuses.concat(DEPARTURE_STATUS.BOOKED_PASSENGER.value);
     }
-    if (!payload.departureStatuses?.includes('CHECKED_IN')) {
-      return payload.departureStatuses?.filter((v) => v !== 'BOOKED_PASSENGER');
+    if (!payload.departureStatuses?.includes(DEPARTURE_STATUS.CHECKED_IN.value)) {
+      return payload.departureStatuses?.filter((v) => v !== DEPARTURE_STATUS.BOOKED_PASSENGER.value);
     }
     return payload?.departureStatuses;
   };

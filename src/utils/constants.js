@@ -228,21 +228,25 @@ export const COMPONENT_TYPES = {
 
 export const DEPARTURE_STATUS = {
   DEPARTURE_CONFIRMED: {
+    value: 'DEPARTURE_CONFIRMED',
     classname: 'green',
     description: 'Departure confirmed',
     code: 'DC',
   },
   BOOKED_PASSENGER: {
+    value: 'BOOKED_PASSENGER',
     classname: 'purple',
     description: 'Booked passenger',
     code: 'BP',
   },
   CHECKED_IN: {
+    value: 'CHECKED_IN',
     classname: 'blue',
     description: 'Checked-in',
     code: 'CI',
   },
   DEPARTURE_EXCEPTION: {
+    value: 'DEPARTURE_EXCEPTION',
     classname: 'red',
     description: 'Departure exception',
     code: 'DX',
