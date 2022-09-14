@@ -121,4 +121,13 @@ describe('RoRo.TaskListPage', () => {
     expect(screen.queryByText('Claim')).not.toBeInTheDocument();
     expect(screen.queryByText('Unclaim task')).not.toBeInTheDocument();
   });
+
+  it('should not show flight status filters on Roro modes', async () => {
+    mockAxios
+      .onPost('/targeting-tasks/pages')
+      .reply(200, [roroDataCurrentUser]);
+
+    await waitFor(() => render(setTabAndTaskValues(tabData, pnrData)));
+    expect(screen.queryByText(/Flight status \(optional\)/)).not.toBeInTheDocument();
+  });
 });

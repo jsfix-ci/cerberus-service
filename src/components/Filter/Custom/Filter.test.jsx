@@ -114,6 +114,22 @@ describe('Custom.Filter', () => {
       expect(APPLIED_FILTERS).toHaveLength(1);
       expect(APPLIED_FILTERS[0]).toMatchObject(EXPECTED);
     });
+
+    it('should render flight status checkboxes for Airpax', () => {
+      render(<Filter
+        form={filter('test-user', true, MODE.AIRPAX)}
+        taskStatus={TASK_STATUS.NEW}
+        handleFilterReset={jest.fn()}
+        onApply={jest.fn()}
+        data={DEFAULTS[VIEW.AIRPAX].filters.default}
+        customOptions={{}}
+        filtersAndSelectorsCount={{}}
+      />);
+
+      expect(screen.getByText(/Pending departure/)).toBeInTheDocument();
+      expect(screen.getByText(/Departed/)).toBeInTheDocument();
+      expect(screen.getByText(/Arrived/)).toBeInTheDocument();
+    });
   });
 
   describe('RoRo', () => {

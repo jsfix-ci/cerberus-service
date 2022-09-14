@@ -6,7 +6,7 @@ import { useIsMounted } from '../../utils/Hooks/hooks';
 import { LOCAL_STORAGE_KEYS,
   TAB_STATUS_MAPPING,
   TARGETER_GROUP,
-  TASK_STATUS } from '../../utils/constants';
+  TASK_STATUS, DEPARTURE_STATUS } from '../../utils/constants';
 
 import DEFAULTS from './constants';
 
@@ -82,6 +82,20 @@ const TaskListPage = () => {
     }
   };
 
+  const adaptDepartureStatuses = (payload) => {
+    const { CHECKED_IN, BOOKED_PASSENGER } = DEPARTURE_STATUS;
+    if (!payload?.departureStatuses?.length) {
+      return [];
+    }
+    if (payload.departureStatuses?.includes(CHECKED_IN.value) && !payload.departureStatuses?.includes(BOOKED_PASSENGER.value)) {
+      return payload.departureStatuses.concat(BOOKED_PASSENGER.value);
+    }
+    if (!payload.departureStatuses?.includes(CHECKED_IN.value)) {
+      return payload.departureStatuses?.filter((v) => v !== BOOKED_PASSENGER.value);
+    }
+    return payload?.departureStatuses;
+  };
+
   const getTaskCount = async (payload) => {
     if (!isPnrAccessRequired()) {
       try {
@@ -112,6 +126,7 @@ const TaskListPage = () => {
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: adaptJourneyDirection(storedData),
+        departureStatuses: adaptDepartureStatuses(storedData),
       }));
       const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -122,6 +137,7 @@ const TaskListPage = () => {
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: adaptJourneyDirection(storedData),
+        departureStatuses: adaptDepartureStatuses(storedData),
       }));
       const directions = DEFAULTS[getView()].filters.directions.map((direction) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -132,11 +148,25 @@ const TaskListPage = () => {
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: direction.journeyDirections,
+        departureStatuses: adaptDepartureStatuses(storedData),
       }));
+      const flightStatuses = DEFAULTS[getView()].filters.flightStatuses.map((status) => ({
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        movementModes: adaptMovementModes(storedData),
+        selectors: storedData.selectors,
+        ruleIds: storedData.ruleIds,
+        searchText: storedData.searchText,
+        assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+        journeyDirections: adaptJourneyDirection(storedData),
+        departureStatuses: status.departureStatuses,
+      }));
+
       return [
         ...movementModes,
         ...selectors,
         ...directions,
+        ...flightStatuses,
       ];
     }
     return [
@@ -153,6 +183,12 @@ const TaskListPage = () => {
       ...DEFAULTS[getView()].filters.directions.map((direction) => {
         return {
           ...direction,
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        };
+      }),
+      ...DEFAULTS[getView()].filters.flightStatuses.map((status) => {
+        return {
+          ...status,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
@@ -211,6 +247,7 @@ const TaskListPage = () => {
       assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
       journeyDirections: adaptJourneyDirection(payload),
+      departureStatuses: adaptDepartureStatuses(payload),
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
