@@ -137,6 +137,35 @@ const filter = (assignee, showAssignee, mode) => {
               ],
             },
           },
+          {
+            id: 'departureStatuses',
+            fieldId: 'departureStatuses',
+            label: 'Flight status',
+            type: 'checkboxes',
+            required: false,
+            dynamicOptions: true,
+            data: {
+              options: [
+                {
+                  value: 'CHECKED_IN',
+                  label: 'Pending departure',
+                },
+                {
+                  value: 'DEPARTURE_CONFIRMED',
+                  label: 'Departed',
+                },
+                {
+                  value: 'ARRIVED',
+                  label: 'Arrived',
+                },
+              ],
+            },
+            show_when: {
+              field: 'mode',
+              op: 'eq',
+              value: 'AIR_PASSENGER',
+            },
+          },
         ],
         actions: [
           {
