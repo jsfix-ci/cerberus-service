@@ -31,8 +31,8 @@ const getFilter = (
           filtersAndSelectorsCount={{
             movementModeCounts: filtersAndSelectorsCount?.slice(0, 1),
             modeSelectorCounts: filtersAndSelectorsCount?.slice(1, 4),
-            directionCounts: filtersAndSelectorsCount?.slice(4, 6),
-            flightStatusCounts: filtersAndSelectorsCount?.slice(6),
+            directionCounts: filtersAndSelectorsCount?.slice(4, 7),
+            flightStatusCounts: filtersAndSelectorsCount?.slice(7),
           }}
           customOptions={{
             rules: customOptions?.rules,
