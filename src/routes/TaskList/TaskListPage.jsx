@@ -82,6 +82,19 @@ const TaskListPage = () => {
     }
   };
 
+  const adaptDepartureStatuses = (payload) => {
+    if (!payload?.departureStatuses?.length) {
+      return [];
+    }
+    if (payload.departureStatuses?.includes('CHECKED_IN') && !payload.departureStatuses?.includes('BOOKED_PASSENGER')) {
+      return payload.departureStatuses.concat('BOOKED_PASSENGER');
+    }
+    if (!payload.departureStatuses?.includes('CHECKED_IN')) {
+      return payload.departureStatuses?.filter((v) => v !== 'BOOKED_PASSENGER');
+    }
+    return payload?.departureStatuses;
+  };
+
   const getTaskCount = async (payload) => {
     if (!isPnrAccessRequired()) {
       try {
@@ -112,6 +125,7 @@ const TaskListPage = () => {
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: adaptJourneyDirection(storedData),
+        departureStatuses: adaptDepartureStatuses(storedData),
       }));
       const selectors = DEFAULTS[getView()].filters.selectors.map((selector) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -122,6 +136,7 @@ const TaskListPage = () => {
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: adaptJourneyDirection(storedData),
+        departureStatuses: adaptDepartureStatuses(storedData),
       }));
       const directions = DEFAULTS[getView()].filters.directions.map((direction) => ({
         taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
@@ -132,11 +147,25 @@ const TaskListPage = () => {
         assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
           && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
         journeyDirections: direction.journeyDirections,
+        departureStatuses: adaptDepartureStatuses(storedData),
       }));
+      const flightStatuses = DEFAULTS[getView()].filters.flightStatuses.map((status) => ({
+        taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        movementModes: adaptMovementModes(storedData),
+        selectors: storedData.selectors,
+        ruleIds: storedData.ruleIds,
+        searchText: storedData.searchText,
+        assignees: ((taskStatus === TASK_STATUS.IN_PROGRESS)
+          && CommonUtil.hasAssignee(DEFAULTS[getView()].filters.key)) ? [currentUser] : [],
+        journeyDirections: adaptJourneyDirection(storedData),
+        departureStatuses: status.departureStatuses,
+      }));
+
       return [
         ...movementModes,
         ...selectors,
         ...directions,
+        ...flightStatuses,
       ];
     }
     return [
@@ -153,6 +182,12 @@ const TaskListPage = () => {
       ...DEFAULTS[getView()].filters.directions.map((direction) => {
         return {
           ...direction,
+          taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
+        };
+      }),
+      ...DEFAULTS[getView()].filters.flightStatuses.map((status) => {
+        return {
+          ...status,
           taskStatuses: [TAB_STATUS_MAPPING[taskStatus]],
         };
       }),
@@ -211,6 +246,7 @@ const TaskListPage = () => {
       assignees: StorageUtil.getTaskStatus(LOCAL_STORAGE_KEYS.TASK_STATUS) === TASK_STATUS.IN_PROGRESS
         ? payload?.assignedToMe : [],
       journeyDirections: adaptJourneyDirection(payload),
+      departureStatuses: adaptDepartureStatuses(payload),
     };
     localStorage.setItem(DEFAULTS[getView()].filters.key, JSON.stringify(payload));
     setAppliedFilters(payload);
