@@ -50,7 +50,7 @@
     "react-select": "^4.0.2",
     "react-tabs": "^3.2.3",
     "react-use": "^15.3.8",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
