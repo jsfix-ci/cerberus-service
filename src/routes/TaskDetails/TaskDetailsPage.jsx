@@ -205,6 +205,7 @@ const TaskDetailsPage = () => {
             <div className="govuk-grid-column-two-thirds">
               {isIssueTargetFormOpen && !isSubmitted && (
                 <RenderForm
+                  viewOnly={false}
                   cacheTisFormData
                   form={getTisForm(getView())}
                   preFillData={tisCache()}
