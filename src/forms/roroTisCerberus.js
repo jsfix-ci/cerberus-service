@@ -4,7 +4,7 @@ export default {
   version: '1.0.0',
   name: 'cerberus-roro-target-information-sheet',
   title: 'Target Information Sheet (RoRo)',
-  type: 'hub-and-spoke',
+  type: 'wizard',
   components: [
     {
       id: 'arrivalPort',
@@ -66,254 +66,15 @@ export default {
       },
     },
     {
-      id: 'refDataMode',
-      fieldId: 'refDataMode',
-      label: 'Mode',
-      type: 'autocomplete',
-      required: true,
-      item: {
-        value: 'id',
-        label: 'mode',
-      },
-      data: {
-        url: '${environmentContext.referenceDataUrl}/v2/entities/targetmode?filter=ca=eq.t&mode=dataOnly&validDateTime=true',
-      },
-    },
-    {
-      id: 'category',
-      fieldId: 'category',
-      label: 'Target category',
-      type: 'autocomplete',
-      item: {
-        value: 'value',
-        label: 'label',
-      },
-      required: true,
-      data: {
-        options: [
-          {
-            value: 'target_A',
-            label: 'A',
-          },
-          {
-            value: 'target_B',
-            label: 'B',
-          },
-          {
-            value: 'target_C',
-            label: 'C',
-          },
-          {
-            value: 'target_U',
-            label: 'U',
-          },
-          {
-            value: 'target_S',
-            label: 'SABR',
-          },
-        ],
-      },
-    },
-    {
-      id: 'issuingHub',
-      fieldId: 'issuingHub',
-      label: 'Issuing hub',
-      type: 'autocomplete',
-      required: true,
-      item: {
-        value: 'id',
-        label: 'name',
-      },
-      data: {
-        options: [
-          {
-            id: 'GAMAH',
-            name: 'GA MAH',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'People Hub - NBTC',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Accompanied RoRo Hub',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Airfreight Hub',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Causeway MAH',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Container Hub',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Fast Parcel Hub',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Gateway MAH',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'NMIC',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Vessel Targeting',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'People Hub - PICU',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'People Hub - Development',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'People Hub - RBTT',
-            telephone: '01589 654785 Example',
-          },
-          {
-            id: 'GAMAH',
-            name: 'Unaccompanied RoRo Hub',
-            telephone: '01589 654785 Example',
-          },
-        ],
-      },
-    },
-    {
-      id: 'informTouristFreight',
-      fieldId: 'informTouristFreight',
-      label: 'Inform both Freight and Tourist',
-      type: 'checkboxes',
-      data: {
-        options: [
-          {
-            value: 'true',
-            label: 'Inform both Freight and Tourist',
-          },
-        ],
-      },
-    },
-    {
-      id: 'interception',
-      fieldId: 'interception',
-      type: 'container',
-      components: [
-        {
-          id: 'vesselName',
-          fieldId: 'vesselName',
-          label: 'Vessel name',
-          type: 'text',
-        },
-        {
-          id: 'shippingCompany',
-          fieldId: 'shippingCompany',
-          label: 'Shipping company',
-          type: 'text',
-        },
-        {
-          id: 'arrival',
-          fieldId: 'arrival',
-          type: 'container',
-          components: [
-            {
-              type: 'inset-text',
-              content: 'Please note, the date and time displayed here is in UTC time.',
-            },
-            {
-              id: 'date',
-              fieldId: 'date',
-              label: 'Estimated date of arrival',
-              type: 'date',
-              required: true,
-              additionalValidation: [
-                {
-                  function: 'mustBeAfter',
-                  unit: 'month',
-                  value: -3,
-                  message: 'Estimated date of arrival must not be older than 3 months',
-                },
-              ],
-            },
-            {
-              id: 'time',
-              fieldId: 'time',
-              label: 'Estimated time of arrival',
-              type: 'time',
-              required: true,
-            },
-          ],
-          required: true,
-          show_when: {
-            field: '../direction',
-            op: 'eq',
-            value: 'INBOUND',
-          },
-        },
-        {
-          id: 'departure',
-          fieldId: 'departure',
-          type: 'container',
-          components: [
-            {
-              type: 'inset-text',
-              content: 'Please note, the date and time displayed here is in UTC time.',
-            },
-            {
-              id: 'date',
-              fieldId: 'date',
-              label: 'Estimated date of departure',
-              type: 'date',
-              required: true,
-              additionalValidation: [
-                {
-                  function: 'mustBeInTheFuture',
-                  todayAllowed: true,
-                  message: 'Estimated date of departure must be in the future',
-                },
-              ],
-            },
-            {
-              id: 'time',
-              fieldId: 'time',
-              label: 'Estimated time of departure',
-              type: 'time',
-              required: true,
-            },
-          ],
-          required: true,
-          show_when: {
-            field: '../direction',
-            op: 'eq',
-            value: 'OUTBOUND',
-          },
-        },
-      ],
-    },
-    {
       id: 'goods',
       fieldId: 'goods',
       type: 'container',
       components: [
+        {
+          type: 'heading',
+          size: 'm',
+          content: 'Goods description',
+        },
         {
           id: 'load',
           fieldId: 'load',
@@ -551,172 +312,336 @@ export default {
       },
     },
     {
-      id: 'person',
-      fieldId: 'person',
+      id: 'informTouristFreight',
+      fieldId: 'informTouristFreight',
+      label: 'Inform both Freight and Tourist',
+      type: 'checkboxes',
+      data: {
+        options: [
+          {
+            value: 'true',
+            label: 'Inform both Freight and Tourist',
+          },
+        ],
+      },
+    },
+    {
+      id: 'interception',
+      fieldId: 'interception',
       type: 'container',
       components: [
         {
-          id: 'name',
-          fieldId: 'name',
+          type: 'heading',
+          size: 'm',
+          content: 'Interception details',
+        },
+        {
+          id: 'vesselName',
+          fieldId: 'vesselName',
+          label: 'Vessel name',
+          type: 'text',
+        },
+        {
+          id: 'shippingCompany',
+          fieldId: 'shippingCompany',
+          label: 'Shipping company',
+          type: 'text',
+        },
+        {
+          id: 'arrival',
+          fieldId: 'arrival',
           type: 'container',
           components: [
             {
-              id: 'first',
-              fieldId: 'first',
-              label: 'First name',
-              type: 'text',
+              type: 'inset-text',
+              content: 'Please note, the date and time displayed here is in UTC time.',
             },
             {
-              id: 'middle',
-              fieldId: 'middle',
-              label: 'Middle name(s)',
-              type: 'text',
+              id: 'date',
+              fieldId: 'date',
+              label: 'Estimated date of arrival',
+              type: 'date',
+              required: true,
+              additionalValidation: [
+                {
+                  function: 'mustBeAfter',
+                  unit: 'month',
+                  value: -3,
+                  message: 'Estimated date of arrival must not be older than 3 months',
+                },
+              ],
             },
             {
-              id: 'last',
-              fieldId: 'last',
-              label: 'Last name',
-              type: 'text',
+              id: 'time',
+              fieldId: 'time',
+              label: 'Estimated time of arrival',
+              type: 'time',
+              required: true,
             },
           ],
+          required: true,
+          show_when: {
+            field: '../direction',
+            op: 'eq',
+            value: 'INBOUND',
+          },
         },
         {
-          id: 'dateOfBirth',
-          fieldId: 'dateOfBirth',
-          label: 'Date of Birth',
-          type: 'date',
+          id: 'departure',
+          fieldId: 'departure',
+          type: 'container',
+          components: [
+            {
+              type: 'inset-text',
+              content: 'Please note, the date and time displayed here is in UTC time.',
+            },
+            {
+              id: 'date',
+              fieldId: 'date',
+              label: 'Estimated date of departure',
+              type: 'date',
+              required: true,
+              additionalValidation: [
+                {
+                  function: 'mustBeInTheFuture',
+                  todayAllowed: true,
+                  message: 'Estimated date of departure must be in the future',
+                },
+              ],
+            },
+            {
+              id: 'time',
+              fieldId: 'time',
+              label: 'Estimated time of departure',
+              type: 'time',
+              required: true,
+            },
+          ],
+          required: true,
+          show_when: {
+            field: '../direction',
+            op: 'eq',
+            value: 'OUTBOUND',
+          },
         },
+      ],
+    },
+    {
+      id: 'issuingHub',
+      fieldId: 'issuingHub',
+      label: 'Issuing hub',
+      type: 'autocomplete',
+      required: true,
+      item: {
+        value: 'id',
+        label: 'name',
+      },
+      data: {
+        options: [
+          {
+            id: 'GAMAH',
+            name: 'GA MAH',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'People Hub - NBTC',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Accompanied RoRo Hub',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Airfreight Hub',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Causeway MAH',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Container Hub',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Fast Parcel Hub',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Gateway MAH',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'NMIC',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Vessel Targeting',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'People Hub - PICU',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'People Hub - Development',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'People Hub - RBTT',
+            telephone: '01589 654785 Example',
+          },
+          {
+            id: 'GAMAH',
+            name: 'Unaccompanied RoRo Hub',
+            telephone: '01589 654785 Example',
+          },
+        ],
+      },
+    },
+    {
+      id: 'refDataMode',
+      fieldId: 'refDataMode',
+      label: 'Mode',
+      type: 'autocomplete',
+      required: true,
+      item: {
+        value: 'id',
+        label: 'mode',
+      },
+      data: {
+        url: '${environmentContext.referenceDataUrl}/v2/entities/targetmode?filter=ca=eq.t&mode=dataOnly&validDateTime=true',
+      },
+    },
+    {
+      id: 'nominalChecks',
+      fieldId: 'nominalChecks',
+      type: 'collection',
+      labels: {
+        item: 'Nominal ${index} details',
+        add: 'Add another nominal',
+      },
+      item: [
         {
-          id: 'nationality',
-          fieldId: 'nationality',
-          label: 'Nationality',
+          id: 'nominalType',
+          fieldId: 'nominalType',
+          label: 'Nominal type',
           type: 'autocomplete',
           item: {
-            value: 'id',
-            label: 'nationality',
+            value: 'value',
+            label: 'label',
           },
           data: {
-            url: '${environmentContext.referenceDataUrl}/v2/entities/nationality?sort=nationality.asc&mode=dataOnly&validDateTime=true',
+            options: [
+              {
+                label: 'Account',
+                value: 'account',
+              },
+              {
+                label: 'Aircraft',
+                value: 'aircraft',
+              },
+              {
+                label: 'Air Waybill',
+                value: 'airWaybill',
+              },
+              {
+                label: 'Bank Account',
+                value: 'bank',
+              },
+              {
+                label: 'Carriage',
+                value: 'carriage',
+              },
+              {
+                label: 'Container',
+                value: 'container',
+              },
+              {
+                label: 'Flight',
+                value: 'flight',
+              },
+              {
+                label: 'Identity Document',
+                value: 'identity',
+              },
+              {
+                label: 'Organisation',
+                value: 'organisation',
+              },
+              {
+                label: 'Person',
+                value: 'person',
+              },
+              {
+                label: 'Postal Address',
+                value: 'postal',
+              },
+              {
+                label: 'Telephone',
+                value: 'telephone',
+              },
+              {
+                label: 'Trailer',
+                value: 'trailer',
+              },
+              {
+                label: 'Vehicle',
+                value: 'vehicle',
+              },
+              {
+                label: 'Vessel',
+                value: 'vessel',
+              },
+            ],
           },
         },
         {
-          id: 'sex',
-          fieldId: 'sex',
-          label: 'Sex',
+          id: 'systemsCheck',
+          fieldId: 'systemsCheck',
+          label: 'System checks completed',
+          hint: 'List all the systems you have checked this nominal against',
           type: 'autocomplete',
+          multi: 'true',
           item: {
             value: 'id',
             label: 'name',
           },
           data: {
-            url: '${environmentContext.referenceDataUrl}/v2/entities/sex?mode=dataOnly&validDateTime=true',
-          },
-          description: 'This is shown as Gender in the UI, which is a different thing to sex.',
-        },
-        {
-          id: 'document',
-          fieldId: 'document',
-          type: 'container',
-          components: [
-            {
-              id: 'type',
-              fieldId: 'type',
-              label: 'Travel document type',
-              type: 'autocomplete',
-              item: {
-                value: 'id',
-                label: 'shortdescription',
-              },
-              data: {
-                url: '${environmentContext.referenceDataUrl}/v2/entities/documenttype?sort=shortdescription.asc&mode=dataOnly&validDateTime=true',
-              },
-            },
-            {
-              id: 'documentNumber',
-              fieldId: 'documentNumber',
-              label: 'Travel document number',
-              type: 'text',
-            },
-            {
-              id: 'documentExpiry',
-              fieldId: 'documentExpiry',
-              label: 'Travel document expiry',
-              type: 'date',
-            },
-          ],
-        },
-      ],
-      show_when: {
-        field: '../refDataMode.modecode',
-        op: 'in',
-        values: [
-          'rorofrac',
-          'rorotour',
-        ],
-      },
-    },
-    {
-      id: 'preArrival',
-      fieldId: 'preArrival',
-      type: 'container',
-      components: [
-        {
-          id: 'controlStrategy',
-          fieldId: 'controlStrategy',
-          label: 'Control strategy',
-          type: 'autocomplete',
-          multi: true,
-          required: true,
-          item: {
-            value: 'id',
-            label: 'strategy',
-          },
-          data: {
-            url: '${environmentContext.referenceDataUrl}/v2/entities/controlstrategy?sort=strategy.asc&mode=dataOnly&validDateTime=true',
+            url: '${environmentContext.referenceDataUrl}/v2/entities/partnersystems?mode=dataOnly&validDateTime=true',
           },
         },
         {
-          id: 'accountName',
-          fieldId: 'accountName',
-          label: 'Account name',
-          type: 'text',
-          show_when: {
-            field: 'refDataMode.modecode',
-            op: 'in',
-            values: [
-              'rorofrac',
-              'rorofrun',
-            ],
-          },
-        },
-        {
-          id: 'accountNumber',
-          fieldId: 'accountNumber',
-          label: 'Account number',
-          type: 'text',
-          show_when: {
-            field: 'refDataMode.modecode',
-            op: 'in',
-            values: [
-              'rorofrac',
-              'rorofrun',
-            ],
-          },
-        },
-        {
-          id: 'whySelected',
-          fieldId: 'whySelected',
-          label: 'Comments on reason for selection',
+          id: 'comments',
+          fieldId: 'comments',
+          label: 'Comments',
           hint: 'Provide as much useful information as possible. This target will be sent to a frontline team for interdiction.',
           type: 'textarea',
         },
       ],
     },
     {
+      id: 'operation',
+      fieldId: 'operation',
+      label: 'Operation name',
+      type: 'text',
+    },
+    {
       id: 'otherPersons',
       fieldId: 'otherPersons',
       type: 'collection',
-      cya_label: 'Other passengers',
       labels: {
         item: 'Passenger ${index} details',
         add: 'Add another passenger',
@@ -824,10 +749,211 @@ export default {
       },
     },
     {
-      id: 'operation',
-      fieldId: 'operation',
-      label: 'Operation name',
-      type: 'text',
+      id: 'person',
+      fieldId: 'person',
+      type: 'container',
+      components: [
+        {
+          type: 'heading',
+          size: 'm',
+          content: 'Driver details',
+        },
+        {
+          id: 'name',
+          fieldId: 'name',
+          type: 'container',
+          components: [
+            {
+              id: 'first',
+              fieldId: 'first',
+              label: 'First name',
+              type: 'text',
+            },
+            {
+              id: 'middle',
+              fieldId: 'middle',
+              label: 'Middle name(s)',
+              type: 'text',
+            },
+            {
+              id: 'last',
+              fieldId: 'last',
+              label: 'Last name',
+              type: 'text',
+            },
+          ],
+        },
+        {
+          id: 'dateOfBirth',
+          fieldId: 'dateOfBirth',
+          label: 'Date of Birth',
+          type: 'date',
+        },
+        {
+          id: 'nationality',
+          fieldId: 'nationality',
+          label: 'Nationality',
+          type: 'autocomplete',
+          item: {
+            value: 'id',
+            label: 'nationality',
+          },
+          data: {
+            url: '${environmentContext.referenceDataUrl}/v2/entities/nationality?sort=nationality.asc&mode=dataOnly&validDateTime=true',
+          },
+        },
+        {
+          id: 'sex',
+          fieldId: 'sex',
+          label: 'Sex',
+          type: 'autocomplete',
+          item: {
+            value: 'id',
+            label: 'name',
+          },
+          data: {
+            url: '${environmentContext.referenceDataUrl}/v2/entities/sex?mode=dataOnly&validDateTime=true',
+          },
+          description: 'This is shown as Gender in the UI, which is a different thing to sex.',
+        },
+        {
+          id: 'document',
+          fieldId: 'document',
+          type: 'container',
+          components: [
+            {
+              id: 'type',
+              fieldId: 'type',
+              label: 'Travel document type',
+              type: 'autocomplete',
+              item: {
+                value: 'id',
+                label: 'shortdescription',
+              },
+              data: {
+                url: '${environmentContext.referenceDataUrl}/v2/entities/documenttype?sort=shortdescription.asc&mode=dataOnly&validDateTime=true',
+              },
+            },
+            {
+              id: 'documentNumber',
+              fieldId: 'documentNumber',
+              label: 'Travel document number',
+              type: 'text',
+            },
+            {
+              id: 'documentExpiry',
+              fieldId: 'documentExpiry',
+              label: 'Travel document expiry',
+              type: 'date',
+            },
+          ],
+        },
+      ],
+      show_when: {
+        field: '../refDataMode.modecode',
+        op: 'in',
+        values: [
+          'rorofrac',
+          'rorotour',
+        ],
+      },
+    },
+    {
+      id: 'preArrival',
+      fieldId: 'preArrival',
+      type: 'container',
+      components: [
+        {
+          type: 'heading',
+          size: 'm',
+          content: 'Pre-arrival details',
+        },
+        {
+          id: 'controlStrategy',
+          fieldId: 'controlStrategy',
+          label: 'Control strategy',
+          type: 'autocomplete',
+          multi: true,
+          required: true,
+          item: {
+            value: 'id',
+            label: 'strategy',
+          },
+          data: {
+            url: '${environmentContext.referenceDataUrl}/v2/entities/controlstrategy?sort=strategy.asc&mode=dataOnly&validDateTime=true',
+          },
+        },
+        {
+          id: 'accountName',
+          fieldId: 'accountName',
+          label: 'Account name',
+          type: 'text',
+          show_when: {
+            field: 'refDataMode.modecode',
+            op: 'in',
+            values: [
+              'rorofrac',
+              'rorofrun',
+            ],
+          },
+        },
+        {
+          id: 'accountNumber',
+          fieldId: 'accountNumber',
+          label: 'Account number',
+          type: 'text',
+          show_when: {
+            field: 'refDataMode.modecode',
+            op: 'in',
+            values: [
+              'rorofrac',
+              'rorofrun',
+            ],
+          },
+        },
+        {
+          id: 'whySelected',
+          fieldId: 'whySelected',
+          label: 'Comments on reason for selection',
+          hint: 'Provide as much useful information as possible. This target will be sent to a frontline team for interdiction.',
+          type: 'textarea',
+        },
+      ],
+    },
+    {
+      id: 'category',
+      fieldId: 'category',
+      label: 'Target category',
+      type: 'autocomplete',
+      item: {
+        value: 'value',
+        label: 'label',
+      },
+      required: true,
+      data: {
+        options: [
+          {
+            value: 'target_A',
+            label: 'A',
+          },
+          {
+            value: 'target_B',
+            label: 'B',
+          },
+          {
+            value: 'target_C',
+            label: 'C',
+          },
+          {
+            value: 'target_U',
+            label: 'U',
+          },
+          {
+            value: 'target_S',
+            label: 'SABR',
+          },
+        ],
+      },
     },
     {
       id: 'targetingIndicators',
@@ -845,112 +971,65 @@ export default {
       },
     },
     {
-      id: 'nominalChecks',
-      fieldId: 'nominalChecks',
-      label: 'Checks completed on nominals',
-      type: 'collection',
-      labels: {
-        item: 'Nominal ${index} details',
-        add: 'Add another nominal',
+      id: 'teamToReceiveTheTarget',
+      fieldId: 'teamToReceiveTheTarget',
+      label: 'Select the team that should receive the target',
+      type: 'autocomplete',
+      item: {
+        value: 'id',
+        label: 'displayname',
       },
-      item: [
+      required: true,
+      data: {
+        url: '${environmentContext.referenceDataUrl}/v2/entities/groups?limit=100&filter=grouptypeid=eq.5&filter=name=neq.GP6XOHK0&mode=dataOnly&validDateTime=true',
+      },
+    },
+    {
+      id: 'trailer',
+      fieldId: 'trailer',
+      type: 'container',
+      components: [
         {
-          id: 'nominalType',
-          fieldId: 'nominalType',
-          label: 'Nominal type',
-          type: 'autocomplete',
-          item: {
-            value: 'value',
-            label: 'label',
-          },
-          data: {
-            options: [
-              {
-                label: 'Account',
-                value: 'account',
-              },
-              {
-                label: 'Aircraft',
-                value: 'aircraft',
-              },
-              {
-                label: 'Air Waybill',
-                value: 'airWaybill',
-              },
-              {
-                label: 'Bank Account',
-                value: 'bank',
-              },
-              {
-                label: 'Carriage',
-                value: 'carriage',
-              },
-              {
-                label: 'Container',
-                value: 'container',
-              },
-              {
-                label: 'Flight',
-                value: 'flight',
-              },
-              {
-                label: 'Identity Document',
-                value: 'identity',
-              },
-              {
-                label: 'Organisation',
-                value: 'organisation',
-              },
-              {
-                label: 'Person',
-                value: 'person',
-              },
-              {
-                label: 'Postal Address',
-                value: 'postal',
-              },
-              {
-                label: 'Telephone',
-                value: 'telephone',
-              },
-              {
-                label: 'Trailer',
-                value: 'trailer',
-              },
-              {
-                label: 'Vehicle',
-                value: 'vehicle',
-              },
-              {
-                label: 'Vessel',
-                value: 'vessel',
-              },
-            ],
-          },
+          id: 'registration',
+          fieldId: 'registration',
+          label: 'Trailer registration number',
+          type: 'text',
         },
         {
-          id: 'systemsCheck',
-          fieldId: 'systemsCheck',
-          label: 'System checks completed',
-          hint: 'List all the systems you have checked this nominal against',
+          id: 'type',
+          fieldId: 'type',
+          label: 'Trailer Type',
           type: 'autocomplete',
-          multi: 'true',
           item: {
             value: 'id',
             label: 'name',
           },
           data: {
-            url: '${environmentContext.referenceDataUrl}/v2/entities/partnersystems?mode=dataOnly&validDateTime=true',
+            url: '${environmentContext.referenceDataUrl}/v2/entities/trailertypes?sort=name.asc&mode=dataOnly&validDateTime=true',
           },
         },
         {
-          id: 'comments',
-          fieldId: 'comments',
-          label: 'Comments',
-          hint: 'Provide as much useful information as possible. This target will be sent to a frontline team for interdiction.',
-          type: 'textarea',
+          id: 'nationality',
+          fieldId: 'nationality',
+          label: 'Trailer registration nationality',
+          type: 'autocomplete',
+          item: {
+            value: 'id',
+            label: 'nationality',
+          },
+          data: {
+            url: '${environmentContext.referenceDataUrl}/v2/entities/nationality?sort=nationality.asc&mode=dataOnly&validDateTime=true',
+          },
         },
       ],
+      show_when: {
+        field: '../refDataMode.modecode',
+        op: 'in',
+        values: [
+          'rorofrac',
+          'rorofrun',
+        ],
+      },
     },
     {
       id: 'vehicle',
@@ -1005,57 +1084,15 @@ export default {
       },
     },
     {
-      id: 'trailer',
-      fieldId: 'trailer',
-      type: 'container',
-      components: [
-        {
-          id: 'registration',
-          fieldId: 'registration',
-          label: 'Trailer registration number',
-          type: 'text',
-        },
-        {
-          id: 'type',
-          fieldId: 'type',
-          label: 'Trailer Type',
-          type: 'autocomplete',
-          item: {
-            value: 'id',
-            label: 'name',
-          },
-          data: {
-            url: '${environmentContext.referenceDataUrl}/v2/entities/trailertypes?sort=name.asc&mode=dataOnly&validDateTime=true',
-          },
-        },
-        {
-          id: 'nationality',
-          fieldId: 'nationality',
-          label: 'Trailer registration nationality',
-          type: 'autocomplete',
-          item: {
-            value: 'id',
-            label: 'nationality',
-          },
-          data: {
-            url: '${environmentContext.referenceDataUrl}/v2/entities/nationality?sort=nationality.asc&mode=dataOnly&validDateTime=true',
-          },
-        },
-      ],
-      show_when: {
-        field: '../refDataMode.modecode',
-        op: 'in',
-        values: [
-          'rorofrac',
-          'rorofrun',
-        ],
-      },
-    },
-    {
       id: 'warnings',
       fieldId: 'warnings',
       type: 'container',
       components: [
+        {
+          type: 'heading',
+          size: 'm',
+          content: 'Warnings',
+        },
         {
           id: 'identified',
           fieldId: 'identified',
@@ -1104,27 +1141,18 @@ export default {
       ],
       required: true,
     },
-    {
-      id: 'teamToReceiveTheTarget',
-      fieldId: 'teamToReceiveTheTarget',
-      label: 'Select the team that should receive the target',
-      type: 'autocomplete',
-      item: {
-        value: 'id',
-        label: 'displayname',
-      },
-      required: true,
-      data: {
-        url: '${environmentContext.referenceDataUrl}/v2/entities/groups?limit=100&filter=grouptypeid=eq.5&filter=name=neq.GP6XOHK0&mode=dataOnly&validDateTime=true',
-      },
-    },
   ],
   pages: [
     {
       id: 'info',
       name: 'info',
-      title: 'Target Information',
+      title: 'Target Information Sheet (RoRo)',
       components: [
+        {
+          type: 'heading',
+          size: 'm',
+          content: 'Target Information',
+        },
         {
           use: 'refDataMode',
         },
@@ -1149,194 +1177,83 @@ export default {
         {
           use: 'targetingIndicators',
         },
-      ],
-      actions: [
-        {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
-        },
-      ],
-      cya_link: {
-        page: 'info',
-        aria_suffix: 'target information',
-      },
-    },
-    {
-      id: 'interception',
-      name: 'interception',
-      title: 'Interception details',
-      components: [
         {
           use: 'interception',
         },
-      ],
-      actions: [
         {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
+          type: 'heading',
+          size: 'm',
+          content: 'Vehicle details',
+          show_when: {
+            field: 'refDataMode.modecode',
+            op: 'in',
+            values: [
+              'rorofrac',
+              'rorofrun',
+              'rorotour',
+            ],
+          },
         },
-      ],
-      cya_link: {
-        page: 'interception',
-        aria_suffix: 'interception details',
-      },
-    },
-    {
-      id: 'vehicle',
-      name: 'vehicle',
-      title: 'Vehicle details',
-      components: [
         {
           use: 'vehicle',
         },
         {
           use: 'trailer',
         },
-      ],
-      actions: [
-        {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
-        },
-      ],
-      cya_link: {
-        page: 'vehicle',
-        aria_suffix: 'interception details',
-      },
-    },
-    {
-      id: 'driver',
-      name: 'driver',
-      title: 'Driver details',
-      components: [
         {
           use: 'person',
         },
-      ],
-      actions: [
         {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
+          type: 'heading',
+          size: 'm',
+          content: 'Passenger details',
+          show_when: {
+            field: 'refDataMode.modecode',
+            op: 'in',
+            values: [
+              'rorofrac',
+              'rorotour',
+            ],
+          },
         },
-      ],
-      cya_link: {
-        page: 'driver',
-        aria_suffix: 'driver details',
-      },
-    },
-    {
-      id: 'other-passengers',
-      name: 'other-passengers',
-      title: 'Passenger details',
-      components: [
         {
           use: 'otherPersons',
         },
-      ],
-      actions: [
-        {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
-        },
-      ],
-      cya_link: {
-        page: 'other-passengers',
-        aria_suffix: 'passenger details',
-      },
-    },
-    {
-      id: 'goods',
-      name: 'goods',
-      title: 'Goods description',
-      components: [
         {
           use: 'goods',
         },
-      ],
-      actions: [
-        {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
-        },
-      ],
-      cya_link: {
-        page: 'goods',
-        aria_suffix: 'goods description',
-      },
-    },
-    {
-      id: 'preArrival',
-      name: 'preArrival',
-      title: 'Pre-arrival details',
-      components: [
         {
           use: 'preArrival',
         },
-      ],
-      actions: [
         {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
+          type: 'heading',
+          size: 'm',
+          content: 'Checks completed on nominals',
         },
-      ],
-      cya_link: {
-        page: 'preArrival',
-        aria_suffix: 'pre-arrival details',
-      },
-    },
-    {
-      id: 'nominalChecks',
-      name: 'nominalChecks',
-      title: 'Checks completed on nominals',
-      components: [
         {
           use: 'nominalChecks',
-          label: '',
         },
-      ],
-      actions: [
-        {
-          type: 'next',
-          validate: true,
-          label: 'Continue',
-        },
-      ],
-      cya_link: {
-        page: 'nominalChecks',
-        aria_suffix: 'checks completed on nominals',
-      },
-    },
-    {
-      id: 'warnings',
-      name: 'warnings',
-      title: 'Warnings',
-      components: [
         {
           use: 'warnings',
         },
       ],
       actions: [
         {
+          type: 'cancel',
+          validate: false,
+          label: 'Cancel',
+          classModifiers: 'secondary',
+        },
+        {
           type: 'next',
           validate: true,
-          label: 'Continue',
+          label: 'Next',
         },
       ],
-      cya_link: {
-        page: 'warnings',
-        aria_suffix: 'warnings',
-      },
     },
     {
-      id: 'recipient-details',
-      name: 'recipient-details',
+      id: 'recipientDetails',
+      name: 'recipientDetails',
       title: 'Recipient Details',
       components: [
         {
@@ -1348,33 +1265,23 @@ export default {
       ],
       actions: [
         {
-          type: 'next',
+          type: 'cancel',
+          validate: false,
+          label: 'Cancel',
+          classModifiers: 'secondary',
+        },
+        {
+          type: 'navigate',
+          page: 'info',
+          validate: false,
+          label: 'Previous',
+        },
+        {
+          type: 'submit',
           validate: true,
-          label: 'Continue',
+          label: 'Accept and send',
         },
       ],
-      cya_link: {
-        page: 'recipient-details',
-        aria_suffix: 'recipient details',
-      },
     },
   ],
-  hub: {
-    format: 'CYA',
-  },
-  cya: {
-    actions: [
-      {
-        type: 'submit',
-        validate: true,
-        label: 'Accept and send',
-      },
-      {
-        type: 'cancel',
-        validate: false,
-        label: 'Cancel',
-        classModifiers: 'secondary',
-      },
-    ],
-  },
 };
